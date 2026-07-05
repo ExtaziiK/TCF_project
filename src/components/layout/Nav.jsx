@@ -8,7 +8,7 @@ import { NAV_LINKS } from "@/constants/navigation";
 import { NOTIFS } from "@/constants/gamification";
 
 export function Nav() {
-  const { c, dark, setDark, nav, route, user, setUser, notify } = useApp();
+  const { c, dark, setDark, nav, route, user, signOut, notify } = useApp();
   const [open, setOpen] = useState(false);
   const [dd, setDd] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
@@ -70,7 +70,7 @@ export function Nav() {
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
                 </button>
-                <button onClick={() => { setUser(null); go("home"); notify("Vous êtes déconnecté·e. À bientôt !"); }} aria-label="Se déconnecter" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
+                <button onClick={() => { signOut(); go("home"); notify("Vous êtes déconnecté·e. À bientôt !"); }} aria-label="Se déconnecter" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2 ml-1">
@@ -87,7 +87,7 @@ export function Nav() {
               <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{m.l}</button>
             ))}
             <div className="flex gap-2 pt-3">
-              {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { setUser(null); go("home"); }}>Se déconnecter</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>Connexion</Btn><Btn small className="flex-1" onClick={() => go("register")}>S'inscrire</Btn></>)}
+              {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>Se déconnecter</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>Connexion</Btn><Btn small className="flex-1" onClick={() => go("register")}>S'inscrire</Btn></>)}
             </div>
           </div>
         )}

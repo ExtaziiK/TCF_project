@@ -3,5 +3,10 @@ dist
 .DS_Store
 *.local
 
+# local env vars (Supabase keys, etc.) - keep .env.example tracked as the template
+.env
+.env.*
+!.env.example
+
 # stray nested repo (leftover empty clone, not part of the app)
 /TCF/
