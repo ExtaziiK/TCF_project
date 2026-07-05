@@ -10,3 +10,6 @@ dist
 
 # stray nested repo (leftover empty clone, not part of the app)
 /TCF/
+
+# local Claude Code tool settings (per-machine, not shared)
+.claude/settings.local.json
