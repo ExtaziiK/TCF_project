@@ -14,13 +14,14 @@ export function Nav() {
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const go = (r) => { nav(r); setOpen(false); setDd(false); setNotifOpen(false); };
+  const navLinks = user ? NAV_LINKS : NAV_LINKS.filter((n) => n.r !== "practice");
   return (
     <>
       <header className={`fixed top-0 inset-x-0 z-40 border-b ${c.navBorder} ${c.nav} backdrop-blur-xl`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onClick={() => go("home")} />
           <nav className="hidden lg:flex items-center gap-1" aria-label="Navigation principale">
-            {NAV_LINKS.map((n) =>
+            {navLinks.map((n) =>
               n.menu ? (
                 <div key={n.l} className="relative" onMouseEnter={() => setDd(true)} onMouseLeave={() => setDd(false)}>
                   <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 ${c.sub} ${c.hoverSoft}`} aria-expanded={dd}>
@@ -83,7 +84,7 @@ export function Nav() {
         </div>
         {open && (
           <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
-            {[{ l: "Accueil", r: "home" }, ...(user ? [{ l: "Tableau de bord", r: "dashboard" }, { l: "Progression", r: "progress" }] : []), ...NAV_LINKS[1].menu, { l: "Tarifs", r: "pricing" }, { l: "Blogue", r: "blog" }, { l: "FAQ", r: "faq" }, { l: "À propos", r: "about" }, { l: "Contact", r: "contact" }].map((m) => (
+            {[{ l: "Accueil", r: "home" }, ...(user ? [{ l: "Tableau de bord", r: "dashboard" }, { l: "Progression", r: "progress" }, ...NAV_LINKS[1].menu] : []), { l: "Tarifs", r: "pricing" }, { l: "Blogue", r: "blog" }, { l: "FAQ", r: "faq" }, { l: "À propos", r: "about" }, { l: "Contact", r: "contact" }].map((m) => (
               <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{m.l}</button>
             ))}
             <div className="flex gap-2 pt-3">
