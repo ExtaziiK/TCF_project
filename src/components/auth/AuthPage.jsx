@@ -2,7 +2,18 @@ import { useEffect, useState } from "react";
 import { Leaf, Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle } from "@/services/authService";
+
+function GoogleIcon(props) {
+  return (
+    <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true" {...props}>
+      <path fill="#FFC107" d="M43.6 20.5H42V20.5H24v7h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5-5C33.6 6.1 29 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l5.8 4.2C13.7 15.1 18.5 12 24 12c3.1 0 5.9 1.2 8 3.1l5-5C33.6 6.1 29 4 24 4c-7.4 0-13.8 4.1-17.1 10.2z"/>
+      <path fill="#4CAF50" d="M24 44c5.1 0 9.6-1.7 12.9-4.6l-6-5c-1.9 1.4-4.3 2.2-6.9 2.2-5.3 0-9.7-3.4-11.3-8.1l-5.9 4.5C10.1 39.8 16.5 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.5H42V20.5H24v7h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6 5C41.4 34.9 44 30 44 24c0-1.2-.1-2.4-.4-3.5z"/>
+    </svg>
+  );
+}
 
 export function AuthPage({ mode }) {
   const { c, nav, notify } = useApp();
@@ -40,6 +51,13 @@ export function AuthPage({ mode }) {
     }
   };
 
+  const google = async () => {
+    setBusy(true);
+    const { error } = await signInWithGoogle();
+    if (error) { notify(error.message); setBusy(false); }
+    // on success the browser redirects to Google, so no further state change here
+  };
+
   return (
     <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
       <Card className="max-w-md mx-auto p-8 shadow-2xl shadow-blue-600/10 rise">
@@ -67,6 +85,18 @@ export function AuthPage({ mode }) {
           </div>
         ) : (
           <div className="space-y-4">
+            {view !== "reset" && (
+              <>
+                <button type="button" disabled={busy} onClick={google} className={`w-full flex items-center justify-center gap-2.5 py-3 rounded-2xl border text-sm font-semibold ${c.inputCls} ${c.hoverSoft} disabled:opacity-60`}>
+                  <GoogleIcon /> Continuer avec Google
+                </button>
+                <div className="flex items-center gap-3">
+                  <div className={`flex-1 border-t ${c.border}`} />
+                  <span className={`text-xs ${c.faint}`}>ou</span>
+                  <div className={`flex-1 border-t ${c.border}`} />
+                </div>
+              </>
+            )}
             {view === "register" && (
               <div className="relative">
                 <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />

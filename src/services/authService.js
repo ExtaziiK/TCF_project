@@ -10,7 +10,7 @@ export function mapSupabaseUser(session) {
   if (!authUser) return null;
   return {
     id: authUser.id,
-    name: authUser.user_metadata?.name || authUser.email.split("@")[0],
+    name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     plan: authUser.app_metadata?.plan || "Découverte",
     admin: authUser.app_metadata?.role === "admin",
@@ -21,13 +21,20 @@ export async function signUp({ name, email, password }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name } },
+    options: { data: { name }, emailRedirectTo: window.location.origin },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }
 
 export async function signIn({ email, password }) {
   return supabase.auth.signInWithPassword({ email, password });
+}
+
+export async function signInWithGoogle() {
+  return supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.origin },
+  });
 }
 
 export async function signOut() {
