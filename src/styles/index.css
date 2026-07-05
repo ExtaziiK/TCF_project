@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spline+Sans+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{scroll-behavior:smooth}
+.font-display{font-family:'Bricolage Grotesque',ui-sans-serif,sans-serif;letter-spacing:-0.02em}
+.font-body{font-family:'Instrument Sans',ui-sans-serif,sans-serif}
+.font-mono2{font-family:'Spline Sans Mono',ui-monospace,monospace}
+::selection{background:#2E6BE6;color:#fff}
+*:focus-visible{outline:2px solid #2E6BE6;outline-offset:2px;border-radius:8px}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.rise{animation:rise .55s cubic-bezier(.22,1,.36,1) both}
+.rise-1{animation-delay:.08s}.rise-2{animation-delay:.16s}.rise-3{animation-delay:.24s}.rise-4{animation-delay:.32s}
+@keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.eqbar{animation:eq 1s ease-in-out infinite;transform-origin:bottom}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
+.rec-dot{animation:pulse-dot 1.1s ease-in-out infinite}
+.fwrap{perspective:1200px}
+.fcard{transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.fcard.flipped{transform:rotateY(180deg)}
+.fface{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fback{transform:rotateY(180deg)}
+.grad-brand{background:linear-gradient(90deg,#2E6BE6 0%,#6C4FE0 55%,#D8354A 100%)}
+.grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card-lift{transition:transform .25s ease,box-shadow .25s ease}
+.card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(15,42,82,.22)}
+.link-anim{position:relative}
+.link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
+.link-anim:hover:after{width:100%}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}

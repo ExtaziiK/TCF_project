@@ -1,0 +1,1733 @@
+{
+    "id": 40096,
+    "exam_id": 67,
+    "score": 84.0,
+    "score_percent": 12.02,
+    "cefr_level": "A1 Not Achieved",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:50:45.404245+00:00",
+    "time_spent": 58,
+    "section_breakdown": {
+        "Identification": {
+            "score": 3.0,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 4.2,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 2.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 2.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2575,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Proposer un menu.",
+            "user_selected_option_id": 35928,
+            "correct_answer": "Donner des conseils.",
+            "correct_option_id": 35925,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_1.webp",
+            "all_options": [
+                {
+                    "id": 35925,
+                    "text": "Donner des conseils.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35926,
+                    "text": "Informer sur la météo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35927,
+                    "text": "Présenter des activités.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35928,
+                    "text": "Proposer un menu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2576,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Visiter un établissement.",
+            "user_selected_option_id": 35932,
+            "correct_answer": "Compléter des documents.",
+            "correct_option_id": 35929,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_2.webp",
+            "all_options": [
+                {
+                    "id": 35929,
+                    "text": "Compléter des documents.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35930,
+                    "text": "Demander un programme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35931,
+                    "text": "Prendre un rendez-vous.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35932,
+                    "text": "Visiter un établissement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2577,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Une location de vacances.",
+            "user_selected_option_id": 35936,
+            "correct_answer": "Une location de vacances.",
+            "correct_option_id": 35936,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_3.webp",
+            "all_options": [
+                {
+                    "id": 35933,
+                    "text": "Des ateliers pour enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35934,
+                    "text": "Du matériel de sport.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35935,
+                    "text": "Un emploi à la montagne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35936,
+                    "text": "Une location de vacances.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2578,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Des repas livrés à domicile.",
+            "user_selected_option_id": 35940,
+            "correct_answer": "Des repas livrés à domicile.",
+            "correct_option_id": 35940,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35937,
+                    "text": "Des achats de produits frais.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35938,
+                    "text": "Des conseils pour maigrir.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35939,
+                    "text": "Des recettes de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35940,
+                    "text": "Des repas livrés à domicile.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2579,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Mexicaine.",
+            "user_selected_option_id": 35944,
+            "correct_answer": "Espagnole.",
+            "correct_option_id": 35942,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_5.webp",
+            "all_options": [
+                {
+                    "id": 35941,
+                    "text": "Canadienne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35942,
+                    "text": "Espagnole.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35943,
+                    "text": "Italienne",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35944,
+                    "text": "Mexicaine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2580,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De préparer des danses.",
+            "user_selected_option_id": 35948,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 35947,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_6.webp",
+            "all_options": [
+                {
+                    "id": 35945,
+                    "text": "D’écrire aux invités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35946,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35947,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35948,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2581,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "La livraison est en retard.",
+            "user_selected_option_id": 35952,
+            "correct_answer": "La commande est arrivée.",
+            "correct_option_id": 35950,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_7.webp",
+            "all_options": [
+                {
+                    "id": 35949,
+                    "text": "La boutique est fermée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35950,
+                    "text": "La commande est arrivée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35951,
+                    "text": "La facture est disponible.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35952,
+                    "text": "La livraison est en retard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2582,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Pour remercier son amie.",
+            "user_selected_option_id": 35956,
+            "correct_answer": "Pour donner de ses nouvelles.",
+            "correct_option_id": 35954,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_8.webp",
+            "all_options": [
+                {
+                    "id": 35953,
+                    "text": "Pour annoncer son déménagement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35954,
+                    "text": "Pour donner de ses nouvelles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35955,
+                    "text": "Pour inviter Lucie en vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35956,
+                    "text": "Pour remercier son amie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2583,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Réserver son article.",
+            "user_selected_option_id": 35960,
+            "correct_answer": "Aller chercher un colis.",
+            "correct_option_id": 35957,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_9.webp",
+            "all_options": [
+                {
+                    "id": 35957,
+                    "text": "Aller chercher un colis.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35958,
+                    "text": "Échanger son achat.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35959,
+                    "text": "Envoyer une lettre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35960,
+                    "text": "Réserver son article.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2584,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Prévoir de nouveaux moyens de transport.",
+            "user_selected_option_id": 35964,
+            "correct_answer": "Inventer une ville facile à vivre pour tous.",
+            "correct_option_id": 35963,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_10.webp",
+            "all_options": [
+                {
+                    "id": 35961,
+                    "text": "Dessiner des bâtiments publics originaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35962,
+                    "text": "Donner le goût du voyage aux habitants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35963,
+                    "text": "Inventer une ville facile à vivre pour tous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35964,
+                    "text": "Prévoir de nouveaux moyens de transport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2585,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De travailler pour la mairie.",
+            "user_selected_option_id": 35968,
+            "correct_answer": "De collecter du plastique.",
+            "correct_option_id": 35966,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35965,
+                    "text": "De changer les poubelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35966,
+                    "text": "De collecter du plastique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35967,
+                    "text": "De gagner une bicyclette.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35968,
+                    "text": "De travailler pour la mairie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2586,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Le début des soldes d’été.",
+            "user_selected_option_id": 35972,
+            "correct_answer": "L’anniversaire d’un magasin.",
+            "correct_option_id": 35969,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_12.webp",
+            "all_options": [
+                {
+                    "id": 35969,
+                    "text": "L’anniversaire d’un magasin.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35970,
+                    "text": "L’augmentation des ventes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35971,
+                    "text": "L’ouverture d’un commerce.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35972,
+                    "text": "Le début des soldes d’été.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2587,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "D’insister sur sa formation universitaire.",
+            "user_selected_option_id": 35976,
+            "correct_answer": "De préparer un entretien d’embauche.",
+            "correct_option_id": 35974,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35973,
+                    "text": "De parler de ses qualités personnelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35974,
+                    "text": "De préparer un entretien d’embauche.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35975,
+                    "text": "D’élaborer un curriculum vitae original.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35976,
+                    "text": "D’insister sur sa formation universitaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2588,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Suivre des visites guidées.",
+            "user_selected_option_id": 35980,
+            "correct_answer": "Assister à des spectacles.",
+            "correct_option_id": 35977,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35977,
+                    "text": "Assister à des spectacles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35978,
+                    "text": "Obtenir de meilleures places.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35979,
+                    "text": "Rencontrer des comédiens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35980,
+                    "text": "Suivre des visites guidées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2589,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Du vote d’une nouvelle loi.",
+            "user_selected_option_id": 35984,
+            "correct_answer": "De l’utilisation du portable.",
+            "correct_option_id": 35981,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_15.webp",
+            "all_options": [
+                {
+                    "id": 35981,
+                    "text": "De l’utilisation du portable.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35982,
+                    "text": "De la sécurité au volant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35983,
+                    "text": "Du bruit de la circulation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35984,
+                    "text": "Du vote d’une nouvelle loi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2590,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De tourner des publicités.",
+            "user_selected_option_id": 35988,
+            "correct_answer": "De réutiliser des objets.",
+            "correct_option_id": 35986,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35985,
+                    "text": "De diffuser de la musique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35986,
+                    "text": "De réutiliser des objets.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35987,
+                    "text": "De s’engager en politique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35988,
+                    "text": "De tourner des publicités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2591,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle visite le Royaume-Uni.",
+            "user_selected_option_id": 35992,
+            "correct_answer": "Elle est dans sa famille..",
+            "correct_option_id": 35990,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35989,
+                    "text": "Elle apprend le français.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35990,
+                    "text": "Elle est dans sa famille..",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35991,
+                    "text": "Elle prépare un long voyage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35992,
+                    "text": "Elle visite le Royaume-Uni.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2592,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Ils sont plus attentifs après un moment de détente.",
+            "user_selected_option_id": 35996,
+            "correct_answer": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+            "correct_option_id": 35995,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35993,
+                    "text": "Ils apprennent à se servir correctement des réseaux sociaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35994,
+                    "text": "Ils communiquent plus facilement avec l’instituteur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35995,
+                    "text": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35996,
+                    "text": "Ils sont plus attentifs après un moment de détente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2593,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les personnes qui y travaillent.",
+            "user_selected_option_id": 36000,
+            "correct_answer": "Les personnes qui y travaillent.",
+            "correct_option_id": 36000,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_19.webp",
+            "all_options": [
+                {
+                    "id": 35997,
+                    "text": "Le rôle joué par les historiens.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35998,
+                    "text": "Le rythme de son avancement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35999,
+                    "text": "Le succès auprès du public.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36000,
+                    "text": "Les personnes qui y travaillent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2594,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Les traditions culinaires peuvent se perpétuer grâce au numérique.",
+            "user_selected_option_id": 36004,
+            "correct_answer": "La technologie modifie la relation à la gastronomie.",
+            "correct_option_id": 36002,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36001,
+                    "text": "La réputation de restaurants touristiques est menacée par Internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36002,
+                    "text": "La technologie modifie la relation à la gastronomie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36003,
+                    "text": "Les grands chefs livrent leurs secrets sur des sites.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36004,
+                    "text": "Les traditions culinaires peuvent se perpétuer grâce au numérique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2595,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "L’hostilité des critiques spécialisés locaux.",
+            "user_selected_option_id": 36008,
+            "correct_answer": "L’adaptation de l’offre culinaire à la mode actuelle.",
+            "correct_option_id": 36005,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36005,
+                    "text": "L’adaptation de l’offre culinaire à la mode actuelle.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36006,
+                    "text": "La baisse de la qualité des établissements.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36007,
+                    "text": "La disparition graduelle de la cuisine traditionnelle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36008,
+                    "text": "L’hostilité des critiques spécialisés locaux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2596,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Sélectionner un souvenir.",
+            "user_selected_option_id": 36012,
+            "correct_answer": "Sélectionner un souvenir.",
+            "correct_option_id": 36012,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_22.webp",
+            "all_options": [
+                {
+                    "id": 36009,
+                    "text": "Effectuer un calcul.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36010,
+                    "text": "Évoquer un fait divers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36011,
+                    "text": "Fournir un support.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36012,
+                    "text": "Sélectionner un souvenir.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2597,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Elle soutient l’esprit de création.",
+            "user_selected_option_id": 36016,
+            "correct_answer": "Elle soutient l’esprit de création.",
+            "correct_option_id": 36016,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_23.webp",
+            "all_options": [
+                {
+                    "id": 36013,
+                    "text": "Elle attire beaucoup d’investisseurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36014,
+                    "text": "Elle enregistre des ventes record.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36015,
+                    "text": "Elle recherche une clientèle aisée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36016,
+                    "text": "Elle soutient l’esprit de création.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2598,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils sont plus sûrs de leur nouveau choix.",
+            "user_selected_option_id": 36020,
+            "correct_answer": "Ils sont plus sûrs de leur nouveau choix.",
+            "correct_option_id": 36020,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36017,
+                    "text": "Ils ont plus de facilités d’apprentissage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36018,
+                    "text": "Ils ont une idée claire de leur futur métier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36019,
+                    "text": "Ils sont déterminés à travailler beaucoup.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36020,
+                    "text": "Ils sont plus sûrs de leur nouveau choix.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2599,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Ils suscitent de nombreuses vocations.",
+            "user_selected_option_id": 36024,
+            "correct_answer": "Ils permettent au système de se maintenir.",
+            "correct_option_id": 36023,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_25.webp",
+            "all_options": [
+                {
+                    "id": 36021,
+                    "text": "Ils influencent les élèves au-delà de la classe.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36022,
+                    "text": "Ils instillent le goût du travail en équipe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36023,
+                    "text": "Ils permettent au système de se maintenir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36024,
+                    "text": "Ils suscitent de nombreuses vocations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2600,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Un soutien scolaire journalier serait bénéfique.",
+            "user_selected_option_id": 36028,
+            "correct_answer": "De nouvelles pédagogies semblent nécessaires.",
+            "correct_option_id": 36025,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36025,
+                    "text": "De nouvelles pédagogies semblent nécessaires.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36026,
+                    "text": "Il conviendrait d’améliorer les résultats des élèvés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36027,
+                    "text": "L’Europe doit engager une réforme des programmes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36028,
+                    "text": "Un soutien scolaire journalier serait bénéfique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2601,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Un éditeur refuse de participer à cette tradition.",
+            "user_selected_option_id": 36032,
+            "correct_answer": "Le nombre d’ouvrages à paraître a diminué.",
+            "correct_option_id": 36031,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36029,
+                    "text": "Des libraires menacent de fermer boutique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36030,
+                    "text": "La qualité des livres publiés est catastrophique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36031,
+                    "text": "Le nombre d’ouvrages à paraître a diminué.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36032,
+                    "text": "Un éditeur refuse de participer à cette tradition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2602,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "On les réforme régulièrement.",
+            "user_selected_option_id": 36036,
+            "correct_answer": "Ils perpétuent une forme d’exclusion.",
+            "correct_option_id": 36033,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36033,
+                    "text": "Ils perpétuent une forme d’exclusion.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36034,
+                    "text": "Le nombre de candidats s’amenuise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36035,
+                    "text": "Leur niveau d’exigence diminue.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36036,
+                    "text": "On les réforme régulièrement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2603,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Elles sont recommandées par le corps médical.",
+            "user_selected_option_id": 36040,
+            "correct_answer": "Elles contribuent à une bonne hygiène de vie.",
+            "correct_option_id": 36037,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_29.webp",
+            "all_options": [
+                {
+                    "id": 36037,
+                    "text": "Elles contribuent à une bonne hygiène de vie.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36038,
+                    "text": "Elles facilitent les transactions sur Internet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36039,
+                    "text": "Elles permettent de communiquer à moindre frais.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36040,
+                    "text": "Elles sont recommandées par le corps médical.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2604,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Le partage d’expériences traditionnelles.",
+            "user_selected_option_id": 36044,
+            "correct_answer": "L’innovation des procédés de production.",
+            "correct_option_id": 36042,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36041,
+                    "text": "L’accès universel à des aliments bon marché.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36042,
+                    "text": "L’innovation des procédés de production.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36043,
+                    "text": "Le développement du commerce équitable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36044,
+                    "text": "Le partage d’expériences traditionnelles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2605,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Le contentement de leurs abonnés",
+            "user_selected_option_id": 36048,
+            "correct_answer": "Le changement régulier des séries.",
+            "correct_option_id": 36047,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_31.webp",
+            "all_options": [
+                {
+                    "id": 36045,
+                    "text": "La longévité des programmes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36046,
+                    "text": "La qualité des services offerts.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36047,
+                    "text": "Le changement régulier des séries.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36048,
+                    "text": "Le contentement de leurs abonnés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2606,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Le désir de vivre en communauté",
+            "user_selected_option_id": 36052,
+            "correct_answer": "La précarité du monde professionnel.",
+            "correct_option_id": 36051,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36049,
+                    "text": "L’attirance pour les espaces naturels.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36050,
+                    "text": "L’insécurité des zones urbaines.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36051,
+                    "text": "La précarité du monde professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36052,
+                    "text": "Le désir de vivre en communauté",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2607,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Ils sont à l’origine de l’expansion économique du pays.",
+            "user_selected_option_id": 36056,
+            "correct_answer": "Ils entraînent la disparition de pratiques traditionnelles.",
+            "correct_option_id": 36054,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36053,
+                    "text": "Ils créent un climat de méfiance envers la technologie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36054,
+                    "text": "Ils entraînent la disparition de pratiques traditionnelles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36055,
+                    "text": "Ils facilitent la vie quotidienne des personnes âgées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36056,
+                    "text": "Ils sont à l’origine de l’expansion économique du pays.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2608,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Ils se moquent du quotidien des personnes sans emploi.",
+            "user_selected_option_id": 36060,
+            "correct_answer": "Ils présentent un partage sexiste des tâches dans le couple.",
+            "correct_option_id": 36059,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_34.webp",
+            "all_options": [
+                {
+                    "id": 36057,
+                    "text": "Ils correspondent à des programmes scolaires obsolètes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36058,
+                    "text": "Ils méconnaissent l’existence des familles recomposées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36059,
+                    "text": "Ils présentent un partage sexiste des tâches dans le couple.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36060,
+                    "text": "Ils se moquent du quotidien des personnes sans emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2609,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Ils sont vendus à des prix élevés.",
+            "user_selected_option_id": 36064,
+            "correct_answer": "Ils se détériorent après un certain temps.",
+            "correct_option_id": 36061,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_35.webp",
+            "all_options": [
+                {
+                    "id": 36061,
+                    "text": "Ils se détériorent après un certain temps.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36062,
+                    "text": "Ils sont dangereux pour la santé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36063,
+                    "text": "Ils sont nuisibles pour l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36064,
+                    "text": "Ils sont vendus à des prix élevés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2610,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Recenser les dérives de la société.",
+            "user_selected_option_id": 36068,
+            "correct_answer": "Présenter des histoires positives.",
+            "correct_option_id": 36066,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_36.webp",
+            "all_options": [
+                {
+                    "id": 36065,
+                    "text": "Être au plus près de l’actualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36066,
+                    "text": "Présenter des histoires positives.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36067,
+                    "text": "Proposer des anecdotes amusantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36068,
+                    "text": "Recenser les dérives de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2611,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il renforce le mythe de la bataille de Bouvines.",
+            "user_selected_option_id": 36072,
+            "correct_answer": "Il explore la construction identitaire des Français.",
+            "correct_option_id": 36071,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_37.webp",
+            "all_options": [
+                {
+                    "id": 36069,
+                    "text": "Il analyse l’établisserient d’une dynastie royale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36070,
+                    "text": "Il explique l’origine d’une légende médiévale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36071,
+                    "text": "Il explore la construction identitaire des Français.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36072,
+                    "text": "Il renforce le mythe de la bataille de Bouvines.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2612,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Une population citadine et fortunée.",
+            "user_selected_option_id": 36076,
+            "correct_answer": "Des valeurs et des intentions claires.",
+            "correct_option_id": 36075,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_38.webp",
+            "all_options": [
+                {
+                    "id": 36073,
+                    "text": "Des associations de consommmteurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36074,
+                    "text": "Des techniques de production nouvelles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36075,
+                    "text": "Des valeurs et des intentions claires.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36076,
+                    "text": "Une population citadine et fortunée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2613,
+            "question_text": "Compréhension écrite – Quiz 31 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Ils participent à l’élimination des animaux nuisibles.",
+            "user_selected_option_id": 36080,
+            "correct_answer": "Ils augmentent les ressources des municipalités.",
+            "correct_option_id": 36077,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_31_question_39.webp",
+            "all_options": [
+                {
+                    "id": 36077,
+                    "text": "Ils augmentent les ressources des municipalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36078,
+                    "text": "Ils contribuent à la protection de l’environnement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36079,
+                    "text": "Ils garantissent la fourniture continue d’énergie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36080,
+                    "text": "Ils participent à l’élimination des animaux nuisibles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 12,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 31",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

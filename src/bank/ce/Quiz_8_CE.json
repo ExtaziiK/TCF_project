@@ -1,0 +1,1732 @@
+{
+    "id": 39957,
+    "exam_id": 44,
+    "score": 669.0,
+    "score_percent": 95.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-03T23:33:44.539582+00:00",
+    "time_spent": 1178,
+    "section_breakdown": {
+        "Identification": {
+            "score": 23.9,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 33.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.1,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.1,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1678,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "La gare",
+            "user_selected_option_id": 32337,
+            "correct_answer": "La gare",
+            "correct_option_id": 32337,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_1.webp",
+            "all_options": [
+                {
+                    "id": 32337,
+                    "text": "La gare",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32338,
+                    "text": "Au travail",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32339,
+                    "text": "Chez une amie",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32340,
+                    "text": "En Allemagne",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1679,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "De jouer un film",
+            "user_selected_option_id": 32343,
+            "correct_answer": "De jouer un film",
+            "correct_option_id": 32343,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32341,
+                    "text": "De changer de coiffure",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32342,
+                    "text": "De devenir mannequin",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32343,
+                    "text": "De jouer un film",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32344,
+                    "text": "D’essayer un régime",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1680,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Le transport",
+            "user_selected_option_id": 32348,
+            "correct_answer": "Le transport",
+            "correct_option_id": 32348,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 23,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_3.webp",
+            "all_options": [
+                {
+                    "id": 32345,
+                    "text": "L’entrée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32346,
+                    "text": "Le guide",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32347,
+                    "text": "Le repas",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32348,
+                    "text": "Le transport",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1681,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Un acheteur",
+            "user_selected_option_id": 32349,
+            "correct_answer": "Un acheteur",
+            "correct_option_id": 32349,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32349,
+                    "text": "Un acheteur",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32350,
+                    "text": "Un conseil",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32351,
+                    "text": "Un garage",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32352,
+                    "text": "Une voiture",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1682,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Acheter un cadeau",
+            "user_selected_option_id": 32353,
+            "correct_answer": "Acheter un cadeau",
+            "correct_option_id": 32353,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32353,
+                    "text": "Acheter un cadeau",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32354,
+                    "text": "Déjeuner ensemble",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32355,
+                    "text": "Regarder un film",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32356,
+                    "text": "Rencontrer une amie",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1683,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Cuisiner entre anciens élèves",
+            "user_selected_option_id": 32358,
+            "correct_answer": "Cuisiner entre anciens élèves",
+            "correct_option_id": 32358,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32357,
+                    "text": "Un concours de cuisine entre amis",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32358,
+                    "text": "Cuisiner entre anciens élèves",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32359,
+                    "text": "Un repas avec toute sa famille",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32360,
+                    "text": "Une fête de fin d’année scolaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1684,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "À un repas officiel",
+            "user_selected_option_id": 32361,
+            "correct_answer": "À un repas officiel",
+            "correct_option_id": 32361,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 42,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32361,
+                    "text": "À un repas officiel",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32362,
+                    "text": "À un spectacle musical",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32363,
+                    "text": "À une fête de fin d’année",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32364,
+                    "text": "À une soirée dansante",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1685,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Une manifestation sociale",
+            "user_selected_option_id": 32368,
+            "correct_answer": "Une manifestation sociale",
+            "correct_option_id": 32368,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32365,
+                    "text": "Un salon des entrepreneurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32366,
+                    "text": "Une compétition sportive",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32367,
+                    "text": "Une conférence sur le chômage",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32368,
+                    "text": "Une manifestation sociale",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1686,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "S’amuser",
+            "user_selected_option_id": 32371,
+            "correct_answer": "S’amuser",
+            "correct_option_id": 32371,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32369,
+                    "text": "Cuisiner",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32370,
+                    "text": "Étudier",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32371,
+                    "text": "S’amuser",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32372,
+                    "text": "Se promener",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1687,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Des menus différents",
+            "user_selected_option_id": 32374,
+            "correct_answer": "Des menus différents",
+            "correct_option_id": 32374,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_10.webp",
+            "all_options": [
+                {
+                    "id": 32373,
+                    "text": "Des cours de cuisine",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32374,
+                    "text": "Des menus différents",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32375,
+                    "text": "Des plats à emporter",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32376,
+                    "text": "Des tickets bon marché",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1688,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Faire de la musique avec d’autres personnes",
+            "user_selected_option_id": 32378,
+            "correct_answer": "Faire de la musique avec d’autres personnes",
+            "correct_option_id": 32378,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_11.webp",
+            "all_options": [
+                {
+                    "id": 32377,
+                    "text": "Apprendre à jouer d’un instrument de musique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32378,
+                    "text": "Faire de la musique avec d’autres personnes",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32379,
+                    "text": "Organiser des concerts de musique gratuits",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32380,
+                    "text": "Rencontrer des professionnels de la musique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1689,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Leur forme",
+            "user_selected_option_id": 32382,
+            "correct_answer": "Leur forme",
+            "correct_option_id": 32382,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_12.webp",
+            "all_options": [
+                {
+                    "id": 32381,
+                    "text": "Leur couleur",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32382,
+                    "text": "Leur forme",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32383,
+                    "text": "Leur prix",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32384,
+                    "text": "Leur taille",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1690,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Elle est bonne pour la santé",
+            "user_selected_option_id": 32385,
+            "correct_answer": "Elle est bonne pour la santé",
+            "correct_option_id": 32385,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_13.webp",
+            "all_options": [
+                {
+                    "id": 32385,
+                    "text": "Elle est bonne pour la santé",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32386,
+                    "text": "Elle facilite la socialisation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32387,
+                    "text": "Elle développe la mémoire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32388,
+                    "text": "Elle enrichit la personnalité",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1691,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Elle les revend d’occasion",
+            "user_selected_option_id": 32392,
+            "correct_answer": "Elle les revend d’occasion",
+            "correct_option_id": 32392,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_14.webp",
+            "all_options": [
+                {
+                    "id": 32389,
+                    "text": "Elle compare leurs caractéristiques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32390,
+                    "text": "Elle les donne à des associations",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32391,
+                    "text": "Elle les remet aux normes",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32392,
+                    "text": "Elle les revend d’occasion",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1692,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Travailler dans une maison d’édition",
+            "user_selected_option_id": 32396,
+            "correct_answer": "Travailler dans une maison d’édition",
+            "correct_option_id": 32396,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_15.webp",
+            "all_options": [
+                {
+                    "id": 32393,
+                    "text": "Obtenir un poste chez un libraire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32394,
+                    "text": "Se spécialiser dans l’art et la culture",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32395,
+                    "text": "S’inscrire pour cours de langue",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32396,
+                    "text": "Travailler dans une maison d’édition",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1693,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Dans la protection des droits",
+            "user_selected_option_id": 32399,
+            "correct_answer": "Dans la protection des droits",
+            "correct_option_id": 32399,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_16.webp",
+            "all_options": [
+                {
+                    "id": 32397,
+                    "text": "Dans la création d’entreprise",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32398,
+                    "text": "Dans la promotion de produits",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32399,
+                    "text": "Dans la protection des droits",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32400,
+                    "text": "Dans la rédaction des notices",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1694,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Des enregistrements sonores d’article de journal",
+            "user_selected_option_id": 32401,
+            "correct_answer": "Des enregistrements sonores d’article de journal",
+            "correct_option_id": 32401,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 61,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_17.webp",
+            "all_options": [
+                {
+                    "id": 32401,
+                    "text": "Des enregistrements sonores d’article de journal",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32402,
+                    "text": "Des extraits choisis de romans classiques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32403,
+                    "text": "Des publications résumées des contenus de sites web",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32404,
+                    "text": "Des sélections de répliques de théâtres célèbres",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1695,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Aux locataires qui ont de faibles revenus",
+            "user_selected_option_id": 32407,
+            "correct_answer": "Aux locataires qui ont de faibles revenus",
+            "correct_option_id": 32407,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_18.webp",
+            "all_options": [
+                {
+                    "id": 32405,
+                    "text": "Aux familles qui ont des factures élevées",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32406,
+                    "text": "Aux jeunes qui veulent vivre en colocation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32407,
+                    "text": "Aux locataires qui ont de faibles revenus",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32408,
+                    "text": "Aux personnes qui cherchent un logement",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1696,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Le bruit altère le sens du goût des passagers",
+            "user_selected_option_id": 32411,
+            "correct_answer": "Le bruit altère le sens du goût des passagers",
+            "correct_option_id": 32411,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_19.webp",
+            "all_options": [
+                {
+                    "id": 32409,
+                    "text": "L’anxiété en avion diminue la sensation de faim",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32410,
+                    "text": "La qualité de la nourriture se détériore en altitude",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32411,
+                    "text": "Le bruit altère le sens du goût des passagers",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32412,
+                    "text": "Les plats proposés en vol manquent de saveur",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1697,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Maintenir les performances de la mémoire",
+            "user_selected_option_id": 32416,
+            "correct_answer": "Maintenir les performances de la mémoire",
+            "correct_option_id": 32416,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 55,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_20.webp",
+            "all_options": [
+                {
+                    "id": 32413,
+                    "text": "Améliorer les capacités physiques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32414,
+                    "text": "Découvrir de nouveaux types de sports",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32415,
+                    "text": "Développer le cercle de ses relations sociales",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32416,
+                    "text": "Maintenir les performances de la mémoire",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1698,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Tenter une nouvelle aventure",
+            "user_selected_option_id": 32420,
+            "correct_answer": "Tenter une nouvelle aventure",
+            "correct_option_id": 32420,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_21.webp",
+            "all_options": [
+                {
+                    "id": 32417,
+                    "text": "Accéder à la propriété privée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32418,
+                    "text": "Avoir un mode de vie économique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32419,
+                    "text": "Participer à la vie associative",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32420,
+                    "text": "Tenter une nouvelle aventure",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1699,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Le désir de reconnaissance",
+            "user_selected_option_id": 32424,
+            "correct_answer": "Le besoin d’interaction social",
+            "correct_option_id": 32423,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 99,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_22.webp",
+            "all_options": [
+                {
+                    "id": 32421,
+                    "text": "L’attirance pour les études",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32422,
+                    "text": "L’appel des pays chauds",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32423,
+                    "text": "Le besoin d’interaction social",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32424,
+                    "text": "Le désir de reconnaissance",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1700,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Elle trouve l’ensemble très réussi",
+            "user_selected_option_id": 32427,
+            "correct_answer": "Elle trouve l’ensemble très réussi",
+            "correct_option_id": 32427,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 47,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_23.webp",
+            "all_options": [
+                {
+                    "id": 32425,
+                    "text": "Elle le trouve juste bon pour la télévision",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32426,
+                    "text": "Elle trouve certaines scènes très amusantes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32427,
+                    "text": "Elle trouve l’ensemble très réussi",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32428,
+                    "text": "Elle trouve les acteurs très peu crédibles",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1701,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "L’originalité des plats",
+            "user_selected_option_id": 32429,
+            "correct_answer": "L’originalité des plats",
+            "correct_option_id": 32429,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_24.webp",
+            "all_options": [
+                {
+                    "id": 32429,
+                    "text": "L’originalité des plats",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32430,
+                    "text": "La qualité des produits",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32431,
+                    "text": "Le cadre du restaurant",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32432,
+                    "text": "Le prix des menus",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1702,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les professeurs avec des compétences nécessaires sont rares",
+            "user_selected_option_id": 32436,
+            "correct_answer": "Les professeurs avec des compétences nécessaires sont rares",
+            "correct_option_id": 32436,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_25.webp",
+            "all_options": [
+                {
+                    "id": 32433,
+                    "text": "Les enfants ont des difficultés de concentration dans ce domaine",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32434,
+                    "text": "Les équipements informatiques des écoles sont devenus obsolètes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32435,
+                    "text": "Les établissements doivent se doter d’une connexion illimitée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32436,
+                    "text": "Les professeurs avec des compétences nécessaires sont rares",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1703,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+            "user_selected_option_id": 32437,
+            "correct_answer": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+            "correct_option_id": 32437,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_26.webp",
+            "all_options": [
+                {
+                    "id": 32437,
+                    "text": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32438,
+                    "text": "Former les professeurs à de nouvelles méthodes d’enseignement",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32439,
+                    "text": "Présenter les opportunités de stages en entreprise dans la région",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32440,
+                    "text": "Proposer aux étudiants des stratégies de recherche d’emploi",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1704,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Elle modifie le rapport au temps",
+            "user_selected_option_id": 32442,
+            "correct_answer": "Elle modifie le rapport au temps",
+            "correct_option_id": 32442,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_27.webp",
+            "all_options": [
+                {
+                    "id": 32441,
+                    "text": "Elle appauvrit le lexique courant",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32442,
+                    "text": "Elle modifie le rapport au temps",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32443,
+                    "text": "Elle provoque la fin du courrier postal",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32444,
+                    "text": "Elle transforme le geste graphique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1705,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "L’originalité qui caractérisait le choix de ses rôles",
+            "user_selected_option_id": 32446,
+            "correct_answer": "L’originalité qui caractérisait le choix de ses rôles",
+            "correct_option_id": 32446,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_28.webp",
+            "all_options": [
+                {
+                    "id": 32445,
+                    "text": "L’affectation qu’elle portait à ses admirateurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32446,
+                    "text": "L’originalité qui caractérisait le choix de ses rôles",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32447,
+                    "text": "La générosité qu’elle manifestait dans sa vie",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32448,
+                    "text": "La séduction qui était son principal atout",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1706,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Il a longtemps souhaité la publication de ses photographies",
+            "user_selected_option_id": 32450,
+            "correct_answer": "Il déclare que la photographie était une part nécessaire, mais non essentielle à son travail",
+            "correct_option_id": 32452,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 66,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_29.webp",
+            "all_options": [
+                {
+                    "id": 32449,
+                    "text": "Il a hérité de son père cette fascination qui ne l’a jamais quitté",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32450,
+                    "text": "Il a longtemps souhaité la publication de ses photographies",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32451,
+                    "text": "Il n’a jamais aimé la photographie qu’il considère comme une perte de temps",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32452,
+                    "text": "Il déclare que la photographie était une part nécessaire, mais non essentielle à son travail",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1707,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elle doit se fonder sur l’estime mutuelle",
+            "user_selected_option_id": 32453,
+            "correct_answer": "Elle doit se fonder sur l’estime mutuelle",
+            "correct_option_id": 32453,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_30.webp",
+            "all_options": [
+                {
+                    "id": 32453,
+                    "text": "Elle doit se fonder sur l’estime mutuelle",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32454,
+                    "text": "Elle s’obtient par le recours à l’autorité",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32455,
+                    "text": "Elle passe par le suivi de règles immuables",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32456,
+                    "text": "Elle repose sur la quête du bonheur",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1708,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "L’absence totale des signes visuels du langage",
+            "user_selected_option_id": 32457,
+            "correct_answer": "L’absence totale des signes visuels du langage",
+            "correct_option_id": 32457,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 57,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_31.webp",
+            "all_options": [
+                {
+                    "id": 32457,
+                    "text": "L’absence totale des signes visuels du langage",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32458,
+                    "text": "L’opposition des parents à leur intervention",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32459,
+                    "text": "La nécessité de modérer le ton des échanges",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32460,
+                    "text": "Les nombreuses remarques des participants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1709,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Pour sortir de la crise que son économie subissait",
+            "user_selected_option_id": 32464,
+            "correct_answer": "Pour sortir de la crise que son économie subissait",
+            "correct_option_id": 32464,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_32.webp",
+            "all_options": [
+                {
+                    "id": 32461,
+                    "text": "Pour bénéficier des aides financières de l’Union",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32462,
+                    "text": "Pour mieux contrôler ses établissements financiers",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32463,
+                    "text": "Pour redonner de la valeur à la monnaie nationale",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32464,
+                    "text": "Pour sortir de la crise que son économie subissait",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1710,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
+            "user_selected_option_id": 32466,
+            "correct_answer": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
+            "correct_option_id": 32466,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_33.webp",
+            "all_options": [
+                {
+                    "id": 32465,
+                    "text": "L’absence du père oblige les mères à mettre leur vie affective entre parenthèses",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32466,
+                    "text": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32467,
+                    "text": "Les pères considèrent que l’absence de la mère doit être absolument compensée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32468,
+                    "text": "Les pères seuls reconstruisent vite une vie de couple après une séparation",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1711,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+            "user_selected_option_id": 32470,
+            "correct_answer": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+            "correct_option_id": 32470,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_34.webp",
+            "all_options": [
+                {
+                    "id": 32469,
+                    "text": "Les gestes révéleraient systématiquement la langue maternelle des locuteurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32470,
+                    "text": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32471,
+                    "text": "Il y aurait autant de façons de penser que de structures de langue différentes",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32472,
+                    "text": "Les structures des langues seraient dépendantes de notre expérience du monde",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1712,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "De satisfaire avant tout les adultes",
+            "user_selected_option_id": 32475,
+            "correct_answer": "De satisfaire avant tout les adultes",
+            "correct_option_id": 32475,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_35.webp",
+            "all_options": [
+                {
+                    "id": 32473,
+                    "text": "De laisser trop de temps à l’oisiveté",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32474,
+                    "text": "De s’écarter du modèle éducatif légal",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32475,
+                    "text": "De satisfaire avant tout les adultes",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32476,
+                    "text": "D’être à l’origine de l’échec scolaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1713,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+            "user_selected_option_id": 32477,
+            "correct_answer": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+            "correct_option_id": 32477,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_36.webp",
+            "all_options": [
+                {
+                    "id": 32477,
+                    "text": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32478,
+                    "text": "Il se rappelle une pièce de travail poussiéreuse interdite aux enfants",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32479,
+                    "text": "Il raconte son apprentissage de la lecture auprès de son grand-père",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32480,
+                    "text": "Il évoque ses rentrées scolaires alors qu’il ne savait pas encore lire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1714,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Une diffusion abusive de copies illégales",
+            "user_selected_option_id": 32482,
+            "correct_answer": "Une diffusion abusive de copies illégales",
+            "correct_option_id": 32482,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 135,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_37.webp",
+            "all_options": [
+                {
+                    "id": 32481,
+                    "text": "Une adéquation avec l’attente des lecteurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32482,
+                    "text": "Une diffusion abusive de copies illégales",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32483,
+                    "text": "Une offre promotionnelle provisoire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32484,
+                    "text": "Une perte croissante du nombre d’abonnés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1715,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Améliorer la cohabitation entre les habitants et les noctambules",
+            "user_selected_option_id": 32485,
+            "correct_answer": "Améliorer la cohabitation entre les habitants et les noctambules",
+            "correct_option_id": 32485,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_38.webp",
+            "all_options": [
+                {
+                    "id": 32485,
+                    "text": "Améliorer la cohabitation entre les habitants et les noctambules",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32486,
+                    "text": "Attirer les spectateurs parisiens vers les spectacles de rue",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32487,
+                    "text": "Développer un nouveau concept des lieux silencieux",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32488,
+                    "text": "Relancer la fréquentation nocturne des quartiers réservés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1716,
+            "question_text": "Compréhension écrite – Quiz 8 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Celles des lecteurs",
+            "user_selected_option_id": 32492,
+            "correct_answer": "Celles des lecteurs",
+            "correct_option_id": 32492,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_8_question_39.webp",
+            "all_options": [
+                {
+                    "id": 32489,
+                    "text": "Celles des critiques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32490,
+                    "text": "Celles des auteurs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32491,
+                    "text": "Celles des éditeurs",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32492,
+                    "text": "Celles des lecteurs",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 95,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 8",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

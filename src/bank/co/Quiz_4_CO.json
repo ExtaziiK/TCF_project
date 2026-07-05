@@ -1,0 +1,1732 @@
+{
+    "id": 39737,
+    "exam_id": 4,
+    "score": 603.0,
+    "score_percent": 86.27,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-01T20:44:26.434809+00:00",
+    "time_spent": 1764,
+    "section_breakdown": {
+        "Identification": {
+            "score": 21.6,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 30.2,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 17.3,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 17.3,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 118,
+            "question_text": "Compréhension orale – Quiz 4 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "B",
+            "user_selected_option_id": 13930,
+            "correct_answer": "B",
+            "correct_option_id": 13930,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_4_question_1.webp",
+            "all_options": [
+                {
+                    "id": 13929,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13930,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13931,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13932,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 119,
+            "question_text": "Compréhension orale – Quiz 4 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "A",
+            "user_selected_option_id": 13933,
+            "correct_answer": "A",
+            "correct_option_id": 13933,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_4_question_2.webp",
+            "all_options": [
+                {
+                    "id": 13933,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13934,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13935,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13936,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 120,
+            "question_text": "Compréhension orale – Quiz 4 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "C",
+            "user_selected_option_id": 13939,
+            "correct_answer": "C",
+            "correct_option_id": 13939,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_3.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13937,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13938,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13939,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 13940,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 121,
+            "question_text": "Compréhension orale – Quiz 4 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "C",
+            "user_selected_option_id": 13943,
+            "correct_answer": "C",
+            "correct_option_id": 13943,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_4.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13941,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13942,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13943,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 13944,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 122,
+            "question_text": "Compréhension orale – Quiz 4 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "A",
+            "user_selected_option_id": 13945,
+            "correct_answer": "A",
+            "correct_option_id": 13945,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13945,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13946,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13947,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13948,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 123,
+            "question_text": "Compréhension orale – Quiz 4 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "A",
+            "user_selected_option_id": 13949,
+            "correct_answer": "A",
+            "correct_option_id": 13949,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 27,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13949,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13950,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13951,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13952,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 124,
+            "question_text": "Compréhension orale – Quiz 4 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D",
+            "user_selected_option_id": 13956,
+            "correct_answer": "D",
+            "correct_option_id": 13956,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13953,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13954,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13955,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13956,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 125,
+            "question_text": "Compréhension orale – Quiz 4 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "B",
+            "user_selected_option_id": 13958,
+            "correct_answer": "B",
+            "correct_option_id": 13958,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13957,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13958,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13959,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13960,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 126,
+            "question_text": "Compréhension orale – Quiz 4 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "A",
+            "user_selected_option_id": 13961,
+            "correct_answer": "A",
+            "correct_option_id": 13961,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13961,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13962,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13963,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13964,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 127,
+            "question_text": "Compréhension orale – Quiz 4 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Il sera en vacances.",
+            "user_selected_option_id": 13968,
+            "correct_answer": "Il sera en vacances.",
+            "correct_option_id": 13968,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13965,
+                    "text": "Il aura la visite de sa famille.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13966,
+                    "text": "Il fera une compétition.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13967,
+                    "text": "Il pourra travailler au calme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13968,
+                    "text": "Il sera en vacances.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 128,
+            "question_text": "Compréhension orale – Quiz 4 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Pour un renseignement.",
+            "user_selected_option_id": 13971,
+            "correct_answer": "Pour un renseignement.",
+            "correct_option_id": 13971,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13969,
+                    "text": "Pour un achat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13970,
+                    "text": "Pour un envoi.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13971,
+                    "text": "Pour un renseignement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 13972,
+                    "text": "Pour une réclamation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 129,
+            "question_text": "Compréhension orale – Quiz 4 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Obtenir un logement.",
+            "user_selected_option_id": 13974,
+            "correct_answer": "Obtenir un logement.",
+            "correct_option_id": 13974,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13973,
+                    "text": "Avoir une aide financière.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13974,
+                    "text": "Obtenir un logement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13975,
+                    "text": "Participer à un échange.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13976,
+                    "text": "S’inscrire à un cours.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 130,
+            "question_text": "Compréhension orale – Quiz 4 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "S’entretenir avec un enseignant.",
+            "user_selected_option_id": 13977,
+            "correct_answer": "S’entretenir avec un enseignant.",
+            "correct_option_id": 13977,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 27,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13977,
+                    "text": "S’entretenir avec un enseignant.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13978,
+                    "text": "Assister à un colloque.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13979,
+                    "text": "S’inscrire à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13980,
+                    "text": "Suivre un stage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 131,
+            "question_text": "Compréhension orale – Quiz 4 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Leur collègue.",
+            "user_selected_option_id": 13982,
+            "correct_answer": "Leur collègue.",
+            "correct_option_id": 13982,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13981,
+                    "text": "Leur client.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13982,
+                    "text": "Leur collègue.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13983,
+                    "text": "Leur directeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13984,
+                    "text": "Leur professeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 132,
+            "question_text": "Compréhension orale – Quiz 4 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Il a trouvé qu’il avait trop de visiteurs.",
+            "user_selected_option_id": 13987,
+            "correct_answer": "Il a trouvé qu’il avait trop de visiteurs.",
+            "correct_option_id": 13987,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13985,
+                    "text": "Il n’aime pas l’œuvre de ce peintre.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13986,
+                    "text": "La présentation des tableaux lui a déplu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13987,
+                    "text": "Il a trouvé qu’il avait trop de visiteurs.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 13988,
+                    "text": "Il s’est ennuyé en faisant la queue.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 133,
+            "question_text": "Compréhension orale – Quiz 4 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Passer le mois de juillet à Montpellier.",
+            "user_selected_option_id": 13990,
+            "correct_answer": "Passer le mois de juillet à Montpellier.",
+            "correct_option_id": 13990,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13989,
+                    "text": "Aller chez Anne pendant ses congés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13990,
+                    "text": "Passer le mois de juillet à Montpellier.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13991,
+                    "text": "Prêter son appartement à son amie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13992,
+                    "text": "Visiter des logements en centre-ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 134,
+            "question_text": "Compréhension orale – Quiz 4 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle aurait aimé faire du tourisme.",
+            "user_selected_option_id": 13993,
+            "correct_answer": "Elle aurait aimé faire du tourisme.",
+            "correct_option_id": 13993,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13993,
+                    "text": "Elle aurait aimé faire du tourisme.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 13994,
+                    "text": "Elle aurait préféré se coucher tôt.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 13995,
+                    "text": "Elle espérait avoir plus d’interlocuteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 13996,
+                    "text": "Elle s’attendait à un accueil plus favorable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 135,
+            "question_text": "Compréhension orale – Quiz 4 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Parce que c’est inadapté à ses besoins.",
+            "user_selected_option_id": 13998,
+            "correct_answer": "Parce que c’est inadapté à ses besoins.",
+            "correct_option_id": 13998,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 13997,
+                    "text": "Parce qu’elle trouve ça trop bruyant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 13998,
+                    "text": "Parce que c’est inadapté à ses besoins.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 13999,
+                    "text": "Parce que ça consomme trop d’eau.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14000,
+                    "text": "Parce que ses enfants font la vaisselle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 136,
+            "question_text": "Compréhension orale – Quiz 4 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Favoriser l’intégration des étrangers.",
+            "user_selected_option_id": 14002,
+            "correct_answer": "Favoriser l’intégration des étrangers.",
+            "correct_option_id": 14002,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 54,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14001,
+                    "text": "Encourager la mobilité des étudiants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14002,
+                    "text": "Favoriser l’intégration des étrangers.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14003,
+                    "text": "Mettre en relation des francophones.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14004,
+                    "text": "Offrir des emplois aux mères de famille.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 137,
+            "question_text": "Compréhension orale – Quiz 4 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il s’adresse aux acheteurs à Noël.",
+            "user_selected_option_id": 14008,
+            "correct_answer": "Il s’adresse aux acheteurs à Noël.",
+            "correct_option_id": 14008,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14005,
+                    "text": "Il a associé le tourisme et le shopping.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14006,
+                    "text": "Il est accessible la journée entière.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14007,
+                    "text": "Il regroupe les personnes âgées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14008,
+                    "text": "Il s’adresse aux acheteurs à Noël.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 138,
+            "question_text": "Compréhension orale – Quiz 4 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Les écologistes refusent la construction d’une autoroute.",
+            "user_selected_option_id": 14010,
+            "correct_answer": "Les écologistes refusent la construction d’une autoroute.",
+            "correct_option_id": 14010,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 69,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14009,
+                    "text": "Des habitants ont voté pour un maire écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14010,
+                    "text": "Les écologistes refusent la construction d’une autoroute.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14011,
+                    "text": "Le ministère des Transports veut faire construire une autoroute.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14012,
+                    "text": "Un maire propose d’ouvrir une réserve naturelle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 139,
+            "question_text": "Compréhension orale – Quiz 4 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "L’absence de vérification des sources.",
+            "user_selected_option_id": 14014,
+            "correct_answer": "L’absence de vérification des sources.",
+            "correct_option_id": 14014,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 49,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14013,
+                    "text": "La formation professionnelle des jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14014,
+                    "text": "L’absence de vérification des sources.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14015,
+                    "text": "Le recours systématique aux technologies.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14016,
+                    "text": "Les mensonges de certains collègues.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 140,
+            "question_text": "Compréhension orale – Quiz 4 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Parce qu’elle souffre et qu’elle est fatiguée.",
+            "user_selected_option_id": 14019,
+            "correct_answer": "Parce qu’elle souffre et qu’elle est fatiguée.",
+            "correct_option_id": 14019,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14017,
+                    "text": "Parce qu’elle a toujours très faim.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14018,
+                    "text": "Parce qu’elle surmenée et stressée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14019,
+                    "text": "Parce qu’elle souffre et qu’elle est fatiguée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14020,
+                    "text": "Parce qu’elle veut perdre du poids.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 141,
+            "question_text": "Compréhension orale – Quiz 4 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "D’une sélection de films.",
+            "user_selected_option_id": 14023,
+            "correct_answer": "D’une sélection de films.",
+            "correct_option_id": 14023,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14021,
+                    "text": "D’une collection de haute couture.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14022,
+                    "text": "D’une exposition de peinture.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14023,
+                    "text": "D’une sélection de films.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14024,
+                    "text": "D’une tournée de chanteurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 142,
+            "question_text": "Compréhension orale – Quiz 4 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Il veut éviter toute publicité personnelle.",
+            "user_selected_option_id": 14028,
+            "correct_answer": "Il veut éviter toute publicité personnelle.",
+            "correct_option_id": 14028,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14025,
+                    "text": "Il a répondu à une demande de ses patients.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14026,
+                    "text": "Il consacre son temps à son nouveau métier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14027,
+                    "text": "Il s’est remis en question suite à un échec.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14028,
+                    "text": "Il veut éviter toute publicité personnelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 143,
+            "question_text": "Compréhension orale – Quiz 4 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Il lui interdisait les activités intellectuelles.",
+            "user_selected_option_id": 14032,
+            "correct_answer": "Il avait du mal à accepter ses choix.",
+            "correct_option_id": 14029,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14029,
+                    "text": "Il avait du mal à accepter ses choix.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14030,
+                    "text": "Il essayait souvent de rivaliser avec elle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14031,
+                    "text": "Il était attentif à ses centres d’intérêt.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14032,
+                    "text": "Il lui interdisait les activités intellectuelles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 144,
+            "question_text": "Compréhension orale – Quiz 4 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "La création d’un livre pour enfant de qualité est un travail d’équipe.",
+            "user_selected_option_id": 14033,
+            "correct_answer": "La création d’un livre pour enfant de qualité est un travail d’équipe.",
+            "correct_option_id": 14033,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14033,
+                    "text": "La création d’un livre pour enfant de qualité est un travail d’équipe.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14034,
+                    "text": "Les enfants préfèrent les livres illustrés en trois dimensions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14035,
+                    "text": "Pour faire un bon livre, l’auteur doit réaliser lui-même les illustrations.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14036,
+                    "text": "Un livre pour enfant doit comporter le moins de texte possible.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 145,
+            "question_text": "Compréhension orale – Quiz 4 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Des comportements alimentaires.",
+            "user_selected_option_id": 14039,
+            "correct_answer": "Des comportements alimentaires.",
+            "correct_option_id": 14039,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 56,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14037,
+                    "text": "Des besoins énergétiques des jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14038,
+                    "text": "Des bons réflexes pour les repas.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14039,
+                    "text": "Des comportements alimentaires.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14040,
+                    "text": "Des conseils de préparation culinaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 146,
+            "question_text": "Compréhension orale – Quiz 4 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Visiter la région.",
+            "user_selected_option_id": 14044,
+            "correct_answer": "Aller se promener.",
+            "correct_option_id": 14042,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14041,
+                    "text": "Jouer aux cartes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14042,
+                    "text": "Aller se promener.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14043,
+                    "text": "Regarder la télévision.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14044,
+                    "text": "Visiter la région.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 147,
+            "question_text": "Compréhension orale – Quiz 4 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "L’absence de formation sur l’élaboration d’un budget.",
+            "user_selected_option_id": 14045,
+            "correct_answer": "L’absence de formation sur l’élaboration d’un budget.",
+            "correct_option_id": 14045,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14045,
+                    "text": "L’absence de formation sur l’élaboration d’un budget.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14046,
+                    "text": "Le désintérêt des jeunes pour les questions financières.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14047,
+                    "text": "Le manque de cours d’économie à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14048,
+                    "text": "Le peu d’informations des banques sur les crédits.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 148,
+            "question_text": "Compréhension orale – Quiz 4 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Elles ont été revendues.",
+            "user_selected_option_id": 14049,
+            "correct_answer": "Elles ont été revendues.",
+            "correct_option_id": 14049,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14049,
+                    "text": "Elles ont été revendues.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14050,
+                    "text": "Elles seront abandonnées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14051,
+                    "text": "Elles sont stockées à l’étranger.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14052,
+                    "text": "Elles vont être falsifiées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 149,
+            "question_text": "Compréhension orale – Quiz 4 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "En observant divers types d’interlocuteurs.",
+            "user_selected_option_id": 14056,
+            "correct_answer": "En observant divers types d’interlocuteurs.",
+            "correct_option_id": 14056,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14053,
+                    "text": "En écoutant les gens dans la sphère privée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14054,
+                    "text": "En employant des technologies innovantes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14055,
+                    "text": "En interrogeant des personnes cultivées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14056,
+                    "text": "En observant divers types d’interlocuteurs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 150,
+            "question_text": "Compréhension orale – Quiz 4 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Le paradoxe : elle expose une absence d’œuvres.",
+            "user_selected_option_id": 14060,
+            "correct_answer": "Le paradoxe : elle expose une absence d’œuvres.",
+            "correct_option_id": 14060,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 111,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14057,
+                    "text": "L’humour : elle met en scène des produits ménagers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14058,
+                    "text": "La provocation : elle présente des tableaux scandaleux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14059,
+                    "text": "La répétition : elle montre des toiles absolument identiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14060,
+                    "text": "Le paradoxe : elle expose une absence d’œuvres.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 151,
+            "question_text": "Compréhension orale – Quiz 4 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Il met en doute l’interprétation des résultats.",
+            "user_selected_option_id": 14064,
+            "correct_answer": "Il met en doute l’interprétation des résultats.",
+            "correct_option_id": 14064,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 45,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14061,
+                    "text": "Il adhère au choix de la méthodologie retenue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14062,
+                    "text": "Il approuve toutes les conclusions présentées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14063,
+                    "text": "Il conteste le professionnalisme des sondeurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14064,
+                    "text": "Il met en doute l’interprétation des résultats.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 152,
+            "question_text": "Compréhension orale – Quiz 4 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "C’est un symbole fort de cette province.",
+            "user_selected_option_id": 14067,
+            "correct_answer": "C’est un symbole fort de cette province.",
+            "correct_option_id": 14067,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14065,
+                    "text": "C’est un exemple de réussite par le sport.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14066,
+                    "text": "C’est un modèle rare de mixité culturelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14067,
+                    "text": "C’est un symbole fort de cette province.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14068,
+                    "text": "C’est une référence pour son style de jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 153,
+            "question_text": "Compréhension orale – Quiz 4 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "D’une action humanitaire.",
+            "user_selected_option_id": 14071,
+            "correct_answer": "De sa propre personnalité.",
+            "correct_option_id": 14069,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 39,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14069,
+                    "text": "De sa propre personnalité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14070,
+                    "text": "D’un ouvrage scientifique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14071,
+                    "text": "D’une action humanitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14072,
+                    "text": "D’une période de sa vie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 154,
+            "question_text": "Compréhension orale – Quiz 4 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Qu’ils soient détournés de leur objectif.",
+            "user_selected_option_id": 14076,
+            "correct_answer": "Qu’ils soient détournés de leur objectif.",
+            "correct_option_id": 14076,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 90,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14073,
+                    "text": "Que les œuvres d’art y soient dégradées.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14074,
+                    "text": "Que leur taux de fréquentation chute.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14075,
+                    "text": "Qu’ils deviennent des espaces désuets.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14076,
+                    "text": "Qu’ils soient détournés de leur objectif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 155,
+            "question_text": "Compréhension orale – Quiz 4 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Améliorer la présentation des produits.",
+            "user_selected_option_id": 14077,
+            "correct_answer": "Maintenir des tarifs compétitifs.",
+            "correct_option_id": 14080,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 44,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14077,
+                    "text": "Améliorer la présentation des produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14078,
+                    "text": "Augmenter le nombre de clients.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14079,
+                    "text": "Multiplier les points de vente.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14080,
+                    "text": "Maintenir des tarifs compétitifs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 156,
+            "question_text": "Compréhension orale – Quiz 4 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Elle soutient la popularité du français auprès des enfants.",
+            "user_selected_option_id": 14084,
+            "correct_answer": "Elle soutient la popularité du français auprès des enfants.",
+            "correct_option_id": 14084,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 110,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_4_question_39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14081,
+                    "text": "Elle tend à devenir une forme d’expression spécifique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14082,
+                    "text": "Elle reste cantonnée aux frontières du continent africain.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14083,
+                    "text": "Elle réunit plusieurs générations au sein d’un même lectorat.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14084,
+                    "text": "Elle soutient la popularité du français auprès des enfants.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 86,
+    "strengths": [
+        "Compréhension complète et sans effort de tout contenu français",
+        "Capture de tous les détails, implicites, et nuances",
+        "Compréhension maîtrisée d'ironie, satire, critique complexe",
+        "Gestion sans difficulté de tous les registres et dialectes"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - vous avez atteint la maîtrise",
+        "Perfectionnement personnel optionnel selon intérêts spécialisés",
+        "Exploration de dialectes ou périodes historiques extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Maintenir pratique quotidienne: contenus authentiques variés",
+        "Explorer intérêts spécialisés: domaines académiques, littérature rare",
+        "Participer à colloques, conférences, débats intellectuels",
+        "Enseigner le français ou guider d'autres apprenants",
+        "Savourer et apprécier la richesse de la langue française"
+    ],
+    "exam_title": "Compréhension orale – Quiz 4",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

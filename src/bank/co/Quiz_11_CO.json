@@ -1,0 +1,1733 @@
+{
+    "id": 31929,
+    "exam_id": 11,
+    "score": 558.0,
+    "score_percent": 79.83,
+    "cefr_level": "C1",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-04-16T22:08:13.643439+00:00",
+    "time_spent": 2102,
+    "section_breakdown": {
+        "Identification": {
+            "score": 20.0,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 27.9,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 16.0,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 16.0,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 391,
+            "question_text": "Compréhension orale – Quiz 11 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "C",
+            "user_selected_option_id": 15023,
+            "correct_answer": "C",
+            "correct_option_id": 15023,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 39,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_11_question_1.webp",
+            "all_options": [
+                {
+                    "id": 15021,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15022,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15023,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15024,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 392,
+            "question_text": "Compréhension orale – Quiz 11 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "A",
+            "user_selected_option_id": 15025,
+            "correct_answer": "A",
+            "correct_option_id": 15025,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_11_question_2.webp",
+            "all_options": [
+                {
+                    "id": 15025,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15026,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15027,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15028,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 393,
+            "question_text": "Compréhension orale – Quiz 11 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "D",
+            "user_selected_option_id": 15032,
+            "correct_answer": "D",
+            "correct_option_id": 15032,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_3.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15029,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15030,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15031,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15032,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 394,
+            "question_text": "Compréhension orale – Quiz 11 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "C",
+            "user_selected_option_id": 15035,
+            "correct_answer": "C",
+            "correct_option_id": 15035,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_4.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15033,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15034,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15035,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15036,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 395,
+            "question_text": "Compréhension orale – Quiz 11 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "D",
+            "user_selected_option_id": 15040,
+            "correct_answer": "D",
+            "correct_option_id": 15040,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15037,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15038,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15039,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15040,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 396,
+            "question_text": "Compréhension orale – Quiz 11 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "A",
+            "user_selected_option_id": 15041,
+            "correct_answer": "A",
+            "correct_option_id": 15041,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15041,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15042,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15043,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15044,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 397,
+            "question_text": "Compréhension orale – Quiz 11 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Les places sont trop chères.",
+            "user_selected_option_id": 15047,
+            "correct_answer": "Les places sont trop chères.",
+            "correct_option_id": 15047,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15045,
+                    "text": "La représentation est annulée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15046,
+                    "text": "Le spectacle est complet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15047,
+                    "text": "Les places sont trop chères.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15048,
+                    "text": "Les réservations sont terminées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 398,
+            "question_text": "Compréhension orale – Quiz 11 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Pour changer sa date d’arrivée.",
+            "user_selected_option_id": 15050,
+            "correct_answer": "Pour changer sa date d’arrivée.",
+            "correct_option_id": 15050,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15049,
+                    "text": "Pour annuler sa réservation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15050,
+                    "text": "Pour changer sa date d’arrivée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15051,
+                    "text": "Pour connaître l’heure d’ouverture.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15052,
+                    "text": "Pour savoir le prix d’une chambre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 399,
+            "question_text": "Compréhension orale – Quiz 11 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De s’habiller chaudement.",
+            "user_selected_option_id": 15056,
+            "correct_answer": "De s’habiller chaudement.",
+            "correct_option_id": 15056,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15053,
+                    "text": "De consulter un médecin.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15054,
+                    "text": "De regarder la météo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15055,
+                    "text": "De s’acheter des vêtements.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15056,
+                    "text": "De s’habiller chaudement.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 400,
+            "question_text": "Compréhension orale – Quiz 11 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "La communication avec ses clients.",
+            "user_selected_option_id": 15057,
+            "correct_answer": "La communication avec ses clients.",
+            "correct_option_id": 15057,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15057,
+                    "text": "La communication avec ses clients.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15058,
+                    "text": "La recherche d’un nouveau travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15059,
+                    "text": "L’achat d’un nouveau téléphone fixe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15060,
+                    "text": "L’utilisation de son ordinateur portable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 401,
+            "question_text": "Compréhension orale – Quiz 11 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Elle a oublié un objet important.",
+            "user_selected_option_id": 15061,
+            "correct_answer": "Elle a oublié un objet important.",
+            "correct_option_id": 15061,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15061,
+                    "text": "Elle a oublié un objet important.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15062,
+                    "text": "Elle a raté son bus ce matin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15063,
+                    "text": "Elle doit s’absenter du bureau.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15064,
+                    "text": "Elle est en retard à une réunion.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 402,
+            "question_text": "Compréhension orale – Quiz 11 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Dîner avec un ami.",
+            "user_selected_option_id": 15065,
+            "correct_answer": "Dîner avec un ami.",
+            "correct_option_id": 15065,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15065,
+                    "text": "Dîner avec un ami.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15066,
+                    "text": "Regarder un film.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15067,
+                    "text": "Rentrer chez elle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15068,
+                    "text": "Travailler tard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 403,
+            "question_text": "Compréhension orale – Quiz 11 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "D’aller dans un bar.",
+            "user_selected_option_id": 15069,
+            "correct_answer": "D’aller dans un bar.",
+            "correct_option_id": 15069,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15069,
+                    "text": "D’aller dans un bar.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15070,
+                    "text": "De faire les courses.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15071,
+                    "text": "De préparer un voyage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15072,
+                    "text": "De travailler ensemble.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 404,
+            "question_text": "Compréhension orale – Quiz 11 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Le contact avec les élèves.",
+            "user_selected_option_id": 15074,
+            "correct_answer": "Le contact avec les élèves.",
+            "correct_option_id": 15074,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 46,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15073,
+                    "text": "La répartition des horaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15074,
+                    "text": "Le contact avec les élèves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15075,
+                    "text": "Les activités pédagogiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15076,
+                    "text": "L’organisation des leçons.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 405,
+            "question_text": "Compréhension orale – Quiz 11 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Pour lui donner des informations.",
+            "user_selected_option_id": 15080,
+            "correct_answer": "Pour lui donner des informations.",
+            "correct_option_id": 15080,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15077,
+                    "text": "Pour l’inviter au restaurant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15078,
+                    "text": "Pour le remercier de son accueil.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15079,
+                    "text": "Pour lui conseiller un logement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15080,
+                    "text": "Pour lui donner des informations.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 406,
+            "question_text": "Compréhension orale – Quiz 11 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Elle apprécie beaucoup sa nouvelle ville.",
+            "user_selected_option_id": 15082,
+            "correct_answer": "Elle apprécie beaucoup sa nouvelle ville.",
+            "correct_option_id": 15082,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 53,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15081,
+                    "text": "Elle aimerait que ses amis lui rendent visite.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15082,
+                    "text": "Elle apprécie beaucoup sa nouvelle ville.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15083,
+                    "text": "Elle souhaite repartir dans sa région.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15084,
+                    "text": "Elle voudrait que sa famille déménage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 407,
+            "question_text": "Compréhension orale – Quiz 11 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle aurait aimé faire du tourisme.",
+            "user_selected_option_id": 15085,
+            "correct_answer": "Elle aurait aimé faire du tourisme.",
+            "correct_option_id": 15085,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15085,
+                    "text": "Elle aurait aimé faire du tourisme.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15086,
+                    "text": "Elle aurait préféré se coucher tôt.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15087,
+                    "text": "Elle espérait avoir plus d’interlocuteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15088,
+                    "text": "Elle s’attendait à un accueil plus favorable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 408,
+            "question_text": "Compréhension orale – Quiz 11 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Elle accepte son invitation.",
+            "user_selected_option_id": 15090,
+            "correct_answer": "Elle accepte son invitation.",
+            "correct_option_id": 15090,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 39,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15089,
+                    "text": "Elle a mal compris son message.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15090,
+                    "text": "Elle accepte son invitation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15091,
+                    "text": "Elle achètera les billets à l’avance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15092,
+                    "text": "Elle est déjà occupée ce soir.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 409,
+            "question_text": "Compréhension orale – Quiz 11 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "De jouer au basket-ball sans payer.",
+            "user_selected_option_id": 15095,
+            "correct_answer": "De jouer au basket-ball sans payer.",
+            "correct_option_id": 15095,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15093,
+                    "text": "D’assister à une rencontre sportive.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15094,
+                    "text": "De fêter leur victoire entre copains.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15095,
+                    "text": "De jouer au basket-ball sans payer.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15096,
+                    "text": "De s’inscrire dans un nouveau club.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 410,
+            "question_text": "Compréhension orale – Quiz 11 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Les conditions de recrutement sont plus difficiles aujourd’hui.",
+            "user_selected_option_id": 15097,
+            "correct_answer": "Les conditions de recrutement sont plus difficiles aujourd’hui.",
+            "correct_option_id": 15097,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 52,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15097,
+                    "text": "Les conditions de recrutement sont plus difficiles aujourd’hui.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15098,
+                    "text": "Les étudiants ignorent le fonctionnement de l’entreprise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15099,
+                    "text": "Les jeunes étaient préparés plus sérieusement dans le passé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15100,
+                    "text": "Les patrons actuels ont un degré d’exigence trop élevé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 411,
+            "question_text": "Compréhension orale – Quiz 11 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Elle voyage souvent.",
+            "user_selected_option_id": 15104,
+            "correct_answer": "Elle voyage souvent.",
+            "correct_option_id": 15104,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 54,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15101,
+                    "text": "Elle est en congé.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15102,
+                    "text": "Elle est tombée malade.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15103,
+                    "text": "Elle travaille la nuit.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15104,
+                    "text": "Elle voyage souvent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 412,
+            "question_text": "Compréhension orale – Quiz 11 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "D’attribuer à la lecture le statut de loisir.",
+            "user_selected_option_id": 15105,
+            "correct_answer": "D’attribuer à la lecture le statut de loisir.",
+            "correct_option_id": 15105,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 66,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15105,
+                    "text": "D’attribuer à la lecture le statut de loisir.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15106,
+                    "text": "De favoriser la lecture en autonomie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15107,
+                    "text": "De limiter la lecture d’histoires illustrées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15108,
+                    "text": "De sélectionner des lectures classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 413,
+            "question_text": "Compréhension orale – Quiz 11 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Les opportunités de carrière.",
+            "user_selected_option_id": 15112,
+            "correct_answer": "Les opportunités de carrière.",
+            "correct_option_id": 15112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 47,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15109,
+                    "text": "L’atmosphère détendue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15110,
+                    "text": "La souplesse des horaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15111,
+                    "text": "L’efficacité de son équipe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15112,
+                    "text": "Les opportunités de carrière.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 414,
+            "question_text": "Compréhension orale – Quiz 11 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Pour suivre son compagnon.",
+            "user_selected_option_id": 15116,
+            "correct_answer": "Pour suivre son compagnon.",
+            "correct_option_id": 15116,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15113,
+                    "text": "Pour changer de profession.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15114,
+                    "text": "Pour découvrir de nouveaux lieux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15115,
+                    "text": "Pour se rapprocher de sa famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15116,
+                    "text": "Pour suivre son compagnon.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 415,
+            "question_text": "Compréhension orale – Quiz 11 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Parler des plats que l’on savoure.",
+            "user_selected_option_id": 15118,
+            "correct_answer": "Parler des plats que l’on savoure.",
+            "correct_option_id": 15118,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15117,
+                    "text": "Écouter de la musique classique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15118,
+                    "text": "Parler des plats que l’on savoure.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15119,
+                    "text": "Partager un repas en famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15120,
+                    "text": "Avoir une table bien décorée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 416,
+            "question_text": "Compréhension orale – Quiz 11 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Avoir la liberté d’être son propre patron.",
+            "user_selected_option_id": 15121,
+            "correct_answer": "Avoir la liberté d’être son propre patron.",
+            "correct_option_id": 15121,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15121,
+                    "text": "Avoir la liberté d’être son propre patron.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15122,
+                    "text": "Innover dans le domaine informatique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15123,
+                    "text": "Mener un projet aux États-Unis.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15124,
+                    "text": "Mieux réussir que ses parents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 417,
+            "question_text": "Compréhension orale – Quiz 11 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Des révisions d’un examen.",
+            "user_selected_option_id": 15126,
+            "correct_answer": "Des révisions d’un examen.",
+            "correct_option_id": 15126,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15125,
+                    "text": "De la préparation des vacances.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15126,
+                    "text": "Des révisions d’un examen.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15127,
+                    "text": "D’un anniversaire surprise.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15128,
+                    "text": "D’un projet de visites culturelles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 418,
+            "question_text": "Compréhension orale – Quiz 11 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Livrer des spécialités régionales à domicile.",
+            "user_selected_option_id": 15131,
+            "correct_answer": "Faciliter la consommation de produits sains.",
+            "correct_option_id": 15130,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15129,
+                    "text": "Conseiller gratuitement des régimes minceur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15130,
+                    "text": "Faciliter la consommation de produits sains.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15131,
+                    "text": "Livrer des spécialités régionales à domicile.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15132,
+                    "text": "Proposer une émission de cuisine sur internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 419,
+            "question_text": "Compréhension orale – Quiz 11 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Aller se promener.",
+            "user_selected_option_id": 15134,
+            "correct_answer": "Aller se promener.",
+            "correct_option_id": 15134,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 55,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15133,
+                    "text": "Jouer aux cartes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15134,
+                    "text": "Aller se promener.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15135,
+                    "text": "Regarder la télévision.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15136,
+                    "text": "Visiter la région.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 420,
+            "question_text": "Compréhension orale – Quiz 11 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Il a besoin d’être perfectionné.",
+            "user_selected_option_id": 15137,
+            "correct_answer": "Il a besoin d’être perfectionné.",
+            "correct_option_id": 15137,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 59,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15137,
+                    "text": "Il a besoin d’être perfectionné.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15138,
+                    "text": "Il fonctionne pour les romans.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15139,
+                    "text": "Il peut adapter la ponctuation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15140,
+                    "text": "Il sert aux spécialistes du métier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 421,
+            "question_text": "Compréhension orale – Quiz 11 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Elle confirme une théorie ancienne.",
+            "user_selected_option_id": 15142,
+            "correct_answer": "Elle confirme une théorie ancienne.",
+            "correct_option_id": 15142,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15141,
+                    "text": "Elle annonce de futures découvertes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15142,
+                    "text": "Elle confirme une théorie ancienne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15143,
+                    "text": "Elle illustre les progrès du matériel scientifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15144,
+                    "text": "Elle permet la poursuite des travaux d’Einstein.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 422,
+            "question_text": "Compréhension orale – Quiz 11 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Elle est dans l’innovation constante.",
+            "user_selected_option_id": 15145,
+            "correct_answer": "Elle est dans l’innovation constante.",
+            "correct_option_id": 15145,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 65,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15145,
+                    "text": "Elle est dans l’innovation constante.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15146,
+                    "text": "Elle est tournée vers l’exotisme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15147,
+                    "text": "Elle fait la part belle à la tradition.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15148,
+                    "text": "Elle nécessite un service très rapide.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 423,
+            "question_text": "Compréhension orale – Quiz 11 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Elle représente une solution d’avenir.",
+            "user_selected_option_id": 15152,
+            "correct_answer": "Elle représente une solution d’avenir.",
+            "correct_option_id": 15152,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15149,
+                    "text": "Elle se heurte aux systèmes existants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15150,
+                    "text": "Elle est complexe à développer en Europe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15151,
+                    "text": "Elle est soutenue par les grandes surfaces.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15152,
+                    "text": "Elle représente une solution d’avenir.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 424,
+            "question_text": "Compréhension orale – Quiz 11 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Pour conserver la trace du patrimoine architectural.",
+            "user_selected_option_id": 15155,
+            "correct_answer": "Pour conserver la trace du patrimoine architectural.",
+            "correct_option_id": 15155,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 124,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15153,
+                    "text": "Pour accélérer la rénovation d’anciennes constructions.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15154,
+                    "text": "Pour comparer les styles des maisons nord-américaines.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15155,
+                    "text": "Pour conserver la trace du patrimoine architectural.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15156,
+                    "text": "Pour dénoncer la dégradation des logements urbains.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 425,
+            "question_text": "Compréhension orale – Quiz 11 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Ils programment les mêmes musiciens.",
+            "user_selected_option_id": 15159,
+            "correct_answer": "Ils programment les mêmes musiciens.",
+            "correct_option_id": 15159,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 89,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15157,
+                    "text": "Ils desservent l’image des vedettes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15158,
+                    "text": "Ils génèrent des profits insuffisants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15159,
+                    "text": "Ils programment les mêmes musiciens.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15160,
+                    "text": "Ils sont tous organisés pendant l’été.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 426,
+            "question_text": "Compréhension orale – Quiz 11 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Les pouvoirs publics.",
+            "user_selected_option_id": 15164,
+            "correct_answer": "Les acheteurs.",
+            "correct_option_id": 15161,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 58,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15161,
+                    "text": "Les acheteurs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15162,
+                    "text": "Les commerçants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15163,
+                    "text": "Les entreprises.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15164,
+                    "text": "Les pouvoirs publics.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 427,
+            "question_text": "Compréhension orale – Quiz 11 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Pour opérer une reconversion professionnelle.",
+            "user_selected_option_id": 15166,
+            "correct_answer": "Pour pouvoir rembourser son emprunt.",
+            "correct_option_id": 15167,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 104,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15165,
+                    "text": "Pour mettre en pratique ses connaissances.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15166,
+                    "text": "Pour opérer une reconversion professionnelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15167,
+                    "text": "Pour pouvoir rembourser son emprunt.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15168,
+                    "text": "Pour vivre quelques années à l’étranger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 428,
+            "question_text": "Compréhension orale – Quiz 11 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Ils font l’objet de manipulations douteuses par les pollueurs.",
+            "user_selected_option_id": 15169,
+            "correct_answer": "Ils sont publiés par des organismes liés aux entreprises.",
+            "correct_option_id": 15172,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 76,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15169,
+                    "text": "Ils font l’objet de manipulations douteuses par les pollueurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15170,
+                    "text": "Ils répondent à des critères insuffisamment exigeants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15171,
+                    "text": "Ils sont destinés à justifier les politiques économiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15172,
+                    "text": "Ils sont publiés par des organismes liés aux entreprises.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 429,
+            "question_text": "Compréhension orale – Quiz 11 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "La constitution de certains organismes aquatiques.",
+            "user_selected_option_id": 15175,
+            "correct_answer": "Le processus d’attractivité des cellules femelles.",
+            "correct_option_id": 15173,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 58,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_11_question_39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15173,
+                    "text": "Le processus d’attractivité des cellules femelles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15174,
+                    "text": "Les différences avec la reproduction des plantes terrestres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15175,
+                    "text": "La constitution de certains organismes aquatiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15176,
+                    "text": "L’influence de la météorologie sur leur fécondation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 79,
+    "strengths": [
+        "Compréhension presque complète de contenu natif",
+        "Capture efficace de tous les détails et nuances",
+        "Compréhension d'ironie, satire, critique subtile",
+        "Gestion sans effort de vocabulaire spécialisé et rare"
+    ],
+    "improvements": [
+        "Capture de 100% de tous les détails minuscules",
+        "Compréhension de dialectes très régionaux ou anciens",
+        "Gestion de vocabulaire technique très spécialisé",
+        "Perfectionnement vers C2 (nuances ultimes)"
+    ],
+    "recommendations": [
+        "Consacrer 30-40 min/jour à contenus intellectuels difficiles (débats philo, conférences académiques)",
+        "Étudier expressions idiomatiques rares et nuances de registre",
+        "Programmer 1-2 examen complets chaque semaine",
+        "Pratiquer compréhension de débit très rapide et dialectes régionaux",
+        "Écouter littérature française lue par acteurs"
+    ],
+    "exam_title": "Compréhension orale – Quiz 11",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

@@ -1,0 +1,1733 @@
+{
+    "id": 40085,
+    "exam_id": 72,
+    "score": 200.0,
+    "score_percent": 28.61,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:02:41.617831+00:00",
+    "time_spent": 47,
+    "section_breakdown": {
+        "Identification": {
+            "score": 7.2,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 10.0,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 5.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2770,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Payer les cours de judo.",
+            "user_selected_option_id": 36708,
+            "correct_answer": "Envoyer des documents.",
+            "correct_option_id": 36707,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_1.webp",
+            "all_options": [
+                {
+                    "id": 36705,
+                    "text": "Appeler la secrétaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36706,
+                    "text": "Consulter un médecin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36707,
+                    "text": "Envoyer des documents.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36708,
+                    "text": "Payer les cours de judo.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2771,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Sortir.",
+            "user_selected_option_id": 36712,
+            "correct_answer": "Manger.",
+            "correct_option_id": 36711,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_2.webp",
+            "all_options": [
+                {
+                    "id": 36709,
+                    "text": "Boire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36710,
+                    "text": "Cuisiner.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36711,
+                    "text": "Manger.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36712,
+                    "text": "Sortir.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2772,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Dans une entreprise.",
+            "user_selected_option_id": 36716,
+            "correct_answer": "Dans une entreprise.",
+            "correct_option_id": 36716,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_3.webp",
+            "all_options": [
+                {
+                    "id": 36713,
+                    "text": "Dans un café.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36714,
+                    "text": "Dans un cinéma.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36715,
+                    "text": "Dans une boutique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36716,
+                    "text": "Dans une entreprise.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2773,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Les familles.",
+            "user_selected_option_id": 36720,
+            "correct_answer": "Les familles.",
+            "correct_option_id": 36720,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_4.webp",
+            "all_options": [
+                {
+                    "id": 36717,
+                    "text": "Les artistes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36718,
+                    "text": "Les élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36719,
+                    "text": "Les enseignants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36720,
+                    "text": "Les familles.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2774,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De suivre des cours débutants",
+            "user_selected_option_id": 36724,
+            "correct_answer": "De participer à un concours.",
+            "correct_option_id": 36722,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_5.webp",
+            "all_options": [
+                {
+                    "id": 36721,
+                    "text": "D’acheter du matériel en soldes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36722,
+                    "text": "De participer à un concours.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36723,
+                    "text": "De rencontrer des professionnels.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36724,
+                    "text": "De suivre des cours débutants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2775,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De préparer des danses.",
+            "user_selected_option_id": 36728,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 36727,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_6.webp",
+            "all_options": [
+                {
+                    "id": 36725,
+                    "text": "D’écrire aux invités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36726,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36727,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36728,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2776,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "La livraison est en retard.",
+            "user_selected_option_id": 36732,
+            "correct_answer": "La commande est arrivée.",
+            "correct_option_id": 36730,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_7.webp",
+            "all_options": [
+                {
+                    "id": 36729,
+                    "text": "La boutique est fermée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36730,
+                    "text": "La commande est arrivée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36731,
+                    "text": "La facture est disponible.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36732,
+                    "text": "La livraison est en retard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2777,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Des visites d’appartements.",
+            "user_selected_option_id": 36736,
+            "correct_answer": "Des échanges de logements.",
+            "correct_option_id": 36733,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_8.webp",
+            "all_options": [
+                {
+                    "id": 36733,
+                    "text": "Des échanges de logements.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36734,
+                    "text": "Des locations bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36735,
+                    "text": "Des réservations sans frais.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36736,
+                    "text": "Des visites d’appartements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2778,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Une crème de beauté.",
+            "user_selected_option_id": 36740,
+            "correct_answer": "Une crème de beauté.",
+            "correct_option_id": 36740,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_9.webp",
+            "all_options": [
+                {
+                    "id": 36737,
+                    "text": "Un savon pour le corps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36738,
+                    "text": "Un shampoing aux herbes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36739,
+                    "text": "Une boisson pour dormir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36740,
+                    "text": "Une crème de beauté.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2779,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Comment réaliser des plats originaux.",
+            "user_selected_option_id": 36744,
+            "correct_answer": "Comment faire à manger à bon marché.",
+            "correct_option_id": 36743,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_10.webp",
+            "all_options": [
+                {
+                    "id": 36741,
+                    "text": "Comment acheter des produits congelés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36742,
+                    "text": "Comment cuisiner des recettes simples.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36743,
+                    "text": "Comment faire à manger à bon marché.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36744,
+                    "text": "Comment réaliser des plats originaux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2780,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Visiter un établissement scolaire étranger.",
+            "user_selected_option_id": 36748,
+            "correct_answer": "Gagner de l’argent pour leur séjour.",
+            "correct_option_id": 36745,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_11.webp",
+            "all_options": [
+                {
+                    "id": 36745,
+                    "text": "Gagner de l’argent pour leur séjour.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36746,
+                    "text": "Participer à une compétition sportive.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36747,
+                    "text": "Suivre un atelier de cuisine internationale.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36748,
+                    "text": "Visiter un établissement scolaire étranger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2781,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Une remise de 2 euros par article.",
+            "user_selected_option_id": 36752,
+            "correct_answer": "De l’aide pour une association.",
+            "correct_option_id": 36749,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_12.webp",
+            "all_options": [
+                {
+                    "id": 36749,
+                    "text": "De l’aide pour une association.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36750,
+                    "text": "De nouveaux rayons jouets.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36751,
+                    "text": "Un concours de jeux vidéo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36752,
+                    "text": "Une remise de 2 euros par article.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2782,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Leurs échanges perdent en efficacité.",
+            "user_selected_option_id": 36756,
+            "correct_answer": "Leur rendement au travail diminue.",
+            "correct_option_id": 36755,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_13.webp",
+            "all_options": [
+                {
+                    "id": 36753,
+                    "text": "Ils téléchargent des jeux sur leur poste.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36754,
+                    "text": "Ils trouvent difficilement des informations.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36755,
+                    "text": "Leur rendement au travail diminue.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36756,
+                    "text": "Leurs échanges perdent en efficacité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2783,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Elles ont la même famille adoptive.",
+            "user_selected_option_id": 36760,
+            "correct_answer": "Elles habitent dans le même pays.",
+            "correct_option_id": 36759,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_14.webp",
+            "all_options": [
+                {
+                    "id": 36757,
+                    "text": "Elles adorent utiliser Facebook.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36758,
+                    "text": "Elles enseignent dans la même école.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36759,
+                    "text": "Elles habitent dans le même pays.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36760,
+                    "text": "Elles ont la même famille adoptive.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2784,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "De vivre au calme et de se retrouver en famille.",
+            "user_selected_option_id": 36764,
+            "correct_answer": "De se reposer et de découvrir le milieu marin.",
+            "correct_option_id": 36763,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_15.webp",
+            "all_options": [
+                {
+                    "id": 36761,
+                    "text": "De faire du sport et de rencontrer des personnes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36762,
+                    "text": "De nager régulièrement et de manger du poisson.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36763,
+                    "text": "De se reposer et de découvrir le milieu marin.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36764,
+                    "text": "De vivre au calme et de se retrouver en famille.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2785,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "C’est une source de distraction en classe.",
+            "user_selected_option_id": 36768,
+            "correct_answer": "C’est un appui pédagogique supplémentaire.",
+            "correct_option_id": 36765,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_16.webp",
+            "all_options": [
+                {
+                    "id": 36765,
+                    "text": "C’est un appui pédagogique supplémentaire.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36766,
+                    "text": "C’est un réel facteur de cohésion de groupe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36767,
+                    "text": "C’est un simple moyen de communication.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36768,
+                    "text": "C’est une source de distraction en classe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2786,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Réserver une visite guidée.",
+            "user_selected_option_id": 36772,
+            "correct_answer": "Parler à des dessinateurs.",
+            "correct_option_id": 36770,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_17.webp",
+            "all_options": [
+                {
+                    "id": 36769,
+                    "text": "Lire des nouveautés en ligne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36770,
+                    "text": "Parler à des dessinateurs.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36771,
+                    "text": "Payer des entrées sur un site.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36772,
+                    "text": "Réserver une visite guidée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2787,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "La recherche de l’équilibre.",
+            "user_selected_option_id": 36776,
+            "correct_answer": "La quête du bonheur facile.",
+            "correct_option_id": 36775,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_18.webp",
+            "all_options": [
+                {
+                    "id": 36773,
+                    "text": "La crainte de la dépendance.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36774,
+                    "text": "Le désert affectif ambiant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36775,
+                    "text": "La quête du bonheur facile.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36776,
+                    "text": "La recherche de l’équilibre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2788,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Il raconte la rencontre entre Modiano et sa femme.",
+            "user_selected_option_id": 36780,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano.",
+            "correct_option_id": 36778,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_19.webp",
+            "all_options": [
+                {
+                    "id": 36777,
+                    "text": "Il cite un extrait d’une oeuvre de Modiano.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36778,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36779,
+                    "text": "Il présente le métier de Modiano à ses débuts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36780,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2789,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Parce qu’ils ne veulent plus être seuls.",
+            "user_selected_option_id": 36784,
+            "correct_answer": "Pour créer un lien entre générations.",
+            "correct_option_id": 36781,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36781,
+                    "text": "Pour créer un lien entre générations.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36782,
+                    "text": "Pour compléter leurs études.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36783,
+                    "text": "Pour améliorer leurs revenus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36784,
+                    "text": "Parce qu’ils ne veulent plus être seuls.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2790,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Une sortie au zoo.",
+            "user_selected_option_id": 36788,
+            "correct_answer": "Une activité de maquillage.",
+            "correct_option_id": 36786,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36785,
+                    "text": "Un spectacle de cirque.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36786,
+                    "text": "Une activité de maquillage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36787,
+                    "text": "Une rencontre avec un clown.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36788,
+                    "text": "Une sortie au zoo.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2791,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "De signaler sur les photos les modifications effectuées.",
+            "user_selected_option_id": 36792,
+            "correct_answer": "De signaler sur les photos les modifications effectuées.",
+            "correct_option_id": 36792,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_22.webp",
+            "all_options": [
+                {
+                    "id": 36789,
+                    "text": "D’interdire les photos portant atteinte à leur dignité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36790,
+                    "text": "De diversifier le type de femmes prises pour modèles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36791,
+                    "text": "De mentionner les références précises des produits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36792,
+                    "text": "De signaler sur les photos les modifications effectuées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2792,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Ses effets sont néfastes pour l’emploi.",
+            "user_selected_option_id": 36796,
+            "correct_answer": "Il influence la productivité des salariés.",
+            "correct_option_id": 36794,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_23.webp",
+            "all_options": [
+                {
+                    "id": 36793,
+                    "text": "C’est un phénomène mondial.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36794,
+                    "text": "Il influence la productivité des salariés.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36795,
+                    "text": "On peut facilement le repérer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36796,
+                    "text": "Ses effets sont néfastes pour l’emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2793,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "L’expansion de la concurrence internationale.",
+            "user_selected_option_id": 36800,
+            "correct_answer": "L’expansion de la concurrence internationale.",
+            "correct_option_id": 36800,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36797,
+                    "text": "La faible qualité de la production française.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36798,
+                    "text": "Le manque d’innovation dans son entreprise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36799,
+                    "text": "Les contraintes des contrôles financiers.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36800,
+                    "text": "L’expansion de la concurrence internationale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2794,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Il transforme l’organisation des rayons.",
+            "user_selected_option_id": 36804,
+            "correct_answer": "Il facilite la lecture des étiquettes.",
+            "correct_option_id": 36802,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_25.webp",
+            "all_options": [
+                {
+                    "id": 36801,
+                    "text": "Il est obligatoire sur les produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36802,
+                    "text": "Il facilite la lecture des étiquettes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36803,
+                    "text": "Il répond à une décision des fabricants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36804,
+                    "text": "Il transforme l’organisation des rayons.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2795,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Il suscite un fort engouement.",
+            "user_selected_option_id": 36808,
+            "correct_answer": "Il se propage imperceptiblement.",
+            "correct_option_id": 36807,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36805,
+                    "text": "la des effets encore inconnus.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36806,
+                    "text": "Il rallonge l’espérance de vie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36807,
+                    "text": "Il se propage imperceptiblement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36808,
+                    "text": "Il suscite un fort engouement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2796,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Montrer l’utilité du sport dans la résolution de conflits internationaux.",
+            "user_selected_option_id": 36812,
+            "correct_answer": "Décrire les rapports du sport et de la politique internationale.",
+            "correct_option_id": 36810,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36809,
+                    "text": "Critiquer l’engagement des sportifs en politique internationale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36810,
+                    "text": "Décrire les rapports du sport et de la politique internationale.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36811,
+                    "text": "Dénoncer l’utilisation de l’image des sportifs en diplomatie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36812,
+                    "text": "Montrer l’utilité du sport dans la résolution de conflits internationaux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2797,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Travailler sur soi-même.",
+            "user_selected_option_id": 36816,
+            "correct_answer": "Travailler sur soi-même.",
+            "correct_option_id": 36816,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36813,
+                    "text": "Commencer une thérapie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36814,
+                    "text": "Multiplier les passe-temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36815,
+                    "text": "Rechercher l’âme sœur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36816,
+                    "text": "Travailler sur soi-même.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2798,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Il varie selon la politique éducative des pays.",
+            "user_selected_option_id": 36820,
+            "correct_answer": "Il est indissociable de celui des savoirs.",
+            "correct_option_id": 36818,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_29.webp",
+            "all_options": [
+                {
+                    "id": 36817,
+                    "text": "Il doit intervenir dès le plus jeune âge.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36818,
+                    "text": "Il est indissociable de celui des savoirs.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36819,
+                    "text": "Il exige une formation solide des professeurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36820,
+                    "text": "Il varie selon la politique éducative des pays.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2799,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elles sont issues de techniques variées.",
+            "user_selected_option_id": 36824,
+            "correct_answer": "Elles sont issues de techniques variées.",
+            "correct_option_id": 36824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36821,
+                    "text": "Elles peuvent être touchées par le public.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36822,
+                    "text": "Elles répondent à une thématique unique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36823,
+                    "text": "Elles sont destinées à être recyclées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36824,
+                    "text": "Elles sont issues de techniques variées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2800,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "À l’enrichissement du lexique.",
+            "user_selected_option_id": 36828,
+            "correct_answer": "À l’enrichissement du lexique.",
+            "correct_option_id": 36828,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_31.webp",
+            "all_options": [
+                {
+                    "id": 36825,
+                    "text": "la protection de la biodiversité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36826,
+                    "text": "À la transmission de souvenirs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36827,
+                    "text": "À l’abolition des frontières.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36828,
+                    "text": "À l’enrichissement du lexique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2801,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+            "user_selected_option_id": 36832,
+            "correct_answer": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+            "correct_option_id": 36830,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36829,
+                    "text": "Aider les femmes à se battre pour améliorer leur situation familiale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36830,
+                    "text": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36831,
+                    "text": "Démontrer que la condition de la femme dans les cités est désastreuse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36832,
+                    "text": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2802,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Ils sont susceptibles de ressentir des émotions.",
+            "user_selected_option_id": 36836,
+            "correct_answer": "Ils sont capables de communiquer entre eux.",
+            "correct_option_id": 36834,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36833,
+                    "text": "Ils sont aptes à coloniser un territoire vierge.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36834,
+                    "text": "Ils sont capables de communiquer entre eux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36835,
+                    "text": "Ils sont en compétition pour leur croissance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36836,
+                    "text": "Ils sont susceptibles de ressentir des émotions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2803,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "D’être à l’origine de l’échec scolaire.",
+            "user_selected_option_id": 36840,
+            "correct_answer": "De satisfaire avant tout les adultes.",
+            "correct_option_id": 36839,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_34.webp",
+            "all_options": [
+                {
+                    "id": 36837,
+                    "text": "De laisser trop de temps à l’oisiveté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36838,
+                    "text": "De s’écarter du modèle éducatif légal.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36839,
+                    "text": "De satisfaire avant tout les adultes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36840,
+                    "text": "D’être à l’origine de l’échec scolaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2804,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "En se jouant des difficultés liées à l’écriture.",
+            "user_selected_option_id": 36844,
+            "correct_answer": "En abandonnant les codes traditionnels du roman.",
+            "correct_option_id": 36841,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_35.webp",
+            "all_options": [
+                {
+                    "id": 36841,
+                    "text": "En abandonnant les codes traditionnels du roman.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36842,
+                    "text": "En cherchant des sources d’inspiration inédites.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36843,
+                    "text": "En proposant de nouveaux concepts universels.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36844,
+                    "text": "En se jouant des difficultés liées à l’écriture.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2805,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle a modifié l’organisation du travail.",
+            "user_selected_option_id": 36848,
+            "correct_answer": "Elle a modifié l’organisation du travail.",
+            "correct_option_id": 36848,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_36.webp",
+            "all_options": [
+                {
+                    "id": 36845,
+                    "text": "Elle a accru la compétitivité industrielle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36846,
+                    "text": "Elle a amélioré les conditions de travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36847,
+                    "text": "Elle a enrayé la hausse du chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36848,
+                    "text": "Elle a modifié l’organisation du travail.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2806,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "user_selected_option_id": 36852,
+            "correct_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "correct_option_id": 36852,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_37.webp",
+            "all_options": [
+                {
+                    "id": 36849,
+                    "text": "Le coût social élevé de prise en charge des maladies génétiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36850,
+                    "text": "Le développement de traitements curatifs de pathologies génétiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36851,
+                    "text": "Le mode de financement de la recherche génétique fondamentale.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36852,
+                    "text": "Les dérives induites par l’amélioration du patrimoine génétique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2807,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Elle utilise des outils scientifiques peu fiables",
+            "user_selected_option_id": 36856,
+            "correct_answer": "Elle remet en cause les théories habituelles.",
+            "correct_option_id": 36854,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_38.webp",
+            "all_options": [
+                {
+                    "id": 36853,
+                    "text": "Elle plagie la doctrine d’un célèbre linguiste.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36854,
+                    "text": "Elle remet en cause les théories habituelles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36855,
+                    "text": "Elle soutient des hypothèses indémontrables.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36856,
+                    "text": "Elle utilise des outils scientifiques peu fiables",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2808,
+            "question_text": "Compréhension écrite – Quiz 36 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il s’émerveille de sa technologie.",
+            "user_selected_option_id": 36860,
+            "correct_answer": "Il s’inquiète de son usage abusif.",
+            "correct_option_id": 36859,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_36_question_39.webp",
+            "all_options": [
+                {
+                    "id": 36857,
+                    "text": "Il reconnaît ses aspects pratiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36858,
+                    "text": "Il remet en cause ses bienfaits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36859,
+                    "text": "Il s’inquiète de son usage abusif.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36860,
+                    "text": "Il s’émerveille de sa technologie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 28,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture de textes courts et simples",
+        "Compréhension du passé composé simple dans un texte"
+    ],
+    "improvements": [
+        "Travailler l'inférence et les sous-entendus",
+        "Compréhension du contexte au-delà du texte",
+        "Gestion de vocabulaire implicite",
+        "Compréhension de textes plus longs"
+    ],
+    "recommendations": [
+        "Lire des articles de niveau A2 (RFI, News in Slow French) 20 min/jour",
+        "Utiliser des fiches vocabulaire avec contexte",
+        "Pratiquer l'inférence: deviner le sens des mots inconnus",
+        "Lire et relire 3-4 textes par semaine",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 36",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

@@ -1,0 +1,1733 @@
+{
+    "id": 31338,
+    "exam_id": 75,
+    "score": 263.0,
+    "score_percent": 37.63,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-04-12T17:10:32.361275+00:00",
+    "time_spent": 2299,
+    "section_breakdown": {
+        "Identification": {
+            "score": 9.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 13.2,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 7.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 7.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2887,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "À une fête d’anniversaire.",
+            "user_selected_option_id": 37175,
+            "correct_answer": "À une fête d’anniversaire.",
+            "correct_option_id": 37175,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_1.webp",
+            "all_options": [
+                {
+                    "id": 37173,
+                    "text": "À un cours de pâtisserie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37174,
+                    "text": "À un déjeuner chez un ami.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37175,
+                    "text": "À une fête d’anniversaire.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37176,
+                    "text": "À une sortie en discothèque.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2888,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Le bus.",
+            "user_selected_option_id": 37177,
+            "correct_answer": "Le bus.",
+            "correct_option_id": 37177,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_2.webp",
+            "all_options": [
+                {
+                    "id": 37177,
+                    "text": "Le bus.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37178,
+                    "text": "Le métro.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37179,
+                    "text": "Le train.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37180,
+                    "text": "Le tramway.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2889,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Travailler à Bordeaux.",
+            "user_selected_option_id": 37184,
+            "correct_answer": "Travailler à Bordeaux.",
+            "correct_option_id": 37184,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_3.webp",
+            "all_options": [
+                {
+                    "id": 37181,
+                    "text": "Acheter une voiture.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37182,
+                    "text": "Aller chez Anthony.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37183,
+                    "text": "Faire des courses samedi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37184,
+                    "text": "Travailler à Bordeaux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2890,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De participer à un concours.",
+            "user_selected_option_id": 37186,
+            "correct_answer": "De participer à un concours.",
+            "correct_option_id": 37186,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 27,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_4.webp",
+            "all_options": [
+                {
+                    "id": 37185,
+                    "text": "D’acheter du matériel en soldes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37186,
+                    "text": "De participer à un concours.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37187,
+                    "text": "De rencontre des professionnels.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37188,
+                    "text": "De suivre des cours débutants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2891,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De participer à un événement sportif.",
+            "user_selected_option_id": 37192,
+            "correct_answer": "De participer à un événement sportif.",
+            "correct_option_id": 37192,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_5.webp",
+            "all_options": [
+                {
+                    "id": 37189,
+                    "text": "D’aider à organiser une fête.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37190,
+                    "text": "De devenir membre d’une association.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37191,
+                    "text": "De distribuer des repas gratuits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37192,
+                    "text": "De participer à un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2892,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De garder des enfants.",
+            "user_selected_option_id": 37195,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 37195,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_6.webp",
+            "all_options": [
+                {
+                    "id": 37193,
+                    "text": "D’écrire aux invités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37194,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37195,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37196,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2893,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour présenter des élèves.",
+            "user_selected_option_id": 37199,
+            "correct_answer": "Pour présenter des élèves.",
+            "correct_option_id": 37199,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_7.webp",
+            "all_options": [
+                {
+                    "id": 37197,
+                    "text": "Pour changer un horaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37198,
+                    "text": "Pour organiser une fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37199,
+                    "text": "Pour présenter des élèves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37200,
+                    "text": "Pour proposer une sortie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2894,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Ecrire un message.",
+            "user_selected_option_id": 37201,
+            "correct_answer": "Ecrire un message.",
+            "correct_option_id": 37201,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 32,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_8.webp",
+            "all_options": [
+                {
+                    "id": 37201,
+                    "text": "Ecrire un message.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37202,
+                    "text": "Prendre un billet d’avion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37203,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37204,
+                    "text": "S’inscrire à un jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2895,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De donner des cours.",
+            "user_selected_option_id": 37205,
+            "correct_answer": "De donner des cours.",
+            "correct_option_id": 37205,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_9.webp",
+            "all_options": [
+                {
+                    "id": 37205,
+                    "text": "De donner des cours.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37206,
+                    "text": "De garder des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37207,
+                    "text": "De rencontre des voisins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37208,
+                    "text": "De suivre des formations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2896,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "À noter les magasins.",
+            "user_selected_option_id": 37211,
+            "correct_answer": "À choisir ses produits.",
+            "correct_option_id": 37210,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_10.webp",
+            "all_options": [
+                {
+                    "id": 37209,
+                    "text": "À acheter sur internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37210,
+                    "text": "À choisir ses produits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37211,
+                    "text": "À noter les magasins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37212,
+                    "text": "A trouver des recettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2897,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Elle réunit les caractéristiques de deux continents.",
+            "user_selected_option_id": 37215,
+            "correct_answer": "Elle réunit les caractéristiques de deux continents.",
+            "correct_option_id": 37215,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 59,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_11.webp",
+            "all_options": [
+                {
+                    "id": 37213,
+                    "text": "C’est la destination préférée des touristes français.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37214,
+                    "text": "De plus en plus de jeunes souhaitent s’y installer.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37215,
+                    "text": "Elle réunit les caractéristiques de deux continents.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37216,
+                    "text": "On y entend des langues du monde entier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2898,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De faire un don.",
+            "user_selected_option_id": 37218,
+            "correct_answer": "De faire un don.",
+            "correct_option_id": 37218,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_12.webp",
+            "all_options": [
+                {
+                    "id": 37217,
+                    "text": "D’aider des malades.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37218,
+                    "text": "De faire un don.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37219,
+                    "text": "De s’informer à la mairie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37220,
+                    "text": "De travailler l’été.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2899,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "De libérer les lieux pendant les travaux.",
+            "user_selected_option_id": 37223,
+            "correct_answer": "De libérer les lieux pendant les travaux.",
+            "correct_option_id": 37223,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_13.webp",
+            "all_options": [
+                {
+                    "id": 37221,
+                    "text": "D’envoyer très rapidement le devis.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37222,
+                    "text": "D’interdire l’emploi de produits toxiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37223,
+                    "text": "De libérer les lieux pendant les travaux.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37224,
+                    "text": "De préciser la nature de l’intervention.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2900,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "La majorité des solariums ne respecte pas du tout la loi.",
+            "user_selected_option_id": 37226,
+            "correct_answer": "La majorité des solariums ne respecte pas du tout la loi.",
+            "correct_option_id": 37226,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 65,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_14.webp",
+            "all_options": [
+                {
+                    "id": 37225,
+                    "text": "Certains solariums font une discrimination anti-jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37226,
+                    "text": "La majorité des solariums ne respecte pas du tout la loi.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37227,
+                    "text": "La plupart des jeunes filles ignorent l’interdiction légale.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37228,
+                    "text": "La plupart des parents ignorent les dangers des solariums.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2901,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "D’assister à une réunion.",
+            "user_selected_option_id": 37229,
+            "correct_answer": "De suivre une formation.",
+            "correct_option_id": 37231,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_15.webp",
+            "all_options": [
+                {
+                    "id": 37229,
+                    "text": "D’assister à une réunion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37230,
+                    "text": "De participer à un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37231,
+                    "text": "De suivre une formation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37232,
+                    "text": "De travailler à l’étranger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2902,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De participer à un stage aventure.",
+            "user_selected_option_id": 37235,
+            "correct_answer": "De faire une visite originale.",
+            "correct_option_id": 37234,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 53,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_16.webp",
+            "all_options": [
+                {
+                    "id": 37233,
+                    "text": "De dormir en milieu naturel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37234,
+                    "text": "De faire une visite originale.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37235,
+                    "text": "De participer à un stage aventure.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37236,
+                    "text": "De passer la nuit dans un zoo.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2903,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Les bienfaits pour la santé.",
+            "user_selected_option_id": 37239,
+            "correct_answer": "La pression de la société.",
+            "correct_option_id": 37237,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 39,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_17.webp",
+            "all_options": [
+                {
+                    "id": 37237,
+                    "text": "La pression de la société.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37238,
+                    "text": "La réputation des clubs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37239,
+                    "text": "Les bienfaits pour la santé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37240,
+                    "text": "Les envies des adolescents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2904,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Mieux comprendre les préférences alimentaires des enfants.",
+            "user_selected_option_id": 37243,
+            "correct_answer": "Mieux comprendre les préférences alimentaires des enfants.",
+            "correct_option_id": 37243,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 86,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_18.webp",
+            "all_options": [
+                {
+                    "id": 37241,
+                    "text": "Corriger les mauvaises habitudes alimentaires des enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37242,
+                    "text": "Faire respecter la législation sur l’alimentation des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37243,
+                    "text": "Mieux comprendre les préférences alimentaires des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37244,
+                    "text": "Permettre aux enfants de découvrir de nouveaux aliments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2905,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Rappeler que le train permet de rallier toutes les villes.",
+            "user_selected_option_id": 37248,
+            "correct_answer": "Promouvoir d’autres offres commerciales de la SNCF.",
+            "correct_option_id": 37247,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 72,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_19.webp",
+            "all_options": [
+                {
+                    "id": 37245,
+                    "text": "Annoncer le lancement d’une nouvelle ligne ferroviaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37246,
+                    "text": "Faire patienter les usagers de la SNCF pendant leur trajet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37247,
+                    "text": "Promouvoir d’autres offres commerciales de la SNCF.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37248,
+                    "text": "Rappeler que le train permet de rallier toutes les villes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2906,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Le secret d’une bonne préparation.",
+            "user_selected_option_id": 37250,
+            "correct_answer": "Le secret d’une bonne préparation.",
+            "correct_option_id": 37250,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 44,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_20.webp",
+            "all_options": [
+                {
+                    "id": 37249,
+                    "text": "L’origine historique de la recette.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37250,
+                    "text": "Le secret d’une bonne préparation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37251,
+                    "text": "Les adresses où les consommer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37252,
+                    "text": "Les raisons de leur popularité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2907,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "1. Informer sur de nouvelles méthodes éducatives.",
+            "user_selected_option_id": 37253,
+            "correct_answer": "Présenter les relations familiales avec humour.",
+            "correct_option_id": 37255,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_21.webp",
+            "all_options": [
+                {
+                    "id": 37253,
+                    "text": "1. Informer sur de nouvelles méthodes éducatives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37254,
+                    "text": "Montrer la vie de tous les jours d’un jeune couple.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37255,
+                    "text": "Présenter les relations familiales avec humour.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37256,
+                    "text": "Proposer de solutions a des situations de crise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2908,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "C’est possible à la campagne.",
+            "user_selected_option_id": 37257,
+            "correct_answer": "C’est possible mais pénible.",
+            "correct_option_id": 37259,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 47,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_22.webp",
+            "all_options": [
+                {
+                    "id": 37257,
+                    "text": "C’est possible à la campagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37258,
+                    "text": "C’est possible avec du temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37259,
+                    "text": "C’est possible mais pénible.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37260,
+                    "text": "C’est possible pour tous.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2909,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Pour quitter leur entreprise plus tôt.",
+            "user_selected_option_id": 37264,
+            "correct_answer": "Pour donner une bonne image d’eux.",
+            "correct_option_id": 37262,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 115,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_23.webp",
+            "all_options": [
+                {
+                    "id": 37261,
+                    "text": "Pour améliorer leur situation financière.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37262,
+                    "text": "Pour donner une bonne image d’eux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37263,
+                    "text": "Pour exécuter les ordres de la direction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37264,
+                    "text": "Pour quitter leur entreprise plus tôt.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2910,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Parce que la majorité des pays invités en a fait la demande.",
+            "user_selected_option_id": 37265,
+            "correct_answer": "Parce que l’événement s’inscrit dans un principe d’universalité.",
+            "correct_option_id": 37268,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 58,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_24.webp",
+            "all_options": [
+                {
+                    "id": 37265,
+                    "text": "Parce que la majorité des pays invités en a fait la demande.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37266,
+                    "text": "Parce que la manifestation s’est centrée sur la région de Saint-Malo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37267,
+                    "text": "Parce que les partenaires ont réduit leurs subventions.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37268,
+                    "text": "Parce que l’événement s’inscrit dans un principe d’universalité.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2911,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les produits utilisés dans les cultures.",
+            "user_selected_option_id": 37272,
+            "correct_answer": "Les produits utilisés dans les cultures.",
+            "correct_option_id": 37272,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 67,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_25.webp",
+            "all_options": [
+                {
+                    "id": 37269,
+                    "text": "L’urbanisation galopante des campagnes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37270,
+                    "text": "La faible étendue des réserves écologiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37271,
+                    "text": "Le dérèglement climatique de la planète.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37272,
+                    "text": "Les produits utilisés dans les cultures.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2912,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Le cadre de l’entreprise influe sur le moral des salariés.",
+            "user_selected_option_id": 37275,
+            "correct_answer": "La bonne humeur garantit de meilleures performances.",
+            "correct_option_id": 37274,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 123,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_26.webp",
+            "all_options": [
+                {
+                    "id": 37273,
+                    "text": "L’esprit d’équipe est la clé de la réussite professionnelle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37274,
+                    "text": "La bonne humeur garantit de meilleures performances.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37275,
+                    "text": "Le cadre de l’entreprise influe sur le moral des salariés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37276,
+                    "text": "Les primes contribuent à la motivation du personnel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2913,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "L’usage du produit promu par la publicité était illicite.",
+            "user_selected_option_id": 37280,
+            "correct_answer": "Le message véhiculé par la publicité était inacceptable.",
+            "correct_option_id": 37279,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 53,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_27.webp",
+            "all_options": [
+                {
+                    "id": 37277,
+                    "text": "L’image proposée par la publicité nuisait au fabricant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37278,
+                    "text": "Le produit vendu par la publicité était nocif pour la santé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37279,
+                    "text": "Le message véhiculé par la publicité était inacceptable.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37280,
+                    "text": "L’usage du produit promu par la publicité était illicite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2914,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Ils améliorent leurs résultats dans toutes les matières.",
+            "user_selected_option_id": 37281,
+            "correct_answer": "Ils s’impliquent de façon responsable dans les cours.",
+            "correct_option_id": 37283,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 66,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_28.webp",
+            "all_options": [
+                {
+                    "id": 37281,
+                    "text": "Ils améliorent leurs résultats dans toutes les matières.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37282,
+                    "text": "Ils regrettent le manque de possibilités d’échanges.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37283,
+                    "text": "Ils s’impliquent de façon responsable dans les cours.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37284,
+                    "text": "Ils sont de plus en plus nombreux à choisir ce système.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2915,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Comme une appréciation déguisée.",
+            "user_selected_option_id": 37287,
+            "correct_answer": "Comme une incitation à l’action.",
+            "correct_option_id": 37288,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 81,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_29.webp",
+            "all_options": [
+                {
+                    "id": 37285,
+                    "text": "Comme un défaut d’honnêteté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37286,
+                    "text": "Comme un manque de confiance.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37287,
+                    "text": "Comme une appréciation déguisée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37288,
+                    "text": "Comme une incitation à l’action.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2916,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Prévenir une cliente qu’elle devra payer 20 euros de frais d’envoi.",
+            "user_selected_option_id": 37292,
+            "correct_answer": "Demander à une cliente de payer l’intégralité de sa commande.",
+            "correct_option_id": 37289,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_30.webp",
+            "all_options": [
+                {
+                    "id": 37289,
+                    "text": "Demander à une cliente de payer l’intégralité de sa commande.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37290,
+                    "text": "Prévenir une cliente que sa commande sera livrée en retard.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37291,
+                    "text": "Confirmer à une cliente que sa commande a bien été expédiée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37292,
+                    "text": "Prévenir une cliente qu’elle devra payer 20 euros de frais d’envoi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2917,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Sur la pollution atmosphérique.",
+            "user_selected_option_id": 37295,
+            "correct_answer": "Sur la pollution atmosphérique.",
+            "correct_option_id": 37295,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_31.webp",
+            "all_options": [
+                {
+                    "id": 37293,
+                    "text": "Sur l’industrie des bois rares.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37294,
+                    "text": "Sur la démographie dans ces zones.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37295,
+                    "text": "Sur la pollution atmosphérique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37296,
+                    "text": "Sur la progression des cultures tropicales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2918,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Le dosage des produits chimiques dans les aliments.",
+            "user_selected_option_id": 37297,
+            "correct_answer": "Les arguments hypocrites avancés par les fabricants.",
+            "correct_option_id": 37299,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 90,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_32.webp",
+            "all_options": [
+                {
+                    "id": 37297,
+                    "text": "Le dosage des produits chimiques dans les aliments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37298,
+                    "text": "Le manque de lisibilité des étiquettes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37299,
+                    "text": "Les arguments hypocrites avancés par les fabricants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37300,
+                    "text": "Les conséquences sanitaires des ajouts.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2919,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il décuple l’ensemble des aptitudes cérébrales.",
+            "user_selected_option_id": 37302,
+            "correct_answer": "C’est un handicap qui peut se transformer en atout.",
+            "correct_option_id": 37301,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_33.webp",
+            "all_options": [
+                {
+                    "id": 37301,
+                    "text": "C’est un handicap qui peut se transformer en atout.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37302,
+                    "text": "Il décuple l’ensemble des aptitudes cérébrales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37303,
+                    "text": "Il est officiellement reconnu comme une maladie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37304,
+                    "text": "Ses effets touchent plus particulièrement les seniors.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2920,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L’idée de démocratie est aujourd’hui plus controversée qu’avant.",
+            "user_selected_option_id": 37305,
+            "correct_answer": "La mise en place de la démocratie résulte d’un long processus.",
+            "correct_option_id": 37307,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 103,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_34.webp",
+            "all_options": [
+                {
+                    "id": 37305,
+                    "text": "L’idée de démocratie est aujourd’hui plus controversée qu’avant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37306,
+                    "text": "La démocratie est affaiblie par la diversité de ses formes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37307,
+                    "text": "La mise en place de la démocratie résulte d’un long processus.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37308,
+                    "text": "Les fondements théoriques de la démocratie sont utopiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2921,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Ils se détériorent après un certain temps.",
+            "user_selected_option_id": 37309,
+            "correct_answer": "Ils se détériorent après un certain temps.",
+            "correct_option_id": 37309,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_35.webp",
+            "all_options": [
+                {
+                    "id": 37309,
+                    "text": "Ils se détériorent après un certain temps.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37310,
+                    "text": "Ils sont dangereux pour la santé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37311,
+                    "text": "Ils sont nuisibles pour l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37312,
+                    "text": "Ils sont vendus à des prix élevés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2922,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Son engouement pour la nature.",
+            "user_selected_option_id": 37315,
+            "correct_answer": "La singularité de ses portraits.",
+            "correct_option_id": 37314,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 57,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_36.webp",
+            "all_options": [
+                {
+                    "id": 37313,
+                    "text": "L’influence de ses contemporains.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37314,
+                    "text": "La singularité de ses portraits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37315,
+                    "text": "Son engouement pour la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37316,
+                    "text": "Son travail post-impressionniste.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2923,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle a modifié l’organisation du travail.",
+            "user_selected_option_id": 37320,
+            "correct_answer": "Elle a modifié l’organisation du travail.",
+            "correct_option_id": 37320,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 87,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_37.webp",
+            "all_options": [
+                {
+                    "id": 37317,
+                    "text": "Elle a accru la compétitivité industrielle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37318,
+                    "text": "Elle a amélioré les conditions de travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37319,
+                    "text": "Elle a enrayé la hausse du chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37320,
+                    "text": "Elle a modifié l’organisation du travail.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2924,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "La nocivité des écrans sur le développement des enfants.",
+            "user_selected_option_id": 37323,
+            "correct_answer": "La multiplication des sources d’information.",
+            "correct_option_id": 37322,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 55,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_38.webp",
+            "all_options": [
+                {
+                    "id": 37321,
+                    "text": "La dégradation des relations sociales à cause d’Internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37322,
+                    "text": "La multiplication des sources d’information.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37323,
+                    "text": "La nocivité des écrans sur le développement des enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37324,
+                    "text": "La recrudescence d’informations mensongères.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2925,
+            "question_text": "Compréhension écrite – Quiz 39 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il ouvre la voie à de prochaines réalisations.",
+            "user_selected_option_id": 37328,
+            "correct_answer": "Il fait connaître les travaux d’un écrivain.",
+            "correct_option_id": 37327,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 89,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_39_question_39.webp",
+            "all_options": [
+                {
+                    "id": 37325,
+                    "text": "Il constitue une création artistique novatrice.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37326,
+                    "text": "Il établit des ponts avec d’autres auteurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37327,
+                    "text": "Il fait connaître les travaux d’un écrivain.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37328,
+                    "text": "Il ouvre la voie à de prochaines réalisations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 37,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture de textes courts et simples",
+        "Compréhension du passé composé simple dans un texte"
+    ],
+    "improvements": [
+        "Travailler l'inférence et les sous-entendus",
+        "Compréhension du contexte au-delà du texte",
+        "Gestion de vocabulaire implicite",
+        "Compréhension de textes plus longs"
+    ],
+    "recommendations": [
+        "Lire des articles de niveau A2 (RFI, News in Slow French) 20 min/jour",
+        "Utiliser des fiches vocabulaire avec contexte",
+        "Pratiquer l'inférence: deviner le sens des mots inconnus",
+        "Lire et relire 3-4 textes par semaine",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 39",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

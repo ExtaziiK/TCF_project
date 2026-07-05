@@ -1,0 +1,1733 @@
+{
+    "id": 40098,
+    "exam_id": 66,
+    "score": 190.0,
+    "score_percent": 27.18,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:57:21.581881+00:00",
+    "time_spent": 71,
+    "section_breakdown": {
+        "Identification": {
+            "score": 6.8,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 9.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 5.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2536,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Pour réserver une place dans un camping",
+            "user_selected_option_id": 35772,
+            "correct_answer": "Pour raconter son séjour en Bretagne.",
+            "correct_option_id": 35770,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_1.webp",
+            "all_options": [
+                {
+                    "id": 35769,
+                    "text": "Pour proposer une promenade en bateau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35770,
+                    "text": "Pour raconter son séjour en Bretagne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35771,
+                    "text": "Pour répondre à son cousin Benjamin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35772,
+                    "text": "Pour réserver une place dans un camping",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2537,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "20 euros.",
+            "user_selected_option_id": 35776,
+            "correct_answer": "16 euros.",
+            "correct_option_id": 35775,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_2.webp",
+            "all_options": [
+                {
+                    "id": 35773,
+                    "text": "9 euros.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35774,
+                    "text": "12,50 euros.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35775,
+                    "text": "16 euros.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35776,
+                    "text": "20 euros.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2538,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Elle prend un rendez-vous.",
+            "user_selected_option_id": 35780,
+            "correct_answer": "Elle informe une cliente.",
+            "correct_option_id": 35779,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_3.webp",
+            "all_options": [
+                {
+                    "id": 35777,
+                    "text": "Elle cherche une vendeuse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35778,
+                    "text": "Elle demande un renseignement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35779,
+                    "text": "Elle informe une cliente.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35780,
+                    "text": "Elle prend un rendez-vous.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2539,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "La télévision.",
+            "user_selected_option_id": 35784,
+            "correct_answer": "La télévision.",
+            "correct_option_id": 35784,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35781,
+                    "text": "L’Internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35782,
+                    "text": "La presse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35783,
+                    "text": "La radio.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35784,
+                    "text": "La télévision.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2540,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De participer à un événement sportif.",
+            "user_selected_option_id": 35788,
+            "correct_answer": "De participer à un événement sportif.",
+            "correct_option_id": 35788,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_5.webp",
+            "all_options": [
+                {
+                    "id": 35785,
+                    "text": "D’aider à organiser une fête.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35786,
+                    "text": "De devenir membre d’une association.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35787,
+                    "text": "De distribuer des repas gratuits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35788,
+                    "text": "De participer à un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2541,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Réparer de vieilles bicyclettes.",
+            "user_selected_option_id": 35792,
+            "correct_answer": "Donner un vélo à des élèves.",
+            "correct_option_id": 35790,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_6.webp",
+            "all_options": [
+                {
+                    "id": 35789,
+                    "text": "Aider des familles en difficulté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35790,
+                    "text": "Donner un vélo à des élèves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35791,
+                    "text": "Ouvrir de nouveaux collèges.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35792,
+                    "text": "Réparer de vieilles bicyclettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2542,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "De visiter de nouveaux logements.",
+            "user_selected_option_id": 35796,
+            "correct_answer": "De faire un repas entre voisins.",
+            "correct_option_id": 35794,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_7.webp",
+            "all_options": [
+                {
+                    "id": 35793,
+                    "text": "De cuisiner tous ensemble.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35794,
+                    "text": "De faire un repas entre voisins.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35795,
+                    "text": "De s’inscrire à des activités.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35796,
+                    "text": "De visiter de nouveaux logements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2543,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Ils vont les voir dans les zoos.",
+            "user_selected_option_id": 35800,
+            "correct_answer": "Ils sont nombreux à en avoir.",
+            "correct_option_id": 35799,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_8.webp",
+            "all_options": [
+                {
+                    "id": 35797,
+                    "text": "Ils aiment en voir dans la nature.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35798,
+                    "text": "Ils les regardent à la télévision.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35799,
+                    "text": "Ils sont nombreux à en avoir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35800,
+                    "text": "Ils vont les voir dans les zoos.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2544,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Pour préparer son voyage.",
+            "user_selected_option_id": 35804,
+            "correct_answer": "Pour organiser leur journée de travail.",
+            "correct_option_id": 35803,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_9.webp",
+            "all_options": [
+                {
+                    "id": 35801,
+                    "text": "Pour lui annoncer un projet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35802,
+                    "text": "Pour lui présenter un nouveau produit.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35803,
+                    "text": "Pour organiser leur journée de travail.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35804,
+                    "text": "Pour préparer son voyage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2545,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "On y donne des cours de cuisine.",
+            "user_selected_option_id": 35808,
+            "correct_answer": "Beaucoup de personnes le visitent.",
+            "correct_option_id": 35805,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_10.webp",
+            "all_options": [
+                {
+                    "id": 35805,
+                    "text": "Beaucoup de personnes le visitent.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35806,
+                    "text": "Il vend des articles bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35807,
+                    "text": "Il y a un célèbre musée à l’intérieur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35808,
+                    "text": "On y donne des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2546,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De passer une nuit sous la tente.",
+            "user_selected_option_id": 35812,
+            "correct_answer": "De dormir au milieu de la nature.",
+            "correct_option_id": 35809,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35809,
+                    "text": "De dormir au milieu de la nature.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35810,
+                    "text": "De faire un parcours dans les arbres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35811,
+                    "text": "De participer à une aventure sportive.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35812,
+                    "text": "De passer une nuit sous la tente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2547,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Elle enrichit la personnalité.",
+            "user_selected_option_id": 35816,
+            "correct_answer": "Elle est bonne pour la santé.",
+            "correct_option_id": 35813,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_12.webp",
+            "all_options": [
+                {
+                    "id": 35813,
+                    "text": "Elle est bonne pour la santé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35814,
+                    "text": "Elle facilite la socialisation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35815,
+                    "text": "Elle développe la mémoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35816,
+                    "text": "Elle enrichit la personnalité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2548,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Recevoir sans frais des produits d’essai.",
+            "user_selected_option_id": 35820,
+            "correct_answer": "Faire ses courses plus rapidement.",
+            "correct_option_id": 35819,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35817,
+                    "text": "Avoir des réductions sur certains produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35818,
+                    "text": "Bénéficier de facilités de paiement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35819,
+                    "text": "Faire ses courses plus rapidement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35820,
+                    "text": "Recevoir sans frais des produits d’essai.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2549,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Elles suivent des traitements coûteux.",
+            "user_selected_option_id": 35824,
+            "correct_answer": "Elles ont besoin d’accompagnement.",
+            "correct_option_id": 35821,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35821,
+                    "text": "Elles ont besoin d’accompagnement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35822,
+                    "text": "Elles ont peur de quitter leur logement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35823,
+                    "text": "Elles souffrent de grande solitude.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35824,
+                    "text": "Elles suivent des traitements coûteux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2550,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Jouer dans un film.",
+            "user_selected_option_id": 35828,
+            "correct_answer": "Goûter des recettes.",
+            "correct_option_id": 35827,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_15.webp",
+            "all_options": [
+                {
+                    "id": 35825,
+                    "text": "Écouter des chansons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35826,
+                    "text": "Gagner des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35827,
+                    "text": "Goûter des recettes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35828,
+                    "text": "Jouer dans un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2551,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Retirer de l’argent à un distributeur.",
+            "user_selected_option_id": 35832,
+            "correct_answer": "Faire des courses dans un magasin.",
+            "correct_option_id": 35830,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35829,
+                    "text": "Avoir des réductions sur certains articles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35830,
+                    "text": "Faire des courses dans un magasin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35831,
+                    "text": "Offrir une surprise pour un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35832,
+                    "text": "Retirer de l’argent à un distributeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2552,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle tente d’imiter sa voisine.",
+            "user_selected_option_id": 35836,
+            "correct_answer": "Elle abrite une vie animée.",
+            "correct_option_id": 35833,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35833,
+                    "text": "Elle abrite une vie animée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35834,
+                    "text": "Elle perpétue des traditions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35835,
+                    "text": "Elle se préserve du tourisme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35836,
+                    "text": "Elle tente d’imiter sa voisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2553,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Les spectateurs privilégient les créations classiques.",
+            "user_selected_option_id": 35840,
+            "correct_answer": "Les producteurs évitent de prendre des risques.",
+            "correct_option_id": 35837,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35837,
+                    "text": "Les producteurs évitent de prendre des risques.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35838,
+                    "text": "Les réalisateurs sont à la recherche d’idées neuves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35839,
+                    "text": "Les scénaristes font preuve d’une imagination limitée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35840,
+                    "text": "Les spectateurs privilégient les créations classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2554,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "De le faire davantage connaître.",
+            "user_selected_option_id": 35844,
+            "correct_answer": "De lutter contre les imitations.",
+            "correct_option_id": 35841,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_19.webp",
+            "all_options": [
+                {
+                    "id": 35841,
+                    "text": "De lutter contre les imitations.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35842,
+                    "text": "D’en accroître la production.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35843,
+                    "text": "De développer sa saveur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35844,
+                    "text": "De le faire davantage connaître.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2555,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Elle va provoquer la disparition de langues minoritaires.",
+            "user_selected_option_id": 35848,
+            "correct_answer": "Elle peut perdre son statut de langue dominante.",
+            "correct_option_id": 35846,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_20.webp",
+            "all_options": [
+                {
+                    "id": 35845,
+                    "text": "Elle doit devenir la langue de l’administration publique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35846,
+                    "text": "Elle peut perdre son statut de langue dominante.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35847,
+                    "text": "Elle restera la langue privilégiée dans le commerce.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35848,
+                    "text": "Elle va provoquer la disparition de langues minoritaires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2556,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Une perte de spontanéité des matchs.",
+            "user_selected_option_id": 35852,
+            "correct_answer": "Une perte de spontanéité des matchs.",
+            "correct_option_id": 35852,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_21.webp",
+            "all_options": [
+                {
+                    "id": 35849,
+                    "text": "Un manque d’intérêt du grand public.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35850,
+                    "text": "Un risque de déconcentration des joueurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35851,
+                    "text": "Une moindre crédibilité des arbitres.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35852,
+                    "text": "Une perte de spontanéité des matchs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2557,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Tenter une nouvelle aventure.",
+            "user_selected_option_id": 35856,
+            "correct_answer": "Tenter une nouvelle aventure.",
+            "correct_option_id": 35856,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_22.webp",
+            "all_options": [
+                {
+                    "id": 35853,
+                    "text": "Accéder à la propriété privée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35854,
+                    "text": "Avoir un mode de vie économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35855,
+                    "text": "Participer à la vie associative.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35856,
+                    "text": "Tenter une nouvelle aventure.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2558,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Parce qu’ils ont hiberné plus longtemps.",
+            "user_selected_option_id": 35860,
+            "correct_answer": "Parce que les larves ont beaucoup mangé.",
+            "correct_option_id": 35859,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_23.webp",
+            "all_options": [
+                {
+                    "id": 35857,
+                    "text": "Parce qu’il y a eu des pluies importantes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35858,
+                    "text": "Parce que les femelles ont moins pondu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35859,
+                    "text": "Parce que les larves ont beaucoup mangé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35860,
+                    "text": "Parce qu’ils ont hiberné plus longtemps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2559,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Leur pouvoir d’achat est garanti dans les pays industrialisés.",
+            "user_selected_option_id": 35864,
+            "correct_answer": "La réforme des retraites influencera leurs comportements.",
+            "correct_option_id": 35863,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_24.webp",
+            "all_options": [
+                {
+                    "id": 35861,
+                    "text": "Ils font preuve de solidarité économique avec les autres générations.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35862,
+                    "text": "Ils sont à l’origine d’une part significative de l’épargne des banques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35863,
+                    "text": "La réforme des retraites influencera leurs comportements.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35864,
+                    "text": "Leur pouvoir d’achat est garanti dans les pays industrialisés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2560,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "À une simulation de mission spatiale.",
+            "user_selected_option_id": 35868,
+            "correct_answer": "À une simulation de mission spatiale.",
+            "correct_option_id": 35868,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_25.webp",
+            "all_options": [
+                {
+                    "id": 35865,
+                    "text": "À un vol interstellaire vers une planète lointaine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35866,
+                    "text": "À une expérience d’autosuffisance alimentaire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35867,
+                    "text": "À une exploration de cratères de volcans.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35868,
+                    "text": "À une simulation de mission spatiale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2561,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "On ignore comment elles ont été réalisées.",
+            "user_selected_option_id": 35872,
+            "correct_answer": "On ignore comment elles ont été réalisées.",
+            "correct_option_id": 35872,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_26.webp",
+            "all_options": [
+                {
+                    "id": 35869,
+                    "text": "Ce sont des reproductions de qualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35870,
+                    "text": "Elles sont parfaitement conservées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35871,
+                    "text": "Leur transfert dans un musée est en cours.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35872,
+                    "text": "On ignore comment elles ont été réalisées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2562,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Cela évite le bruit constant des tondeuses dans la ville.",
+            "user_selected_option_id": 35876,
+            "correct_answer": "Cela favorise l’intégration de nouvelles espèces et est bon pour l’écosystème.",
+            "correct_option_id": 35874,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_27.webp",
+            "all_options": [
+                {
+                    "id": 35873,
+                    "text": "Cela réduit les coûts d’entretien des espaces verts.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35874,
+                    "text": "Cela favorise l’intégration de nouvelles espèces et est bon pour l’écosystème.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35875,
+                    "text": "C’est plus esthétique pour les visiteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35876,
+                    "text": "Cela évite le bruit constant des tondeuses dans la ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2563,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Respecter les textes au mot près.",
+            "user_selected_option_id": 35880,
+            "correct_answer": "Interpréter certains rôles.",
+            "correct_option_id": 35878,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_28.webp",
+            "all_options": [
+                {
+                    "id": 35877,
+                    "text": "Choisir les bons scénarios.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35878,
+                    "text": "Interpréter certains rôles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35879,
+                    "text": "Obéir aux directives du réalisateur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35880,
+                    "text": "Respecter les textes au mot près.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2564,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Vulgariser des techniques de rendement des terres.",
+            "user_selected_option_id": 35884,
+            "correct_answer": "Démontrer les dégâts des méthodes de culture intensive.",
+            "correct_option_id": 35881,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_29.webp",
+            "all_options": [
+                {
+                    "id": 35881,
+                    "text": "Démontrer les dégâts des méthodes de culture intensive.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35882,
+                    "text": "Prouver l’efficacité des insectes contre les parasites.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35883,
+                    "text": "Recommander des procédés de gestion durable de l’eau.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35884,
+                    "text": "Vulgariser des techniques de rendement des terres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2565,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils semblent perdus dans le labyrinthe des rayons.",
+            "user_selected_option_id": 35888,
+            "correct_answer": "Ils paraissent manipulés par une force supérieure.",
+            "correct_option_id": 35887,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_30.webp",
+            "all_options": [
+                {
+                    "id": 35885,
+                    "text": "Ils donnent l’impression de vénérer les produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35886,
+                    "text": "Ils ont l’air éblouis par le gigantisme des magasins.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35887,
+                    "text": "Ils paraissent manipulés par une force supérieure.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35888,
+                    "text": "Ils semblent perdus dans le labyrinthe des rayons.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2566,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Ils tiennent à la stabilité de l’emploi.",
+            "user_selected_option_id": 35892,
+            "correct_answer": "Ils bouleversent les rapports d’autorité.",
+            "correct_option_id": 35889,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_31.webp",
+            "all_options": [
+                {
+                    "id": 35889,
+                    "text": "Ils bouleversent les rapports d’autorité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35890,
+                    "text": "Ils évitent les postes à responsabilité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35891,
+                    "text": "Ils sont moins motivés que leurs ainés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35892,
+                    "text": "Ils tiennent à la stabilité de l’emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2567,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Sensibiliser à l’égalité des sexes.",
+            "user_selected_option_id": 35896,
+            "correct_answer": "Encourager le dialogue avec le public.",
+            "correct_option_id": 35893,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_32.webp",
+            "all_options": [
+                {
+                    "id": 35893,
+                    "text": "Encourager le dialogue avec le public.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35894,
+                    "text": "Former des acteurs en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35895,
+                    "text": "Réaliser une œuvre à plusieurs mains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35896,
+                    "text": "Sensibiliser à l’égalité des sexes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2568,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Ils sont susceptibles de ressentir des émotions.",
+            "user_selected_option_id": 35900,
+            "correct_answer": "Ils sont capables de communiquer entre eux.",
+            "correct_option_id": 35898,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_33.webp",
+            "all_options": [
+                {
+                    "id": 35897,
+                    "text": "Ils sont aptes à coloniser un territoire vierge.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35898,
+                    "text": "Ils sont capables de communiquer entre eux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35899,
+                    "text": "Ils sont en compétition pour leur croissance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35900,
+                    "text": "Ils sont susceptibles de ressentir des émotions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2569,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Restaurer d’anciens bâtiments.",
+            "user_selected_option_id": 35904,
+            "correct_answer": "Former les spécialistes du secteur.",
+            "correct_option_id": 35902,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_34.webp",
+            "all_options": [
+                {
+                    "id": 35901,
+                    "text": "Convaincre la clientèle ciblée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35902,
+                    "text": "Former les spécialistes du secteur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35903,
+                    "text": "Rentabiliser les projets à venir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35904,
+                    "text": "Restaurer d’anciens bâtiments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2570,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Si c’est le fruit d’une décision personnelle.",
+            "user_selected_option_id": 35908,
+            "correct_answer": "Si c’est le fruit d’une décision personnelle.",
+            "correct_option_id": 35908,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_35.webp",
+            "all_options": [
+                {
+                    "id": 35905,
+                    "text": "Si c’est une occasion d’élargir son réseau social.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35906,
+                    "text": "Si c’est une opportunité de changer de mode de vie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35907,
+                    "text": "Si c’est une possibilité de trouver un emploi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35908,
+                    "text": "Si c’est le fruit d’une décision personnelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2571,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle a modifié l’organisation du travail.",
+            "user_selected_option_id": 35912,
+            "correct_answer": "Elle a modifié l’organisation du travail.",
+            "correct_option_id": 35912,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_36.webp",
+            "all_options": [
+                {
+                    "id": 35909,
+                    "text": "Elle a accru la compétitivité industrielle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35910,
+                    "text": "Elle a amélioré les conditions de travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35911,
+                    "text": "Elle a enrayé la hausse du chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35912,
+                    "text": "Elle a modifié l’organisation du travail.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2572,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il renforce le mythe de la bataille de Bouvines.",
+            "user_selected_option_id": 35916,
+            "correct_answer": "Il explore la construction identitaire des Français.",
+            "correct_option_id": 35915,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_37.webp",
+            "all_options": [
+                {
+                    "id": 35913,
+                    "text": "Il analyse l’établissement d’une dynastie royale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35914,
+                    "text": "Il explique l’origine d’une légende médiévale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35915,
+                    "text": "Il explore la construction identitaire des Français.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35916,
+                    "text": "Il renforce le mythe de la bataille de Bouvines.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2573,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’émancipation des héros au cours du récit.",
+            "user_selected_option_id": 35920,
+            "correct_answer": "L’émancipation des héros au cours du récit.",
+            "correct_option_id": 35920,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_38.webp",
+            "all_options": [
+                {
+                    "id": 35917,
+                    "text": "L’alternance entre le comique et le drame.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35918,
+                    "text": "L’atmosphère énigmatique et inquiétante.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35919,
+                    "text": "La présentation de particularités régionales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35920,
+                    "text": "L’émancipation des héros au cours du récit.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2574,
+            "question_text": "Compréhension écrite – Quiz 30 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Elle affirme que les savoirs sont moins importants pour la compétitivité des entreprises que les ressources matérielles.",
+            "user_selected_option_id": 35924,
+            "correct_answer": "Elle souligne la complexité de gérer une chose aussi insaisissable que le savoir tout en reconnaissant son importance pour la compétitivité des entreprises.",
+            "correct_option_id": 35923,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_30_question_39.webp",
+            "all_options": [
+                {
+                    "id": 35921,
+                    "text": "Elle évoque la facilité de contrôle des savoirs comparativement aux ressources matérielles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35922,
+                    "text": "Elle suggère que les savoirs peuvent être facilement dirigés et contraints dans des règles standard.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35923,
+                    "text": "Elle souligne la complexité de gérer une chose aussi insaisissable que le savoir tout en reconnaissant son importance pour la compétitivité des entreprises.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35924,
+                    "text": "Elle affirme que les savoirs sont moins importants pour la compétitivité des entreprises que les ressources matérielles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 27,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 30",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

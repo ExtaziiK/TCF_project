@@ -1,0 +1,1732 @@
+{
+    "id": 39987,
+    "exam_id": 8,
+    "score": 690.0,
+    "score_percent": 98.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-04T10:14:49.922897+00:00",
+    "time_spent": 1105,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 274,
+            "question_text": "Compréhension orale – Quiz 8 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D",
+            "user_selected_option_id": 14556,
+            "correct_answer": "D",
+            "correct_option_id": 14556,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_8_question_1.webp",
+            "all_options": [
+                {
+                    "id": 14553,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14554,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14555,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14556,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 275,
+            "question_text": "Compréhension orale – Quiz 8 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "C",
+            "user_selected_option_id": 14559,
+            "correct_answer": "C",
+            "correct_option_id": 14559,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_8_question_2.webp",
+            "all_options": [
+                {
+                    "id": 14557,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14558,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14559,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14560,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 276,
+            "question_text": "Compréhension orale – Quiz 8 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "C",
+            "user_selected_option_id": 14563,
+            "correct_answer": "C",
+            "correct_option_id": 14563,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_3.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_8_question_3.webp",
+            "all_options": [
+                {
+                    "id": 14561,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14562,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14563,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14564,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 277,
+            "question_text": "Compréhension orale – Quiz 8 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "A",
+            "user_selected_option_id": 14565,
+            "correct_answer": "A",
+            "correct_option_id": 14565,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_4.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_8_question_4.webp",
+            "all_options": [
+                {
+                    "id": 14565,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14566,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14567,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14568,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 278,
+            "question_text": "Compréhension orale – Quiz 8 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "C",
+            "user_selected_option_id": 14571,
+            "correct_answer": "C",
+            "correct_option_id": 14571,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_5.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_8_question_5.webp",
+            "all_options": [
+                {
+                    "id": 14569,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14570,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14571,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14572,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 279,
+            "question_text": "Compréhension orale – Quiz 8 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "C",
+            "user_selected_option_id": 14575,
+            "correct_answer": "C",
+            "correct_option_id": 14575,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 23,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14573,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14574,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14575,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14576,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 280,
+            "question_text": "Compréhension orale – Quiz 8 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "C",
+            "user_selected_option_id": 14579,
+            "correct_answer": "C",
+            "correct_option_id": 14579,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 32,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14577,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14578,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14579,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14580,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 281,
+            "question_text": "Compréhension orale – Quiz 8 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "B",
+            "user_selected_option_id": 14582,
+            "correct_answer": "B",
+            "correct_option_id": 14582,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14581,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14582,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14583,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14584,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 282,
+            "question_text": "Compréhension orale – Quiz 8 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "A",
+            "user_selected_option_id": 14585,
+            "correct_answer": "A",
+            "correct_option_id": 14585,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14585,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14586,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14587,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14588,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 283,
+            "question_text": "Compréhension orale – Quiz 8 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "A",
+            "user_selected_option_id": 14589,
+            "correct_answer": "A",
+            "correct_option_id": 14589,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 27,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14589,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14590,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14591,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14592,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 284,
+            "question_text": "Compréhension orale – Quiz 8 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Il sera en vacances.",
+            "user_selected_option_id": 14596,
+            "correct_answer": "Il sera en vacances.",
+            "correct_option_id": 14596,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14593,
+                    "text": "Il aura la visite de sa famille.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14594,
+                    "text": "Il fera une compétition.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14595,
+                    "text": "Il pourra travailler au calme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14596,
+                    "text": "Il sera en vacances.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 285,
+            "question_text": "Compréhension orale – Quiz 8 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Il baisse le volume.",
+            "user_selected_option_id": 14597,
+            "correct_answer": "Il baisse le volume.",
+            "correct_option_id": 14597,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 32,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14597,
+                    "text": "Il baisse le volume.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14598,
+                    "text": "Il change de wagon.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14599,
+                    "text": "Il éteint son appareil.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14600,
+                    "text": "Il met un casque.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 286,
+            "question_text": "Compréhension orale – Quiz 8 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Monter à pied.",
+            "user_selected_option_id": 14602,
+            "correct_answer": "Monter à pied.",
+            "correct_option_id": 14602,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14601,
+                    "text": "Aller au 2e étage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14602,
+                    "text": "Monter à pied.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14603,
+                    "text": "Prendre l’ascenseur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14604,
+                    "text": "Passer par la cafétéria.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 287,
+            "question_text": "Compréhension orale – Quiz 8 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "La mission est sans intérêt.",
+            "user_selected_option_id": 14605,
+            "correct_answer": "La mission est sans intérêt.",
+            "correct_option_id": 14605,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14605,
+                    "text": "La mission est sans intérêt.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14606,
+                    "text": "La société est loin de chez lui.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14607,
+                    "text": "Le contrat est temporaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14608,
+                    "text": "Le salaire est insuffisant.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 288,
+            "question_text": "Compréhension orale – Quiz 8 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Elle n’a pas eu l’appel espéré.",
+            "user_selected_option_id": 14612,
+            "correct_answer": "Elle n’a pas eu l’appel espéré.",
+            "correct_option_id": 14612,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14609,
+                    "text": "Elle a cessé son téléphone.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14610,
+                    "text": "Elle a raté un appel important.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14611,
+                    "text": "Elle n’a pas été invitée à un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14612,
+                    "text": "Elle n’a pas eu l’appel espéré.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 289,
+            "question_text": "Compréhension orale – Quiz 8 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Il aura lieu plus tard dans le semestre.",
+            "user_selected_option_id": 14613,
+            "correct_answer": "Il aura lieu plus tard dans le semestre.",
+            "correct_option_id": 14613,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14613,
+                    "text": "Il aura lieu plus tard dans le semestre.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14614,
+                    "text": "Il évaluera le chapitre des maladies.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14615,
+                    "text": "Il se fera dans le grand amphithéâtre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14616,
+                    "text": "Il sera corrigé par un enseignant extérieur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 290,
+            "question_text": "Compréhension orale – Quiz 8 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Devoir partir en voiture.",
+            "user_selected_option_id": 14620,
+            "correct_answer": "Devoir partir en voiture.",
+            "correct_option_id": 14620,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14617,
+                    "text": "Devoir annuler son voyage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14618,
+                    "text": "Devoir visiter les musées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14619,
+                    "text": "Devoir écourter leur séjour.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14620,
+                    "text": "Devoir partir en voiture.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 291,
+            "question_text": "Compréhension orale – Quiz 8 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Les difficultés en cas d’échange.",
+            "user_selected_option_id": 14623,
+            "correct_answer": "Les difficultés en cas d’échange.",
+            "correct_option_id": 14623,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14621,
+                    "text": "Le prix élevé des produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14622,
+                    "text": "Les délais pour être livrée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14623,
+                    "text": "Les difficultés en cas d’échange.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14624,
+                    "text": "Les tailles de vêtements différentes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 292,
+            "question_text": "Compréhension orale – Quiz 8 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Le recrutement se fonde sur l’expérience.",
+            "user_selected_option_id": 14625,
+            "correct_answer": "Le recrutement se fonde sur l’expérience.",
+            "correct_option_id": 14625,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14625,
+                    "text": "Le recrutement se fonde sur l’expérience.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14626,
+                    "text": "Les salaires à l’embauche sont très élevés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14627,
+                    "text": "L’évolution professionnelle est très lente.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14628,
+                    "text": "L’obtention d’un premier emploi est aisée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 293,
+            "question_text": "Compréhension orale – Quiz 8 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il fait plus beau qu’hier.",
+            "user_selected_option_id": 14629,
+            "correct_answer": "Il fait plus beau qu’hier.",
+            "correct_option_id": 14629,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14629,
+                    "text": "Il fait plus beau qu’hier.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14630,
+                    "text": "Il fait plus mauvais qu’hier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14631,
+                    "text": "Il pleut plus qu’hier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14632,
+                    "text": "Il y a moins de soleil qu’hier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 294,
+            "question_text": "Compréhension orale – Quiz 8 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Les écologistes refusent la construction d’une autoroute.",
+            "user_selected_option_id": 14634,
+            "correct_answer": "Les écologistes refusent la construction d’une autoroute.",
+            "correct_option_id": 14634,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14633,
+                    "text": "Des habitants ont voté pour un maire écologiste.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14634,
+                    "text": "Les écologistes refusent la construction d’une autoroute.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14635,
+                    "text": "L’Union européenne veut faire construire une autoroute.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14636,
+                    "text": "Un maire propose d’ouvrir une réserve naturelle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 295,
+            "question_text": "Compréhension orale – Quiz 8 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Pour être autonome face aux petits travaux de la maison.",
+            "user_selected_option_id": 14639,
+            "correct_answer": "Pour être autonome face aux petits travaux de la maison.",
+            "correct_option_id": 14639,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 44,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14637,
+                    "text": "Pour apprendre les termes spécifiques de la plomberie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14638,
+                    "text": "Pour économiser les frais d’un dépannage par un artisan.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14639,
+                    "text": "Pour être autonome face aux petits travaux de la maison.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14640,
+                    "text": "Pour rencontrer d’autres femmes ayant la même passion.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 296,
+            "question_text": "Compréhension orale – Quiz 8 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Un point de vue sur la situation mondiale aujourd’hui.",
+            "user_selected_option_id": 14641,
+            "correct_answer": "Un point de vue sur la situation mondiale aujourd’hui.",
+            "correct_option_id": 14641,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 64,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14641,
+                    "text": "Un point de vue sur la situation mondiale aujourd’hui.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14642,
+                    "text": "Une analyse de l’actualité économique dans le monde.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14643,
+                    "text": "Une critique des conséquences de la mondialisation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14644,
+                    "text": "Une réflexion sur les relations politiques mondiales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 297,
+            "question_text": "Compréhension orale – Quiz 8 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "De partager sa salle de bain.",
+            "user_selected_option_id": 14646,
+            "correct_answer": "De partager sa salle de bain.",
+            "correct_option_id": 14646,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14645,
+                    "text": "De disposer d’une petite surface.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14646,
+                    "text": "De partager sa salle de bain.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14647,
+                    "text": "De payer un loyer excessif.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14648,
+                    "text": "De prendre ses repas seule.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 298,
+            "question_text": "Compréhension orale – Quiz 8 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Elle a suivi des enseignements variés.",
+            "user_selected_option_id": 14651,
+            "correct_answer": "Elle a suivi des enseignements variés.",
+            "correct_option_id": 14651,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14649,
+                    "text": "Elle a changé de cursus universitaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14650,
+                    "text": "Elle a rencontré des gens étonnants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14651,
+                    "text": "Elle a suivi des enseignements variés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14652,
+                    "text": "Elle a trouvé le niveau des cours facile.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 299,
+            "question_text": "Compréhension orale – Quiz 8 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Avoir la liberté d’être son propre patron.",
+            "user_selected_option_id": 14653,
+            "correct_answer": "Avoir la liberté d’être son propre patron.",
+            "correct_option_id": 14653,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 45,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14653,
+                    "text": "Avoir la liberté d’être son propre patron.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14654,
+                    "text": "Innover dans le domaine informatique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14655,
+                    "text": "Mener un projet aux États-Unis.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14656,
+                    "text": "Mieux réussir que ses parents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 300,
+            "question_text": "Compréhension orale – Quiz 8 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Des comportements alimentaires.",
+            "user_selected_option_id": 14659,
+            "correct_answer": "Des comportements alimentaires.",
+            "correct_option_id": 14659,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14657,
+                    "text": "Des besoins énergétiques des jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14658,
+                    "text": "Des bons réflexes pour les repas.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14659,
+                    "text": "Des comportements alimentaires.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14660,
+                    "text": "Des conseils de préparation culinaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 301,
+            "question_text": "Compréhension orale – Quiz 8 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "D’élargir sa recherche d’emploi à d’autres domaines.",
+            "user_selected_option_id": 14664,
+            "correct_answer": "D’élargir sa recherche d’emploi à d’autres domaines.",
+            "correct_option_id": 14664,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14661,
+                    "text": "De devenir entrepreneur en créant son entreprise.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14662,
+                    "text": "De s’informer sur les secteurs porteurs d’emplois.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14663,
+                    "text": "De suivre une formation diplômante à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14664,
+                    "text": "D’élargir sa recherche d’emploi à d’autres domaines.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 302,
+            "question_text": "Compréhension orale – Quiz 8 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Le respect d’obligations légales.",
+            "user_selected_option_id": 14667,
+            "correct_answer": "L’utilisation d’un matériau unique.",
+            "correct_option_id": 14668,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 72,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14665,
+                    "text": "L’absence d’éléments ornementaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14666,
+                    "text": "La limitation du nombre d’étages.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14667,
+                    "text": "Le respect d’obligations légales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14668,
+                    "text": "L’utilisation d’un matériau unique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 303,
+            "question_text": "Compréhension orale – Quiz 8 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Un service de livraison express du courrier.",
+            "user_selected_option_id": 14670,
+            "correct_answer": "Un service de livraison express du courrier.",
+            "correct_option_id": 14670,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 61,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14669,
+                    "text": "Un groupe de centres d’appels téléphoniques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14670,
+                    "text": "Un service de livraison express du courrier.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14671,
+                    "text": "Un spécialiste de la création de sites internet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14672,
+                    "text": "Un fournisseur pour la restauration à domicile.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 304,
+            "question_text": "Compréhension orale – Quiz 8 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "C’est un temps de découverte et l’humanité.",
+            "user_selected_option_id": 14673,
+            "correct_answer": "C’est un temps de découverte et l’humanité.",
+            "correct_option_id": 14673,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14673,
+                    "text": "C’est un temps de découverte et l’humanité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14674,
+                    "text": "C’est une occasion de dépenser son énergie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14675,
+                    "text": "C’est une opportunité d’apprécier la solitude.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14676,
+                    "text": "C’est une possibilité quotidienne d’évasion.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 305,
+            "question_text": "Compréhension orale – Quiz 8 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Elles appuient leur gestion sur la concertation.",
+            "user_selected_option_id": 14677,
+            "correct_answer": "Elles appuient leur gestion sur la concertation.",
+            "correct_option_id": 14677,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 47,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14677,
+                    "text": "Elles appuient leur gestion sur la concertation.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14678,
+                    "text": "Elles garantissent des évolutions de carrière.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14679,
+                    "text": "Elles œuvrent dans des secteurs traditionnels.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14680,
+                    "text": "Elles s’engagent dans des projets audacieux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 306,
+            "question_text": "Compréhension orale – Quiz 8 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les discussions s’annoncent longues et difficiles.",
+            "user_selected_option_id": 14683,
+            "correct_answer": "Les discussions s’annoncent longues et difficiles.",
+            "correct_option_id": 14683,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14681,
+                    "text": "La conférence qui a eu lieu est uniquement symbolique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14682,
+                    "text": "La secrétaire d’État a fait part de son pessimisme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14683,
+                    "text": "Les discussions s’annoncent longues et difficiles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14684,
+                    "text": "Tous les points de l’accord ont déjà été traités sans succès.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 307,
+            "question_text": "Compréhension orale – Quiz 8 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Inciter les usagers à pratiquer d’autres modes de déplacement.",
+            "user_selected_option_id": 14686,
+            "correct_answer": "Inciter les usagers à pratiquer d’autres modes de déplacement.",
+            "correct_option_id": 14686,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14685,
+                    "text": "Durcir les normes appliquées à la fabrication de voitures.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14686,
+                    "text": "Inciter les usagers à pratiquer d’autres modes de déplacement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14687,
+                    "text": "Pousser les industriels à employer des technologies innovantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14688,
+                    "text": "Rendre obligatoire l’utilisation de carburants propres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 308,
+            "question_text": "Compréhension orale – Quiz 8 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Trouver des solutions aux difficultés quotidiennes.",
+            "user_selected_option_id": 14692,
+            "correct_answer": "Trouver des solutions aux difficultés quotidiennes.",
+            "correct_option_id": 14692,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 94,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14689,
+                    "text": "Animer des ateliers d’écriture thématiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14690,
+                    "text": "Faire connaître de jeunes philosophes talentueux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14691,
+                    "text": "Organiser des lecteurs pendant les repas de midi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14692,
+                    "text": "Trouver des solutions aux difficultés quotidiennes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 309,
+            "question_text": "Compréhension orale – Quiz 8 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Favoriser la visibilité des ouvrages peu accessibles.",
+            "user_selected_option_id": 14693,
+            "correct_answer": "Favoriser la visibilité des ouvrages peu accessibles.",
+            "correct_option_id": 14693,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14693,
+                    "text": "Favoriser la visibilité des ouvrages peu accessibles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14694,
+                    "text": "Intervenir dans le choix des publications à venir.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14695,
+                    "text": "Modifier notre regard sur les livres « grand public ».",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14696,
+                    "text": "Soutenir les petits éditeurs et leurs parutions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 310,
+            "question_text": "Compréhension orale – Quiz 8 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "La relation liant Camille Claudel et Rodin.",
+            "user_selected_option_id": 14697,
+            "correct_answer": "La relation liant Camille Claudel et Rodin.",
+            "correct_option_id": 14697,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14697,
+                    "text": "La relation liant Camille Claudel et Rodin.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14698,
+                    "text": "La richesse du musée Auguste Rodin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14699,
+                    "text": "Les difficultés rencontrées par Rodin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14700,
+                    "text": "Les sources d’inspiration de Rodin.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 311,
+            "question_text": "Compréhension orale – Quiz 8 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Ils sont publiés par des organismes liés aux entreprises.",
+            "user_selected_option_id": 14704,
+            "correct_answer": "Ils sont publiés par des organismes liés aux entreprises.",
+            "correct_option_id": 14704,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14701,
+                    "text": "Ils font l’objet de manipulations douteuses par les pollueurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14702,
+                    "text": "Ils répondent à des critères insuffisamment exigeants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14703,
+                    "text": "Ils sont destinés à justifier les politiques économiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14704,
+                    "text": "Ils sont publiés par des organismes liés aux entreprises.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 312,
+            "question_text": "Compréhension orale – Quiz 8 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Le scénario manque de singularité.",
+            "user_selected_option_id": 14708,
+            "correct_answer": "Le scénario manque de singularité.",
+            "correct_option_id": 14708,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_8_question_39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14705,
+                    "text": "La réalisation est trop extravagante.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14706,
+                    "text": "L’actrice principale est omniprésente.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14707,
+                    "text": "Le montage manque de cohérence.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14708,
+                    "text": "Le scénario manque de singularité.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 98,
+    "strengths": [
+        "Compréhension complète et sans effort de tout contenu français",
+        "Capture de tous les détails, implicites, et nuances",
+        "Compréhension maîtrisée d'ironie, satire, critique complexe",
+        "Gestion sans difficulté de tous les registres et dialectes"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - vous avez atteint la maîtrise",
+        "Perfectionnement personnel optionnel selon intérêts spécialisés",
+        "Exploration de dialectes ou périodes historiques extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Maintenir pratique quotidienne: contenus authentiques variés",
+        "Explorer intérêts spécialisés: domaines académiques, littérature rare",
+        "Participer à colloques, conférences, débats intellectuels",
+        "Enseigner le français ou guider d'autres apprenants",
+        "Savourer et apprécier la richesse de la langue française"
+    ],
+    "exam_title": "Compréhension orale – Quiz 8",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

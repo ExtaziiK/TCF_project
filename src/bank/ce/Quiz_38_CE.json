@@ -1,0 +1,1733 @@
+{
+    "id": 40078,
+    "exam_id": 74,
+    "score": 133.0,
+    "score_percent": 19.03,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T13:51:05.619031+00:00",
+    "time_spent": 49,
+    "section_breakdown": {
+        "Identification": {
+            "score": 4.8,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 6.7,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 3.8,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 3.8,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2848,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Dans un bar.",
+            "user_selected_option_id": 37020,
+            "correct_answer": "Chez son ami.",
+            "correct_option_id": 37019,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_1.webp",
+            "all_options": [
+                {
+                    "id": 37017,
+                    "text": "Au cinéma.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37018,
+                    "text": "Au restaurant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37019,
+                    "text": "Chez son ami.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37020,
+                    "text": "Dans un bar.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2849,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Contacter le standard.",
+            "user_selected_option_id": 37024,
+            "correct_answer": "Téléphoner au numéro donné.",
+            "correct_option_id": 37021,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_2.webp",
+            "all_options": [
+                {
+                    "id": 37021,
+                    "text": "Téléphoner au numéro donné.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37022,
+                    "text": "Écrire un courriel de réponse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37023,
+                    "text": "Écouter le répondeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37024,
+                    "text": "Contacter le standard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2850,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Sur place.",
+            "user_selected_option_id": 37028,
+            "correct_answer": "Par téléphone.",
+            "correct_option_id": 37026,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_3.webp",
+            "all_options": [
+                {
+                    "id": 37025,
+                    "text": "Par courrier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37026,
+                    "text": "Par téléphone.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37027,
+                    "text": "Sur Internet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37028,
+                    "text": "Sur place.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2851,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Ils préparent un voyage de classe.",
+            "user_selected_option_id": 37032,
+            "correct_answer": "Ils apprennent la géographie.",
+            "correct_option_id": 37029,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_4.webp",
+            "all_options": [
+                {
+                    "id": 37029,
+                    "text": "Ils apprennent la géographie.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37030,
+                    "text": "Ils invitent des amis à l’école.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37031,
+                    "text": "Ils pratiquent des langues étrangères.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37032,
+                    "text": "Ils préparent un voyage de classe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2852,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Un tarif.",
+            "user_selected_option_id": 37036,
+            "correct_answer": "Un tarif.",
+            "correct_option_id": 37036,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_5.webp",
+            "all_options": [
+                {
+                    "id": 37033,
+                    "text": "Une adresse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37034,
+                    "text": "Une date.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37035,
+                    "text": "Un horaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37036,
+                    "text": "Un tarif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2853,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De recevoir des recettes typiques.",
+            "user_selected_option_id": 37040,
+            "correct_answer": "De faire une réservation par Internet.",
+            "correct_option_id": 37038,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_6.webp",
+            "all_options": [
+                {
+                    "id": 37037,
+                    "text": "De cuisiner avec des professionnels.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37038,
+                    "text": "De faire une réservation par Internet.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37039,
+                    "text": "De gagner un repas gratuit pour deux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37040,
+                    "text": "De recevoir des recettes typiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2854,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "À un propriétaire.",
+            "user_selected_option_id": 37044,
+            "correct_answer": "À un étudiant.",
+            "correct_option_id": 37042,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_7.webp",
+            "all_options": [
+                {
+                    "id": 37041,
+                    "text": "À un commerçant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37042,
+                    "text": "À un étudiant.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37043,
+                    "text": "À un professeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37044,
+                    "text": "À un propriétaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2855,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Une réduction sur des stages pendant.",
+            "user_selected_option_id": 37048,
+            "correct_answer": "Une réduction sur des stages pendant.",
+            "correct_option_id": 37048,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_8.webp",
+            "all_options": [
+                {
+                    "id": 37045,
+                    "text": "Une formation adaptée pendant les vacances.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37046,
+                    "text": "Une grande variété de cours intensifs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37047,
+                    "text": "Une promotion spéciale pour un voyage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37048,
+                    "text": "Une réduction sur des stages pendant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2856,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Voir un spectacle.",
+            "user_selected_option_id": 37052,
+            "correct_answer": "De tester des activités",
+            "correct_option_id": 37051,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_9.webp",
+            "all_options": [
+                {
+                    "id": 37049,
+                    "text": "De participer à un concours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37050,
+                    "text": "De s’inscrire à un stage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37051,
+                    "text": "De tester des activités",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37052,
+                    "text": "Voir un spectacle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2857,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Un semestre d’études.",
+            "user_selected_option_id": 37056,
+            "correct_answer": "Des voyages en Europe.",
+            "correct_option_id": 37054,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_10.webp",
+            "all_options": [
+                {
+                    "id": 37053,
+                    "text": "Des visites de musées.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37054,
+                    "text": "Des voyages en Europe.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37055,
+                    "text": "Un mois de vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37056,
+                    "text": "Un semestre d’études.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2858,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De passer une nuit sous la tente.",
+            "user_selected_option_id": 37060,
+            "correct_answer": "De dormir au milieu de la nature.",
+            "correct_option_id": 37057,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_11.webp",
+            "all_options": [
+                {
+                    "id": 37057,
+                    "text": "De dormir au milieu de la nature.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37058,
+                    "text": "Faire un parcours dans les arbres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37059,
+                    "text": "De participer à une aventure sportive.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37060,
+                    "text": "De passer une nuit sous la tente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2859,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Pour soutenir les paysans locaux.",
+            "user_selected_option_id": 37064,
+            "correct_answer": "Pour éviter de tomber malade.",
+            "correct_option_id": 37061,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_12.webp",
+            "all_options": [
+                {
+                    "id": 37061,
+                    "text": "Pour éviter de tomber malade.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37062,
+                    "text": "Pour profiter de tarifs avantageux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37063,
+                    "text": "Pour protéger l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37064,
+                    "text": "Pour soutenir les paysans locaux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2860,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "De visiter le conservatoire.",
+            "user_selected_option_id": 37068,
+            "correct_answer": "De devenir membre de l’orchestre municipal.",
+            "correct_option_id": 37066,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_13.webp",
+            "all_options": [
+                {
+                    "id": 37065,
+                    "text": "D’assister à un concert à Rouen.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37066,
+                    "text": "De devenir membre de l’orchestre municipal.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37067,
+                    "text": "De suivre des cours de musique à la rentrée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37068,
+                    "text": "De visiter le conservatoire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2861,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Suivre des visites guidées.",
+            "user_selected_option_id": 37072,
+            "correct_answer": "Assister à des spectacles.",
+            "correct_option_id": 37069,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_14.webp",
+            "all_options": [
+                {
+                    "id": 37069,
+                    "text": "Assister à des spectacles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37070,
+                    "text": "Obtenir de meilleures places.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37071,
+                    "text": "Rencontrer des comédiens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37072,
+                    "text": "Suivre des visites guidées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2862,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Une promenade avec un guide.",
+            "user_selected_option_id": 37076,
+            "correct_answer": "Des activités de loisir.",
+            "correct_option_id": 37073,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_15.webp",
+            "all_options": [
+                {
+                    "id": 37073,
+                    "text": "Des activités de loisir.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37074,
+                    "text": "Des vacances à la campagne.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37075,
+                    "text": "Un cours de natation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37076,
+                    "text": "Une promenade avec un guide.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2863,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Voir une pièce de théâtre.",
+            "user_selected_option_id": 37080,
+            "correct_answer": "Assister à un spectacle.",
+            "correct_option_id": 37078,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_16.webp",
+            "all_options": [
+                {
+                    "id": 37077,
+                    "text": "Aller dans un bar.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37078,
+                    "text": "Assister à un spectacle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37079,
+                    "text": "Dîner au restaurant",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37080,
+                    "text": "Voir une pièce de théâtre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2864,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Ils sont offerts lors de l’achat d’un écran tactile",
+            "user_selected_option_id": 37084,
+            "correct_answer": "Ils permettent un contact direct avec un écran tactile.",
+            "correct_option_id": 37082,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_17.webp",
+            "all_options": [
+                {
+                    "id": 37081,
+                    "text": "Ils évitent de rayer les appareils à écran tactile.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37082,
+                    "text": "Ils permettent un contact direct avec un écran tactile.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37083,
+                    "text": "Ils sont équipés de capteurs reliés à un écran tactile.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37084,
+                    "text": "Ils sont offerts lors de l’achat d’un écran tactile",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2865,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Une sélection des meilleures universités.",
+            "user_selected_option_id": 37088,
+            "correct_answer": "Une méthode pour choisir une formation.",
+            "correct_option_id": 37087,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_18.webp",
+            "all_options": [
+                {
+                    "id": 37085,
+                    "text": "Des idées de stages en entreprise.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37086,
+                    "text": "Un guide des démarches d’inscription.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37087,
+                    "text": "Une méthode pour choisir une formation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37088,
+                    "text": "Une sélection des meilleures universités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2866,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les raisons de leur popularité.",
+            "user_selected_option_id": 37092,
+            "correct_answer": "Le secret d’une bonne préparation.",
+            "correct_option_id": 37090,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_19.webp",
+            "all_options": [
+                {
+                    "id": 37089,
+                    "text": "L’origine historique de la recette",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37090,
+                    "text": "Le secret d’une bonne préparation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37091,
+                    "text": "Les adresses où les consommer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37092,
+                    "text": "Les raisons de leur popularité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2867,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Des séjours alliant détente et découvertes.",
+            "user_selected_option_id": 37096,
+            "correct_answer": "Des séjours alliant détente et découvertes.",
+            "correct_option_id": 37096,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_20.webp",
+            "all_options": [
+                {
+                    "id": 37093,
+                    "text": "Des cours de rattrapage scolaire en sciences.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37094,
+                    "text": "Des activités de découverte de la nature.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37095,
+                    "text": "Des stages de travail en laboratoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37096,
+                    "text": "Des séjours alliant détente et découvertes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2868,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Le choix des matériaux de fabrication.",
+            "user_selected_option_id": 37100,
+            "correct_answer": "La prise en compte de l’opinion publique.",
+            "correct_option_id": 37098,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_21.webp",
+            "all_options": [
+                {
+                    "id": 37097,
+                    "text": "La priorité donnée à l’aspect écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37098,
+                    "text": "La prise en compte de l’opinion publique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37099,
+                    "text": "Le caractère provisoire de l’installation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37100,
+                    "text": "Le choix des matériaux de fabrication.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2869,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "C’est possible pour tous.",
+            "user_selected_option_id": 37104,
+            "correct_answer": "C’est possible mais pénible.",
+            "correct_option_id": 37103,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_22.webp",
+            "all_options": [
+                {
+                    "id": 37101,
+                    "text": "C’est possible à la campagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37102,
+                    "text": "C’est possible avec du temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37103,
+                    "text": "C’est possible mais pénible.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37104,
+                    "text": "C’est possible pour tous.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2870,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Pour quitter leur entreprise plus tôt.",
+            "user_selected_option_id": 37108,
+            "correct_answer": "Pour donner une bonne image d’eux.",
+            "correct_option_id": 37106,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_23.webp",
+            "all_options": [
+                {
+                    "id": 37105,
+                    "text": "Pour améliorer leur situation financière.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37106,
+                    "text": "Pour donner une bonne image d’eux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37107,
+                    "text": "Pour exécuter les ordres de la direction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37108,
+                    "text": "Pour quitter leur entreprise plus tôt.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2871,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Obtenir des conseils afin de créer une association",
+            "user_selected_option_id": 37112,
+            "correct_answer": "Faire découvrir les formations pour devenir ingénieur",
+            "correct_option_id": 37110,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_24.webp",
+            "all_options": [
+                {
+                    "id": 37109,
+                    "text": "Découvrir le travail de recherche en laboratoire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37110,
+                    "text": "Faire découvrir les formations pour devenir ingénieur",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37111,
+                    "text": "Inaugurer l’ouverture d’un campus universitaire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37112,
+                    "text": "Obtenir des conseils afin de créer une association",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2872,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Il touche surtout les aides-soignants.",
+            "user_selected_option_id": 37116,
+            "correct_answer": "Il peut s’étendre au domaine personnel.",
+            "correct_option_id": 37114,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_25.webp",
+            "all_options": [
+                {
+                    "id": 37113,
+                    "text": "Il demande une prise charge médicale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37114,
+                    "text": "Il peut s’étendre au domaine personnel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37115,
+                    "text": "Il suscite un consensus parmi les spécialistes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37116,
+                    "text": "Il touche surtout les aides-soignants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2873,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Du rapport entre les générations.",
+            "user_selected_option_id": 37120,
+            "correct_answer": "De la volonté d’émancipation.",
+            "correct_option_id": 37119,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_26.webp",
+            "all_options": [
+                {
+                    "id": 37117,
+                    "text": "De l’éducation des plus jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37118,
+                    "text": "De la transmission d’un savoir-faire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37119,
+                    "text": "De la volonté d’émancipation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37120,
+                    "text": "Du rapport entre les générations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2874,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Les patients ont le devoir de s’informer davantage.",
+            "user_selected_option_id": 37124,
+            "correct_answer": "Le respect de la déontologie médicale est primordial.",
+            "correct_option_id": 37122,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_27.webp",
+            "all_options": [
+                {
+                    "id": 37121,
+                    "text": "Le coût des dispositifs pose un problème d’éthique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37122,
+                    "text": "Le respect de la déontologie médicale est primordial.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37123,
+                    "text": "Les fabricants d’implants doivent signer une charte",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37124,
+                    "text": "Les patients ont le devoir de s’informer davantage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2875,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Malgré des études sérieuses, l’analyse est impossible.",
+            "user_selected_option_id": 37128,
+            "correct_answer": "Des outils ont été élaborés pour en estimer l’intensité.",
+            "correct_option_id": 37126,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_28.webp",
+            "all_options": [
+                {
+                    "id": 37125,
+                    "text": "C’est un état difficile à évaluer chez une personne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37126,
+                    "text": "Des outils ont été élaborés pour en estimer l’intensité.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37127,
+                    "text": "Les enquêtes dont c’est le sujet sont innombrables.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37128,
+                    "text": "Malgré des études sérieuses, l’analyse est impossible.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2876,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Il raconte une anecdote.",
+            "user_selected_option_id": 37132,
+            "correct_answer": "Il donne un conseil.",
+            "correct_option_id": 37130,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_29.webp",
+            "all_options": [
+                {
+                    "id": 37129,
+                    "text": "Il commente une loi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37130,
+                    "text": "Il donne un conseil.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37131,
+                    "text": "Il formule une plainte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37132,
+                    "text": "Il raconte une anecdote.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2877,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Se disperser dans de nombreuses activités",
+            "user_selected_option_id": 37136,
+            "correct_answer": "Mémoriser des concepts sans les comprendre.",
+            "correct_option_id": 37133,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_30.webp",
+            "all_options": [
+                {
+                    "id": 37133,
+                    "text": "Mémoriser des concepts sans les comprendre.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37134,
+                    "text": "Multiplier les méthodes d’apprentissage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37135,
+                    "text": "S’autoriser des pauses fréquemment.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37136,
+                    "text": "Se disperser dans de nombreuses activités",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2878,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Ils tiennent à la stabilité de l’emploi.",
+            "user_selected_option_id": 37140,
+            "correct_answer": "Ils bouleversent les rapports d’autorité.",
+            "correct_option_id": 37137,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_31.webp",
+            "all_options": [
+                {
+                    "id": 37137,
+                    "text": "Ils bouleversent les rapports d’autorité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37138,
+                    "text": "Ils évitent les postes à responsabilité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37139,
+                    "text": "Ils sont moins motivés que leurs aînés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37140,
+                    "text": "Ils tiennent à la stabilité de l’emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2879,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Évaluer régulièrement leurs acquis.",
+            "user_selected_option_id": 37144,
+            "correct_answer": "Développer leur esprit critique.",
+            "correct_option_id": 37141,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_32.webp",
+            "all_options": [
+                {
+                    "id": 37141,
+                    "text": "Développer leur esprit critique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37142,
+                    "text": "Encourager les débats entre eux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37143,
+                    "text": "Enrichir leur capacité mémorielle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37144,
+                    "text": "Évaluer régulièrement leurs acquis.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2880,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Le risque de saturation des réseaux.",
+            "user_selected_option_id": 37148,
+            "correct_answer": "Le risque de saturation des réseaux.",
+            "correct_option_id": 37148,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_33.webp",
+            "all_options": [
+                {
+                    "id": 37145,
+                    "text": "L’absence de modèle comparatif de mobilité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37146,
+                    "text": "La déresponsabilisation des usagers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37147,
+                    "text": "Le déficit provoqué par son financement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37148,
+                    "text": "Le risque de saturation des réseaux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2881,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Restaurer d’anciens bâtiments.",
+            "user_selected_option_id": 37152,
+            "correct_answer": "Former les spécialistes du secteur.",
+            "correct_option_id": 37150,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_34.webp",
+            "all_options": [
+                {
+                    "id": 37149,
+                    "text": "Convaincre la clientèle cible.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37150,
+                    "text": "Former les spécialistes du secteur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37151,
+                    "text": "Rentabiliser les projets à venir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37152,
+                    "text": "Restaurer d’anciens bâtiments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2882,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Son savoir-faire met en valeur des proc connus.",
+            "user_selected_option_id": 37156,
+            "correct_answer": "Ses œuvres se fondent dans leur environnement.",
+            "correct_option_id": 37154,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_35.webp",
+            "all_options": [
+                {
+                    "id": 37153,
+                    "text": "Sa technique puise dans divers mouvements artistiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37154,
+                    "text": "Ses œuvres se fondent dans leur environnement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37155,
+                    "text": "Son inspiration provient de ses nombreuses lectures.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37156,
+                    "text": "Son savoir-faire met en valeur des proc connus.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2883,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Les principes actuels d’organisation du travail.",
+            "user_selected_option_id": 37160,
+            "correct_answer": "Les principes actuels d’organisation du travail.",
+            "correct_option_id": 37160,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_36.webp",
+            "all_options": [
+                {
+                    "id": 37157,
+                    "text": "La primauté de l’apparence sur les compétences.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37158,
+                    "text": "Le corporatisme poussé de certaines sociétés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37159,
+                    "text": "Le manque de formation aux nouvelles technologies.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37160,
+                    "text": "Les principes actuels d’organisation du travail.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2884,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle a modifié l’organisation du travail.",
+            "user_selected_option_id": 37164,
+            "correct_answer": "Elle a modifié l’organisation du travail.",
+            "correct_option_id": 37164,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_37.webp",
+            "all_options": [
+                {
+                    "id": 37161,
+                    "text": "Elle a accru la compétitivité industrielle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37162,
+                    "text": "Elle a amélioré les conditions de travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37163,
+                    "text": "Elle a enrayé la hausse du chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37164,
+                    "text": "Elle a modifié l’organisation du travail.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2885,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Relancer la fréquentation nocturne des quartiers réservés.",
+            "user_selected_option_id": 37168,
+            "correct_answer": "Améliorer la cohabitation entre les habitants et les noctambules.",
+            "correct_option_id": 37165,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_38.webp",
+            "all_options": [
+                {
+                    "id": 37165,
+                    "text": "Améliorer la cohabitation entre les habitants et les noctambules.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37166,
+                    "text": "Attirer les spectateurs parisiens vers les spectacles de rue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37167,
+                    "text": "Développer un nouveau concept de lieux silencieux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37168,
+                    "text": "Relancer la fréquentation nocturne des quartiers réservés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2886,
+            "question_text": "Compréhension écrite – Quiz 38 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "La nécessité de souder les équipes dans une entreprise.",
+            "user_selected_option_id": 37172,
+            "correct_answer": "L’intérêt d’éviter les inconvénients liés à l’isolement.",
+            "correct_option_id": 37170,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_38_question_39.webp",
+            "all_options": [
+                {
+                    "id": 37169,
+                    "text": "L’importance de la gestion des ressources humaines.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37170,
+                    "text": "L’intérêt d’éviter les inconvénients liés à l’isolement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 37171,
+                    "text": "La facilité de réaliser des projets communs à distance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37172,
+                    "text": "La nécessité de souder les équipes dans une entreprise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 19,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 38",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

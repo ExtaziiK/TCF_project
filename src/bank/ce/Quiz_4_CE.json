@@ -1,0 +1,1732 @@
+{
+    "id": 39859,
+    "exam_id": 40,
+    "score": 690.0,
+    "score_percent": 98.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-02T23:38:49.409965+00:00",
+    "time_spent": 272,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1522,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Il travaille",
+            "user_selected_option_id": 31716,
+            "correct_answer": "Il travaille",
+            "correct_option_id": 31716,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_1.webp",
+            "all_options": [
+                {
+                    "id": 31713,
+                    "text": "Il dort",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31714,
+                    "text": "Il joue",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31715,
+                    "text": "Il mange",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31716,
+                    "text": "Il travaille",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1523,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "• À 21 h 35",
+            "user_selected_option_id": 31719,
+            "correct_answer": "• À 21 h 35",
+            "correct_option_id": 31719,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_2.webp",
+            "all_options": [
+                {
+                    "id": 31717,
+                    "text": "• À 19 h 55",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31718,
+                    "text": "• À 20 h 55",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31719,
+                    "text": "• À 21 h 35",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31720,
+                    "text": "• À 23 h 55",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1524,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "À la maison",
+            "user_selected_option_id": 31722,
+            "correct_answer": "À la maison",
+            "correct_option_id": 31722,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_3.webp",
+            "all_options": [
+                {
+                    "id": 31721,
+                    "text": "À la gare",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31722,
+                    "text": "À la maison",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31723,
+                    "text": "Au cinéma",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31724,
+                    "text": "Au travail",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1525,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Derrière le bâtiment de la poste",
+            "user_selected_option_id": 31727,
+            "correct_answer": "Derrière le bâtiment de la poste",
+            "correct_option_id": 31727,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_4.webp",
+            "all_options": [
+                {
+                    "id": 31725,
+                    "text": "Devant la mairie",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31726,
+                    "text": "Près de l’entrée du supermarché",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31727,
+                    "text": "Derrière le bâtiment de la poste",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31728,
+                    "text": "En face du parc",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1526,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Une promenade en mer",
+            "user_selected_option_id": 31730,
+            "correct_answer": "Une promenade en mer",
+            "correct_option_id": 31730,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_5.webp",
+            "all_options": [
+                {
+                    "id": 31729,
+                    "text": "La visite d’un bateau",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31730,
+                    "text": "Une promenade en mer",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31731,
+                    "text": "Une promenade en ville",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31732,
+                    "text": "La visite de la part Arcachon",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1527,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il informe les enfants sur la nature",
+            "user_selected_option_id": 31736,
+            "correct_answer": "Il informe les enfants sur la nature",
+            "correct_option_id": 31736,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_6.webp",
+            "all_options": [
+                {
+                    "id": 31733,
+                    "text": "Il accueille les élèves et leurs parents",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31734,
+                    "text": "Il est ouvert seulement au printemps",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31735,
+                    "text": "Il est réservé aux écoles de Bretagne",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31736,
+                    "text": "Il informe les enfants sur la nature",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1528,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Un cadeau",
+            "user_selected_option_id": 31737,
+            "correct_answer": "Un cadeau",
+            "correct_option_id": 31737,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_7.webp",
+            "all_options": [
+                {
+                    "id": 31737,
+                    "text": "Un cadeau",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31738,
+                    "text": "Une publicité",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31739,
+                    "text": "Une visite",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31740,
+                    "text": "Une lettre",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1529,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "De participer à un concours",
+            "user_selected_option_id": 31743,
+            "correct_answer": "De participer à un concours",
+            "correct_option_id": 31743,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_8.webp",
+            "all_options": [
+                {
+                    "id": 31741,
+                    "text": "D’acheter des plates à bon prix",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31742,
+                    "text": "De faire des courses en ligne",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31743,
+                    "text": "De participer à un concours",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31744,
+                    "text": "De recevoir des outils gratuits",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1530,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De prévenir ses collègues",
+            "user_selected_option_id": 31748,
+            "correct_answer": "De prévenir ses collègues",
+            "correct_option_id": 31748,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_9.webp",
+            "all_options": [
+                {
+                    "id": 31745,
+                    "text": "D’apporter le déjeuner",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31746,
+                    "text": "D’avancer le rendez-vous",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31747,
+                    "text": "De consulter les documents",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31748,
+                    "text": "De prévenir ses collègues",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1531,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Pour raconter ses vacances",
+            "user_selected_option_id": 31752,
+            "correct_answer": "Pour raconter ses vacances",
+            "correct_option_id": 31752,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_10.webp",
+            "all_options": [
+                {
+                    "id": 31749,
+                    "text": "Pour annoncer son retour",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31750,
+                    "text": "Pour parler de son travail",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31751,
+                    "text": "Pour prendre des nouvelles",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31752,
+                    "text": "Pour raconter ses vacances",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1532,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "S’informer sut le monde professionnel",
+            "user_selected_option_id": 31754,
+            "correct_answer": "S’informer sut le monde professionnel",
+            "correct_option_id": 31754,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_11.webp",
+            "all_options": [
+                {
+                    "id": 31753,
+                    "text": "Participer à un stage de plusieurs jours",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31754,
+                    "text": "S’informer sut le monde professionnel",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31755,
+                    "text": "S’inscrire à un cours réservé aux jeunes",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31756,
+                    "text": "Trouver de l’aide pour écrire un CV",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1533,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "S’aventurent dans les pays lointains",
+            "user_selected_option_id": 31760,
+            "correct_answer": "S’aventurent dans les pays lointains",
+            "correct_option_id": 31760,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_12.webp",
+            "all_options": [
+                {
+                    "id": 31757,
+                    "text": "Voyagent plutôt dans l’Union Européenne",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31758,
+                    "text": "Visitent de préférence leurs pays d’origine",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31759,
+                    "text": "Découvrent les pays e leurs voisins",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31760,
+                    "text": "S’aventurent dans les pays lointains",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1534,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Elles ont besoin d’accompagnante",
+            "user_selected_option_id": 31761,
+            "correct_answer": "Elles ont besoin d’accompagnante",
+            "correct_option_id": 31761,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_13.webp",
+            "all_options": [
+                {
+                    "id": 31761,
+                    "text": "Elles ont besoin d’accompagnante",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31762,
+                    "text": "Elles ont peur de quitter leur logement",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31763,
+                    "text": "Elles souffrent de grande solitude",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31764,
+                    "text": "Elles suivent des traitements couteux",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1535,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "En France",
+            "user_selected_option_id": 31768,
+            "correct_answer": "En France",
+            "correct_option_id": 31768,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_14.webp",
+            "all_options": [
+                {
+                    "id": 31765,
+                    "text": "À l’étranger",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31766,
+                    "text": "Dans les Alpes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31767,
+                    "text": "En Europe",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31768,
+                    "text": "En France",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1536,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Leurs curiosité",
+            "user_selected_option_id": 31769,
+            "correct_answer": "Leurs curiosité",
+            "correct_option_id": 31769,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_15.webp",
+            "all_options": [
+                {
+                    "id": 31769,
+                    "text": "Leurs curiosité",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31770,
+                    "text": "Leur imagination",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31771,
+                    "text": "Leur mémoire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31772,
+                    "text": "Leur obéissance",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1537,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De les utiliser comme monnaie",
+            "user_selected_option_id": 31776,
+            "correct_answer": "De les utiliser comme monnaie",
+            "correct_option_id": 31776,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_16.webp",
+            "all_options": [
+                {
+                    "id": 31773,
+                    "text": "De les produire de façon écologique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31774,
+                    "text": "De les revendre à un prix réduit",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31775,
+                    "text": "De les transformer en vêtement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31776,
+                    "text": "De les utiliser comme monnaie",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1538,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Faire la preuve de son désir de travailler",
+            "user_selected_option_id": 31778,
+            "correct_answer": "Faire la preuve de son désir de travailler",
+            "correct_option_id": 31778,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_17.webp",
+            "all_options": [
+                {
+                    "id": 31777,
+                    "text": "Exposer l’ensemble de ses qualités professionnelles",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31778,
+                    "text": "Faire la preuve de son désir de travailler",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31779,
+                    "text": "Parler avec enthousiasme de ses projets",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31780,
+                    "text": "Parler des emplois qu’on a déjà occupés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1539,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "En achetant les billets en avance",
+            "user_selected_option_id": 31781,
+            "correct_answer": "En achetant les billets en avance",
+            "correct_option_id": 31781,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_18.webp",
+            "all_options": [
+                {
+                    "id": 31781,
+                    "text": "En achetant les billets en avance",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31782,
+                    "text": "En choisissant des places pour quatre matchs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31783,
+                    "text": "En prenant des billets pour un groupe",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31784,
+                    "text": "En présentant une carte de club de sport",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1540,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Tenter une nouvelle aventure",
+            "user_selected_option_id": 31788,
+            "correct_answer": "Tenter une nouvelle aventure",
+            "correct_option_id": 31788,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_19.webp",
+            "all_options": [
+                {
+                    "id": 31785,
+                    "text": "Accéder à la propriété privée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31786,
+                    "text": "Avoir un mode de vie économique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31787,
+                    "text": "Participer à la vie associative",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31788,
+                    "text": "Tenter une nouvelle aventure",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1541,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Démarrer une activité professionnelle",
+            "user_selected_option_id": 31789,
+            "correct_answer": "Démarrer une activité professionnelle",
+            "correct_option_id": 31789,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_20.webp",
+            "all_options": [
+                {
+                    "id": 31789,
+                    "text": "Démarrer une activité professionnelle",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31790,
+                    "text": "Présenter son travail à un concours",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31791,
+                    "text": "S’associer à un groupement d’artisans",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31792,
+                    "text": "Suivre une formation complémentaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1542,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Faire rêver les petits patients",
+            "user_selected_option_id": 31795,
+            "correct_answer": "Faire rêver les petits patients",
+            "correct_option_id": 31795,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_21.webp",
+            "all_options": [
+                {
+                    "id": 31793,
+                    "text": "Mettre en place une lettre thérapie",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31794,
+                    "text": "Remplacer les anciens médecins",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31795,
+                    "text": "Faire rêver les petits patients",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31796,
+                    "text": "Guérir les enfants par le rêve",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1543,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Elle s’adresse exclusivement à une clientèle soucieuse des questions d’environnement.",
+            "user_selected_option_id": 31797,
+            "correct_answer": "Elle s’adresse exclusivement à une clientèle soucieuse des questions d’environnement.",
+            "correct_option_id": 31797,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_22.webp",
+            "all_options": [
+                {
+                    "id": 31797,
+                    "text": "Elle s’adresse exclusivement à une clientèle soucieuse des questions d’environnement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31798,
+                    "text": "Elle travaille à la réduction des accidents de la route due à l’alcool.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31799,
+                    "text": "Le coût du billet d’entrée varie en fonction de l’énergie produite par les danseurs",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31800,
+                    "text": "Les jeunes doivent consommer sur place les produits du commerce équitable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1544,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Faire prendre conscience des excès lies à leur usage",
+            "user_selected_option_id": 31802,
+            "correct_answer": "Faire prendre conscience des excès lies à leur usage",
+            "correct_option_id": 31802,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_23.webp",
+            "all_options": [
+                {
+                    "id": 31801,
+                    "text": "Faciliter leur utilisation dans l’ensemble de la commune",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31802,
+                    "text": "Faire prendre conscience des excès lies à leur usage",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31803,
+                    "text": "Instaurer de nouvelles règles de priorité de circulation",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31804,
+                    "text": "Multiplier les espaces publicitaires le long des avenues",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1545,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "D’aménager des réserves restreignant la pêche",
+            "user_selected_option_id": 31805,
+            "correct_answer": "D’aménager des réserves restreignant la pêche",
+            "correct_option_id": 31805,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_24.webp",
+            "all_options": [
+                {
+                    "id": 31805,
+                    "text": "D’aménager des réserves restreignant la pêche",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31806,
+                    "text": "D’encourager une politique mondiale de la pêche",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31807,
+                    "text": "D’organiser des contrôles pour surveiller la pêche",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31808,
+                    "text": "De créer des taxes sur les produits de la pêche",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1546,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les professeurs avec les compétences nécessaires sont rares",
+            "user_selected_option_id": 31812,
+            "correct_answer": "Les professeurs avec les compétences nécessaires sont rares",
+            "correct_option_id": 31812,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_25.webp",
+            "all_options": [
+                {
+                    "id": 31809,
+                    "text": "Les enfants ont des difficultés de concentration dans ce domaine",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31810,
+                    "text": "Les équipements informatiques des écoles sont devenus obsolètes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31811,
+                    "text": "Les établissements doivent se doter d’une connexion illimitée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31812,
+                    "text": "Les professeurs avec les compétences nécessaires sont rares",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1547,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Intégrer des valeurs sociales et environnementales",
+            "user_selected_option_id": 31815,
+            "correct_answer": "Intégrer des valeurs sociales et environnementales",
+            "correct_option_id": 31815,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_26.webp",
+            "all_options": [
+                {
+                    "id": 31813,
+                    "text": "Créer des partenaires avec le milieu associatif",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31814,
+                    "text": "Former des jeunes défavorisés au management",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31815,
+                    "text": "Intégrer des valeurs sociales et environnementales",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31816,
+                    "text": "Préparer des techniciens aux dangers de la finance",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1548,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Le scénario du film est maladroitement construit",
+            "user_selected_option_id": 31820,
+            "correct_answer": "Le film tombe dans les stéréotypes du genre",
+            "correct_option_id": 31818,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_27.webp",
+            "all_options": [
+                {
+                    "id": 31817,
+                    "text": "La réalisation de l’œuvre manque de maitrise",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31818,
+                    "text": "Le film tombe dans les stéréotypes du genre",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31819,
+                    "text": "Le jeu des comédiens lui semble plutôt médiocre",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31820,
+                    "text": "Le scénario du film est maladroitement construit",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1549,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "L’impartialité doit être l’une des qualités principales d’un maitre",
+            "user_selected_option_id": 31824,
+            "correct_answer": "L’impartialité doit être l’une des qualités principales d’un maitre",
+            "correct_option_id": 31824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_28.webp",
+            "all_options": [
+                {
+                    "id": 31821,
+                    "text": "L’ambiance de l’école doit être calquée sur le modelé familial",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31822,
+                    "text": "L’autorité du professeur doit-être récompensée par sa gentillesse",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31823,
+                    "text": "L’épanouissement de l’enfant doit primer sur sa réussite",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31824,
+                    "text": "L’impartialité doit être l’une des qualités principales d’un maitre",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1550,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Mettre en commun les données",
+            "user_selected_option_id": 31825,
+            "correct_answer": "Mettre en commun les données",
+            "correct_option_id": 31825,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_29.webp",
+            "all_options": [
+                {
+                    "id": 31825,
+                    "text": "Mettre en commun les données",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31826,
+                    "text": "Multiplier les colloques internationaux",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31827,
+                    "text": "Protéger les résultats de leurs études",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31828,
+                    "text": "Vulgariser l’information scientifique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1551,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "La méfiance des propriétaires",
+            "user_selected_option_id": 31829,
+            "correct_answer": "La méfiance des propriétaires",
+            "correct_option_id": 31829,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_30.webp",
+            "all_options": [
+                {
+                    "id": 31829,
+                    "text": "La méfiance des propriétaires",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31830,
+                    "text": "La rareté dans offres de logement",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31831,
+                    "text": "L’absence de l’engagement de l’état",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31832,
+                    "text": "Le montant de la caution exigée",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1552,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Permettre aux jeunes de découvrir un sport difficile",
+            "user_selected_option_id": 31835,
+            "correct_answer": "Permettre aux jeunes de découvrir un sport difficile",
+            "correct_option_id": 31835,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_31.webp",
+            "all_options": [
+                {
+                    "id": 31833,
+                    "text": "Expérimenter une nouvelle technologie par le sport",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31834,
+                    "text": "Former les maitres à la pratique du sport sur l’eau",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31835,
+                    "text": "Permettre aux jeunes de découvrir un sport difficile",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31836,
+                    "text": "Réduire les risques en éducation physique et sportive",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1553,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il se réfugiait dans le dessin pour échapper à ses camarades",
+            "user_selected_option_id": 31838,
+            "correct_answer": "Il se réfugiait dans le dessin pour échapper à ses camarades",
+            "correct_option_id": 31838,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_32.webp",
+            "all_options": [
+                {
+                    "id": 31837,
+                    "text": "Il dessinait sans relâche",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31838,
+                    "text": "Il se réfugiait dans le dessin pour échapper à ses camarades",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31839,
+                    "text": "Il vendait ses dessins pour se faire de l’argent de poche",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31840,
+                    "text": "Il voulait ressembler à un personnage de bande dessinée",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1554,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Diffuser l’art dans des endroits inattendus",
+            "user_selected_option_id": 31842,
+            "correct_answer": "Diffuser l’art dans des endroits inattendus",
+            "correct_option_id": 31842,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_33.webp",
+            "all_options": [
+                {
+                    "id": 31841,
+                    "text": "Convertir les lieux en maison de culture",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31842,
+                    "text": "Diffuser l’art dans des endroits inattendus",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31843,
+                    "text": "Ouvrir un centre de formation artistique",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31844,
+                    "text": "Rénover les anciens locaux en les décorant",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1555,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Le déroulement des évènements",
+            "user_selected_option_id": 31848,
+            "correct_answer": "Le déroulement des évènements",
+            "correct_option_id": 31848,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_34.webp",
+            "all_options": [
+                {
+                    "id": 31845,
+                    "text": "La description du personnage",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31846,
+                    "text": "La longueur de texte",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31847,
+                    "text": "La qualité de l’écriture",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31848,
+                    "text": "Le déroulement des évènements",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1556,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "En abandonnant les codes traditionnels du roman",
+            "user_selected_option_id": 31849,
+            "correct_answer": "En abandonnant les codes traditionnels du roman",
+            "correct_option_id": 31849,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_35.webp",
+            "all_options": [
+                {
+                    "id": 31849,
+                    "text": "En abandonnant les codes traditionnels du roman",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31850,
+                    "text": "En cherchant des sources d’inscription méditée",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31851,
+                    "text": "En proposant de nouveaux concepts universels",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31852,
+                    "text": "En se jouant des difficultés liées à l’écriture",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1557,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "À s’affranchir d’une histoire ancienne",
+            "user_selected_option_id": 31854,
+            "correct_answer": "À s’affranchir d’une histoire ancienne",
+            "correct_option_id": 31854,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_36.webp",
+            "all_options": [
+                {
+                    "id": 31853,
+                    "text": "À s’acquitter d’un engagement moral",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31854,
+                    "text": "À s’affranchir d’une histoire ancienne",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31855,
+                    "text": "À se justifier d’une action peu culpabilité",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31856,
+                    "text": "À se justifier d’une action peu glorieuse",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1558,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Diagnostiquer d’éventuels déséquilibres",
+            "user_selected_option_id": 31858,
+            "correct_answer": "Diagnostiquer d’éventuels déséquilibres",
+            "correct_option_id": 31858,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_37.webp",
+            "all_options": [
+                {
+                    "id": 31857,
+                    "text": "Développer leurs capacités de socialisation",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31858,
+                    "text": "Diagnostiquer d’éventuels déséquilibres",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31859,
+                    "text": "Faciliter l’apprentissage d’une seconde langue",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31860,
+                    "text": "Lutter contre les inégalités sociales",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1559,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les stratégies des consommateurs",
+            "user_selected_option_id": 31863,
+            "correct_answer": "Les stratégies des consommateurs",
+            "correct_option_id": 31863,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_38.webp",
+            "all_options": [
+                {
+                    "id": 31861,
+                    "text": "La baisse des achats en boutique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31862,
+                    "text": "Le développement du commerce en ligne",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31863,
+                    "text": "Les stratégies des consommateurs",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31864,
+                    "text": "Un nouveau concept de magasin",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1560,
+            "question_text": "Compréhension écrite – Quiz 4 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Observer l’écosystème dans une région de grands fleuves",
+            "user_selected_option_id": 31867,
+            "correct_answer": "Observer l’écosystème dans une région de grands fleuves",
+            "correct_option_id": 31867,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_4_question_39.webp",
+            "all_options": [
+                {
+                    "id": 31865,
+                    "text": "Former des scientifiques a la prévention des risques écologiques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31866,
+                    "text": "Innover dans les moyens de lutter contre les pollutions fluviales",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31867,
+                    "text": "Observer l’écosystème dans une région de grands fleuves",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31868,
+                    "text": "Préserver le gouvernement français lors d’une rencontre",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 98,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 4",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

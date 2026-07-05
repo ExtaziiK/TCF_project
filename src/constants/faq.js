@@ -1,0 +1,8 @@
+export const FAQS = [
+  { q: "Qu'est-ce que le TCF Canada exactement ?", a: "Le TCF Canada est un test de français reconnu par Immigration, Réfugiés et Citoyenneté Canada (IRCC) pour les demandes de résidence permanente et de citoyenneté. Il évalue quatre compétences : compréhension orale, compréhension écrite, expression orale et expression écrite." },
+  { q: "Combien de temps les résultats sont-ils valables ?", a: "Les attestations du TCF Canada sont valables deux ans à compter de la date de passation. Pensez à planifier votre test en fonction du dépôt de votre dossier d'immigration." },
+  { q: "Quel niveau dois-je viser pour Entrée express ?", a: "Cela dépend de votre profil. Un niveau B2 (NCLC 7) dans les quatre compétences débloque les points francophones ; un niveau C1 (NCLC 9 et plus) maximise vos points de capital humain. Notre test de niveau gratuit vous aide à définir une cible réaliste." },
+  { q: "La plateforme fonctionne-t-elle sur mobile ?", a: "Oui. Passerelle est conçue en priorité pour mobile : vous pouvez réviser vos cartes de vocabulaire dans l'autobus et faire un examen blanc complet sur ordinateur." },
+  { q: "Puis-je annuler mon abonnement à tout moment ?", a: "Oui, en deux clics depuis votre tableau de bord. L'abonnement annuel bénéficie en plus d'une garantie satisfait ou remboursé de 30 jours." },
+  { q: "Les corrections d'expression écrite sont-elles faites par de vrais enseignants ?", a: "L'analyse instantanée est assistée par IA. Les abonnés Premium Annuel reçoivent en plus deux corrections humaines par mois, réalisées par des enseignants de FLE certifiés." },
+];

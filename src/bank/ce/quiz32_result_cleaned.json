@@ -1,0 +1,1733 @@
+{
+    "id": 40093,
+    "exam_id": 68,
+    "score": 272.0,
+    "score_percent": 38.91,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:29:46.322773+00:00",
+    "time_spent": 45,
+    "section_breakdown": {
+        "Identification": {
+            "score": 9.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 13.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 7.8,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 7.8,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2614,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une visite touristique",
+            "user_selected_option_id": 36084,
+            "correct_answer": "Une garde d’animaux",
+            "correct_option_id": 36083,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_1.webp",
+            "all_options": [
+                {
+                    "id": 36081,
+                    "text": "Une aide aux devoirs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36082,
+                    "text": "Une chambre à louer",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36083,
+                    "text": "Une garde d’animaux",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36084,
+                    "text": "Une visite touristique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2615,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "S’occuper du chien",
+            "user_selected_option_id": 36088,
+            "correct_answer": "S’occuper du chien",
+            "correct_option_id": 36088,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_2.webp",
+            "all_options": [
+                {
+                    "id": 36085,
+                    "text": "Préparer le repas",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36086,
+                    "text": "Rentrer pour le diner",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36087,
+                    "text": "Se coucher tôt",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36088,
+                    "text": "S’occuper du chien",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2616,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Un professeur",
+            "user_selected_option_id": 36092,
+            "correct_answer": "Un élève",
+            "correct_option_id": 36091,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_3.webp",
+            "all_options": [
+                {
+                    "id": 36089,
+                    "text": "Un secrétaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36090,
+                    "text": "Un parent",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36091,
+                    "text": "Un élève",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36092,
+                    "text": "Un professeur",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2617,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Réparer une voiture",
+            "user_selected_option_id": 36096,
+            "correct_answer": "Emmener une amie",
+            "correct_option_id": 36094,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_4.webp",
+            "all_options": [
+                {
+                    "id": 36093,
+                    "text": "Acheter un cadeau",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36094,
+                    "text": "Emmener une amie",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36095,
+                    "text": "Organiser une tête",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36096,
+                    "text": "Réparer une voiture",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2618,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Elle veut visiter une entreprise",
+            "user_selected_option_id": 36100,
+            "correct_answer": "Elle souhaite parler à Françoise.",
+            "correct_option_id": 36099,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_5.webp",
+            "all_options": [
+                {
+                    "id": 36097,
+                    "text": "Elle doit partir une journée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36098,
+                    "text": "Elle propose un déjeuner",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36099,
+                    "text": "Elle souhaite parler à Françoise.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36100,
+                    "text": "Elle veut visiter une entreprise",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2619,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Visiter un monument",
+            "user_selected_option_id": 36104,
+            "correct_answer": "Organiser une fêter",
+            "correct_option_id": 36102,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_6.webp",
+            "all_options": [
+                {
+                    "id": 36101,
+                    "text": "Louer des chambres",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36102,
+                    "text": "Organiser une fêter",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36103,
+                    "text": "Se promener en bateau",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36104,
+                    "text": "Visiter un monument",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2620,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "De visiter de nouveaux logements",
+            "user_selected_option_id": 36108,
+            "correct_answer": "De faire un repas entre voisins",
+            "correct_option_id": 36106,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_7.webp",
+            "all_options": [
+                {
+                    "id": 36105,
+                    "text": "De cuisiner tous ensemble",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36106,
+                    "text": "De faire un repas entre voisins",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36107,
+                    "text": "De s’inscrire a des activités",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36108,
+                    "text": "De visiter de nouveaux logements",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2621,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "De passer un moment agréable en musique",
+            "user_selected_option_id": 36112,
+            "correct_answer": "De passer un moment agréable en musique",
+            "correct_option_id": 36112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_8.webp",
+            "all_options": [
+                {
+                    "id": 36109,
+                    "text": "De découvrir une sélection de livres",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36110,
+                    "text": "De gagner des places pour un festival.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36111,
+                    "text": "De participer à une discussion sur le jazz",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36112,
+                    "text": "De passer un moment agréable en musique",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2622,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Téléphoner à Biotopia",
+            "user_selected_option_id": 36116,
+            "correct_answer": "Continuer ses ventes",
+            "correct_option_id": 36113,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_9.webp",
+            "all_options": [
+                {
+                    "id": 36113,
+                    "text": "Continuer ses ventes",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36114,
+                    "text": "Déménager à Montélimar",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36115,
+                    "text": "Rencontrer des clients",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36116,
+                    "text": "Téléphoner à Biotopia",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2623,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "De découvrir une langue",
+            "user_selected_option_id": 36120,
+            "correct_answer": "D’envoyer des photos",
+            "correct_option_id": 36117,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_10.webp",
+            "all_options": [
+                {
+                    "id": 36117,
+                    "text": "D’envoyer des photos",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36118,
+                    "text": "D’inventer une recette",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36119,
+                    "text": "De créer un spectacle",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36120,
+                    "text": "De découvrir une langue",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2624,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De passer une nuit sous la tente.",
+            "user_selected_option_id": 36124,
+            "correct_answer": "De dormir au milieu de la nature",
+            "correct_option_id": 36121,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_11.webp",
+            "all_options": [
+                {
+                    "id": 36121,
+                    "text": "De dormir au milieu de la nature",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36122,
+                    "text": "De faire un parcours dans les arbres",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36123,
+                    "text": "De participer à une aventure sportive",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36124,
+                    "text": "De passer une nuit sous la tente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2625,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Le début des soldes d’été.",
+            "user_selected_option_id": 36128,
+            "correct_answer": "L’anniversaire d’un magasin.",
+            "correct_option_id": 36125,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_12.webp",
+            "all_options": [
+                {
+                    "id": 36125,
+                    "text": "L’anniversaire d’un magasin.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36126,
+                    "text": "L’augmentation des ventes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36127,
+                    "text": "L’ouverture d’un commerce.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36128,
+                    "text": "Le début des soldes d’été.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2626,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Se couvrir la gorge",
+            "user_selected_option_id": 36132,
+            "correct_answer": "Se couvrir la gorge",
+            "correct_option_id": 36132,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_13.webp",
+            "all_options": [
+                {
+                    "id": 36129,
+                    "text": "Arrêter de fumer",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36130,
+                    "text": "Boire du sirop de menthe",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36131,
+                    "text": "Faire moins de sport",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36132,
+                    "text": "Se couvrir la gorge",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2627,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Visiter une exposition",
+            "user_selected_option_id": 36136,
+            "correct_answer": "Découvrir des instruments de musique",
+            "correct_option_id": 36134,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_14.webp",
+            "all_options": [
+                {
+                    "id": 36133,
+                    "text": "Assister à un concert",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36134,
+                    "text": "Découvrir des instruments de musique",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36135,
+                    "text": "S’inscrire à des cours",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36136,
+                    "text": "Visiter une exposition",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2628,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Raconter son histoire personnelle",
+            "user_selected_option_id": 36140,
+            "correct_answer": "Echanger avec d’autres passionnés de tennis",
+            "correct_option_id": 36137,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_15.webp",
+            "all_options": [
+                {
+                    "id": 36137,
+                    "text": "Echanger avec d’autres passionnés de tennis",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36138,
+                    "text": "Participer à la rédaction d’articles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36139,
+                    "text": "Prendre rendez-vous pour des matchs",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36140,
+                    "text": "Raconter son histoire personnelle",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2629,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De s’inscrire à des formations à L’agriculture",
+            "user_selected_option_id": 36144,
+            "correct_answer": "De jardiner dans des lieux publics",
+            "correct_option_id": 36142,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_16.webp",
+            "all_options": [
+                {
+                    "id": 36141,
+                    "text": "D’installer des ruches sur les toits",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36142,
+                    "text": "De jardiner dans des lieux publics",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36143,
+                    "text": "De s’associer à la rénovation des bâtiments",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36144,
+                    "text": "De s’inscrire à des formations à L’agriculture",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2630,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Les bienfaits de la déconnexion pendant les congés",
+            "user_selected_option_id": 36148,
+            "correct_answer": "Les bienfaits de la déconnexion pendant les congés",
+            "correct_option_id": 36148,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_17.webp",
+            "all_options": [
+                {
+                    "id": 36145,
+                    "text": "L’augmentation du mal être au bureau lié au stress",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36146,
+                    "text": "Le besoin de se former aux nouvelles technologies",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36147,
+                    "text": "Le risque de surmenage dû à des horaires étendus",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36148,
+                    "text": "Les bienfaits de la déconnexion pendant les congés",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2631,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "de l’amitié dans un lieu abandonné.",
+            "user_selected_option_id": 36152,
+            "correct_answer": "Du dernier village de Provence.",
+            "correct_option_id": 36150,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_18.webp",
+            "all_options": [
+                {
+                    "id": 36149,
+                    "text": "Du dernier habitant d’un village.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36150,
+                    "text": "Du dernier village de Provence.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36151,
+                    "text": "De l’arrivée d’une femme dans un village.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36152,
+                    "text": "de l’amitié dans un lieu abandonné.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2632,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Son humour fait passer un message sérieux",
+            "user_selected_option_id": 36156,
+            "correct_answer": "Son humour fait passer un message sérieux",
+            "correct_option_id": 36156,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_19.webp",
+            "all_options": [
+                {
+                    "id": 36153,
+                    "text": "Il est facile de s’identifier aux personnages",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36154,
+                    "text": "Les lieux de tournage sont authentiques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36155,
+                    "text": "On y dresse un portrait juste de la société.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36156,
+                    "text": "Son humour fait passer un message sérieux",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2633,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Elle s’occupe de gérer des jardins collectifs.",
+            "user_selected_option_id": 36160,
+            "correct_answer": "Elle récolte les produits de terrains privés.",
+            "correct_option_id": 36159,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36157,
+                    "text": "Elle cultive des espaces verts abandonnés",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36158,
+                    "text": "Elle réalise des petits services d’entretien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36159,
+                    "text": "Elle récolte les produits de terrains privés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36160,
+                    "text": "Elle s’occupe de gérer des jardins collectifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2634,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Privilégier les aliments bio et avoir du mal à s’en procurer",
+            "user_selected_option_id": 36164,
+            "correct_answer": "Avoir la garantie de la qualité du produit et ignorer d’où il vient",
+            "correct_option_id": 36162,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36161,
+                    "text": "Acheter les meilleurs produits et dépenser le moins possible",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36162,
+                    "text": "Avoir la garantie de la qualité du produit et ignorer d’où il vient",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36163,
+                    "text": "Être amateur de viande et militer pour le bien-être animal",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36164,
+                    "text": "Privilégier les aliments bio et avoir du mal à s’en procurer",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2635,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "user_selected_option_id": 36168,
+            "correct_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "correct_option_id": 36168,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_22.webp",
+            "all_options": [
+                {
+                    "id": 36165,
+                    "text": "Ils éloignent les jeunes du monde des adultes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36166,
+                    "text": "Ils entraînent des comportements de type addictif.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36167,
+                    "text": "Ils ont tendance à couper les adolescents du réel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36168,
+                    "text": "Ils peuvent être utilisés comme outils de contrôle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2636,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Elle s’adresse exclusivement à des acteurs confirmés.",
+            "user_selected_option_id": 36172,
+            "correct_answer": "Elle associe différentes formes d’expression artistique.",
+            "correct_option_id": 36169,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_23.webp",
+            "all_options": [
+                {
+                    "id": 36169,
+                    "text": "Elle associe différentes formes d’expression artistique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36170,
+                    "text": "Elle met l’accent sur la maitrise de la mise en scène.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36171,
+                    "text": "Elle propose des stages dans le monde du spectacle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36172,
+                    "text": "Elle s’adresse exclusivement à des acteurs confirmés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2637,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Il soutient les entreprises locales.",
+            "user_selected_option_id": 36176,
+            "correct_answer": "Il soutient les entreprises locales.",
+            "correct_option_id": 36176,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36173,
+                    "text": "Il propose des modèles uniques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36174,
+                    "text": "Il réalise un chiffre d’affaires élevé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36175,
+                    "text": "Il sélectionne des articles écologiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36176,
+                    "text": "Il soutient les entreprises locales.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2638,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Pour soutenir les agriculteurs de proximité.",
+            "user_selected_option_id": 36180,
+            "correct_answer": "Pour soutenir les agriculteurs de proximité.",
+            "correct_option_id": 36180,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_25.webp",
+            "all_options": [
+                {
+                    "id": 36177,
+                    "text": "Pour diversifier leur approvisionnement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36178,
+                    "text": "Pour faire des achats à moindre coût.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36179,
+                    "text": "Pour réduire la consommation de carburant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36180,
+                    "text": "Pour soutenir les agriculteurs de proximité.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2639,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+            "user_selected_option_id": 36184,
+            "correct_answer": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+            "correct_option_id": 36184,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36181,
+                    "text": "La consommation de gaz dans le monde augmente.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36182,
+                    "text": "La demande croissante en gaz a des effets sur le climat.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36183,
+                    "text": "Les besoins en gaz des Américains sont supérieurs à l’offre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36184,
+                    "text": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2640,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "De l’organisation d’une animation clandestine",
+            "user_selected_option_id": 36188,
+            "correct_answer": "De l’organisation d’une animation clandestine",
+            "correct_option_id": 36188,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36185,
+                    "text": "D’un rassemblement de clients mécontents",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36186,
+                    "text": "D’une opération de vente promotionnelle",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36187,
+                    "text": "De l’inauguration d’un nouvel établissement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36188,
+                    "text": "De l’organisation d’une animation clandestine",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2641,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Une manifestation culturelle",
+            "user_selected_option_id": 36192,
+            "correct_answer": "Une manifestation culturelle",
+            "correct_option_id": 36192,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36189,
+                    "text": "Un marché traditionnel",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36190,
+                    "text": "Un spectacle de cirque.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36191,
+                    "text": "Une cérémonie officielle",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36192,
+                    "text": "Une manifestation culturelle",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2642,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les orientations pédagogiques à soutenir",
+            "user_selected_option_id": 36196,
+            "correct_answer": "La mise en oeuvre d’une action collective",
+            "correct_option_id": 36193,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_29.webp",
+            "all_options": [
+                {
+                    "id": 36193,
+                    "text": "La mise en oeuvre d’une action collective",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36194,
+                    "text": "La mission des organisations professionnelles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36195,
+                    "text": "Le contenu des revendications présentes",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36196,
+                    "text": "Les orientations pédagogiques à soutenir",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2643,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Comme une incitation à l’action",
+            "user_selected_option_id": 36200,
+            "correct_answer": "Comme une incitation à l’action",
+            "correct_option_id": 36200,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36197,
+                    "text": "Comme un défaut d’honnêteté",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36198,
+                    "text": "Comme un manque de confiance",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36199,
+                    "text": "Comme une appréciation déguisée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36200,
+                    "text": "Comme une incitation à l’action",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2644,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Le contentement de leurs abonnés",
+            "user_selected_option_id": 36204,
+            "correct_answer": "Le changement régulier des séries.",
+            "correct_option_id": 36203,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_31.webp",
+            "all_options": [
+                {
+                    "id": 36201,
+                    "text": "La longévité des programmes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36202,
+                    "text": "La qualité des services offerts.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36203,
+                    "text": "Le changement régulier des séries.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36204,
+                    "text": "Le contentement de leurs abonnés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2645,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Les conséquences sanitaires des ajouts.",
+            "user_selected_option_id": 36208,
+            "correct_answer": "Les arguments hypocrites avancés par les fabricants",
+            "correct_option_id": 36207,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36205,
+                    "text": "Le dosage des produits chimiques dans les aliments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36206,
+                    "text": "Le manque de lisibilité des étiquettes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36207,
+                    "text": "Les arguments hypocrites avancés par les fabricants",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36208,
+                    "text": "Les conséquences sanitaires des ajouts.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2646,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "L’exclusion des classes populaires des activités touristiques.",
+            "user_selected_option_id": 36212,
+            "correct_answer": "L’avidité financière des acteurs du secteur touristique.",
+            "correct_option_id": 36210,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36209,
+                    "text": "La pénurie de logement liée à la présence des touristes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36210,
+                    "text": "L’avidité financière des acteurs du secteur touristique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36211,
+                    "text": "Le mépris des touristes pour les considérations écologiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36212,
+                    "text": "L’exclusion des classes populaires des activités touristiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2647,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Permettre de voyager extramuros à moindre frais",
+            "user_selected_option_id": 36216,
+            "correct_answer": "Attirer l’attention grâce à un coup de publicité.",
+            "correct_option_id": 36213,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_34.webp",
+            "all_options": [
+                {
+                    "id": 36213,
+                    "text": "Attirer l’attention grâce à un coup de publicité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36214,
+                    "text": "Concurrencer les autres moyens de locomotion",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36215,
+                    "text": "Multiplier le nombre de souscriptions par Internet",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36216,
+                    "text": "Permettre de voyager extramuros à moindre frais",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2648,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Une crainte de la hiérarchie quant à la qualité du travail fourni.",
+            "user_selected_option_id": 36220,
+            "correct_answer": "Une crainte de la hiérarchie quant à la qualité du travail fourni.",
+            "correct_option_id": 36220,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_35.webp",
+            "all_options": [
+                {
+                    "id": 36217,
+                    "text": "Un manque de volontaires au sein des entreprises.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36218,
+                    "text": "Un risque pour l’entreprise de voir son rendement baisser.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36219,
+                    "text": "Une absence d’équipements modernes adéquats.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36220,
+                    "text": "Une crainte de la hiérarchie quant à la qualité du travail fourni.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2649,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle simplifie le travail des enseignants",
+            "user_selected_option_id": 36224,
+            "correct_answer": "Elle favorise l’égalité des chances.",
+            "correct_option_id": 36221,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_36.webp",
+            "all_options": [
+                {
+                    "id": 36221,
+                    "text": "Elle favorise l’égalité des chances.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36222,
+                    "text": "Elle prépare à la vie professionnelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36223,
+                    "text": "Elle remplace l’évaluation continue.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36224,
+                    "text": "Elle simplifie le travail des enseignants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2650,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il véhicule des valeurs obsolètes.",
+            "user_selected_option_id": 36228,
+            "correct_answer": "Il appartient à une réflexion philosophique.",
+            "correct_option_id": 36225,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_37.webp",
+            "all_options": [
+                {
+                    "id": 36225,
+                    "text": "Il appartient à une réflexion philosophique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36226,
+                    "text": "Il fait souvent la une des journaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36227,
+                    "text": "Il résulte des modes de vie contemporains",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36228,
+                    "text": "Il véhicule des valeurs obsolètes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2651,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "La nécessité de souder les équipes dans une entreprise.",
+            "user_selected_option_id": 36232,
+            "correct_answer": "L’intérêt d’éviter les inconvénients liés à l’isolement.",
+            "correct_option_id": 36230,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_38.webp",
+            "all_options": [
+                {
+                    "id": 36229,
+                    "text": "L’importance de la gestion des ressources humaines.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36230,
+                    "text": "L’intérêt d’éviter les inconvénients liés à l’isolement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36231,
+                    "text": "La facilité de réaliser des projets communs à distance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36232,
+                    "text": "La nécessité de souder les équipes dans une entreprise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2652,
+            "question_text": "Compréhension écrite – Quiz 32 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "De soutenir les entreprises responsables.",
+            "user_selected_option_id": 36236,
+            "correct_answer": "De soutenir les entreprises responsables.",
+            "correct_option_id": 36236,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_32_question_39.webp",
+            "all_options": [
+                {
+                    "id": 36233,
+                    "text": "D’arrêter les présentations de collections.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36234,
+                    "text": "De diminuer la production de vêtements.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36235,
+                    "text": "De sensibiliser les jeunes consommateurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36236,
+                    "text": "De soutenir les entreprises responsables.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 38,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture de textes courts et simples",
+        "Compréhension du passé composé simple dans un texte"
+    ],
+    "improvements": [
+        "Travailler l'inférence et les sous-entendus",
+        "Compréhension du contexte au-delà du texte",
+        "Gestion de vocabulaire implicite",
+        "Compréhension de textes plus longs"
+    ],
+    "recommendations": [
+        "Lire des articles de niveau A2 (RFI, News in Slow French) 20 min/jour",
+        "Utiliser des fiches vocabulaire avec contexte",
+        "Pratiquer l'inférence: deviner le sens des mots inconnus",
+        "Lire et relire 3-4 textes par semaine",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 32",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

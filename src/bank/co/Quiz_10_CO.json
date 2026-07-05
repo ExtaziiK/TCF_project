@@ -1,0 +1,1733 @@
+{
+    "id": 31737,
+    "exam_id": 10,
+    "score": 537.0,
+    "score_percent": 76.82,
+    "cefr_level": "C1",
+    "clb_level": "CLB/NCLC 9",
+    "completed_at": "2026-04-15T17:02:36.566561+00:00",
+    "time_spent": 2247,
+    "section_breakdown": {
+        "Identification": {
+            "score": 19.2,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 26.9,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 15.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 15.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 352,
+            "question_text": "Compréhension orale – Quiz 10 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "A",
+            "user_selected_option_id": 14865,
+            "correct_answer": "A",
+            "correct_option_id": 14865,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_10_question_1.webp",
+            "all_options": [
+                {
+                    "id": 14865,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14866,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14867,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14868,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 353,
+            "question_text": "Compréhension orale – Quiz 10 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "A",
+            "user_selected_option_id": 14869,
+            "correct_answer": "A",
+            "correct_option_id": 14869,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_10_question_2.webp",
+            "all_options": [
+                {
+                    "id": 14869,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14870,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14871,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14872,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 354,
+            "question_text": "Compréhension orale – Quiz 10 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "A",
+            "user_selected_option_id": 14873,
+            "correct_answer": "A",
+            "correct_option_id": 14873,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_3.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_10_question_3.webp",
+            "all_options": [
+                {
+                    "id": 14873,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14874,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14875,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14876,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 355,
+            "question_text": "Compréhension orale – Quiz 10 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "B",
+            "user_selected_option_id": 14878,
+            "correct_answer": "B",
+            "correct_option_id": 14878,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_4.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_10_question_4.webp",
+            "all_options": [
+                {
+                    "id": 14877,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14878,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14879,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14880,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 356,
+            "question_text": "Compréhension orale – Quiz 10 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "A",
+            "user_selected_option_id": 14881,
+            "correct_answer": "A",
+            "correct_option_id": 14881,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14881,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14882,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14883,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14884,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 357,
+            "question_text": "Compréhension orale – Quiz 10 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "B",
+            "user_selected_option_id": 14886,
+            "correct_answer": "B",
+            "correct_option_id": 14886,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14885,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14886,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14887,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14888,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 358,
+            "question_text": "Compréhension orale – Quiz 10 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "A",
+            "user_selected_option_id": 14889,
+            "correct_answer": "A",
+            "correct_option_id": 14889,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 35,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14889,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14890,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14891,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14892,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 359,
+            "question_text": "Compréhension orale – Quiz 10 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "C",
+            "user_selected_option_id": 14895,
+            "correct_answer": "C",
+            "correct_option_id": 14895,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14893,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14894,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14895,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14896,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 360,
+            "question_text": "Compréhension orale – Quiz 10 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "D",
+            "user_selected_option_id": 14900,
+            "correct_answer": "A",
+            "correct_option_id": 14897,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 123,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14897,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14898,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14899,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14900,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 361,
+            "question_text": "Compréhension orale – Quiz 10 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Elle est en panne.",
+            "user_selected_option_id": 14902,
+            "correct_answer": "Elle est en panne.",
+            "correct_option_id": 14902,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14901,
+                    "text": "Elle est déjà vendue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14902,
+                    "text": "Elle est en panne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14903,
+                    "text": "Elle est irréparable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14904,
+                    "text": "Elle est trop chère.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 362,
+            "question_text": "Compréhension orale – Quiz 10 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De vacances en famille.",
+            "user_selected_option_id": 14907,
+            "correct_answer": "De vacances en famille.",
+            "correct_option_id": 14907,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 32,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14905,
+                    "text": "D’un prochain déménagement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14906,
+                    "text": "De sport pour le week-end.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14907,
+                    "text": "De vacances en famille.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14908,
+                    "text": "D’un problème de santé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 363,
+            "question_text": "Compréhension orale – Quiz 10 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "L’annulation d’un cours.",
+            "user_selected_option_id": 14909,
+            "correct_answer": "L’annulation d’un cours.",
+            "correct_option_id": 14909,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14909,
+                    "text": "L’annulation d’un cours.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14910,
+                    "text": "Le retard d’un professeur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14911,
+                    "text": "Les horaires d’un examen.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14912,
+                    "text": "Un changement de salle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 364,
+            "question_text": "Compréhension orale – Quiz 10 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Travailler toute la journée.",
+            "user_selected_option_id": 14915,
+            "correct_answer": "Travailler toute la journée.",
+            "correct_option_id": 14915,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14913,
+                    "text": "Manger des plats typiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14914,
+                    "text": "Rencontrer sa famille.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14915,
+                    "text": "Travailler toute la journée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14916,
+                    "text": "Voir une exposition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 365,
+            "question_text": "Compréhension orale – Quiz 10 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "De partir ensemble à l’étranger.",
+            "user_selected_option_id": 14918,
+            "correct_answer": "De partir ensemble à l’étranger.",
+            "correct_option_id": 14918,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14917,
+                    "text": "De visiter le sud de la France.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14918,
+                    "text": "De partir ensemble à l’étranger.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14919,
+                    "text": "De partir chacun de leur côté.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14920,
+                    "text": "D’aller pêcher avec d’autres amis.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 366,
+            "question_text": "Compréhension orale – Quiz 10 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Monter d’un étage.",
+            "user_selected_option_id": 14923,
+            "correct_answer": "Monter d’un étage.",
+            "correct_option_id": 14923,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14921,
+                    "text": "Continuer jusqu’au hall.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14922,
+                    "text": "Descendre avec l’ascenseur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14923,
+                    "text": "Monter d’un étage.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14924,
+                    "text": "Prendre le couloir à droite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 367,
+            "question_text": "Compréhension orale – Quiz 10 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Une de leurs amies est gravement malade.",
+            "user_selected_option_id": 14925,
+            "correct_answer": "Elles vont rendre visite à une amie.",
+            "correct_option_id": 14926,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14925,
+                    "text": "Une de leurs amies est gravement malade.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14926,
+                    "text": "Elles vont rendre visite à une amie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14927,
+                    "text": "L’une d’elles doit faire des examens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14928,
+                    "text": "L’une d’elles vient d’avoir un accident.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 368,
+            "question_text": "Compréhension orale – Quiz 10 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle part en vacances en Grèce.",
+            "user_selected_option_id": 14929,
+            "correct_answer": "Elle part en vacances en Grèce.",
+            "correct_option_id": 14929,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 31,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14929,
+                    "text": "Elle part en vacances en Grèce.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14930,
+                    "text": "Elle part en lune de miel en Grèce.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14931,
+                    "text": "Elle revient d’un court séjour en Grèce.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14932,
+                    "text": "Elle vient d’obtenir un emploi en Grèce.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 369,
+            "question_text": "Compréhension orale – Quiz 10 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Revenir plus tard dans la journée.",
+            "user_selected_option_id": 14936,
+            "correct_answer": "Revenir plus tard dans la journée.",
+            "correct_option_id": 14936,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14933,
+                    "text": "Attendre son tour dans le bureau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14934,
+                    "text": "Déposer son dossier sans attendre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14935,
+                    "text": "Prendre rendez-vous pour le lendemain.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14936,
+                    "text": "Revenir plus tard dans la journée.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 370,
+            "question_text": "Compréhension orale – Quiz 10 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Envoyer une lettre.",
+            "user_selected_option_id": 14939,
+            "correct_answer": "Envoyer une lettre.",
+            "correct_option_id": 14939,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14937,
+                    "text": "Acheter une enveloppe.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14938,
+                    "text": "Changer de l’argent.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14939,
+                    "text": "Envoyer une lettre.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14940,
+                    "text": "Retirer un colis.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 371,
+            "question_text": "Compréhension orale – Quiz 10 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Visiter une ville.",
+            "user_selected_option_id": 14944,
+            "correct_answer": "Visiter une ville.",
+            "correct_option_id": 14944,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 40,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14941,
+                    "text": "Acheter un guide.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14942,
+                    "text": "Réserver une table.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14943,
+                    "text": "Trouver une chambre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14944,
+                    "text": "Visiter une ville.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 372,
+            "question_text": "Compréhension orale – Quiz 10 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Le secrétariat de son département.",
+            "user_selected_option_id": 14947,
+            "correct_answer": "Le directeur de son département.",
+            "correct_option_id": 14946,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 31,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14945,
+                    "text": "Le bureau des relations internationales.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14946,
+                    "text": "Le directeur de son département.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14947,
+                    "text": "Le secrétariat de son département.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14948,
+                    "text": "L’université étrangère qui l’intéresse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 373,
+            "question_text": "Compréhension orale – Quiz 10 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ils jouent aux cartes.",
+            "user_selected_option_id": 14950,
+            "correct_answer": "Ils jouent aux cartes.",
+            "correct_option_id": 14950,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14949,
+                    "text": "Ils dînent au restaurant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14950,
+                    "text": "Ils jouent aux cartes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14951,
+                    "text": "Ils révisent leurs leçons.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14952,
+                    "text": "Ils préparent le repas.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 374,
+            "question_text": "Compréhension orale – Quiz 10 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Les contraintes liées aux pratiques sportives.",
+            "user_selected_option_id": 14955,
+            "correct_answer": "Les contraintes liées aux pratiques sportives.",
+            "correct_option_id": 14955,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 58,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14953,
+                    "text": "La fréquence des compétitions sportives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14954,
+                    "text": "Le contenu des programmes sportifs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14955,
+                    "text": "Les contraintes liées aux pratiques sportives.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14956,
+                    "text": "L’insuffisance des résultats sportifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 375,
+            "question_text": "Compréhension orale – Quiz 10 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Elles entrent dans la vie active avant les jeunes garçons.",
+            "user_selected_option_id": 14957,
+            "correct_answer": "Elles se rebellent très vite face à l’autorité familiale au quotidien.",
+            "correct_option_id": 14958,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 59,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14957,
+                    "text": "Elles entrent dans la vie active avant les jeunes garçons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14958,
+                    "text": "Elles se rebellent très vite face à l’autorité familiale au quotidien.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14959,
+                    "text": "Elles sont en désaccord avec leurs parents au sujet de leurs études.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14960,
+                    "text": "Elles sont mieux préparées aux tâches de tous les jours.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 376,
+            "question_text": "Compréhension orale – Quiz 10 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Il est très motivé par la formation.",
+            "user_selected_option_id": 14964,
+            "correct_answer": "Il a travaillé dans un commerce.",
+            "correct_option_id": 14962,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 40,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14961,
+                    "text": "Il a quatre ans d’expérience.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14962,
+                    "text": "Il a travaillé dans un commerce.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14963,
+                    "text": "Il accepte de travailler l’été.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14964,
+                    "text": "Il est très motivé par la formation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 377,
+            "question_text": "Compréhension orale – Quiz 10 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Il s’est d’abord fait connaître auprès des étudiants.",
+            "user_selected_option_id": 14968,
+            "correct_answer": "Il s’est d’abord fait connaître auprès des étudiants.",
+            "correct_option_id": 14968,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 57,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14965,
+                    "text": "Il a créé un partenariat avec une marque de voiture.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14966,
+                    "text": "Il a distribué gratuitement ses premiers modèles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14967,
+                    "text": "Il a engagé des mannequins pour présenter sa collection.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14968,
+                    "text": "Il s’est d’abord fait connaître auprès des étudiants.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 378,
+            "question_text": "Compréhension orale – Quiz 10 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "En les incitant à travailler de manière collaborative.",
+            "user_selected_option_id": 14969,
+            "correct_answer": "En les incitant à travailler de manière collaborative.",
+            "correct_option_id": 14969,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 78,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14969,
+                    "text": "En les incitant à travailler de manière collaborative.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14970,
+                    "text": "En les poussant à prendre des risques importants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14971,
+                    "text": "En leur offrant des formations personnalisées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14972,
+                    "text": "En leur proposant de participer à des compétitions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 379,
+            "question_text": "Compréhension orale – Quiz 10 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Établir un certificat médical.",
+            "user_selected_option_id": 14974,
+            "correct_answer": "Établir un certificat médical.",
+            "correct_option_id": 14974,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14973,
+                    "text": "Conseiller des médicaments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14974,
+                    "text": "Établir un certificat médical.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14975,
+                    "text": "Examiner une radiographie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14976,
+                    "text": "Traiter un problème de poids.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 380,
+            "question_text": "Compréhension orale – Quiz 10 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "La coopération avec les autorités publiques.",
+            "user_selected_option_id": 14978,
+            "correct_answer": "L’implication active de tous les habitants.",
+            "correct_option_id": 14980,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 96,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14977,
+                    "text": "L’obligation d’acheter des moustiquaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14978,
+                    "text": "La coopération avec les autorités publiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14979,
+                    "text": "Le recensement des malades par l’association.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14980,
+                    "text": "L’implication active de tous les habitants.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 381,
+            "question_text": "Compréhension orale – Quiz 10 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Pour s’acheter une maison.",
+            "user_selected_option_id": 14983,
+            "correct_answer": "Pour s’acheter une maison.",
+            "correct_option_id": 14983,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 64,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14981,
+                    "text": "Pour mieux connaître la région.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14982,
+                    "text": "Pour aller voir un festival.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14983,
+                    "text": "Pour s’acheter une maison.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14984,
+                    "text": "Pour rendre visite à un ami.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 382,
+            "question_text": "Compréhension orale – Quiz 10 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Montrer la variété de la langue française.",
+            "user_selected_option_id": 14986,
+            "correct_answer": "Montrer la variété de la langue française.",
+            "correct_option_id": 14986,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14985,
+                    "text": "Favoriser l’apprentissage de chansons françaises.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14986,
+                    "text": "Montrer la variété de la langue française.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 14987,
+                    "text": "Promouvoir de nouveaux événements musicaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14988,
+                    "text": "Faire le tour du monde des festivals francophones.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 383,
+            "question_text": "Compréhension orale – Quiz 10 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Laisser l’élève progresser à son rythme en l’accompagnant patiemment.",
+            "user_selected_option_id": 14991,
+            "correct_answer": "Laisser l’élève progresser à son rythme en l’accompagnant patiemment.",
+            "correct_option_id": 14991,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 103,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14989,
+                    "text": "Apprendre à l’élève à se maîtriser sans la présence de professeurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14990,
+                    "text": "Imposer une progression précise à l’élève afin de l’aider à se structurer.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14991,
+                    "text": "Laisser l’élève progresser à son rythme en l’accompagnant patiemment.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 14992,
+                    "text": "S’appuyer sur ce que l’élève a appris durant son parcours scolaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 384,
+            "question_text": "Compréhension orale – Quiz 10 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Contrôler l’aptitude à la conduite d’une certaine catégorie d’usagers.",
+            "user_selected_option_id": 14993,
+            "correct_answer": "Contrôler l’aptitude à la conduite d’une certaine catégorie d’usagers.",
+            "correct_option_id": 14993,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 59,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14993,
+                    "text": "Contrôler l’aptitude à la conduite d’une certaine catégorie d’usagers.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 14994,
+                    "text": "Obliger les fautifs d’accidents à repasser l’examen du permis.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14995,
+                    "text": "Réduire la vitesse réglementaire pour les automobilistes séniors.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 14996,
+                    "text": "Simplifier les panneaux de signalisation les plus complexes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 385,
+            "question_text": "Compréhension orale – Quiz 10 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Exploiter différemment les terres endommagées.",
+            "user_selected_option_id": 14999,
+            "correct_answer": "Exploiter différemment les terres endommagées.",
+            "correct_option_id": 14999,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 112,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 14997,
+                    "text": "Accroître les zones agricoles en déforestation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 14998,
+                    "text": "Améliorer le rendement des parcelles cultivées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 14999,
+                    "text": "Exploiter différemment les terres endommagées.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15000,
+                    "text": "Rendre productifs les terrains vagues urbains.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 386,
+            "question_text": "Compréhension orale – Quiz 10 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "C’est un symbole fort de cette province.",
+            "user_selected_option_id": 15003,
+            "correct_answer": "C’est un symbole fort de cette province.",
+            "correct_option_id": 15003,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 23,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15001,
+                    "text": "C’est un exemple de réussite par le sport.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15002,
+                    "text": "C’est un modèle rare de mixité culturelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15003,
+                    "text": "C’est un symbole fort de cette province.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15004,
+                    "text": "C’est une référence pour son style de jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 387,
+            "question_text": "Compréhension orale – Quiz 10 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Surveiller les maisons pour stopper les vols.",
+            "user_selected_option_id": 15008,
+            "correct_answer": "Constituer un atlas mondial électronique.",
+            "correct_option_id": 15005,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 197,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15005,
+                    "text": "Constituer un atlas mondial électronique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15006,
+                    "text": "Proposer des reportages sur la vie privée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15007,
+                    "text": "Recenser les plaintes pour violation d’intimité.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15008,
+                    "text": "Surveiller les maisons pour stopper les vols.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 388,
+            "question_text": "Compréhension orale – Quiz 10 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "La dégradation d’un site naturel rare.",
+            "user_selected_option_id": 15010,
+            "correct_answer": "La dégradation d’un site naturel rare.",
+            "correct_option_id": 15010,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 77,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15009,
+                    "text": "L’industrialisation galopante des rives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15010,
+                    "text": "La dégradation d’un site naturel rare.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15011,
+                    "text": "La pollution des nappes phréatiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15012,
+                    "text": "La raréfaction des énergies fossiles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 389,
+            "question_text": "Compréhension orale – Quiz 10 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Prendre en compte des aspects financiers du projet.",
+            "user_selected_option_id": 15014,
+            "correct_answer": "Mettre en place toutes les infrastructures d’accueil.",
+            "correct_option_id": 15013,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 102,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15013,
+                    "text": "Mettre en place toutes les infrastructures d’accueil.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15014,
+                    "text": "Prendre en compte des aspects financiers du projet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15015,
+                    "text": "Réussir l’intégration de la main-d’œuvre étrangère.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15016,
+                    "text": "Susciter l’adhésion de tous les habitants concernés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 390,
+            "question_text": "Compréhension orale – Quiz 10 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Quelle que soit la nature du litige, le médiateur n’a qu’un pouvoir consultatif.",
+            "user_selected_option_id": 15020,
+            "correct_answer": "Quelle que soit la nature du litige, le médiateur n’a qu’un pouvoir consultatif.",
+            "correct_option_id": 15020,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 46,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_10_question_39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15017,
+                    "text": "Le nombre de médiateurs est insuffisant pour répondre à la demande.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15018,
+                    "text": "Les banques influencent les décisions prises par les médiateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15019,
+                    "text": "Les demandeurs trouvent que la procédure est trop longue et compliquée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15020,
+                    "text": "Quelle que soit la nature du litige, le médiateur n’a qu’un pouvoir consultatif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 76,
+    "strengths": [
+        "Compréhension presque complète de contenu natif",
+        "Capture efficace de tous les détails et nuances",
+        "Compréhension d'ironie, satire, critique subtile",
+        "Gestion sans effort de vocabulaire spécialisé et rare"
+    ],
+    "improvements": [
+        "Capture de 100% de tous les détails minuscules",
+        "Compréhension de dialectes très régionaux ou anciens",
+        "Gestion de vocabulaire technique très spécialisé",
+        "Perfectionnement vers C2 (nuances ultimes)"
+    ],
+    "recommendations": [
+        "Consacrer 30-40 min/jour à contenus intellectuels difficiles (débats philo, conférences académiques)",
+        "Étudier expressions idiomatiques rares et nuances de registre",
+        "Programmer 1-2 examen complets chaque semaine",
+        "Pratiquer compréhension de débit très rapide et dialectes régionaux",
+        "Écouter littérature française lue par acteurs"
+    ],
+    "exam_title": "Compréhension orale – Quiz 10",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}
