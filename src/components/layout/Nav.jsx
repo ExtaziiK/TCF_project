@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Sun, Moon, Bell, Search, ChevronDown, ChevronRight, LogOut } from "lucide-react";
+import { Menu, X, Sun, Moon, Bell, Search, ChevronDown, ChevronRight, LogOut, Shield } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
@@ -67,6 +67,9 @@ export function Nav() {
             )}
             {user ? (
               <div className="hidden md:flex items-center gap-2 ml-1">
+                {user.admin && (
+                  <button onClick={() => go("admin")} aria-label="Administration" className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
+                )}
                 <button onClick={() => go("dashboard")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
@@ -84,7 +87,7 @@ export function Nav() {
         </div>
         {open && (
           <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
-            {[{ l: "Accueil", r: "home" }, ...(user ? [{ l: "Tableau de bord", r: "dashboard" }, { l: "Progression", r: "progress" }, ...NAV_LINKS[1].menu] : []), { l: "Tarifs", r: "pricing" }, { l: "Blogue", r: "blog" }, { l: "FAQ", r: "faq" }, { l: "À propos", r: "about" }, { l: "Contact", r: "contact" }].map((m) => (
+            {[{ l: "Accueil", r: "home" }, ...(user ? [{ l: "Tableau de bord", r: "dashboard" }, { l: "Progression", r: "progress" }, ...NAV_LINKS[1].menu] : []), ...(user?.admin ? [{ l: "Administration", r: "admin" }] : []), { l: "Tarifs", r: "pricing" }, { l: "Blogue", r: "blog" }, { l: "FAQ", r: "faq" }, { l: "À propos", r: "about" }, { l: "Contact", r: "contact" }].map((m) => (
               <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{m.l}</button>
             ))}
             <div className="flex gap-2 pt-3">

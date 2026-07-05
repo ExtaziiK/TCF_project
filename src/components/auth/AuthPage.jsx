@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Leaf, Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser } from "@/services/authService";
 
 function GoogleIcon(props) {
   return (
@@ -32,15 +32,15 @@ export function AuthPage({ mode }) {
     setBusy(true);
     try {
       if (view === "login") {
-        const { error } = await signIn({ email, password });
+        const { data, error } = await signIn({ email, password });
         if (error) return notify(error.message);
         notify("Bon retour parmi nous !");
-        nav("dashboard");
+        nav(mapSupabaseUser(data.session)?.admin ? "admin" : "dashboard");
       } else if (view === "register") {
-        const { error, needsEmailConfirmation } = await signUp({ name, email, password });
+        const { data, error, needsEmailConfirmation } = await signUp({ name, email, password });
         if (error) return notify(error.message);
         if (needsEmailConfirmation) setVerify(true);
-        else nav("dashboard");
+        else nav(mapSupabaseUser(data.session)?.admin ? "admin" : "dashboard");
       } else {
         const { error } = await resetPassword(email);
         if (error) return notify(error.message);
