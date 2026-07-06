@@ -1,26 +1,74 @@
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, ChevronLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
+import { Quiz } from "@/components/quiz";
+import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { FEATURES } from "@/constants/home";
+import { getBank } from "@/services/bankService";
+import { SECTION_LABELS } from "@/utils/bankAdapter";
+
+// Only these modules are backed by the real question bank (co/ce/ee/eo);
+// vocabulaire and grammaire are lesson-based, not quiz-based.
+const ROUTE_SECTION = { listening: "co", reading: "ce", writing: "ee", speaking: "eo" };
 
 export function Practice() {
   const { c, nav } = useApp();
+  const bank = getBank();
+  const totalQuizzes = Object.values(bank).reduce((sum, list) => sum + list.length, 0);
+  const totalQuestions = Object.values(bank).reduce((sum, list) => sum + list.reduce((s, q) => s + q.questions.length, 0), 0);
+  const [openQuiz, setOpenQuiz] = useState(null);
+
+  if (openQuiz) {
+    return (
+      <PageShell eyebrow={SECTION_LABELS[openQuiz.section]} title={openQuiz.title} sub={`${openQuiz.questions.length} questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.`}>
+        <button onClick={() => setOpenQuiz(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> Retour à la pratique gratuite</button>
+        <Quiz
+          key={openQuiz.id}
+          questions={openQuiz.questions}
+          duration={openQuiz.questions.length * 55}
+          storageKey={`bank-${openQuiz.id}`}
+          deferResults
+          renderAbove={(q, idx) => <BankQuestionMedia key={q.id ?? idx} question={q} />}
+          doneExtra={<Btn variant="ghost" onClick={() => setOpenQuiz(null)}>Choisir un autre module</Btn>}
+        />
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell wide eyebrow="Pratique gratuite" title="Essayez chaque module, sans compte ni carte" sub="10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.">
+      {totalQuizzes > 0 && (
+        <p className={`text-sm mb-6 ${c.sub}`}>
+          Exemple réel : <span className={`font-semibold ${c.text}`}>{totalQuizzes} quiz</span> et{" "}
+          <span className={`font-semibold ${c.text}`}>{totalQuestions} questions</span> actuellement dans notre banque de questions.
+        </p>
+      )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {FEATURES.map((f) => (
-          <button key={f.t} onClick={() => nav(f.route)} className="text-left">
-            <Card lift className="p-6 h-full">
-              <div className="flex items-start justify-between">
-                <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><f.icon size={22} /></span>
-                <Pill tone="green">Gratuit</Pill>
-              </div>
-              <h3 className={`font-display font-bold text-lg mt-5 ${c.text}`}>{f.t}</h3>
-              <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{f.d}</p>
-              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">Essayer maintenant <ArrowRight size={14} /></p>
-            </Card>
-          </button>
-        ))}
+        {FEATURES.map((f) => {
+          const section = ROUTE_SECTION[f.route];
+          const quizzes = section ? bank[section] : null;
+          const questionCount = quizzes ? quizzes.reduce((s, q) => s + q.questions.length, 0) : null;
+          const firstQuiz = quizzes && quizzes.length > 0 ? quizzes[0] : null;
+          return (
+            <button key={f.t} onClick={() => (firstQuiz ? setOpenQuiz(firstQuiz) : nav(f.route))} className="text-left">
+              <Card lift className="p-6 h-full">
+                <div className="flex items-start justify-between">
+                  <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><f.icon size={22} /></span>
+                  <Pill tone="green">Gratuit</Pill>
+                </div>
+                <h3 className={`font-display font-bold text-lg mt-5 ${c.text}`}>{f.t}</h3>
+                <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{f.d}</p>
+                {quizzes && (
+                  <p className={`mt-2 text-xs font-semibold ${c.sub}`}>{quizzes.length} quiz réels · {questionCount} questions</p>
+                )}
+                <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">
+                  {firstQuiz ? "Essayer le quiz 1" : "Essayer maintenant"} <ArrowRight size={14} />
+                </p>
+              </Card>
+            </button>
+          );
+        })}
       </div>
       <Card className="mt-8 p-6 text-center border-2 border-blue-600/40">
         <p className={`font-display font-bold text-lg ${c.text}`}>Envie de tout débloquer ?</p>
