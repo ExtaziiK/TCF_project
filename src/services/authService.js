@@ -1,10 +1,12 @@
 import { supabase } from "@/services/supabaseClient";
 
 // Maps a Supabase session to the { name, email, plan, admin } shape the UI expects.
-// `admin`/`plan` read from app_metadata, which users cannot self-edit via the
-// client SDK (unlike user_metadata) — set it from the Supabase dashboard:
-// Authentication -> Users -> select user -> edit "Raw app meta data",
-// e.g. { "role": "admin", "plan": "Premium" }.
+// `admin`/`plan`/`premium_until` read from app_metadata, which users cannot
+// self-edit via the client SDK (unlike user_metadata) — set it from the
+// Supabase dashboard: Authentication -> Users -> select user -> edit
+// "Raw app meta data", e.g.
+//   { "role": "admin" }
+//   { "plan": "Premium", "premium_until": "2027-01-31" }
 export function mapSupabaseUser(session) {
   const authUser = session?.user;
   if (!authUser) return null;
@@ -13,6 +15,7 @@ export function mapSupabaseUser(session) {
     name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     plan: authUser.app_metadata?.plan || "Découverte",
+    premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
   };
 }

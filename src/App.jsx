@@ -2,6 +2,7 @@ import { AppProvider } from "@/context/AppProvider";
 import { useApp } from "@/context/AppContext";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Toast } from "@/components/common";
 import { PAGES } from "@/pages";
 
@@ -11,7 +12,7 @@ function AppShell() {
   return (
     <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
       <Nav />
-      <div key={route}><Page /></div>
+      <div key={route}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
       <Toast />
     </div>

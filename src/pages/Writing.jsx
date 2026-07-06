@@ -2,10 +2,28 @@ import { useState } from "react";
 import { Play, Sparkles, GraduationCap, ChevronDown, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
+import { BankExplorer } from "@/components/bank/BankExplorer";
+import { getBank } from "@/services/bankService";
 import { useWritingTask } from "@/hooks/useWritingTask";
 import { WRITING_TASKS } from "@/constants/writing";
 
+// Premium module backed by the question bank (section "ee") once quizzes
+// exist there; until then the interactive writing workshop below is shown.
 export function Writing() {
+  if (getBank().ee.length > 0) {
+    return (
+      <BankExplorer
+        sections={["ee"]}
+        eyebrow="Expression écrite"
+        title="Écrivez comme le jour de l'examen"
+        sub="Tous les quiz officiels d'expression écrite, en conditions d'examen."
+      />
+    );
+  }
+  return <WritingWorkshop />;
+}
+
+function WritingWorkshop() {
   const { c, notify } = useApp();
   const [taskId, setTaskId] = useState(1);
   const task = WRITING_TASKS.find((t) => t.id === taskId);

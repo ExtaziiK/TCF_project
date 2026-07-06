@@ -2,11 +2,29 @@ import { useState } from "react";
 import { Sparkles, Mic, Square, ChevronRight, Play, Pause } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
+import { BankExplorer } from "@/components/bank/BankExplorer";
+import { getBank } from "@/services/bankService";
 import { useSpeakingSession } from "@/hooks/useSpeakingSession";
 import { SPEAKING_TASKS } from "@/constants/speaking";
 import { fmt } from "@/utils/format";
 
+// Premium module backed by the question bank (section "eo") once quizzes
+// exist there; until then the interactive speaking studio below is shown.
 export function Speaking() {
+  if (getBank().eo.length > 0) {
+    return (
+      <BankExplorer
+        sections={["eo"]}
+        eyebrow="Expression orale"
+        title="Parlez comme le jour de l'examen"
+        sub="Tous les quiz officiels d'expression orale, en conditions d'examen."
+      />
+    );
+  }
+  return <SpeakingStudio />;
+}
+
+function SpeakingStudio() {
   const { c, notify } = useApp();
   const [taskId, setTaskId] = useState(1);
   const task = SPEAKING_TASKS.find((t) => t.id === taskId);
