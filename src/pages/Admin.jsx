@@ -4,14 +4,13 @@ import {
   TrendingUp, Volume2, Plus, Trash2, Check, XCircle, Shield, Headphones, ChevronRight,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { AuthPage } from "@/components/auth/AuthPage";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { POSTS } from "@/constants/blog";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 
 export function Admin() {
-  const { c, user, authReady, notify, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
+  const { c, notify, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
   const [tab, setTab] = useState("overview");
   const [importText, setImportText] = useState("");
   const [importError, setImportError] = useState("");
@@ -44,8 +43,6 @@ export function Admin() {
     { n: "Yuki T.", t: "L'audio de la question 14 (série B2) se coupe à la fin.", when: "il y a 3 h" },
     { n: "Fatou D.", t: "Merci pour la correction de ma tâche 3, très détaillée !", when: "hier" },
   ]);
-  if (!authReady) return null;
-  if (!user?.admin) return <AuthPage mode="login" />;
   const tabs = [
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "users", l: "Utilisateurs", icon: Users },

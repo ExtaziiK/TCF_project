@@ -1,10 +1,9 @@
 import { Clock, CheckCircle2, Target, Flame, Sparkles, Calendar, ArrowRight, FileText, BarChart3, Zap } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { LoginGate } from "@/components/auth/LoginGate";
 import { PageShell, Card, Pill, Btn, LevelRibbon, ProgressBar } from "@/components/common";
 import { BADGES, LEADER, HISTORY } from "@/constants/gamification";
 
-function DashboardView() {
+export function Dashboard() {
   const { c, nav, user } = useApp();
   const week = ["L", "M", "M", "J", "V", "S", "D"];
   const studied = [1, 1, 1, 1, 0, 1, 0];
@@ -112,13 +111,5 @@ function DashboardView() {
         </div>
       </div>
     </PageShell>
-  );
-}
-
-export function Dashboard() {
-  return (
-    <LoginGate>
-      <DashboardView />
-    </LoginGate>
   );
 }

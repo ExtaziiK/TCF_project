@@ -1,9 +1,8 @@
 import { useApp } from "@/context/AppContext";
-import { LoginGate } from "@/components/auth/LoginGate";
 import { PageShell, Card, Pill, ProgressBar } from "@/components/common";
 import { HISTORY } from "@/constants/gamification";
 
-function ProgressView() {
+export function ProgressPage() {
   const { c } = useApp();
   const mins = [35, 20, 45, 30, 0, 55, 40];
   const days = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
@@ -86,13 +85,5 @@ function ProgressView() {
         </Card>
       </div>
     </PageShell>
-  );
-}
-
-export function ProgressPage() {
-  return (
-    <LoginGate>
-      <ProgressView />
-    </LoginGate>
   );
 }

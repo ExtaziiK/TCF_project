@@ -26,8 +26,8 @@ function Register() {
   return <AuthPage mode="register" />;
 }
 
-// Maps each route id to its page component. Dashboard/Progress already
-// self-gate behind LoginGate; Admin self-gates on `user.admin`.
+// Maps each route id to its page component. Access control (auth, premium,
+// admin) is enforced centrally by RouteGuard (src/auth/rbac.js), not here.
 export const PAGES = {
   home: Home,
   about: About,
