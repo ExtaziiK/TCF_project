@@ -28,7 +28,8 @@ export function AuthPage({ mode }) {
   useEffect(() => setView(mode), [mode]);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e?.preventDefault();
     setBusy(true);
     try {
       if (view === "login") {
@@ -84,7 +85,7 @@ export function AuthPage({ mode }) {
             <Btn variant="ghost" className="mt-6 w-full" onClick={() => { setResetSent(false); setView("login"); }}>Retour à la connexion</Btn>
           </div>
         ) : (
-          <div className="space-y-4">
+          <form className="space-y-4" onSubmit={submit}>
             {view !== "reset" && (
               <>
                 <button type="button" disabled={busy} onClick={google} className={`w-full flex items-center justify-center gap-2.5 py-3 rounded-2xl border text-sm font-semibold ${c.inputCls} ${c.hoverSoft} disabled:opacity-60`}>
@@ -111,21 +112,21 @@ export function AuthPage({ mode }) {
               <div className="relative">
                 <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
                 <input placeholder="Mot de passe" aria-label="Mot de passe" type={showPw ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
-                <button onClick={() => setShowPw(!showPw)} aria-label={showPw ? "Masquer" : "Afficher"} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? "Masquer" : "Afficher"} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
               </div>
             )}
             {view === "login" && (
               <div className="flex justify-end -mt-1">
-                <button onClick={() => setView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">Mot de passe oublié ?</button>
+                <button type="button" onClick={() => setView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">Mot de passe oublié ?</button>
               </div>
             )}
-            <Btn className="w-full" variant="accent" disabled={busy} onClick={submit}>
+            <Btn type="submit" className="w-full" variant="accent" disabled={busy}>
               {view === "login" ? "Se connecter" : view === "register" ? "Créer mon compte" : "Envoyer le lien"}
             </Btn>
             <p className={`text-center text-sm ${c.sub}`}>
-              {view === "login" ? (<>Pas encore de compte ? <button onClick={() => setView("register")} className="font-semibold text-blue-600 hover:underline">S'inscrire</button></>) : (<>Déjà inscrit·e ? <button onClick={() => setView("login")} className="font-semibold text-blue-600 hover:underline">Se connecter</button></>)}
+              {view === "login" ? (<>Pas encore de compte ? <button type="button" onClick={() => setView("register")} className="font-semibold text-blue-600 hover:underline">S'inscrire</button></>) : (<>Déjà inscrit·e ? <button type="button" onClick={() => setView("login")} className="font-semibold text-blue-600 hover:underline">Se connecter</button></>)}
             </p>
-          </div>
+          </form>
         )}
       </Card>
     </main>
