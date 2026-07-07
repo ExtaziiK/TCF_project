@@ -1,23 +1,42 @@
 import { useState } from "react";
-import { ChevronLeft, Play, FolderOpen } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, Clock, Trophy, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn } from "@/components/common";
+import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { getBestScore } from "@/utils/quizScores";
 
 function QuizCard({ quiz, number, onOpen }) {
   const { c } = useApp();
+  const best = getBestScore(`bank-${quiz.id}`);
+  const minutes = Math.max(1, Math.round((quiz.questions.length * 55) / 60));
   return (
     <button onClick={onOpen} className="text-left">
       <Card lift className="p-6 h-full flex flex-col">
         <div className="flex items-center gap-2 flex-wrap mb-4">
           <Pill tone="blue">{SECTION_LABELS[quiz.section]}</Pill>
           <Pill tone="slate">{quiz.questions.length} questions</Pill>
+          <Pill tone="slate"><Clock size={11} /> ≈ {minutes} min</Pill>
         </div>
-        <h3 className={`font-display font-bold text-lg leading-snug flex-1 ${c.text}`}>Quizz {number}</h3>
-        <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1.5"><Play size={14} /> Commencer ce quiz</p>
+        <h3 className={`font-display font-bold text-lg leading-snug ${c.text}`}>Quizz {number}</h3>
+        <div className="flex-1 mt-3">
+          {best ? (
+            <div>
+              <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+                <span className={`flex items-center gap-1 ${best.pct >= 65 ? "text-emerald-600" : "text-amber-600"}`}><Trophy size={12} /> Meilleur score : {best.pct} %</span>
+                <span className={c.faint}>{best.ok} / {best.total}</span>
+              </div>
+              <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
+            </div>
+          ) : (
+            <p className={`text-xs font-semibold ${c.faint}`}>Jamais tenté — lancez-vous !</p>
+          )}
+        </div>
+        <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1.5">
+          {best ? <><RotateCcw size={14} /> Refaire ce quiz</> : <><Play size={14} /> Commencer ce quiz</>}
+        </p>
       </Card>
     </button>
   );

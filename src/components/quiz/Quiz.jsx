@@ -1,26 +1,47 @@
-import { useState } from "react";
-import { XCircle, CheckCircle2, Bookmark, Upload, Lightbulb, ArrowRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { XCircle, CheckCircle2, Bookmark, Upload, Lightbulb, ArrowRight, ArrowLeft, Flag, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn, TimerChip } from "@/components/common";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { useCountdown } from "@/hooks/useCountdown";
+import { saveBestScore } from "@/utils/quizScores";
 
-// deferResults: exam mode — the selection stays changeable, no correction is
-// shown during the quiz, and answers are only revealed in the final report.
+// Two modes:
+// - instant (default): one question at a time, the correction and the
+//   explanation appear as soon as an option is chosen, then "suivante".
+// - deferResults (exam mode, used by the bank quizzes): free navigation
+//   between questions (palette + précédente/suivante), answers stay
+//   changeable, questions can be skipped, and nothing is corrected until
+//   the candidate submits — like the real computer-based TCF.
 export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults }) {
   const { c, bookmarks, toggleBookmark, notify } = useApp();
   const [i, setI] = useState(0);
-  const [sel, setSel] = useState(null);
+  const [sel, setSel] = useState(null); // instant mode: current selection (locks the question)
+  const [picks, setPicks] = useState({}); // exam mode: question index -> chosen option
   const [answers, setAnswers] = useState([]);
   const [finished, setFinished] = useState(false);
-  const [left, setLeft] = useCountdown(duration, !finished, () => setFinished(true));
+  const [confirmFinish, setConfirmFinish] = useState(false);
 
-  const restart = () => { setI(0); setSel(null); setAnswers([]); setLeft(duration); setFinished(false); };
-  const advance = () => {
-    if (deferResults) setAnswers((a) => [...a, { i, sel, ok: sel === questions[i].a }]);
-    if (i + 1 >= questions.length) setFinished(true);
-    else { setI(i + 1); setSel(null); }
+  // The countdown captures its callback once, so read live state via refs.
+  const picksRef = useRef(picks);
+  picksRef.current = picks;
+  const answersRef = useRef(answers);
+  answersRef.current = answers;
+
+  const buildExamAnswers = (p) =>
+    Object.entries(p).map(([idx, s]) => ({ i: +idx, sel: s, ok: s === questions[+idx].a }));
+
+  const finishWith = (finalAnswers) => {
+    saveBestScore(storageKey, finalAnswers.filter((a) => a.ok).length, questions.length);
+    setAnswers(finalAnswers);
+    setFinished(true);
   };
+
+  const [left, setLeft] = useCountdown(duration, !finished, () =>
+    finishWith(deferResults ? buildExamAnswers(picksRef.current) : answersRef.current)
+  );
+
+  const restart = () => { setI(0); setSel(null); setPicks({}); setAnswers([]); setLeft(duration); setFinished(false); setConfirmFinish(false); };
 
   if (finished) {
     return (
@@ -40,35 +61,83 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const q = questions[i];
   const key = `${storageKey}-${i}`;
   const marked = bookmarks.includes(key);
+  const answeredCount = deferResults ? Object.keys(picks).length : answers.length;
+  const unanswered = questions.length - answeredCount;
+  const currentSel = deferResults ? (picks[i] ?? null) : sel;
+
+  const goTo = (idx) => { setI(idx); setConfirmFinish(false); };
+  const attemptFinish = () => {
+    if (unanswered > 0) setConfirmFinish(true);
+    else finishWith(buildExamAnswers(picks));
+  };
+
+  // instant mode only: advance after the correction has been read
+  const advance = () => {
+    if (i + 1 >= questions.length) finishWith(answers);
+    else { setI(i + 1); setSel(null); }
+  };
+
+  const choose = (idx) => {
+    if (deferResults) { setPicks({ ...picks, [i]: idx }); return; }
+    if (sel !== null) return;
+    setSel(idx);
+    setAnswers((a) => [...a, { i, sel: idx, ok: idx === q.a }]);
+  };
+
+  const paletteState = (idx) => {
+    if (idx === i) return "current";
+    return picks[idx] !== undefined ? "answered" : "todo";
+  };
 
   return (
     <div className="space-y-5">
       {renderAbove ? renderAbove(q, i) : above}
       <Card className="p-6 md:p-7">
-        <div className="flex items-center justify-between gap-3 flex-wrap mb-5">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+          <div className="flex items-center gap-2 flex-wrap">
             <Pill tone="slate">Question {i + 1} / {questions.length}</Pill>
+            <Pill tone={unanswered === 0 ? "green" : "blue"}>{answeredCount} / {questions.length} répondue{answeredCount > 1 ? "s" : ""}</Pill>
             {q.level && <Pill tone="blue">Niveau {q.level}</Pill>}
             {q.custom && <Pill tone="amber"><Upload size={11} /> Importée</Pill>}
           </div>
           <div className="flex items-center gap-2">
             <TimerChip left={left} total={duration} />
-            <button onClick={() => { toggleBookmark(key); notify(marked ? "Signet retiré." : "Question ajoutée à vos signets."); }} aria-label={marked ? "Retirer le signet" : "Ajouter aux signets"} aria-pressed={marked} className={`p-2 rounded-full ${marked ? "bg-amber-500/15 text-amber-500" : `${c.hoverSoft} ${c.faint}`}`}>
+            <button onClick={() => { toggleBookmark(key); notify(marked ? "Signet retiré." : "Question ajoutée à vos signets."); }} aria-label={marked ? "Retirer le signet" : "Marquer cette question"} aria-pressed={marked} title="Marquer pour y revenir" className={`p-2 rounded-full ${marked ? "bg-amber-500/15 text-amber-500" : `${c.hoverSoft} ${c.faint}`}`}>
               <Bookmark size={17} fill={marked ? "currentColor" : "none"} />
             </button>
           </div>
         </div>
-        <ProgressBar pct={(i / questions.length) * 100} />
+        <ProgressBar pct={(answeredCount / questions.length) * 100} />
+
+        {deferResults && (
+          <div className="mt-5 flex flex-wrap gap-1.5" role="list" aria-label="Navigation entre les questions">
+            {questions.map((_, idx) => {
+              const st = paletteState(idx);
+              const flagged = bookmarks.includes(`${storageKey}-${idx}`);
+              return (
+                <button key={idx} onClick={() => goTo(idx)} aria-label={`Aller à la question ${idx + 1}`} aria-current={st === "current" ? "true" : undefined}
+                  className={`relative w-9 h-9 rounded-lg border text-xs font-mono2 font-bold transition-all hover:border-blue-600
+                  ${st === "current" ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/25" : ""}
+                  ${st === "answered" ? "border-blue-600/60 bg-blue-600/10 text-blue-600" : ""}
+                  ${st === "todo" ? `${c.border} ${c.faint}` : ""}`}>
+                  {idx + 1}
+                  {flagged && <Flag size={9} className="absolute -top-1 -right-1 text-amber-500" fill="currentColor" />}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         <p className={`mt-6 leading-relaxed font-medium ${c.text}`}>{q.q}</p>
         <div className="mt-5 space-y-2.5">
           {q.opts.map((o, idx) => {
             const state = deferResults
-              ? (idx === sel ? "chosen" : "idle")
-              : sel === null ? "idle" : idx === q.a ? "right" : idx === sel ? "wrong" : "dim";
+              ? (idx === currentSel ? "chosen" : "idle")
+              : currentSel === null ? "idle" : idx === q.a ? "right" : idx === currentSel ? "wrong" : "dim";
             return (
               <button key={o} disabled={!deferResults && sel !== null}
-                onClick={() => { setSel(idx); if (!deferResults) setAnswers((a) => [...a, { i, sel: idx, ok: idx === q.a }]); }}
-                aria-pressed={deferResults ? idx === sel : undefined}
+                onClick={() => choose(idx)}
+                aria-pressed={deferResults ? idx === currentSel : undefined}
                 className={`w-full text-left px-5 py-3.5 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-3
                 ${state === "idle" ? `${c.border} ${c.text} hover:border-blue-600 hover:bg-blue-600/5` : ""}
                 ${state === "chosen" ? "border-blue-600 bg-blue-600/10 text-blue-600" : ""}
@@ -83,14 +152,33 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
             );
           })}
         </div>
+
         {deferResults ? (
-          sel !== null && (
-            <div className="mt-5 flex justify-end rise">
-              <Btn small icon={ArrowRight} onClick={advance}>
-                {i + 1 >= questions.length ? "Voir mon score" : "Question suivante"}
-              </Btn>
+          <>
+            {confirmFinish && (
+              <div className="mt-5 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/40 rise">
+                <p className="font-semibold text-sm text-amber-600 flex items-center gap-1.5"><AlertTriangle size={15} /> Il vous reste {unanswered} question{unanswered > 1 ? "s" : ""} sans réponse</p>
+                <p className={`text-sm mt-1 ${c.sub}`}>Les questions sans réponse compteront comme non acquises dans votre score.</p>
+                <div className="mt-4 flex gap-2 flex-wrap">
+                  <Btn small variant="ghost" onClick={() => setConfirmFinish(false)}>Continuer le quiz</Btn>
+                  <Btn small variant="accent" onClick={() => finishWith(buildExamAnswers(picks))}>Terminer quand même</Btn>
+                </div>
+              </div>
+            )}
+            <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+              <Btn small variant="ghost" icon={ArrowLeft} disabled={i === 0} onClick={() => goTo(i - 1)}>Précédente</Btn>
+              <div className="flex items-center gap-2 flex-wrap">
+                {unanswered === 0 && i + 1 < questions.length && (
+                  <Btn small variant="ghost" onClick={attemptFinish}>Terminer le quiz</Btn>
+                )}
+                {i + 1 < questions.length ? (
+                  <Btn small icon={ArrowRight} onClick={() => goTo(i + 1)}>{currentSel === null ? "Passer" : "Suivante"}</Btn>
+                ) : (
+                  <Btn small variant="accent" icon={CheckCircle2} onClick={attemptFinish}>Terminer le quiz</Btn>
+                )}
+              </div>
             </div>
-          )
+          </>
         ) : (
           sel !== null && (
             <div className="mt-5 p-5 rounded-2xl bg-blue-600/10 rise">
