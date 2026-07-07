@@ -4,11 +4,12 @@ import { Card, Pill, Btn, SectionHead, LevelRibbon } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { STATS, FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
-import { PLANS } from "@/constants/pricing";
+import { useLivePlans } from "@/hooks/useLivePlans";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 
 export function Home() {
   const { c, nav } = useApp();
+  const plans = useLivePlans();
   return (
     <main className="pt-16 md:pt-[72px]">
       {/* HERO */}
@@ -120,7 +121,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
           <SectionHead center eyebrow="Tarifs" title="Commencez gratuitement, progressez en Premium" sub="Sans engagement. Annulable en deux clics. Garantie 30 jours sur l'abonnement annuel." />
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {PLANS.map((p) => <PlanCard key={p.name} p={p} compact />)}
+            {plans.map((p) => <PlanCard key={p.name} p={p} compact />)}
           </div>
           <div className="text-center mt-8"><Btn variant="ghost" onClick={() => nav("pricing")} icon={ArrowRight}>Comparer les forfaits en détail</Btn></div>
         </div>

@@ -3,16 +3,18 @@ import { Gift, CheckCircle2, Shield, RotateCcw, CreditCard } from "lucide-react"
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
-import { PLANS } from "@/constants/pricing";
+import { useLivePlans } from "@/hooks/useLivePlans";
 
 export function Pricing() {
   const { c, notify } = useApp();
   const [coupon, setCoupon] = useState("");
   const [applied, setApplied] = useState(false);
+  const plans = useLivePlans();
+
   return (
     <PageShell wide eyebrow="Abonnements" title="Un forfait pour chaque étape de votre préparation" sub="Payez en dollars canadiens, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.">
       <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-        {PLANS.map((p) => <PlanCard key={p.name} p={p} />)}
+        {plans.map((p) => <PlanCard key={p.name} p={p} />)}
       </div>
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> Vous avez un code promo ?</p>
