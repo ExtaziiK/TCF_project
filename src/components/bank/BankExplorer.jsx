@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft, Play, FolderOpen, Clock, Trophy, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -6,11 +6,10 @@ import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
-import { getBestScore } from "@/utils/quizScores";
+import { listQuizResults, bestScoresByKey } from "@/services/quizResultsService";
 
-function QuizCard({ quiz, number, onOpen }) {
+function QuizCard({ quiz, number, onOpen, best }) {
   const { c } = useApp();
-  const best = getBestScore(`bank-${quiz.id}`);
   const minutes = Math.max(1, Math.round((quiz.questions.length * 55) / 60));
   return (
     <button onClick={onOpen} className="text-left">
@@ -46,15 +45,23 @@ function QuizCard({ quiz, number, onOpen }) {
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
 export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back }) {
-  const { c } = useApp();
+  const { c, user } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
+  const [bestScores, setBestScores] = useState({});
+
+  const reloadScores = () => {
+    listQuizResults(user?.id).then(({ results }) => setBestScores(bestScoresByKey(results)));
+  };
+  useEffect(reloadScores, [user?.id]);
+
+  const closeQuiz = () => { setQuiz(null); reloadScores(); };
 
   if (quiz) {
     return (
       <PageShell eyebrow={SECTION_LABELS[quiz.section]} title={quiz.title} sub={`${quiz.questions.length} questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.`}>
-        <button onClick={() => setQuiz(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> Tous les quiz</button>
+        <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> Tous les quiz</button>
         <Quiz
           key={quiz.id}
           questions={quiz.questions}
@@ -62,7 +69,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           storageKey={`bank-${quiz.id}`}
           deferResults
           renderAbove={(q, idx) => <BankQuestionMedia key={q.id ?? idx} question={q} />}
-          doneExtra={<Btn variant="ghost" onClick={() => setQuiz(null)}>Choisir un autre quiz</Btn>}
+          doneExtra={<Btn variant="ghost" onClick={closeQuiz}>Choisir un autre quiz</Btn>}
         />
       </PageShell>
     );
@@ -89,7 +96,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         </Card>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {quizzes.map((qz, idx) => <QuizCard key={qz.id} quiz={qz} number={idx + 1} onOpen={() => setQuiz(qz)} />)}
+          {quizzes.map((qz, idx) => <QuizCard key={qz.id} quiz={qz} number={idx + 1} onOpen={() => setQuiz(qz)} best={bestScores[`bank-${qz.id}`]} />)}
         </div>
       )}
     </PageShell>

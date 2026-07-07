@@ -4,7 +4,12 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn, TimerChip } from "@/components/common";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { useCountdown } from "@/hooks/useCountdown";
-import { saveBestScore } from "@/utils/quizScores";
+import { recordQuizResult } from "@/services/quizResultsService";
+
+// Mock-exam quiz tasks (storageKey "mock-<attemptId>-<order>") are already
+// tracked in full by examService's exam_attempts table - recording them here
+// too would double-count exercises/study-time in dashboard stats.
+const inferSection = (storageKey) => /^bank-(co|ce|ee|eo)-/.exec(storageKey || "")?.[1] || null;
 
 // Two modes:
 // - instant (default): one question at a time, the correction and the
@@ -20,7 +25,7 @@ import { saveBestScore } from "@/utils/quizScores";
 // - onComplete({ answers, ok, total }) fires at submission
 // - hideReport: render nothing once finished (the caller owns the report)
 export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults, initialPicks, initialIndex, onProgress, onComplete, hideReport }) {
-  const { c, bookmarks, toggleBookmark, notify } = useApp();
+  const { c, user, bookmarks, toggleBookmark, notify } = useApp();
   const [i, setI] = useState(initialIndex || 0);
   const [sel, setSel] = useState(null); // instant mode: current selection (locks the question)
   const [picks, setPicks] = useState(initialPicks || {}); // exam mode: question index -> chosen option
@@ -39,7 +44,15 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
 
   const finishWith = (finalAnswers) => {
     const ok = finalAnswers.filter((a) => a.ok).length;
-    saveBestScore(storageKey, ok, questions.length);
+    if (!storageKey?.startsWith("mock-")) {
+      recordQuizResult(user?.id, {
+        quizKey: storageKey,
+        section: inferSection(storageKey),
+        ok,
+        total: questions.length,
+        durationSec: Math.max(0, duration - left),
+      });
+    }
     setAnswers(finalAnswers);
     setFinished(true);
     onComplete?.({ answers: finalAnswers, ok, total: questions.length });
