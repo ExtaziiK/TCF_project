@@ -13,3 +13,7 @@ dist
 
 # local Claude Code tool settings (per-machine, not shared)
 .claude/settings.local.json
+
+# quiz audio/images now served from Supabase Storage (Audio/Image buckets),
+# not bundled into the app - see src/bank/README.md and src/utils/bankAdapter.js
+/src/bank/media/

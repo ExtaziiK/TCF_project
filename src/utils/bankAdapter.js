@@ -16,6 +16,26 @@ const SECTION_PREFIX = {
   eo: "expression_orale",
 };
 
+// Same convention, properly cased to match the actual file names uploaded to
+// Supabase Storage (bucket paths are case-sensitive).
+const SECTION_FILE_PREFIX = {
+  co: "Comprehension_Orale",
+  ce: "Comprehension_Ecrite",
+  ee: "Expression_Ecrite",
+  eo: "Expression_Orale",
+};
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const STORAGE_BASE = SUPABASE_URL ? `${SUPABASE_URL}/storage/v1/object/public` : null;
+
+// Builds the Supabase Storage URL for a question's media, following the same
+// naming convention as the local dev media folders (Audio/Image buckets).
+function remoteMediaUrl(section, qNum, order, bucket, ext) {
+  if (!STORAGE_BASE || qNum == null || order == null) return null;
+  const stem = `${SECTION_FILE_PREFIX[section]}_quiz_${qNum}_question_${order}`;
+  return `${STORAGE_BASE}/${bucket}/${stem}.${ext}`;
+}
+
 const IMAGE_EXT = /\.(webp|png|jpe?g|gif|svg)$/i;
 
 const baseName = (url) => {
@@ -33,12 +53,16 @@ function quizNumber(fileName, title) {
   return fromTitle ? Number(fromTitle[1]) : null;
 }
 
-// Resolves a question's media: a local file (matched by URL basename or by
-// naming convention) wins over the remote URL from the JSON.
-function resolveMedia(url, conventionKey, mediaMap, { imagesOnly } = {}) {
+// Resolves a question's media: a local bundled file (matched by URL basename
+// or by naming convention) wins, then the matching file in Supabase Storage,
+// then whatever URL was in the JSON itself (e.g. the original scrape source)
+// as a last resort.
+function resolveMedia(url, conventionKey, mediaMap, { imagesOnly, remote } = {}) {
   if (imagesOnly && url && !IMAGE_EXT.test(url)) url = null; // junk like noUser.html
   const key = baseName(url) || conventionKey;
   if (key && mediaMap[key]) return mediaMap[key];
+  const fromStorage = remote && remoteMediaUrl(remote.section, remote.qNum, remote.order, remote.bucket, remote.ext);
+  if (fromStorage) return fromStorage;
   return url || null;
 }
 
@@ -58,8 +82,8 @@ function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
         opts: options.map((o) => o.text),
         a: options.findIndex((o) => o.is_correct),
         exp: a.explanation || "",
-        audio: resolveMedia(a.audio_url, conventionKey, audioMap),
-        image: resolveMedia(a.image_url, conventionKey, imageMap, { imagesOnly: true }),
+        audio: resolveMedia(a.audio_url, conventionKey, audioMap, { remote: { section, qNum, order: a.order, bucket: "Audio", ext: "mp3" } }),
+        image: resolveMedia(a.image_url, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: a.order, bucket: "Image", ext: "webp" } }),
       };
     })
     .filter((q) => q.a >= 0);
@@ -83,8 +107,8 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
         a: Number.isInteger(item.answer_index) ? item.answer_index : 0,
         exp: item.explanation || "",
         level: item.level,
-        audio: resolveMedia(item.audio, conventionKey, audioMap),
-        image: resolveMedia(item.image, conventionKey, imageMap, { imagesOnly: true }),
+        audio: resolveMedia(item.audio, conventionKey, audioMap, { remote: { section, qNum, order: idx + 1, bucket: "Audio", ext: "mp3" } }),
+        image: resolveMedia(item.image, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: idx + 1, bucket: "Image", ext: "webp" } }),
       };
     });
   if (!questions.length) return null;
