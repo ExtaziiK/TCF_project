@@ -55,6 +55,14 @@ export async function getSession() {
   return data.session;
 }
 
+// Forces a new access token from the server, picking up any app_metadata
+// change (e.g. plan/role) made server-side since the cached session was
+// issued - getSession() alone only returns what's already cached locally.
+export async function refreshSession() {
+  const { data } = await supabase.auth.refreshSession();
+  return data.session;
+}
+
 export function onAuthStateChange(callback) {
   const { data } = supabase.auth.onAuthStateChange((_event, session) => callback(session));
   return data.subscription;

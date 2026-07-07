@@ -17,6 +17,17 @@ function readRawBody(req) {
   });
 }
 
+// current_period_end has moved around across Stripe API versions (top-level
+// on the subscription vs. per billing item); check both, and never let a
+// missing/odd shape throw - a null premium_until just means "no expiry
+// tracked", which rbac.js already treats as an active subscription.
+function periodEndISO(subscription) {
+  const raw = subscription.current_period_end ?? subscription.items?.data?.[0]?.current_period_end;
+  if (!raw) return null;
+  const date = new Date(raw * 1000);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}
+
 // Merges (rather than replaces) app_metadata so unrelated fields - like an
 // admin's role - are never dropped by a subscription update.
 async function setPremiumStatus(userId, patch) {
@@ -49,7 +60,7 @@ export default async function handler(req, res) {
           const subscription = await stripe.subscriptions.retrieve(session.subscription);
           await setPremiumStatus(userId, {
             plan: "Premium",
-            premium_until: new Date(subscription.current_period_end * 1000).toISOString(),
+            premium_until: periodEndISO(subscription),
             stripe_customer_id: session.customer,
             stripe_subscription_id: session.subscription,
           });
@@ -63,7 +74,7 @@ export default async function handler(req, res) {
           const active = ["active", "trialing"].includes(subscription.status);
           await setPremiumStatus(userId, {
             plan: active ? "Premium" : "Découverte",
-            premium_until: active ? new Date(subscription.current_period_end * 1000).toISOString() : null,
+            premium_until: active ? periodEndISO(subscription) : null,
           });
         }
         break;

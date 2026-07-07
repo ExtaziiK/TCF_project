@@ -4,7 +4,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
-import { getSession, mapSupabaseUser, onAuthStateChange, signOut as authSignOut } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut } from "@/services/authService";
 import { deriveRole } from "@/auth/rbac";
 
 export function AppProvider({ children }) {
@@ -32,13 +32,27 @@ export function AppProvider({ children }) {
   // has no URL routing, so this is read once on load and then stripped).
   useEffect(() => {
     const checkout = new URLSearchParams(window.location.search).get("checkout");
-    if (checkout === "success") {
-      notify("Paiement réussi ! Votre abonnement Premium est actif.");
-      setRoute("dashboard");
-    } else if (checkout === "cancelled") {
-      notify("Paiement annulé.");
-    }
     if (checkout) window.history.replaceState({}, "", window.location.pathname);
+    if (checkout === "cancelled") return notify("Paiement annulé.");
+    if (checkout !== "success") return;
+
+    notify("Paiement réussi ! Votre abonnement Premium est actif.");
+    setRoute("dashboard");
+
+    // The webhook that grants Premium runs asynchronously and can land just
+    // after this redirect, so the cached session may still be stale - poll
+    // a few times instead of trusting the first refresh.
+    let stop = false;
+    (async () => {
+      for (let attempt = 0; attempt < 5 && !stop; attempt++) {
+        const session = await refreshSession();
+        const mapped = mapSupabaseUser(session);
+        if (mapped) setUser(mapped);
+        if (mapped?.plan === "Premium") break;
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+    })();
+    return () => { stop = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
