@@ -4,6 +4,8 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
+import { WritingWorkshopBody } from "@/pages/Writing";
+import { SpeakingStudioBody } from "@/pages/Speaking";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
@@ -25,21 +27,29 @@ function ExamReport({ attempt, onRestart, onBack }) {
         <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>Résultat de l'examen blanc</h3>
         <p className="font-display font-extrabold text-5xl mt-5 grad-text">{s.points} / 699</p>
         <p className={`mt-2 text-sm ${c.sub}`}>{s.ok} / {s.total} bonnes réponses ({s.pct} %) · niveau estimé <span className="font-bold text-blue-600">{s.level}</span></p>
+        <p className={`mt-1 text-xs ${c.faint}`}>Score calculé sur les épreuves à choix multiple ; l'expression écrite et orale sont auto-évaluées.</p>
         <div className="max-w-xs mx-auto mt-4"><ProgressBar pct={s.pct} tone="grad" /></div>
       </div>
       <div className="mt-8 space-y-2.5">
-        {s.perTask.map((t, i) => (
-          <div key={i} className={`flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl border ${c.border}`}>
-            <div className="flex items-center gap-3">
-              <span className={`text-xs font-mono2 font-bold ${c.faint}`}>TÂCHE {i + 1}</span>
-              <span className={`text-sm font-semibold ${c.text}`}>{SECTION_LABELS[t.section]}</span>
+        {s.perTask.map((t, i) => {
+          const selfAssessed = t.type && t.type !== "quiz";
+          return (
+            <div key={i} className={`flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl border ${c.border}`}>
+              <div className="flex items-center gap-3">
+                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>TÂCHE {i + 1}</span>
+                <span className={`text-sm font-semibold ${c.text}`}>{SECTION_LABELS[t.section]}</span>
+              </div>
+              {selfAssessed ? (
+                <Pill tone="blue"><CheckCircle2 size={12} /> Complétée · auto-évaluée</Pill>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className={`text-sm font-mono2 ${c.sub}`}>{t.ok} / {t.total}</span>
+                  <Pill tone={t.total && t.ok / t.total >= 0.65 ? "green" : "amber"}>{t.total ? Math.round((t.ok / t.total) * 100) : 0} %</Pill>
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-3">
-              <span className={`text-sm font-mono2 ${c.sub}`}>{t.ok} / {t.total}</span>
-              <Pill tone={t.total && t.ok / t.total >= 0.65 ? "green" : "amber"}>{t.total ? Math.round((t.ok / t.total) * 100) : 0} %</Pill>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
         <Btn icon={RotateCcw} onClick={onRestart}>Nouvel examen blanc</Btn>
@@ -70,7 +80,58 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   if (justFinished) return <ExamReport attempt={justFinished} onRestart={onExit} onBack={onExit} />;
 
   const idx = attempt.progress.taskIndex || 0;
+  const task = attempt.tasks[idx];
+  const type = task.type || "quiz";
   const quiz = quizzes[idx];
+  const order = task.order;
+
+  // Records the finished task and moves on (or completes the exam).
+  const advanceWith = async (result) => {
+    clearTimeout(saveTimer.current); // a stale autosave must not race the writes below
+    const results = { ...attempt.progress.results, [order]: { ...result, section: task.section, type } };
+    if (idx + 1 < attempt.tasks.length) {
+      const next = { ...attempt, progress: { ...attempt.progress, results, taskIndex: idx + 1 } };
+      setAttempt(next);
+      saveProgress(user?.id, next);
+      notify(`Tâche ${idx + 1} terminée — place à la suivante : ${SECTION_LABELS[attempt.tasks[idx + 1].section]}.`);
+    } else {
+      const perTask = attempt.tasks.map((t) => results[t.order] || { ok: 0, total: 0, section: t.section, type: t.type || "quiz" });
+      const score = { ...scoreExam(perTask), perTask };
+      const done = await completeAttempt(user?.id, { ...attempt, progress: { ...attempt.progress, results } }, score);
+      setJustFinished(done);
+    }
+  };
+
+  const header = (
+    <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
+      <div className="flex items-center gap-2 flex-wrap">
+        {attempt.tasks.map((t, k) => (
+          <span key={k} className={`px-3 py-1.5 rounded-full text-xs font-bold font-mono2 border
+            ${k === idx ? "bg-blue-600 text-white border-blue-600" : k < idx ? "border-emerald-500 text-emerald-600 bg-emerald-500/10" : `${c.border} ${c.faint}`}`}>
+            {k < idx ? "✓ " : ""}Tâche {k + 1}
+          </span>
+        ))}
+      </div>
+      <button onClick={onExit} className={`text-sm font-semibold ${c.sub} hover:text-blue-600`}>Quitter (progression sauvegardée)</button>
+    </div>
+  );
+
+  // Expression écrite / orale: same experience as their module pages, plus
+  // a completion button (these épreuves are self-assessed, not auto-scored).
+  if (type !== "quiz") {
+    return (
+      <div>
+        {header}
+        <SectionHead eyebrow={`Tâche ${idx + 1} / ${attempt.tasks.length}`} title={SECTION_LABELS[task.section]} sub="Travaillez la tâche comme le jour J. Cette épreuve est auto-évaluée : elle n'entre pas dans le score à choix multiple." />
+        {type === "writing" ? <WritingWorkshopBody /> : <SpeakingStudioBody />}
+        <Card className="mt-8 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-blue-600/40">
+          <p className={`text-sm ${c.sub}`}>Quand vous avez terminé cette épreuve, passez à la suite de l'examen.</p>
+          <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>J'ai terminé cette tâche</Btn>
+        </Card>
+      </div>
+    );
+  }
+
   if (!quiz) {
     return (
       <Card className="p-8 text-center max-w-xl mx-auto">
@@ -80,7 +141,6 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
     );
   }
 
-  const order = attempt.tasks[idx].order;
   const savedPicks = attempt.progress.picks?.[order] || {};
   const savedIndex = attempt.progress.indexAt?.[order] || 0;
   const savedLeft = attempt.progress.timeLeft?.[order];
@@ -98,36 +158,10 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
     });
   };
 
-  const onComplete = async ({ ok, total }) => {
-    clearTimeout(saveTimer.current); // a stale autosave must not race the writes below
-    const results = { ...attempt.progress.results, [order]: { ok, total, section: attempt.tasks[idx].section } };
-    if (idx + 1 < attempt.tasks.length) {
-      const next = { ...attempt, progress: { ...attempt.progress, results, taskIndex: idx + 1 } };
-      setAttempt(next);
-      saveProgress(user?.id, next);
-      notify(`Tâche ${idx + 1} terminée — place à la suivante : ${SECTION_LABELS[attempt.tasks[idx + 1].section]}.`);
-    } else {
-      const perTask = attempt.tasks.map((t) => results[t.order] || { ok: 0, total: 0, section: t.section });
-      const score = { ...scoreExam(perTask), perTask };
-      const done = await completeAttempt(user?.id, { ...attempt, progress: { ...attempt.progress, results } }, score);
-      setJustFinished(done);
-    }
-  };
-
   return (
     <div>
-      <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
-        <div className="flex items-center gap-2 flex-wrap">
-          {attempt.tasks.map((t, k) => (
-            <span key={k} className={`px-3 py-1.5 rounded-full text-xs font-bold font-mono2 border
-              ${k === idx ? "bg-blue-600 text-white border-blue-600" : k < idx ? "border-emerald-500 text-emerald-600 bg-emerald-500/10" : `${c.border} ${c.faint}`}`}>
-              {k < idx ? "✓ " : ""}Tâche {k + 1}
-            </span>
-          ))}
-        </div>
-        <button onClick={onExit} className={`text-sm font-semibold ${c.sub} hover:text-blue-600`}>Quitter (progression sauvegardée)</button>
-      </div>
-      <SectionHead eyebrow={`Tâche ${idx + 1} / ${attempt.tasks.length}`} title={SECTION_LABELS[attempt.tasks[idx].section]} sub={`${quiz.title} · ${quiz.questions.length} questions · vos réponses sont enregistrées automatiquement.`} />
+      {header}
+      <SectionHead eyebrow={`Tâche ${idx + 1} / ${attempt.tasks.length}`} title={SECTION_LABELS[task.section]} sub={`${quiz.title} · ${quiz.questions.length} questions · vos réponses sont enregistrées automatiquement.`} />
       <Quiz
         key={attempt.id + "-" + order}
         questions={quiz.questions}
@@ -138,7 +172,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         initialPicks={savedPicks}
         initialIndex={savedIndex}
         onProgress={onProgress}
-        onComplete={onComplete}
+        onComplete={({ ok, total }) => advanceWith({ ok, total })}
         renderAbove={(q, qi) => <BankQuestionMedia key={q.id ?? qi} question={q} />}
       />
     </div>

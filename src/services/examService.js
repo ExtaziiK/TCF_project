@@ -23,7 +23,7 @@ export const TASKS_PER_EXAM = 4;
 function usageCounts(history) {
   const counts = {};
   for (const attempt of history) {
-    for (const t of attempt.tasks) counts[t.quizId] = (counts[t.quizId] || 0) + 1;
+    for (const t of attempt.tasks) if (t.quizId) counts[t.quizId] = (counts[t.quizId] || 0) + 1;
   }
   return counts;
 }
@@ -34,34 +34,53 @@ const pickWeighted = (pool, counts) => {
   return leastUsed[Math.floor(Math.random() * leastUsed.length)];
 };
 
-// Builds the task list for a new exam: TASKS_PER_EXAM quizzes, spread
-// round-robin across every section that has content (all four épreuves when
-// ee/eo get quizzes), without repeats within the exam, preferring quizzes
-// the user has seen least across past attempts.
+// The official épreuve order, and what to run for an épreuve whose bank
+// section has no quizzes yet: the interactive workshop/studio experiences
+// (same as the Expression écrite / orale pages). As soon as quiz JSONs land
+// in src/bank/ee|eo, generation switches to real bank quizzes by itself.
+const EPREUVE_ORDER = ["co", "ce", "ee", "eo"];
+const BUILTIN_TASKS = { ee: "writing", eo: "speaking" };
+
+// Builds the task list for a new exam: one task per épreuve, in official
+// order. Bank-backed épreuves get a random quiz (no repeats within the
+// exam, preferring quizzes the user has seen least across past attempts);
+// épreuves without bank content fall back to their built-in experience.
 export function generateExamTasks(history = []) {
   const bank = getBank();
-  const sections = Object.keys(bank).filter((s) => bank[s].length > 0);
-  if (sections.length === 0) return [];
   const counts = usageCounts(history);
   const used = new Set();
   const tasks = [];
-  for (let slot = 0; tasks.length < TASKS_PER_EXAM; slot++) {
-    const section = sections[slot % sections.length];
+  const pickQuiz = (section) => {
     let pool = bank[section].filter((q) => !used.has(q.id));
     if (pool.length === 0) pool = bank[section]; // section exhausted: allow repeats rather than fail
     const quiz = pickWeighted(pool, counts);
     used.add(quiz.id);
-    tasks.push({ quizId: quiz.id, section, order: tasks.length });
-    if (slot > TASKS_PER_EXAM * sections.length) break; // safety for tiny banks
+    return quiz;
+  };
+  for (const section of EPREUVE_ORDER) {
+    if (bank[section]?.length > 0) {
+      tasks.push({ type: "quiz", quizId: pickQuiz(section).id, section, order: tasks.length });
+    } else if (BUILTIN_TASKS[section]) {
+      tasks.push({ type: BUILTIN_TASKS[section], section, order: tasks.length });
+    } else {
+      // épreuve without content or built-in: substitute a quiz from any populated section
+      const populated = EPREUVE_ORDER.filter((s) => bank[s]?.length > 0);
+      if (populated.length === 0) continue;
+      const s2 = populated[Math.floor(Math.random() * populated.length)];
+      tasks.push({ type: "quiz", quizId: pickQuiz(s2).id, section: s2, order: tasks.length });
+    }
   }
   return tasks;
 }
 
-// Resolves stored task references back to live bank quizzes. A task whose
-// quiz was removed from the bank since the attempt started resolves to null.
+// Resolves stored quiz-task references back to live bank quizzes (built-in
+// tasks have nothing to resolve). A quiz removed from the bank since the
+// attempt started resolves to null.
 export function resolveTasks(tasks) {
   const bank = getBank();
-  return tasks.map((t) => bank[t.section]?.find((q) => q.id === t.quizId) || null);
+  return tasks.map((t) =>
+    (t.type || "quiz") === "quiz" ? bank[t.section]?.find((q) => q.id === t.quizId) || null : null
+  );
 }
 
 /* ------------------------------- scoring -------------------------------- */
@@ -101,7 +120,7 @@ const rowToAttempt = (row, taskRows) => ({
   progress: row.progress || {},
   tasks: (taskRows || row.exam_attempt_tasks || [])
     .sort((a, b) => a.task_order - b.task_order)
-    .map((t) => ({ quizId: t.quiz_id, section: t.section, order: t.task_order })),
+    .map((t) => ({ type: t.task_type || "quiz", quizId: t.quiz_id, section: t.section, order: t.task_order })),
 });
 
 export async function listAttempts(userId) {
@@ -137,7 +156,7 @@ export async function createAttempt(userId, tasks) {
   }
   attempt.id = data.id;
   const { error: taskErr } = await supabase.from("exam_attempt_tasks").insert(
-    tasks.map((t) => ({ exam_attempt_id: data.id, quiz_id: t.quizId, section: t.section, task_order: t.order }))
+    tasks.map((t) => ({ exam_attempt_id: data.id, task_type: t.type || "quiz", quiz_id: t.quizId || null, section: t.section, task_order: t.order }))
   );
   if (taskErr) console.warn("exam_attempt_tasks:", taskErr.message);
   return attempt;

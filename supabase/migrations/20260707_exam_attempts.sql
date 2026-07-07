@@ -19,7 +19,8 @@ create table if not exists public.exam_attempts (
 create table if not exists public.exam_attempt_tasks (
   id bigint generated always as identity primary key,
   exam_attempt_id uuid not null references public.exam_attempts (id) on delete cascade,
-  quiz_id text not null,   -- bank quiz id (derived from the JSON file, not hardcoded)
+  task_type text not null default 'quiz',  -- quiz | writing | speaking (open for future kinds)
+  quiz_id text,            -- bank quiz id for task_type = quiz (from the JSON file, not hardcoded)
   section text not null,   -- co | ce | ee | eo (open for future categories)
   task_order int not null,
   unique (exam_attempt_id, task_order)
