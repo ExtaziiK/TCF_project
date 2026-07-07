@@ -1,6 +1,6 @@
 import { ROLES } from "@/auth/rbac";
 
-const { FREE_USER, PREMIUM_USER, ADMIN } = ROLES;
+const { VISITOR, FREE_USER, PREMIUM_USER, ADMIN } = ROLES;
 const PREMIUM = [PREMIUM_USER, ADMIN];
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -11,7 +11,7 @@ const PREMIUM = [PREMIUM_USER, ADMIN];
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
   { l: "Pratique", r: "practice", menu: [
-    { l: "Pratique gratuite", r: "practice" }, // visitors see it; the guard shows them the signup landing
+    { l: "Pratique gratuite", r: "practice", roles: [VISITOR, FREE_USER] }, // hidden once someone's actually Premium
     { l: "Compréhension orale", r: "listening", roles: PREMIUM },
     { l: "Compréhension écrite", r: "reading", roles: PREMIUM },
     { l: "Expression écrite", r: "writing", roles: PREMIUM },

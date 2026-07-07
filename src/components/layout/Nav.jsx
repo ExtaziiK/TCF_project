@@ -6,6 +6,7 @@ import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
 import { NOTIFS } from "@/constants/gamification";
+import { ROLES } from "@/auth/rbac";
 
 export function Nav() {
   const { c, dark, setDark, nav, route, user, signOut, notify, role } = useApp();
@@ -78,7 +79,10 @@ export function Nav() {
                 )}
                 <button onClick={() => go("dashboard")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
-                  <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
+                  <span className="flex flex-col items-start leading-tight">
+                    <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
+                    {role === ROLES.PREMIUM_USER && <span className="text-[10px] font-bold text-blue-600">Premium</span>}
+                  </span>
                 </button>
                 <button onClick={() => { signOut(); go("home"); notify("Vous êtes déconnecté·e. À bientôt !"); }} aria-label="Se déconnecter" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
               </div>
