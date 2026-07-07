@@ -82,7 +82,7 @@ function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
         opts: options.map((o) => o.text),
         a: options.findIndex((o) => o.is_correct),
         exp: a.explanation || "",
-        audio: resolveMedia(a.audio_url, conventionKey, audioMap, { remote: { section, qNum, order: a.order, bucket: "Audio", ext: "mp3" } }),
+        audio: section === "co" ? resolveMedia(a.audio_url, conventionKey, audioMap, { remote: { section, qNum, order: a.order, bucket: "Audio", ext: "mp3" } }) : null,
         image: resolveMedia(a.image_url, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: a.order, bucket: "Image", ext: "webp" } }),
       };
     })
@@ -107,7 +107,7 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
         a: Number.isInteger(item.answer_index) ? item.answer_index : 0,
         exp: item.explanation || "",
         level: item.level,
-        audio: resolveMedia(item.audio, conventionKey, audioMap, { remote: { section, qNum, order: idx + 1, bucket: "Audio", ext: "mp3" } }),
+        audio: section === "co" ? resolveMedia(item.audio, conventionKey, audioMap, { remote: { section, qNum, order: idx + 1, bucket: "Audio", ext: "mp3" } }) : null,
         image: resolveMedia(item.image, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: idx + 1, bucket: "Image", ext: "webp" } }),
       };
     });
