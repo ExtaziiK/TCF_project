@@ -23,6 +23,8 @@ export default [
         FileReader: "readonly",
         TextDecoder: "readonly",
         Uint8Array: "readonly",
+        URLSearchParams: "readonly",
+        fetch: "readonly",
         console: "readonly",
       },
     },
@@ -33,6 +35,15 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",
+    },
+  },
+  {
+    // Vercel serverless functions - Node runtime, not the browser.
+    files: ["api/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: { process: "readonly", Buffer: "readonly", console: "readonly" },
     },
   },
 ];

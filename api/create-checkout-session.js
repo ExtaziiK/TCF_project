@@ -1,0 +1,41 @@
+import Stripe from "stripe";
+import { createClient } from "@supabase/supabase-js";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+// Creates a Stripe Checkout session for the authenticated Supabase user and
+// returns its URL. The Supabase user id is attached to both the session and
+// the resulting subscription (subscription_data.metadata) so the webhook can
+// identify who to update without needing a separate customer-mapping table.
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  const token = (req.headers.authorization || "").replace("Bearer ", "");
+  if (!token) return res.status(401).json({ error: "Missing auth token" });
+
+  const { data: userData, error: userError } = await supabaseAdmin.auth.getUser(token);
+  if (userError || !userData?.user) return res.status(401).json({ error: "Invalid session" });
+  const user = userData.user;
+
+  const { priceId } = req.body || {};
+  if (!priceId) return res.status(400).json({ error: "Missing priceId" });
+
+  const origin = req.headers.origin || `https://${req.headers.host}`;
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      line_items: [{ price: priceId, quantity: 1 }],
+      client_reference_id: user.id,
+      customer_email: user.email,
+      metadata: { supabase_user_id: user.id },
+      subscription_data: { metadata: { supabase_user_id: user.id } },
+      success_url: `${origin}/?checkout=success`,
+      cancel_url: `${origin}/?checkout=cancelled`,
+    });
+    res.status(200).json({ url: session.url });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}

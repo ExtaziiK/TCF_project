@@ -28,6 +28,20 @@ export function AppProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Stripe Checkout redirects back to "/?checkout=success|cancelled" (the app
+  // has no URL routing, so this is read once on load and then stripped).
+  useEffect(() => {
+    const checkout = new URLSearchParams(window.location.search).get("checkout");
+    if (checkout === "success") {
+      notify("Paiement réussi ! Votre abonnement Premium est actif.");
+      setRoute("dashboard");
+    } else if (checkout === "cancelled") {
+      notify("Paiement annulé.");
+    }
+    if (checkout) window.history.replaceState({}, "", window.location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Small navigation history so pages can offer a "Retour" affordance
   // (the SPA has no URL routing, so the browser back button can't help).
   const histRef = useRef([]);
