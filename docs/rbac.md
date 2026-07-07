@@ -54,6 +54,20 @@ zéro duplication. La page « Banque de questions » (`bank`) n'est qu'une vue
 admin de ce même composant, toutes sections confondues, et n'apparaît ni
 dans le menu ni dans la recherche pour les non-admins.
 
+## Examens blancs
+
+La page « Examens blancs » (`mocks`, Premium/Admin) génère chaque examen
+dynamiquement : 4 tâches tirées au hasard de la banque
+(`src/services/examService.js`), réparties entre les épreuves disponibles,
+en privilégiant les quiz les moins rencontrés par l'utilisateur — aucun ID
+codé en dur, tout nouveau quiz déposé dans la banque entre automatiquement
+dans le tirage. Chaque tentative est enregistrée avec son tirage et sa
+progression : exécuter `supabase/migrations/20260707_exam_attempts.sql`
+dans le SQL Editor du dashboard pour activer la persistance Supabase
+(RLS : lignes visibles par leur propriétaire uniquement, création limitée
+aux Premium/Admin via le JWT). Sans les tables, l'app retombe sur un
+stockage local (localStorage) automatiquement.
+
 ## Limite connue (à traiter côté serveur)
 
 Cette application est une SPA Vite : les quiz JSON de `src/bank/` sont

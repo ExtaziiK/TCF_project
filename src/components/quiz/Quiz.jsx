@@ -13,11 +13,17 @@ import { saveBestScore } from "@/utils/quizScores";
 //   between questions (palette + précédente/suivante), answers stay
 //   changeable, questions can be skipped, and nothing is corrected until
 //   the candidate submits — like the real computer-based TCF.
-export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults }) {
+//
+// Embedding hooks (all optional, used by the mock-exam runner):
+// - initialPicks / initialIndex resume a previously saved exam session
+// - onProgress({ picks, index, left }) fires on every answer / navigation
+// - onComplete({ answers, ok, total }) fires at submission
+// - hideReport: render nothing once finished (the caller owns the report)
+export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults, initialPicks, initialIndex, onProgress, onComplete, hideReport }) {
   const { c, bookmarks, toggleBookmark, notify } = useApp();
-  const [i, setI] = useState(0);
+  const [i, setI] = useState(initialIndex || 0);
   const [sel, setSel] = useState(null); // instant mode: current selection (locks the question)
-  const [picks, setPicks] = useState({}); // exam mode: question index -> chosen option
+  const [picks, setPicks] = useState(initialPicks || {}); // exam mode: question index -> chosen option
   const [answers, setAnswers] = useState([]);
   const [finished, setFinished] = useState(false);
   const [confirmFinish, setConfirmFinish] = useState(false);
@@ -32,9 +38,11 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     Object.entries(p).map(([idx, s]) => ({ i: +idx, sel: s, ok: s === questions[+idx].a }));
 
   const finishWith = (finalAnswers) => {
-    saveBestScore(storageKey, finalAnswers.filter((a) => a.ok).length, questions.length);
+    const ok = finalAnswers.filter((a) => a.ok).length;
+    saveBestScore(storageKey, ok, questions.length);
     setAnswers(finalAnswers);
     setFinished(true);
+    onComplete?.({ answers: finalAnswers, ok, total: questions.length });
   };
 
   const [left, setLeft] = useCountdown(duration, !finished, () =>
@@ -44,6 +52,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const restart = () => { setI(0); setSel(null); setPicks({}); setAnswers([]); setLeft(duration); setFinished(false); setConfirmFinish(false); };
 
   if (finished) {
+    if (hideReport) return null;
     return (
       <QuizReport
         questions={questions}
@@ -65,7 +74,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const unanswered = questions.length - answeredCount;
   const currentSel = deferResults ? (picks[i] ?? null) : sel;
 
-  const goTo = (idx) => { setI(idx); setConfirmFinish(false); };
+  const goTo = (idx) => { setI(idx); setConfirmFinish(false); onProgress?.({ picks, index: idx, left }); };
   const attemptFinish = () => {
     if (unanswered > 0) setConfirmFinish(true);
     else finishWith(buildExamAnswers(picks));
@@ -78,7 +87,12 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   };
 
   const choose = (idx) => {
-    if (deferResults) { setPicks({ ...picks, [i]: idx }); return; }
+    if (deferResults) {
+      const next = { ...picks, [i]: idx };
+      setPicks(next);
+      onProgress?.({ picks: next, index: i, left });
+      return;
+    }
     if (sel !== null) return;
     setSel(idx);
     setAnswers((a) => [...a, { i, sel: idx, ok: idx === q.a }]);
