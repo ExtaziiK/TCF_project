@@ -13,6 +13,7 @@ export function Reading() {
   if (getBank().ce.length > 0) {
     return (
       <BankExplorer
+        back
         sections={["ce"]}
         eyebrow="Compréhension écrite"
         title="Lisez comme un futur résident"
@@ -44,7 +45,7 @@ function ReadingDemo() {
     </Card>
   );
   return (
-    <PageShell eyebrow="Compréhension écrite" title="Lisez comme un futur résident" sub="Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.">
+    <PageShell back eyebrow="Compréhension écrite" title="Lisez comme un futur résident" sub="Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.">
       <Quiz questions={READ_QS} duration={480} storageKey="read" above={passage} doneExtra={<Btn variant="ghost" onClick={() => nav("vocabulary")}>Réviser le vocabulaire</Btn>} />
     </PageShell>
   );

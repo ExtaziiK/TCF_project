@@ -12,6 +12,7 @@ export function Listening() {
   if (getBank().co.length > 0) {
     return (
       <BankExplorer
+        back
         sections={["co"]}
         eyebrow="Compréhension orale"
         title="Entraînez votre oreille au français d'ici"
@@ -30,7 +31,7 @@ function ListeningDemo() {
     return diff === "Mixte" ? merged : merged.filter((q) => q.level === diff);
   }, [customListen, diff]);
   return (
-    <PageShell eyebrow="Compréhension orale" title="Entraînez votre oreille au français d'ici" sub="Écoutez le document, répondez, puis lisez l'explication. Le jour de l'examen, chaque audio n'est diffusé qu'une seule fois.">
+    <PageShell back eyebrow="Compréhension orale" title="Entraînez votre oreille au français d'ici" sub="Écoutez le document, répondez, puis lisez l'explication. Le jour de l'examen, chaque audio n'est diffusé qu'une seule fois.">
       <DiffPicker value={diff} onChange={setDiff} />
       {customListen.length > 0 && <p className="text-sm mb-4 -mt-2 opacity-70">+ {customListen.length} question{customListen.length > 1 ? "s" : ""} importée{customListen.length > 1 ? "s" : ""} par l'administrateur incluse{customListen.length > 1 ? "s" : ""} ci-dessous.</p>}
       {filtered.length === 0 ? (

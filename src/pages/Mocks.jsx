@@ -219,7 +219,7 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell wide eyebrow="Examens blancs" title="Répétez le jour J, dans les conditions du jour J" sub={`Chaque examen est généré aléatoirement : ${TASKS_PER_EXAM} tâches tirées de la banque de questions, jamais deux fois la même combinaison.`}>
+    <PageShell back wide eyebrow="Examens blancs" title="Répétez le jour J, dans les conditions du jour J" sub={`Chaque examen est généré aléatoirement : ${TASKS_PER_EXAM} tâches tirées de la banque de questions, jamais deux fois la même combinaison.`}>
       {backend === "local" && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />

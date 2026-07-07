@@ -14,6 +14,7 @@ export function Speaking() {
   if (getBank().eo.length > 0) {
     return (
       <BankExplorer
+        back
         sections={["eo"]}
         eyebrow="Expression orale"
         title="Parlez comme le jour de l'examen"
@@ -26,7 +27,7 @@ export function Speaking() {
 
 function SpeakingStudio() {
   return (
-    <PageShell eyebrow="Expression orale" title="Parlez, réécoutez-vous, progressez" sub="Le micro est simulé dans cette démo. En production, votre enregistrement serait analysé pour la prononciation, le débit et la richesse lexicale.">
+    <PageShell back eyebrow="Expression orale" title="Parlez, réécoutez-vous, progressez" sub="Le micro est simulé dans cette démo. En production, votre enregistrement serait analysé pour la prononciation, le débit et la richesse lexicale.">
       <SpeakingStudioBody />
     </PageShell>
   );

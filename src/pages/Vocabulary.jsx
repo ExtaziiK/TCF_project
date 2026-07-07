@@ -17,7 +17,7 @@ export function Vocabulary() {
   const quizOpts = [VOCAB[0].fr, VOCAB[3].fr, VOCAB[7].fr, VOCAB[10].fr];
   const flip = (fr) => setFlipped(flipped.includes(fr) ? flipped.filter((x) => x !== fr) : [...flipped, fr]);
   return (
-    <PageShell wide eyebrow="Vocabulaire" title="Le lexique de votre nouvelle vie" sub="Cartes mémoire rédigées en contexte canadien. Cliquez une carte pour la retourner ; ajoutez vos mots difficiles aux favoris.">
+    <PageShell back wide eyebrow="Vocabulaire" title="Le lexique de votre nouvelle vie" sub="Cartes mémoire rédigées en contexte canadien. Cliquez une carte pour la retourner ; ajoutez vos mots difficiles aux favoris.">
       <Card className="p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-2 border-rose-600/30">
         <span className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><Calendar size={20} /></span>
         <div className="flex-1">

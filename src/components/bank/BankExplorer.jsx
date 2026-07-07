@@ -45,7 +45,7 @@ function QuizCard({ quiz, number, onOpen }) {
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
-export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub }) {
+export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back }) {
   const { c } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
@@ -70,7 +70,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
 
   const quizzes = bank[section];
   return (
-    <PageShell wide eyebrow={eyebrow} title={title} sub={sub}>
+    <PageShell wide eyebrow={eyebrow} title={title} sub={sub} back={back}>
       {sections.length > 1 && (
         <div className="flex gap-2 flex-wrap mb-8">
           {sections.map((s) => (

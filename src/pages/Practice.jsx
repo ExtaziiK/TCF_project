@@ -37,7 +37,7 @@ export function Practice() {
   }
 
   return (
-    <PageShell wide eyebrow="Pratique gratuite" title="Essayez chaque module, sans compte ni carte" sub="10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.">
+    <PageShell back wide eyebrow="Pratique gratuite" title="Essayez chaque module, sans compte ni carte" sub="10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.">
       {totalQuizzes > 0 && (
         <p className={`text-sm mb-6 ${c.sub}`}>
           Exemple réel : <span className={`font-semibold ${c.text}`}>{totalQuizzes} quiz</span> et{" "}

@@ -7,6 +7,7 @@ import { BankExplorer } from "@/components/bank/BankExplorer";
 export function QuestionBank() {
   return (
     <BankExplorer
+      back
       eyebrow="Banque de questions"
       title="Tous vos quiz, classés par épreuve"
       sub="Les quiz sont chargés automatiquement depuis les dossiers de la banque : déposez un fichier JSON dans le dossier d'une épreuve et il apparaît ici."

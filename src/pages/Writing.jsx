@@ -13,6 +13,7 @@ export function Writing() {
   if (getBank().ee.length > 0) {
     return (
       <BankExplorer
+        back
         sections={["ee"]}
         eyebrow="Expression écrite"
         title="Écrivez comme le jour de l'examen"
@@ -25,7 +26,7 @@ export function Writing() {
 
 function WritingWorkshop() {
   return (
-    <PageShell eyebrow="Expression écrite" title="Écrivez, comptez vos mots, comparez" sub="Trois tâches, comme le jour de l'examen. L'analyse instantanée est assistée par IA ; les abonnés annuels reçoivent aussi une correction humaine.">
+    <PageShell back eyebrow="Expression écrite" title="Écrivez, comptez vos mots, comparez" sub="Trois tâches, comme le jour de l'examen. L'analyse instantanée est assistée par IA ; les abonnés annuels reçoivent aussi une correction humaine.">
       <WritingWorkshopBody />
     </PageShell>
   );
