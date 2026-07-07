@@ -1,0 +1,1733 @@
+{
+    "id": 40252,
+    "exam_id": 49,
+    "score": 711.0,
+    "score_percent": 101.72,
+    "cefr_level": null,
+    "clb_level": null,
+    "completed_at": "2026-07-06T20:37:50.058237+00:00",
+    "time_spent": 463,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20.3,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20.3,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1873,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "De rencontrer des étrangers.",
+            "user_selected_option_id": 33120,
+            "correct_answer": "De rencontrer des étrangers.",
+            "correct_option_id": 33120,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33117,
+                    "text": "D’apprendre une nouvelle langue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33118,
+                    "text": "De participer à un concours.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33119,
+                    "text": "De prendre des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33120,
+                    "text": "De rencontrer des étrangers.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1874,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Pour voir un événement sportif.",
+            "user_selected_option_id": 33124,
+            "correct_answer": "Pour voir un événement sportif.",
+            "correct_option_id": 33124,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33121,
+                    "text": "Pour aller visiter un musée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33122,
+                    "text": "Pour participer à un concours.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33123,
+                    "text": "Pour prendre un café ensemble.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33124,
+                    "text": "Pour voir un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1875,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Il annonce son absence.",
+            "user_selected_option_id": 33125,
+            "correct_answer": "Il annonce son absence.",
+            "correct_option_id": 33125,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33125,
+                    "text": "Il annonce son absence.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33126,
+                    "text": "Il donne un rendez-vous.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33127,
+                    "text": "Il indique son arrivée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33128,
+                    "text": "Il signale son retard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1876,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De déjeuner chez lui.",
+            "user_selected_option_id": 33131,
+            "correct_answer": "De déjeuner chez lui.",
+            "correct_option_id": 33131,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33129,
+                    "text": "D’aller à un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33130,
+                    "text": "D’organiser un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33131,
+                    "text": "De déjeuner chez lui.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33132,
+                    "text": "De garder ses enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1877,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Pour expliquer un problème.",
+            "user_selected_option_id": 33134,
+            "correct_answer": "Pour expliquer un problème.",
+            "correct_option_id": 33134,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33133,
+                    "text": "Pour annuler un dîner.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33134,
+                    "text": "Pour expliquer un problème.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33135,
+                    "text": "Pour l’inviter chez elle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33136,
+                    "text": "Pour lui proposer de sortir.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1878,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "À un repas officiel.",
+            "user_selected_option_id": 33137,
+            "correct_answer": "À un repas officiel.",
+            "correct_option_id": 33137,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33137,
+                    "text": "À un repas officiel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33138,
+                    "text": "À un spectacle musical.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33139,
+                    "text": "À une fête de fin d’année.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33140,
+                    "text": "À une soirée dansante.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1879,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour décider d’un rendez-vous.",
+            "user_selected_option_id": 33143,
+            "correct_answer": "Pour décider d’un rendez-vous.",
+            "correct_option_id": 33143,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33141,
+                    "text": "Pour acheter un cadeau avec elle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33142,
+                    "text": "Pour annuler sa venue à une fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33143,
+                    "text": "Pour décider d’un rendez-vous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33144,
+                    "text": "Pour inviter son amie à dîner.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1880,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "D’une émission de télévision.",
+            "user_selected_option_id": 33148,
+            "correct_answer": "D’une émission de télévision.",
+            "correct_option_id": 33148,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33145,
+                    "text": "De l’ouverture d’un musée parisien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33146,
+                    "text": "De voyager en Océanie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33147,
+                    "text": "Des derniers jours d’une exposition.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33148,
+                    "text": "D’une émission de télévision.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1881,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Un document professionnel.",
+            "user_selected_option_id": 33149,
+            "correct_answer": "Un document professionnel.",
+            "correct_option_id": 33149,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33149,
+                    "text": "Un document professionnel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33150,
+                    "text": "Un titre de transport.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33151,
+                    "text": "Une enveloppe timbre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33152,
+                    "text": "Une somme d’argent.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1882,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Une fête entre voisins.",
+            "user_selected_option_id": 33155,
+            "correct_answer": "Une fête entre voisins.",
+            "correct_option_id": 33155,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33153,
+                    "text": "Un atelier de cuisine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33154,
+                    "text": "Un déménagement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33155,
+                    "text": "Une fête entre voisins.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33156,
+                    "text": "Une visite d’appartement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1883,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Une boisson gratuite.",
+            "user_selected_option_id": 33160,
+            "correct_answer": "Une boisson gratuite.",
+            "correct_option_id": 33160,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33157,
+                    "text": "Des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33158,
+                    "text": "Des plats à emporter.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33159,
+                    "text": "Un repas bon marché.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33160,
+                    "text": "Une boisson gratuite.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1884,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De voir Lyon d’une façon différente.",
+            "user_selected_option_id": 33164,
+            "correct_answer": "De voir Lyon d’une façon différente.",
+            "correct_option_id": 33164,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33161,
+                    "text": "D’apprendre à s’orienter dans la ville.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33162,
+                    "text": "De se former au métier de guide.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33163,
+                    "text": "De visiter des expositions photo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33164,
+                    "text": "De voir Lyon d’une façon différente.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1885,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "De manger quotidiennement du chocolat.",
+            "user_selected_option_id": 33167,
+            "correct_answer": "De manger quotidiennement du chocolat.",
+            "correct_option_id": 33167,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33165,
+                    "text": "D’utiliser des crèmes solaires à base de chocolat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33166,
+                    "text": "De diminuer sa consommation de chocolat.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33167,
+                    "text": "De manger quotidiennement du chocolat.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33168,
+                    "text": "De suivre un traitement de pilules au chocolat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1886,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Rencontrer des stars du cinéma.",
+            "user_selected_option_id": 33171,
+            "correct_answer": "Rencontrer des stars du cinéma.",
+            "correct_option_id": 33171,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33169,
+                    "text": "Découvrir de jeunes acteurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33170,
+                    "text": "Participer à des tournages.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33171,
+                    "text": "Rencontrer des stars du cinéma.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33172,
+                    "text": "Revoir de grands classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1887,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Ils répondent aux questions des internautes.",
+            "user_selected_option_id": 33176,
+            "correct_answer": "Ils répondent aux questions des internautes.",
+            "correct_option_id": 33176,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33173,
+                    "text": "Ils annoncent des événements culturels lyonnais.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33174,
+                    "text": "Ils donnent des informations sur leur métier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33175,
+                    "text": "Ils proposent de nouveaux livres aux lecteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33176,
+                    "text": "Ils répondent aux questions des internautes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1888,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Un métier.",
+            "user_selected_option_id": 33177,
+            "correct_answer": "Un métier.",
+            "correct_option_id": 33177,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33177,
+                    "text": "Un métier.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33178,
+                    "text": "Un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33179,
+                    "text": "Une formation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33180,
+                    "text": "Une galerie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1889,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "On s’en méfie en France.",
+            "user_selected_option_id": 33184,
+            "correct_answer": "On s’en méfie en France.",
+            "correct_option_id": 33184,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33181,
+                    "text": "C’est une pratique courante.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33182,
+                    "text": "Les pharmaciens s’y opposent.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33183,
+                    "text": "Leur paiement est sécurisé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33184,
+                    "text": "On s’en méfie en France.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1890,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Les étiquettes trompeuses.",
+            "user_selected_option_id": 33188,
+            "correct_answer": "Les étiquettes trompeuses.",
+            "correct_option_id": 33188,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33185,
+                    "text": "L’ajout d’ingrédients malsains.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33186,
+                    "text": "Le prix des produits exotiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33187,
+                    "text": "Les annonces publicitaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33188,
+                    "text": "Les étiquettes trompeuses.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1891,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Créer un site collaboratif de données.",
+            "user_selected_option_id": 33189,
+            "correct_answer": "Créer un site collaboratif de données.",
+            "correct_option_id": 33189,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33189,
+                    "text": "Créer un site collaboratif de données.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33190,
+                    "text": "Mener une enquête sur les plantes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33191,
+                    "text": "Organiser des visites de l’herbier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33192,
+                    "text": "Proposer des cours de botanique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1892,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Son humour fait passer un message sérieux.",
+            "user_selected_option_id": 33196,
+            "correct_answer": "Son humour fait passer un message sérieux.",
+            "correct_option_id": 33196,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33193,
+                    "text": "Il est facile de s’identifier aux personnages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33194,
+                    "text": "Les lieux de tournage sont authentiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33195,
+                    "text": "On y dresse un portrait juste de la société.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33196,
+                    "text": "Son humour fait passer un message sérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1893,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Entrer en contact avec les gens.",
+            "user_selected_option_id": 33198,
+            "correct_answer": "Entrer en contact avec les gens.",
+            "correct_option_id": 33198,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33197,
+                    "text": "Découvrir de recettes locales.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33198,
+                    "text": "Entrer en contact avec les gens.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33199,
+                    "text": "Réaliser une opération publicitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33200,
+                    "text": "Vendre des spécialités françaises.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1894,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Des adaptations télévisées de Maupassant.",
+            "user_selected_option_id": 33201,
+            "correct_answer": "Des adaptations télévisées de Maupassant.",
+            "correct_option_id": 33201,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33201,
+                    "text": "Des adaptations télévisées de Maupassant.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33202,
+                    "text": "Des programmes d’études littéraires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33203,
+                    "text": "Une exposition consacrée à Maupassant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33204,
+                    "text": "Un ouvrage critique récemment paru.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1895,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "L’expansion de la concurrence internationale.",
+            "user_selected_option_id": 33208,
+            "correct_answer": "L’expansion de la concurrence internationale.",
+            "correct_option_id": 33208,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33205,
+                    "text": "La faible qualité de la production française.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33206,
+                    "text": "Le manque d’innovation dans son entreprise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33207,
+                    "text": "Les contraintes des contrôles financiers.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33208,
+                    "text": "L’expansion de la concurrence internationale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1896,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils sont plus sûrs de leur nouveau choix.",
+            "user_selected_option_id": 33212,
+            "correct_answer": "Ils sont plus sûrs de leur nouveau choix.",
+            "correct_option_id": 33212,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33209,
+                    "text": "Ils ont plus de facilités d’apprentissage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33210,
+                    "text": "Ils ont une idée claire de leur futur métier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33211,
+                    "text": "Ils sont déterminés à travailler beaucoup.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33212,
+                    "text": "Ils sont plus sûrs de leur nouveau choix.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1897,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Faire découvrir les formations pour devenir ingénieur.",
+            "user_selected_option_id": 33214,
+            "correct_answer": "Faire découvrir les formations pour devenir ingénieur.",
+            "correct_option_id": 33214,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33213,
+                    "text": "Découvrir le travail de recherche en laboratoire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33214,
+                    "text": "Faire découvrir les formations pour devenir ingénieur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33215,
+                    "text": "Inaugurer l’ouverture d’un campus universitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33216,
+                    "text": "Obtenir des conseils afin de créer une association.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1898,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Une mise en valeur de l’autre.",
+            "user_selected_option_id": 33219,
+            "correct_answer": "Une mise en valeur de l’autre.",
+            "correct_option_id": 33219,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33217,
+                    "text": "Un engagement politique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33218,
+                    "text": "Une contemplation abstraite.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33219,
+                    "text": "Une mise en valeur de l’autre.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33220,
+                    "text": "Une technique de retouche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1899,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "De simples citoyens.",
+            "user_selected_option_id": 33223,
+            "correct_answer": "De simples citoyens.",
+            "correct_option_id": 33223,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33221,
+                    "text": "Des conservateurs de musée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33222,
+                    "text": "Des élus européens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33223,
+                    "text": "De simples citoyens.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33224,
+                    "text": "Des militants associatifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1900,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "De la situation économique tendue.",
+            "user_selected_option_id": 33227,
+            "correct_answer": "De la situation économique tendue.",
+            "correct_option_id": 33227,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33225,
+                    "text": "De la concurrence des autres générations.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33226,
+                    "text": "De la course à la compétitive.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33227,
+                    "text": "De la situation économique tendue.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33228,
+                    "text": "Des critiques émanant de leurs parents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1901,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les recherches sont limitées par le manque d’informations.",
+            "user_selected_option_id": 33232,
+            "correct_answer": "Les recherches sont limitées par le manque d’informations.",
+            "correct_option_id": 33232,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33229,
+                    "text": "Les données des malades sont transmises aux fabricants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33230,
+                    "text": "Les incidents dus aux erreurs de diagnostic augmentent.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33231,
+                    "text": "Les patients se méfient des innovations technologiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33232,
+                    "text": "Les recherches sont limitées par le manque d’informations.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1902,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Sur la pollution atmosphérique.",
+            "user_selected_option_id": 33235,
+            "correct_answer": "Sur la pollution atmosphérique.",
+            "correct_option_id": 33235,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33233,
+                    "text": "Sur l’industrie des bois rares.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33234,
+                    "text": "Sur la démographie dans ces zones.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33235,
+                    "text": "Sur la pollution atmosphérique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33236,
+                    "text": "Sur la progression des cultures tropicales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1903,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "La difficulté à décrire les saveurs.",
+            "user_selected_option_id": 33239,
+            "correct_answer": "La difficulté à décrire les saveurs.",
+            "correct_option_id": 33239,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33237,
+                    "text": "L’addiction liée à certains aliments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33238,
+                    "text": "L’inévitable uniformisation du goût.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33239,
+                    "text": "La difficulté à décrire les saveurs.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33240,
+                    "text": "La multiplication des termes culinaires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1904,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Instaurer des rapports de réciprocité.",
+            "user_selected_option_id": 33243,
+            "correct_answer": "Instaurer des rapports de réciprocité.",
+            "correct_option_id": 33243,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 62,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33241,
+                    "text": "Créer de nouvelles sources d’emploi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33242,
+                    "text": "Éviter la solitude des personnes âgées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33243,
+                    "text": "Instaurer des rapports de réciprocité.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33244,
+                    "text": "Répondre à l’allongement de la durée de vie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1905,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les intérêts en jeu sont difficilement compatibles.",
+            "user_selected_option_id": 33247,
+            "correct_answer": "Les intérêts en jeu sont difficilement compatibles.",
+            "correct_option_id": 33247,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33245,
+                    "text": "Les familles sont opposées à toute modification.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33246,
+                    "text": "Les impacts financiers demeurent insurmontables.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33247,
+                    "text": "Les intérêts en jeu sont difficilement compatibles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33248,
+                    "text": "Les opinions des experts sont en total désaccord.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1906,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "La liberté accordée aux visiteurs.",
+            "user_selected_option_id": 33249,
+            "correct_answer": "La liberté accordée aux visiteurs.",
+            "correct_option_id": 33249,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33249,
+                    "text": "La liberté accordée aux visiteurs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33250,
+                    "text": "La simplicité des moyens artistiques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33251,
+                    "text": "Le classicisme de sa présentation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33252,
+                    "text": "Le discours politique des plasticiens.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1907,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Aborder des œuvres réputées difficiles avec leur élevés.",
+            "user_selected_option_id": 33253,
+            "correct_answer": "Aborder des œuvres réputées difficiles avec leur élevés.",
+            "correct_option_id": 33253,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33253,
+                    "text": "Aborder des œuvres réputées difficiles avec leur élevés.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33254,
+                    "text": "Encourager leurs élèves à écrire des textes littéraires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33255,
+                    "text": "Inviter régulièrement des écrivains célèbres dans leur classe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33256,
+                    "text": "Monter des pièces de théâtre d’auteurs classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1908,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La quasi-absence d’héroïnes.",
+            "user_selected_option_id": 33257,
+            "correct_answer": "La quasi-absence d’héroïnes.",
+            "correct_option_id": 33257,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33257,
+                    "text": "La quasi-absence d’héroïnes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33258,
+                    "text": "L’appel constant à la violence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33259,
+                    "text": "L’atténuation des clichés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33260,
+                    "text": "L’uniformité des scénarios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1909,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle favorise l’évolution des mentalités.",
+            "user_selected_option_id": 33261,
+            "correct_answer": "Elle favorise l’évolution des mentalités.",
+            "correct_option_id": 33261,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33261,
+                    "text": "Elle favorise l’évolution des mentalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33262,
+                    "text": "Elle incarne une première historique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33263,
+                    "text": "Elle permet de moderniser le lexique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33264,
+                    "text": "Elle reflète les clivages de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1910,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Il est délicat à mettre en œuvre.",
+            "user_selected_option_id": 33266,
+            "correct_answer": "Il est délicat à mettre en œuvre.",
+            "correct_option_id": 33266,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33265,
+                    "text": "Il donne satisfaction aux employés interrogés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33266,
+                    "text": "Il est délicat à mettre en œuvre.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33267,
+                    "text": "Il impose une restructuration des services.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33268,
+                    "text": "Il nuit à la performance des cadres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1911,
+            "question_text": "Compréhension écrite – Quiz 13 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Faciliter l’intégration professionnelle.",
+            "user_selected_option_id": 33270,
+            "correct_answer": "Faciliter l’intégration professionnelle.",
+            "correct_option_id": 33270,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_13_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33269,
+                    "text": "Embaucher des parents défavorisés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33270,
+                    "text": "Faciliter l’intégration professionnelle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33271,
+                    "text": "Proposer des tarifs préférentiels en crèche.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33272,
+                    "text": "Trouver un accueil provisoire pour les enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 13",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

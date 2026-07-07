@@ -1,0 +1,1733 @@
+{
+    "id": 40253,
+    "exam_id": 50,
+    "score": 508.0,
+    "score_percent": 72.68,
+    "cefr_level": "C1",
+    "clb_level": "CLB/NCLC 8",
+    "completed_at": "2026-07-06T21:13:37.575512+00:00",
+    "time_spent": 2135,
+    "section_breakdown": {
+        "Identification": {
+            "score": 18.2,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 25.4,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 14.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 14.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1912,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "À pied.",
+            "user_selected_option_id": 33274,
+            "correct_answer": "À pied.",
+            "correct_option_id": 33274,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33273,
+                    "text": "À moto.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33274,
+                    "text": "À pied.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33275,
+                    "text": "À vélo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33276,
+                    "text": "En taxi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1913,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Ses leçons à distance.",
+            "user_selected_option_id": 33277,
+            "correct_answer": "Ses leçons à distance.",
+            "correct_option_id": 33277,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33277,
+                    "text": "Ses leçons à distance.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33278,
+                    "text": "Ses professeurs expérimentés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33279,
+                    "text": "Ses salles neuves connectées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33280,
+                    "text": "Ses tarifs bon marché.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1914,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Il annonce son absence.",
+            "user_selected_option_id": 33281,
+            "correct_answer": "Il annonce son absence.",
+            "correct_option_id": 33281,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33281,
+                    "text": "Il annonce son absence.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33282,
+                    "text": "Il donne un rendez-vous.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33283,
+                    "text": "Il indique son arrivée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33284,
+                    "text": "Il signale son retard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1915,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De déjeuner chez lui.",
+            "user_selected_option_id": 33287,
+            "correct_answer": "De déjeuner chez lui.",
+            "correct_option_id": 33287,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33285,
+                    "text": "D’aller à un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33286,
+                    "text": "D’organiser un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33287,
+                    "text": "De déjeuner chez lui.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33288,
+                    "text": "De garder ses enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1916,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "La date.",
+            "user_selected_option_id": 33289,
+            "correct_answer": "La date.",
+            "correct_option_id": 33289,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33289,
+                    "text": "La date.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33290,
+                    "text": "La matière.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33291,
+                    "text": "Le lieu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33292,
+                    "text": "L’heure.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1917,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De goûter des spécialités franco-espagnoles.",
+            "user_selected_option_id": 33296,
+            "correct_answer": "De goûter des spécialités franco-espagnoles.",
+            "correct_option_id": 33296,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33293,
+                    "text": "D’apprendre à cuisiner des plats étrangers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33294,
+                    "text": "D’organiser des repas-spectacles à thèmes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33295,
+                    "text": "De gagner un voyage à la fin du repas.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33296,
+                    "text": "De goûter des spécialités franco-espagnoles.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1918,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Des horaires de sortie.",
+            "user_selected_option_id": 33298,
+            "correct_answer": "Des horaires de sortie.",
+            "correct_option_id": 33298,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33297,
+                    "text": "De l’inscription des élèves.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33298,
+                    "text": "Des horaires de sortie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33299,
+                    "text": "Des repas à la cantine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33300,
+                    "text": "Du temps de repos.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1919,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "S’amuser.",
+            "user_selected_option_id": 33303,
+            "correct_answer": "S’amuser.",
+            "correct_option_id": 33303,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33301,
+                    "text": "Cuisiner.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33302,
+                    "text": "Étudier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33303,
+                    "text": "S’amuser.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33304,
+                    "text": "Se promener.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1920,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Ils sont nombreux à en avoir.",
+            "user_selected_option_id": 33307,
+            "correct_answer": "Ils sont nombreux à en avoir.",
+            "correct_option_id": 33307,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33305,
+                    "text": "Ils aiment en voir dans la nature.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33306,
+                    "text": "Ils les regardent à la télévision.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33307,
+                    "text": "Ils sont nombreux à en avoir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33308,
+                    "text": "Ils vont les voir dans des zoos.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1921,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "D’envoyer des photos.",
+            "user_selected_option_id": 33309,
+            "correct_answer": "D’envoyer des photos.",
+            "correct_option_id": 33309,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33309,
+                    "text": "D’envoyer des photos.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33310,
+                    "text": "D’inventer une recette.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33311,
+                    "text": "De créer un spectacle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33312,
+                    "text": "De découvrir une langue.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1922,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Des valises.",
+            "user_selected_option_id": 33315,
+            "correct_answer": "Des valises.",
+            "correct_option_id": 33315,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33313,
+                    "text": "Des chocolats.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33314,
+                    "text": "Des romans.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33315,
+                    "text": "Des valises.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33316,
+                    "text": "Ses vêtements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1923,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Pour s’installer dans un local plus vaste.",
+            "user_selected_option_id": 33320,
+            "correct_answer": "Pour s’installer dans un local plus vaste.",
+            "correct_option_id": 33320,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33317,
+                    "text": "Pour acheter des meubles de bibliothèque.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33318,
+                    "text": "Pour organiser un concours de lecture.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33319,
+                    "text": "Pour ouvrir un salon de thé littéraire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33320,
+                    "text": "Pour s’installer dans un local plus vaste.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1924,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "D’une voiture pour le transport.",
+            "user_selected_option_id": 33324,
+            "correct_answer": "D’argent pour la course.",
+            "correct_option_id": 33321,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33321,
+                    "text": "D’argent pour la course.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33322,
+                    "text": "De livres pour les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33323,
+                    "text": "De produits pour les repas.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33324,
+                    "text": "D’une voiture pour le transport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1925,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Il va arriver en retard chez lui.",
+            "user_selected_option_id": 33328,
+            "correct_answer": "Il va arriver en retard chez lui.",
+            "correct_option_id": 33328,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33325,
+                    "text": "Il a un rendez-vous à l’hôpital.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33326,
+                    "text": "Il doit annuler leur rencontre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33327,
+                    "text": "Il est parti acheter un portable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33328,
+                    "text": "Il va arriver en retard chez lui.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1926,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Goûter des recettes.",
+            "user_selected_option_id": 33331,
+            "correct_answer": "Goûter des recettes.",
+            "correct_option_id": 33331,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33329,
+                    "text": "Écouter des chansons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33330,
+                    "text": "Gagner des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33331,
+                    "text": "Goûter des recettes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33332,
+                    "text": "Jouer dans un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1927,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Il a réussi à séduire un public local.",
+            "user_selected_option_id": 33334,
+            "correct_answer": "Il a réussi à séduire un public local.",
+            "correct_option_id": 33334,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 46,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33333,
+                    "text": "C’est un musée peu fréquenté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33334,
+                    "text": "Il a réussi à séduire un public local.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33335,
+                    "text": "On y découvrir l’histoire de la région.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33336,
+                    "text": "Sa collection sera présentée à Paris.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1928,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "D’un homme qui produit des œuvres originales.",
+            "user_selected_option_id": 33338,
+            "correct_answer": "D’un homme qui produit des œuvres originales.",
+            "correct_option_id": 33338,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 85,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33337,
+                    "text": "D’un comédien qui tourne dans des bidonvilles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33338,
+                    "text": "D’un homme qui produit des œuvres originales.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33339,
+                    "text": "De la santé d’un membre du gouvernement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33340,
+                    "text": "De mesure écologique prise par une mairie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1929,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Un guide des démarches d’inscription.",
+            "user_selected_option_id": 33342,
+            "correct_answer": "Une méthode pour choisir une formation.",
+            "correct_option_id": 33343,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33341,
+                    "text": "Des idées de stages en entreprise.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33342,
+                    "text": "Un guide des démarches d’inscription.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33343,
+                    "text": "Une méthode pour choisir une formation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33344,
+                    "text": "Une sélection des meilleures universités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1930,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Le secret d’une bonne préparation.",
+            "user_selected_option_id": 33346,
+            "correct_answer": "Le secret d’une bonne préparation.",
+            "correct_option_id": 33346,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33345,
+                    "text": "L’origine historique de la recette.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33346,
+                    "text": "Le secret d’une bonne préparation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33347,
+                    "text": "Les adresses où les consommer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33348,
+                    "text": "Les raisons de leur popularité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1931,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "La technologie modifie la relation à la gastronomie.",
+            "user_selected_option_id": 33350,
+            "correct_answer": "La technologie modifie la relation à la gastronomie.",
+            "correct_option_id": 33350,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 179,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33349,
+                    "text": "La réputation de restaurants touristiques est menacée par internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33350,
+                    "text": "La technologie modifie la relation à la gastronomie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33351,
+                    "text": "Les grands chefs livrent leurs secrets sur des sites.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33352,
+                    "text": "Les traditions culinaires peuvent se perpétuer grâce au numérique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1932,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Le remboursement de son article.",
+            "user_selected_option_id": 33353,
+            "correct_answer": "Le remboursement de son article.",
+            "correct_option_id": 33353,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33353,
+                    "text": "Le remboursement de son article.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33354,
+                    "text": "L’échange de son téléphone.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33355,
+                    "text": "L’envoi de son téléphone par la poste.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33356,
+                    "text": "Une réclamation sur son achat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1933,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "C’est possible, mais pénible.",
+            "user_selected_option_id": 33359,
+            "correct_answer": "C’est possible, mais pénible.",
+            "correct_option_id": 33359,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33357,
+                    "text": "C’est possible à la campagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33358,
+                    "text": "C’est possible avec du temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33359,
+                    "text": "C’est possible, mais pénible.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33360,
+                    "text": "C’est possible pour tous.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1934,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Il pense qu’il faut privilégier le contact des élèves avec l’outil internet.",
+            "user_selected_option_id": 33364,
+            "correct_answer": "Il estime qu’il reste du travail à faire pour mieux préparer cette évolution.",
+            "correct_option_id": 33362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 66,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33361,
+                    "text": "Il considère que l’ère du support papier est définitivement terminée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33362,
+                    "text": "Il estime qu’il reste du travail à faire pour mieux préparer cette évolution.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33363,
+                    "text": "Il juge indispensable de n’utiliser que les supports électroniques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33364,
+                    "text": "Il pense qu’il faut privilégier le contact des élèves avec l’outil internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1935,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "D’aménager des réserves restreignant la pêche.",
+            "user_selected_option_id": 33365,
+            "correct_answer": "D’aménager des réserves restreignant la pêche.",
+            "correct_option_id": 33365,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 106,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33365,
+                    "text": "D’aménager des réserves restreignant la pêche.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33366,
+                    "text": "D’encourager une politique mondiale de la pêche.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33367,
+                    "text": "D’organiser des contrôles pour surveiller la pêche.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33368,
+                    "text": "De créer des taxes sur les produits de la pêche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1936,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Ils influencent les élèves au-delà de la classe.",
+            "user_selected_option_id": 33369,
+            "correct_answer": "Ils permettent au système de se maintenir.",
+            "correct_option_id": 33371,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 76,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33369,
+                    "text": "Ils influencent les élèves au-delà de la classe.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33370,
+                    "text": "Ils instillent le goût du travail en équipe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33371,
+                    "text": "Ils permettent au système de se maintenir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33372,
+                    "text": "Ils suscitent de nombreuses vocations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1937,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Ils alternent les supports selon le type d’activité.",
+            "user_selected_option_id": 33373,
+            "correct_answer": "Ils alternent les supports selon le type d’activité.",
+            "correct_option_id": 33373,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33373,
+                    "text": "Ils alternent les supports selon le type d’activité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33374,
+                    "text": "Ils hésitent à utiliser les techniques informatiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33375,
+                    "text": "Ils optent toujours pour des ouvrages imprimés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33376,
+                    "text": "Ils tiennent compte des progrès des apprenants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1938,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "D’un catalogue de styliste.",
+            "user_selected_option_id": 33377,
+            "correct_answer": "D’un catalogue de styliste.",
+            "correct_option_id": 33377,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33377,
+                    "text": "D’un catalogue de styliste.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33378,
+                    "text": "D’un dictionnaire philosophique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33379,
+                    "text": "D’un manuel d’histoire de l’art.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33380,
+                    "text": "D’une présentation de musée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1939,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Ses qualités nutritionnelles sont reconnues.",
+            "user_selected_option_id": 33383,
+            "correct_answer": "Son exploitation génère des revenus élevés.",
+            "correct_option_id": 33384,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33381,
+                    "text": "C’est un produit recherché par les consommateurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33382,
+                    "text": "Elle valorise des méthodes agricoles traditionnelles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33383,
+                    "text": "Ses qualités nutritionnelles sont reconnues.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33384,
+                    "text": "Son exploitation génère des revenus élevés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1940,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les politiques publiques.",
+            "user_selected_option_id": 33388,
+            "correct_answer": "Les méthodes de culture.",
+            "correct_option_id": 33386,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33385,
+                    "text": "Les changements de climat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33386,
+                    "text": "Les méthodes de culture.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33387,
+                    "text": "Les oiseaux prédateurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33388,
+                    "text": "Les politiques publiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1941,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Son charisme incroyable.",
+            "user_selected_option_id": 33392,
+            "correct_answer": "Son charisme incroyable.",
+            "correct_option_id": 33392,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33389,
+                    "text": "Sa connaissance des médias.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33390,
+                    "text": "Ses méthodes ancestrales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33391,
+                    "text": "Ses recettes originales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33392,
+                    "text": "Son charisme incroyable.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1942,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Amélie a déménagé récemment.",
+            "user_selected_option_id": 33393,
+            "correct_answer": "Amélie a invité Florence.",
+            "correct_option_id": 33394,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 363,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33393,
+                    "text": "Amélie a déménagé récemment.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33394,
+                    "text": "Amélie a invité Florence.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33395,
+                    "text": "Florence a beaucoup de travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33396,
+                    "text": "Florence aime le bord de mer.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1943,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il a plus d’illustrations que d’écrit.",
+            "user_selected_option_id": 33397,
+            "correct_answer": "Il touche également les adultes.",
+            "correct_option_id": 33399,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 77,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33397,
+                    "text": "Il a plus d’illustrations que d’écrit.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33398,
+                    "text": "Il préserve l’imaginaire des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33399,
+                    "text": "Il touche également les adultes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33400,
+                    "text": "Il valorise le patrimoine littéraire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1944,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les financements publics contribuent à leur expansion.",
+            "user_selected_option_id": 33402,
+            "correct_answer": "Les financements publics contribuent à leur expansion.",
+            "correct_option_id": 33402,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 103,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33401,
+                    "text": "D’anciens artistes ont l’occasion de monter sur scène.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33402,
+                    "text": "Les financements publics contribuent à leur expansion.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33403,
+                    "text": "Les organisateurs s’adaptent aux nouvelles tendances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33404,
+                    "text": "Les tarifs proposés dépendent de la programmation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1945,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Il constitue un bienfait autant qu’un problème.",
+            "user_selected_option_id": 33405,
+            "correct_answer": "Il constitue un bienfait autant qu’un problème.",
+            "correct_option_id": 33405,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 92,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33405,
+                    "text": "Il constitue un bienfait autant qu’un problème.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33406,
+                    "text": "Il est menacé d’asséchement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33407,
+                    "text": "Il pollue les terres avoisinantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33408,
+                    "text": "Il représente un attrait touristique essentiel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1946,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Ses œuvres se fondent dans leur environnement.",
+            "user_selected_option_id": 33410,
+            "correct_answer": "Ses œuvres se fondent dans leur environnement.",
+            "correct_option_id": 33410,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 97,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33409,
+                    "text": "Sa technique puise dans divers mouvements artistiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33410,
+                    "text": "Ses œuvres se fondent dans leur environnement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33411,
+                    "text": "Son inspiration provient de ses nombreuses lectures.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33412,
+                    "text": "Son savoir-faire met en valeur des procédés connus.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1947,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La singularité de ses portraits.",
+            "user_selected_option_id": 33414,
+            "correct_answer": "La singularité de ses portraits.",
+            "correct_option_id": 33414,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 22,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33413,
+                    "text": "L’influence de ses contemporains.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33414,
+                    "text": "La singularité de ses portraits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33415,
+                    "text": "Son engouement pour la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33416,
+                    "text": "Son travail post-impressionniste.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1948,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Une diffusion abusive de copies illégales.",
+            "user_selected_option_id": 33418,
+            "correct_answer": "Une diffusion abusive de copies illégales.",
+            "correct_option_id": 33418,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33417,
+                    "text": "Une adéquation avec l’attente des lecteurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33418,
+                    "text": "Une diffusion abusive de copies illégales.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33419,
+                    "text": "Une offre promotionnelle provisoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33420,
+                    "text": "Une perte croissante du nombre d’abonnés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1949,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "C’est une coutume en réunion.",
+            "user_selected_option_id": 33423,
+            "correct_answer": "C’est une marque de courtoisie.",
+            "correct_option_id": 33424,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 82,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33421,
+                    "text": "C’est un accessoire d’élégance masculine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33422,
+                    "text": "C’est un signe de reconnaissance entre pairs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33423,
+                    "text": "C’est une coutume en réunion.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33424,
+                    "text": "C’est une marque de courtoisie.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1950,
+            "question_text": "Compréhension écrite – Quiz 14 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il s’inquiète de son usage abusif.",
+            "user_selected_option_id": 33427,
+            "correct_answer": "Il s’inquiète de son usage abusif.",
+            "correct_option_id": 33427,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 102,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_14_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33425,
+                    "text": "Il reconnaît ses aspects pratiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33426,
+                    "text": "Il remet en cause ses bienfaits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33427,
+                    "text": "Il s’inquiète de son usage abusif.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33428,
+                    "text": "Il s’émerveille de sa technologie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 72,
+    "strengths": [
+        "Compréhension quasi-complète de tous les textes",
+        "Déduction sophisitquée de sens implicite",
+        "Reconnaissance aisée d'ironie, allusions, critique",
+        "Compréhension de niveaux variés de complexité"
+    ],
+    "improvements": [
+        "Capture de 100% de subtilités littéraires extrêmes",
+        "Compréhension de poésie très complexe ou archéologique",
+        "Reconnaissance de nuances très fines d'intention",
+        "Perfectionnement vers C2 (maîtrise complète)"
+    ],
+    "recommendations": [
+        "Lire 50+ min/jour: littérature classique, essais philosophiques, critique littéraire",
+        "Étudier expressions idiomatiques extrêmement rares",
+        "Analyser textes complexes pour intention implicite",
+        "Faire exercices compréhension 1-2x/semaine",
+        "Passer 1-2 examen réel chaque semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 14",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

@@ -1,0 +1,1733 @@
+{
+    "id": 39419,
+    "exam_id": 39,
+    "score": 711.0,
+    "score_percent": 101.72,
+    "cefr_level": null,
+    "clb_level": null,
+    "completed_at": "2026-06-27T23:09:40.378897+00:00",
+    "time_spent": 348,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20.3,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20.3,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1483,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D’une naissance",
+            "user_selected_option_id": 31560,
+            "correct_answer": "D’une naissance",
+            "correct_option_id": 31560,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_1.webp",
+            "all_options": [
+                {
+                    "id": 31557,
+                    "text": "D’un anniversaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31558,
+                    "text": "D’un décès",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31559,
+                    "text": "D’un mariage",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31560,
+                    "text": "D’une naissance",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1484,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Elle reste chez elle",
+            "user_selected_option_id": 31563,
+            "correct_answer": "Elle reste chez elle",
+            "correct_option_id": 31563,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_2.webp",
+            "all_options": [
+                {
+                    "id": 31561,
+                    "text": "Elle étudie son français",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31562,
+                    "text": "Elle invite son ami Rémi",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31563,
+                    "text": "Elle reste chez elle",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31564,
+                    "text": "Elle va à la bibliothèque",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1485,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Aller voir un film",
+            "user_selected_option_id": 31565,
+            "correct_answer": "Aller voir un film",
+            "correct_option_id": 31565,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_3.webp",
+            "all_options": [
+                {
+                    "id": 31565,
+                    "text": "Aller voir un film",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31566,
+                    "text": "Diner avec Fred",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31567,
+                    "text": "Passer chez un ami",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31568,
+                    "text": "Rester au travail",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1486,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Elle nage",
+            "user_selected_option_id": 31572,
+            "correct_answer": "Elle nage",
+            "correct_option_id": 31572,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_4.webp",
+            "all_options": [
+                {
+                    "id": 31569,
+                    "text": "Elle chante",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31570,
+                    "text": "Elle court",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31571,
+                    "text": "Elle étudie",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31572,
+                    "text": "Elle nage",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1487,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De jeunes mamans",
+            "user_selected_option_id": 31575,
+            "correct_answer": "De jeunes mamans",
+            "correct_option_id": 31575,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_5.webp",
+            "all_options": [
+                {
+                    "id": 31573,
+                    "text": "De jeunes enfants",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31574,
+                    "text": "Des femmes et des enfants",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31575,
+                    "text": "De jeunes mamans",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31576,
+                    "text": "Des parents avec leurs enfants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1488,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Bien choisir ses vêtements",
+            "user_selected_option_id": 31577,
+            "correct_answer": "Bien choisir ses vêtements",
+            "correct_option_id": 31577,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_6.webp",
+            "all_options": [
+                {
+                    "id": 31577,
+                    "text": "Bien choisir ses vêtements",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31578,
+                    "text": "Chercher les horaires du bus",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31579,
+                    "text": "Envoyer un courriel à Sam",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31580,
+                    "text": "Trouver une location de vacances",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1489,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Regarder des films",
+            "user_selected_option_id": 31584,
+            "correct_answer": "Regarder des films",
+            "correct_option_id": 31584,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_7.webp",
+            "all_options": [
+                {
+                    "id": 31581,
+                    "text": "Aller à un anniversaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31582,
+                    "text": "Diner avec son amie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31583,
+                    "text": "Partir en Week-end",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31584,
+                    "text": "Regarder des films",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1490,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Des horaires de sortie",
+            "user_selected_option_id": 31586,
+            "correct_answer": "Des horaires de sortie",
+            "correct_option_id": 31586,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_8.webp",
+            "all_options": [
+                {
+                    "id": 31585,
+                    "text": "De l’inscription des élèves",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31586,
+                    "text": "Des horaires de sortie",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31587,
+                    "text": "Des repas à la cantine",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31588,
+                    "text": "Du temps de repos",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1491,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "L’alimentation",
+            "user_selected_option_id": 31589,
+            "correct_answer": "L’alimentation",
+            "correct_option_id": 31589,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_9.webp",
+            "all_options": [
+                {
+                    "id": 31589,
+                    "text": "L’alimentation",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31590,
+                    "text": "L’éducation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31591,
+                    "text": "La cuisine",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31592,
+                    "text": "Le commerce",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1492,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "D’envoyer des photos",
+            "user_selected_option_id": 31593,
+            "correct_answer": "D’envoyer des photos",
+            "correct_option_id": 31593,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_10.webp",
+            "all_options": [
+                {
+                    "id": 31593,
+                    "text": "D’envoyer des photos",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31594,
+                    "text": "D’inventer une recette",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31595,
+                    "text": "De créer un spectacle",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31596,
+                    "text": "De découvrir une langue",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1493,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Dialoguer avec le personnel enseignant",
+            "user_selected_option_id": 31597,
+            "correct_answer": "Dialoguer avec le personnel enseignant",
+            "correct_option_id": 31597,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_11.webp",
+            "all_options": [
+                {
+                    "id": 31597,
+                    "text": "Dialoguer avec le personnel enseignant",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31598,
+                    "text": "Écouter une présentation du directeur",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31599,
+                    "text": "Participer à une conférence sur l’éducation",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31600,
+                    "text": "Répondre à un questionnaire sur tes cours",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1494,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De manger quotidiennement du chocolat",
+            "user_selected_option_id": 31603,
+            "correct_answer": "De manger quotidiennement du chocolat",
+            "correct_option_id": 31603,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_12.webp",
+            "all_options": [
+                {
+                    "id": 31601,
+                    "text": "D’utiliser des crèmes solaires à base de chocolat",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31602,
+                    "text": "De diminuer sa consommation de chocolat",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31603,
+                    "text": "De manger quotidiennement du chocolat",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31604,
+                    "text": "De suivre un traitement de pilules au chocolat",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1495,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Elles habitent dans le même pays",
+            "user_selected_option_id": 31607,
+            "correct_answer": "Elles habitent dans le même pays",
+            "correct_option_id": 31607,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_13.webp",
+            "all_options": [
+                {
+                    "id": 31605,
+                    "text": "Elles adorent utiliser Facebook",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31606,
+                    "text": "Elles enseignent dans la même école",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31607,
+                    "text": "Elles habitent dans le même pays",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31608,
+                    "text": "Elles ont la même famille adoptive",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1496,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "user_selected_option_id": 31610,
+            "correct_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "correct_option_id": 31610,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_14.webp",
+            "all_options": [
+                {
+                    "id": 31609,
+                    "text": "La difficulté de trouver un stage à travailler",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31610,
+                    "text": "La nécessite de s’exiler pour pouvoir travailler",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31611,
+                    "text": "Le manque de formation des jeunes diplômés",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31612,
+                    "text": "Le niveau trop faible des salaires proposés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1497,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "De permettre aux enfants de faire leur travail du soir en classe",
+            "user_selected_option_id": 31614,
+            "correct_answer": "De permettre aux enfants de faire leur travail du soir en classe",
+            "correct_option_id": 31614,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_15.webp",
+            "all_options": [
+                {
+                    "id": 31613,
+                    "text": "D’alléger les emplois du temps le lundi pour les professeurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31614,
+                    "text": "De permettre aux enfants de faire leur travail du soir en classe",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31615,
+                    "text": "De supprimer totalement le travail à la maison pour les élèves",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31616,
+                    "text": "D’inviter les parents à des visites régulières de l’établissement",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1498,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "D’encourager les personnes handicapées à faire du sport",
+            "user_selected_option_id": 31619,
+            "correct_answer": "D’encourager les personnes handicapées à faire du sport",
+            "correct_option_id": 31619,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_16.webp",
+            "all_options": [
+                {
+                    "id": 31617,
+                    "text": "De faciliter les rencontres avec des sportifs handicapés",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31618,
+                    "text": "De trouver des entraineurs spécialisés en handisport",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31619,
+                    "text": "D’encourager les personnes handicapées à faire du sport",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31620,
+                    "text": "D’organiser les matches avec des sportifs handicapés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1499,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Leur curiosité",
+            "user_selected_option_id": 31621,
+            "correct_answer": "Leur curiosité",
+            "correct_option_id": 31621,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_17.webp",
+            "all_options": [
+                {
+                    "id": 31621,
+                    "text": "Leur curiosité",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31622,
+                    "text": "Leur imagination",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31623,
+                    "text": "Leur mémoire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31624,
+                    "text": "Leur obéissance",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1500,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Une méthode pour choisir une formation",
+            "user_selected_option_id": 31627,
+            "correct_answer": "Une méthode pour choisir une formation",
+            "correct_option_id": 31627,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_18.webp",
+            "all_options": [
+                {
+                    "id": 31625,
+                    "text": "Des idées de stages en entreprises",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31626,
+                    "text": "Un guide des démarches d’inscription",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31627,
+                    "text": "Une méthode pour choisir une formation",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31628,
+                    "text": "Une sélection des meilleures universités",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1501,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Téléphoner à l’entreprise",
+            "user_selected_option_id": 31632,
+            "correct_answer": "Téléphoner à l’entreprise",
+            "correct_option_id": 31632,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_19.webp",
+            "all_options": [
+                {
+                    "id": 31629,
+                    "text": "Annuler un rendez-vous",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31630,
+                    "text": "Chercher des documents",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31631,
+                    "text": "Envoyer un curriculum vitae",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31632,
+                    "text": "Téléphoner à l’entreprise",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1502,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Envoyer des vœux de nouvel an",
+            "user_selected_option_id": 31635,
+            "correct_answer": "Envoyer des vœux de nouvel an",
+            "correct_option_id": 31635,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_20.webp",
+            "all_options": [
+                {
+                    "id": 31633,
+                    "text": "Annoncer l’achat d’un appartement",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31634,
+                    "text": "Donner des nouvelles à des amis",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31635,
+                    "text": "Envoyer des vœux de nouvel an",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31636,
+                    "text": "Organiser un voyage en Corse",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1503,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "La prise en compte de l’opinion publique.",
+            "user_selected_option_id": 31638,
+            "correct_answer": "La prise en compte de l’opinion publique.",
+            "correct_option_id": 31638,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_21.webp",
+            "all_options": [
+                {
+                    "id": 31637,
+                    "text": "La priorité donnée à l’aspect écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31638,
+                    "text": "La prise en compte de l’opinion publique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31639,
+                    "text": "Le caractère provisoire de l’installation",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31640,
+                    "text": "Le choix des matériaux de fabrication",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1504,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "user_selected_option_id": 31644,
+            "correct_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "correct_option_id": 31644,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_22.webp",
+            "all_options": [
+                {
+                    "id": 31641,
+                    "text": "Ils éloignent les jeunes du monde des adultes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31642,
+                    "text": "Ils entrainent des comportements de type additif.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31643,
+                    "text": "Ils ont tendance à couper les adolescents du réel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31644,
+                    "text": "Ils peuvent être utilisés comme outils de contrôle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1505,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Le triomphe d’une opinion émise par Apollinaire mais autrefois combattue.",
+            "user_selected_option_id": 31646,
+            "correct_answer": "Le triomphe d’une opinion émise par Apollinaire mais autrefois combattue.",
+            "correct_option_id": 31646,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_23.webp",
+            "all_options": [
+                {
+                    "id": 31645,
+                    "text": "Le résultat d’une lutte menée par des gens orgueilleux et intolérants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31646,
+                    "text": "Le triomphe d’une opinion émise par Apollinaire mais autrefois combattue.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31647,
+                    "text": "Un miracle dû à la persévérance des archéologues sur plusieurs continents.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31648,
+                    "text": "La consécration des œuvres européennes jusqu’alors remisées dans les musées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1506,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "La fréquence de ses congénères.",
+            "user_selected_option_id": 31649,
+            "correct_answer": "La fréquence de ses congénères.",
+            "correct_option_id": 31649,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_24.webp",
+            "all_options": [
+                {
+                    "id": 31649,
+                    "text": "La fréquence de ses congénères.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31650,
+                    "text": "L’amélioration de son habitat naturel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31651,
+                    "text": "Les mutations de son organisme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31652,
+                    "text": "L’extermination des autres espèces.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1507,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Elle aura un meilleur pouvoir d’achat sous peu.",
+            "user_selected_option_id": 31653,
+            "correct_answer": "Elle aura un meilleur pouvoir d’achat sous peu.",
+            "correct_option_id": 31653,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_25.webp",
+            "all_options": [
+                {
+                    "id": 31653,
+                    "text": "Elle aura un meilleur pouvoir d’achat sous peu.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31654,
+                    "text": "Elle se débrouille sans l’aide de personne.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31655,
+                    "text": "Elle trouvera facilement un emploi après l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31656,
+                    "text": "Elle va habiter près de chez ses parents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1508,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+            "user_selected_option_id": 31660,
+            "correct_answer": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+            "correct_option_id": 31660,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_26.webp",
+            "all_options": [
+                {
+                    "id": 31657,
+                    "text": "La consommation de gaz dans le monde augmente.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31658,
+                    "text": "La demande croissante en gaz a des effets sur le climat.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31659,
+                    "text": "Les besoins en gaz des Américains sont supérieurs à l’offre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31660,
+                    "text": "Les ressources en gaz à l’échelle mondiale s’accroissent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1509,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Une diminution de la diversité de la faune océanique.",
+            "user_selected_option_id": 31664,
+            "correct_answer": "Une diminution de la diversité de la faune océanique.",
+            "correct_option_id": 31664,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_27.webp",
+            "all_options": [
+                {
+                    "id": 31661,
+                    "text": "Un obstacle pour les bateaux de pêche.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31662,
+                    "text": "Un réchauffement dramatique des eaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31663,
+                    "text": "Un risque d’intoxication des populations du Pacifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31664,
+                    "text": "Une diminution de la diversité de la faune océanique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1510,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "La manipulation des clients par les industriels.",
+            "user_selected_option_id": 31665,
+            "correct_answer": "La manipulation des clients par les industriels.",
+            "correct_option_id": 31665,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_28.webp",
+            "all_options": [
+                {
+                    "id": 31665,
+                    "text": "La manipulation des clients par les industriels.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31666,
+                    "text": "L’attitude imprévisible des consommateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31667,
+                    "text": "L’uniformisation des saveurs des goûts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31668,
+                    "text": "L’utilisation abusive des produits de synthèse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1511,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Aux idées débattues.",
+            "user_selected_option_id": 31670,
+            "correct_answer": "Aux idées débattues.",
+            "correct_option_id": 31670,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_29.webp",
+            "all_options": [
+                {
+                    "id": 31669,
+                    "text": "Aux hôtes du parlement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31670,
+                    "text": "Aux idées débattues.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31671,
+                    "text": "Aux pays représentés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31672,
+                    "text": "Aux projets de loi votés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1512,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Il donne un conseil.",
+            "user_selected_option_id": 31674,
+            "correct_answer": "Il donne un conseil.",
+            "correct_option_id": 31674,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_30.webp",
+            "all_options": [
+                {
+                    "id": 31673,
+                    "text": "Il commente une loi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31674,
+                    "text": "Il donne un conseil.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31675,
+                    "text": "Il formule une plainte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31676,
+                    "text": "Il raconte une anecdote.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1513,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Les réticences émises par la clientèle.",
+            "user_selected_option_id": 31679,
+            "correct_answer": "Les réticences émises par la clientèle.",
+            "correct_option_id": 31679,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_31.webp",
+            "all_options": [
+                {
+                    "id": 31677,
+                    "text": "Les coûts élevés des investissements.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31678,
+                    "text": "Les faibles qualifications des employés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31679,
+                    "text": "Les réticences émises par la clientèle.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31680,
+                    "text": "Les spécificités de certains métiers.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1514,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+            "user_selected_option_id": 31682,
+            "correct_answer": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+            "correct_option_id": 31682,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_32.webp",
+            "all_options": [
+                {
+                    "id": 31681,
+                    "text": "Aider les femmes à se battre pour améliorer leur situation familiale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31682,
+                    "text": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31683,
+                    "text": "Démontrer que la condition de la femme dans les cités est désastreuse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31684,
+                    "text": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1515,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les intérêts en jeu sont difficilement compatibles.",
+            "user_selected_option_id": 31687,
+            "correct_answer": "Les intérêts en jeu sont difficilement compatibles.",
+            "correct_option_id": 31687,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_33.webp",
+            "all_options": [
+                {
+                    "id": 31685,
+                    "text": "Les familles dont opposées à toute modification.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31686,
+                    "text": "Les impacts financiers demeurent insurmontables.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31687,
+                    "text": "Les intérêts en jeu sont difficilement compatibles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31688,
+                    "text": "Les opinions des experts sont en tout désaccord.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1516,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Donner une dimension nouvelle aux lieux mis en scène.",
+            "user_selected_option_id": 31689,
+            "correct_answer": "Donner une dimension nouvelle aux lieux mis en scène.",
+            "correct_option_id": 31689,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_34.webp",
+            "all_options": [
+                {
+                    "id": 31689,
+                    "text": "Donner une dimension nouvelle aux lieux mis en scène.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31690,
+                    "text": "Permettre la réhabilitation des monuments historiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31691,
+                    "text": "Transformer de manière durable les bâtiments illumines.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31692,
+                    "text": "Valoriser culturellement des zones urbaines délaissées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1517,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "À minimiser les aléas.",
+            "user_selected_option_id": 31694,
+            "correct_answer": "À minimiser les aléas.",
+            "correct_option_id": 31694,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_35.webp",
+            "all_options": [
+                {
+                    "id": 31693,
+                    "text": "À gagner du temps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31694,
+                    "text": "À minimiser les aléas.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31695,
+                    "text": "À réduire les frais.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31696,
+                    "text": "À simplifier les procédures",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1518,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Il insiste sur le point de vue matériel.",
+            "user_selected_option_id": 31698,
+            "correct_answer": "Il insiste sur le point de vue matériel.",
+            "correct_option_id": 31698,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_36.webp",
+            "all_options": [
+                {
+                    "id": 31697,
+                    "text": "Il apaise les tensions de la société.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31698,
+                    "text": "Il insiste sur le point de vue matériel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31699,
+                    "text": "Il propose des programmes utopiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31700,
+                    "text": "Il traite les problèmes liés aux sols.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1519,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il est complet.",
+            "user_selected_option_id": 31701,
+            "correct_answer": "Il est complet.",
+            "correct_option_id": 31701,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_37.webp",
+            "all_options": [
+                {
+                    "id": 31701,
+                    "text": "Il est complet.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31702,
+                    "text": "Il est concis.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31703,
+                    "text": "Il est innovant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31704,
+                    "text": "Il est irréfutable",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1520,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Elle dessert le travail d’écriture du romancier.",
+            "user_selected_option_id": 31706,
+            "correct_answer": "Elle dessert le travail d’écriture du romancier.",
+            "correct_option_id": 31706,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_38.webp",
+            "all_options": [
+                {
+                    "id": 31705,
+                    "text": "Elle demande de posséder des talents d’acteur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31706,
+                    "text": "Elle dessert le travail d’écriture du romancier.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31707,
+                    "text": "Elle est particulièrement adaptée au petit écran.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31708,
+                    "text": "Elle rend les émissions littéraires prétentieuses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1521,
+            "question_text": "Compréhension écrite – Quiz 3 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Observer l’écosystème dans une région de grands fleuves.",
+            "user_selected_option_id": 31711,
+            "correct_answer": "Observer l’écosystème dans une région de grands fleuves.",
+            "correct_option_id": 31711,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_3_question_39.webp",
+            "all_options": [
+                {
+                    "id": 31709,
+                    "text": "Former des scientifiques à la prévention des risques écologiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31710,
+                    "text": "Innover dans les moyens de lutter contre les pollutions fluviales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31711,
+                    "text": "Observer l’écosystème dans une région de grands fleuves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31712,
+                    "text": "Represerver le gouvernement français lors d’une rencontre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 3",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

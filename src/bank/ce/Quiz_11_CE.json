@@ -1,0 +1,1732 @@
+{
+    "id": 40151,
+    "exam_id": 47,
+    "score": 690.0,
+    "score_percent": 98.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-05T22:11:21.797559+00:00",
+    "time_spent": 1288,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1795,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Un horaire.",
+            "user_selected_option_id": 32806,
+            "correct_answer": "Un horaire.",
+            "correct_option_id": 32806,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_1.webp",
+            "all_options": [
+                {
+                    "id": 32805,
+                    "text": "Un événement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32806,
+                    "text": "Un horaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32807,
+                    "text": "Un plan.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32808,
+                    "text": "Une adresse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1796,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Un travail.",
+            "user_selected_option_id": 32811,
+            "correct_answer": "Un travail.",
+            "correct_option_id": 32811,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32809,
+                    "text": "Un cours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32810,
+                    "text": "Un spectacle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32811,
+                    "text": "Un travail.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32812,
+                    "text": "Une visite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1797,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "À la maison.",
+            "user_selected_option_id": 32814,
+            "correct_answer": "À la maison.",
+            "correct_option_id": 32814,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_3.webp",
+            "all_options": [
+                {
+                    "id": 32813,
+                    "text": "À la gare.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32814,
+                    "text": "À la maison.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32815,
+                    "text": "Au cinéma.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32816,
+                    "text": "Au travail.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1798,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Ils font attention à l’argent.",
+            "user_selected_option_id": 32818,
+            "correct_answer": "Ils font attention à l’argent.",
+            "correct_option_id": 32818,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32817,
+                    "text": "Ils achètent souvent des sucreries.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32818,
+                    "text": "Ils font attention à l’argent.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32819,
+                    "text": "Ils aiment préparer des desserts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32820,
+                    "text": "Ils ont une maison de vacances.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1799,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Un tarif.",
+            "user_selected_option_id": 32824,
+            "correct_answer": "Un tarif.",
+            "correct_option_id": 32824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32821,
+                    "text": "Une adresse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32822,
+                    "text": "Une date.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32823,
+                    "text": "Un horaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32824,
+                    "text": "Un tarif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1800,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il fait du sport.",
+            "user_selected_option_id": 32827,
+            "correct_answer": "Il fait du sport.",
+            "correct_option_id": 32827,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32825,
+                    "text": "Il achète un livre.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32826,
+                    "text": "Il apprend ses leçons.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32827,
+                    "text": "Il fait du sport.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32828,
+                    "text": "Il regarde un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1801,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Il promet un cadeau.",
+            "user_selected_option_id": 32832,
+            "correct_answer": "Il promet un cadeau.",
+            "correct_option_id": 32832,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32829,
+                    "text": "Il donne un conseil.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32830,
+                    "text": "Il indique une fermeture.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32831,
+                    "text": "Il invite à un dîner.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32832,
+                    "text": "Il promet un cadeau.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1802,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Pour passer un examen.",
+            "user_selected_option_id": 32833,
+            "correct_answer": "Pour passer un examen.",
+            "correct_option_id": 32833,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 56,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32833,
+                    "text": "Pour passer un examen.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32834,
+                    "text": "Pour prendre son diplôme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32835,
+                    "text": "Pour surveiller des candidats.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32836,
+                    "text": "Pour s’inscrire à des cours.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1803,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Il accepte de l’aider.",
+            "user_selected_option_id": 32837,
+            "correct_answer": "Il accepte de l’aider.",
+            "correct_option_id": 32837,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32837,
+                    "text": "Il accepte de l’aider.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32838,
+                    "text": "Il cherche une information.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32839,
+                    "text": "Il l’invite à déjeuner.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32840,
+                    "text": "Il organise un entretien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1804,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Il change d’adresse.",
+            "user_selected_option_id": 32842,
+            "correct_answer": "Il change d’adresse.",
+            "correct_option_id": 32842,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_10.webp",
+            "all_options": [
+                {
+                    "id": 32841,
+                    "text": "Il a un nouveau travail.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32842,
+                    "text": "Il change d’adresse.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32843,
+                    "text": "Il part en vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32844,
+                    "text": "Il s’inscrit à l’université.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1805,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "À conseiller le promeneur.",
+            "user_selected_option_id": 32845,
+            "correct_answer": "À conseiller le promeneur.",
+            "correct_option_id": 32845,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_11.webp",
+            "all_options": [
+                {
+                    "id": 32845,
+                    "text": "À conseiller le promeneur.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32846,
+                    "text": "À décrire les risques d’accident.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32847,
+                    "text": "À prévoir le temps qu’il fera.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32848,
+                    "text": "À signaler les accès interdits.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1806,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Faciliter la recherche d’emploi.",
+            "user_selected_option_id": 32850,
+            "correct_answer": "Faciliter la recherche d’emploi.",
+            "correct_option_id": 32850,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 36,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_12.webp",
+            "all_options": [
+                {
+                    "id": 32849,
+                    "text": "Accueillir les étudiants étrangers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32850,
+                    "text": "Faciliter la recherche d’emploi.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32851,
+                    "text": "Préparer la rentrée universitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32852,
+                    "text": "Présenter de nouvelles formations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1807,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "C’est un spécialiste du sujet.",
+            "user_selected_option_id": 32856,
+            "correct_answer": "C’est un spécialiste du sujet.",
+            "correct_option_id": 32856,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_13.webp",
+            "all_options": [
+                {
+                    "id": 32853,
+                    "text": "C’est un amoureux de la région.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32854,
+                    "text": "C’est un écrivain très célèbre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32855,
+                    "text": "C’est un membre de l’association.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32856,
+                    "text": "C’est un spécialiste du sujet.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1808,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Goûter des recettes.",
+            "user_selected_option_id": 32859,
+            "correct_answer": "Goûter des recettes.",
+            "correct_option_id": 32859,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 107,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_14.webp",
+            "all_options": [
+                {
+                    "id": 32857,
+                    "text": "Écouter des chansons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32858,
+                    "text": "Gagner des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32859,
+                    "text": "Goûter des recettes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32860,
+                    "text": "Jouer dans un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1809,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "La nécessité de s’exiler pour pouvoir travailler.",
+            "user_selected_option_id": 32862,
+            "correct_answer": "La nécessité de s’exiler pour pouvoir travailler.",
+            "correct_option_id": 32862,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_15.webp",
+            "all_options": [
+                {
+                    "id": 32861,
+                    "text": "La difficulté de trouver un stage à l’étranger.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32862,
+                    "text": "La nécessité de s’exiler pour pouvoir travailler.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32863,
+                    "text": "Le manque de formation des jeunes diplômés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32864,
+                    "text": "Le niveau trop faible des salaires proposés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1810,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Signaler les difficultés de circulation.",
+            "user_selected_option_id": 32868,
+            "correct_answer": "Signaler les difficultés de circulation.",
+            "correct_option_id": 32868,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 46,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_16.webp",
+            "all_options": [
+                {
+                    "id": 32865,
+                    "text": "Accélérer les interventions d’urgence.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32866,
+                    "text": "Généraliser la conduite sans chauffeur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32867,
+                    "text": "Repérer les mauvais conducteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32868,
+                    "text": "Signaler les difficultés de circulation.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1811,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Effectuer des tâches administratives.",
+            "user_selected_option_id": 32870,
+            "correct_answer": "Effectuer des tâches administratives.",
+            "correct_option_id": 32870,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_17.webp",
+            "all_options": [
+                {
+                    "id": 32869,
+                    "text": "Diriger un service de plusieurs salariés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32870,
+                    "text": "Effectuer des tâches administratives.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32871,
+                    "text": "Tester des programmes informatiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32872,
+                    "text": "Vérifier les finances de l’entreprise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1812,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Aux locataires qui ont de faibles revenus.",
+            "user_selected_option_id": 32875,
+            "correct_answer": "Aux locataires qui ont de faibles revenus.",
+            "correct_option_id": 32875,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_18.webp",
+            "all_options": [
+                {
+                    "id": 32873,
+                    "text": "Aux familles qui ont des factures élevées.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32874,
+                    "text": "Aux jeunes qui veulent vivre en colocation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32875,
+                    "text": "Aux locataires qui ont de faibles revenus.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32876,
+                    "text": "Aux personnes qui achètent un logement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1813,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "De lutter contre les imitations.",
+            "user_selected_option_id": 32877,
+            "correct_answer": "De lutter contre les imitations.",
+            "correct_option_id": 32877,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_19.webp",
+            "all_options": [
+                {
+                    "id": 32877,
+                    "text": "De lutter contre les imitations.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32878,
+                    "text": "D’en accroître la production.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32879,
+                    "text": "De développer sa saveur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32880,
+                    "text": "De le faire davantage connaître.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1814,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il a trouvé quelque chose dans son fromage.",
+            "user_selected_option_id": 32882,
+            "correct_answer": "Il a trouvé quelque chose dans son fromage.",
+            "correct_option_id": 32882,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_20.webp",
+            "all_options": [
+                {
+                    "id": 32881,
+                    "text": "Il a avalé un mauvais morceau de fromage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32882,
+                    "text": "Il a trouvé quelque chose dans son fromage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32883,
+                    "text": "Il est tombé malade en mangeant du fromage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32884,
+                    "text": "Il s’est fait mal aux dents avec le fromage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1815,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Tenter une nouvelle aventure.",
+            "user_selected_option_id": 32888,
+            "correct_answer": "Tenter une nouvelle aventure.",
+            "correct_option_id": 32888,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_21.webp",
+            "all_options": [
+                {
+                    "id": 32885,
+                    "text": "Accéder à la propriété privée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32886,
+                    "text": "Avoir un mode de vie économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32887,
+                    "text": "Participez à la vie associative.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32888,
+                    "text": "Tenter une nouvelle aventure.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1816,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Parce que les larves ont beaucoup mangé.",
+            "user_selected_option_id": 32891,
+            "correct_answer": "Parce que les larves ont beaucoup mangé.",
+            "correct_option_id": 32891,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_22.webp",
+            "all_options": [
+                {
+                    "id": 32889,
+                    "text": "Parce qu’il y a eu des pluies importantes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32890,
+                    "text": "Parce que les femelles ont moins pondu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32891,
+                    "text": "Parce que les larves ont beaucoup mangé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32892,
+                    "text": "Parce qu’ils ont hiberné plus longtemps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1817,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Des rendements en baisse.",
+            "user_selected_option_id": 32896,
+            "correct_answer": "Des rendements en baisse.",
+            "correct_option_id": 32896,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 48,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_23.webp",
+            "all_options": [
+                {
+                    "id": 32893,
+                    "text": "Des facilités d’irrigation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32894,
+                    "text": "Des moissons plus fréquentes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32895,
+                    "text": "Des paysans plus nombreux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32896,
+                    "text": "Des rendements en baisse.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1818,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Rationaliser la gestion des associations.",
+            "user_selected_option_id": 32897,
+            "correct_answer": "Mieux communiquer sur l’utilisation des fonds.",
+            "correct_option_id": 32900,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 118,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_24.webp",
+            "all_options": [
+                {
+                    "id": 32897,
+                    "text": "Rationaliser la gestion des associations.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32898,
+                    "text": "Élargir le recrutement à de nouveaux bénévoles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32899,
+                    "text": "Former les responsables des associations.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32900,
+                    "text": "Mieux communiquer sur l’utilisation des fonds.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1819,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "En envoyant des courriels sur la plateforme de l’émission.",
+            "user_selected_option_id": 32901,
+            "correct_answer": "En envoyant des courriels sur la plateforme de l’émission.",
+            "correct_option_id": 32901,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_25.webp",
+            "all_options": [
+                {
+                    "id": 32901,
+                    "text": "En envoyant des courriels sur la plateforme de l’émission.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32902,
+                    "text": "En étant sélectionné pour être convié sur le plateau.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32903,
+                    "text": "En joignant le standard de la chaîne pendant le direct.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32904,
+                    "text": "En participant à distance au moyen d’une cybercaméra.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1820,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+            "user_selected_option_id": 32908,
+            "correct_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+            "correct_option_id": 32908,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_26.webp",
+            "all_options": [
+                {
+                    "id": 32905,
+                    "text": "L’avenir de son travail est menacé par l’industrie agroalimentaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32906,
+                    "text": "La qualité des produits charcutiers est reconnue par les médecins.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32907,
+                    "text": "Le passage d’un métier de bouche à un autre se fait facilement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32908,
+                    "text": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1821,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Obtenir de l’argent pour développer des centres d’accueil.",
+            "user_selected_option_id": 32909,
+            "correct_answer": "Obtenir de l’argent pour développer des centres d’accueil.",
+            "correct_option_id": 32909,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_27.webp",
+            "all_options": [
+                {
+                    "id": 32909,
+                    "text": "Obtenir de l’argent pour développer des centres d’accueil.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32910,
+                    "text": "Convaincre les entreprises étrangères d’investir au Burundi.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32911,
+                    "text": "Soutenir les étudiants burundais expatriés pour leurs études.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32912,
+                    "text": "Trouver des bénévoles pour s’occuper des enfants à l’hôpital.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1822,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "L’harmonisation de leurs appellations.",
+            "user_selected_option_id": 32913,
+            "correct_answer": "L’harmonisation de leurs appellations.",
+            "correct_option_id": 32913,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_28.webp",
+            "all_options": [
+                {
+                    "id": 32913,
+                    "text": "L’harmonisation de leurs appellations.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32914,
+                    "text": "La multiplication de leurs prédateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32915,
+                    "text": "La transformation de leur écosystème.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32916,
+                    "text": "Le prélèvement abusif lié à leur surpêche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1823,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Il constate la fréquence des modifications apportées aux photos.",
+            "user_selected_option_id": 32917,
+            "correct_answer": "Il constate la fréquence des modifications apportées aux photos.",
+            "correct_option_id": 32917,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 52,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_29.webp",
+            "all_options": [
+                {
+                    "id": 32917,
+                    "text": "Il constate la fréquence des modifications apportées aux photos.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32918,
+                    "text": "Il espère la disparition des corrections sur les photos.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32919,
+                    "text": "Il souligne la place grandissante des photos par rapport au texte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32920,
+                    "text": "Il vante la grande qualité artistique des photos de célébrités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1824,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "La rivalité entre les différents médias.",
+            "user_selected_option_id": 32922,
+            "correct_answer": "La rivalité entre les différents médias.",
+            "correct_option_id": 32922,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_30.webp",
+            "all_options": [
+                {
+                    "id": 32921,
+                    "text": "La complémentarité des supports médiatiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32922,
+                    "text": "La rivalité entre les différents médias.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32923,
+                    "text": "La spécificité des médias français.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32924,
+                    "text": "Le développement des médias en ligne.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1825,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Les réticences émises par la clientèle.",
+            "user_selected_option_id": 32927,
+            "correct_answer": "Les réticences émises par la clientèle.",
+            "correct_option_id": 32927,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_31.webp",
+            "all_options": [
+                {
+                    "id": 32925,
+                    "text": "Les coûts élevés des investissements.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32926,
+                    "text": "Les faibles qualifications des employés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32927,
+                    "text": "Les réticences émises par la clientèle.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32928,
+                    "text": "Les spécificités de certains métiers.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1826,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Les financements publics contribuent à leur expansion.",
+            "user_selected_option_id": 32930,
+            "correct_answer": "Les financements publics contribuent à leur expansion.",
+            "correct_option_id": 32930,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 113,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_32.webp",
+            "all_options": [
+                {
+                    "id": 32929,
+                    "text": "D’anciens artistes ont l’occasion de monter sur scène.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32930,
+                    "text": "Les financements publics contribuent à leur expansion.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32931,
+                    "text": "Les organisateurs s’adaptent aux nouvelles tendances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32932,
+                    "text": "Les tarifs proposés dépendant de la programmation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1827,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Elle permet le dépassement des normes édictées.",
+            "user_selected_option_id": 32935,
+            "correct_answer": "Elle permet le dépassement des normes édictées.",
+            "correct_option_id": 32935,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_33.webp",
+            "all_options": [
+                {
+                    "id": 32933,
+                    "text": "Elle concerne uniquement les économies fortes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32934,
+                    "text": "Elle freine l’utilisation de ressources renouvelables.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32935,
+                    "text": "Elle permet le dépassement des normes édictées.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32936,
+                    "text": "Elle ralentit le progrès dans les États émergents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1828,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "La mise en place de la démocratie résulte d’un long processus.",
+            "user_selected_option_id": 32939,
+            "correct_answer": "La mise en place de la démocratie résulte d’un long processus.",
+            "correct_option_id": 32939,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_34.webp",
+            "all_options": [
+                {
+                    "id": 32937,
+                    "text": "L’idée de démocratie est aujourd’hui plus controversée qu’avant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32938,
+                    "text": "La démocratie est affaiblie par la diversité de ses formes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32939,
+                    "text": "La mise en place de la démocratie résulte d’un long processus.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32940,
+                    "text": "Les fondements théoriques de la démocratie sont utopiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1829,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il insiste sur le point de vue matériel.",
+            "user_selected_option_id": 32942,
+            "correct_answer": "Il insiste sur le point de vue matériel.",
+            "correct_option_id": 32942,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_35.webp",
+            "all_options": [
+                {
+                    "id": 32941,
+                    "text": "Il apaise les tensions de la société.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32942,
+                    "text": "Il insiste sur le point de vue matériel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32943,
+                    "text": "Il propose des programmes utopiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32944,
+                    "text": "Il traite les problèmes liés aux sols.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1830,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La concertation est la clé d’une action réussie.",
+            "user_selected_option_id": 32946,
+            "correct_answer": "La concertation est la clé d’une action réussie.",
+            "correct_option_id": 32946,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 48,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_36.webp",
+            "all_options": [
+                {
+                    "id": 32945,
+                    "text": "L’écologie est avant tout une affaire d’État.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32946,
+                    "text": "La concertation est la clé d’une action réussie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32947,
+                    "text": "Les mesures protectionnistes sont dépassées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32948,
+                    "text": "L’influence des lobbies est à prendre en compte.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1831,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Le discours sur la formation continue s’oppose à la réalité observée.",
+            "user_selected_option_id": 32951,
+            "correct_answer": "Le discours sur la formation continue s’oppose à la réalité observée.",
+            "correct_option_id": 32951,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_37.webp",
+            "all_options": [
+                {
+                    "id": 32949,
+                    "text": "La Commission européenne est en désaccord avec les autorités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32950,
+                    "text": "Le contenu des programmes universitaires est inadapté à la vie active.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32951,
+                    "text": "Le discours sur la formation continue s’oppose à la réalité observée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32952,
+                    "text": "L’obtention de diplômes cesse d’assurer l’avenir professionnel des jeunes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1832,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Ils sont remplacés par des pathologies professionnelles.",
+            "user_selected_option_id": 32955,
+            "correct_answer": "Ils sont remplacés par des pathologies professionnelles.",
+            "correct_option_id": 32955,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_38.webp",
+            "all_options": [
+                {
+                    "id": 32953,
+                    "text": "Ils ont une influence très préoccupante sur l’économie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32954,
+                    "text": "Ils se produisent dans les entreprises industrielles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32955,
+                    "text": "Ils sont remplacés par des pathologies professionnelles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32956,
+                    "text": "Ils sont source de traumatismes musculaires graves.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1833,
+            "question_text": "Compréhension écrite – Quiz 11 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "user_selected_option_id": 32957,
+            "correct_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "correct_option_id": 32957,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_11_question_39.webp",
+            "all_options": [
+                {
+                    "id": 32957,
+                    "text": "L’aisance de l’acteur qui tient le rôle principal.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32958,
+                    "text": "La finesse de l’humour présente dans la pièce.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32959,
+                    "text": "Le mystère qui entoure le personnage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32960,
+                    "text": "Le talent de l’ensemble des musiciens.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 98,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 11",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

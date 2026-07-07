@@ -1,0 +1,1732 @@
+{
+    "id": 39951,
+    "exam_id": 43,
+    "score": 696.0,
+    "score_percent": 99.57,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-03T22:42:26.645903+00:00",
+    "time_spent": 1068,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.9,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.8,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.9,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.9,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1639,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Ses collègues",
+            "user_selected_option_id": 32182,
+            "correct_answer": "Ses collègues",
+            "correct_option_id": 32182,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_1.webp",
+            "all_options": [
+                {
+                    "id": 32181,
+                    "text": "Ses amis",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32182,
+                    "text": "Ses collègues",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32183,
+                    "text": "Ses enfants",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32184,
+                    "text": "Ses voisins",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1640,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Des pâtisseries",
+            "user_selected_option_id": 32187,
+            "correct_answer": "Des pâtisseries",
+            "correct_option_id": 32187,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32185,
+                    "text": "Des billets de train",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32186,
+                    "text": "Des légumes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32187,
+                    "text": "Des pâtisseries",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32188,
+                    "text": "Des vêtements",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1641,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "L’adresse postale",
+            "user_selected_option_id": 32189,
+            "correct_answer": "L’adresse postale",
+            "correct_option_id": 32189,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 35,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_3.webp",
+            "all_options": [
+                {
+                    "id": 32189,
+                    "text": "L’adresse postale",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32190,
+                    "text": "Le courrier électronique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32191,
+                    "text": "Le numéro de téléphone",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32192,
+                    "text": "Le site internet",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1642,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Un tarif",
+            "user_selected_option_id": 32196,
+            "correct_answer": "Un tarif",
+            "correct_option_id": 32196,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32193,
+                    "text": "Une adresse",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32194,
+                    "text": "Une date",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32195,
+                    "text": "Un horaire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32196,
+                    "text": "Un tarif",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1643,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "La date",
+            "user_selected_option_id": 32197,
+            "correct_answer": "La date",
+            "correct_option_id": 32197,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32197,
+                    "text": "La date",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32198,
+                    "text": "La matière",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32199,
+                    "text": "Le lieu",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32200,
+                    "text": "L’heure",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1644,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De goûter des spécialités franco-espagnoles",
+            "user_selected_option_id": 32204,
+            "correct_answer": "De goûter des spécialités franco-espagnoles",
+            "correct_option_id": 32204,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32201,
+                    "text": "D’apprendre à cuisiner des plats étrangers",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32202,
+                    "text": "D’organiser des repas-spectacles à thèmes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32203,
+                    "text": "De gagner un voyage à la fin du repas",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32204,
+                    "text": "De goûter des spécialités franco-espagnoles",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1645,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "En mai",
+            "user_selected_option_id": 32207,
+            "correct_answer": "En mai",
+            "correct_option_id": 32207,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32205,
+                    "text": "En décembre",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32206,
+                    "text": "En février",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32207,
+                    "text": "En mai",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32208,
+                    "text": "En mars",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1646,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Le départ d’un collègue",
+            "user_selected_option_id": 32211,
+            "correct_answer": "Le départ d’un collègue",
+            "correct_option_id": 32211,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32209,
+                    "text": "Le début des vacances",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32210,
+                    "text": "Le déménagement de l’entreprise",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32211,
+                    "text": "Le départ d’un collègue",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32212,
+                    "text": "Les résultats de l’équipe",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1647,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De tester des activités",
+            "user_selected_option_id": 32215,
+            "correct_answer": "De tester des activités",
+            "correct_option_id": 32215,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32213,
+                    "text": "De participer à un concours",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32214,
+                    "text": "De s’inscrire à un stage",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32215,
+                    "text": "De tester des activités",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32216,
+                    "text": "De voir un spectacle",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1648,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Pour un réveillon",
+            "user_selected_option_id": 32219,
+            "correct_answer": "Pour un réveillon",
+            "correct_option_id": 32219,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_10.webp",
+            "all_options": [
+                {
+                    "id": 32217,
+                    "text": "Pour un anniversaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32218,
+                    "text": "Pour un mariage",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32219,
+                    "text": "Pour un réveillon",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32220,
+                    "text": "Pour un spectacle",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1649,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "À choisir ses produits",
+            "user_selected_option_id": 32222,
+            "correct_answer": "À choisir ses produits",
+            "correct_option_id": 32222,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_11.webp",
+            "all_options": [
+                {
+                    "id": 32221,
+                    "text": "À acheter sur internet",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32222,
+                    "text": "À choisir ses produits",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32223,
+                    "text": "À noter les magasins",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32224,
+                    "text": "À trouver des recettes",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1650,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Agent de sécurité",
+            "user_selected_option_id": 32227,
+            "correct_answer": "Agent de sécurité",
+            "correct_option_id": 32227,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_12.webp",
+            "all_options": [
+                {
+                    "id": 32225,
+                    "text": "Agent secouriste",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32226,
+                    "text": "Agent commercial",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32227,
+                    "text": "Agent de sécurité",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32228,
+                    "text": "Agent de circulation",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1651,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "D’envoyer des photos",
+            "user_selected_option_id": 32231,
+            "correct_answer": "D’envoyer des photos",
+            "correct_option_id": 32231,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_13.webp",
+            "all_options": [
+                {
+                    "id": 32229,
+                    "text": "De découvrir une langue",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32230,
+                    "text": "De faire un spectacle",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32231,
+                    "text": "D’envoyer des photos",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32232,
+                    "text": "Inventer une recette",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1652,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Elles habitent dans le même pays",
+            "user_selected_option_id": 32235,
+            "correct_answer": "Elles habitent dans le même pays",
+            "correct_option_id": 32235,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_14.webp",
+            "all_options": [
+                {
+                    "id": 32233,
+                    "text": "Elles adorent utiliser Facebook",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32234,
+                    "text": "Elles enseignent dans la même école",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32235,
+                    "text": "Elles habitent dans le même pays",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32236,
+                    "text": "Elles ont la même famille adoptive",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1653,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "user_selected_option_id": 32238,
+            "correct_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "correct_option_id": 32238,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_15.webp",
+            "all_options": [
+                {
+                    "id": 32237,
+                    "text": "La difficulté de trouver un stage à l’étranger",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32238,
+                    "text": "La nécessite de s’exiler pour pouvoir travailler",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32239,
+                    "text": "Le manque de formation des jeunes diplômés",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32240,
+                    "text": "Le niveau trop faible des salaires proposés",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1654,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Ils permettent un contact direct avec un écran tactile",
+            "user_selected_option_id": 32242,
+            "correct_answer": "Ils permettent un contact direct avec un écran tactile",
+            "correct_option_id": 32242,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_16.webp",
+            "all_options": [
+                {
+                    "id": 32241,
+                    "text": "Ils évitent de rayer les appareils à écran tactile",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32242,
+                    "text": "Ils permettent un contact direct avec un écran tactile",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32243,
+                    "text": "Ils sont équipés de capteurs reliés à un écran tactile",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32244,
+                    "text": "Ils sont offerts lors de l’achat d’un écran tactile",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1655,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Nuancée pour le restaurant",
+            "user_selected_option_id": 32246,
+            "correct_answer": "Enthousiaste pour le restaurant",
+            "correct_option_id": 32247,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 71,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_17.webp",
+            "all_options": [
+                {
+                    "id": 32245,
+                    "text": "Défavorable pour le restaurant",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32246,
+                    "text": "Nuancée pour le restaurant",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32247,
+                    "text": "Enthousiaste pour le restaurant",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32248,
+                    "text": "Objective pour le restaurant",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1656,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Une visite guidée originale",
+            "user_selected_option_id": 32250,
+            "correct_answer": "Une visite guidée originale",
+            "correct_option_id": 32250,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 49,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_18.webp",
+            "all_options": [
+                {
+                    "id": 32249,
+                    "text": "Une compétition sportive",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32250,
+                    "text": "Une visite guidée originale",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32251,
+                    "text": "Une séance de gymnastique",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32252,
+                    "text": "Une fête familiale en plein air",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1657,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Il explique l’idée de départ d’un livre de Modiano",
+            "user_selected_option_id": 32254,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano",
+            "correct_option_id": 32254,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_19.webp",
+            "all_options": [
+                {
+                    "id": 32253,
+                    "text": "Il cite un extrait d’une œuvre de Modiano",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32254,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32255,
+                    "text": "Il présente le métier de Modiano à ses débuts",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32256,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1658,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Entrer en contact avec les gens",
+            "user_selected_option_id": 32258,
+            "correct_answer": "Entrer en contact avec les gens",
+            "correct_option_id": 32258,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_20.webp",
+            "all_options": [
+                {
+                    "id": 32257,
+                    "text": "Découvrir des recettes locales",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32258,
+                    "text": "Entrer en contact avec les gens",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32259,
+                    "text": "Réaliser une opération publicitaire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32260,
+                    "text": "Vendre des spécialités françaises",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1659,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Qui ont de l’expérience dans la télévente",
+            "user_selected_option_id": 32262,
+            "correct_answer": "Qui ont de l’expérience dans la télévente",
+            "correct_option_id": 32262,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_21.webp",
+            "all_options": [
+                {
+                    "id": 32261,
+                    "text": "Qui débutent dans le métier de la télévente",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32262,
+                    "text": "Qui ont de l’expérience dans la télévente",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32263,
+                    "text": "Qui sont intéressés par un salaire modulable",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32264,
+                    "text": "Qui recherchent un contrat de courte durée",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1660,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Du fait de sa taille",
+            "user_selected_option_id": 32265,
+            "correct_answer": "Du fait de sa taille",
+            "correct_option_id": 32265,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_22.webp",
+            "all_options": [
+                {
+                    "id": 32265,
+                    "text": "Du fait de sa taille",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32266,
+                    "text": "Du fait de sa localisation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32267,
+                    "text": "Du fait de sa décoration",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32268,
+                    "text": "Du fait de son personnel",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1661,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Le changement est définitif",
+            "user_selected_option_id": 32270,
+            "correct_answer": "Le changement est définitif",
+            "correct_option_id": 32270,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_23.webp",
+            "all_options": [
+                {
+                    "id": 32269,
+                    "text": "Elle est en cours de test",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32270,
+                    "text": "Le changement est définitif",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32271,
+                    "text": "Tout le monde peut en bénéficier",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32272,
+                    "text": "Une hospitalisation est nécessaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1662,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Les produits utilisés dans les cultures",
+            "user_selected_option_id": 32276,
+            "correct_answer": "Les produits utilisés dans les cultures",
+            "correct_option_id": 32276,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 81,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_24.webp",
+            "all_options": [
+                {
+                    "id": 32273,
+                    "text": "L’urbanisation galopante des compagnes",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32274,
+                    "text": "La faible étendue des réserves écologiques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32275,
+                    "text": "Le dérèglement climatique de la planète",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32276,
+                    "text": "Les produits utilisés dans les cultures",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1663,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "En envoyant des courriels sur la plateforme de l’émission",
+            "user_selected_option_id": 32277,
+            "correct_answer": "En envoyant des courriels sur la plateforme de l’émission",
+            "correct_option_id": 32277,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_25.webp",
+            "all_options": [
+                {
+                    "id": 32277,
+                    "text": "En envoyant des courriels sur la plateforme de l’émission",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32278,
+                    "text": "En étant sélectionné pour être convié sur le plateau",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32279,
+                    "text": "En joignant le standard de la chaîne pendant le direct",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32280,
+                    "text": "En participant à distance au moyen d’une cybercaméra",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1664,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante",
+            "user_selected_option_id": 32284,
+            "correct_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante",
+            "correct_option_id": 32284,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 69,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_26.webp",
+            "all_options": [
+                {
+                    "id": 32281,
+                    "text": "L’avenir de son travail est menacé par l’industrie agroalimentaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32282,
+                    "text": "La qualité des produits charcutiers est reconnue par les médecins",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32283,
+                    "text": "Le passage d’un métier de bouche à un autre se fait facilement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32284,
+                    "text": "L’image attachée à sa profession est stéréotypée et peu valorisante",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1665,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "D’un catalogue de styliste",
+            "user_selected_option_id": 32285,
+            "correct_answer": "D’un catalogue de styliste",
+            "correct_option_id": 32285,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_27.webp",
+            "all_options": [
+                {
+                    "id": 32285,
+                    "text": "D’un catalogue de styliste",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32286,
+                    "text": "D’un dictionnaire philosophique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32287,
+                    "text": "D’un manuel d’histoire de l’art",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32288,
+                    "text": "D’une présentation de musée",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1666,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Son exploitation génère des revenus élevés",
+            "user_selected_option_id": 32292,
+            "correct_answer": "Son exploitation génère des revenus élevés",
+            "correct_option_id": 32292,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_28.webp",
+            "all_options": [
+                {
+                    "id": 32289,
+                    "text": "C’est un produit recherché par les consommateurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32290,
+                    "text": "Elle valorise des méthodes agricoles traditionnelles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32291,
+                    "text": "Ses qualités nutritionnelles sont reconnues",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32292,
+                    "text": "Son exploitation génère des revenus élevés",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1667,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "L’innovation des procédés de production",
+            "user_selected_option_id": 32294,
+            "correct_answer": "L’innovation des procédés de production",
+            "correct_option_id": 32294,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 96,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_29.webp",
+            "all_options": [
+                {
+                    "id": 32293,
+                    "text": "L’accès universel à des aliments bon marché",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32294,
+                    "text": "L’innovation des procédés de production",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32295,
+                    "text": "Le développement du commerce équitable",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32296,
+                    "text": "Le partage d’expériences traditionnelles",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1668,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Un couple qui ne s’aime plus",
+            "user_selected_option_id": 32300,
+            "correct_answer": "Un couple qui ne s’aime plus",
+            "correct_option_id": 32300,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_30.webp",
+            "all_options": [
+                {
+                    "id": 32297,
+                    "text": "Une histoire d’amour splendide",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32298,
+                    "text": "Un amour entre deux retraités",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32299,
+                    "text": "Un homme mal aimé par sa femme",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32300,
+                    "text": "Un couple qui ne s’aime plus",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1669,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "En s’enrichissant de tous types d’apports",
+            "user_selected_option_id": 32303,
+            "correct_answer": "En s’enrichissant de tous types d’apports",
+            "correct_option_id": 32303,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_31.webp",
+            "all_options": [
+                {
+                    "id": 32301,
+                    "text": "En diversifiant sa politique linguistique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32302,
+                    "text": "En modernisant son enseignement",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32303,
+                    "text": "En s’enrichissant de tous types d’apports",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32304,
+                    "text": "En valorisant les particularités régionales",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1670,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il est indispensable de savoir s’en servir correctement",
+            "user_selected_option_id": 32305,
+            "correct_answer": "Il est indispensable de savoir s’en servir correctement",
+            "correct_option_id": 32305,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_32.webp",
+            "all_options": [
+                {
+                    "id": 32305,
+                    "text": "Il est indispensable de savoir s’en servir correctement",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32306,
+                    "text": "Il faut éviter de les utiliser dans le cadre scolaire",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32307,
+                    "text": "Ils représentent un danger pour les libertés individuelles",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32308,
+                    "text": "Ils sont incontournables en tant qu’outils d’enseignement",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1671,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Elle répond à certaines règles compréhensibles",
+            "user_selected_option_id": 32311,
+            "correct_answer": "Elle répond à certaines règles compréhensibles",
+            "correct_option_id": 32311,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_33.webp",
+            "all_options": [
+                {
+                    "id": 32309,
+                    "text": "Elle devrait être réformée de fond en comble",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32310,
+                    "text": "Elle est parsemée de prescriptions irrationnelles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32311,
+                    "text": "Elle répond à certaines règles compréhensibles",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32312,
+                    "text": "Elle se maîtrise par des exercices de mémorisation",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1672,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Le déroulement des événements",
+            "user_selected_option_id": 32316,
+            "correct_answer": "Le déroulement des événements",
+            "correct_option_id": 32316,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_34.webp",
+            "all_options": [
+                {
+                    "id": 32313,
+                    "text": "La description du personnage",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32314,
+                    "text": "La longueur du texte",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32315,
+                    "text": "La qualité de l’écriture",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32316,
+                    "text": "Le déroulement des événements",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1673,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "De satisfaire avant tous les adultes",
+            "user_selected_option_id": 32319,
+            "correct_answer": "De satisfaire avant tous les adultes",
+            "correct_option_id": 32319,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_35.webp",
+            "all_options": [
+                {
+                    "id": 32317,
+                    "text": "De laisser trop de temps à l’oisiveté",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32318,
+                    "text": "De s’écarter du modèle éducatif légal",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32319,
+                    "text": "De satisfaire avant tous les adultes",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32320,
+                    "text": "D’être à l’origine de l’échec scolaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1674,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Les amateurs de subtilité et de raffinement musical",
+            "user_selected_option_id": 32322,
+            "correct_answer": "Les amateurs de subtilité et de raffinement musical",
+            "correct_option_id": 32322,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_36.webp",
+            "all_options": [
+                {
+                    "id": 32321,
+                    "text": "Les acheteurs opposés au téléchargement illégal",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32322,
+                    "text": "Les amateurs de subtilité et de raffinement musical",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32323,
+                    "text": "Les admirateurs inconditionnels de l’interprète",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32324,
+                    "text": "Les curieux en mal de musique expérimentale",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1675,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Ouvrir ses cours à un public élargi",
+            "user_selected_option_id": 32327,
+            "correct_answer": "Ouvrir ses cours à un public élargi",
+            "correct_option_id": 32327,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 50,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_37.webp",
+            "all_options": [
+                {
+                    "id": 32325,
+                    "text": "Attirer davantage d’étudiants brillants",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32326,
+                    "text": "Être à la pointe de la technologie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32327,
+                    "text": "Ouvrir ses cours à un public élargi",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32328,
+                    "text": "Proposer des disciplines inédites",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1676,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Faciliter l’intégration professionnelle",
+            "user_selected_option_id": 32330,
+            "correct_answer": "Faciliter l’intégration professionnelle",
+            "correct_option_id": 32330,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_38.webp",
+            "all_options": [
+                {
+                    "id": 32329,
+                    "text": "Embaucher des parents défavorisés",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32330,
+                    "text": "Faciliter l’intégration professionnelle",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32331,
+                    "text": "Proposer des tarifs préférentiels en crèche",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32332,
+                    "text": "Trouver un accueil provisoire pour les enfants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1677,
+            "question_text": "Compréhension écrite – Quiz 7 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il ouvre la voie à de prochaines réalisations",
+            "user_selected_option_id": 32336,
+            "correct_answer": "Il ouvre la voie à de prochaines réalisations",
+            "correct_option_id": 32336,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_7_question_39.webp",
+            "all_options": [
+                {
+                    "id": 32333,
+                    "text": "Il constitue une création artistique novatrice",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32334,
+                    "text": "Il établit des ponts avec d’autres auteurs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32335,
+                    "text": "Il fait connaître les travaux d’un écrivain",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32336,
+                    "text": "Il ouvre la voie à de prochaines réalisations",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 7",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}
