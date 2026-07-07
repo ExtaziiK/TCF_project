@@ -3,9 +3,28 @@ import { BookOpen, Highlighter } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
+import { BankExplorer } from "@/components/bank/BankExplorer";
+import { getBank } from "@/services/bankService";
 import { READ_SENTENCES, READ_QS } from "@/constants/reading";
 
+// Premium module backed by the question bank (section "ce"). The legacy
+// demo below only renders if the bank section is ever empty.
 export function Reading() {
+  if (getBank().ce.length > 0) {
+    return (
+      <BankExplorer
+        back
+        sections={["ce"]}
+        eyebrow="Compréhension écrite"
+        title="Lisez comme un futur résident"
+        sub="Tous les quiz officiels de compréhension écrite : textes authentiques sur la vie et l'immigration au Canada, en conditions d'examen."
+      />
+    );
+  }
+  return <ReadingDemo />;
+}
+
+function ReadingDemo() {
   const { c, nav } = useApp();
   const [hlMode, setHlMode] = useState(false);
   const [hl, setHl] = useState([]);
@@ -26,7 +45,7 @@ export function Reading() {
     </Card>
   );
   return (
-    <PageShell eyebrow="Compréhension écrite" title="Lisez comme un futur résident" sub="Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.">
+    <PageShell back eyebrow="Compréhension écrite" title="Lisez comme un futur résident" sub="Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.">
       <Quiz questions={READ_QS} duration={480} storageKey="read" above={passage} doneExtra={<Btn variant="ghost" onClick={() => nav("vocabulary")}>Réviser le vocabulaire</Btn>} />
     </PageShell>
   );

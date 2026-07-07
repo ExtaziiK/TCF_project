@@ -33,7 +33,7 @@ export function Grammar() {
     );
   }
   return (
-    <PageShell wide eyebrow="Grammaire" title="Des leçons courtes, des exercices immédiats" sub="Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.">
+    <PageShell back wide eyebrow="Grammaire" title="Des leçons courtes, des exercices immédiats" sub="Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {GRAMMAR_TOPICS.map((t, i) => (
           <button key={t.id} onClick={() => setTopicId(t.id)} className="text-left">

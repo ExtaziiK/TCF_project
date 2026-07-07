@@ -2,18 +2,47 @@ import { useState } from "react";
 import { Sparkles, Mic, Square, ChevronRight, Play, Pause } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
+import { BankExplorer } from "@/components/bank/BankExplorer";
+import { getBank } from "@/services/bankService";
 import { useSpeakingSession } from "@/hooks/useSpeakingSession";
 import { SPEAKING_TASKS } from "@/constants/speaking";
 import { fmt } from "@/utils/format";
 
+// Premium module backed by the question bank (section "eo") once quizzes
+// exist there; until then the interactive speaking studio below is shown.
 export function Speaking() {
+  if (getBank().eo.length > 0) {
+    return (
+      <BankExplorer
+        back
+        sections={["eo"]}
+        eyebrow="Expression orale"
+        title="Parlez comme le jour de l'examen"
+        sub="Tous les quiz officiels d'expression orale, en conditions d'examen."
+      />
+    );
+  }
+  return <SpeakingStudio />;
+}
+
+function SpeakingStudio() {
+  return (
+    <PageShell back eyebrow="Expression orale" title="Parlez, réécoutez-vous, progressez" sub="Le micro est simulé dans cette démo. En production, votre enregistrement serait analysé pour la prononciation, le débit et la richesse lexicale.">
+      <SpeakingStudioBody />
+    </PageShell>
+  );
+}
+
+// Shell-less body so the mock-exam runner can embed the exact same
+// experience as the Expression orale page.
+export function SpeakingStudioBody() {
   const { c, notify } = useApp();
   const [taskId, setTaskId] = useState(1);
   const task = SPEAKING_TASKS.find((t) => t.id === taskId);
   const { phase, count, history, playingId, setPlayingId, start, stop, skipPrep } = useSpeakingSession(task, notify);
 
   return (
-    <PageShell eyebrow="Expression orale" title="Parlez, réécoutez-vous, progressez" sub="Le micro est simulé dans cette démo. En production, votre enregistrement serait analysé pour la prononciation, le débit et la richesse lexicale.">
+    <div>
       <div className="flex gap-2 flex-wrap mb-6">
         {SPEAKING_TASKS.map((t) => (
           <button key={t.id} onClick={() => setTaskId(t.id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${taskId === t.id ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{t.t}</button>
@@ -70,6 +99,6 @@ export function Speaking() {
           </div>
         </Card>
       </div>
-    </PageShell>
+    </div>
   );
 }

@@ -2,17 +2,46 @@ import { useState } from "react";
 import { Play, Sparkles, GraduationCap, ChevronDown, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
+import { BankExplorer } from "@/components/bank/BankExplorer";
+import { getBank } from "@/services/bankService";
 import { useWritingTask } from "@/hooks/useWritingTask";
 import { WRITING_TASKS } from "@/constants/writing";
 
+// Premium module backed by the question bank (section "ee") once quizzes
+// exist there; until then the interactive writing workshop below is shown.
 export function Writing() {
+  if (getBank().ee.length > 0) {
+    return (
+      <BankExplorer
+        back
+        sections={["ee"]}
+        eyebrow="Expression écrite"
+        title="Écrivez comme le jour de l'examen"
+        sub="Tous les quiz officiels d'expression écrite, en conditions d'examen."
+      />
+    );
+  }
+  return <WritingWorkshop />;
+}
+
+function WritingWorkshop() {
+  return (
+    <PageShell back eyebrow="Expression écrite" title="Écrivez, comptez vos mots, comparez" sub="Trois tâches, comme le jour de l'examen. L'analyse instantanée est assistée par IA ; les abonnés annuels reçoivent aussi une correction humaine.">
+      <WritingWorkshopBody />
+    </PageShell>
+  );
+}
+
+// Shell-less body so the mock-exam runner can embed the exact same
+// experience as the Expression écrite page.
+export function WritingWorkshopBody() {
   const { c, notify } = useApp();
   const [taskId, setTaskId] = useState(1);
   const task = WRITING_TASKS.find((t) => t.id === taskId);
   const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, words, lo, hi } = useWritingTask(task, notify);
 
   return (
-    <PageShell eyebrow="Expression écrite" title="Écrivez, comptez vos mots, comparez" sub="Trois tâches, comme le jour de l'examen. L'analyse instantanée est assistée par IA ; les abonnés annuels reçoivent aussi une correction humaine.">
+    <div>
       <div className="flex gap-2 flex-wrap mb-6">
         {WRITING_TASKS.map((t) => (
           <button key={t.id} onClick={() => setTaskId(t.id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${taskId === t.id ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{t.t}</button>
@@ -77,6 +106,6 @@ export function Writing() {
           </Card>
         </div>
       </div>
-    </PageShell>
+    </div>
   );
 }

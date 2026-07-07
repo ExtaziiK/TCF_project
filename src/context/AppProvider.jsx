@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppContext } from "@/context/AppContext";
 import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { getSession, mapSupabaseUser, onAuthStateChange, signOut as authSignOut } from "@/services/authService";
+import { deriveRole } from "@/auth/rbac";
 
 export function AppProvider({ children }) {
   const [dark, setDark] = useState(false);
@@ -27,8 +28,16 @@ export function AppProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Small navigation history so pages can offer a "Retour" affordance
+  // (the SPA has no URL routing, so the browser back button can't help).
+  const histRef = useRef([]);
   const nav = (r) => {
+    if (r !== route) histRef.current = [...histRef.current.slice(-19), route];
     setRoute(r);
+    window.scrollTo({ top: 0 });
+  };
+  const back = () => {
+    setRoute(histRef.current.pop() || "home");
     window.scrollTo({ top: 0 });
   };
 
@@ -37,10 +46,14 @@ export function AppProvider({ children }) {
     setUser(null);
   };
 
+  // Derived on every render so a premium_until expiry takes effect
+  // immediately, without waiting for an auth event.
+  const role = deriveRole(user);
+
   const value = {
     dark, setDark,
-    route, nav,
-    user, setUser, authReady, signOut,
+    route, nav, back,
+    user, setUser, authReady, signOut, role,
     c,
     toast, notify,
     bookmarks, toggleBookmark,

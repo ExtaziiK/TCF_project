@@ -4,17 +4,23 @@ import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
-import { NAV_LINKS } from "@/constants/navigation";
+import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
 import { NOTIFS } from "@/constants/gamification";
 
 export function Nav() {
-  const { c, dark, setDark, nav, route, user, signOut, notify } = useApp();
+  const { c, dark, setDark, nav, route, user, signOut, notify, role } = useApp();
   const [open, setOpen] = useState(false);
   const [dd, setDd] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const go = (r) => { nav(r); setOpen(false); setDd(false); setNotifOpen(false); };
-  const navLinks = user ? NAV_LINKS : NAV_LINKS.filter((n) => n.r !== "practice");
+  const navLinks = navLinksForRole(NAV_LINKS, role);
+  const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
+  const mobileLinks = [
+    ...navLinks.flatMap((n) => (n.menu ? n.menu : [n])),
+    ...accountLinks,
+    { l: "Contact", r: "contact" },
+  ];
   return (
     <>
       <header className={`fixed top-0 inset-x-0 z-40 border-b ${c.navBorder} ${c.nav} backdrop-blur-xl`}>
@@ -87,7 +93,7 @@ export function Nav() {
         </div>
         {open && (
           <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
-            {[{ l: "Accueil", r: "home" }, ...(user ? [{ l: "Tableau de bord", r: "dashboard" }, { l: "Progression", r: "progress" }, ...NAV_LINKS[1].menu] : []), ...(user?.admin ? [{ l: "Administration", r: "admin" }] : []), { l: "Tarifs", r: "pricing" }, { l: "Blogue", r: "blog" }, { l: "FAQ", r: "faq" }, { l: "À propos", r: "about" }, { l: "Contact", r: "contact" }].map((m) => (
+            {mobileLinks.map((m) => (
               <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{m.l}</button>
             ))}
             <div className="flex gap-2 pt-3">
