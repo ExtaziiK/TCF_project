@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, Upload, Pencil, CreditCard, MessageCircle,
-  TrendingUp, Volume2, Plus, Trash2, Check, XCircle, Shield, Headphones, ChevronRight,
+  TrendingUp, Plus, Trash2, Check, XCircle, Shield, Headphones,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { POSTS } from "@/constants/blog";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
+import { QuestionManager } from "@/components/admin/QuestionManager";
 
 export function Admin() {
   const { c, notify, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
@@ -101,33 +102,7 @@ export function Admin() {
           </table>
         </Card>
       )}
-      {tab === "questions" && (
-        <div className="grid lg:grid-cols-2 gap-5">
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-4 ${c.text}`}>Nouvelle question</h3>
-            <div className="space-y-3">
-              <select aria-label="Module" className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`}>
-                <option>Compréhension orale</option><option>Compréhension écrite</option><option>Grammaire</option><option>Vocabulaire</option>
-              </select>
-              <textarea rows={3} placeholder="Énoncé de la question…" aria-label="Énoncé" className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
-              <div className={`flex items-center justify-between gap-3 p-4 rounded-2xl border-2 border-dashed ${c.border}`}>
-                <p className={`text-sm ${c.sub} flex items-center gap-2`}><Volume2 size={16} className="text-blue-600" /> Fichier audio (MP3, max 10 Mo)</p>
-                <Btn small variant="ghost" icon={Upload} onClick={() => notify("Démo : le téléversement s'ouvrirait ici.")}>Téléverser</Btn>
-              </div>
-              <Btn small icon={Plus} onClick={() => notify("Question ajoutée à la banque (démo).")}>Ajouter la question</Btn>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-4 ${c.text}`}>Banque de questions</h3>
-            {[["Compréhension orale", "1 240 questions"], ["Compréhension écrite", "1 105 questions"], ["Grammaire", "540 exercices"], ["Vocabulaire", "315 cartes"]].map(([t, d]) => (
-              <div key={t} className={`flex items-center justify-between px-4 py-3.5 rounded-2xl ${c.hoverSoft}`}>
-                <div><p className={`text-sm font-medium ${c.text}`}>{t}</p><p className={`text-xs font-mono2 ${c.faint}`}>{d}</p></div>
-                <ChevronRight size={16} className={c.faint} />
-              </div>
-            ))}
-          </Card>
-        </div>
-      )}
+      {tab === "questions" && <QuestionManager />}
       {tab === "import" && (
         <div className="grid lg:grid-cols-2 gap-5">
           <Card className="p-6">

@@ -6,6 +6,7 @@ import { BankExplorer } from "@/components/bank/BankExplorer";
 import { getBank } from "@/services/bankService";
 import { useWritingTask } from "@/hooks/useWritingTask";
 import { WRITING_TASKS } from "@/constants/writing";
+import { getAdminWritingTasks } from "@/services/questionsService";
 
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
@@ -33,17 +34,19 @@ function WritingWorkshop() {
 }
 
 // Shell-less body so the mock-exam runner can embed the exact same
-// experience as the Expression écrite page.
+// experience as the Expression écrite page. Admin-created EE questions
+// (Question Management System) appear as extra tasks automatically.
 export function WritingWorkshopBody() {
   const { c, notify } = useApp();
-  const [taskId, setTaskId] = useState(1);
-  const task = WRITING_TASKS.find((t) => t.id === taskId);
+  const tasks = [...WRITING_TASKS, ...getAdminWritingTasks()];
+  const [taskId, setTaskId] = useState(tasks[0]?.id);
+  const task = tasks.find((t) => t.id === taskId) || tasks[0];
   const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, words, lo, hi } = useWritingTask(task, notify);
 
   return (
     <div>
       <div className="flex gap-2 flex-wrap mb-6">
-        {WRITING_TASKS.map((t) => (
+        {tasks.map((t) => (
           <button key={t.id} onClick={() => setTaskId(t.id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${taskId === t.id ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{t.t}</button>
         ))}
       </div>

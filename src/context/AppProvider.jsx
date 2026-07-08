@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut } from "@/services/authService";
+import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 
 export function AppProvider({ children }) {
@@ -27,6 +28,9 @@ export function AppProvider({ children }) {
     const subscription = onAuthStateChange((session) => setUser(mapSupabaseUser(session)));
     return () => subscription.unsubscribe();
   }, []);
+
+  // Pull admin-authored questions (QMS) into the bank and workshop pages.
+  useEffect(() => { syncSiteContent(); }, []);
 
   // Stripe Checkout redirects back to "/?checkout=success|cancelled" (the app
   // has no URL routing, so this is read once on load and then stripped).

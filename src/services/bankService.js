@@ -41,6 +41,23 @@ export function getBank() {
   return BANK;
 }
 
+// Merges admin-authored quizzes (Question Management System) into the bank,
+// replacing any previous admin injection. Called at app start and after any
+// QMS change, so the whole site reflects admin edits immediately.
+export function injectAdminQuizzes(quizzes) {
+  for (const list of Object.values(BANK)) {
+    for (let i = list.length - 1; i >= 0; i--) {
+      if (String(list[i].id).startsWith("admin-")) list.splice(i, 1);
+    }
+  }
+  for (const quiz of quizzes) {
+    if (quiz.questions.length > 0 && BANK[quiz.section]) BANK[quiz.section].push(quiz);
+  }
+  for (const list of Object.values(BANK)) {
+    list.sort((a, b) => (a.quizNumber ?? 1e9) - (b.quizNumber ?? 1e9) || a.title.localeCompare(b.title));
+  }
+}
+
 export function getBankStats() {
   return {
     localAudioCount: Object.keys(audioMap).length,
