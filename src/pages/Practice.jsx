@@ -39,9 +39,7 @@ export function Practice() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => {
           const section = ROUTE_SECTION[f.route];
-          const quizzes = section ? bank[section] : null;
-          const questionCount = quizzes ? quizzes.reduce((s, q) => s + q.questions.length, 0) : null;
-          const firstQuiz = quizzes && quizzes.length > 0 ? quizzes[0] : null;
+          const firstQuiz = section && bank[section].length > 0 ? bank[section][0] : null;
           return (
             <button key={f.t} onClick={() => (firstQuiz ? setOpenQuiz(firstQuiz) : nav(f.route))} className="text-left">
               <Card lift className="p-6 h-full">
@@ -51,9 +49,6 @@ export function Practice() {
                 </div>
                 <h3 className={`font-display font-bold text-lg mt-5 ${c.text}`}>{f.t}</h3>
                 <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{f.d}</p>
-                {quizzes && (
-                  <p className={`mt-2 text-xs font-semibold ${c.sub}`}>{quizzes.length} quiz réels · {questionCount} questions</p>
-                )}
                 <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">
                   Essayer maintenant <ArrowRight size={14} />
                 </p>
