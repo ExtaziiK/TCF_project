@@ -215,42 +215,12 @@ export function toBankQuizzes(questions) {
   });
 }
 
-// Loads active questions and pushes them everywhere the site consumes them:
-// co/ce MCQs become bank quizzes; ee/eo prompts feed the workshop pages via
-// the getters below. Called at app start and after each QMS mutation.
-let siteQuestions = [];
+// Loads active questions and pushes them into the bank (CO/CE quizzes and
+// EE/EO consignes entries). Called at app start and after each QMS mutation.
+// The EE/EO workshop pages draw their prompts per-session through
+// expressionSessionService instead, so nothing is cached here for them.
 export async function syncSiteContent() {
   const { questions } = await listQuestions();
-  siteQuestions = questions;
   injectAdminQuizzes(toBankQuizzes(questions));
   return questions;
-}
-export const getAdminWritingTasks = () => toWritingTasks(siteQuestions);
-export const getAdminSpeakingTasks = () => toSpeakingTasks(siteQuestions);
-
-// Prompt sections: expression écrite / orale tasks for the workshop pages.
-export function toWritingTasks(questions) {
-  return questions
-    .filter((q) => q.status === "active" && q.section === "ee")
-    .map((q, i) => ({
-      id: `admin-ee-${q.id}`,
-      t: `Tâche ${q.task || "?"} · ${String(q.payload.prompt || "").slice(0, 34)}…`,
-      words: `${q.payload.minWords} à ${q.payload.maxWords} mots`,
-      min: Math.round(Number(q.payload.minWords) / 4) || 15,
-      prompt: [q.payload.prompt, q.payload.instructions].filter(Boolean).join(" "),
-      sample: q.payload.sample || "",
-      adminIndex: i,
-    }));
-}
-
-export function toSpeakingTasks(questions) {
-  return questions
-    .filter((q) => q.status === "active" && q.section === "eo")
-    .map((q) => ({
-      id: `admin-eo-${q.id}`,
-      t: `Tâche ${q.task || "?"} · ${String(q.payload.prompt || "").slice(0, 34)}…`,
-      prep: Number(q.payload.prepTime) || 0,
-      dur: Number(q.payload.speakTime) || 120,
-      prompt: q.payload.prompt,
-    }));
 }
