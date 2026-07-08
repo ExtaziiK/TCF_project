@@ -2,12 +2,22 @@ import { Leaf, ArrowRight, Play, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead, LevelRibbon } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
+import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { STATS, FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 
+// Logged-in users land on their personal dashboard; the marketing landing
+// below is only for signed-out traffic.
 export function Home() {
+  const { user, authReady } = useApp();
+  if (!authReady) return null; // avoid a landing flash while the session loads
+  if (user) return <MemberHome />;
+  return <Landing />;
+}
+
+function Landing() {
   const { c, nav } = useApp();
   const plans = useLivePlans();
   return (
