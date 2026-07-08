@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, Clock, Trophy, RotateCcw } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, Clock, Trophy, RotateCcw, PenLine, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -8,9 +8,26 @@ import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { listQuizResults, bestScoresByKey } from "@/services/quizResultsService";
 
+const isPrompt = (quiz) => quiz.kind === "prompt";
+
 function QuizCard({ quiz, number, onOpen, best }) {
   const { c } = useApp();
   const minutes = Math.max(1, Math.round((quiz.questions.length * 55) / 60));
+  if (isPrompt(quiz)) {
+    return (
+      <button onClick={onOpen} className="text-left">
+        <Card lift className="p-6 h-full flex flex-col">
+          <div className="flex items-center gap-2 flex-wrap mb-4">
+            <Pill tone="blue">{SECTION_LABELS[quiz.section]}</Pill>
+            <Pill tone="slate">{quiz.questions.length} consigne{quiz.questions.length > 1 ? "s" : ""}</Pill>
+          </div>
+          <h3 className={`font-display font-bold text-lg leading-snug ${c.text}`}>{quiz.title}</h3>
+          <p className={`flex-1 mt-3 text-xs font-semibold ${c.faint}`}>Sujets à travailler dans l'atelier {SECTION_LABELS[quiz.section].toLowerCase()}.</p>
+          <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1.5"><PenLine size={14} /> Voir les consignes</p>
+        </Card>
+      </button>
+    );
+  }
   return (
     <button onClick={onOpen} className="text-left">
       <Card lift className="p-6 h-full flex flex-col">
@@ -41,6 +58,33 @@ function QuizCard({ quiz, number, onOpen, best }) {
   );
 }
 
+// Expression écrite / orale entries: a list of consignes with their metadata,
+// linking to the workshop page where these tasks are actually practiced.
+function PromptList({ quiz, onBack }) {
+  const { c, nav } = useApp();
+  const route = quiz.section === "ee" ? "writing" : "speaking";
+  return (
+    <PageShell eyebrow={SECTION_LABELS[quiz.section]} title={quiz.title} sub="Ces consignes sont disponibles comme tâches dans l'atelier de pratique.">
+      <button onClick={onBack} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> Tous les quiz</button>
+      <div className="space-y-4 max-w-3xl">
+        {quiz.questions.map((q, i) => (
+          <Card key={q.id ?? i} className="p-6">
+            <div className="flex gap-2 flex-wrap mb-3">
+              {quiz.section === "ee" && q.minWords && <Pill tone="red">{q.minWords} à {q.maxWords} mots</Pill>}
+              {quiz.section === "eo" && <Pill tone="blue">{Number(q.prepTime) ? `Préparation : ${q.prepTime} s` : "Sans préparation"}</Pill>}
+              {quiz.section === "eo" && q.speakTime && <Pill tone="red">Parole : {q.speakTime} s</Pill>}
+            </div>
+            <p className={`leading-relaxed font-medium ${c.text}`}>{q.prompt}</p>
+            {q.instructions && <p className={`text-sm mt-2 ${c.sub}`}>{q.instructions}</p>}
+            {q.image && <img src={q.image} alt="" className="max-h-48 rounded-2xl object-contain mt-3" />}
+          </Card>
+        ))}
+        <Btn icon={ArrowRight} onClick={() => nav(route)}>Travailler ces tâches dans l'atelier</Btn>
+      </div>
+    </PageShell>
+  );
+}
+
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
@@ -57,6 +101,8 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   useEffect(reloadScores, [user?.id]);
 
   const closeQuiz = () => { setQuiz(null); reloadScores(); };
+
+  if (quiz && isPrompt(quiz)) return <PromptList quiz={quiz} onBack={closeQuiz} />;
 
   if (quiz) {
     return (

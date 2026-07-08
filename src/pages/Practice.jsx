@@ -39,7 +39,7 @@ export function Practice() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => {
           const section = ROUTE_SECTION[f.route];
-          const firstQuiz = section && bank[section].length > 0 ? bank[section][0] : null;
+          const firstQuiz = section ? bank[section].find((q) => q.kind !== "prompt") || null : null;
           return (
             <button key={f.t} onClick={() => (firstQuiz ? setOpenQuiz(firstQuiz) : nav(f.route))} className="text-left">
               <Card lift className="p-6 h-full">

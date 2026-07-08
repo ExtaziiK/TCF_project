@@ -11,7 +11,7 @@ import { getAdminWritingTasks } from "@/services/questionsService";
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
 export function Writing() {
-  if (getBank().ee.length > 0) {
+  if (getBank().ee.some((q) => q.kind !== "prompt")) {
     return (
       <BankExplorer
         back

@@ -125,7 +125,6 @@ export function validateQuestion(question, existing = []) {
   if (section.tasks.length > 0 && !section.tasks.includes(Number(question.task))) {
     errors.push("Choisissez la tâche à laquelle cette question appartient.");
   }
-  if (!DIFFICULTIES.includes(question.difficulty)) errors.push("Choisissez un niveau de difficulté.");
 
   const p = question.payload || {};
   for (const f of section.fields) {

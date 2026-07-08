@@ -8,7 +8,7 @@ import { Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import {
-  QUESTION_SECTIONS, QUESTION_STATUSES, DIFFICULTIES, SORT_OPTIONS, PAGE_SIZES,
+  QUESTION_SECTIONS, QUESTION_STATUSES, SORT_OPTIONS, PAGE_SIZES,
   sectionById, validateQuestion, emptyQuestion,
 } from "@/constants/questionSchema";
 import {
@@ -62,7 +62,7 @@ function QuestionPreview({ question, onClose }) {
           questions={[{
             q: [p.passage, p.transcript, p.q].filter(Boolean).join(" — "),
             opts: (p.opts || []).filter((o) => String(o).trim()),
-            a: p.answerIndex, exp: p.exp || "", level: question.difficulty,
+            a: p.answerIndex, exp: p.exp || "",
             audio: p.audio || null, image: p.image || null,
           }]}
           duration={Number(p.duration) || 90}
@@ -75,7 +75,6 @@ function QuestionPreview({ question, onClose }) {
             {question.section === "eo" && <Pill tone="blue">{Number(p.prepTime) ? `Préparation : ${p.prepTime} s` : "Sans préparation"}</Pill>}
             {question.section === "eo" && <Pill tone="red">Parole : {p.speakTime} s</Pill>}
             {question.section === "ee" && <Pill tone="red">{p.minWords} à {p.maxWords} mots</Pill>}
-            <Pill tone="slate">Niveau {question.difficulty}</Pill>
           </div>
           <p className={`leading-relaxed font-medium ${c.text}`}>{p.prompt}</p>
           {p.instructions && <p className={`text-sm ${c.sub}`}>{p.instructions}</p>}
@@ -190,7 +189,7 @@ function Editor({ initial, existing, onSaved, onClose }) {
   return (
     <Modal title={q.id ? `Modifier la question (v${q.version ?? 1})` : "Nouvelle question"} onClose={onClose} wide>
       <div className="space-y-4">
-        <div className="grid sm:grid-cols-3 gap-3">
+        <div className="grid sm:grid-cols-2 gap-3">
           <div>
             <p className={`text-xs font-semibold mb-2 ${c.sub}`}>Épreuve</p>
             <select value={q.section} onChange={(e) => changeSection(e.target.value)} aria-label="Épreuve" className={sel}>
@@ -205,12 +204,6 @@ function Editor({ initial, existing, onSaved, onClose }) {
               </select>
             </div>
           )}
-          <div>
-            <p className={`text-xs font-semibold mb-2 ${c.sub}`}>Difficulté</p>
-            <select value={q.difficulty} onChange={(e) => setQ({ ...q, difficulty: e.target.value })} aria-label="Difficulté" className={sel}>
-              {DIFFICULTIES.map((d) => <option key={d}>{d}</option>)}
-            </select>
-          </div>
         </div>
 
         {section.fields.map((f) => (
@@ -291,7 +284,6 @@ export function QuestionManager() {
   const [search, setSearch] = useState("");
   const [fSection, setFSection] = useState("");
   const [fTask, setFTask] = useState("");
-  const [fDifficulty, setFDifficulty] = useState("");
   const [fStatus, setFStatus] = useState("");
   const [sort, setSort] = useState("newest");
   const [pageSize, setPageSize] = useState(25);
@@ -322,7 +314,6 @@ export function QuestionManager() {
     let list = questions;
     if (fSection) list = list.filter((q) => q.section === fSection);
     if (fTask) list = list.filter((q) => String(q.task) === fTask);
-    if (fDifficulty) list = list.filter((q) => q.difficulty === fDifficulty);
     if (fStatus) list = list.filter((q) => q.status === fStatus);
     if (search.trim()) {
       const s = search.trim().toLowerCase();
@@ -335,11 +326,11 @@ export function QuestionManager() {
       alpha: (a, b) => previewText(a).localeCompare(previewText(b)),
     }[sort];
     return [...list].sort(by);
-  }, [questions, fSection, fTask, fDifficulty, fStatus, search, sort]);
+  }, [questions, fSection, fTask, fStatus, search, sort]);
 
   const pageCount = pageSize === "all" ? 1 : Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageItems = pageSize === "all" ? filtered : filtered.slice(page * pageSize, (page + 1) * pageSize);
-  useEffect(() => { setPage(0); }, [search, fSection, fTask, fDifficulty, fStatus, pageSize]);
+  useEffect(() => { setPage(0); }, [search, fSection, fTask, fStatus, pageSize]);
 
   const toggle = (id) => setSelected((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleAll = () => setSelected((s) => (s.size === pageItems.length ? new Set() : new Set(pageItems.map((q) => q.id))));
@@ -418,10 +409,6 @@ export function QuestionManager() {
             <option value="">Toutes les tâches</option>
             {(sectionById(fSection)?.tasks || []).map((t) => <option key={t} value={t}>Tâche {t}</option>)}
           </select>
-          <select value={fDifficulty} onChange={(e) => setFDifficulty(e.target.value)} aria-label="Filtrer par difficulté" className={selCls}>
-            <option value="">Difficulté</option>
-            {DIFFICULTIES.map((d) => <option key={d}>{d}</option>)}
-          </select>
           <select value={fStatus} onChange={(e) => setFStatus(e.target.value)} aria-label="Filtrer par statut" className={selCls}>
             <option value="">Tous les statuts</option>
             {QUESTION_STATUSES.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
@@ -443,10 +430,6 @@ export function QuestionManager() {
           <Btn small variant="ghost" icon={EyeOff} onClick={() => applyBulk(() => patchQuestions(ids, { status: "disabled" }), "Questions désactivées.")}>Désactiver</Btn>
           <Btn small variant="ghost" icon={Archive} onClick={() => applyBulk(() => patchQuestions(ids, { status: "archived" }), "Questions archivées.")}>Archiver</Btn>
           <Btn small variant="ghost" icon={Copy} onClick={() => applyBulk(() => duplicateQuestions(user?.id, questions.filter((q) => selected.has(q.id))), "Questions dupliquées (désactivées par défaut).")}>Dupliquer</Btn>
-          <select onChange={(e) => e.target.value && applyBulk(() => patchQuestions(ids, { difficulty: e.target.value }), `Difficulté changée : ${e.target.value}.`)} defaultValue="" aria-label="Changer la difficulté" className={selCls}>
-            <option value="" disabled>Difficulté →</option>
-            {DIFFICULTIES.map((d) => <option key={d}>{d}</option>)}
-          </select>
           <select onChange={(e) => e.target.value && applyBulk(() => patchQuestions(ids, { task: Number(e.target.value) }), `Tâche changée : ${e.target.value}.`)} defaultValue="" aria-label="Changer la tâche" className={selCls}>
             <option value="" disabled>Tâche →</option>
             {[1, 2, 3].map((t) => <option key={t} value={t}>Tâche {t}</option>)}
@@ -476,7 +459,6 @@ export function QuestionManager() {
                 <th className="p-3 font-semibold">ID</th>
                 <th className="p-3 font-semibold">Épreuve</th>
                 <th className="p-3 font-semibold">Tâche</th>
-                <th className="p-3 font-semibold">Diff.</th>
                 <th className="p-3 font-semibold">Question</th>
                 <th className="p-3 font-semibold">Statut</th>
                 <th className="p-3 font-semibold">Créée</th>
@@ -493,7 +475,6 @@ export function QuestionManager() {
                     <td className={`p-3 font-mono2 text-xs ${c.faint}`}>{String(q.id).slice(0, 8)}</td>
                     <td className={`p-3 ${c.sub}`}>{sectionById(q.section)?.label || q.section}</td>
                     <td className={`p-3 font-mono2 ${c.sub}`}>{q.task ? `T${q.task}` : "—"}</td>
-                    <td className="p-3"><Pill tone="blue">{q.difficulty}</Pill></td>
                     <td className={`p-3 max-w-64 truncate ${c.text}`} title={previewText(q)}>{previewText(q)}</td>
                     <td className="p-3"><Pill tone={st.tone}>{st.label} · v{q.version ?? 1}</Pill></td>
                     <td className={`p-3 font-mono2 text-xs ${c.faint}`}>{fmtDate(q.createdAt)}</td>

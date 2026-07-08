@@ -50,21 +50,24 @@ export function generateExamTasks(history = []) {
   const counts = usageCounts(history);
   const used = new Set();
   const tasks = [];
+  // only quizzes the MCQ engine can run — "prompt" bank entries (admin
+  // consignes for EE/EO) are practiced through the built-in experiences
+  const mcq = (section) => (bank[section] || []).filter((q) => q.kind !== "prompt");
   const pickQuiz = (section) => {
-    let pool = bank[section].filter((q) => !used.has(q.id));
-    if (pool.length === 0) pool = bank[section]; // section exhausted: allow repeats rather than fail
+    let pool = mcq(section).filter((q) => !used.has(q.id));
+    if (pool.length === 0) pool = mcq(section); // section exhausted: allow repeats rather than fail
     const quiz = pickWeighted(pool, counts);
     used.add(quiz.id);
     return quiz;
   };
   for (const section of EPREUVE_ORDER) {
-    if (bank[section]?.length > 0) {
+    if (mcq(section).length > 0) {
       tasks.push({ type: "quiz", quizId: pickQuiz(section).id, section, order: tasks.length });
     } else if (BUILTIN_TASKS[section]) {
       tasks.push({ type: BUILTIN_TASKS[section], section, order: tasks.length });
     } else {
       // épreuve without content or built-in: substitute a quiz from any populated section
-      const populated = EPREUVE_ORDER.filter((s) => bank[s]?.length > 0);
+      const populated = EPREUVE_ORDER.filter((s) => mcq(s).length > 0);
       if (populated.length === 0) continue;
       const s2 = populated[Math.floor(Math.random() * populated.length)];
       tasks.push({ type: "quiz", quizId: pickQuiz(s2).id, section: s2, order: tasks.length });

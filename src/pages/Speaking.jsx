@@ -12,7 +12,7 @@ import { fmt } from "@/utils/format";
 // Premium module backed by the question bank (section "eo") once quizzes
 // exist there; until then the interactive speaking studio below is shown.
 export function Speaking() {
-  if (getBank().eo.length > 0) {
+  if (getBank().eo.some((q) => q.kind !== "prompt")) {
     return (
       <BankExplorer
         back

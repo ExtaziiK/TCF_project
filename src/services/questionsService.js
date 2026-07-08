@@ -168,33 +168,49 @@ export async function uploadMedia(file, kind) {
 
 // Maps active admin questions into the shapes the site already consumes.
 
-// MCQ sections (co/ce/grammar/vocab): questions grouped per section+task as
-// virtual bank quizzes, appended to the file-based bank.
+// Bank sections: questions grouped per section+task as virtual bank quizzes
+// appended to the file-based bank. CO/CE MCQs run through the quiz engine;
+// EE/EO prompts become "consignes" entries (kind: "prompt") that the bank
+// explorer lists and links to the workshop pages.
 export function toBankQuizzes(questions) {
   const active = questions.filter((q) => q.status === "active");
   const groups = {};
   for (const q of active) {
-    if (!["co", "ce"].includes(q.section)) continue;
+    if (!["co", "ce", "ee", "eo"].includes(q.section)) continue;
     const key = `${q.section}-${q.task || 0}`;
     (groups[key] ||= []).push(q);
   }
   return Object.entries(groups).map(([key, qs]) => {
     const [section, task] = key.split("-");
+    const prompt = section === "ee" || section === "eo";
     return {
       id: `admin-${key}`,
       title: `${task !== "0" ? `Tâche ${task}` : "Questions"} · ajouts de l'équipe`,
       section,
+      kind: prompt ? "prompt" : undefined,
       quizNumber: 1000 + Number(task), // sorts after the file-based quizzes
-      questions: qs.map((q) => ({
-        id: q.id,
-        q: [q.payload.passage, q.payload.transcript, q.payload.q].filter(Boolean).join(" — "),
-        opts: (q.payload.opts || []).filter((o) => String(o).trim()),
-        a: q.payload.answerIndex,
-        exp: q.payload.exp || "",
-        level: q.difficulty,
-        audio: q.payload.audio || null,
-        image: q.payload.image || null,
-      })),
+      questions: qs.map((q) =>
+        prompt
+          ? {
+              id: q.id,
+              prompt: q.payload.prompt,
+              instructions: q.payload.instructions || "",
+              minWords: q.payload.minWords,
+              maxWords: q.payload.maxWords,
+              prepTime: q.payload.prepTime,
+              speakTime: q.payload.speakTime,
+              image: q.payload.image || null,
+            }
+          : {
+              id: q.id,
+              q: [q.payload.passage, q.payload.transcript, q.payload.q].filter(Boolean).join(" — "),
+              opts: (q.payload.opts || []).filter((o) => String(o).trim()),
+              a: q.payload.answerIndex,
+              exp: q.payload.exp || "",
+              audio: q.payload.audio || null,
+              image: q.payload.image || null,
+            }
+      ),
     };
   });
 }

@@ -80,7 +80,7 @@ export function computeProgress({ results = [], attempts = [] }) {
 
   /* ---- overall completion: distinct bank quizzes attempted ---- */
   const bankKeys = new Set(
-    Object.values(bank).flat().map((q) => `bank-${q.id}`)
+    Object.values(bank).flat().filter((q) => q.kind !== "prompt").map((q) => `bank-${q.id}`)
   );
   const attemptedKeys = new Set(results.map((r) => r.quizKey).filter((k) => bankKeys.has(k)));
   const completionPct = bankKeys.size ? Math.round((attemptedKeys.size / bankKeys.size) * 100) : 0;
@@ -201,7 +201,7 @@ function weeklySlice(events) {
 }
 
 function sectionStats(section, bank, results) {
-  const bankQuizzes = bank[section];
+  const bankQuizzes = bank[section].filter((q) => q.kind !== "prompt");
   const rows = results.filter((r) => r.section === section);
   const scoredRows = rows.filter((r) => r.total > 0);
   const byKey = {};
