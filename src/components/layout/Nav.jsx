@@ -52,7 +52,9 @@ export function Nav() {
             )}
           </nav>
           <div className="flex items-center gap-1.5">
-            <button onClick={() => setSearchOpen(true)} aria-label="Rechercher" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
+            {role === ROLES.ADMIN && (
+              <button onClick={() => setSearchOpen(true)} aria-label="Rechercher" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
+            )}
             <button onClick={() => setDark(!dark)} aria-label={dark ? "Mode clair" : "Mode sombre"} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
             {user && (
               <div className="relative">
@@ -106,7 +108,7 @@ export function Nav() {
           </div>
         )}
       </header>
-      {searchOpen && <SearchOverlay close={() => setSearchOpen(false)} />}
+      {searchOpen && role === ROLES.ADMIN && <SearchOverlay close={() => setSearchOpen(false)} />}
     </>
   );
 }
