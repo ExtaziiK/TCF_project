@@ -251,7 +251,7 @@ function continueCard(inProgressExam, results) {
         title: `Refaire le dernier quiz (${SECTION_LABELS[last.section] || "Pratique"})`,
         detail: `Dernier score : ${last.pct} % · ${quiz.questions.length - last.ok} question${quiz.questions.length - last.ok > 1 ? "s" : ""} à corriger`,
         route: last.section === "ce" ? "reading" : last.section === "co" ? "listening" : "practice",
-        cta: "Rejouer",
+        cta: "Refaire",
       };
     }
   }
