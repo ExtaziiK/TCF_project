@@ -162,7 +162,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
               ? (idx === currentSel ? "chosen" : "idle")
               : currentSel === null ? "idle" : idx === q.a ? "right" : idx === currentSel ? "wrong" : "dim";
             return (
-              <button key={o} disabled={!deferResults && sel !== null}
+              <button key={idx} disabled={!deferResults && sel !== null}
                 onClick={() => choose(idx)}
                 aria-pressed={deferResults ? idx === currentSel : undefined}
                 className={`w-full text-left px-5 py-3.5 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-3

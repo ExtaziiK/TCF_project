@@ -86,6 +86,7 @@ export function SpeakingStudioBody() {
         </Card>
         <Card className="p-6">
           <h3 className={`font-display font-bold mb-4 ${c.text}`}>Vos enregistrements</h3>
+          {history.length === 0 && <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun enregistrement pour l'instant. Lancez le micro pour commencer.</p>}
           <div className="space-y-2">
             {history.map((h) => (
               <div key={h.id} className={`flex items-center gap-3 p-3.5 rounded-2xl border ${c.border}`}>

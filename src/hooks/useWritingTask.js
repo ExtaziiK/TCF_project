@@ -10,7 +10,11 @@ export function useWritingTask(task, notify) {
   const [ai, setAi] = useState(null);
 
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const [lo, hi] = task.words.match(/\d+/g).map(Number);
+  // Parse the "X à Y mots" target defensively: admin-authored tasks could
+  // carry a malformed range, and a null match here would crash the page.
+  const nums = String(task.words || "").match(/\d+/g)?.map(Number) || [];
+  const lo = nums[0] ?? 0;
+  const hi = nums[1] ?? nums[0] ?? 0;
 
   useEffect(() => {
     setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null);

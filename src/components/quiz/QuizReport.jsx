@@ -54,7 +54,7 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
               const isCorrect = idx === q.a;
               const isUser = a && idx === a.sel;
               return (
-                <div key={o} className={`px-5 py-3.5 rounded-2xl border text-sm font-medium flex items-center justify-between gap-3
+                <div key={idx} className={`px-5 py-3.5 rounded-2xl border text-sm font-medium flex items-center justify-between gap-3
                   ${isCorrect ? "border-emerald-500 bg-emerald-500/10 text-emerald-600" : isUser ? "border-rose-500 bg-rose-500/10 text-rose-600" : `${c.border} opacity-50 ${c.sub}`}`}>
                   <span><span className="font-mono2 font-semibold mr-3 opacity-60">{String.fromCharCode(65 + idx)}</span>{o}</span>
                   <span className="flex items-center gap-2 shrink-0">

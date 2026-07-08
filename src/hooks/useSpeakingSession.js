@@ -6,7 +6,7 @@ import { fmt } from "@/utils/format";
 export function useSpeakingSession(task, notify) {
   const [phase, setPhase] = useState("idle");
   const [count, setCount] = useState(0);
-  const [history, setHistory] = useState([{ id: "rec-0", t: "Tâche 1 · Entretien dirigé", dur: "1:48", when: "hier" }]);
+  const [history, setHistory] = useState([]);
   const [playingId, setPlayingId] = useState(null);
   const nextId = useRef(1);
 
