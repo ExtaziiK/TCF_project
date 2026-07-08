@@ -15,8 +15,6 @@ const ROUTE_SECTION = { listening: "co", reading: "ce", writing: "ee", speaking:
 export function Practice() {
   const { c, nav } = useApp();
   const bank = getBank();
-  const totalQuizzes = Object.values(bank).reduce((sum, list) => sum + list.length, 0);
-  const totalQuestions = Object.values(bank).reduce((sum, list) => sum + list.reduce((s, q) => s + q.questions.length, 0), 0);
   const [openQuiz, setOpenQuiz] = useState(null);
 
   if (openQuiz) {
@@ -38,12 +36,6 @@ export function Practice() {
 
   return (
     <PageShell back wide eyebrow="Pratique gratuite" title="Essayez chaque module, sans compte ni carte" sub="10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.">
-      {totalQuizzes > 0 && (
-        <p className={`text-sm mb-6 ${c.sub}`}>
-          Exemple réel : <span className={`font-semibold ${c.text}`}>{totalQuizzes} quiz</span> et{" "}
-          <span className={`font-semibold ${c.text}`}>{totalQuestions} questions</span> actuellement dans notre banque de questions.
-        </p>
-      )}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => {
           const section = ROUTE_SECTION[f.route];
@@ -63,7 +55,7 @@ export function Practice() {
                   <p className={`mt-2 text-xs font-semibold ${c.sub}`}>{quizzes.length} quiz réels · {questionCount} questions</p>
                 )}
                 <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">
-                  {firstQuiz ? "Essayer le quiz 1" : "Essayer maintenant"} <ArrowRight size={14} />
+                  Essayer maintenant <ArrowRight size={14} />
                 </p>
               </Card>
             </button>
