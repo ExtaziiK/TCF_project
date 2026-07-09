@@ -11,10 +11,10 @@ import { ROLES } from "@/auth/rbac";
 export function Nav() {
   const { c, dark, setDark, nav, route, user, signOut, notify, role } = useApp();
   const [open, setOpen] = useState(false);
-  const [dd, setDd] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const go = (r) => { nav(r); setOpen(false); setDd(false); setNotifOpen(false); };
+  const go = (r) => { nav(r); setOpen(false); setOpenMenu(null); setNotifOpen(false); };
   const navLinks = navLinksForRole(NAV_LINKS, role);
   const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
   const mobileLinks = [
@@ -30,11 +30,11 @@ export function Nav() {
           <nav className="hidden lg:flex items-center gap-1" aria-label="Navigation principale">
             {navLinks.map((n) =>
               n.menu ? (
-                <div key={n.l} className="relative" onMouseEnter={() => setDd(true)} onMouseLeave={() => setDd(false)}>
-                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 ${c.sub} ${c.hoverSoft}`} aria-expanded={dd}>
-                    {n.l} <ChevronDown size={14} className={`transition-transform ${dd ? "rotate-180" : ""}`} />
+                <div key={n.l} className="relative" onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
+                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 ${c.sub} ${c.hoverSoft}`} aria-expanded={openMenu === n.l}>
+                    {n.l} <ChevronDown size={14} className={`transition-transform ${openMenu === n.l ? "rotate-180" : ""}`} />
                   </button>
-                  {dd && (
+                  {openMenu === n.l && (
                     <div className={`absolute top-full left-0 pt-2 w-60`}>
                       <div className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
                         {n.menu.map((m) => (

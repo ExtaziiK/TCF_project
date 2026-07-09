@@ -18,7 +18,7 @@ export function Blog() {
     );
   }
   return (
-    <PageShell wide eyebrow="Blogue" title="Conseils, méthode et actualités du TCF Canada" sub="Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.">
+    <PageShell back wide eyebrow="Blogue" title="Conseils, méthode et actualités du TCF Canada" sub="Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.">
       <div className="grid md:grid-cols-3 gap-5">
         {POSTS.map((p) => (
           <button key={p.id} onClick={() => setPost(p)} className="text-left">

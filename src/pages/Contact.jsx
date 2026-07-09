@@ -8,7 +8,7 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
   return (
-    <PageShell eyebrow="Contact" title="Une question ? Écrivez-nous" sub="Notre équipe répond en moins de 24 h ouvrables, en français ou en anglais.">
+    <PageShell back eyebrow="Contact" title="Une question ? Écrivez-nous" sub="Notre équipe répond en moins de 24 h ouvrables, en français ou en anglais.">
       <div className="grid md:grid-cols-5 gap-6">
         <Card className="md:col-span-3 p-7">
           {sent ? (

@@ -12,7 +12,7 @@ export function Pricing() {
   const plans = useLivePlans();
 
   return (
-    <PageShell wide eyebrow="Abonnements" title="Un forfait pour chaque étape de votre préparation" sub="Payez en dollars canadiens, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.">
+    <PageShell back wide eyebrow="Abonnements" title="Un forfait pour chaque étape de votre préparation" sub="Payez en dollars canadiens, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.">
       <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
         {plans.map((p) => <PlanCard key={p.name} p={p} />)}
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AppContext } from "@/context/AppContext";
 import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
@@ -32,11 +32,25 @@ export function AppProvider({ children }) {
   // Pull admin-authored questions (QMS) into the bank and workshop pages.
   useEffect(() => { syncSiteContent(); }, []);
 
+  // The app stores its route in state and never changes the URL path; without
+  // this the browser back/forward buttons stay greyed out. Seed the initial
+  // entry and restore the route whenever the user navigates the history.
+  useEffect(() => {
+    window.history.replaceState({ route }, "");
+    const onPop = (e) => {
+      setRoute(e.state?.route || "home");
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Stripe Checkout redirects back to "/?checkout=success|cancelled" (the app
   // has no URL routing, so this is read once on load and then stripped).
   useEffect(() => {
     const checkout = new URLSearchParams(window.location.search).get("checkout");
-    if (checkout) window.history.replaceState({}, "", window.location.pathname);
+    if (checkout) window.history.replaceState({ route: checkout === "success" ? "dashboard" : "home" }, "", window.location.pathname);
     if (checkout === "cancelled") return notify("Paiement annulé.");
     if (checkout !== "success") return;
 
@@ -60,18 +74,15 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Small navigation history so pages can offer a "Retour" affordance
-  // (the SPA has no URL routing, so the browser back button can't help).
-  const histRef = useRef([]);
+  // Each route change pushes a browser history entry, so the in-app "Retour"
+  // affordance and the browser's own back/forward buttons share one history.
+  // The URL path is left unchanged (no server rewrites needed).
   const nav = (r) => {
-    if (r !== route) histRef.current = [...histRef.current.slice(-19), route];
+    if (r !== route) window.history.pushState({ route: r }, "");
     setRoute(r);
     window.scrollTo({ top: 0 });
   };
-  const back = () => {
-    setRoute(histRef.current.pop() || "home");
-    window.scrollTo({ top: 0 });
-  };
+  const back = () => window.history.back();
 
   const signOut = async () => {
     await authSignOut();

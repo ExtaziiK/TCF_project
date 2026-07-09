@@ -54,7 +54,7 @@ export function Admin() {
     { id: "feedback", l: "Commentaires", icon: MessageCircle },
   ];
   return (
-    <PageShell wide eyebrow="Panneau d'administration" title="Gestion de la plateforme" sub="La gestion des questions et l'import sont connectés en direct ; certaines statistiques et listes restent illustratives.">
+    <PageShell back wide eyebrow="Panneau d'administration" title="Gestion de la plateforme" sub="La gestion des questions et l'import sont connectés en direct ; certaines statistiques et listes restent illustratives.">
       <div className="flex gap-2 flex-wrap mb-8">
         {tabs.map((t) => (
           <button key={t.id} onClick={() => setTab(t.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${tab === t.id ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>

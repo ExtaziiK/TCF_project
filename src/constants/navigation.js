@@ -10,16 +10,20 @@ const PREMIUM = [PREMIUM_USER, ADMIN];
 // actual access is enforced by the route guard (src/auth/rbac.js).
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
-  { l: "Pratique", r: "practice", menu: [
+  // The four TCF épreuves + mock exams (and the free-tier entry).
+  { l: "Mes examens", menu: [
     { l: "Pratique gratuite", r: "practice", roles: [VISITOR, FREE_USER] }, // hidden once someone's actually Premium
     { l: "Compréhension orale", r: "listening", roles: PREMIUM },
     { l: "Compréhension écrite", r: "reading", roles: PREMIUM },
     { l: "Expression écrite", r: "writing", roles: PREMIUM },
     { l: "Expression orale", r: "speaking", roles: PREMIUM },
-    { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
-    { l: "Grammaire", r: "grammar", roles: PREMIUM },
     { l: "Examens blancs", r: "mocks", roles: PREMIUM },
     { l: "Banque de questions", r: "bank", roles: [ADMIN] },
+  ] },
+  // Supplementary practice, distinct from the exam épreuves.
+  { l: "Pratique", menu: [
+    { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
+    { l: "Grammaire", r: "grammar", roles: PREMIUM },
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Blogue", r: "blog" },

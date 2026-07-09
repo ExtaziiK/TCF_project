@@ -5,7 +5,7 @@ import { WHY } from "@/constants/home";
 export function About() {
   const { c } = useApp();
   return (
-    <PageShell eyebrow="À propos" title="Une équipe entre deux continents, un seul objectif : votre réussite" sub="Passerelle est née à Montréal, fondée par des enseignants de FLE et d'anciens candidats au TCF Canada.">
+    <PageShell back eyebrow="À propos" title="Une équipe entre deux continents, un seul objectif : votre réussite" sub="Passerelle est née à Montréal, fondée par des enseignants de FLE et d'anciens candidats au TCF Canada.">
       <div className="grid md:grid-cols-2 gap-5 mb-10">
         <Card className="p-7">
           <h3 className={`font-display font-bold text-lg ${c.text} mb-3`}>Notre histoire</h3>

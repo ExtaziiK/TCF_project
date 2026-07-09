@@ -8,7 +8,7 @@ export function FAQ() {
   const { c } = useApp();
   const [open, setOpen] = useState(0);
   return (
-    <PageShell eyebrow="Foire aux questions" title="Tout ce qu'il faut savoir avant de commencer">
+    <PageShell back eyebrow="Foire aux questions" title="Tout ce qu'il faut savoir avant de commencer">
       <div className="space-y-3 max-w-3xl">
         {FAQS.map((f, i) => (
           <Card key={f.q} className="overflow-hidden">
