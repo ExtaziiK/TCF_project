@@ -50,22 +50,30 @@ export function computeProgress({ results = [], attempts = [] }) {
   const inProgressExam = attempts.find((a) => a.status === "in_progress") || null;
 
   /* ---- flatten history into one chronological event list ---- */
+  // `answered` = questions the user actually selected an answer for. Rows
+  // predating the column report null → treated as fully answered.
   const events = [
     ...results.map((r) => ({
       kind: "quiz", at: r.completedAt, section: r.section, ok: r.ok, total: r.total, pct: r.pct,
-      quizKey: r.quizKey, minutes: r.durationSec ? Math.max(1, Math.round(r.durationSec / 60)) : 1,
+      answered: r.answered ?? r.total, quizKey: r.quizKey,
+      minutes: r.durationSec ? Math.max(1, Math.round(r.durationSec / 60)) : 1,
     })),
     ...exams.map((a) => ({
       kind: "exam", at: a.completedAt, ok: a.score.ok, total: a.score.total, pct: a.score.pct,
-      points: a.score.points,
+      answered: a.score.total, points: a.score.points,
       minutes: Math.max(1, Math.round((new Date(a.completedAt) - new Date(a.startedAt)) / 60000)),
     })),
   ].filter((e) => e.at).sort((a, b) => new Date(a.at) - new Date(b.at));
 
   /* ---- totals ---- */
-  const questionsAnswered = events.reduce((s, e) => s + (e.total || 0), 0);
+  const questionsAnswered = events.reduce((s, e) => s + (e.answered || 0), 0);
   const correctAnswers = events.reduce((s, e) => s + (e.ok || 0), 0);
-  const quizzesCompleted = results.length;
+  // Count a quiz only once, and only when every question was answered (no
+  // skips). Rows without an `answered` value count as fully answered.
+  const completedQuizKeys = new Set(
+    results.filter((r) => r.total > 0 && (r.answered ?? r.total) >= r.total).map((r) => r.quizKey)
+  );
+  const quizzesCompleted = completedQuizKeys.size;
   const examsCompleted = exams.length;
   const studyMinutes = events.reduce((s, e) => s + e.minutes, 0);
   const scored = events.filter((e) => e.total > 0);
@@ -247,16 +255,13 @@ function continueCard(inProgressExam, results) {
   }
   const last = results[0];
   if (last) {
-    const quiz = Object.values(getBank()).flat().find((q) => `bank-${q.id}` === last.quizKey);
-    if (quiz && last.pct < 100) {
-      return {
-        kind: "retry",
-        title: `Refaire le dernier quiz (${SECTION_LABELS[last.section] || "Pratique"})`,
-        detail: `Dernier score : ${last.pct} % · ${quiz.questions.length - last.ok} question${quiz.questions.length - last.ok > 1 ? "s" : ""} à corriger`,
-        route: last.section === "ce" ? "reading" : last.section === "co" ? "listening" : "practice",
-        cta: "Refaire",
-      };
-    }
+    return {
+      kind: "practice",
+      title: "Continuez à vous entraîner",
+      detail: `Dernier score : ${last.pct} % en ${SECTION_LABELS[last.section] || "pratique"}. Un nouveau quiz gratuit vous attend.`,
+      route: "practice",
+      cta: "Pratique gratuite",
+    };
   }
   return null;
 }

@@ -50,6 +50,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         section: inferSection(storageKey),
         ok,
         total: questions.length,
+        answered: finalAnswers.length, // questions with a selected answer (skips excluded)
         durationSec: Math.max(0, duration - left),
       });
     }

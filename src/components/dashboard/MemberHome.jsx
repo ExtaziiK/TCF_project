@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Clock, CheckCircle2, Target, Flame, Sparkles, ArrowRight, Play,
-  Zap, Trophy, TrendingUp, TrendingDown, Info, GraduationCap, FolderOpen, ListChecks,
+  Zap, Trophy, ChevronDown, GraduationCap, FolderOpen, ListChecks,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -39,8 +39,40 @@ function GoalRow({ label, current, target }) {
   );
 }
 
-const INSIGHT_ICONS = { up: TrendingUp, down: TrendingDown, warn: Flame, info: Info };
-const INSIGHT_COLORS = { up: "text-emerald-600", down: "text-amber-600", warn: "text-rose-600", info: "text-blue-600" };
+// Streak card: the month calendar is collapsed by default (just the practiced-
+// day count) and expands on click.
+function StreakCard({ streaks }) {
+  const { c } = useApp();
+  const [open, setOpen] = useState(false);
+  const cal = streaks.calendar;
+  return (
+    <Card className="p-6 relative overflow-hidden">
+      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-rose-600/10 blur-xl" aria-hidden="true" />
+      <div className="flex items-center gap-4">
+        <Flame size={30} className="text-rose-600 shrink-0" />
+        <div>
+          <p className={`font-display font-extrabold text-3xl ${c.text}`}>{streaks.current} jour{streaks.current > 1 ? "s" : ""}</p>
+          <p className={`text-xs ${c.faint}`}>série en cours · record : {streaks.longest} jour{streaks.longest > 1 ? "s" : ""}</p>
+        </div>
+      </div>
+      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className={`mt-4 w-full flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider ${c.faint} hover:text-blue-600`}>
+        <span>{cal.monthLabel} · {cal.practiced} jour{cal.practiced > 1 ? "s" : ""} pratiqué{cal.practiced > 1 ? "s" : ""}</span>
+        <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="grid grid-cols-7 gap-1.5 mt-3 rise" role="img" aria-label={`Calendrier de pratique : ${cal.practiced} jours actifs ce mois-ci`}>
+          {cal.days.map((d) => (
+            <span key={d.day} title={`Jour ${d.day}${d.active ? " · pratiqué" : ""}`}
+              className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center
+              ${d.active ? "grad-brand text-white" : d.future ? `${c.faint} opacity-30` : `border ${c.border} ${c.faint}`}`}>
+              {d.day}
+            </span>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
 
 function Skeleton() {
   const { c } = useApp();
@@ -66,7 +98,9 @@ export function DashboardView({ data }) {
   const { c, nav, role } = useApp();
   const t = data.totals;
   const quickActions = [
-    data.continueCard && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, accent: true },
+    // Only surface a "resume" accent button for an in-progress exam; the
+    // practice nudge already has its own card + the button below.
+    data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, accent: true },
     { icon: Zap, l: "Pratique gratuite", r: "practice" },
     (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks" },
     role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank" },
@@ -94,7 +128,7 @@ export function DashboardView({ data }) {
         <div className="lg:col-span-2 space-y-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatTile icon={Clock} value={formatDuration(t.studyMinutes)} label="Temps d'étude" />
-            <StatTile icon={CheckCircle2} value={String(t.quizzesCompleted + t.examsCompleted)} label="Quiz et examens terminés" />
+            <StatTile icon={CheckCircle2} value={String(t.quizzesCompleted)} label="Quiz terminés" />
             <StatTile icon={ListChecks} value={String(t.questionsAnswered)} label="Questions répondues" />
             <StatTile icon={Target} value={`${t.correctRate} %`} label="Bonnes réponses" />
           </div>
@@ -137,27 +171,7 @@ export function DashboardView({ data }) {
 
         {/* ---------------- right 1/3 ---------------- */}
         <div className="space-y-5">
-          {/* streak + calendar */}
-          <Card className="p-6 relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-rose-600/10 blur-xl" aria-hidden="true" />
-            <div className="flex items-center gap-4">
-              <Flame size={30} className="text-rose-600 shrink-0" />
-              <div>
-                <p className={`font-display font-extrabold text-3xl ${c.text}`}>{data.streaks.current} jour{data.streaks.current > 1 ? "s" : ""}</p>
-                <p className={`text-xs ${c.faint}`}>série en cours · record : {data.streaks.longest} jour{data.streaks.longest > 1 ? "s" : ""}</p>
-              </div>
-            </div>
-            <p className={`text-xs mt-4 mb-2 font-semibold uppercase tracking-wider ${c.faint}`}>{data.streaks.calendar.monthLabel} · {data.streaks.calendar.practiced} jour{data.streaks.calendar.practiced > 1 ? "s" : ""} pratiqué{data.streaks.calendar.practiced > 1 ? "s" : ""}</p>
-            <div className="grid grid-cols-7 gap-1.5" role="img" aria-label={`Calendrier de pratique : ${data.streaks.calendar.practiced} jours actifs ce mois-ci`}>
-              {data.streaks.calendar.days.map((d) => (
-                <span key={d.day} title={`Jour ${d.day}${d.active ? " · pratiqué" : ""}`}
-                  className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center
-                  ${d.active ? "grad-brand text-white" : d.future ? `${c.faint} opacity-30` : `border ${c.border} ${c.faint}`}`}>
-                  {d.day}
-                </span>
-              ))}
-            </div>
-          </Card>
+          <StreakCard streaks={data.streaks} />
 
           {/* weekly goal */}
           <Card className="p-6">
@@ -168,24 +182,6 @@ export function DashboardView({ data }) {
               <GoalRow label="XP gagnés" current={data.weeklyGoal.current.xp} target={data.weeklyGoal.targets.xp} />
             </div>
           </Card>
-
-          {/* insights */}
-          {data.insights.length > 0 && (
-            <Card className="p-6">
-              <h3 className={`font-display font-bold mb-4 ${c.text}`}>À savoir</h3>
-              <div className="space-y-3">
-                {data.insights.map((ins, i) => {
-                  const Icon = INSIGHT_ICONS[ins.tone] || Info;
-                  return (
-                    <div key={i} className="flex gap-3">
-                      <Icon size={16} className={`${INSIGHT_COLORS[ins.tone] || "text-blue-600"} shrink-0 mt-0.5`} />
-                      <p className={`text-sm leading-relaxed ${c.sub}`}>{ins.text}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </Card>
-          )}
 
           {/* recommendations */}
           {data.recommendations.length > 0 && (
