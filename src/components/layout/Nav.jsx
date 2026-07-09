@@ -9,7 +9,7 @@ import { NOTIFS } from "@/constants/gamification";
 import { ROLES } from "@/auth/rbac";
 
 export function Nav() {
-  const { c, dark, setDark, nav, route, user, signOut, notify, role } = useApp();
+  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role } = useApp();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
@@ -27,19 +27,19 @@ export function Nav() {
       <header className={`fixed top-0 inset-x-0 z-40 border-b ${c.navBorder} ${c.nav} backdrop-blur-xl`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onClick={() => go("home")} />
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Navigation principale">
+          <nav className="hidden lg:flex items-center gap-1" aria-label={t("Navigation principale")}>
             {navLinks.map((n) =>
               n.menu ? (
                 <div key={n.l} className="relative" onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
                   <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 ${c.sub} ${c.hoverSoft}`} aria-expanded={openMenu === n.l}>
-                    {n.l} <ChevronDown size={14} className={`transition-transform ${openMenu === n.l ? "rotate-180" : ""}`} />
+                    {t(n.l)} <ChevronDown size={14} className={`transition-transform ${openMenu === n.l ? "rotate-180" : ""}`} />
                   </button>
                   {openMenu === n.l && (
                     <div className={`absolute top-full left-0 pt-2 w-60`}>
                       <div className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
                         {n.menu.map((m) => (
                           <button key={m.r + m.l} onClick={() => go(m.r)} className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm ${c.text} ${c.hoverSoft} flex items-center justify-between group`}>
-                            {m.l}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
+                            {t(m.l)}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                           </button>
                         ))}
                       </div>
@@ -47,15 +47,16 @@ export function Nav() {
                   )}
                 </div>
               ) : (
-                <button key={n.r} onClick={() => go(n.r)} className={`px-3.5 py-2 rounded-full text-sm font-medium ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{n.l}</button>
+                <button key={n.r} onClick={() => go(n.r)} className={`px-3.5 py-2 rounded-full text-sm font-medium ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</button>
               )
             )}
           </nav>
           <div className="flex items-center gap-1.5">
             {role === ROLES.ADMIN && (
-              <button onClick={() => setSearchOpen(true)} aria-label="Rechercher" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
+              <button onClick={() => setSearchOpen(true)} aria-label={t("Rechercher")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
             )}
-            <button onClick={() => setDark(!dark)} aria-label={dark ? "Mode clair" : "Mode sombre"} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
+            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"} className={`p-2.5 rounded-full text-xs font-bold tracking-wide ${c.sub} ${c.hoverSoft}`}>{lang === "fr" ? "EN" : "FR"}</button>
+            <button onClick={() => setDark(!dark)} aria-label={dark ? t("Mode clair") : t("Mode sombre")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
             {user && (
               <div className="relative">
                 <button onClick={() => setNotifOpen(!notifOpen)} aria-label="Notifications" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft} relative`}>
@@ -77,21 +78,21 @@ export function Nav() {
             {user ? (
               <div className="hidden md:flex items-center gap-2 ml-1">
                 {user.admin && (
-                  <button onClick={() => go("admin")} aria-label="Administration" className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
+                  <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
-                <button onClick={() => go("profile")} aria-label="Mon profil" className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
+                <button onClick={() => go("profile")} aria-label={t("Mon profil")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
                     <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
                     {role === ROLES.PREMIUM_USER && <span className="text-[10px] font-bold text-blue-600">Premium</span>}
                   </span>
                 </button>
-                <button onClick={() => { signOut(); go("home"); notify("Vous êtes déconnecté·e. À bientôt !"); }} aria-label="Se déconnecter" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
+                <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2 ml-1">
-                <Btn small variant="ghost" onClick={() => go("login")}>Connexion</Btn>
-                <Btn small onClick={() => go("register")}>S'inscrire</Btn>
+                <Btn small variant="ghost" onClick={() => go("login")}>{t("Connexion")}</Btn>
+                <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
               </div>
             )}
             <button onClick={() => setOpen(!open)} aria-label="Menu" className={`lg:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
@@ -100,10 +101,10 @@ export function Nav() {
         {open && (
           <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
             {mobileLinks.map((m) => (
-              <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{m.l}</button>
+              <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{t(m.l)}</button>
             ))}
             <div className="flex gap-2 pt-3">
-              {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>Se déconnecter</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>Connexion</Btn><Btn small className="flex-1" onClick={() => go("register")}>S'inscrire</Btn></>)}
+              {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>{t("Se déconnecter")}</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>{t("Connexion")}</Btn><Btn small className="flex-1" onClick={() => go("register")}>{t("S'inscrire")}</Btn></>)}
             </div>
           </div>
         )}

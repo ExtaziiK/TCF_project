@@ -16,7 +16,7 @@ function GoogleIcon(props) {
 }
 
 export function AuthPage({ mode }) {
-  const { c, nav, notify } = useApp();
+  const { c, nav, notify, t } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -45,11 +45,11 @@ export function AuthPage({ mode }) {
           return;
         }
         setLockMsg("");
-        notify("Bon retour parmi nous !");
+        notify(t("Bon retour parmi nous !"));
         nav(r.user?.admin ? "admin" : "dashboard");
       } else if (view === "register") {
-        if (!isValidUsername(username)) return notify("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -).");
-        if (!(await isUsernameAvailable(username))) return notify("Ce nom d'utilisateur est déjà pris.");
+        if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
+        if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."));
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password });
         if (error) return notify(error.message);
         if (needsEmailConfirmation) setVerify(true);
@@ -77,35 +77,35 @@ export function AuthPage({ mode }) {
         <div className="text-center mb-7">
           <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Leaf size={22} /></span>
           <h1 className={`font-display font-bold text-2xl mt-4 ${c.text}`}>
-            {view === "login" ? "Bon retour !" : view === "register" ? "Créer votre compte" : "Réinitialiser le mot de passe"}
+            {view === "login" ? t("Bon retour !") : view === "register" ? t("Créer votre compte") : t("Réinitialiser le mot de passe")}
           </h1>
           <p className={`text-sm mt-1.5 ${c.sub}`}>
-            {view === "login" ? "Reprenez votre préparation là où vous l'avez laissée." : view === "register" ? "Gratuit, sans carte bancaire. Prêt en 30 secondes." : "Entrez votre courriel : nous vous enverrons un lien sécurisé."}
+            {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre courriel : nous vous enverrons un lien sécurisé.")}
           </p>
         </div>
         {verify ? (
           <div className="text-center py-6 rise">
             <Mail size={36} className="text-blue-600 mx-auto" />
-            <p className={`mt-4 font-semibold ${c.text}`}>Vérifiez votre boîte de réception</p>
-            <p className={`mt-1.5 text-sm ${c.sub}`}>Un courriel de confirmation a été envoyé à <span className="font-semibold">{email || "votre adresse"}</span>. Cliquez sur le lien pour activer votre compte.</p>
+            <p className={`mt-4 font-semibold ${c.text}`}>{t("Vérifiez votre boîte de réception")}</p>
+            <p className={`mt-1.5 text-sm ${c.sub}`}>{t("Un courriel de confirmation a été envoyé à")} <span className="font-semibold">{email || t("votre adresse")}</span>{t(". Cliquez sur le lien pour activer votre compte.")}</p>
           </div>
         ) : resetSent ? (
           <div className="text-center py-6 rise">
             <CheckCircle2 size={36} className="text-emerald-500 mx-auto" />
-            <p className={`mt-4 font-semibold ${c.text}`}>Lien envoyé</p>
-            <p className={`mt-1.5 text-sm ${c.sub}`}>Si un compte existe pour cette adresse, un lien de réinitialisation valide 30 minutes vient d'être envoyé.</p>
-            <Btn variant="ghost" className="mt-6 w-full" onClick={() => { setResetSent(false); setView("login"); }}>Retour à la connexion</Btn>
+            <p className={`mt-4 font-semibold ${c.text}`}>{t("Lien envoyé")}</p>
+            <p className={`mt-1.5 text-sm ${c.sub}`}>{t("Si un compte existe pour cette adresse, un lien de réinitialisation valide 30 minutes vient d'être envoyé.")}</p>
+            <Btn variant="ghost" className="mt-6 w-full" onClick={() => { setResetSent(false); setView("login"); }}>{t("Retour à la connexion")}</Btn>
           </div>
         ) : (
           <form className="space-y-4" onSubmit={submit}>
             {view !== "reset" && (
               <>
                 <button type="button" disabled={busy} onClick={google} className={`w-full flex items-center justify-center gap-2.5 py-3 rounded-2xl border text-sm font-semibold ${c.inputCls} ${c.hoverSoft} disabled:opacity-60`}>
-                  <GoogleIcon /> Continuer avec Google
+                  <GoogleIcon /> {t("Continuer avec Google")}
                 </button>
                 <div className="flex items-center gap-3">
                   <div className={`flex-1 border-t ${c.border}`} />
-                  <span className={`text-xs ${c.faint}`}>ou</span>
+                  <span className={`text-xs ${c.faint}`}>{t("ou")}</span>
                   <div className={`flex-1 border-t ${c.border}`} />
                 </div>
               </>
@@ -114,48 +114,48 @@ export function AuthPage({ mode }) {
               <>
                 <div className="relative">
                   <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                  <input placeholder="Prénom" aria-label="Prénom" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
+                  <input placeholder={t("Prénom")} aria-label={t("Prénom")} value={name} onChange={(e) => setName(e.target.value)} className={inp} />
                 </div>
                 <div className="relative">
                   <AtSign size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                  <input placeholder="Nom d'utilisateur" aria-label="Nom d'utilisateur" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
+                  <input placeholder={t("Nom d'utilisateur")} aria-label={t("Nom d'utilisateur")} autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
                 </div>
               </>
             )}
             {view === "login" ? (
               <div className="relative">
                 <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder="Nom d'utilisateur ou courriel" aria-label="Nom d'utilisateur ou courriel" autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); }} className={inp} />
+                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); }} className={inp} />
               </div>
             ) : (
               <div className="relative">
                 <Mail size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder="Courriel" aria-label="Courriel" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
+                <input placeholder={t("Courriel")} aria-label={t("Courriel")} type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
             {view !== "reset" && (
               <div className="relative">
                 <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input placeholder="Mot de passe" aria-label="Mot de passe" type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
-                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? "Masquer" : "Afficher"} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+                <input placeholder={t("Mot de passe")} aria-label={t("Mot de passe")} type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
+                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
               </div>
             )}
             {view === "login" && (
               <div className="flex justify-end -mt-1">
-                <button type="button" onClick={() => goView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">Mot de passe oublié ?</button>
+                <button type="button" onClick={() => goView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">{t("Mot de passe oublié ?")}</button>
               </div>
             )}
             {lockMsg && (
               <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
                 <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>
-                <button type="button" onClick={() => goView("reset")} className="mt-2 ml-6 text-sm font-semibold text-blue-600 hover:underline">Réinitialiser le mot de passe</button>
+                <button type="button" onClick={() => goView("reset")} className="mt-2 ml-6 text-sm font-semibold text-blue-600 hover:underline">{t("Réinitialiser le mot de passe")}</button>
               </div>
             )}
             <Btn type="submit" className="w-full" variant="accent" disabled={busy}>
-              {view === "login" ? "Se connecter" : view === "register" ? "Créer mon compte" : "Envoyer le lien"}
+              {view === "login" ? t("Se connecter") : view === "register" ? t("Créer mon compte") : t("Envoyer le lien")}
             </Btn>
             <p className={`text-center text-sm ${c.sub}`}>
-              {view === "login" ? (<>Pas encore de compte ? <button type="button" onClick={() => goView("register")} className="font-semibold text-blue-600 hover:underline">S'inscrire</button></>) : (<>Déjà inscrit·e ? <button type="button" onClick={() => goView("login")} className="font-semibold text-blue-600 hover:underline">Se connecter</button></>)}
+              {view === "login" ? (<>{t("Pas encore de compte ?")} <button type="button" onClick={() => goView("register")} className="font-semibold text-blue-600 hover:underline">{t("S'inscrire")}</button></>) : (<>{t("Déjà inscrit·e ?")} <button type="button" onClick={() => goView("login")} className="font-semibold text-blue-600 hover:underline">{t("Se connecter")}</button></>)}
             </p>
           </form>
         )}

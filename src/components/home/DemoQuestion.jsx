@@ -8,7 +8,7 @@ import { LISTEN_QS } from "@/constants/listening";
 // Hero teaser: one real CO question presented exactly like the quiz pages —
 // audio player on top, lettered options, correction and explanation below.
 export function DemoQuestion() {
-  const { c, nav } = useApp();
+  const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const q = LISTEN_QS[0];
   return (
@@ -17,8 +17,8 @@ export function DemoQuestion() {
       <Card className="p-6 md:p-7 shadow-2xl shadow-blue-600/10 relative overflow-hidden">
         <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
         <div className="flex items-center justify-between mb-4 relative">
-          <Pill tone="blue"><Headphones size={12} /> Question du jour · CO</Pill>
-          <Pill tone="slate">Niveau {q.level}</Pill>
+          <Pill tone="blue"><Headphones size={12} /> {t("Question du jour · CO")}</Pill>
+          <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
         </div>
         <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{q.q}</p>
         <div className="space-y-2.5">
@@ -40,9 +40,9 @@ export function DemoQuestion() {
         </div>
         {sel !== null && (
           <div className="mt-4 p-4 rounded-2xl bg-blue-600/10 text-sm rise">
-            <p className="font-semibold text-blue-600 flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> Explication</p>
+            <p className="font-semibold text-blue-600 flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> {t("Explication")}</p>
             <p className={c.sub}>{q.exp}</p>
-            <Btn small className="mt-4" icon={ArrowRight} onClick={() => nav("practice")}>Continuer en pratique gratuite</Btn>
+            <Btn small className="mt-4" icon={ArrowRight} onClick={() => nav("practice")}>{t("Continuer en pratique gratuite")}</Btn>
           </div>
         )}
       </Card>

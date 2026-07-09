@@ -7,9 +7,11 @@ import { useCustomListening } from "@/hooks/useCustomListening";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
+import { loadLang, saveLang, translate } from "@/i18n";
 
 export function AppProvider({ children }) {
   const [dark, setDark] = useState(false);
+  const [lang, setLang] = useState(loadLang);
   const [route, setRoute] = useState("home");
   const [user, setUser] = useState(null);
   const [authReady, setAuthReady] = useState(false);
@@ -31,6 +33,14 @@ export function AppProvider({ children }) {
 
   // Pull admin-authored questions (QMS) into the bank and workshop pages.
   useEffect(() => { syncSiteContent(); }, []);
+
+  // UI language (fr = source, en = dictionary lookup). Persisted so the
+  // choice survives reloads; <html lang> is kept in sync for a11y/SEO.
+  useEffect(() => {
+    saveLang(lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
+  const t = (text) => translate(lang, text);
 
   // The app stores its route in state and never changes the URL path; without
   // this the browser back/forward buttons stay greyed out. Seed the initial
@@ -95,6 +105,7 @@ export function AppProvider({ children }) {
 
   const value = {
     dark, setDark,
+    lang, setLang, t,
     route, nav, back,
     user, setUser, authReady, signOut, role,
     c,
