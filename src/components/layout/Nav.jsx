@@ -79,7 +79,7 @@ export function Nav() {
                 {user.admin && (
                   <button onClick={() => go("admin")} aria-label="Administration" className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
-                <button onClick={() => go("dashboard")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
+                <button onClick={() => go("profile")} aria-label="Mon profil" className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
                     <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>

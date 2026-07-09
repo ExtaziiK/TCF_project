@@ -17,7 +17,39 @@ export function mapSupabaseUser(session) {
     plan: authUser.app_metadata?.plan || "Découverte",
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
+    createdAt: authUser.created_at || null,
   };
+}
+
+// Loads the authoritative username (from the profiles table) for the current
+// user; the session only carries the desired value, which may have been
+// deduped at signup.
+export async function getProfile() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data } = await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle();
+  return { username: data?.username || null, createdAt: user.created_at };
+}
+
+// Updates the display name (user_metadata.name), preserving other metadata.
+export async function updateDisplayName(name) {
+  const { data: { user } } = await supabase.auth.getUser();
+  return supabase.auth.updateUser({ data: { ...(user?.user_metadata || {}), name: name.trim() } });
+}
+
+// Renames the username in the profiles table. Stored lowercased; the unique
+// constraint (23505) surfaces as a friendly "already taken" message.
+export async function updateUsername(username) {
+  const clean = String(username).trim().toLowerCase();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
+  const { error } = await supabase.from("profiles").update({ username: clean }).eq("id", user.id);
+  if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
+  return { error };
+}
+
+export async function updatePassword(password) {
+  return supabase.auth.updateUser({ password });
 }
 
 export async function signUp({ name, username, email, password }) {

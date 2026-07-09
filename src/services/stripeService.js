@@ -18,6 +18,23 @@ export async function startCheckout(priceId) {
   window.location.href = json.url;
 }
 
+// Redirects a subscriber to the Stripe billing portal (manage card, invoices,
+// cancel). Created server-side (api/create-portal-session) from the customer
+// id stored on their app_metadata.
+export async function openBillingPortal() {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) throw new Error("not-authenticated");
+
+  const res = await fetch("/api/create-portal-session", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "portal-failed");
+  window.location.href = json.url;
+}
+
 const INTERVAL_LABELS = { month: "mois", year: "an" };
 
 function formatAmount(amountInCents, currency) {

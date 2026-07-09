@@ -30,6 +30,7 @@ export const NAV_LINKS = [
 // Extra entries that only exist in the mobile menu for signed-in users.
 export const ACCOUNT_LINKS = [
   { l: "Tableau de bord", r: "dashboard", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
+  { l: "Mon profil", r: "profile", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
   { l: "Administration", r: "admin", roles: [ADMIN] },
 ];
 

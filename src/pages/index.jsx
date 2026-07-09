@@ -14,6 +14,7 @@ import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
 import { Dashboard } from "@/pages/Dashboard";
+import { Profile } from "@/pages/Profile";
 import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
 
@@ -45,6 +46,7 @@ export const PAGES = {
   faq: FAQ,
   blog: Blog,
   dashboard: Dashboard,
+  profile: Profile,
   admin: Admin,
   bank: QuestionBank,
 };

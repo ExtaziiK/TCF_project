@@ -101,7 +101,8 @@ export function DashboardView({ data }) {
     // Only surface a "resume" accent button for an in-progress exam; the
     // practice nudge already has its own card + the button below.
     data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, accent: true },
-    { icon: Zap, l: "Pratique gratuite", r: "practice" },
+    // "Pratique gratuite" is a free-tier action; premium/admin have full access.
+    role === ROLES.FREE_USER && { icon: Zap, l: "Pratique gratuite", r: "practice" },
     (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks" },
     role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank" },
   ].filter(Boolean);
@@ -153,7 +154,7 @@ export function DashboardView({ data }) {
             )}
           </Card>
 
-          {data.continueCard && (
+          {data.continueCard && (data.continueCard.kind === "exam" || role === ROLES.FREE_USER) && (
             <Card className="p-6 border-2 border-blue-600/40 flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex-1">
                 <Pill tone="blue"><Play size={12} /> Continuer l'apprentissage</Pill>
