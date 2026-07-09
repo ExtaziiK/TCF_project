@@ -20,17 +20,74 @@ export function mapSupabaseUser(session) {
   };
 }
 
-export async function signUp({ name, email, password }) {
+export async function signUp({ name, username, email, password }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name }, emailRedirectTo: window.location.origin },
+    options: { data: { name, username }, emailRedirectTo: window.location.origin },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }
 
-export async function signIn({ email, password }) {
-  return supabase.auth.signInWithPassword({ email, password });
+const USERNAME_RE = /^[a-zA-Z0-9_.-]{3,30}$/;
+export const isValidUsername = (u) => USERNAME_RE.test(String(u || "").trim());
+
+// Best-effort availability check for the registration form. Fails open: the
+// signup trigger dedupes server-side anyway, so a check outage never blocks.
+export async function isUsernameAvailable(username) {
+  const { data, error } = await supabase.rpc("is_username_available", { candidate: username });
+  if (error) return true;
+  return !!data;
+}
+
+// Sign in with a username OR an email. Goes through api/login (username
+// resolution + server-enforced lockout), then installs the returned session.
+// Returns a normalized result: { ok, user?, locked?, retryAfter?, remaining?,
+// needsConfirmation?, message? }.
+export async function signIn({ identifier, password }) {
+  let res;
+  try {
+    res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier, password }),
+    });
+  } catch {
+    return { ok: false, message: "Connexion au serveur impossible. Réessayez." };
+  }
+
+  // Local dev (plain `vite`) has no serverless routes: fall back to a direct
+  // email sign-in so login still works — without username or lockout.
+  if (res.status === 404) {
+    if (!String(identifier).includes("@")) {
+      return { ok: false, message: "En développement local, connectez-vous avec votre courriel." };
+    }
+    const { data, error } = await supabase.auth.signInWithPassword({ email: identifier, password });
+    if (error) return { ok: false, message: error.message };
+    return { ok: true, user: mapSupabaseUser(data.session) };
+  }
+
+  const json = await res.json().catch(() => ({}));
+
+  if (json.session) {
+    const { data, error } = await supabase.auth.setSession(json.session);
+    if (error) return { ok: false, message: error.message };
+    return { ok: true, user: mapSupabaseUser(data.session) };
+  }
+  if (json.locked) {
+    const mins = Math.ceil((json.retryAfter || 600) / 60);
+    return { ok: false, locked: true, retryAfter: json.retryAfter, message: `Trop de tentatives. Réessayez dans ${mins} min ou réinitialisez votre mot de passe.` };
+  }
+  if (json.needsConfirmation) {
+    return { ok: false, needsConfirmation: true, message: "Confirmez votre adresse courriel avant de vous connecter." };
+  }
+  return {
+    ok: false,
+    remaining: json.remaining,
+    message: json.remaining > 0
+      ? `Identifiant ou mot de passe incorrect. ${json.remaining} tentative${json.remaining > 1 ? "s" : ""} restante${json.remaining > 1 ? "s" : ""}.`
+      : "Identifiant ou mot de passe incorrect.",
+  };
 }
 
 export async function signInWithGoogle() {

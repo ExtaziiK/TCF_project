@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Leaf, Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Leaf, Mail, Lock, User, AtSign, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable } from "@/services/authService";
 
 function GoogleIcon(props) {
   return (
@@ -20,25 +20,37 @@ export function AuthPage({ mode }) {
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [identifier, setIdentifier] = useState(""); // login: username or email
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resetSent, setResetSent] = useState(false);
   const [verify, setVerify] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [lockMsg, setLockMsg] = useState("");
   useEffect(() => setView(mode), [mode]);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  const goView = (v) => { setView(v); setLockMsg(""); };
 
   const submit = async (e) => {
     e?.preventDefault();
     setBusy(true);
     try {
       if (view === "login") {
-        const { data, error } = await signIn({ email, password });
-        if (error) return notify(error.message);
+        const r = await signIn({ identifier, password });
+        if (!r.ok) {
+          if (r.locked) setLockMsg(r.message);
+          else { setLockMsg(""); notify(r.message); }
+          return;
+        }
+        setLockMsg("");
         notify("Bon retour parmi nous !");
-        nav(mapSupabaseUser(data.session)?.admin ? "admin" : "dashboard");
+        nav(r.user?.admin ? "admin" : "dashboard");
       } else if (view === "register") {
-        const { data, error, needsEmailConfirmation } = await signUp({ name, email, password });
+        if (!isValidUsername(username)) return notify("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -).");
+        if (!(await isUsernameAvailable(username))) return notify("Ce nom d'utilisateur est déjà pris.");
+        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password });
         if (error) return notify(error.message);
         if (needsEmailConfirmation) setVerify(true);
         else nav(mapSupabaseUser(data.session)?.admin ? "admin" : "dashboard");
@@ -99,32 +111,51 @@ export function AuthPage({ mode }) {
               </>
             )}
             {view === "register" && (
+              <>
+                <div className="relative">
+                  <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
+                  <input placeholder="Prénom" aria-label="Prénom" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
+                </div>
+                <div className="relative">
+                  <AtSign size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
+                  <input placeholder="Nom d'utilisateur" aria-label="Nom d'utilisateur" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
+                </div>
+              </>
+            )}
+            {view === "login" ? (
               <div className="relative">
                 <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder="Prénom" aria-label="Prénom" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
+                <input placeholder="Nom d'utilisateur ou courriel" aria-label="Nom d'utilisateur ou courriel" autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); }} className={inp} />
+              </div>
+            ) : (
+              <div className="relative">
+                <Mail size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
+                <input placeholder="Courriel" aria-label="Courriel" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
-            <div className="relative">
-              <Mail size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-              <input placeholder="Courriel" aria-label="Courriel" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
-            </div>
             {view !== "reset" && (
               <div className="relative">
                 <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input placeholder="Mot de passe" aria-label="Mot de passe" type={showPw ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
+                <input placeholder="Mot de passe" aria-label="Mot de passe" type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
                 <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? "Masquer" : "Afficher"} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
               </div>
             )}
             {view === "login" && (
               <div className="flex justify-end -mt-1">
-                <button type="button" onClick={() => setView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">Mot de passe oublié ?</button>
+                <button type="button" onClick={() => goView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">Mot de passe oublié ?</button>
+              </div>
+            )}
+            {lockMsg && (
+              <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
+                <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>
+                <button type="button" onClick={() => goView("reset")} className="mt-2 ml-6 text-sm font-semibold text-blue-600 hover:underline">Réinitialiser le mot de passe</button>
               </div>
             )}
             <Btn type="submit" className="w-full" variant="accent" disabled={busy}>
               {view === "login" ? "Se connecter" : view === "register" ? "Créer mon compte" : "Envoyer le lien"}
             </Btn>
             <p className={`text-center text-sm ${c.sub}`}>
-              {view === "login" ? (<>Pas encore de compte ? <button type="button" onClick={() => setView("register")} className="font-semibold text-blue-600 hover:underline">S'inscrire</button></>) : (<>Déjà inscrit·e ? <button type="button" onClick={() => setView("login")} className="font-semibold text-blue-600 hover:underline">Se connecter</button></>)}
+              {view === "login" ? (<>Pas encore de compte ? <button type="button" onClick={() => goView("register")} className="font-semibold text-blue-600 hover:underline">S'inscrire</button></>) : (<>Déjà inscrit·e ? <button type="button" onClick={() => goView("login")} className="font-semibold text-blue-600 hover:underline">Se connecter</button></>)}
             </p>
           </form>
         )}
