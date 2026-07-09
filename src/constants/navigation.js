@@ -30,7 +30,6 @@ export const NAV_LINKS = [
 // Extra entries that only exist in the mobile menu for signed-in users.
 export const ACCOUNT_LINKS = [
   { l: "Tableau de bord", r: "dashboard", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
-  { l: "Progression", r: "progress", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
   { l: "Administration", r: "admin", roles: [ADMIN] },
 ];
 
@@ -55,7 +54,6 @@ export const SEARCH_INDEX = [
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
   { l: "Examens blancs TCF Canada", r: "mocks", c: "Examens" },
-  { l: "Suivi de progression", r: "progress", c: "Page" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
   { l: "Foire aux questions", r: "faq", c: "Page" },

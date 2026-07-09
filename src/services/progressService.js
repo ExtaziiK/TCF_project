@@ -140,6 +140,7 @@ export function computeProgress({ results = [], attempts = [] }) {
     week,
     continueCard: continueCard(inProgressExam, results),
     recentActivity: [...events].reverse().slice(0, 6).map(activityItem),
+    sessions: [...events].reverse().map(activityItem), // full history for the progression page
   };
   progress.achievements = achievements(progress);
   progress.recommendations = recommendations(progress, bank, results);
@@ -189,7 +190,8 @@ function weeklySlice(events) {
     const key = dateKey(d);
     const dayEvents = events.filter((e) => dateKey(e.at) === key);
     const xp = dayEvents.reduce((s, e) => s + (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted), 0);
-    return { label, count: dayEvents.length, xp };
+    const minutes = dayEvents.reduce((s, e) => s + (e.minutes || 0), 0);
+    return { label, count: dayEvents.length, xp, minutes };
   });
   const thisWeek = events.filter((e) => new Date(e.at) >= monday);
   return {
@@ -197,6 +199,7 @@ function weeklySlice(events) {
     quizzes: thisWeek.length,
     activeDays: new Set(thisWeek.map((e) => dateKey(e.at))).size,
     xp: days.reduce((s, d) => s + d.xp, 0),
+    minutes: days.reduce((s, d) => s + d.minutes, 0),
   };
 }
 
@@ -261,9 +264,10 @@ function continueCard(inProgressExam, results) {
 function activityItem(e) {
   const date = new Date(e.at).toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
   const xp = (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted);
+  const base = { date, minutes: e.minutes || 0, xp, kind: e.kind };
   return e.kind === "exam"
-    ? { title: "Examen blanc terminé", meta: `${e.points} / 699 · ${date}`, xp, kind: e.kind }
-    : { title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, xp, kind: e.kind };
+    ? { ...base, title: "Examen blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` }
+    : { ...base, title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, result: `${e.pct} %` };
 }
 
 /* ----------------------------- achievements ------------------------------ */

@@ -22,11 +22,3 @@ export const NOTIFS = [
   { icon: Calendar, t: "Examen blanc n° 2 planifié samedi à 9 h.", time: "hier" },
   { icon: Award, t: "Nouveau badge : « Premier B2 » débloqué.", time: "il y a 3 jours" },
 ];
-
-export const HISTORY = [
-  { t: "Compréhension orale · Série B2", score: "8/10", date: "Aujourd'hui", min: 24 },
-  { t: "Vocabulaire · Immigration", score: "12/12", date: "Aujourd'hui", min: 10 },
-  { t: "Grammaire · Le subjonctif", score: "5/6", date: "Hier", min: 18 },
-  { t: "Expression écrite · Tâche 2", score: "En révision", date: "Hier", min: 32 },
-  { t: "Examen blanc n° 1 · Complet", score: "512/699", date: "Il y a 4 jours", min: 165 },
-];

@@ -14,7 +14,6 @@ import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
 import { Dashboard } from "@/pages/Dashboard";
-import { ProgressPage } from "@/pages/ProgressPage";
 import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
 
@@ -46,7 +45,6 @@ export const PAGES = {
   faq: FAQ,
   blog: Blog,
   dashboard: Dashboard,
-  progress: ProgressPage,
   admin: Admin,
   bank: QuestionBank,
 };

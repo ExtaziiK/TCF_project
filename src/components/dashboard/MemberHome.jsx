@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  Clock, CheckCircle2, Target, Flame, Sparkles, ArrowRight, Play, BarChart3,
-  Zap, Trophy, TrendingUp, TrendingDown, Info, BookOpen, GraduationCap, FolderOpen, ListChecks,
+  Clock, CheckCircle2, Target, Flame, Sparkles, ArrowRight, Play,
+  Zap, Trophy, TrendingUp, TrendingDown, Info, GraduationCap, FolderOpen, ListChecks,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { ScoreSparkline, WeekBars, SectionBars } from "@/components/dashboard/charts";
+import { ProgressPanels } from "@/components/dashboard/ProgressPanels";
 import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
 import { computeProgress } from "@/services/progressService";
@@ -69,7 +69,6 @@ export function DashboardView({ data }) {
     data.continueCard && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, accent: true },
     { icon: Zap, l: "Pratique gratuite", r: "practice" },
     (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks" },
-    { icon: BarChart3, l: "Ma progression", r: "progress" },
     role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank" },
   ].filter(Boolean);
 
@@ -131,75 +130,9 @@ export function DashboardView({ data }) {
             </Card>
           )}
 
-          {/* per-section stats */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className={`font-display font-bold ${c.text}`}>Vos épreuves</h3>
-              <Pill tone="slate">{t.completionPct} % de la banque explorée</Pill>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {data.sections.map((s) => (
-                <div key={s.section} className={`p-4 rounded-2xl border ${c.border}`}>
-                  <div className="flex justify-between items-center text-sm mb-2">
-                    <span className={`font-medium ${c.text}`}>{s.title}</span>
-                    {s.cefr ? <Pill tone="blue">{s.cefr}</Pill> : <span className={`text-xs ${c.faint}`}>{s.bankCount ? "À découvrir" : "Bientôt"}</span>}
-                  </div>
-                  {s.avg !== null ? (
-                    <>
-                      <ProgressBar pct={s.avg} tone="grad" />
-                      <p className={`text-xs mt-2 ${c.faint}`}>
-                        {s.quizzesCompleted} quiz · moyenne {s.avg} % · record {s.best} %
-                        {s.weakest && s.weakest.pct < 65 ? ` · à retravailler : Quizz ${s.weakest.number}` : s.strongest ? ` · point fort : Quizz ${s.strongest.number}` : ""}
-                      </p>
-                    </>
-                  ) : (
-                    <p className={`text-xs ${c.faint}`}>{s.bankCount > 0 ? `${s.bankCount} quiz disponibles — aucun tenté pour l'instant.` : "Les quiz de cette épreuve arrivent bientôt."}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* charts */}
-          <div className="grid sm:grid-cols-2 gap-5">
-            <Card className="p-6">
-              <h3 className={`font-display font-bold mb-3 ${c.text}`}>Évolution du score</h3>
-              <ScoreSparkline series={data.charts.scoreSeries} />
-            </Card>
-            <Card className="p-6">
-              <h3 className={`font-display font-bold mb-3 ${c.text}`}>Activité de la semaine</h3>
-              <WeekBars days={data.charts.weekBars} />
-              <p className={`text-xs mt-2 ${c.faint}`}>{data.week.xp} XP gagnés cette semaine</p>
-            </Card>
-          </div>
-
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-4 ${c.text}`}>Score moyen par épreuve</h3>
-            <SectionBars items={data.charts.sectionPerf} />
-          </Card>
-
-          {/* recent activity */}
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-4 ${c.text}`}>Activité récente</h3>
-            {data.recentActivity.length === 0 ? (
-              <p className={`text-sm py-4 text-center ${c.faint}`}>Rien pour l'instant — votre première activité apparaîtra ici.</p>
-            ) : (
-              <div className="space-y-1">
-                {data.recentActivity.map((h, i) => (
-                  <div key={i} className={`flex items-center gap-4 px-3 py-3 rounded-2xl ${c.hoverSoft}`}>
-                    <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0">
-                      {h.kind === "exam" ? <GraduationCap size={15} /> : <BookOpen size={15} />}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${c.text}`}>{h.title}</p>
-                      <p className={`text-xs ${c.faint}`}>{h.meta}</p>
-                    </div>
-                    <Pill tone="amber"><Zap size={11} /> +{h.xp} XP</Pill>
-                  </div>
-                ))}
-              </div>
-            )}
-          </Card>
+          {/* detailed progression analytics (formerly the standalone
+              "Ma progression" page, now consolidated into the dashboard) */}
+          <ProgressPanels data={data} />
         </div>
 
         {/* ---------------- right 1/3 ---------------- */}

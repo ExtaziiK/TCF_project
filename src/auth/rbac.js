@@ -50,7 +50,6 @@ export const PAGE_ACCESS = {
   mocks: PREMIUM,
   bank: ADMIN_ONLY,
   dashboard: AUTHENTICATED,
-  progress: AUTHENTICATED,
   admin: ADMIN_ONLY,
 };
 
@@ -67,7 +66,7 @@ export function canAccess(role, route) {
 export function deniedReason(role, route) {
   if (canAccess(role, route)) return null;
   if (role === ROLES.VISITOR) {
-    return route === "dashboard" || route === "progress" ? "login" : "register";
+    return route === "dashboard" ? "login" : "register";
   }
   if (PAGE_ACCESS[route] === ADMIN_ONLY) return "forbidden";
   return "upgrade";

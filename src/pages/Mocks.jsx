@@ -53,7 +53,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
       </div>
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
         <Btn icon={RotateCcw} onClick={onRestart}>Nouvel examen blanc</Btn>
-        <Btn variant="ghost" icon={BarChart3} onClick={() => nav("progress")}>Ma progression</Btn>
+        <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>Ma progression</Btn>
         <Btn variant="ghost" onClick={onBack}>Mes examens</Btn>
       </div>
     </Card>
@@ -304,7 +304,7 @@ export function Mocks() {
           <p className={`font-semibold ${c.text}`}>Analyse de performance après chaque examen</p>
           <p className={`text-sm mt-1 ${c.sub}`}>Score par tâche, pourcentage global, niveau CECR estimé et historique complet de vos tentatives.</p>
         </div>
-        <Btn small variant="ghost" onClick={() => nav("progress")} icon={ArrowRight}>Ma progression</Btn>
+        <Btn small variant="ghost" onClick={() => nav("dashboard")} icon={ArrowRight}>Ma progression</Btn>
       </Card>
     </PageShell>
   );
