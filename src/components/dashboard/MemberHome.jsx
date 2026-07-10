@@ -100,18 +100,20 @@ export function DashboardView({ data }) {
   const quickActions = [
     // Only surface a "resume" accent button for an in-progress exam; the
     // practice nudge already has its own card + the button below.
-    data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, accent: true },
+    data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, variant: "accent" },
     // "Pratique gratuite" is a free-tier action; premium/admin have full access.
-    role === ROLES.FREE_USER && { icon: Zap, l: "Pratique gratuite", r: "practice" },
-    (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks" },
-    role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank" },
+    role === ROLES.FREE_USER && { icon: Zap, l: "Pratique gratuite", r: "practice", variant: "accent" },
+    // Distinct variants so the actions read as separate: the practice/exam
+    // action is the gradient accent, the admin bank is the solid primary.
+    (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks", variant: "accent" },
+    role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank", variant: "primary" },
   ].filter(Boolean);
 
   return (
     <>
       <div className="flex flex-wrap gap-2 mb-8">
         {quickActions.map((a) => (
-          <Btn key={a.l} small variant="accent" icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
+          <Btn key={a.l} small variant={a.variant} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
         ))}
       </div>
 
