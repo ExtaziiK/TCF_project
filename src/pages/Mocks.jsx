@@ -219,51 +219,45 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
+    <PageShell tight back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
       {backend === "local" && (
-        <Card className="p-4 mb-6 flex items-center gap-3 border-amber-500/40">
+        <Card className="p-3 mb-4 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />
           <p className={`text-sm ${c.sub}`}>{t("Sauvegarde locale : vos examens sont conservés sur cet appareil. Exécutez la migration Supabase (")}<span className="font-mono2">supabase/migrations</span>{t(") pour la synchronisation multi-appareils.")}</p>
         </Card>
       )}
 
-      <SectionHead title={t("Le déroulé, épreuve par épreuve")} sub={t("L'ordre et les durées reproduisent la session officielle.")} />
+      <div className="flex items-baseline justify-between gap-4 mb-3">
+        <h2 className={`font-display text-lg font-bold ${c.text}`}>{t("Le déroulé, épreuve par épreuve")}</h2>
+        <span className={`hidden sm:block text-xs ${c.faint}`}>{t("L'ordre et les durées reproduisent la session officielle.")}</span>
+      </div>
       {/* Informational only — these cards don't navigate, they just present the format. */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {MOCK_SECTIONS.map((s, i) => (
-          <Card key={s.t} className="group p-6 h-full flex flex-col transition-all duration-200 hover:scale-[1.05] hover:shadow-xl hover:shadow-blue-600/15">
-            <div className="flex items-start justify-between mb-4">
-              <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
+          <Card key={s.t} className="group p-4 h-full flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10">
+            <div className="flex items-start justify-between mb-3">
+              <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
               <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
             </div>
-            <p className={`font-display font-bold ${c.text}`}>{t(s.t)}</p>
-            <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
+            <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
+            <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
             {/* description revealed on hover */}
-            <p className={`text-sm leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 ${c.sub}`}>{t(s.desc)}</p>
+            <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-2 ${c.sub}`}>{t(s.desc)}</p>
           </Card>
         ))}
       </div>
 
-      <Card className="relative overflow-hidden p-8 md:p-12 border-2 border-blue-600/40 mb-8 text-center">
-        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
-        <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
-        <div className="relative">
-          <p className={`font-display font-bold text-2xl md:text-3xl leading-snug max-w-2xl mx-auto ${c.text}`}>
-            {t("Préparez-vous dans les conditions réelles de l'examen.")}
-          </p>
-          <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
-            {TASKS_PER_EXAM} {t("épreuves choisies pour varier les exercices et cibler vos progrès.")}
-            <br className="hidden md:block" />
-            {" "}{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
-          </div>
-          <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
+      <Card className="relative overflow-hidden p-5 md:p-6 border-2 border-blue-600/40 mb-8 text-center">
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
+        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
+        <div className="relative flex flex-col items-center gap-3.5">
+          <div className="flex items-center justify-center gap-2 flex-wrap">
             <Pill tone="slate"><Clock size={12} /> {t("≈ 2 h 47 au total")}</Pill>
             <Pill tone="blue">{TASKS_PER_EXAM} {t("épreuves officielles")}</Pill>
             <Pill tone="green"><Trophy size={12} /> {t("Score sur 699")}</Pill>
           </div>
+          <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
+          <p className={`text-xs ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
         </div>
       </Card>
 
