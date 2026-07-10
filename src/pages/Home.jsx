@@ -1,6 +1,6 @@
 import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill, Btn, SectionHead, LevelRibbon } from "@/components/common";
+import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -39,10 +39,6 @@ function Landing() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3 rise rise-3">
               <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
-            </div>
-            <div className={`mt-10 p-5 rounded-3xl border ${c.border} ${c.card} rise rise-4`}>
-              <LevelRibbon current="B1" target="B2" />
-              <p className={`mt-3 text-xs ${c.faint}`}>{t("Votre niveau est réévalué après chaque session de pratique.")}</p>
             </div>
           </div>
           <div className="rise rise-2"><DemoQuestion /></div>
