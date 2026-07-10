@@ -234,7 +234,7 @@ export function Mocks() {
             <h3 className={`font-display font-bold text-xl mt-3 ${c.text}`}>Nouvel examen blanc</h3>
             <p className={`text-sm mt-1.5 ${c.sub}`}>{TASKS_PER_EXAM} tâches sélectionnées aléatoirement parmi les quiz de la banque, en privilégiant ceux que vous n'avez pas encore rencontrés. Quittez quand vous voulez : votre progression est sauvegardée.</p>
           </div>
-          <Btn icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
+          <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
         </div>
       </Card>
 

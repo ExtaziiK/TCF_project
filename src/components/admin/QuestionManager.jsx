@@ -282,6 +282,11 @@ export function QuestionManager() {
   const [confirmDelete, setConfirmDelete] = useState(null); // ids awaiting confirmation
   // filters
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(search), 200);
+    return () => clearTimeout(id);
+  }, [search]);
   const [fSection, setFSection] = useState("");
   const [fTask, setFTask] = useState("");
   const [fStatus, setFStatus] = useState("");
@@ -315,9 +320,9 @@ export function QuestionManager() {
     if (fSection) list = list.filter((q) => q.section === fSection);
     if (fTask) list = list.filter((q) => String(q.task) === fTask);
     if (fStatus) list = list.filter((q) => q.status === fStatus);
-    if (search.trim()) {
-      const s = search.trim().toLowerCase();
-      list = list.filter((q) => JSON.stringify(q.payload).toLowerCase().includes(s) || (q.tags || []).some((t) => t.toLowerCase().includes(s)));
+    if (debouncedSearch.trim()) {
+      const s = debouncedSearch.trim().toLowerCase();
+      list = list.filter((q) => String(q.id).toLowerCase().includes(s) || JSON.stringify(q.payload).toLowerCase().includes(s) || (q.tags || []).some((t) => t.toLowerCase().includes(s)));
     }
     const by = {
       newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
@@ -326,11 +331,19 @@ export function QuestionManager() {
       alpha: (a, b) => previewText(a).localeCompare(previewText(b)),
     }[sort];
     return [...list].sort(by);
-  }, [questions, fSection, fTask, fStatus, search, sort]);
+  }, [questions, fSection, fTask, fStatus, debouncedSearch, sort]);
 
   const pageCount = pageSize === "all" ? 1 : Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageItems = pageSize === "all" ? filtered : filtered.slice(page * pageSize, (page + 1) * pageSize);
   useEffect(() => { setPage(0); }, [search, fSection, fTask, fStatus, pageSize]);
+
+  // Overview counts, derived once from the loaded set (real data, no fabrication).
+  const stats = useMemo(() => {
+    const all = questions || [];
+    const byStatus = { active: 0, disabled: 0, archived: 0 };
+    for (const q of all) if (q.status in byStatus) byStatus[q.status]++;
+    return { total: all.length, byStatus };
+  }, [questions]);
 
   const toggle = (id) => setSelected((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleAll = () => setSelected((s) => (s.size === pageItems.length ? new Set() : new Set(pageItems.map((q) => q.id))));
@@ -393,6 +406,28 @@ export function QuestionManager() {
           <p className={`text-sm ${c.sub}`}>Stockage local : exécutez <span className="font-mono2">supabase/migrations/20260708_questions.sql</span> pour que les questions soient partagées entre administrateurs et visibles de tous les utilisateurs.</p>
         </Card>
       )}
+
+      {/* overview */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="p-4">
+          <p className="font-display font-extrabold text-3xl grad-text">{stats.total}</p>
+          <p className={`text-sm font-medium mt-0.5 ${c.text}`}>Questions au total</p>
+        </Card>
+        {QUESTION_STATUSES.map((s) => {
+          const on = fStatus === s.id;
+          return (
+            <button key={s.id} onClick={() => setFStatus(on ? "" : s.id)} aria-pressed={on} className="text-left">
+              <Card className={`p-4 h-full transition-colors ${on ? "border-2 border-blue-600/50" : ""}`}>
+                <div className="flex items-center justify-between">
+                  <p className={`font-display font-extrabold text-3xl ${c.text}`}>{stats.byStatus[s.id]}</p>
+                  <Pill tone={s.tone}>{s.label}</Pill>
+                </div>
+                <p className={`text-xs mt-1 ${c.faint}`}>{on ? "Filtre actif — cliquez pour retirer" : "Cliquez pour filtrer"}</p>
+              </Card>
+            </button>
+          );
+        })}
+      </div>
 
       {/* toolbar */}
       <Card className="p-4">
