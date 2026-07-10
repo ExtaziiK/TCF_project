@@ -227,11 +227,13 @@ export function Mocks() {
         </Card>
       )}
 
-      {/* One panel: format pills, then the four épreuves, then the start CTA. */}
-      <Card className="relative overflow-hidden p-5 md:p-7 border-2 border-blue-600/40 mb-8">
+      {/* One panel: format pills, then the four épreuves, then the start CTA.
+          Vertical padding runs deeper than horizontal so the three groups get
+          breathing room top and bottom. */}
+      <Card className="relative overflow-hidden px-6 py-9 md:px-10 md:py-12 border-2 border-blue-600/40 mb-8">
         <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
         <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
-        <div className="relative flex flex-col items-center gap-5">
+        <div className="relative flex flex-col items-center gap-8 md:gap-10">
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <Pill tone="slate"><Clock size={12} /> {t("≈ 2 h 47 au total")}</Pill>
             <Pill tone="blue">{TASKS_PER_EXAM} {t("épreuves officielles")}</Pill>
@@ -241,21 +243,21 @@ export function Mocks() {
           {/* Informational only — these tiles don't navigate, they present the
               format. Rendered on the page background so they read as inset
               tiles against the white panel; hover expands the description. */}
-          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
             {MOCK_SECTIONS.map((s, i) => (
-              <div key={s.t} className={`group p-4 h-full flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
-                <div className="flex items-start justify-between mb-3">
+              <div key={s.t} className={`group p-5 h-full flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
+                <div className="flex items-start justify-between mb-4">
                   <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
                   <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
                 </div>
                 <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
                 <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
-                <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-2 ${c.sub}`}>{t(s.desc)}</p>
+                <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 ${c.sub}`}>{t(s.desc)}</p>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-3">
             <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
             <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
           </div>
