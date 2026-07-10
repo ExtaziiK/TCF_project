@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, Sparkles, GraduationCap, ChevronDown, Check } from "lucide-react";
+import { Play, Sparkles, GraduationCap, ChevronDown, Check, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
@@ -7,6 +7,7 @@ import { getBank } from "@/services/bankService";
 import { useWritingTask } from "@/hooks/useWritingTask";
 import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
+import { AiFeedback } from "@/components/expression/AiFeedback";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 
 // Premium module backed by the question bank (section "ee") once quizzes
@@ -63,7 +64,7 @@ export function WritingWorkshopBody() {
 
 function WritingTaskPane({ task }) {
   const { c, notify, t } = useApp();
-  const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, words, lo, hi } = useWritingTask(task, notify);
+  const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, words, lo, hi } = useWritingTask(task, notify);
 
   return (
     <div className="grid lg:grid-cols-3 gap-5 rise">
@@ -88,20 +89,16 @@ function WritingTaskPane({ task }) {
           <textarea value={text} onChange={(e) => onTextChange(e.target.value)} rows={11} placeholder={t("Commencez à écrire ici — le chronomètre démarre automatiquement…")} aria-label={t("Zone de rédaction")} className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text} placeholder:opacity-40`} />
         </Card>
         <div className="flex gap-3 flex-wrap">
-          <Btn icon={Sparkles} variant="accent" onClick={analyze}>{t("Analyser avec l'IA")}</Btn>
+          <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>
           <Btn variant="ghost" icon={GraduationCap} onClick={() => notify(t("Texte envoyé pour correction humaine (fonctionnalité Premium Annuel — démo)."))}>{t("Envoyer à un enseignant")}</Btn>
         </div>
-        {ai && (
-          <Card className="p-6 border-2 border-blue-600/40 rise">
-            <div className="flex items-center justify-between mb-4">
-              <p className="font-semibold text-sm text-blue-600 flex items-center gap-1.5"><Sparkles size={15} /> {t("Analyse IA — aperçu")}</p>
-              <Pill tone="blue">{t("Niveau estimé :")} {ai.score}</Pill>
-            </div>
-            <ul className="space-y-2.5">
-              {ai.points.map((p) => <li key={p} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={15} className="text-blue-600 shrink-0 mt-0.5" />{t(p)}</li>)}
-            </ul>
+        {analyzing && !ai && (
+          <Card className="p-6 border-2 border-blue-600/40 flex items-center gap-3">
+            <Loader2 size={18} className="text-blue-600 animate-spin shrink-0" />
+            <p className={`text-sm ${c.sub}`}>{t("L'examinateur IA lit votre texte…")}</p>
           </Card>
         )}
+        {ai && <AiFeedback level={ai.level} summary={ai.summary} strengths={ai.strengths} improvements={ai.improvements} corrected={ai.corrected} />}
       </div>
       <div className="space-y-5">
         <Card className="p-6">

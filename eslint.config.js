@@ -24,8 +24,12 @@ export default [
         TextDecoder: "readonly",
         Uint8Array: "readonly",
         URLSearchParams: "readonly",
+        URL: "readonly",
         fetch: "readonly",
         console: "readonly",
+        navigator: "readonly",
+        MediaRecorder: "readonly",
+        Blob: "readonly",
       },
     },
     settings: { react: { version: "detect" } },
@@ -43,7 +47,10 @@ export default [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
-      globals: { process: "readonly", Buffer: "readonly", console: "readonly" },
+      globals: {
+        process: "readonly", Buffer: "readonly", console: "readonly",
+        fetch: "readonly", FormData: "readonly", Blob: "readonly",
+      },
     },
   },
 ];

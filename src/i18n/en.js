@@ -522,9 +522,34 @@ export const EN = {
   "Réécouter": "Listen again",
   "à l'instant": "just now",
   "Enregistrement sauvegardé dans votre historique.": "Recording saved to your history.",
+  "Enregistrez votre réponse : elle est transcrite par Whisper puis évaluée par l'IA (pertinence, vocabulaire, grammaire, fluidité).":
+    "Record your answer: it's transcribed by Whisper then evaluated by AI (relevance, vocabulary, grammar, fluency).",
+  "Transcription et analyse IA de votre réponse, propulsées par Whisper.": "AI transcription and analysis of your answer, powered by Whisper.",
+  "Transcription et analyse en cours…": "Transcribing and analyzing…",
+  "Transcription": "Transcript",
+  "Aucune parole détectée dans l'enregistrement.": "No speech detected in the recording.",
+  "Aucun son n'a été capté. Vérifiez votre micro.": "No sound was captured. Check your microphone.",
+  "Analyse vocale indisponible ici (fonctions serverless non déployées).": "Voice analysis unavailable here (serverless functions not deployed).",
+  "La transcription a échoué. Réessayez.": "Transcription failed. Please try again.",
+  "Votre navigateur ne permet pas l'enregistrement audio.": "Your browser doesn't support audio recording.",
+  "Micro non autorisé. Autorisez l'accès au microphone pour vous enregistrer.": "Microphone blocked. Allow mic access to record yourself.",
+  "Impossible de démarrer l'enregistrement sur ce navigateur.": "Couldn't start recording in this browser.",
+  "Analyse en cours": "Analyzing",
   "Chargement de la session de pratique": "Loading the practice session",
   "Aucune consigne disponible pour la Tâche": "No prompt available for Task",
   "De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.": "New topics are added regularly — check back soon.",
+
+  // ── AI evaluation (Expression écrite / orale) ────────────────────────
+  "Analyse IA": "AI analysis",
+  "Points forts": "Strengths",
+  "À améliorer": "To improve",
+  "Voir une version améliorée": "See an improved version",
+  "Analyse en cours…": "Analyzing…",
+  "L'examinateur IA lit votre texte…": "The AI examiner is reading your text…",
+  "Rédigez d'abord votre réponse avant de lancer l'analyse.": "Write your answer first, then run the analysis.",
+  "Analyse IA indisponible ici — aperçu heuristique affiché. Déployez les fonctions serverless pour l'analyse complète.":
+    "AI analysis unavailable here — showing a heuristic preview. Deploy the serverless functions for full analysis.",
+  "L'analyse IA a échoué. Réessayez dans un instant.": "AI analysis failed. Please try again shortly.",
 
   // ── Bank explorer / question bank ────────────────────────────────────
   "consigne": "prompt",
