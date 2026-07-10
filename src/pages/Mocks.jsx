@@ -274,18 +274,20 @@ export function Mocks() {
             {inProgress.map((a) => {
               const doneTasks = Object.keys(a.progress?.results || {}).length;
               return (
-                <Card key={a.id} className="p-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className={`font-semibold text-sm ${c.text}`}>Commencé le {when(a.startedAt)}</p>
-                      <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>Tâche {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} terminée{doneTasks > 1 ? "s" : ""}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Btn small icon={Play} onClick={() => setActive(a)}>Reprendre</Btn>
-                      <button aria-label="Abandonner" title="Abandonner cet examen" onClick={async () => { await abandonAttempt(user?.id, a); reload(); }} className={`p-2 rounded-full ${c.hoverSoft} ${c.faint}`}><Trash2 size={16} /></button>
-                    </div>
+                <Card key={a.id} className="p-6 transition-all duration-200 hover:shadow-xl hover:shadow-blue-600/10">
+                  <div className="flex items-center justify-between mb-3">
+                    <Pill tone="amber"><Play size={12} /> En cours</Pill>
+                    <span className={`text-xs font-mono2 ${c.faint}`}>Commencé le {when(a.startedAt)}</span>
                   </div>
-                  <div className="mt-3"><ProgressBar pct={(doneTasks / a.tasks.length) * 100} /></div>
+                  <p className={`font-display font-bold ${c.text}`}>
+                    {SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "Examen blanc"}
+                  </p>
+                  <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>Tâche {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} terminée{doneTasks > 1 ? "s" : ""}</p>
+                  <div className="mt-3"><ProgressBar pct={(doneTasks / a.tasks.length) * 100} tone="grad" /></div>
+                  <div className="mt-5 flex items-center gap-2 flex-wrap">
+                    <Btn small variant="accent" icon={Play} onClick={() => setActive(a)}>Reprendre l'examen</Btn>
+                    <Btn small variant="ghost" className="text-rose-600" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, a); reload(); notify("Examen abandonné."); }}>Abandonner</Btn>
+                  </div>
                 </Card>
               );
             })}
