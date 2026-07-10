@@ -111,7 +111,7 @@ export function DashboardView({ data }) {
     <>
       <div className="flex flex-wrap gap-2 mb-8">
         {quickActions.map((a) => (
-          <Btn key={a.l} small variant={a.accent ? "accent" : "ghost"} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
+          <Btn key={a.l} small variant="accent" icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
         ))}
       </div>
 
