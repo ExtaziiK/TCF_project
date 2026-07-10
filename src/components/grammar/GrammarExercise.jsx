@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 
 export function GrammarExercise({ q }) {
-  const { c } = useApp();
+  const { c, t } = useApp();
   const [sel, setSel] = useState(null);
   return (
     <div className={`p-5 rounded-2xl border ${c.border}`}>
@@ -19,7 +19,7 @@ export function GrammarExercise({ q }) {
           );
         })}
       </div>
-      {sel !== null && <p className={`mt-3 text-sm rise ${sel === q.a ? "text-emerald-600" : "text-rose-600"}`}>{sel === q.a ? "Bonne réponse ! " : "Pas tout à fait. "}<span className={c.sub}>{q.exp}</span></p>}
+      {sel !== null && <p className={`mt-3 text-sm rise ${sel === q.a ? "text-emerald-600" : "text-rose-600"}`}>{t(sel === q.a ? "Bonne réponse !" : "Pas tout à fait.")} <span className={c.sub}>{q.exp}</span></p>}
     </div>
   );
 }

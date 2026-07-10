@@ -5,9 +5,9 @@ import { Card } from "@/components/common";
 // Shared loading / empty states for the Expression écrite & orale workshops.
 
 export function WorkshopSkeleton() {
-  const { c } = useApp();
+  const { c, t } = useApp();
   return (
-    <div aria-busy="true" aria-label="Chargement de la session de pratique">
+    <div aria-busy="true" aria-label={t("Chargement de la session de pratique")}>
       <div className="flex gap-2 flex-wrap mb-6">
         {[0, 1, 2].map((i) => <div key={i} className={`h-9 w-36 rounded-full animate-pulse ${c.track}`} />)}
       </div>
@@ -24,12 +24,12 @@ export function WorkshopSkeleton() {
 }
 
 export function EmptyTask({ task }) {
-  const { c } = useApp();
+  const { c, t } = useApp();
   return (
     <Card className="p-10 text-center">
       <FolderOpen size={32} className="text-blue-600 mx-auto mb-4" />
-      <p className={`font-display font-bold ${c.text}`}>Aucune consigne disponible pour la Tâche {task}</p>
-      <p className={`mt-2 text-sm ${c.sub}`}>De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.</p>
+      <p className={`font-display font-bold ${c.text}`}>{t("Aucune consigne disponible pour la Tâche")} {task}</p>
+      <p className={`mt-2 text-sm ${c.sub}`}>{t("De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.")}</p>
     </Card>
   );
 }

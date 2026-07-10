@@ -25,7 +25,7 @@ export function Reading() {
 }
 
 function ReadingDemo() {
-  const { c, nav } = useApp();
+  const { c, nav, t } = useApp();
   const [hlMode, setHlMode] = useState(false);
   const [hl, setHl] = useState([]);
   const toggle = (i) => { if (!hlMode) return; setHl(hl.includes(i) ? hl.filter((x) => x !== i) : [...hl, i]); };
@@ -34,7 +34,7 @@ function ReadingDemo() {
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <Pill tone="blue"><BookOpen size={12} /> Texte · L'immigration francophone au Canada</Pill>
         <button onClick={() => setHlMode(!hlMode)} aria-pressed={hlMode} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${hlMode ? "bg-amber-500/20 text-amber-600" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-          <Highlighter size={15} /> {hlMode ? "Surlignage actif — cliquez une phrase" : "Surligner le texte"}
+          <Highlighter size={15} /> {t(hlMode ? "Surlignage actif — cliquez une phrase" : "Surligner le texte")}
         </button>
       </div>
       <p className={`leading-loose text-[15px] ${c.text}`}>
@@ -45,8 +45,8 @@ function ReadingDemo() {
     </Card>
   );
   return (
-    <PageShell back eyebrow="Compréhension écrite" title="Lisez comme un futur résident" sub="Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.">
-      <Quiz questions={READ_QS} duration={480} storageKey="read" above={passage} doneExtra={<Btn variant="ghost" onClick={() => nav("vocabulary")}>Réviser le vocabulaire</Btn>} />
+    <PageShell back eyebrow={t("Compréhension écrite")} title={t("Lisez comme un futur résident")} sub={t("Textes authentiques sur la vie et l'immigration au Canada. Surlignez les passages clés, comme vous le feriez au brouillon.")}>
+      <Quiz questions={READ_QS} duration={480} storageKey="read" above={passage} doneExtra={<Btn variant="ghost" onClick={() => nav("vocabulary")}>{t("Réviser le vocabulaire")}</Btn>} />
     </PageShell>
   );
 }

@@ -56,7 +56,7 @@ function GoalRow({ label, current, target }) {
 // Streak card: the month calendar is collapsed by default (just the practiced-
 // day count) and expands on click.
 function StreakCard({ streaks }) {
-  const { c } = useApp();
+  const { c, t } = useApp();
   const [open, setOpen] = useState(false);
   const cal = streaks.calendar;
   return (
@@ -65,18 +65,18 @@ function StreakCard({ streaks }) {
       <div className="flex items-center gap-4">
         <Flame size={30} className="text-rose-600 shrink-0" />
         <div>
-          <p className={`font-display font-extrabold text-3xl ${c.text}`}>{streaks.current} jour{streaks.current > 1 ? "s" : ""}</p>
-          <p className={`text-xs ${c.faint}`}>série en cours · record : {streaks.longest} jour{streaks.longest > 1 ? "s" : ""}</p>
+          <p className={`font-display font-extrabold text-3xl ${c.text}`}>{streaks.current} {t(streaks.current > 1 ? "jours" : "jour")}</p>
+          <p className={`text-xs ${c.faint}`}>{t("série en cours · record :")} {streaks.longest} {t(streaks.longest > 1 ? "jours" : "jour")}</p>
         </div>
       </div>
       <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className={`mt-4 w-full flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider ${c.faint} hover:text-blue-600`}>
-        <span>{cal.monthLabel} · {cal.practiced} jour{cal.practiced > 1 ? "s" : ""} pratiqué{cal.practiced > 1 ? "s" : ""}</span>
+        <span>{t(cal.monthLabel)} · {cal.practiced} {t(cal.practiced > 1 ? "jours pratiqués" : "jour pratiqué")}</span>
         <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="grid grid-cols-7 gap-1.5 mt-3 rise" role="img" aria-label={`Calendrier de pratique : ${cal.practiced} jours actifs ce mois-ci`}>
+        <div className="grid grid-cols-7 gap-1.5 mt-3 rise" role="img" aria-label={`${t("Calendrier de pratique :")} ${cal.practiced} ${t(cal.practiced > 1 ? "jours actifs ce mois-ci" : "jour actif ce mois-ci")}`}>
           {cal.days.map((d) => (
-            <span key={d.day} title={`Jour ${d.day}${d.active ? " · pratiqué" : ""}`}
+            <span key={d.day} title={`${t("Jour")} ${d.day}${d.active ? ` · ${t("pratiqué")}` : ""}`}
               className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center
               ${d.active ? "grad-brand text-white" : d.future ? `${c.faint} opacity-30` : `border ${c.border} ${c.faint}`}`}>
               {d.day}
@@ -89,9 +89,9 @@ function StreakCard({ streaks }) {
 }
 
 function Skeleton() {
-  const { c } = useApp();
+  const { c, t } = useApp();
   return (
-    <div className="grid lg:grid-cols-3 gap-5" aria-busy="true" aria-label="Chargement du tableau de bord">
+    <div className="grid lg:grid-cols-3 gap-5" aria-busy="true" aria-label={t("Chargement du tableau de bord")}>
       {[...Array(6)].map((_, i) => (
         <Card key={i} className={`p-6 animate-pulse ${i < 2 ? "lg:col-span-2" : ""}`}>
           <div className={`h-4 w-1/3 rounded-full ${c.track}`} />
@@ -109,8 +109,8 @@ function Skeleton() {
 // (progressService.computeProgress) so it can be rendered and tested with
 // any dataset, and reused by the Dashboard route.
 export function DashboardView({ data }) {
-  const { c, nav, role } = useApp();
-  const t = data.totals;
+  const { c, nav, role, t } = useApp();
+  const tot = data.totals;
   const quickActions = [
     // Only surface a "resume" accent button for an in-progress exam; the
     // practice nudge already has its own card + the button below.
@@ -125,16 +125,16 @@ export function DashboardView({ data }) {
     <>
       <div className="flex flex-wrap gap-3 mb-8">
         {quickActions.map((a, i) => (
-          <Btn key={a.l} variant="accent" gradient={sliceGradient(i, quickActions.length)} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
+          <Btn key={a.l} variant="accent" gradient={sliceGradient(i, quickActions.length)} icon={a.icon} onClick={() => nav(a.r)}>{t(a.l)}</Btn>
         ))}
       </div>
 
       {!data.hasData && (
         <Card className="p-8 mb-5 border-2 border-blue-600/40 text-center">
           <Sparkles size={28} className="text-blue-600 mx-auto" />
-          <h3 className={`font-display font-bold text-xl mt-3 ${c.text}`}>Votre tableau de bord vous attend</h3>
-          <p className={`text-sm mt-2 max-w-md mx-auto ${c.sub}`}>Terminez votre premier quiz et cette page se remplira : score, niveau, série d'étude, succès et recommandations personnalisées.</p>
-          <Btn className="mt-5" icon={ArrowRight} onClick={() => nav("practice")}>Commencer mon premier quiz</Btn>
+          <h3 className={`font-display font-bold text-xl mt-3 ${c.text}`}>{t("Votre tableau de bord vous attend")}</h3>
+          <p className={`text-sm mt-2 max-w-md mx-auto ${c.sub}`}>{t("Terminez votre premier quiz et cette page se remplira : score, niveau, série d'étude, succès et recommandations personnalisées.")}</p>
+          <Btn className="mt-5" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer mon premier quiz")}</Btn>
         </Card>
       )}
 
@@ -142,16 +142,16 @@ export function DashboardView({ data }) {
         {/* ---------------- left 2/3 ---------------- */}
         <div className="lg:col-span-2 space-y-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatTile icon={Clock} value={formatDuration(t.studyMinutes)} label="Temps d'étude" />
-            <StatTile icon={CheckCircle2} value={String(t.quizzesCompleted)} label="Quiz terminés" />
-            <StatTile icon={ListChecks} value={String(t.questionsAnswered)} label="Questions répondues" />
-            <StatTile icon={Target} value={`${t.correctRate} %`} label="Bonnes réponses" />
+            <StatTile icon={Clock} value={formatDuration(tot.studyMinutes)} label={t("Temps d'étude")} />
+            <StatTile icon={CheckCircle2} value={String(tot.quizzesCompleted)} label={t("Quiz terminés")} />
+            <StatTile icon={ListChecks} value={String(tot.questionsAnswered)} label={t("Questions répondues")} />
+            <StatTile icon={Target} value={`${tot.correctRate} %`} label={t("Bonnes réponses")} />
           </div>
 
           {/* XP / level */}
           <Card className="p-6">
             <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-              <h3 className={`font-display font-bold ${c.text}`}>Niveau : {data.xp.level}</h3>
+              <h3 className={`font-display font-bold ${c.text}`}>{t("Niveau :")} {t(data.xp.level)}</h3>
               <Pill tone="blue"><Zap size={12} /> {data.xp.total} XP</Pill>
             </div>
             {data.xp.nextLevel ? (
@@ -159,23 +159,23 @@ export function DashboardView({ data }) {
                 <ProgressBar pct={(data.xp.xpIntoLevel / data.xp.xpForNext) * 100} tone="grad" />
                 <p className={`text-xs mt-2 ${c.faint}`}>
                   {data.xp.levelGated
-                    ? `« ${data.xp.nextLevel} » est à portée : l'XP y est, continuez à enchaîner quiz et jours de pratique pour le débloquer.`
-                    : `${data.xp.xpRemaining} XP avant « ${data.xp.nextLevel} » · +10 XP par quiz, +2 XP par bonne réponse, bonus de série chaque semaine.`}
+                    ? `« ${t(data.xp.nextLevel)} » ${t("est à portée : l'XP y est, continuez à enchaîner quiz et jours de pratique pour le débloquer.")}`
+                    : `${data.xp.xpRemaining} ${t("XP avant")} « ${t(data.xp.nextLevel)} » ${t("· +10 XP par quiz, +2 XP par bonne réponse, bonus de série chaque semaine.")}`}
                 </p>
               </>
             ) : (
-              <p className={`text-sm ${c.sub}`}>Niveau maximal atteint — chapeau bas ! 🎓</p>
+              <p className={`text-sm ${c.sub}`}>{t("Niveau maximal atteint — chapeau bas ! 🎓")}</p>
             )}
           </Card>
 
           {data.continueCard && (data.continueCard.kind === "exam" || role === ROLES.FREE_USER) && (
             <Card className="p-6 border-2 border-blue-600/40 flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex-1">
-                <Pill tone="blue"><Play size={12} /> Continuer l'apprentissage</Pill>
-                <h3 className={`font-display font-bold mt-3 ${c.text}`}>{data.continueCard.title}</h3>
-                <p className={`text-sm mt-1 ${c.sub}`}>{data.continueCard.detail}</p>
+                <Pill tone="blue"><Play size={12} /> {t("Continuer l'apprentissage")}</Pill>
+                <h3 className={`font-display font-bold mt-3 ${c.text}`}>{t(data.continueCard.title)}</h3>
+                <p className={`text-sm mt-1 ${c.sub}`}>{t(data.continueCard.detail)}</p>
               </div>
-              <Btn icon={ArrowRight} onClick={() => nav(data.continueCard.route)}>{data.continueCard.cta}</Btn>
+              <Btn icon={ArrowRight} onClick={() => nav(data.continueCard.route)}>{t(data.continueCard.cta)}</Btn>
             </Card>
           )}
 
@@ -190,24 +190,24 @@ export function DashboardView({ data }) {
 
           {/* weekly goal */}
           <Card className="p-6">
-            <h3 className={`font-display font-bold mb-4 ${c.text}`}>Objectif de la semaine</h3>
+            <h3 className={`font-display font-bold mb-4 ${c.text}`}>{t("Objectif de la semaine")}</h3>
             <div className="space-y-4">
-              <GoalRow label="Quiz terminés" current={data.weeklyGoal.current.quizzes} target={data.weeklyGoal.targets.quizzes} />
-              <GoalRow label="Jours de pratique" current={data.weeklyGoal.current.days} target={data.weeklyGoal.targets.days} />
-              <GoalRow label="XP gagnés" current={data.weeklyGoal.current.xp} target={data.weeklyGoal.targets.xp} />
+              <GoalRow label={t("Quiz terminés")} current={data.weeklyGoal.current.quizzes} target={data.weeklyGoal.targets.quizzes} />
+              <GoalRow label={t("Jours de pratique")} current={data.weeklyGoal.current.days} target={data.weeklyGoal.targets.days} />
+              <GoalRow label={t("XP gagnés")} current={data.weeklyGoal.current.xp} target={data.weeklyGoal.targets.xp} />
             </div>
           </Card>
 
           {/* recommendations */}
           {data.recommendations.length > 0 && (
             <Card className="p-6 border-2 border-blue-600/40">
-              <Pill tone="blue"><Sparkles size={12} /> Recommandé pour vous</Pill>
+              <Pill tone="blue"><Sparkles size={12} /> {t("Recommandé pour vous")}</Pill>
               <div className="mt-4 space-y-4">
                 {data.recommendations.map((r, i) => (
                   <div key={i}>
-                    <p className={`font-semibold text-sm ${c.text}`}>{r.title}</p>
-                    <p className={`text-sm mt-1 ${c.sub}`}>{r.body}</p>
-                    <Btn small variant="ghost" className="mt-2" icon={ArrowRight} onClick={() => nav(r.route)}>{r.cta}</Btn>
+                    <p className={`font-semibold text-sm ${c.text}`}>{t(r.title)}</p>
+                    <p className={`text-sm mt-1 ${c.sub}`}>{t(r.body)}</p>
+                    <Btn small variant="ghost" className="mt-2" icon={ArrowRight} onClick={() => nav(r.route)}>{t(r.cta)}</Btn>
                   </div>
                 ))}
               </div>
@@ -217,15 +217,15 @@ export function DashboardView({ data }) {
           {/* achievements */}
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className={`font-display font-bold ${c.text}`}>Succès</h3>
+              <h3 className={`font-display font-bold ${c.text}`}>{t("Succès")}</h3>
               <Pill tone="amber"><Trophy size={12} /> {data.achievements.filter((a) => a.earned).length} / {data.achievements.length}</Pill>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               {data.achievements.map((a) => (
-                <div key={a.id} title={a.desc} className={`p-3 rounded-2xl border ${c.border} ${a.earned ? "" : "opacity-40"}`}>
+                <div key={a.id} title={t(a.desc)} className={`p-3 rounded-2xl border ${c.border} ${a.earned ? "" : "opacity-40"}`}>
                   <Trophy size={16} className={a.earned ? "text-amber-500" : c.faint} />
-                  <p className={`text-xs font-semibold mt-1.5 leading-tight ${c.text}`}>{a.title}</p>
-                  <p className={`text-[10px] mt-0.5 leading-tight ${c.faint}`}>{a.desc}</p>
+                  <p className={`text-xs font-semibold mt-1.5 leading-tight ${c.text}`}>{t(a.title)}</p>
+                  <p className={`text-[10px] mt-0.5 leading-tight ${c.faint}`}>{t(a.desc)}</p>
                 </div>
               ))}
             </div>
@@ -239,7 +239,7 @@ export function DashboardView({ data }) {
 /* ------------------------- data-fetching wrapper ------------------------- */
 
 export function MemberHome({ eyebrow = "Votre espace" }) {
-  const { user } = useApp();
+  const { user, t } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [results, setResults] = useState(null);
 
@@ -257,7 +257,7 @@ export function MemberHome({ eyebrow = "Votre espace" }) {
   );
 
   return (
-    <PageShell wide eyebrow={eyebrow} title={`Bonjour, ${user.name} 👋`} sub="Continuez votre préparation au TCF Canada — voici où vous en êtes.">
+    <PageShell wide eyebrow={t(eyebrow)} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
       {loading ? <Skeleton /> : <DashboardView data={data} />}
     </PageShell>
   );

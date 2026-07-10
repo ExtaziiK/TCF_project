@@ -18,33 +18,33 @@ const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric"
 /* --------------------------- final report view --------------------------- */
 
 function ExamReport({ attempt, onRestart, onBack }) {
-  const { c, nav } = useApp();
+  const { c, nav, t } = useApp();
   const s = attempt.score;
   return (
     <Card className="p-7 rise max-w-2xl mx-auto">
       <div className="text-center">
         <Trophy size={36} className="text-amber-500 mx-auto" />
-        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>Résultat de l'examen blanc</h3>
+        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>{t("Résultat de l'examen blanc")}</h3>
         <p className="font-display font-extrabold text-5xl mt-5 grad-text">{s.points} / 699</p>
-        <p className={`mt-2 text-sm ${c.sub}`}>{s.ok} / {s.total} bonnes réponses ({s.pct} %) · niveau estimé <span className="font-bold text-blue-600">{s.level}</span></p>
-        <p className={`mt-1 text-xs ${c.faint}`}>Score calculé sur les épreuves à choix multiple ; l'expression écrite et orale sont auto-évaluées.</p>
+        <p className={`mt-2 text-sm ${c.sub}`}>{s.ok} / {s.total} {t("bonnes réponses")} ({s.pct} %) · {t("niveau estimé")} <span className="font-bold text-blue-600">{s.level}</span></p>
+        <p className={`mt-1 text-xs ${c.faint}`}>{t("Score calculé sur les épreuves à choix multiple ; l'expression écrite et orale sont auto-évaluées.")}</p>
         <div className="max-w-xs mx-auto mt-4"><ProgressBar pct={s.pct} tone="grad" /></div>
       </div>
       <div className="mt-8 space-y-2.5">
-        {s.perTask.map((t, i) => {
-          const selfAssessed = t.type && t.type !== "quiz";
+        {s.perTask.map((task, i) => {
+          const selfAssessed = task.type && task.type !== "quiz";
           return (
             <div key={i} className={`flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl border ${c.border}`}>
               <div className="flex items-center gap-3">
-                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>TÂCHE {i + 1}</span>
-                <span className={`text-sm font-semibold ${c.text}`}>{SECTION_LABELS[t.section]}</span>
+                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>{t("TÂCHE")} {i + 1}</span>
+                <span className={`text-sm font-semibold ${c.text}`}>{t(SECTION_LABELS[task.section])}</span>
               </div>
               {selfAssessed ? (
-                <Pill tone="blue"><CheckCircle2 size={12} /> Complétée · auto-évaluée</Pill>
+                <Pill tone="blue"><CheckCircle2 size={12} /> {t("Complétée · auto-évaluée")}</Pill>
               ) : (
                 <div className="flex items-center gap-3">
-                  <span className={`text-sm font-mono2 ${c.sub}`}>{t.ok} / {t.total}</span>
-                  <Pill tone={t.total && t.ok / t.total >= 0.65 ? "green" : "amber"}>{t.total ? Math.round((t.ok / t.total) * 100) : 0} %</Pill>
+                  <span className={`text-sm font-mono2 ${c.sub}`}>{task.ok} / {task.total}</span>
+                  <Pill tone={task.total && task.ok / task.total >= 0.65 ? "green" : "amber"}>{task.total ? Math.round((task.ok / task.total) * 100) : 0} %</Pill>
                 </div>
               )}
             </div>
@@ -52,9 +52,9 @@ function ExamReport({ attempt, onRestart, onBack }) {
         })}
       </div>
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
-        <Btn icon={RotateCcw} onClick={onRestart}>Nouvel examen blanc</Btn>
-        <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>Ma progression</Btn>
-        <Btn variant="ghost" onClick={onBack}>Mes examens</Btn>
+        <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouvel examen blanc")}</Btn>
+        <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>{t("Ma progression")}</Btn>
+        <Btn variant="ghost" onClick={onBack}>{t("Mes examens")}</Btn>
       </div>
     </Card>
   );
@@ -63,7 +63,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
 /* ------------------------------ exam runner ------------------------------ */
 
 function ExamRunner({ attempt: initialAttempt, onExit }) {
-  const { c, user, notify } = useApp();
+  const { c, user, notify, t } = useApp();
   const [attempt, setAttempt] = useState(initialAttempt);
   const [justFinished, setJustFinished] = useState(null); // completed attempt -> report
   const saveTimer = useRef(null);
@@ -93,7 +93,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
       const next = { ...attempt, progress: { ...attempt.progress, results, taskIndex: idx + 1 } };
       setAttempt(next);
       saveProgress(user?.id, next);
-      notify(`Tâche ${idx + 1} terminée — place à la suivante : ${SECTION_LABELS[attempt.tasks[idx + 1].section]}.`);
+      notify(`${t("Tâche")} ${idx + 1} ${t("terminée — place à la suivante :")} ${t(SECTION_LABELS[attempt.tasks[idx + 1].section])}.`);
     } else {
       const perTask = attempt.tasks.map((t) => results[t.order] || { ok: 0, total: 0, section: t.section, type: t.type || "quiz" });
       const score = { ...scoreExam(perTask), perTask };
@@ -105,14 +105,14 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   const header = (
     <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
       <div className="flex items-center gap-2 flex-wrap">
-        {attempt.tasks.map((t, k) => (
+        {attempt.tasks.map((_, k) => (
           <span key={k} className={`px-3 py-1.5 rounded-full text-xs font-bold font-mono2 border
             ${k === idx ? "bg-blue-600 text-white border-blue-600" : k < idx ? "border-emerald-500 text-emerald-600 bg-emerald-500/10" : `${c.border} ${c.faint}`}`}>
-            {k < idx ? "✓ " : ""}Tâche {k + 1}
+            {k < idx ? "✓ " : ""}{t("Tâche")} {k + 1}
           </span>
         ))}
       </div>
-      <button onClick={onExit} className={`text-sm font-semibold ${c.sub} hover:text-blue-600`}>Quitter (progression sauvegardée)</button>
+      <button onClick={onExit} className={`text-sm font-semibold ${c.sub} hover:text-blue-600`}>{t("Quitter (progression sauvegardée)")}</button>
     </div>
   );
 
@@ -122,11 +122,11 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
     return (
       <div>
         {header}
-        <SectionHead eyebrow={`Tâche ${idx + 1} / ${attempt.tasks.length}`} title={SECTION_LABELS[task.section]} sub="Travaillez la tâche comme le jour J. Cette épreuve est auto-évaluée : elle n'entre pas dans le score à choix multiple." />
+        <SectionHead eyebrow={`${t("Tâche")} ${idx + 1} / ${attempt.tasks.length}`} title={t(SECTION_LABELS[task.section])} sub={t("Travaillez la tâche comme le jour J. Cette épreuve est auto-évaluée : elle n'entre pas dans le score à choix multiple.")} />
         {type === "writing" ? <WritingWorkshopBody /> : <SpeakingStudioBody />}
         <Card className="mt-8 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-blue-600/40">
-          <p className={`text-sm ${c.sub}`}>Quand vous avez terminé cette épreuve, passez à la suite de l'examen.</p>
-          <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>J'ai terminé cette tâche</Btn>
+          <p className={`text-sm ${c.sub}`}>{t("Quand vous avez terminé cette épreuve, passez à la suite de l'examen.")}</p>
+          <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>{t("J'ai terminé cette tâche")}</Btn>
         </Card>
       </div>
     );
@@ -135,8 +135,8 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   if (!quiz) {
     return (
       <Card className="p-8 text-center max-w-xl mx-auto">
-        <p className={`font-display font-bold ${c.text}`}>Cet examen référence un quiz qui n'existe plus dans la banque.</p>
-        <Btn small variant="ghost" className="mt-5" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, attempt); onExit(); }}>Abandonner cet examen</Btn>
+        <p className={`font-display font-bold ${c.text}`}>{t("Cet examen référence un quiz qui n'existe plus dans la banque.")}</p>
+        <Btn small variant="ghost" className="mt-5" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, attempt); onExit(); }}>{t("Abandonner cet examen")}</Btn>
       </Card>
     );
   }
@@ -161,7 +161,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   return (
     <div>
       {header}
-      <SectionHead eyebrow={`Tâche ${idx + 1} / ${attempt.tasks.length}`} title={SECTION_LABELS[task.section]} sub={`${quiz.title} · ${quiz.questions.length} questions · vos réponses sont enregistrées automatiquement.`} />
+      <SectionHead eyebrow={`${t("Tâche")} ${idx + 1} / ${attempt.tasks.length}`} title={t(SECTION_LABELS[task.section])} sub={`${quiz.title} · ${quiz.questions.length} ${t("questions · vos réponses sont enregistrées automatiquement.")}`} />
       <Quiz
         key={attempt.id + "-" + order}
         questions={quiz.questions}
@@ -182,7 +182,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
 /* --------------------------------- lobby --------------------------------- */
 
 export function Mocks() {
-  const { c, nav, user, notify } = useApp();
+  const { c, nav, user, notify, t } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
@@ -201,7 +201,7 @@ export function Mocks() {
   const start = async () => {
     setStarting(true);
     const tasks = generateExamTasks(attempts || []);
-    if (tasks.length === 0) { notify("La banque de questions est vide : impossible de générer un examen."); setStarting(false); return; }
+    if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
     const attempt = await createAttempt(user?.id, tasks);
     setStarting(false);
     setActive(attempt);
@@ -209,7 +209,7 @@ export function Mocks() {
 
   if (active) {
     return (
-      <PageShell wide eyebrow="Examen blanc" title="Conditions d'examen" sub="Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.">
+      <PageShell wide eyebrow={t("Examen blanc")} title={t("Conditions d'examen")} sub={t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}>
         <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
       </PageShell>
     );
@@ -219,27 +219,27 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell back wide eyebrow="Examens blancs" title="Répétez le jour J, dans les conditions du jour J" sub={`Chaque examen est généré aléatoirement : ${TASKS_PER_EXAM} tâches tirées de la banque de questions, jamais deux fois la même combinaison.`}>
+    <PageShell back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
       {backend === "local" && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />
-          <p className={`text-sm ${c.sub}`}>Sauvegarde locale : vos examens sont conservés sur cet appareil. Exécutez la migration Supabase (<span className="font-mono2">supabase/migrations</span>) pour la synchronisation multi-appareils.</p>
+          <p className={`text-sm ${c.sub}`}>{t("Sauvegarde locale : vos examens sont conservés sur cet appareil. Exécutez la migration Supabase (")}<span className="font-mono2">supabase/migrations</span>{t(") pour la synchronisation multi-appareils.")}</p>
         </Card>
       )}
 
-      <SectionHead title="Le déroulé, épreuve par épreuve" sub="L'ordre et les durées reproduisent la session officielle." />
+      <SectionHead title={t("Le déroulé, épreuve par épreuve")} sub={t("L'ordre et les durées reproduisent la session officielle.")} />
       {/* Informational only — these cards don't navigate, they just present the format. */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {MOCK_SECTIONS.map((s, i) => (
           <Card key={s.t} className="group p-6 h-full flex flex-col transition-all duration-200 hover:scale-[1.05] hover:shadow-xl hover:shadow-blue-600/15">
             <div className="flex items-start justify-between mb-4">
               <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
-              <Pill tone="blue">Épreuve {i + 1}</Pill>
+              <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
             </div>
-            <p className={`font-display font-bold ${c.text}`}>{s.t}</p>
-            <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{s.d}</p>
+            <p className={`font-display font-bold ${c.text}`}>{t(s.t)}</p>
+            <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
             {/* description revealed on hover */}
-            <p className={`text-sm leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 ${c.sub}`}>{s.desc}</p>
+            <p className={`text-sm leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 ${c.sub}`}>{t(s.desc)}</p>
           </Card>
         ))}
       </div>
@@ -249,44 +249,44 @@ export function Mocks() {
         <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
         <div className="relative">
           <p className={`font-display font-bold text-2xl md:text-3xl leading-snug max-w-2xl mx-auto ${c.text}`}>
-            Préparez-vous dans les conditions réelles de l'examen.
+            {t("Préparez-vous dans les conditions réelles de l'examen.")}
           </p>
           <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
-            {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès.
+            {TASKS_PER_EXAM} {t("épreuves choisies pour varier les exercices et cibler vos progrès.")}
             <br className="hidden md:block" />
-            {" "}Interrompez la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
+            {" "}{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}
           </p>
           <div className="mt-8 flex justify-center">
-            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
+            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
-            <Pill tone="slate"><Clock size={12} /> ≈ 2 h 47 au total</Pill>
-            <Pill tone="blue">{TASKS_PER_EXAM} épreuves officielles</Pill>
-            <Pill tone="green"><Trophy size={12} /> Score sur 699</Pill>
+            <Pill tone="slate"><Clock size={12} /> {t("≈ 2 h 47 au total")}</Pill>
+            <Pill tone="blue">{TASKS_PER_EXAM} {t("épreuves officielles")}</Pill>
+            <Pill tone="green"><Trophy size={12} /> {t("Score sur 699")}</Pill>
           </div>
         </div>
       </Card>
 
       {inProgress.length > 0 && (
         <>
-          <SectionHead title="Examens en cours" sub="Reprenez exactement où vous vous êtes arrêté·e." />
+          <SectionHead title={t("Examens en cours")} sub={t("Reprenez exactement où vous vous êtes arrêté·e.")} />
           <div className="grid md:grid-cols-2 gap-4 mb-10">
             {inProgress.map((a) => {
               const doneTasks = Object.keys(a.progress?.results || {}).length;
               return (
                 <Card key={a.id} className="p-6 transition-all duration-200 hover:shadow-xl hover:shadow-blue-600/10">
                   <div className="flex items-center justify-between mb-3">
-                    <Pill tone="amber"><Play size={12} /> En cours</Pill>
-                    <span className={`text-xs font-mono2 ${c.faint}`}>Commencé le {when(a.startedAt)}</span>
+                    <Pill tone="amber"><Play size={12} /> {t("En cours")}</Pill>
+                    <span className={`text-xs font-mono2 ${c.faint}`}>{t("Commencé le")} {t(when(a.startedAt))}</span>
                   </div>
                   <p className={`font-display font-bold ${c.text}`}>
-                    {SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "Examen blanc"}
+                    {t(SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "Examen blanc")}
                   </p>
-                  <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>Tâche {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} terminée{doneTasks > 1 ? "s" : ""}</p>
+                  <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>{t("Tâche")} {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} {t(doneTasks > 1 ? "terminées" : "terminée")}</p>
                   <div className="mt-3"><ProgressBar pct={(doneTasks / a.tasks.length) * 100} tone="grad" /></div>
                   <div className="mt-5 flex items-center gap-2 flex-wrap">
-                    <Btn small variant="accent" icon={Play} onClick={() => setActive(a)}>Reprendre l'examen</Btn>
-                    <Btn small variant="ghost" className="text-rose-600" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, a); reload(); notify("Examen abandonné."); }}>Abandonner</Btn>
+                    <Btn small variant="accent" icon={Play} onClick={() => setActive(a)}>{t("Reprendre l'examen")}</Btn>
+                    <Btn small variant="ghost" className="text-rose-600" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, a); reload(); notify(t("Examen abandonné.")); }}>{t("Abandonner")}</Btn>
                   </div>
                 </Card>
               );
@@ -297,16 +297,16 @@ export function Mocks() {
 
       {history.length > 0 && (
         <>
-          <SectionHead title="Historique" sub="Vos examens blancs terminés." />
+          <SectionHead title={t("Historique")} sub={t("Vos examens blancs terminés.")} />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {history.map((a) => (
               <Card key={a.id} className="p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <Pill tone="green"><CheckCircle2 size={12} /> Terminé</Pill>
-                  <span className={`text-xs font-mono2 ${c.faint}`}>{when(a.completedAt)}</span>
+                  <Pill tone="green"><CheckCircle2 size={12} /> {t("Terminé")}</Pill>
+                  <span className={`text-xs font-mono2 ${c.faint}`}>{t(when(a.completedAt))}</span>
                 </div>
                 <p className="font-display font-extrabold text-3xl grad-text">{a.score?.points ?? 0} / 699</p>
-                <p className={`text-xs mt-1 ${c.sub}`}>{a.score?.ok} / {a.score?.total} bonnes réponses · niveau {a.score?.level}</p>
+                <p className={`text-xs mt-1 ${c.sub}`}>{a.score?.ok} / {a.score?.total} {t("bonnes réponses")} · {t("niveau")} {a.score?.level}</p>
                 <div className="mt-3"><ProgressBar pct={a.score?.pct || 0} tone="grad" /></div>
               </Card>
             ))}
@@ -317,10 +317,10 @@ export function Mocks() {
       <Card className="mt-10 p-6 flex flex-col md:flex-row items-start md:items-center gap-5">
         <span className="w-12 h-12 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><BarChart3 size={20} /></span>
         <div className="flex-1">
-          <p className={`font-semibold ${c.text}`}>Analyse de performance après chaque examen</p>
-          <p className={`text-sm mt-1 ${c.sub}`}>Score par tâche, pourcentage global, niveau CECR estimé et historique complet de vos tentatives.</p>
+          <p className={`font-semibold ${c.text}`}>{t("Analyse de performance après chaque examen")}</p>
+          <p className={`text-sm mt-1 ${c.sub}`}>{t("Score par tâche, pourcentage global, niveau CECR estimé et historique complet de vos tentatives.")}</p>
         </div>
-        <Btn small variant="ghost" onClick={() => nav("dashboard")} icon={ArrowRight}>Ma progression</Btn>
+        <Btn small variant="ghost" onClick={() => nav("dashboard")} icon={ArrowRight}>{t("Ma progression")}</Btn>
       </Card>
     </PageShell>
   );
