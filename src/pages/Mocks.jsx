@@ -231,7 +231,7 @@ export function Mocks() {
       {/* Informational only — these cards don't navigate, they just present the format. */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {MOCK_SECTIONS.map((s, i) => (
-          <Card key={s.t} className="p-6 h-full flex flex-col transition-transform duration-200 hover:scale-[1.05]">
+          <Card key={s.t} className="p-6 h-full flex flex-col transition-all duration-200 hover:scale-[1.05] hover:shadow-xl hover:shadow-blue-600/15">
             <div className="flex items-start justify-between mb-4">
               <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
               <Pill tone="slate">Épreuve {i + 1}</Pill>
@@ -246,9 +246,13 @@ export function Mocks() {
         <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
         <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
         <div className="relative">
-          <h3 className={`font-display font-extrabold text-3xl md:text-4xl ${c.text}`}>Nouvel examen blanc</h3>
+          <p className={`font-display font-bold text-2xl md:text-3xl leading-snug max-w-2xl mx-auto ${c.text}`}>
+            Préparez-vous dans les conditions réelles de l'examen.
+          </p>
           <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
-            Préparez-vous dans les conditions réelles de l'examen. Votre examen blanc réunit {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès. Vous pouvez interrompre la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
+            {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès.
+            <br className="hidden md:block" />
+            {" "}Interrompez la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
           </p>
           <div className="mt-8 flex justify-center">
             <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
