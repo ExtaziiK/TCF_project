@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, Clock, Trophy, RotateCcw, PenLine, ArrowRight } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -7,52 +7,55 @@ import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { listQuizResults, bestScoresByKey } from "@/services/quizResultsService";
+import { ROLES } from "@/auth/rbac";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
 
-function QuizCard({ quiz, number, onOpen, best }) {
+// Compact quiz tile for the épreuves grid. The section is already shown by the
+// tabs above the grid and the page header, so it's dropped here to keep the
+// card small. The corner badge and colour encode state at a glance:
+// emerald = completed, blue = ready to start, amber lock = Premium-only
+// (free tier, everything past quiz 1 of each épreuve).
+function QuizCard({ quiz, number, onOpen, best, locked }) {
   const { c, t } = useApp();
-  const minutes = Math.max(1, Math.round((quiz.questions.length * 55) / 60));
-  if (isPrompt(quiz)) {
-    return (
-      <button onClick={onOpen} className="text-left">
-        <Card lift className="p-6 h-full flex flex-col">
-          <div className="flex items-center gap-2 flex-wrap mb-4">
-            <Pill tone="blue">{t(SECTION_LABELS[quiz.section])}</Pill>
-            <Pill tone="slate">{quiz.questions.length} {t(quiz.questions.length > 1 ? "consignes" : "consigne")}</Pill>
-          </div>
-          <h3 className={`font-display font-bold text-lg leading-snug ${c.text}`}>{t(quiz.title)}</h3>
-          <p className={`flex-1 mt-3 text-xs font-semibold ${c.faint}`}>{t("Sujets à travailler dans l'atelier")} {t(SECTION_LABELS[quiz.section]).toLowerCase()}.</p>
-          <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1.5"><PenLine size={14} /> {t("Voir les consignes")}</p>
-        </Card>
-      </button>
-    );
-  }
+  const prompt = isPrompt(quiz);
+  const count = quiz.questions.length;
+  const done = !prompt && !!best;
+  const minutes = Math.max(1, Math.round((count * 55) / 60));
+
+  const badge = locked ? (
+    <span className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
+  ) : done ? (
+    <span className="w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
+  ) : (
+    <span className="w-8 h-8 rounded-full bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Play size={14} className="ml-0.5" /></span>
+  );
+
   return (
-    <button onClick={onOpen} className="text-left">
-      <Card lift className="p-6 h-full flex flex-col">
-        <div className="flex items-center gap-2 flex-wrap mb-4">
-          <Pill tone="blue">{t(SECTION_LABELS[quiz.section])}</Pill>
-          <Pill tone="slate">{quiz.questions.length} {t("questions")}</Pill>
-          <Pill tone="slate"><Clock size={11} /> ≈ {minutes} min</Pill>
+    <button onClick={onOpen} className="text-left w-full" aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}>
+      <Card lift={!locked} className={`p-4 h-full flex flex-col gap-2.5 ${done ? "ring-1 ring-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className={`font-display font-bold text-[15px] leading-snug ${locked ? c.sub : c.text}`}>
+            {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
+          </h3>
+          {badge}
         </div>
-        <h3 className={`font-display font-bold text-lg leading-snug ${c.text}`}>{t("Quizz")} {number}</h3>
-        <div className="flex-1 mt-3">
-          {best ? (
-            <div>
-              <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-                <span className={`flex items-center gap-1 ${best.pct >= 65 ? "text-emerald-600" : "text-amber-600"}`}><Trophy size={12} /> {t("Meilleur score :")} {best.pct} %</span>
-                <span className={c.faint}>{best.ok} / {best.total}</span>
-              </div>
-              <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
-            </div>
-          ) : (
-            <p className={`text-xs font-semibold ${c.faint}`}>{t("Jamais tenté — lancez-vous !")}</p>
-          )}
-        </div>
-        <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1.5">
-          {best ? <><RotateCcw size={14} /> {t("Refaire ce quiz")}</> : <><Play size={14} /> {t("Commencer ce quiz")}</>}
+        <p className={`text-xs font-semibold ${c.faint}`}>
+          {prompt
+            ? `${count} ${t(count > 1 ? "consignes" : "consigne")}`
+            : `${count} ${t("questions")} · ≈ ${minutes} min`}
         </p>
+        {done ? (
+          <div className="mt-auto pt-1">
+            <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
+              <span className="text-emerald-600">{t("Terminé")}</span>
+              <span className={c.faint}>{best.ok}/{best.total} · {best.pct} %</span>
+            </div>
+            <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
+          </div>
+        ) : locked ? (
+          <p className="mt-auto pt-1 text-[11px] font-bold text-amber-600">{t("Réservé au Premium")}</p>
+        ) : null}
       </Card>
     </button>
   );
@@ -89,11 +92,16 @@ function PromptList({ quiz, onBack }) {
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
 export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back }) {
-  const { c, user, t } = useApp();
+  const { c, user, role, nav, notify, t } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
   const [bestScores, setBestScores] = useState({});
+
+  // Free tier: only the first quiz of each épreuve is playable — the rest are
+  // locked and route to the upgrade page. Premium/admin never hit this.
+  const freeTier = role === ROLES.FREE_USER;
+  const goUpgrade = () => { notify(t("Ce quiz fait partie de l'abonnement Premium.")); nav("pricing"); };
 
   const reloadScores = () => {
     listQuizResults(user?.id).then(({ results }) => setBestScores(bestScoresByKey(results)));
@@ -134,6 +142,13 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           ))}
         </div>
       )}
+      {freeTier && quizzes.length > 0 && (
+        <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
+          <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>
+          <p className={`text-sm ${c.sub}`}>{t("Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.")}</p>
+          <Btn small variant="accent" className="ml-auto shrink-0" onClick={() => nav("pricing")}>{t("Débloquer")}</Btn>
+        </Card>
+      )}
       {quizzes.length === 0 ? (
         <Card className="p-10 text-center">
           <FolderOpen size={32} className="text-blue-600 mx-auto mb-4" />
@@ -141,8 +156,20 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           <p className={`mt-2 text-sm ${c.sub}`}>{t("De nouveaux quiz sont ajoutés régulièrement — revenez bientôt.")}</p>
         </Card>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {quizzes.map((qz, idx) => <QuizCard key={qz.id} quiz={qz} number={idx + 1} onOpen={() => setQuiz(qz)} best={bestScores[`bank-${qz.id}`]} />)}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {quizzes.map((qz, idx) => {
+            const locked = freeTier && idx > 0;
+            return (
+              <QuizCard
+                key={qz.id}
+                quiz={qz}
+                number={idx + 1}
+                locked={locked}
+                best={bestScores[`bank-${qz.id}`]}
+                onOpen={() => (locked ? goUpgrade() : setQuiz(qz))}
+              />
+            );
+          })}
         </div>
       )}
     </PageShell>

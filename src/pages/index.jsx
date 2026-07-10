@@ -2,6 +2,7 @@ import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { Pricing } from "@/pages/Pricing";
 import { Practice } from "@/pages/Practice";
+import { Exams } from "@/pages/Exams";
 import { AuthPage } from "@/components/auth/AuthPage";
 import { Listening } from "@/pages/Listening";
 import { Reading } from "@/pages/Reading";
@@ -33,6 +34,7 @@ export const PAGES = {
   about: About,
   pricing: Pricing,
   practice: Practice,
+  exams: Exams,
   login: Login,
   register: Register,
   listening: Listening,

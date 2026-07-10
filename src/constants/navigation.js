@@ -1,6 +1,6 @@
 import { ROLES } from "@/auth/rbac";
 
-const { VISITOR, FREE_USER, PREMIUM_USER, ADMIN } = ROLES;
+const { FREE_USER, PREMIUM_USER, ADMIN } = ROLES;
 const PREMIUM = [PREMIUM_USER, ADMIN];
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -10,16 +10,12 @@ const PREMIUM = [PREMIUM_USER, ADMIN];
 // actual access is enforced by the route guard (src/auth/rbac.js).
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
-  // The four TCF épreuves + mock exams (and the free-tier entry).
-  { l: "Mes examens", menu: [
-    { l: "Pratique gratuite", r: "practice", roles: [VISITOR, FREE_USER] }, // hidden once someone's actually Premium
-    { l: "Compréhension orale", r: "listening", roles: PREMIUM },
-    { l: "Compréhension écrite", r: "reading", roles: PREMIUM },
-    { l: "Expression écrite", r: "writing", roles: PREMIUM },
-    { l: "Expression orale", r: "speaking", roles: PREMIUM },
-    { l: "Examens blancs", r: "mocks", roles: PREMIUM },
-    { l: "Banque de questions", r: "bank", roles: [ADMIN] },
-  ] },
+  // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
+  // tabs. Free users see it too, with every quiz locked except the first of
+  // each épreuve — the lock is enforced inside the page (BankExplorer).
+  { l: "Mes examens", r: "exams" },
+  // Mock exams get their own top-level entry, next to "Mes examens".
+  { l: "Examens blancs", r: "mocks" },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },

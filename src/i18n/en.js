@@ -529,6 +529,14 @@ export const EN = {
   // ── Bank explorer / question bank ────────────────────────────────────
   "consigne": "prompt",
   "consignes": "prompts",
+  "Réservé au Premium": "Premium only",
+  "Ce quiz fait partie de l'abonnement Premium.": "This quiz is part of the Premium subscription.",
+  "Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.":
+    "Free plan: the first quiz of each section is open. Go Premium to unlock all the others.",
+  "Débloquer": "Unlock",
+  "Vos quatre épreuves, réunies en un seul endroit": "Your four sections, all in one place",
+  "Compréhension et expression, à l'oral comme à l'écrit. Choisissez une épreuve ci-dessous, puis lancez un quiz dans les conditions réelles de l'examen.":
+    "Comprehension and expression, both spoken and written. Pick a section below, then start a quiz under real exam conditions.",
   "Meilleur score :": "Best score:",
   "Jamais tenté — lancez-vous !": "Never attempted — give it a go!",
   "Refaire ce quiz": "Redo this quiz",

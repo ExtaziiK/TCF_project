@@ -41,6 +41,10 @@ const ADMIN_ONLY = [ROLES.ADMIN];
 // typing a URL / route name by hand goes through the same check as the nav.
 export const PAGE_ACCESS = {
   practice: AUTHENTICATED,
+  // The unified épreuves hub (CO/CE/EO/EE). Open to any signed-in user; free
+  // users get in but only quiz 1 of each épreuve is playable (locks live in
+  // BankExplorer). Visitors fall through to the register gate.
+  exams: AUTHENTICATED,
   listening: PREMIUM,
   reading: PREMIUM,
   writing: PREMIUM,
