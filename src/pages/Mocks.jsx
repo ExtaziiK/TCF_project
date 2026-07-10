@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff, Sparkles } from "lucide-react";
+import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -243,11 +243,12 @@ export function Mocks() {
         ))}
       </div>
 
-      <Card className="p-7 md:p-9 border-2 border-blue-600/40 mb-8 text-center">
-        <Pill tone="blue"><Sparkles size={12} /> Généré pour vous</Pill>
-        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>Nouvel examen blanc</h3>
-        <p className={`text-sm mt-2 max-w-xl mx-auto ${c.sub}`}>{TASKS_PER_EXAM} tâches sélectionnées aléatoirement parmi les quiz de la banque, en privilégiant ceux que vous n'avez pas encore rencontrés. Quittez quand vous voulez : votre progression est sauvegardée.</p>
-        <div className="mt-6 flex justify-center">
+      <Card className="p-8 md:p-12 border-2 border-blue-600/40 mb-8 text-center">
+        <h3 className={`font-display font-extrabold text-3xl md:text-4xl ${c.text}`}>Nouvel examen blanc</h3>
+        <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
+          Préparez-vous dans les conditions réelles de l'examen. Votre examen blanc réunit {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès. Vous pouvez interrompre la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
+        </p>
+        <div className="mt-8 flex justify-center">
           <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
         </div>
       </Card>
