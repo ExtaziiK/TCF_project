@@ -219,7 +219,7 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell tight back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
+    <PageShell tight center back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
       {backend === "local" && (
         <Card className="p-3 mb-4 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />
@@ -227,37 +227,38 @@ export function Mocks() {
         </Card>
       )}
 
-      <div className="flex items-baseline justify-between gap-4 mb-3">
-        <h2 className={`font-display text-lg font-bold ${c.text}`}>{t("Le déroulé, épreuve par épreuve")}</h2>
-        <span className={`hidden sm:block text-xs ${c.faint}`}>{t("L'ordre et les durées reproduisent la session officielle.")}</span>
-      </div>
-      {/* Informational only — these cards don't navigate, they just present the format. */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {MOCK_SECTIONS.map((s, i) => (
-          <Card key={s.t} className="group p-4 h-full flex flex-col transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10">
-            <div className="flex items-start justify-between mb-3">
-              <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
-              <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
-            </div>
-            <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
-            <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
-            {/* description revealed on hover */}
-            <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-2 ${c.sub}`}>{t(s.desc)}</p>
-          </Card>
-        ))}
-      </div>
-
-      <Card className="relative overflow-hidden p-5 md:p-6 border-2 border-blue-600/40 mb-8 text-center">
+      {/* One panel: format pills, then the four épreuves, then the start CTA. */}
+      <Card className="relative overflow-hidden p-5 md:p-7 border-2 border-blue-600/40 mb-8">
         <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
         <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
-        <div className="relative flex flex-col items-center gap-3.5">
+        <div className="relative flex flex-col items-center gap-5">
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <Pill tone="slate"><Clock size={12} /> {t("≈ 2 h 47 au total")}</Pill>
             <Pill tone="blue">{TASKS_PER_EXAM} {t("épreuves officielles")}</Pill>
             <Pill tone="green"><Trophy size={12} /> {t("Score sur 699")}</Pill>
           </div>
-          <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
-          <p className={`text-xs ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
+
+          {/* Informational only — these tiles don't navigate, they present the
+              format. Rendered on the page background so they read as inset
+              tiles against the white panel; hover expands the description. */}
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {MOCK_SECTIONS.map((s, i) => (
+              <div key={s.t} className={`group p-4 h-full flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
+                <div className="flex items-start justify-between mb-3">
+                  <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
+                  <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
+                </div>
+                <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
+                <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
+                <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-2 ${c.sub}`}>{t(s.desc)}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
+            <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
+          </div>
         </div>
       </Card>
 
