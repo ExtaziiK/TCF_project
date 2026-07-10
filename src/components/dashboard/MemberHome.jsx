@@ -123,9 +123,9 @@ export function DashboardView({ data }) {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-3 mb-8">
         {quickActions.map((a, i) => (
-          <Btn key={a.l} small variant="accent" gradient={sliceGradient(i, quickActions.length)} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
+          <Btn key={a.l} variant="accent" gradient={sliceGradient(i, quickActions.length)} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
         ))}
       </div>
 
