@@ -58,8 +58,7 @@ export const EN = {
   "le Canada.": "Canada.",
   "Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.":
     "Prepare for all four TCF Canada tests with official-format questions, teacher-written corrections and real-time CEFR level tracking.",
-  "Commencer à pratiquer": "Start practicing",
-  "Voir un examen blanc": "Try a mock exam",
+  "Commencer à pratiquer gratuitement": "Start practicing for free",
   "Votre niveau est réévalué après chaque session de pratique.": "Your level is re-evaluated after every practice session.",
   "Modules de pratique": "Practice modules",
   "Les quatre épreuves, un seul endroit": "All four tests, one place",

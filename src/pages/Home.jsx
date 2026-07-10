@@ -1,4 +1,4 @@
-import { Leaf, ArrowRight, Play, ChevronRight, Quote } from "lucide-react";
+import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead, LevelRibbon } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
@@ -38,8 +38,7 @@ function Landing() {
               {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 rise rise-3">
-              <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer")}</Btn>
-              <Btn variant="ghost" icon={Play} onClick={() => nav("mocks")}>{t("Voir un examen blanc")}</Btn>
+              <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
             </div>
             <div className={`mt-10 p-5 rounded-3xl border ${c.border} ${c.card} rise rise-4`}>
               <LevelRibbon current="B1" target="B2" />
