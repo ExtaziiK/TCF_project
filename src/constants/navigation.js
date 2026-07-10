@@ -13,9 +13,10 @@ export const NAV_LINKS = [
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
-  { l: "Mes examens", r: "exams" },
+  // `grad` renders the label in the brand gradient to draw the eye.
+  { l: "Mes examens", r: "exams", grad: true },
   // Mock exams get their own top-level entry, next to "Mes examens".
-  { l: "Examens blancs", r: "mocks" },
+  { l: "Examens blancs", r: "mocks", grad: true },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
@@ -23,8 +24,6 @@ export const NAV_LINKS = [
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Blogue", r: "blog" },
-  { l: "FAQ", r: "faq" },
-  { l: "À propos", r: "about" },
 ];
 
 // Extra entries that only exist in the mobile menu for signed-in users.

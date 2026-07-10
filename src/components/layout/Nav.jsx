@@ -46,6 +46,10 @@ export function Nav() {
                     </div>
                   )}
                 </div>
+              ) : n.grad ? (
+                <button key={n.r} onClick={() => go(n.r)} className={`px-3.5 py-2 rounded-full text-sm font-bold ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
+                  <span className="grad-text">{t(n.l)}</span>
+                </button>
               ) : (
                 <button key={n.r} onClick={() => go(n.r)} className={`px-3.5 py-2 rounded-full text-sm font-medium ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</button>
               )
@@ -101,7 +105,9 @@ export function Nav() {
         {open && (
           <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
             {mobileLinks.map((m) => (
-              <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${c.text} ${c.hoverSoft}`}>{t(m.l)}</button>
+              <button key={m.l} onClick={() => go(m.r)} className={`w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${m.grad ? "font-bold" : c.text} ${c.hoverSoft}`}>
+                {m.grad ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
+              </button>
             ))}
             <div className="flex gap-2 pt-3">
               {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>{t("Se déconnecter")}</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>{t("Connexion")}</Btn><Btn small className="flex-1" onClick={() => go("register")}>{t("S'inscrire")}</Btn></>)}
