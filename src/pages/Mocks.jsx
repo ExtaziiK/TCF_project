@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff } from "lucide-react";
+import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff, Clock } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -231,25 +231,35 @@ export function Mocks() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {MOCK_SECTIONS.map((s, i) => (
           <button key={s.t} onClick={() => nav(s.route)} className="text-left">
-            <Card lift className="p-5 h-full">
-              <div className="flex items-center gap-2 mb-3">
-                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>ÉPREUVE {i + 1}</span>
+            <Card lift className="p-6 h-full flex flex-col">
+              <div className="flex items-start justify-between mb-4">
+                <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
+                <Pill tone="slate">Épreuve {i + 1}</Pill>
               </div>
-              <s.icon size={22} className="text-blue-600" />
-              <p className={`font-semibold mt-3 ${c.text}`}>{s.t}</p>
-              <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{s.d}</p>
+              <p className={`font-display font-bold ${c.text}`}>{s.t}</p>
+              <p className={`text-sm font-mono2 mt-1 flex-1 ${c.faint}`}>{s.d}</p>
+              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">S'entraîner <ArrowRight size={14} /></p>
             </Card>
           </button>
         ))}
       </div>
 
-      <Card className="p-8 md:p-12 border-2 border-blue-600/40 mb-8 text-center">
-        <h3 className={`font-display font-extrabold text-3xl md:text-4xl ${c.text}`}>Nouvel examen blanc</h3>
-        <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
-          Préparez-vous dans les conditions réelles de l'examen. Votre examen blanc réunit {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès. Vous pouvez interrompre la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
-        </p>
-        <div className="mt-8 flex justify-center">
-          <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
+      <Card className="relative overflow-hidden p-8 md:p-12 border-2 border-blue-600/40 mb-8 text-center">
+        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
+        <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
+        <div className="relative">
+          <h3 className={`font-display font-extrabold text-3xl md:text-4xl ${c.text}`}>Nouvel examen blanc</h3>
+          <p className={`text-base md:text-lg leading-relaxed mt-4 max-w-2xl mx-auto ${c.sub}`}>
+            Préparez-vous dans les conditions réelles de l'examen. Votre examen blanc réunit {TASKS_PER_EXAM} épreuves choisies pour varier les exercices et cibler vos progrès. Vous pouvez interrompre la session à tout moment&nbsp;: votre progression est sauvegardée automatiquement.
+          </p>
+          <div className="mt-8 flex justify-center">
+            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{starting ? "Génération…" : "Commencer l'examen"}</Btn>
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
+            <Pill tone="slate"><Clock size={12} /> ≈ 2 h 47 au total</Pill>
+            <Pill tone="blue">{TASKS_PER_EXAM} épreuves officielles</Pill>
+            <Pill tone="green"><Trophy size={12} /> Score sur 699</Pill>
+          </div>
         </div>
       </Card>
 
