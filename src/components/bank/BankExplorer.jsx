@@ -61,6 +61,20 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
   );
 }
 
+// Shown to free users on an épreuve whose content is a Premium-only workshop
+// (Expression écrite / orale — there's no free "quiz 1" to open there).
+function PremiumSectionGate() {
+  const { c, nav, t } = useApp();
+  return (
+    <Card className="p-8 md:p-10 text-center border-2 border-blue-600/40 max-w-2xl mx-auto">
+      <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Lock size={22} /></span>
+      <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Cette épreuve fait partie du Premium")}</p>
+      <p className={`text-sm mt-1.5 ${c.sub}`}>{t("L'atelier d'expression écrite et orale, avec l'analyse IA, est réservé aux abonnés Premium.")}</p>
+      <Btn variant="accent" className="mt-6" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
+    </Card>
+  );
+}
+
 // Expression écrite / orale entries: a list of consignes with their metadata,
 // linking to the workshop page where these tasks are actually practiced.
 function PromptList({ quiz, onBack }) {
@@ -91,7 +105,7 @@ function PromptList({ quiz, onBack }) {
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
-export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back }) {
+export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back, workshops }) {
   const { c, user, role, nav, notify, t } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
@@ -130,6 +144,12 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   }
 
   const quizzes = bank[section];
+  // EE/EO carry no MCQ quizzes — their épreuve is the expression workshop,
+  // handed in via `workshops`. Show it whenever the section has no real quiz
+  // (a bank prompt-quiz doesn't count); free users get the Premium gate.
+  const workshop = workshops?.[section];
+  const showWorkshop = workshop && !quizzes.some((qz) => !isPrompt(qz));
+
   return (
     <PageShell wide eyebrow={t(eyebrow)} title={t(title)} sub={t(sub)} back={back}>
       {sections.length > 1 && (
@@ -137,19 +157,21 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           {sections.map((s) => (
             <button key={s} onClick={() => setSection(s)} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
               {t(SECTION_LABELS[s])}
-              <span className={`text-xs font-mono2 ${section === s ? "opacity-80" : c.faint}`}>{bank[s].length}</span>
+              <span className={`text-xs font-mono2 ${section === s ? "opacity-80" : c.faint}`}>{workshops?.[s] ? "" : bank[s].length}</span>
             </button>
           ))}
         </div>
       )}
-      {freeTier && quizzes.length > 0 && (
+      {freeTier && !showWorkshop && quizzes.length > 0 && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
           <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>
           <p className={`text-sm ${c.sub}`}>{t("Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.")}</p>
           <Btn small variant="accent" className="ml-auto shrink-0" onClick={() => nav("pricing")}>{t("Débloquer")}</Btn>
         </Card>
       )}
-      {quizzes.length === 0 ? (
+      {showWorkshop ? (
+        freeTier ? <PremiumSectionGate /> : workshop
+      ) : quizzes.length === 0 ? (
         <Card className="p-10 text-center">
           <FolderOpen size={32} className="text-blue-600 mx-auto mb-4" />
           <p className={`font-display font-bold ${c.text}`}>{t("Aucun quiz dans cette épreuve pour l'instant")}</p>

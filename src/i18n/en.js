@@ -530,6 +530,9 @@ export const EN = {
   "consigne": "prompt",
   "consignes": "prompts",
   "Réservé au Premium": "Premium only",
+  "Cette épreuve fait partie du Premium": "This section is part of Premium",
+  "L'atelier d'expression écrite et orale, avec l'analyse IA, est réservé aux abonnés Premium.":
+    "The written and oral expression workshop, with AI analysis, is reserved for Premium subscribers.",
   "Ce quiz fait partie de l'abonnement Premium.": "This quiz is part of the Premium subscription.",
   "Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.":
     "Free plan: the first quiz of each section is open. Go Premium to unlock all the others.",
