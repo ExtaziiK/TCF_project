@@ -227,6 +227,22 @@ export function Mocks() {
         </Card>
       )}
 
+      <SectionHead title="Le déroulé, épreuve par épreuve" sub="L'ordre et les durées reproduisent la session officielle. Vous pouvez aussi vous entraîner sur une seule épreuve." />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {MOCK_SECTIONS.map((s, i) => (
+          <button key={s.t} onClick={() => nav(s.route)} className="text-left">
+            <Card lift className="p-5 h-full">
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>ÉPREUVE {i + 1}</span>
+              </div>
+              <s.icon size={22} className="text-blue-600" />
+              <p className={`font-semibold mt-3 ${c.text}`}>{s.t}</p>
+              <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{s.d}</p>
+            </Card>
+          </button>
+        ))}
+      </div>
+
       <Card className="p-7 md:p-8 border-2 border-blue-600/40 mb-8">
         <div className="flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
@@ -283,21 +299,6 @@ export function Mocks() {
         </>
       )}
 
-      <SectionHead title="Le déroulé, épreuve par épreuve" sub="L'ordre et les durées reproduisent la session officielle. Vous pouvez aussi vous entraîner sur une seule épreuve." />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {MOCK_SECTIONS.map((s, i) => (
-          <button key={s.t} onClick={() => nav(s.route)} className="text-left">
-            <Card lift className="p-5 h-full">
-              <div className="flex items-center gap-2 mb-3">
-                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>ÉPREUVE {i + 1}</span>
-              </div>
-              <s.icon size={22} className="text-blue-600" />
-              <p className={`font-semibold mt-3 ${c.text}`}>{s.t}</p>
-              <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{s.d}</p>
-            </Card>
-          </button>
-        ))}
-      </div>
       <Card className="mt-10 p-6 flex flex-col md:flex-row items-start md:items-center gap-5">
         <span className="w-12 h-12 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><BarChart3 size={20} /></span>
         <div className="flex-1">
