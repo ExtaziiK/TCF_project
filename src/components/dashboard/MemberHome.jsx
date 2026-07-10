@@ -12,6 +12,20 @@ import { computeProgress } from "@/services/progressService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES } from "@/auth/rbac";
 
+// One brand gradient (blue → red) sliced across the quick-action row: each
+// button carries its slice, so the whole row reads as a single continuous
+// band that starts blue on the first button and ends red on the last.
+const ACCENT_FROM = [46, 107, 230]; // #2E6BE6
+const ACCENT_TO = [216, 53, 74]; // #D8354A
+const accentAt = (t) => {
+  const ch = ACCENT_FROM.map((f, i) => Math.round(f + (ACCENT_TO[i] - f) * t));
+  return `rgb(${ch[0]},${ch[1]},${ch[2]})`;
+};
+const sliceGradient = (i, total) =>
+  total <= 1
+    ? `linear-gradient(90deg, ${accentAt(0)}, ${accentAt(1)})`
+    : `linear-gradient(90deg, ${accentAt(i / total)}, ${accentAt((i + 1) / total)})`;
+
 /* ------------------------------ small pieces ----------------------------- */
 
 function StatTile({ icon: Icon, value, label, hot }) {
@@ -100,20 +114,18 @@ export function DashboardView({ data }) {
   const quickActions = [
     // Only surface a "resume" accent button for an in-progress exam; the
     // practice nudge already has its own card + the button below.
-    data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route, variant: "accent" },
+    data.continueCard?.kind === "exam" && { icon: Play, l: data.continueCard.cta, r: data.continueCard.route },
     // "Pratique gratuite" is a free-tier action; premium/admin have full access.
-    role === ROLES.FREE_USER && { icon: Zap, l: "Pratique gratuite", r: "practice", variant: "accent" },
-    // Distinct variants so the actions read as separate: the practice/exam
-    // action is the gradient accent, the admin bank is the solid primary.
-    (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks", variant: "accent" },
-    role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank", variant: "primary" },
+    role === ROLES.FREE_USER && { icon: Zap, l: "Pratique gratuite", r: "practice" },
+    (role === ROLES.PREMIUM_USER || role === ROLES.ADMIN) && { icon: GraduationCap, l: "Examen blanc", r: "mocks" },
+    role === ROLES.ADMIN && { icon: FolderOpen, l: "Banque de questions", r: "bank" },
   ].filter(Boolean);
 
   return (
     <>
       <div className="flex flex-wrap gap-2 mb-8">
-        {quickActions.map((a) => (
-          <Btn key={a.l} small variant={a.variant} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
+        {quickActions.map((a, i) => (
+          <Btn key={a.l} small variant="accent" gradient={sliceGradient(i, quickActions.length)} icon={a.icon} onClick={() => nav(a.r)}>{a.l}</Btn>
         ))}
       </div>
 
