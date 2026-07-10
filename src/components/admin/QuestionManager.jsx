@@ -15,8 +15,10 @@ import {
   listQuestions, createQuestion, updateQuestion, deleteQuestions, patchQuestions,
   duplicateQuestions, listVersions, rollbackQuestion, uploadMedia, syncSiteContent,
 } from "@/services/questionsService";
+import { getAnalytics } from "@/services/questionAnalyticsService";
 
 const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "2-digit", year: "2-digit" }) : "—");
+const fmtMs = (ms) => (ms == null ? "—" : ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${ms} ms`);
 const previewText = (q) => {
   const s = sectionById(q.section);
   return String(q.payload?.[s?.kind === "prompt" ? "prompt" : "q"] || "").slice(0, 70);
@@ -46,6 +48,50 @@ function Modal({ title, onClose, children, wide }) {
   );
 }
 
+/* ------------------------------- analytics ------------------------------- */
+
+// Real per-question stats (from question_attempts). Self-fetching so both the
+// preview modal and any future surface can drop it in with just an id.
+function QuestionStats({ questionId }) {
+  const { c } = useApp();
+  const [stat, setStat] = useState(null);
+  useEffect(() => {
+    let live = true;
+    getAnalytics([questionId]).then((m) => { if (live) setStat(m[questionId]); });
+    return () => { live = false; };
+  }, [questionId]);
+  if (!stat) return null;
+  const tiles = [
+    { label: "Tentatives", value: stat.attempts },
+    { label: "Réussite", value: stat.successRate == null ? "—" : `${stat.successRate} %` },
+    { label: "Abandon", value: stat.skipRate == null ? "—" : `${stat.skipRate} %` },
+    { label: "Temps moyen", value: fmtMs(stat.avgMs) },
+  ];
+  return (
+    <div className={`rounded-2xl border ${c.border} p-4`}>
+      <div className="flex items-center justify-between mb-3">
+        <p className={`text-xs font-bold uppercase tracking-wider ${c.faint}`}>Statistiques</p>
+        {stat.difficulty
+          ? <Pill tone={stat.difficulty.tone}>Difficulté : {stat.difficulty.label}</Pill>
+          : <Pill tone="slate">Difficulté : à déterminer</Pill>}
+      </div>
+      {stat.attempts === 0 ? (
+        <p className={`text-sm ${c.faint}`}>Aucune tentative enregistrée pour l'instant — les statistiques apparaîtront dès que des étudiants auront pratiqué cette question.</p>
+      ) : (
+        <div className="grid grid-cols-4 gap-3">
+          {tiles.map((t) => (
+            <div key={t.label}>
+              <p className={`font-display font-extrabold text-2xl ${c.text}`}>{t.value}</p>
+              <p className={`text-xs ${c.faint}`}>{t.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className={`text-[11px] mt-3 ${c.faint}`}>La difficulté est calculée à partir du taux de réussite (min. 5 tentatives) ; le temps moyen est estimé.</p>
+    </div>
+  );
+}
+
 /* ------------------------------ live preview ----------------------------- */
 
 // Renders the question exactly as students meet it: MCQs run through the
@@ -57,6 +103,7 @@ function QuestionPreview({ question, onClose }) {
   const p = question.payload;
   return (
     <Modal title={`Aperçu — ${section.label}${question.task ? ` · Tâche ${question.task}` : ""}`} onClose={onClose} wide>
+      {question.id && <div className="mb-5"><QuestionStats questionId={question.id} /></div>}
       {mcq ? (
         <Quiz
           questions={[{
@@ -280,6 +327,7 @@ export function QuestionManager() {
   const [previewing, setPreviewing] = useState(null);
   const [historyFor, setHistoryFor] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null); // ids awaiting confirmation
+  const [rowStats, setRowStats] = useState({}); // questionId -> analytics, for the visible page
   // filters
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -336,6 +384,15 @@ export function QuestionManager() {
   const pageCount = pageSize === "all" ? 1 : Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageItems = pageSize === "all" ? filtered : filtered.slice(page * pageSize, (page + 1) * pageSize);
   useEffect(() => { setPage(0); }, [search, fSection, fTask, fStatus, pageSize]);
+
+  // Analytics for the currently visible rows only (bounded query).
+  const pageIdsKey = pageItems.map((q) => q.id).join(",");
+  useEffect(() => {
+    if (!pageIdsKey) return setRowStats({});
+    let live = true;
+    getAnalytics(pageIdsKey.split(",")).then((m) => { if (live) setRowStats(m); });
+    return () => { live = false; };
+  }, [pageIdsKey]);
 
   // Overview counts, derived once from the loaded set (real data, no fabrication).
   const stats = useMemo(() => {
@@ -487,7 +544,7 @@ export function QuestionManager() {
             {questions.length === 0 && <Btn small className="mt-4" icon={Plus} onClick={() => setEditing(emptyQuestion("co"))}>Créer une question</Btn>}
           </div>
         ) : (
-          <table className="w-full text-sm min-w-[900px]">
+          <table className="w-full text-sm min-w-[1000px]">
             <thead>
               <tr className={`text-left text-xs uppercase tracking-wider ${c.faint} border-b ${c.border}`}>
                 <th className="p-3"><input type="checkbox" checked={pageItems.length > 0 && selected.size === pageItems.length} onChange={toggleAll} aria-label="Tout sélectionner" className="accent-blue-600" /></th>
@@ -495,6 +552,7 @@ export function QuestionManager() {
                 <th className="p-3 font-semibold">Épreuve</th>
                 <th className="p-3 font-semibold">Tâche</th>
                 <th className="p-3 font-semibold">Question</th>
+                <th className="p-3 font-semibold">Réussite</th>
                 <th className="p-3 font-semibold">Statut</th>
                 <th className="p-3 font-semibold">Créée</th>
                 <th className="p-3 font-semibold">Modifiée</th>
@@ -511,6 +569,11 @@ export function QuestionManager() {
                     <td className={`p-3 ${c.sub}`}>{sectionById(q.section)?.label || q.section}</td>
                     <td className={`p-3 font-mono2 ${c.sub}`}>{q.task ? `T${q.task}` : "—"}</td>
                     <td className={`p-3 max-w-64 truncate ${c.text}`} title={previewText(q)}>{previewText(q)}</td>
+                    <td className="p-3">
+                      {rowStats[q.id]?.attempts > 0
+                        ? <span title={`${rowStats[q.id].attempts} tentative${rowStats[q.id].attempts > 1 ? "s" : ""}`}><Pill tone={rowStats[q.id].difficulty?.tone || "slate"}>{rowStats[q.id].successRate} %</Pill></span>
+                        : <span className={`text-xs ${c.faint}`}>—</span>}
+                    </td>
                     <td className="p-3"><Pill tone={st.tone}>{st.label} · v{q.version ?? 1}</Pill></td>
                     <td className={`p-3 font-mono2 text-xs ${c.faint}`}>{fmtDate(q.createdAt)}</td>
                     <td className={`p-3 font-mono2 text-xs ${c.faint}`}>{fmtDate(q.updatedAt)}</td>

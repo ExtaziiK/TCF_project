@@ -5,6 +5,7 @@ import { Card, Pill, ProgressBar, Btn, TimerChip } from "@/components/common";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { useCountdown } from "@/hooks/useCountdown";
 import { recordQuizResult } from "@/services/quizResultsService";
+import { recordAttempts } from "@/services/questionAnalyticsService";
 
 // Mock-exam quiz tasks (storageKey "mock-<attemptId>-<order>") are already
 // tracked in full by examService's exam_attempts table - recording them here
@@ -53,6 +54,24 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         answered: finalAnswers.length, // questions with a selected answer (skips excluded)
         durationSec: Math.max(0, duration - left),
       });
+    }
+    // Per-question analytics for every question that carries an id (bank &
+    // admin questions do; the editor preview is excluded). Time is the
+    // per-question share of the time spent — an honest approximation, since
+    // the engine times the whole quiz, not each question.
+    if (!storageKey?.startsWith("preview-")) {
+      const answeredMs = finalAnswers.length ? Math.round(((duration - left) * 1000) / finalAnswers.length) : null;
+      const byIndex = new Map(finalAnswers.map((a) => [a.i, a]));
+      recordAttempts(
+        user?.id,
+        questions
+          .map((q, idx) => {
+            if (q.id == null) return null;
+            const a = byIndex.get(idx);
+            return { questionId: q.id, answered: !!a, correct: a ? a.ok : null, durationMs: a ? answeredMs : null };
+          })
+          .filter(Boolean)
+      );
     }
     setAnswers(finalAnswers);
     setFinished(true);
