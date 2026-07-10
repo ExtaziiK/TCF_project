@@ -227,20 +227,18 @@ export function Mocks() {
         </Card>
       )}
 
-      <SectionHead title="Le déroulé, épreuve par épreuve" sub="L'ordre et les durées reproduisent la session officielle. Vous pouvez aussi vous entraîner sur une seule épreuve." />
+      <SectionHead title="Le déroulé, épreuve par épreuve" sub="L'ordre et les durées reproduisent la session officielle." />
+      {/* Informational only — these cards don't navigate, they just present the format. */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {MOCK_SECTIONS.map((s, i) => (
-          <button key={s.t} onClick={() => nav(s.route)} className="text-left">
-            <Card lift className="p-6 h-full flex flex-col">
-              <div className="flex items-start justify-between mb-4">
-                <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
-                <Pill tone="slate">Épreuve {i + 1}</Pill>
-              </div>
-              <p className={`font-display font-bold ${c.text}`}>{s.t}</p>
-              <p className={`text-sm font-mono2 mt-1 flex-1 ${c.faint}`}>{s.d}</p>
-              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">S'entraîner <ArrowRight size={14} /></p>
-            </Card>
-          </button>
+          <Card key={s.t} className="p-6 h-full flex flex-col transition-transform duration-200 hover:scale-[1.05]">
+            <div className="flex items-start justify-between mb-4">
+              <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><s.icon size={20} /></span>
+              <Pill tone="slate">Épreuve {i + 1}</Pill>
+            </div>
+            <p className={`font-display font-bold ${c.text}`}>{s.t}</p>
+            <p className={`text-sm font-mono2 mt-1 ${c.faint}`}>{s.d}</p>
+          </Card>
         ))}
       </div>
 
