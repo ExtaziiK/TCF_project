@@ -48,6 +48,8 @@ export const EN = {
   "Vérifiez votre niveau TCF Canada": "Check your TCF Canada level",
   "Choisissez votre objectif, entrez vos 4 scores, puis calculez vos niveaux NCLC.":
     "Pick your goal, enter your 4 scores, then compute your NCLC levels.",
+  "Entrez vos 4 scores pour connaître vos niveaux NCLC et CECRL.":
+    "Enter your 4 scores to see your NCLC and CEFR levels.",
   "Calculer mon résultat": "Calculate my result",
   "Seuils atteints pour ce profil": "Thresholds met for this profile",
   "Seuils non atteints — continuez à progresser": "Thresholds not met — keep improving",

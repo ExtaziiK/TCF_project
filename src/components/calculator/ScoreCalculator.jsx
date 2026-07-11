@@ -39,7 +39,7 @@ export function ScoreCalculator() {
   const rows = result
     ? CALC_SECTIONS.map((s) => {
         const nclc = result[s].nclc;
-        return { s, score: result[s].score, nclc, cecrl: nclc ? cecrlFor(nclc) : "—", min: profile.min[s], meets: (nclc || 0) >= profile.min[s] };
+        return { s, score: result[s].score, nclc, cecrl: cecrlFor(s, result[s].score), min: profile.min[s], meets: (nclc || 0) >= profile.min[s] };
       })
     : [];
   const allMet = rows.length > 0 && rows.every((r) => r.meets);
@@ -50,22 +50,31 @@ export function ScoreCalculator() {
         <span className="w-9 h-9 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0"><CalcIcon size={18} /></span>
         <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Vérifiez votre niveau TCF Canada")}</h3>
       </div>
-      <p className={`text-sm ${c.sub} mb-5`}>{t("Choisissez votre objectif, entrez vos 4 scores, puis calculez vos niveaux NCLC.")}</p>
+      <p className={`text-sm ${c.sub} mb-5`}>{t("Entrez vos 4 scores pour connaître vos niveaux NCLC et CECRL.")}</p>
 
-      {/* immigration target */}
-      <div className="grid sm:grid-cols-3 gap-2.5 mb-5">
-        {CALC_PROFILES.map((p) => (
-          <button
-            key={p.id}
-            onClick={() => setProfileId(p.id)}
-            aria-pressed={profileId === p.id}
-            className={`text-left p-3 rounded-2xl border transition-colors ${profileId === p.id ? "border-blue-600 bg-blue-600/5 ring-1 ring-blue-600/30" : `${c.border} ${c.hoverSoft}`}`}
-          >
-            <p className={`text-sm font-bold ${c.text}`}>{t(p.label)}</p>
-            <p className={`text-[11px] font-semibold mt-0.5 ${c.faint}`}>{t(p.desc)}</p>
-          </button>
-        ))}
-      </div>
+      {/* immigration target — a selector when several profiles exist, or a
+          single labelled target when there's only one. */}
+      {CALC_PROFILES.length > 1 ? (
+        <div className="grid sm:grid-cols-3 gap-2.5 mb-5">
+          {CALC_PROFILES.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setProfileId(p.id)}
+              aria-pressed={profileId === p.id}
+              className={`text-left p-3 rounded-2xl border transition-colors ${profileId === p.id ? "border-blue-600 bg-blue-600/5 ring-1 ring-blue-600/30" : `${c.border} ${c.hoverSoft}`}`}
+            >
+              <p className={`text-sm font-bold ${c.text}`}>{t(p.label)}</p>
+              <p className={`text-[11px] font-semibold mt-0.5 ${c.faint}`}>{t(p.desc)}</p>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className={`mb-5 p-3 rounded-2xl border border-blue-600/30 bg-blue-600/5`}>
+          <p className={`text-[11px] font-bold uppercase tracking-wide ${c.faint}`}>{t("Objectif")}</p>
+          <p className={`text-sm font-bold ${c.text}`}>{t(profile.label)}</p>
+          <p className={`text-[11px] font-semibold mt-0.5 ${c.faint}`}>{t(profile.desc)}</p>
+        </div>
+      )}
 
       {/* scores */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">

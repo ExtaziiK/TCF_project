@@ -11,8 +11,16 @@ const BANDS = {
   ee: [[16, 20, 10], [14, 15, 9], [12, 13, 8], [10, 11, 7], [7, 9, 6], [6, 6, 5], [4, 5, 4]],
 };
 
-// Indicative CECRL (CEFR) equivalence per NCLC level — for orientation only.
-const CECRL = { 4: "A2", 5: "B1", 6: "B1", 7: "B2", 8: "B2", 9: "C1", 10: "C2" };
+// CECRL (CEFR) comes straight from the TCF score, NOT from the NCLC level:
+// the two use different score bands, so e.g. a Compréhension score of 400 is
+// CEFR B2 even though it's only NCLC 6. Receptive skills use the 100-point
+// bands printed on the TCF score report; productive skills use the /20 bands.
+const CEFR_BANDS = {
+  co: [[600, 699, "C2"], [500, 599, "C1"], [400, 499, "B2"], [300, 399, "B1"], [200, 299, "A2"], [100, 199, "A1"]],
+  ce: [[600, 699, "C2"], [500, 599, "C1"], [400, 499, "B2"], [300, 399, "B1"], [200, 299, "A2"], [100, 199, "A1"]],
+  eo: [[16, 20, "C2"], [14, 15, "C1"], [10, 13, "B2"], [6, 9, "B1"], [4, 5, "A2"]],
+  ee: [[16, 20, "C2"], [14, 15, "C1"], [10, 13, "B2"], [6, 9, "B1"], [4, 5, "A2"]],
+};
 
 export { SECTION_LABELS };
 export const CALC_SECTIONS = ["co", "ce", "eo", "ee"];
@@ -34,14 +42,17 @@ export function nclcFor(section, score) {
   return 0;
 }
 
-export function cecrlFor(nclc) {
-  return CECRL[nclc] || "—";
+// CEFR level for a raw score, or "—" when empty / below the lowest band.
+export function cecrlFor(section, score) {
+  if (score === "" || score == null) return "—";
+  const n = Number(score);
+  if (!Number.isFinite(n)) return "—";
+  for (const [lo, hi, lvl] of CEFR_BANDS[section]) if (n >= lo && n <= hi) return lvl;
+  return "—";
 }
 
-// Immigration targets, each with a minimum NCLC required per skill. Thresholds
-// are indicative — programs and cut-offs change; always confirm with IRCC / MIFI.
+// Immigration target: minimum NCLC required per skill. Thresholds are
+// indicative — programs and cut-offs change; always confirm with IRCC / MIFI.
 export const CALC_PROFILES = [
   { id: "ee", label: "Entrée express — fédéral", desc: "Les 4 épreuves ≥ NCLC 7", min: { co: 7, ce: 7, eo: 7, ee: 7 } },
-  { id: "pstq", label: "Québec — PSTQ (qualifié)", desc: "Oral ≥ NCLC 7 · Écrit ≥ NCLC 5", min: { co: 7, ce: 5, eo: 7, ee: 5 } },
-  { id: "rp", label: "Objectif NCLC 5", desc: "Les 4 épreuves ≥ NCLC 5", min: { co: 5, ce: 5, eo: 5, ee: 5 } },
 ];
