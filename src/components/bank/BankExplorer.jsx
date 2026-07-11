@@ -33,7 +33,7 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
 
   return (
     <button onClick={onOpen} className="text-left w-full" aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}>
-      <Card lift={!locked} className={`p-4 h-full flex flex-col gap-2.5 ${done ? "ring-1 ring-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+      <Card lift={!locked} className={`p-4 h-full flex flex-col gap-2.5 ${done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
         <div className="flex items-start justify-between gap-2">
           <h3 className={`font-display font-bold text-[15px] leading-snug ${locked ? c.sub : c.text}`}>
             {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
