@@ -11,6 +11,7 @@ import { Speaking } from "@/pages/Speaking";
 import { Vocabulary } from "@/pages/Vocabulary";
 import { Grammar } from "@/pages/Grammar";
 import { Mocks } from "@/pages/Mocks";
+import { Calculator } from "@/pages/Calculator";
 import { Guide } from "@/pages/Guide";
 import { GuideExpressionEcrite } from "@/pages/GuideExpressionEcrite";
 import { GuideExpressionOrale } from "@/pages/GuideExpressionOrale";
@@ -48,6 +49,7 @@ export const PAGES = {
   vocabulary: Vocabulary,
   grammar: Grammar,
   mocks: Mocks,
+  calculator: Calculator,
   guide: Guide,
   "guide-ee": GuideExpressionEcrite,
   "guide-eo": GuideExpressionOrale,

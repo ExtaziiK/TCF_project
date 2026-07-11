@@ -17,6 +17,8 @@ export const NAV_LINKS = [
   { l: "Mes examens", r: "exams", grad: true },
   // Mock exams get their own top-level entry, next to "Mes examens".
   { l: "Examens blancs", r: "mocks", grad: true },
+  // Free tool, visible to everyone: TCF Canada score → NCLC calculator.
+  { l: "Calculateur", r: "calculator" },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },

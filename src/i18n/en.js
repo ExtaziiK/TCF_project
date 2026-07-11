@@ -37,6 +37,34 @@ export const EN = {
   "Aucune notification": "No notifications",
   "Non lu": "Unread",
 
+  // ── NCLC calculator ──────────────────────────────────────────────────
+  "Calculateur": "Calculator",
+  "Convertissez vos scores en niveaux NCLC": "Convert your scores into NCLC levels",
+  "Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.":
+    "Enter your TCF Canada scores and check whether you meet your immigration project's thresholds.",
+  "Convertissez vos scores TCF Canada en niveaux NCLC": "Convert your TCF Canada scores into NCLC levels",
+  "Entrez vos scores aux quatre épreuves pour connaître vos niveaux NCLC et CECRL, et vérifier les seuils de votre projet d'immigration.":
+    "Enter your four section scores to see your NCLC and CEFR levels and check your immigration project's thresholds.",
+  "Vérifiez votre niveau TCF Canada": "Check your TCF Canada level",
+  "Choisissez votre objectif, entrez vos 4 scores, puis calculez vos niveaux NCLC.":
+    "Pick your goal, enter your 4 scores, then compute your NCLC levels.",
+  "Calculer mon résultat": "Calculate my result",
+  "Seuils atteints pour ce profil": "Thresholds met for this profile",
+  "Seuils non atteints — continuez à progresser": "Thresholds not met — keep improving",
+  "Score": "Score",
+  "Seuil": "Threshold",
+  "< NCLC 4": "< NCLC 4",
+  "Commencer ma préparation": "Start my preparation",
+  "Voir le guide complet": "See the full guide",
+  "Conversion basée sur la grille d'équivalence TCF Canada → NCLC d'IRCC. Résultat indicatif : vérifiez toujours les seuils officiels de votre programme (IRCC, MIFI).":
+    "Conversion based on IRCC's TCF Canada → NCLC equivalency chart. Indicative result: always confirm your program's official thresholds (IRCC, MIFI).",
+  "Entrée express — fédéral": "Express Entry — federal",
+  "Les 4 épreuves ≥ NCLC 7": "All 4 sections ≥ NCLC 7",
+  "Québec — PSTQ (qualifié)": "Quebec — PSTQ (skilled)",
+  "Oral ≥ NCLC 7 · Écrit ≥ NCLC 5": "Oral ≥ NCLC 7 · Written ≥ NCLC 5",
+  "Objectif NCLC 5": "Target NCLC 5",
+  "Les 4 épreuves ≥ NCLC 5": "All 4 sections ≥ NCLC 5",
+
   // ── Footer ───────────────────────────────────────────────────────────
   "Ressources": "Resources",
   "La plateforme de préparation au TCF Canada pensée pour votre projet d'immigration. Pratiquez, mesurez, réussissez.":

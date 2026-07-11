@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionSecondary } from "@/components/home/DemoQuestionSecondary";
+import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { STATS, FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
@@ -62,6 +63,12 @@ function Landing() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* NCLC CALCULATOR */}
+      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
+        <div className="max-w-2xl mx-auto"><ScoreCalculator /></div>
       </section>
 
       {/* FEATURES */}
