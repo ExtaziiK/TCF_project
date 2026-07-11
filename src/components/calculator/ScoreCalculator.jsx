@@ -16,7 +16,19 @@ export function ScoreCalculator() {
   const [result, setResult] = useState(null); // { co: { score, nclc }, ... } | null
 
   const profile = CALC_PROFILES.find((p) => p.id === profileId);
-  const setScore = (s, v) => setScores((prev) => ({ ...prev, [s]: v }));
+
+  // Clamp to the section's range as the user types: the HTML `max` attribute
+  // only validates, it doesn't stop someone entering 999 in a /699 field.
+  const setScore = (s, v) => {
+    let next = v;
+    if (v !== "") {
+      const n = Number(v);
+      if (!Number.isFinite(n)) return; // ignore non-numeric input
+      const { min, max } = SCORE_RANGE[s];
+      next = String(Math.min(max, Math.max(min, n)));
+    }
+    setScores((prev) => ({ ...prev, [s]: next }));
+  };
 
   const calculate = () => {
     setResult(Object.fromEntries(CALC_SECTIONS.map((s) => [s, { score: scores[s], nclc: nclcFor(s, scores[s]) }])));
