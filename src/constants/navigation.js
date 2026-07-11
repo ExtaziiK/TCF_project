@@ -13,10 +13,9 @@ export const NAV_LINKS = [
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
-  // `grad` renders the label in the brand gradient to draw the eye.
-  { l: "Mes examens", r: "exams", grad: true },
+  { l: "Mes examens", r: "exams" },
   // Mock exams get their own top-level entry, next to "Mes examens".
-  { l: "Examens blancs", r: "mocks", grad: true },
+  { l: "TCF blanc", r: "mocks", grad: true },
   // Free tool, visible to everyone: TCF Canada score → NCLC calculator.
   { l: "Calculateur", r: "calculator" },
   // Supplementary practice, distinct from the exam épreuves.
@@ -55,7 +54,7 @@ export const SEARCH_INDEX = [
   { l: "Vocabulaire · cartes mémoire", r: "vocabulary", c: "Module" },
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
-  { l: "Examens blancs TCF Canada", r: "mocks", c: "Examens" },
+  { l: "TCF blancs TCF Canada", r: "mocks", c: "Examens" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
   { l: "Foire aux questions", r: "faq", c: "Page" },

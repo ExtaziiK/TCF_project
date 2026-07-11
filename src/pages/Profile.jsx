@@ -179,7 +179,7 @@ export function Profile() {
             </div>
           ) : (
             <div className="space-y-3">
-              <p className={`text-sm ${c.sub}`}>{t("Passez à Premium pour débloquer tous les modules, les examens blancs complets et l'analyse IA.")}</p>
+              <p className={`text-sm ${c.sub}`}>{t("Passez à Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}</p>
               <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à Premium")}</Btn>
             </div>
           )}

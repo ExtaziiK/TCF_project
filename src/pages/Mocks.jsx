@@ -24,7 +24,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
     <Card className="p-7 rise max-w-2xl mx-auto">
       <div className="text-center">
         <Trophy size={36} className="text-amber-500 mx-auto" />
-        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>{t("Résultat de l'examen blanc")}</h3>
+        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>{t("Résultat du TCF blanc")}</h3>
         <p className="font-display font-extrabold text-5xl mt-5 grad-text">{s.points} / 699</p>
         <p className={`mt-2 text-sm ${c.sub}`}>{s.ok} / {s.total} {t("bonnes réponses")} ({s.pct} %) · {t("niveau estimé")} <span className="font-bold text-blue-600">{s.level}</span></p>
         <p className={`mt-1 text-xs ${c.faint}`}>{t("Score calculé sur les épreuves à choix multiple ; l'expression écrite et orale sont auto-évaluées.")}</p>
@@ -54,7 +54,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
         })}
       </div>
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
-        <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouvel examen blanc")}</Btn>
+        <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouveau TCF blanc")}</Btn>
         <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>{t("Ma progression")}</Btn>
         <Btn variant="ghost" onClick={onBack}>{t("Mes examens")}</Btn>
       </div>
@@ -211,7 +211,7 @@ export function Mocks() {
 
   if (active) {
     return (
-      <PageShell wide eyebrow={t("Examen blanc")} title={t("Conditions d'examen")} sub={t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}>
+      <PageShell wide eyebrow={t("TCF blanc")} title={t("Conditions d'examen")} sub={t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}>
         <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
       </PageShell>
     );
@@ -221,7 +221,7 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell tight center big back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
+    <PageShell tight center big back wide eyebrow={t("TCF blanc")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
       {backend === "local" && (
         <Card className="p-3 mb-4 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />
@@ -284,7 +284,7 @@ export function Mocks() {
                     <span className={`text-xs font-mono2 ${c.faint}`}>{t("Commencé le")} {t(when(a.startedAt))}</span>
                   </div>
                   <p className={`font-display font-bold ${c.text}`}>
-                    {t(SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "Examen blanc")}
+                    {t(SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "TCF blanc")}
                   </p>
                   <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>{t("Tâche")} {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} {t(doneTasks > 1 ? "terminées" : "terminée")}</p>
                   <div className="mt-3"><ProgressBar pct={(doneTasks / a.tasks.length) * 100} tone="grad" /></div>
@@ -301,7 +301,7 @@ export function Mocks() {
 
       {history.length > 0 && (
         <>
-          <SectionHead tight title={t("Historique")} sub={t("Vos examens blancs terminés.")} />
+          <SectionHead tight title={t("Historique")} sub={t("Vos TCF blancs terminés.")} />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {history.map((a) => (
               <Card key={a.id} className="p-5">

@@ -10,7 +10,7 @@ export const EN = {
   "Compréhension écrite": "Reading comprehension",
   "Expression écrite": "Written expression",
   "Expression orale": "Oral expression",
-  "Examens blancs": "Mock exams",
+  "TCF blancs": "Mock exams",
   "Banque de questions": "Question bank",
   "Pratique": "Practice",
   "Vocabulaire": "Vocabulary",
@@ -157,7 +157,7 @@ export const EN = {
   // ── Testimonials (constants/home.js TESTIMONIALS) ────────────────────
   "C1 obtenu": "Achieved C1",
   "B2 obtenu": "Achieved B2",
-  "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les examens blancs m'ont enlevé tout le stress le jour J.":
+  "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les TCF blancs m'ont enlevé tout le stress le jour J.":
     "In 8 weeks I went from B1 to C1 in listening. The mock exams took away all the stress on test day.",
   "Le suivi de progression m'a montré exactement où je perdais des points. J'ai obtenu les 50 points d'Entrée express qu'il me fallait.":
     "The progress tracking showed me exactly where I was losing points. I earned the 50 Express Entry points I needed.",
@@ -209,11 +209,11 @@ export const EN = {
   "Commencer l'essai": "Start the trial",
   "Choisir l'annuel": "Choose annual",
   "10 questions par module et par jour": "10 questions per module per day",
-  "1 examen blanc partiel": "1 partial mock exam",
+  "1 TCF blanc partiel": "1 partial mock exam",
   "Cartes de vocabulaire de base": "Basic vocabulary flashcards",
   "Suivi de progression simple": "Simple progress tracking",
   "Questions et audios illimités": "Unlimited questions and audio",
-  "Examens blancs complets chronométrés": "Full timed mock exams",
+  "TCF blancs complets chronométrés": "Full timed mock exams",
   "Analyse IA de l'écrit et de l'oral": "AI analysis of writing and speaking",
   "Plan d'étude personnalisé": "Personalized study plan",
   "Statistiques détaillées par section": "Detailed statistics per section",
@@ -238,7 +238,7 @@ export const EN = {
   "Cela dépend de votre profil. Un niveau B2 (NCLC 7) dans les quatre compétences débloque les points francophones ; un niveau C1 (NCLC 9 et plus) maximise vos points de capital humain. Notre test de niveau gratuit vous aide à définir une cible réaliste.":
     "It depends on your profile. A B2 level (NCLC 7) in all four skills unlocks the francophone points; a C1 level (NCLC 9 and above) maximizes your human-capital points. Our free placement test helps you set a realistic target.",
   "La plateforme fonctionne-t-elle sur mobile ?": "Does the platform work on mobile?",
-  "Oui. Passerelle est conçue en priorité pour mobile : vous pouvez réviser vos cartes de vocabulaire dans l'autobus et faire un examen blanc complet sur ordinateur.":
+  "Oui. Passerelle est conçue en priorité pour mobile : vous pouvez réviser vos cartes de vocabulaire dans l'autobus et faire un TCF blanc complet sur ordinateur.":
     "Yes. Passerelle is designed mobile-first: you can review your vocabulary cards on the bus and take a full mock exam on your computer.",
   "Puis-je annuler mon abonnement à tout moment ?": "Can I cancel my subscription at any time?",
   "Oui, en deux clics depuis votre tableau de bord. L'abonnement annuel bénéficie en plus d'une garantie satisfait ou remboursé de 30 jours.":
@@ -321,7 +321,7 @@ export const EN = {
 
   // ── Nav notifications (constants/gamification.js NOTIFS) ─────────────
   "Série de 12 jours ! Continuez sur votre lancée.": "12-day streak! Keep up the momentum.",
-  "Examen blanc n° 2 planifié samedi à 9 h.": "Mock exam #2 scheduled Saturday at 9 a.m.",
+  "TCF blanc n° 2 planifié samedi à 9 h.": "Mock exam #2 scheduled Saturday at 9 a.m.",
   "Nouveau badge : « Premier B2 » débloqué.": "New badge unlocked: “First B2”.",
   "il y a 2 h": "2 h ago",
   "il y a 3 h": "3 h ago",
@@ -333,7 +333,7 @@ export const EN = {
   "Bonjour,": "Hello,",
   "Continuez votre préparation au TCF Canada — voici où vous en êtes.": "Keep up your TCF Canada preparation — here's where you stand.",
   "Chargement du tableau de bord": "Loading the dashboard",
-  "Examen blanc": "Mock exam",
+  "TCF blanc": "Mock exam",
   "Reprendre": "Resume",
   "Votre tableau de bord vous attend": "Your dashboard awaits",
   "Terminez votre premier quiz et cette page se remplira : score, niveau, série d'étude, succès et recommandations personnalisées.":
@@ -357,7 +357,7 @@ export const EN = {
     "· +10 XP per quiz, +2 XP per correct answer, streak bonus every week.",
   "Niveau maximal atteint — chapeau bas ! 🎓": "Maximum level reached — hats off! 🎓",
   "Continuer l'apprentissage": "Continue learning",
-  "Reprendre votre examen blanc": "Resume your mock exam",
+  "Reprendre votre TCF blanc": "Resume your mock exam",
   "Continuez à vous entraîner": "Keep practicing",
   "Objectif de la semaine": "This week's goal",
   "Jours de pratique": "Practice days",
@@ -382,13 +382,13 @@ export const EN = {
   "Calendrier de pratique :": "Practice calendar:",
   "jour actif ce mois-ci": "active day this month",
   "jours actifs ce mois-ci": "active days this month",
-  "Prêt·e pour un examen blanc ?": "Ready for a mock exam?",
+  "Prêt·e pour un TCF blanc ?": "Ready for a mock exam?",
   "Vous avez assez pratiqué pour tenter les conditions réelles : 4 épreuves enchaînées, score sur 699.":
     "You've practiced enough to try real conditions: 4 back-to-back sections, scored out of 699.",
   "Ouvrir le module": "Open the module",
   "Commencer": "Start",
-  "Lancer un examen blanc": "Start a mock exam",
-  "Examen blanc terminé": "Mock exam completed",
+  "Lancer un TCF blanc": "Start a mock exam",
+  "TCF blanc terminé": "Mock exam completed",
 
   // ── Dashboard achievements (progressService) ─────────────────────────
   "Premier quiz": "First quiz",
@@ -401,8 +401,8 @@ export const EN = {
   "Moyenne ≥ 80 % en CO (5 quiz min.)": "Average ≥ 80% in listening (min. 5 quizzes)",
   "Expert lecture": "Reading expert",
   "Moyenne ≥ 80 % en CE (5 quiz min.)": "Average ≥ 80% in reading (min. 5 quizzes)",
-  "Premier examen blanc": "First mock exam",
-  "Terminer un examen blanc complet": "Finish a full mock exam",
+  "Premier TCF blanc": "First mock exam",
+  "Terminer un TCF blanc complet": "Finish a full mock exam",
   "Série de 7 jours": "7-day streak",
   "Pratiquer 7 jours d'affilée": "Practice 7 days in a row",
   "Série de 30 jours": "30-day streak",
@@ -421,7 +421,7 @@ export const EN = {
   "activité": "activity",
   "activités": "activities",
   "Évolution du score": "Score trend",
-  "Vos sessions notées les plus récentes (compréhension orale et écrite, examens blancs).":
+  "Vos sessions notées les plus récentes (compréhension orale et écrite, TCF blancs).":
     "Your most recent scored sessions (listening and reading comprehension, mock exams).",
   "Par épreuve": "By section",
   "Auto-évaluée": "Self-assessed",
@@ -467,7 +467,7 @@ export const EN = {
   "Gérer mon abonnement": "Manage my subscription",
   "Mettez à jour votre carte, consultez vos factures ou annulez via le portail sécurisé Stripe.":
     "Update your card, view your invoices or cancel via the secure Stripe portal.",
-  "Passez à Premium pour débloquer tous les modules, les examens blancs complets et l'analyse IA.":
+  "Passez à Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.":
     "Upgrade to Premium to unlock every module, full mock exams and AI analysis.",
   "Passer à Premium": "Upgrade to Premium",
   "Préférences et compte": "Preferences and account",
@@ -485,7 +485,7 @@ export const EN = {
   "Gratuit": "Free",
   "Essayer maintenant": "Try now",
   "Envie de tout débloquer ?": "Want to unlock everything?",
-  "Questions illimitées, examens blancs complets et analyse IA dès 19 $ / mois.":
+  "Questions illimitées, TCF blancs complets et analyse IA dès 19 $ / mois.":
     "Unlimited questions, full mock exams and AI analysis from $19 / month.",
   "Voir les forfaits": "See plans",
 
@@ -500,7 +500,7 @@ export const EN = {
   "Aucune question de niveau": "No questions at level",
   "pour l'instant. Choisissez un autre niveau ou revenez en mode « Mixte ».": "for now. Pick another level or go back to “Mixed” mode.",
   "Revenir au mode Mixte": "Back to Mixed mode",
-  "Passer un examen blanc": "Take a mock exam",
+  "Passer un TCF blanc": "Take a mock exam",
   "Difficulté :": "Difficulty:",
   "Mixte": "Mixed",
   "Lisez comme un futur résident": "Read like a future resident",
@@ -691,7 +691,7 @@ export const EN = {
     "Local storage: your exams are kept on this device. Run the Supabase migration (",
   ") pour la synchronisation multi-appareils.": ") for multi-device sync.",
   "Généré pour vous": "Generated for you",
-  "Nouvel examen blanc": "New mock exam",
+  "Nouveau TCF blanc": "New mock exam",
   "tâches sélectionnées aléatoirement parmi les quiz de la banque, en privilégiant ceux que vous n'avez pas encore rencontrés. Quittez quand vous voulez : votre progression est sauvegardée.":
     "tasks randomly selected from the bank's quizzes, favouring the ones you haven't met yet. Leave whenever you want: your progress is saved.",
   "Génération…": "Generating…",
@@ -706,7 +706,7 @@ export const EN = {
   "Abandonner": "Abandon",
   "Abandonner cet examen": "Abandon this exam",
   "Historique": "History",
-  "Vos examens blancs terminés.": "Your completed mock exams.",
+  "Vos TCF blancs terminés.": "Your completed mock exams.",
   "Terminé": "Completed",
   "bonnes réponses": "correct answers",
   "niveau": "level",
@@ -718,7 +718,7 @@ export const EN = {
   "Score par tâche, pourcentage global, niveau CECR estimé et historique complet de vos tentatives.":
     "Score per task, overall percentage, estimated CEFR level and full history of your attempts.",
   "Ma progression": "My progress",
-  "Résultat de l'examen blanc": "Mock exam result",
+  "Résultat du TCF blanc": "Mock exam result",
   "niveau estimé": "estimated level",
   "Score calculé sur les épreuves à choix multiple ; l'expression écrite et orale sont auto-évaluées.":
     "Score computed on the multiple-choice sections; writing and speaking are self-assessed.",
@@ -801,7 +801,7 @@ export const EN = {
   "Contenu Premium": "Premium content",
   "Ce module fait partie de l'abonnement Premium": "This module is part of the Premium subscription",
   "Débloquez tout Passerelle": "Unlock all of Passerelle",
-  "Questions illimitées, les quatre épreuves, examens blancs et suivi CECR dès 19 $ / mois.":
+  "Questions illimitées, les quatre épreuves, TCF blancs et suivi CECR dès 19 $ / mois.":
     "Unlimited questions, all four sections, mock exams and CEFR tracking from $19 / month.",
   "Continuer en gratuit": "Continue for free",
   "Accès refusé": "Access denied",
@@ -820,7 +820,7 @@ export const EN = {
   "Vocabulaire · cartes mémoire": "Vocabulary · flashcards",
   "Grammaire · le subjonctif": "Grammar · the subjunctive",
   "Grammaire · les articles": "Grammar · articles",
-  "Examens blancs TCF Canada": "TCF Canada mock exams",
+  "TCF blancs TCF Canada": "TCF Canada mock exams",
   "Tarifs et abonnements": "Pricing and plans",
   "Entrée express : points du français": "Express Entry: French points",
   "Leçon": "Lesson",
@@ -858,7 +858,7 @@ export const EN = {
     "First habit: consistency beats volume. Twenty minutes a day beats three hours on Sunday.",
   "Deuxième habitude : ils réécoutent chaque audio raté avec la transcription, puis sans. Troisième : ils s'enregistrent à l'oral au moins trois fois par semaine.":
     "Second habit: they replay every missed audio with the transcript, then without. Third: they record themselves speaking at least three times a week.",
-  "Quatrième : ils apprennent le vocabulaire en contexte, jamais en liste isolée. Cinquième : ils passent un examen blanc complet toutes les deux semaines pour bâtir leur endurance.":
+  "Quatrième : ils apprennent le vocabulaire en contexte, jamais en liste isolée. Cinquième : ils passent un TCF blanc complet toutes les deux semaines pour bâtir leur endurance.":
     "Fourth: they learn vocabulary in context, never as isolated lists. Fifth: they take a full mock exam every two weeks to build stamina.",
 
   // ── Admin panel ──────────────────────────────────────────────────────
@@ -1052,7 +1052,7 @@ export const EN = {
   "Le minimum de mots doit être inférieur au maximum.": "The minimum word count must be lower than the maximum.",
   "Une question identique existe déjà dans cette épreuve.": "An identical question already exists in this section.",
 
-  // ── Examens blancs redesign + access gates (coverage completion) ──────
+  // ── TCF blancs redesign + access gates (coverage completion) ──────
   "Contact": "Contact",
   "En cours": "In progress",
   "Examen abandonné.": "Exam discarded.",
@@ -1064,7 +1064,7 @@ export const EN = {
   "Préparez-vous dans les conditions réelles de l'examen.": "Prepare under real exam conditions.",
   "épreuves choisies pour varier les exercices et cibler vos progrès.": "sections chosen to vary the exercises and target your progress.",
   "Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.": "Pause the session anytime: your progress is saved automatically.",
-  "Passez au forfait Premium pour débloquer tous les modules, les examens blancs complets et l'analyse IA.": "Upgrade to Premium to unlock every module, full mock exams and AI analysis.",
+  "Passez au forfait Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.": "Upgrade to Premium to unlock every module, full mock exams and AI analysis.",
 
   // MOCK_SECTIONS descriptions (constants/mocks.js)
   "Renforcé": "Reinforced",
@@ -1117,7 +1117,7 @@ export const EN = {
   "Communiquer avec un autre candidat ou regarder sa copie.": "Communicating with another candidate or looking at their answers.",
   "Sortir de la salle pendant la compréhension orale (diffusée une seule fois).": "Leaving the room during the listening section (played only once).",
   "Recopier le sujet ou être hors-sujet : la production serait notée « A1 non atteint ».": "Copying the prompt or going off-topic: the work would be marked “A1 not reached”.",
-  "Le meilleur entraînement : passez un examen blanc complet dans les conditions réelles, puis retravaillez les épreuves où vous perdez le plus de points.": "The best practice: take a full mock exam under real conditions, then rework the sections where you lose the most points.",
+  "Le meilleur entraînement : passez un TCF blanc complet dans les conditions réelles, puis retravaillez les épreuves où vous perdez le plus de points.": "The best practice: take a full mock exam under real conditions, then rework the sections where you lose the most points.",
   "Voir la méthode détaillée, tâche par tâche": "See the detailed method, task by task",
 
   // ── Expression écrite method (pages/GuideExpressionEcrite.jsx, constants/guideEE.js)

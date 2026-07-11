@@ -59,7 +59,7 @@ export function Practice() {
       </div>
       <Card className="mt-8 p-6 text-center border-2 border-blue-600/40">
         <p className={`font-display font-bold text-lg ${c.text}`}>{t("Envie de tout débloquer ?")}</p>
-        <p className={`text-sm mt-1 ${c.sub}`}>{t("Questions illimitées, examens blancs complets et analyse IA dès 19 $ / mois.")}</p>
+        <p className={`text-sm mt-1 ${c.sub}`}>{t("Questions illimitées, TCF blancs complets et analyse IA dès 19 $ / mois.")}</p>
         <div className="mt-4 flex justify-center gap-3"><Btn small variant="accent" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn></div>
       </Card>
     </PageShell>

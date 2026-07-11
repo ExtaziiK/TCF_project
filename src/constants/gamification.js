@@ -4,7 +4,7 @@ export const BADGES = [
   { icon: Flame, t: "Série de 7 jours", got: true },
   { icon: Headphones, t: "100 audios", got: true },
   { icon: Target, t: "Premier B2", got: true },
-  { icon: Trophy, t: "Examen blanc terminé", got: true },
+  { icon: Trophy, t: "TCF blanc terminé", got: true },
   { icon: Zap, t: "Série de 30 jours", got: false },
   { icon: Award, t: "Niveau C1 atteint", got: false },
 ];
@@ -21,6 +21,6 @@ export const LEADER = [
 // per-user read/dismissed state by it (see hooks/useNotifications.js).
 export const NOTIFS = [
   { id: "streak-12", icon: Flame, t: "Série de 12 jours ! Continuez sur votre lancée.", time: "il y a 2 h" },
-  { id: "mock-2-planned", icon: Calendar, t: "Examen blanc n° 2 planifié samedi à 9 h.", time: "hier" },
+  { id: "mock-2-planned", icon: Calendar, t: "TCF blanc n° 2 planifié samedi à 9 h.", time: "hier" },
   { id: "badge-b2", icon: Award, t: "Nouveau badge : « Premier B2 » débloqué.", time: "il y a 3 jours" },
 ];

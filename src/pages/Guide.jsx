@@ -160,8 +160,8 @@ export function Guide() {
       {/* ── Closing CTA ── */}
       <Card className="p-6 border-2 border-blue-600/30 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Info size={20} /></span>
-        <p className={`text-sm flex-1 ${c.sub}`}>{t("Le meilleur entraînement : passez un examen blanc complet dans les conditions réelles, puis retravaillez les épreuves où vous perdez le plus de points.")}</p>
-        <Btn variant="accent" icon={ArrowRight} className="shrink-0" onClick={() => nav("mocks")}>{t("Passer un examen blanc")}</Btn>
+        <p className={`text-sm flex-1 ${c.sub}`}>{t("Le meilleur entraînement : passez un TCF blanc complet dans les conditions réelles, puis retravaillez les épreuves où vous perdez le plus de points.")}</p>
+        <Btn variant="accent" icon={ArrowRight} className="shrink-0" onClick={() => nav("mocks")}>{t("Passer un TCF blanc")}</Btn>
       </Card>
     </PageShell>
   );

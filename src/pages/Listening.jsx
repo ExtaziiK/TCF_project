@@ -40,7 +40,7 @@ function ListeningDemo() {
           <Btn small variant="ghost" className="mt-4" onClick={() => setDiff("Mixte")}>{t("Revenir au mode Mixte")}</Btn>
         </Card>
       ) : (
-        <Quiz key={diff} questions={filtered} duration={360} storageKey={`listen-${diff}`} renderAbove={(q) => <AudioPlayer src={q.audio} />} doneExtra={<Btn variant="ghost" onClick={() => nav("mocks")}>{t("Passer un examen blanc")}</Btn>} />
+        <Quiz key={diff} questions={filtered} duration={360} storageKey={`listen-${diff}`} renderAbove={(q) => <AudioPlayer src={q.audio} />} doneExtra={<Btn variant="ghost" onClick={() => nav("mocks")}>{t("Passer un TCF blanc")}</Btn>} />
       )}
     </PageShell>
   );

@@ -1,7 +1,7 @@
 import { getBank } from "@/services/bankService";
 import { supabase } from "@/services/supabaseClient";
 
-// Examens blancs: dynamic mock-exam generation + attempt persistence.
+// TCF blancs: dynamic mock-exam generation + attempt persistence.
 //
 // Generation is data-driven: tasks are drawn from whatever getBank() returns,
 // so dropping new quiz JSONs into src/bank/<section>/ automatically enlarges

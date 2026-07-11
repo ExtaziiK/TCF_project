@@ -126,7 +126,7 @@ export function computeProgress({ results = [], attempts = [] }) {
 
   /* ---- charts ---- */
   const charts = {
-    scoreSeries: scored.slice(-12).map((e) => ({ pct: e.pct, at: e.at, label: e.kind === "exam" ? "Examen blanc" : SECTION_LABELS[e.section] || "Quiz" })),
+    scoreSeries: scored.slice(-12).map((e) => ({ pct: e.pct, at: e.at, label: e.kind === "exam" ? "TCF blanc" : SECTION_LABELS[e.section] || "Quiz" })),
     weekBars: week.days, // [{label, count, xp}]
     sectionPerf: sections.filter((s) => s.scored && s.avg !== null).map((s) => ({ label: s.title, pct: s.avg })),
   };
@@ -247,7 +247,7 @@ function continueCard(inProgressExam, results) {
     const done = Object.keys(inProgressExam.progress?.results || {}).length;
     return {
       kind: "exam",
-      title: "Reprendre votre examen blanc",
+      title: "Reprendre votre TCF blanc",
       detail: `Tâche ${Math.min((inProgressExam.progress?.taskIndex || 0) + 1, inProgressExam.tasks.length)} / ${inProgressExam.tasks.length} · ${done} terminée${done > 1 ? "s" : ""}`,
       route: "mocks",
       cta: "Reprendre",
@@ -271,7 +271,7 @@ function activityItem(e) {
   const xp = (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted);
   const base = { date, minutes: e.minutes || 0, xp, kind: e.kind };
   return e.kind === "exam"
-    ? { ...base, title: "Examen blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` }
+    ? { ...base, title: "TCF blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` }
     : { ...base, title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, result: `${e.pct} %` };
 }
 
@@ -288,7 +288,7 @@ export function achievements(p) {
     { id: "hundred-correct", title: "100 bonnes réponses", desc: "Cumuler 100 bonnes réponses", earned: t.correctAnswers >= 100 },
     { id: "listening-expert", title: "Expert écoute", desc: "Moyenne ≥ 80 % en CO (5 quiz min.)", earned: !!co && co.quizzesCompleted >= 5 && co.avg >= 80 },
     { id: "reading-expert", title: "Expert lecture", desc: "Moyenne ≥ 80 % en CE (5 quiz min.)", earned: !!ce && ce.quizzesCompleted >= 5 && ce.avg >= 80 },
-    { id: "first-exam", title: "Premier examen blanc", desc: "Terminer un examen blanc complet", earned: t.examsCompleted >= 1 },
+    { id: "first-exam", title: "Premier TCF blanc", desc: "Terminer un TCF blanc complet", earned: t.examsCompleted >= 1 },
     { id: "streak-7", title: "Série de 7 jours", desc: "Pratiquer 7 jours d'affilée", earned: p.streaks.longest >= 7 },
     { id: "streak-30", title: "Série de 30 jours", desc: "Pratiquer 30 jours d'affilée", earned: p.streaks.longest >= 30 },
     { id: "perfect", title: "Score parfait", desc: "Obtenir 100 % sur un quiz", earned: anyPerfect },
@@ -336,10 +336,10 @@ function recommendations(p, bank, results) {
   }
   if (p.totals.examsCompleted === 0 && p.totals.quizzesCompleted >= 3) {
     recs.push({
-      title: "Prêt·e pour un examen blanc ?",
+      title: "Prêt·e pour un TCF blanc ?",
       body: "Vous avez assez pratiqué pour tenter les conditions réelles : 4 épreuves enchaînées, score sur 699.",
       route: "mocks",
-      cta: "Lancer un examen blanc",
+      cta: "Lancer un TCF blanc",
     });
   }
   return recs.slice(0, 3);

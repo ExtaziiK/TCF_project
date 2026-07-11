@@ -5,7 +5,7 @@ import { Headphones, BookOpen, PenLine, Mic } from "lucide-react";
 
 // The 4 mandatory épreuves — total duration 2 h 47. `long` is the detailed
 // description revealed on hover; it deepens the short version shown on the
-// Examens blancs page (MOCK_SECTIONS.desc), which links here for the full text.
+// TCF blancs page (MOCK_SECTIONS.desc), which links here for the full text.
 export const GUIDE_EPREUVES = [
   { icon: Headphones, name: "Compréhension orale", detail: "39 questions à choix multiple", time: "35 min", more: "guide-co",
     long: "Annonces, dialogues, interviews et extraits radio à débit courant. Chaque enregistrement n'est diffusé qu'une seule fois et la question arrive après l'écoute : 4 propositions, une seule correcte, avec une difficulté progressive." },

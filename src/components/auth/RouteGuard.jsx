@@ -37,11 +37,11 @@ function RegisterGate() {
 function UpgradeGate() {
   const { c, nav, t } = useApp();
   return (
-    <PageShell eyebrow={t("Contenu Premium")} title={t("Ce module fait partie de l'abonnement Premium")} sub={t("Passez au forfait Premium pour débloquer tous les modules, les examens blancs complets et l'analyse IA.")}>
+    <PageShell eyebrow={t("Contenu Premium")} title={t("Ce module fait partie de l'abonnement Premium")} sub={t("Passez au forfait Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}>
       <Card className="max-w-xl mx-auto p-8 text-center border-2 border-blue-600/40">
         <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Crown size={22} /></span>
         <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Débloquez tout Passerelle")}</p>
-        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Questions illimitées, les quatre épreuves, examens blancs et suivi CECR dès 19 $ / mois.")}</p>
+        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Questions illimitées, les quatre épreuves, TCF blancs et suivi CECR dès 19 $ / mois.")}</p>
         <div className="mt-6 flex justify-center gap-3">
           <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
           <Btn variant="ghost" onClick={() => nav("practice")}>{t("Continuer en gratuit")}</Btn>

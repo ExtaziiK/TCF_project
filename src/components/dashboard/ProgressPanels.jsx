@@ -34,7 +34,7 @@ export function ProgressPanels({ data }) {
       {/* score evolution */}
       <Card className="p-6 flex flex-col">
         <h3 className={`font-display font-bold mb-1 ${c.text}`}>{t("Évolution du score")}</h3>
-        <p className={`text-sm ${c.faint} mb-6`}>{t("Vos sessions notées les plus récentes (compréhension orale et écrite, examens blancs).")}</p>
+        <p className={`text-sm ${c.faint} mb-6`}>{t("Vos sessions notées les plus récentes (compréhension orale et écrite, TCF blancs).")}</p>
         <div className="flex-1 flex items-center">
           <ScoreSparkline series={data.charts.scoreSeries} height={150} />
         </div>
