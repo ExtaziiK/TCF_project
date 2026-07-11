@@ -47,7 +47,7 @@ export function AuthPage({ mode }) {
         setLockMsg("");
         notify(t("Bon retour parmi nous !"));
         const firstLogin = consumeFirstLogin(r.user?.id);
-        nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard");
+        nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
       } else if (view === "register") {
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
         if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."));
@@ -57,7 +57,7 @@ export function AuthPage({ mode }) {
         else {
           const newUser = mapSupabaseUser(data.session);
           const firstLogin = consumeFirstLogin(newUser?.id);
-          nav(newUser?.admin ? "admin" : firstLogin ? "exams" : "dashboard");
+          nav(newUser?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
         }
       } else {
         const { error } = await resetPassword(email);

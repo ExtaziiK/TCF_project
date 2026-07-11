@@ -87,8 +87,11 @@ export function AppProvider({ children }) {
   // Each route change pushes a browser history entry, so the in-app "Retour"
   // affordance and the browser's own back/forward buttons share one history.
   // The URL path is left unchanged (no server rewrites needed).
-  const nav = (r) => {
-    if (r !== route) window.history.pushState({ route: r }, "");
+  // `replace: true` swaps the current history entry instead of pushing a new
+  // one — used after login/registration so Back doesn't return to the auth
+  // page (which the user has already left by signing in).
+  const nav = (r, { replace = false } = {}) => {
+    if (r !== route) window.history[replace ? "replaceState" : "pushState"]({ route: r }, "");
     setRoute(r);
     window.scrollTo({ top: 0 });
   };
