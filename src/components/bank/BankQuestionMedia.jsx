@@ -2,15 +2,24 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/common";
 import { RealAudio } from "@/components/quiz/RealAudio";
 
-// Illustration that removes itself if the file can't be loaded (e.g. a
-// remote URL that is no longer served) instead of showing a broken image.
+// Illustration for a question. Many questions carry a convention-based image
+// URL that doesn't actually exist (e.g. Compréhension orale, which is audio
+// only), so we keep the frame hidden until the image successfully loads —
+// otherwise an empty box would flash in and out on every question. The <img>
+// still loads while hidden (display:none), so onLoad/onError fire normally.
 function QuestionImage({ src }) {
-  const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [src]);
-  if (failed) return null;
+  const [status, setStatus] = useState("loading"); // loading | loaded | failed
+  useEffect(() => setStatus("loading"), [src]);
+  if (status === "failed") return null;
   return (
-    <Card className="p-4 flex justify-center">
-      <img src={src} alt="Illustration de la question" className="max-h-64 rounded-2xl object-contain" onError={() => setFailed(true)} />
+    <Card className={status === "loaded" ? "p-4 flex justify-center" : "hidden"}>
+      <img
+        src={src}
+        alt="Illustration de la question"
+        className="max-h-64 rounded-2xl object-contain"
+        onLoad={() => setStatus("loaded")}
+        onError={() => setStatus("failed")}
+      />
     </Card>
   );
 }
