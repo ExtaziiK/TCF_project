@@ -243,16 +243,21 @@ export function Mocks() {
           {/* Informational only — these tiles don't navigate, they present the
               format. Rendered on the page background so they read as inset
               tiles against the white panel; hover expands the description. */}
-          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 items-start">
             {MOCK_SECTIONS.map((s, i) => (
-              <div key={s.t} className={`group p-5 h-full flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
+              <div key={s.t} className={`group p-5 flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
                 <div className="flex items-start justify-between mb-4">
                   <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
                   <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
                 </div>
                 <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
                 <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
-                <p className={`text-xs leading-relaxed max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-3 ${c.sub}`}>{t(s.desc)}</p>
+                <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-3">
+                  <p className={`text-xs leading-relaxed ${c.sub}`}>{t(s.desc)}</p>
+                  <button onClick={() => nav("guide")} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:gap-1.5 transition-all">
+                    {t("Pour plus de détails, cliquez ici")} <ArrowRight size={12} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

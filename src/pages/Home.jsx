@@ -2,6 +2,7 @@ import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
+import { DemoQuestionSecondary } from "@/components/home/DemoQuestionSecondary";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { STATS, FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
@@ -28,20 +29,26 @@ function Landing() {
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
           <div className="absolute -bottom-40 -right-24 w-[420px] h-[420px] rounded-full opacity-15" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-24 pb-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
-          <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
+          {/* top: hero pitch, full width and centered */}
+          <div className="max-w-3xl mx-auto text-center">
             <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
-            <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.05] mt-5 ${c.text} rise rise-1`}>
+            <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.05] mt-5 max-w-2xl mx-auto ${c.text} rise rise-1`}>
               {t("Le français qui vous ouvre")} <span className="grad-text">{t("le Canada.")}</span>
             </h1>
-            <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} max-w-lg rise rise-2`}>
+            <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} mx-auto rise rise-2`}>
               {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3 rise rise-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3 rise rise-3">
               <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
             </div>
           </div>
-          <div className="rise rise-2"><DemoQuestion /></div>
+
+          {/* below: the two demo questions, side by side on the same line */}
+          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-start">
+            <div className="rise rise-2"><DemoQuestion /></div>
+            <div className="rise rise-3"><DemoQuestionSecondary /></div>
+          </div>
         </div>
       </section>
 
@@ -128,7 +135,6 @@ function Landing() {
           <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {plans.map((p) => <PlanCard key={p.name} p={p} compact />)}
           </div>
-          <div className="text-center mt-8"><Btn variant="ghost" onClick={() => nav("pricing")} icon={ArrowRight}>{t("Comparer les forfaits en détail")}</Btn></div>
         </div>
       </section>
 

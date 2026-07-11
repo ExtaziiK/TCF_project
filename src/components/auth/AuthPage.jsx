@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Leaf, Mail, Lock, User, AtSign, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable, consumeFirstLogin } from "@/services/authService";
 
 function GoogleIcon(props) {
   return (
@@ -46,14 +46,19 @@ export function AuthPage({ mode }) {
         }
         setLockMsg("");
         notify(t("Bon retour parmi nous !"));
-        nav(r.user?.admin ? "admin" : "dashboard");
+        const firstLogin = consumeFirstLogin(r.user?.id);
+        nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard");
       } else if (view === "register") {
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
         if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."));
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password });
         if (error) return notify(error.message);
         if (needsEmailConfirmation) setVerify(true);
-        else nav(mapSupabaseUser(data.session)?.admin ? "admin" : "dashboard");
+        else {
+          const newUser = mapSupabaseUser(data.session);
+          const firstLogin = consumeFirstLogin(newUser?.id);
+          nav(newUser?.admin ? "admin" : firstLogin ? "exams" : "dashboard");
+        }
       } else {
         const { error } = await resetPassword(email);
         if (error) return notify(error.message);

@@ -39,14 +39,15 @@ function GoalRow({ label, current, target }) {
   );
 }
 
-// Streak card: the month calendar is collapsed by default (just the practiced-
-// day count) and expands on click.
+// Streak card: compact by default (streak count + month summary); hovering the
+// card expands it to reveal a plain-language explanation, the month calendar
+// and a colour legend so the whole thing is self-explanatory.
 function StreakCard({ streaks }) {
   const { c, t } = useApp();
-  const [open, setOpen] = useState(false);
   const cal = streaks.calendar;
+  const today = new Date().getDate();
   return (
-    <Card className="p-6 relative overflow-hidden">
+    <Card className="group p-6 relative overflow-hidden">
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-rose-600/10 blur-xl" aria-hidden="true" />
       <div className="flex items-center gap-4">
         <Flame size={30} className="text-rose-600 shrink-0" />
@@ -55,21 +56,47 @@ function StreakCard({ streaks }) {
           <p className={`text-xs ${c.faint}`}>{t("série en cours · record :")} {streaks.longest} {t(streaks.longest > 1 ? "jours" : "jour")}</p>
         </div>
       </div>
-      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className={`mt-4 w-full flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider ${c.faint} hover:text-blue-600`}>
+
+      {/* Hover affordance: month summary. Hovering the card reveals the detail. */}
+      <div className={`mt-4 flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider ${c.faint} group-hover:text-blue-600 transition-colors`}>
         <span>{t(cal.monthLabel)} · {cal.practiced} {t(cal.practiced > 1 ? "jours pratiqués" : "jour pratiqué")}</span>
-        <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="grid grid-cols-7 gap-1.5 mt-3 rise" role="img" aria-label={`${t("Calendrier de pratique :")} ${cal.practiced} ${t(cal.practiced > 1 ? "jours actifs ce mois-ci" : "jour actif ce mois-ci")}`}>
-          {cal.days.map((d) => (
-            <span key={d.day} title={`${t("Jour")} ${d.day}${d.active ? ` · ${t("pratiqué")}` : ""}`}
-              className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center
-              ${d.active ? "grad-brand text-white" : d.future ? `${c.faint} opacity-30` : `border ${c.border} ${c.faint}`}`}>
-              {d.day}
-            </span>
-          ))}
+        <ChevronDown size={14} className="shrink-0 transition-transform group-hover:rotate-180" />
+      </div>
+
+      {/* Revealed on hover: explanation, calendar and colour legend. */}
+      <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-[460px] group-hover:opacity-100 group-hover:mt-3">
+        <p className={`text-xs leading-relaxed ${c.sub}`}>
+          {t("Votre série, c'est le nombre de jours d'affilée où vous avez pratiqué. Faites au moins un quiz chaque jour pour la faire grandir : un seul jour manqué la remet à zéro.")}
+        </p>
+        {!streaks.practicedToday && (
+          <p className="text-xs leading-relaxed mt-2 font-medium text-rose-600">
+            {t(streaks.current > 0 ? "Vous n'avez pas encore pratiqué aujourd'hui : un quiz suffit pour garder votre série." : "Pratiquez aujourd'hui pour démarrer une nouvelle série.")}
+          </p>
+        )}
+        <div className="grid grid-cols-7 gap-1.5 mt-3" role="img" aria-label={`${t("Calendrier de pratique :")} ${cal.practiced} ${t(cal.practiced > 1 ? "jours actifs ce mois-ci" : "jour actif ce mois-ci")}`}>
+          {cal.days.map((d) => {
+            const isToday = d.day === today;
+            const cls = d.active
+              ? "grad-brand text-white"
+              : d.future
+                ? `${c.faint} opacity-30`
+                : `border ${c.border} ${isToday ? "text-blue-600" : c.faint}`;
+            return (
+              <span key={d.day} title={`${t("Jour")} ${d.day}${d.active ? ` · ${t("pratiqué")}` : isToday ? ` · ${t("aujourd'hui")}` : ""}`}
+                className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center ${cls} ${isToday ? "ring-2 ring-blue-500" : ""}`}>
+                {d.day}
+              </span>
+            );
+          })}
         </div>
-      )}
+        {/* Colour legend so the calendar is self-explanatory. */}
+        <div className={`flex flex-wrap gap-x-4 gap-y-1.5 mt-3 text-[10px] ${c.faint}`}>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded grad-brand inline-block" aria-hidden="true" /> {t("Pratiqué")}</span>
+          <span className="flex items-center gap-1.5"><span className={`w-3 h-3 rounded border ${c.border} inline-block`} aria-hidden="true" /> {t("Non pratiqué")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded ring-2 ring-blue-500 inline-block" aria-hidden="true" /> {t("Aujourd'hui")}</span>
+          <span className="flex items-center gap-1.5"><span className={`w-3 h-3 rounded border ${c.border} opacity-30 inline-block`} aria-hidden="true" /> {t("À venir")}</span>
+        </div>
+      </div>
     </Card>
   );
 }
@@ -146,7 +173,7 @@ export function DashboardView({ data }) {
                 <h3 className={`font-display font-bold mt-3 ${c.text}`}>{t(data.continueCard.title)}</h3>
                 <p className={`text-sm mt-1 ${c.sub}`}>{t(data.continueCard.detail)}</p>
               </div>
-              <Btn icon={ArrowRight} onClick={() => nav(data.continueCard.route)}>{t(data.continueCard.cta)}</Btn>
+              <Btn variant="accent" icon={ArrowRight} onClick={() => nav(data.continueCard.route)}>{t(data.continueCard.cta)}</Btn>
             </Card>
           )}
 

@@ -1,5 +1,28 @@
 import { supabase } from "@/services/supabaseClient";
 
+const FIRST_LOGIN_KEY = "tcf_first_login_seen";
+
+function seenFirstLoginIds() {
+  try { return new Set(JSON.parse(localStorage.getItem(FIRST_LOGIN_KEY) || "[]")); }
+  catch { return new Set(); }
+}
+
+// True the first time it's called for a given user id (right after signup's
+// auto-login, or on the first manual login if email confirmation was
+// required) — every call after that returns false, so only that one very
+// first session redirects to the onboarding landing page. Tracked in
+// localStorage rather than a profiles column: this is a one-time UX nicety,
+// not data that needs to survive a cleared browser or follow the user
+// cross-device.
+export function consumeFirstLogin(userId) {
+  if (!userId) return false;
+  const seen = seenFirstLoginIds();
+  if (seen.has(userId)) return false;
+  seen.add(userId);
+  try { localStorage.setItem(FIRST_LOGIN_KEY, JSON.stringify([...seen])); } catch { /* storage unavailable, degrade to always-first */ }
+  return true;
+}
+
 // Maps a Supabase session to the { name, email, plan, admin } shape the UI expects.
 // `admin`/`plan`/`premium_until` read from app_metadata, which users cannot
 // self-edit via the client SDK (unlike user_metadata) — set it from the

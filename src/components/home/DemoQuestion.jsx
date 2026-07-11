@@ -4,13 +4,33 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { AudioPlayer } from "@/components/quiz";
 import { LISTEN_QS } from "@/constants/listening";
+import { getBank } from "@/services/bankService";
+
+// Picks a real Compréhension orale item from Quiz 1 of the actual question
+// bank (src/bank/co/Quiz_1_CO.json) instead of the curated demo dataset. The
+// bank carries no per-question CEFR tag, but the official TCF manual states
+// items are ordered by increasing difficulty within an épreuve — with 39
+// questions spread A1→C2, item #19 sits solidly in the B1-B2 band (past the
+// easy opening items, short of the C1/C2 closing ones). Falls back to the
+// curated LISTEN_QS demo if the bank is ever unavailable.
+function realDemoQuestion() {
+  const quiz1 = getBank().co.find((quiz) => quiz.quizNumber === 1);
+  const questions = quiz1?.questions || [];
+  const picked = questions[18] || questions[Math.floor((questions.length - 1) / 2)];
+  return picked ? { ...picked, level: "B1–B2", kind: "bank" } : null;
+}
 
 // Hero teaser: one real CO question presented exactly like the quiz pages —
 // audio player on top, lettered options, correction and explanation below.
 export function DemoQuestion() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
-  const q = LISTEN_QS[0];
+  const [q] = useState(() => realDemoQuestion() || LISTEN_QS[0]);
+  const isBankItem = q.kind === "bank";
+  const questionLabel = isBankItem ? t("Écoutez le document sonore, puis choisissez la bonne réponse.") : q.q;
+  const explanation = isBankItem
+    ? `${t("Bonne réponse :")} « ${q.opts[q.a]} ». ${t("C'est la seule proposition fidèle à ce qu'annonce l'enregistrement.")}`
+    : q.exp;
   return (
     <div className="space-y-4">
       <AudioPlayer src={q.audio} />
@@ -20,7 +40,7 @@ export function DemoQuestion() {
           <Pill tone="blue"><Headphones size={12} /> {t("Question du jour · CO")}</Pill>
           <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
         </div>
-        <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{q.q}</p>
+        <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{questionLabel}</p>
         <div className="space-y-2.5">
           {q.opts.map((o, i) => {
             const state = sel === null ? "idle" : i === q.a ? "right" : i === sel ? "wrong" : "dim";
@@ -41,7 +61,7 @@ export function DemoQuestion() {
         {sel !== null && (
           <div className="mt-4 p-4 rounded-2xl bg-blue-600/10 text-sm rise">
             <p className="font-semibold text-blue-600 flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> {t("Explication")}</p>
-            <p className={c.sub}>{q.exp}</p>
+            <p className={c.sub}>{explanation}</p>
             <Btn small className="mt-4" icon={ArrowRight} onClick={() => nav("practice")}>{t("Continuer en pratique gratuite")}</Btn>
           </div>
         )}
