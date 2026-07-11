@@ -34,7 +34,6 @@ export const EN = {
 
   // ── Footer ───────────────────────────────────────────────────────────
   "Ressources": "Resources",
-  "Admin (démo)": "Admin (demo)",
   "La plateforme de préparation au TCF Canada pensée pour votre projet d'immigration. Pratiquez, mesurez, réussissez.":
     "The TCF Canada preparation platform built for your immigration project. Practice, measure, succeed.",
   "Paiement sécurisé Stripe": "Secure payment via Stripe",
@@ -1109,9 +1108,9 @@ export const EN = {
   "Rédaction d'un message pour décrire, raconter et/ou expliquer, adressé à un ou plusieurs destinataires dont le statut est précisé dans la consigne.": "Write a message to describe, recount and/or explain, addressed to one or more recipients whose status is stated in the instructions.",
   "La structure du message": "The structure of the message",
   "Objet": "Subject line",
-  "Un objet court et clair. Ex. : « Mes congés à Marrakech ».": "A short, clear subject line. E.g. “My holidays in Marrakech”.",
+  "Un objet court et clair. Ex. : « Mes congés à Dakar ».": "A short, clear subject line. E.g. “My holidays in Dakar”.",
   "Salutations": "Greeting",
-  "Adaptez le registre au destinataire. Ex. : « Coucou Nabil, comment vas-tu ? ».": "Match the register to the recipient. E.g. “Hi Nabil, how are you?”.",
+  "Adaptez le registre au destinataire. Ex. : « Coucou Samy, comment vas-tu ? ».": "Match the register to the recipient. E.g. “Hi Samy, how are you?”.",
   "Objectif du message": "Purpose of the message",
   "Annoncez d'emblée pourquoi vous écrivez. Ex. : « Je t'écris pour te dire que je serai à Paris. ».": "State up front why you are writing. E.g. “I'm writing to tell you I'll be in Paris.”.",
   "Détails de la circonstance": "Details of the situation",

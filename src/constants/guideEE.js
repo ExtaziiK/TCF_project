@@ -25,8 +25,8 @@ export const EE_METHOD = [
     brief: "Rédaction d'un message pour décrire, raconter et/ou expliquer, adressé à un ou plusieurs destinataires dont le statut est précisé dans la consigne.",
     structureTitle: "La structure du message",
     steps: [
-      { s: "Objet", d: "Un objet court et clair. Ex. : « Mes congés à Marrakech »." },
-      { s: "Salutations", d: "Adaptez le registre au destinataire. Ex. : « Coucou Nabil, comment vas-tu ? »." },
+      { s: "Objet", d: "Un objet court et clair. Ex. : « Mes congés à Dakar »." },
+      { s: "Salutations", d: "Adaptez le registre au destinataire. Ex. : « Coucou Samy, comment vas-tu ? »." },
       { s: "Objectif du message", d: "Annoncez d'emblée pourquoi vous écrivez. Ex. : « Je t'écris pour te dire que je serai à Paris. »." },
       { s: "Détails de la circonstance", d: "Répondez à : qui ? quoi ? quand ? où ? avec qui ?" },
       { s: "Attentes concrètes", d: "Selon la consigne. Ex. : « J'aimerais que tu repères des endroits chics à visiter. »." },

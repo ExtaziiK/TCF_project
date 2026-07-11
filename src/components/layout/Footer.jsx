@@ -8,7 +8,7 @@ export function Footer() {
   const cols = [
     { h: "Pratique", links: [["Compréhension orale", "listening"], ["Compréhension écrite", "reading"], ["Expression écrite", "writing"], ["Expression orale", "speaking"], ["Examens blancs", "mocks"]] },
     { h: "Ressources", links: [["Guide de l'examen", "guide"], ["Vocabulaire", "vocabulary"], ["Grammaire", "grammar"], ["Blogue", "blog"], ["FAQ", "faq"]] },
-    { h: "Passerelle", links: [["À propos", "about"], ["Tarifs", "pricing"], ["Contact", "contact"], ["Admin (démo)", "admin"]] },
+    { h: "Passerelle", links: [["À propos", "about"], ["Tarifs", "pricing"], ["Contact", "contact"]] },
   ];
   return (
     <footer className={`border-t ${c.border} ${c.footer} mt-8`}>
