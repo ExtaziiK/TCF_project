@@ -46,7 +46,7 @@ function Landing() {
           </div>
 
           {/* below: the two demo questions, side by side on the same line */}
-          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-start">
+          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-center">
             <div className="rise rise-2"><DemoQuestion /></div>
             <div className="rise rise-3"><DemoQuestionSecondary /></div>
           </div>
