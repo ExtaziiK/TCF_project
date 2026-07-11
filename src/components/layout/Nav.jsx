@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Menu, X, Sun, Moon, Bell, Search, ChevronDown, ChevronRight, LogOut, Shield } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
-import { NOTIFS } from "@/constants/gamification";
+import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES } from "@/auth/rbac";
 
 export function Nav() {
@@ -14,7 +14,19 @@ export function Nav() {
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id);
+  const notifRef = useRef(null);
   const go = (r) => { nav(r); setOpen(false); setOpenMenu(null); setNotifOpen(false); };
+
+  // Close the notifications panel on an outside click or Escape.
+  useEffect(() => {
+    if (!notifOpen) return;
+    const onDown = (e) => { if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setNotifOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [notifOpen]);
   const navLinks = navLinksForRole(NAV_LINKS, role);
   const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
   const mobileLinks = [
@@ -62,19 +74,43 @@ export function Nav() {
             <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"} className={`p-2.5 rounded-full text-xs font-bold tracking-wide ${c.sub} ${c.hoverSoft}`}>{lang === "fr" ? "EN" : "FR"}</button>
             <button onClick={() => setDark(!dark)} aria-label={dark ? t("Mode clair") : t("Mode sombre")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
             {user && (
-              <div className="relative">
-                <button onClick={() => setNotifOpen(!notifOpen)} aria-label="Notifications" className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft} relative`}>
-                  <Bell size={18} /><span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-600" />
+              <div className="relative" ref={notifRef}>
+                <button onClick={() => setNotifOpen((o) => !o)} aria-label={t("Notifications")} aria-expanded={notifOpen} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft} relative`}>
+                  <Bell size={18} />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold leading-none flex items-center justify-center">{unreadCount > 9 ? "9+" : unreadCount}</span>
+                  )}
                 </button>
                 {notifOpen && (
                   <div className={`absolute right-0 top-full mt-2 w-80 rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise z-50`}>
-                    <p className={`px-3 pt-2 pb-1 text-xs font-bold uppercase tracking-wider ${c.faint}`}>Notifications</p>
-                    {NOTIFS.map((nf, i) => (
-                      <div key={i} className={`flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft}`}>
-                        <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><nf.icon size={16} /></span>
-                        <div><p className={`text-sm ${c.text}`}>{nf.t}</p><p className={`text-xs ${c.faint} mt-0.5`}>{nf.time}</p></div>
+                    <div className="flex items-center justify-between px-3 pt-2 pb-1.5">
+                      <p className={`text-xs font-bold uppercase tracking-wider ${c.faint}`}>Notifications</p>
+                      {unreadCount > 0 && (
+                        <button onClick={markAllRead} className="text-xs font-semibold text-blue-600 hover:underline">{t("Tout marquer comme lu")}</button>
+                      )}
+                    </div>
+                    {notifications.length === 0 ? (
+                      <div className="px-3 py-8 text-center">
+                        <BellOff size={22} className={`mx-auto mb-2 ${c.faint}`} />
+                        <p className={`text-sm ${c.faint}`}>{t("Aucune notification")}</p>
                       </div>
-                    ))}
+                    ) : (
+                      <div className="max-h-[22rem] overflow-y-auto">
+                        {notifications.map((nf) => (
+                          <div key={nf.id} className={`group flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft} ${nf.read ? "" : "bg-blue-600/5"}`}>
+                            <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${nf.read ? `${c.tint} ${c.faint}` : "bg-blue-600/10 text-blue-600"}`}><nf.icon size={16} /></span>
+                            <button onClick={() => markRead(nf.id)} className="flex-1 min-w-0 text-left">
+                              <p className={`text-sm ${c.text}`}>{t(nf.t)}</p>
+                              <p className={`text-xs ${c.faint} mt-0.5`}>{t(nf.time)}</p>
+                            </button>
+                            <div className="flex flex-col items-center gap-1.5 shrink-0 pt-1">
+                              {!nf.read && <span className="w-2 h-2 rounded-full bg-blue-600" aria-label={t("Non lu")} />}
+                              <button onClick={() => dismiss(nf.id)} aria-label={t("Supprimer")} className={`opacity-0 group-hover:opacity-100 p-1 rounded-lg ${c.faint} ${c.hoverSoft} transition-opacity`}><X size={13} /></button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

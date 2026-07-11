@@ -32,6 +32,11 @@ export const EN = {
   "Connexion": "Log in",
   "S'inscrire": "Sign up",
 
+  // ── Notifications (Nav bell) ─────────────────────────────────────────
+  "Tout marquer comme lu": "Mark all as read",
+  "Aucune notification": "No notifications",
+  "Non lu": "Unread",
+
   // ── Footer ───────────────────────────────────────────────────────────
   "Ressources": "Resources",
   "La plateforme de préparation au TCF Canada pensée pour votre projet d'immigration. Pratiquez, mesurez, réussissez.":

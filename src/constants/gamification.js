@@ -17,8 +17,10 @@ export const LEADER = [
   { name: "Ivan P.", pts: 2120, streak: 14 },
 ];
 
+// Seed notifications. Each needs a stable `id` — useNotifications tracks the
+// per-user read/dismissed state by it (see hooks/useNotifications.js).
 export const NOTIFS = [
-  { icon: Flame, t: "Série de 12 jours ! Continuez sur votre lancée.", time: "il y a 2 h" },
-  { icon: Calendar, t: "Examen blanc n° 2 planifié samedi à 9 h.", time: "hier" },
-  { icon: Award, t: "Nouveau badge : « Premier B2 » débloqué.", time: "il y a 3 jours" },
+  { id: "streak-12", icon: Flame, t: "Série de 12 jours ! Continuez sur votre lancée.", time: "il y a 2 h" },
+  { id: "mock-2-planned", icon: Calendar, t: "Examen blanc n° 2 planifié samedi à 9 h.", time: "hier" },
+  { id: "badge-b2", icon: Award, t: "Nouveau badge : « Premier B2 » débloqué.", time: "il y a 3 jours" },
 ];
