@@ -20,13 +20,23 @@ export function ProgressPanels({ data }) {
       <Card className="p-6">
         <h3 className={`font-display font-bold mb-1 ${c.text}`}>{t("Temps d'étude cette semaine")}</h3>
         <p className={`text-sm ${c.faint} mb-6`}>{formatDuration(data.week.minutes)} {t("au total ·")} {data.week.activeDays} {t(data.week.activeDays > 1 ? "jours actifs" : "jour actif")}</p>
-        <div className="flex items-end gap-3 h-44" role="img" aria-label={t("Minutes d'étude par jour")}>
+        {/* Bars are sized in pixels against a fixed budget: a percentage
+            height would collapse here, since the column's height isn't
+            definite (the row aligns items to the bottom). */}
+        <div className="flex items-end gap-2 sm:gap-3" style={{ height: 176 }} role="img" aria-label={t("Minutes d'étude par jour")}>
+          {data.week.days.map((d, i) => {
+            const barPx = d.minutes > 0 ? Math.max(16, Math.round((d.minutes / maxMin) * 150)) : 4;
+            return (
+              <div key={i} className="flex-1 h-full flex flex-col items-center justify-end gap-1.5" title={`${d.minutes} min · ${d.count} ${t(d.count > 1 ? "activités" : "activité")}`}>
+                <span className={`text-[11px] font-mono2 font-bold whitespace-nowrap ${d.minutes > 0 ? c.sub : c.faint}`}>{d.minutes > 0 ? `${d.minutes}'` : "—"}</span>
+                <div className="w-full max-w-[34px] rounded-t-lg grad-brand transition-[height] duration-500" style={{ height: barPx, opacity: d.minutes > 0 ? 1 : 0.2 }} />
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex gap-2 sm:gap-3 mt-2.5">
           {data.week.days.map((d, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-2" title={`${d.minutes} min · ${d.count} ${t(d.count > 1 ? "activités" : "activité")}`}>
-              <span className={`text-[10px] font-mono2 ${c.faint}`}>{d.minutes > 0 ? `${d.minutes}'` : "—"}</span>
-              <div className="w-full rounded-t-xl grad-brand transition-all" style={{ height: `${(d.minutes / maxMin) * 100}%`, minHeight: d.minutes ? 8 : 3, opacity: d.minutes ? 1 : 0.15 }} />
-              <span className={`text-xs font-medium ${c.sub}`}>{dayInitial(d.label, i)}</span>
-            </div>
+            <span key={i} className={`flex-1 text-center text-xs font-semibold ${c.sub}`}>{dayInitial(d.label, i)}</span>
           ))}
         </div>
       </Card>
