@@ -88,12 +88,18 @@ export function resolveTasks(tasks) {
 
 /* ------------------------------- scoring -------------------------------- */
 
+// Shared by the overall exam score and each task's own score, so the report
+// never shows two different scales for what looks like the same metric.
+export function levelForPct(pct) {
+  return pct >= 85 ? "C1" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
+}
+
 export function scoreExam(taskResults) {
   const ok = taskResults.reduce((s, r) => s + r.ok, 0);
   const total = taskResults.reduce((s, r) => s + r.total, 0);
   const pct = total ? Math.round((ok / total) * 100) : 0;
   const points = Math.round((pct / 100) * 699); // official TCF scale is /699
-  const level = pct >= 85 ? "C1" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
+  const level = levelForPct(pct);
   return { ok, total, pct, points, level };
 }
 

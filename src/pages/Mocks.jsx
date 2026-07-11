@@ -9,7 +9,7 @@ import { SpeakingStudioBody } from "@/pages/Speaking";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
-  TASKS_PER_EXAM, generateExamTasks, resolveTasks, scoreExam,
+  TASKS_PER_EXAM, generateExamTasks, resolveTasks, scoreExam, levelForPct,
   listAttempts, createAttempt, saveProgress, completeAttempt, abandonAttempt,
 } from "@/services/examService";
 
@@ -33,6 +33,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
       <div className="mt-8 space-y-2.5">
         {s.perTask.map((task, i) => {
           const selfAssessed = task.type && task.type !== "quiz";
+          const taskPct = task.total ? Math.round((task.ok / task.total) * 100) : 0;
           return (
             <div key={i} className={`flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl border ${c.border}`}>
               <div className="flex items-center gap-3">
@@ -44,7 +45,8 @@ function ExamReport({ attempt, onRestart, onBack }) {
               ) : (
                 <div className="flex items-center gap-3">
                   <span className={`text-sm font-mono2 ${c.sub}`}>{task.ok} / {task.total}</span>
-                  <Pill tone={task.total && task.ok / task.total >= 0.65 ? "green" : "amber"}>{task.total ? Math.round((task.ok / task.total) * 100) : 0} %</Pill>
+                  <Pill tone="slate">{t("Niveau")} {levelForPct(taskPct)}</Pill>
+                  <Pill tone={taskPct >= 65 ? "green" : "amber"}>{taskPct} %</Pill>
                 </div>
               )}
             </div>
