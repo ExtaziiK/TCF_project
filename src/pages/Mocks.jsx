@@ -219,7 +219,7 @@ export function Mocks() {
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
-    <PageShell tight center back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
+    <PageShell tight center big back wide eyebrow={t("Examens blancs")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
       {backend === "local" && (
         <Card className="p-3 mb-4 flex items-center gap-3 border-amber-500/40">
           <CloudOff size={18} className="text-amber-500 shrink-0" />
@@ -266,7 +266,7 @@ export function Mocks() {
 
       {inProgress.length > 0 && (
         <>
-          <SectionHead title={t("Examens en cours")} sub={t("Reprenez exactement où vous vous êtes arrêté·e.")} />
+          <SectionHead tight title={t("Examens en cours")} sub={t("Reprenez exactement où vous vous êtes arrêté·e.")} />
           <div className="grid md:grid-cols-2 gap-4 mb-10">
             {inProgress.map((a) => {
               const doneTasks = Object.keys(a.progress?.results || {}).length;
@@ -294,7 +294,7 @@ export function Mocks() {
 
       {history.length > 0 && (
         <>
-          <SectionHead title={t("Historique")} sub={t("Vos examens blancs terminés.")} />
+          <SectionHead tight title={t("Historique")} sub={t("Vos examens blancs terminés.")} />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {history.map((a) => (
               <Card key={a.id} className="p-5">
