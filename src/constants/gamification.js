@@ -1,4 +1,4 @@
-import { Flame, Headphones, Target, Trophy, Zap, Award, Calendar } from "lucide-react";
+import { Flame, Headphones, Target, Trophy, Zap, Award } from "lucide-react";
 
 export const BADGES = [
   { icon: Flame, t: "Série de 7 jours", got: true },
@@ -15,12 +15,4 @@ export const LEADER = [
   { name: "Carlos R.", pts: 2455, streak: 18 },
   { name: "Fatou D.", pts: 2390, streak: 9 },
   { name: "Ivan P.", pts: 2120, streak: 14 },
-];
-
-// Seed notifications. Each needs a stable `id` — useNotifications tracks the
-// per-user read/dismissed state by it (see hooks/useNotifications.js).
-export const NOTIFS = [
-  { id: "streak-12", icon: Flame, t: "Série de 12 jours ! Continuez sur votre lancée.", time: "il y a 2 h" },
-  { id: "mock-2-planned", icon: Calendar, t: "TCF blanc n° 2 planifié samedi à 9 h.", time: "hier" },
-  { id: "badge-b2", icon: Award, t: "Nouveau badge : « Premier B2 » débloqué.", time: "il y a 3 jours" },
 ];

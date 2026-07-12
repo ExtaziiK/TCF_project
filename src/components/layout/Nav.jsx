@@ -14,7 +14,7 @@ export function Nav() {
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id);
+  const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id, route);
   const notifRef = useRef(null);
   const go = (r) => { nav(r); setOpen(false); setOpenMenu(null); setNotifOpen(false); };
 

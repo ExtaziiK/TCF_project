@@ -319,10 +319,10 @@ export const EN = {
   "de pratique": "practice",
   "pratique": "practice",
 
-  // ── Nav notifications (constants/gamification.js NOTIFS) ─────────────
-  "Série de 12 jours ! Continuez sur votre lancée.": "12-day streak! Keep up the momentum.",
-  "TCF blanc n° 2 planifié samedi à 9 h.": "Mock exam #2 scheduled Saturday at 9 a.m.",
-  "Nouveau badge : « Premier B2 » débloqué.": "New badge unlocked: “First B2”.",
+  // ── Nav notifications (derived from real progress; see utils/notifications.js) ──
+  // Message shapes are interpolated (achievement titles, XP, counts) so they
+  // are translated by EN_PATTERNS below. These are the static time labels
+  // ("à l'instant" is already defined above, in the speaking studio block).
   "il y a 2 h": "2 h ago",
   "il y a 3 h": "3 h ago",
   "hier": "yesterday",
@@ -1352,4 +1352,22 @@ export const EN_PATTERNS = [
   [/^Longueur adaptée \((\d+) mots\) : la consigne est respectée\.$/, (m) => `Good length (${m[1]} words): the instructions are met.`],
   [/^(\d+) à (\d+) mots$/, (m) => `${m[1]} to ${m[2]} words`],
   [/^« (.+) » est requis\.$/, (m, tr) => `“${tr(m[1])}” is required.`],
+
+  // Nav notifications (utils/notifications.js) — relative times + messages.
+  [/^il y a (\d+) min$/, (m) => `${m[1]} min ago`],
+  [/^il y a (\d+) h$/, (m) => `${m[1]} h ago`],
+  [/^il y a (\d+) jours$/, (m) => `${m[1]} days ago`],
+  [/^il y a (\d+) sem\.$/, (m) => `${m[1]} wk ago`],
+  [/^Votre série de (\d+) jours? expire ce soir — un quiz suffit pour la garder ! ⏳$/,
+    (m) => `Your ${m[1]}-day streak expires tonight — one quiz keeps it alive! ⏳`],
+  [/^Niveau atteint : « (.+) » ! Vous cumulez (\d+) XP\.$/,
+    (m, tr) => `Level reached: “${tr(m[1])}”! You've earned ${m[2]} XP.`],
+  [/^Objectif de la semaine atteint : (\d+) quiz terminés cette semaine ! 🎯$/,
+    (m) => `Weekly goal met: ${m[1]} quizzes completed this week! 🎯`],
+  [/^Objectif de la semaine atteint : (\d+) jours de pratique cette semaine ! 🎯$/,
+    (m) => `Weekly goal met: ${m[1]} days of practice this week! 🎯`],
+  [/^Objectif de la semaine atteint : (\d+) XP gagnés cette semaine ! 🎯$/,
+    (m) => `Weekly goal met: ${m[1]} XP earned this week! 🎯`],
+  [/^Succès débloqué : « (.+) » — (.+)\.$/,
+    (m, tr) => `Achievement unlocked: “${tr(m[1])}” — ${tr(m[2])}.`],
 ];
