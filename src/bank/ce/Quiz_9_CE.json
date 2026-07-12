@@ -1,0 +1,1732 @@
+{
+    "id": 39963,
+    "exam_id": 45,
+    "score": 683.0,
+    "score_percent": 97.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-04T00:11:22.556174+00:00",
+    "time_spent": 1071,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.2,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1717,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Un appartement",
+            "user_selected_option_id": 32493,
+            "correct_answer": "Un appartement",
+            "correct_option_id": 32493,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_1.webp",
+            "all_options": [
+                {
+                    "id": 32493,
+                    "text": "Un appartement",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32494,
+                    "text": "Un restaurant",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32495,
+                    "text": "Un voyage",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32496,
+                    "text": "Une voiture",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1718,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Des rencontres entre jeunes",
+            "user_selected_option_id": 32499,
+            "correct_answer": "Des rencontres entre jeunes",
+            "correct_option_id": 32499,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32497,
+                    "text": "Des cours particuliers",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32498,
+                    "text": "Des jobs pendant le Week-end",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32499,
+                    "text": "Des rencontres entre jeunes",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32500,
+                    "text": "Des voyages à l’étranger",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1719,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Il va fermer pendant l’été",
+            "user_selected_option_id": 32504,
+            "correct_answer": "Il va fermer pendant l’été",
+            "correct_option_id": 32504,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_3.webp",
+            "all_options": [
+                {
+                    "id": 32501,
+                    "text": "Il va avoir de nouveaux horaires",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32502,
+                    "text": "Il va changer de propriétaire",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32503,
+                    "text": "Il va déménager en septembre",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32504,
+                    "text": "Il va fermer pendant l’été",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1720,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Une naissance",
+            "user_selected_option_id": 32505,
+            "correct_answer": "Une naissance",
+            "correct_option_id": 32505,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32505,
+                    "text": "Une naissance",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32506,
+                    "text": "Une exposition",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32507,
+                    "text": "Un anniversaire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32508,
+                    "text": "Un mariage",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1721,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Espagnole",
+            "user_selected_option_id": 32510,
+            "correct_answer": "Espagnole",
+            "correct_option_id": 32510,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32509,
+                    "text": "Canadienne",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32510,
+                    "text": "Espagnole",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32511,
+                    "text": "Italienne",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32512,
+                    "text": "Mexicaine",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1722,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Aux étudiants",
+            "user_selected_option_id": 32514,
+            "correct_answer": "Aux étudiants",
+            "correct_option_id": 32514,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32513,
+                    "text": "Au personnel",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32514,
+                    "text": "Aux étudiants",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32515,
+                    "text": "Aux parents",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32516,
+                    "text": "Aux professeurs",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1723,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "En mai",
+            "user_selected_option_id": 32519,
+            "correct_answer": "En mai",
+            "correct_option_id": 32519,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32517,
+                    "text": "En décembre",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32518,
+                    "text": "En février",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32519,
+                    "text": "En mai",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32520,
+                    "text": "En mars",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1724,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Un court séjour touristique",
+            "user_selected_option_id": 32521,
+            "correct_answer": "Un court séjour touristique",
+            "correct_option_id": 32521,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32521,
+                    "text": "Un court séjour touristique",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32522,
+                    "text": "Une leçon de cuisine",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32523,
+                    "text": "Une participation à un concours",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32524,
+                    "text": "Une réduction pour le train",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1725,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "L’alimentation",
+            "user_selected_option_id": 32525,
+            "correct_answer": "L’alimentation",
+            "correct_option_id": 32525,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32525,
+                    "text": "L’alimentation",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32526,
+                    "text": "L’éducation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32527,
+                    "text": "La cuisine",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32528,
+                    "text": "Le commerce",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1726,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Le lendemain",
+            "user_selected_option_id": 32530,
+            "correct_answer": "Le lendemain",
+            "correct_option_id": 32530,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_10.webp",
+            "all_options": [
+                {
+                    "id": 32529,
+                    "text": "Dans la journée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32530,
+                    "text": "Le lendemain",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32531,
+                    "text": "Le soi-même",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32532,
+                    "text": "Vendredi matin",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1727,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Faire de la musique avec d’autres personnes",
+            "user_selected_option_id": 32534,
+            "correct_answer": "Faire de la musique avec d’autres personnes",
+            "correct_option_id": 32534,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_11.webp",
+            "all_options": [
+                {
+                    "id": 32533,
+                    "text": "Apprendre à jouer d’un instrument de musique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32534,
+                    "text": "Faire de la musique avec d’autres personnes",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32535,
+                    "text": "Organiser des concerts de musique gratuits",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32536,
+                    "text": "Rencontrer des professionnels de la musique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1728,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Pour éviter de tomber malades",
+            "user_selected_option_id": 32537,
+            "correct_answer": "Pour éviter de tomber malades",
+            "correct_option_id": 32537,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_12.webp",
+            "all_options": [
+                {
+                    "id": 32537,
+                    "text": "Pour éviter de tomber malades",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32538,
+                    "text": "Pour profiter de tarifs avantageux",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32539,
+                    "text": "Pour protéger l’environnement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32540,
+                    "text": "Pour soutenir les paysans locaux",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1729,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Il peut partager sa passion avec un public",
+            "user_selected_option_id": 32543,
+            "correct_answer": "Il peut partager sa passion avec un public",
+            "correct_option_id": 32543,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 61,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_13.webp",
+            "all_options": [
+                {
+                    "id": 32541,
+                    "text": "C’est son mode de communication favori",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32542,
+                    "text": "Il a entamé une formation de journaliste",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32543,
+                    "text": "Il peut partager sa passion avec un public",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32544,
+                    "text": "Pour répondre aux attentes de son public",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1730,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Donner une famille aux enfants",
+            "user_selected_option_id": 32547,
+            "correct_answer": "Donner une famille aux enfants",
+            "correct_option_id": 32547,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_14.webp",
+            "all_options": [
+                {
+                    "id": 32545,
+                    "text": "Aider les couples en mal d’enfant",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32546,
+                    "text": "Défendre les droits des enfants",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32547,
+                    "text": "Donner une famille aux enfants",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32548,
+                    "text": "Fournir un hébergement aux enfants",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1731,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Les Parisiens peuvent accéder facilement à des livres électroniques",
+            "user_selected_option_id": 32552,
+            "correct_answer": "Les Parisiens peuvent accéder facilement à des livres électroniques",
+            "correct_option_id": 32552,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_15.webp",
+            "all_options": [
+                {
+                    "id": 32549,
+                    "text": "La mairie de Paris va essayer de s’opposer aux livres électroniques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32550,
+                    "text": "Les bibliothèques risquent de fermer à cause des livres électroniques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32551,
+                    "text": "Les Français préfèrent les livres électroniques aux livres traditionnels",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32552,
+                    "text": "Les Parisiens peuvent accéder facilement à des livres électroniques",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1732,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Il est passionné d’ouvrages sur les langues",
+            "user_selected_option_id": 32555,
+            "correct_answer": "Il est passionné d’ouvrages sur les langues",
+            "correct_option_id": 32555,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_16.webp",
+            "all_options": [
+                {
+                    "id": 32553,
+                    "text": "Il a appris plusieurs langues avec des manuels",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32554,
+                    "text": "Il a enseigné les langues anciennes au lycée",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32555,
+                    "text": "Il est passionné d’ouvrages sur les langues",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32556,
+                    "text": "Il va publier dans une revue sur les langues",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1733,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Consulter sa boite de réception de courriels",
+            "user_selected_option_id": 32557,
+            "correct_answer": "Consulter sa boite de réception de courriels",
+            "correct_option_id": 32557,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_17.webp",
+            "all_options": [
+                {
+                    "id": 32557,
+                    "text": "Consulter sa boite de réception de courriels",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32558,
+                    "text": "Écrire au responsable de la formation choisie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32559,
+                    "text": "S’informer sur le site internet www.univ.fr",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32560,
+                    "text": "Téléphoner au département communication",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1734,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Aux locataires qui ont de faibles revenus",
+            "user_selected_option_id": 32563,
+            "correct_answer": "Aux locataires qui ont de faibles revenus",
+            "correct_option_id": 32563,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_18.webp",
+            "all_options": [
+                {
+                    "id": 32561,
+                    "text": "Aux familles qui ont des factures élevées",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32562,
+                    "text": "Aux jeunes qui veulent vivre en colocation",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32563,
+                    "text": "Aux locataires qui ont de faibles revenus",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32564,
+                    "text": "Aux personnes qui achètent un logement",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1735,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Il explique l’idée de départ d’un livre de Modiano",
+            "user_selected_option_id": 32566,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano",
+            "correct_option_id": 32566,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_19.webp",
+            "all_options": [
+                {
+                    "id": 32565,
+                    "text": "Il cite un extrait d’une œuvre de Modiano",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32566,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32567,
+                    "text": "Il présente le métier de Modiano à ses débuts",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32568,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1736,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Maintenir les performances de la mémoire",
+            "user_selected_option_id": 32572,
+            "correct_answer": "Maintenir les performances de la mémoire",
+            "correct_option_id": 32572,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_20.webp",
+            "all_options": [
+                {
+                    "id": 32569,
+                    "text": "Améliorer les capacités physiques",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32570,
+                    "text": "Découvrir de nouveaux types de sports",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32571,
+                    "text": "Développer le cercle de ses relations sociales",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32572,
+                    "text": "Maintenir les performances de la mémoire",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1737,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Faire part de la réponse d’un responsable",
+            "user_selected_option_id": 32575,
+            "correct_answer": "Faire part de la réponse d’un responsable",
+            "correct_option_id": 32575,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 37,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_21.webp",
+            "all_options": [
+                {
+                    "id": 32573,
+                    "text": "Annoncer la signature d’un accord de coopération",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32574,
+                    "text": "Communiquer une offre de stage de fin d’études",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32575,
+                    "text": "Faire part de la réponse d’un responsable",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32576,
+                    "text": "Informer sur le profil d’un poste disponible",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1738,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Il risque d’entraver la circulation des véhicules de secours",
+            "user_selected_option_id": 32580,
+            "correct_answer": "Il risque d’entraver la circulation des véhicules de secours",
+            "correct_option_id": 32580,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 232,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_22.webp",
+            "all_options": [
+                {
+                    "id": 32577,
+                    "text": "Il néglige les commerces dans les rues piétonnes",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32578,
+                    "text": "Il rend difficile l’accès aux secteurs touristiques",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32579,
+                    "text": "Il répond peu aux besoins en pistes cyclables des habitants",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32580,
+                    "text": "Il risque d’entraver la circulation des véhicules de secours",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1739,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Ils peuvent être utilisés comme outils de contrôle",
+            "user_selected_option_id": 32584,
+            "correct_answer": "Ils peuvent être utilisés comme outils de contrôle",
+            "correct_option_id": 32584,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_23.webp",
+            "all_options": [
+                {
+                    "id": 32581,
+                    "text": "Ils éloignent les jeunes du monde des adultes",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32582,
+                    "text": "Ils entraînent des comportements types addictifs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32583,
+                    "text": "Ils ont tendance à couper les adolescents du réel",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32584,
+                    "text": "Ils peuvent être utilisés comme outils de contrôle",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1740,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Elle masque les problèmes pédagogiques essentiels",
+            "user_selected_option_id": 32587,
+            "correct_answer": "Elle masque les problèmes pédagogiques essentiels",
+            "correct_option_id": 32587,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_24.webp",
+            "all_options": [
+                {
+                    "id": 32585,
+                    "text": "Elle demande des connaissances techniques poussées",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32586,
+                    "text": "Elle empêche les jeunes utilisateurs de se concentrer",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32587,
+                    "text": "Elle masque les problèmes pédagogiques essentiels",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32588,
+                    "text": "Elle sert sans succès d’argument commercial",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1741,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+            "user_selected_option_id": 32589,
+            "correct_answer": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+            "correct_option_id": 32589,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_25.webp",
+            "all_options": [
+                {
+                    "id": 32589,
+                    "text": "Faire la promotion de l’apprentissage d’un métier auprès des jeunes",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32590,
+                    "text": "Former les professeurs à de nouvelles méthodes d’enseignement",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32591,
+                    "text": "Présenter les opportunités de stage en entreprise dans la région",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32592,
+                    "text": "Proposer aux étudiants des stratégies de recherche d’emploi",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1742,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Les gens en mangent plus que par le passé",
+            "user_selected_option_id": 32594,
+            "correct_answer": "Les gens en mangent plus que par le passé",
+            "correct_option_id": 32594,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 26,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_26.webp",
+            "all_options": [
+                {
+                    "id": 32593,
+                    "text": "Elles font partie de la gastronomie régionale",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32594,
+                    "text": "Les gens en mangent plus que par le passé",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32595,
+                    "text": "Les médecins conseillent leur usage en cuisine",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32596,
+                    "text": "Leur culture augmente rapidement sur les côtes",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1743,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "D’un catalogue de styliste",
+            "user_selected_option_id": 32597,
+            "correct_answer": "D’un catalogue de styliste",
+            "correct_option_id": 32597,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_27.webp",
+            "all_options": [
+                {
+                    "id": 32597,
+                    "text": "D’un catalogue de styliste",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32598,
+                    "text": "D’un dictionnaire philosophique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32599,
+                    "text": "D’un manuel d’histoire de l’art",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32600,
+                    "text": "D’une présentation de musée",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1744,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "La manipulation des clients par les industriels",
+            "user_selected_option_id": 32601,
+            "correct_answer": "La manipulation des clients par les industriels",
+            "correct_option_id": 32601,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_28.webp",
+            "all_options": [
+                {
+                    "id": 32601,
+                    "text": "La manipulation des clients par les industriels",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32602,
+                    "text": "L’attitude imprévisible des consommateurs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32603,
+                    "text": "L’uniformisation des saveurs et des goûts",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32604,
+                    "text": "L’utilisation abusive des produits de synthèse",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1745,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Le renoncement au nucléaire doit être mûrement planifié",
+            "user_selected_option_id": 32607,
+            "correct_answer": "Le renoncement au nucléaire doit être mûrement planifié",
+            "correct_option_id": 32607,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 58,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_29.webp",
+            "all_options": [
+                {
+                    "id": 32605,
+                    "text": "Le recours à l’énergie nucléaire sera toujours indispensable",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32606,
+                    "text": "Le développement d’autres énergies que le nucléaire est superflu",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32607,
+                    "text": "Le renoncement au nucléaire doit être mûrement planifié",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32608,
+                    "text": "L’exploitation des forêts peut pallier entièrement le nucléaire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1746,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Profiter d’un encadrement spécifique",
+            "user_selected_option_id": 32612,
+            "correct_answer": "Profiter d’un encadrement spécifique",
+            "correct_option_id": 32612,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_30.webp",
+            "all_options": [
+                {
+                    "id": 32609,
+                    "text": "Guérir de leurs troubles du langage",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32610,
+                    "text": "Intégrer une classe traditionnelle",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32611,
+                    "text": "Préparer leur entrée au collègue",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32612,
+                    "text": "Profiter d’un encadrement spécifique",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1747,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Son charisme incroyable",
+            "user_selected_option_id": 32616,
+            "correct_answer": "Son charisme incroyable",
+            "correct_option_id": 32616,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 45,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_31.webp",
+            "all_options": [
+                {
+                    "id": 32613,
+                    "text": "Sa connaissance des médias",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32614,
+                    "text": "Sas méthodes ancestrales",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32615,
+                    "text": "Ses recettes originales",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32616,
+                    "text": "Son charisme incroyable",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1748,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "De participer à l’exploration du monde numérique",
+            "user_selected_option_id": 32617,
+            "correct_answer": "De participer à l’exploration du monde numérique",
+            "correct_option_id": 32617,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 41,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_32.webp",
+            "all_options": [
+                {
+                    "id": 32617,
+                    "text": "De participer à l’exploration du monde numérique",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32618,
+                    "text": "De restreindre le temps consacré aux jeux vidéo",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32619,
+                    "text": "De sélectionner des contenus adaptés aux enfants",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32620,
+                    "text": "De surveiller la navigation des jeunes sur la toile",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1749,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Rénover les anciens locaux en les décorant",
+            "user_selected_option_id": 32624,
+            "correct_answer": "Diffuser l’art dans des endroits inattendus",
+            "correct_option_id": 32622,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 76,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_33.webp",
+            "all_options": [
+                {
+                    "id": 32621,
+                    "text": "Convertir les lieux en maison de la culture",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32622,
+                    "text": "Diffuser l’art dans des endroits inattendus",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32623,
+                    "text": "Ouvrir un centre de formation artistique",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32624,
+                    "text": "Rénover les anciens locaux en les décorant",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1750,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Dans un parc naturel",
+            "user_selected_option_id": 32628,
+            "correct_answer": "Dans un parc naturel",
+            "correct_option_id": 32628,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_34.webp",
+            "all_options": [
+                {
+                    "id": 32625,
+                    "text": "Dans un centre de relaxation",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32626,
+                    "text": "Dans un laboratoire",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32627,
+                    "text": "Dans un musée archéologique",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32628,
+                    "text": "Dans un parc naturel",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1751,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il insiste sur le point de vue matériel",
+            "user_selected_option_id": 32630,
+            "correct_answer": "Il insiste sur le point de vue matériel",
+            "correct_option_id": 32630,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_35.webp",
+            "all_options": [
+                {
+                    "id": 32629,
+                    "text": "Il apaise les tensions de la société",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32630,
+                    "text": "Il insiste sur le point de vue matériel",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32631,
+                    "text": "Il propose des programmes utopiques",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32632,
+                    "text": "Il traite les problèmes liés aux sols",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1752,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La singularité de ses portraits",
+            "user_selected_option_id": 32634,
+            "correct_answer": "La singularité de ses portraits",
+            "correct_option_id": 32634,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_36.webp",
+            "all_options": [
+                {
+                    "id": 32633,
+                    "text": "L’influence de ses contemporains",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32634,
+                    "text": "La singularité de ses portraits",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32635,
+                    "text": "Son engouement pour la nature",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32636,
+                    "text": "Son travail post- impressionniste",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1753,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "La rentabilité d’un nouveau système d’extraction",
+            "user_selected_option_id": 32638,
+            "correct_answer": "La rentabilité d’un nouveau système d’extraction",
+            "correct_option_id": 32638,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_37.webp",
+            "all_options": [
+                {
+                    "id": 32637,
+                    "text": "La capacité des plantes à nettoyer les sols",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32638,
+                    "text": "La rentabilité d’un nouveau système d’extraction",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32639,
+                    "text": "Le résultat des recherches de M. Van der Hent",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32640,
+                    "text": "Les préoccupations écologistes des industriels",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1754,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "La multiplication des sources d’information",
+            "user_selected_option_id": 32642,
+            "correct_answer": "La multiplication des sources d’information",
+            "correct_option_id": 32642,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_38.webp",
+            "all_options": [
+                {
+                    "id": 32641,
+                    "text": "La dégradation des relations sociales à cause d’internet",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32642,
+                    "text": "La multiplication des sources d’information",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32643,
+                    "text": "La nocivité des écrans sur le développement des enfants",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32644,
+                    "text": "La recrudescence d’informations mensongères",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1755,
+            "question_text": "Compréhension écrite – Quiz 9 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il ouvre la voie à de prochaines réalisations",
+            "user_selected_option_id": 32648,
+            "correct_answer": "Il ouvre la voie à de prochaines réalisations",
+            "correct_option_id": 32648,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_9_question_39.webp",
+            "all_options": [
+                {
+                    "id": 32645,
+                    "text": "Il constitue une création artistique novatrice",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32646,
+                    "text": "Il établit des ponts avec d’autres auteurs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32647,
+                    "text": "Il fait connaitre les travaux d’un écrivain",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32648,
+                    "text": "Il ouvre la voie à de prochaines réalisations",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 97,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 9",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

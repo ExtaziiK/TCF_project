@@ -244,7 +244,7 @@ export function Mocks() {
     );
   }
 
-  const inProgress = (attempts || []).filter((a) => a.status === "in_progress");
+  const inProgress = (attempts || []).filter((a) => a.status === "in_progress").slice(0, 2);
   const history = (attempts || []).filter((a) => a.status === "completed");
 
   return (
