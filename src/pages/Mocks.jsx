@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
+import { ExamSetup } from "@/components/exam/ExamSetup";
 import { WritingWorkshopBody } from "@/pages/Writing";
 import { SpeakingStudioBody } from "@/pages/Speaking";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
@@ -70,6 +71,8 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   const [justFinished, setJustFinished] = useState(null); // completed attempt -> report
   const saveTimer = useRef(null);
   const quizzes = resolveTasks(attempt.tasks);
+  const mode = attempt.progress?.mode || "entrainement"; // "test" mirrors real conditions
+  const startedLabel = new Date(attempt.startedAt).toLocaleDateString("fr-CA", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 
   // Debounced autosave so every answer/navigation persists the session.
   const persist = (next) => {
@@ -147,6 +150,15 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   const savedIndex = attempt.progress.indexAt?.[order] || 0;
   const savedLeft = attempt.progress.timeLeft?.[order];
   const duration = savedLeft ?? quiz.questions.length * 55;
+  const candidatePanel = {
+    nom: attempt.progress?.candidate?.nom,
+    pays: attempt.progress?.candidate?.pays,
+    type: t(SECTION_LABELS[task.section]),
+    date: startedLabel,
+  };
+  // Real-exam Compréhension orale: audio auto-plays and the question moves on
+  // by itself. Only in test mode, and only for the audio-driven CO épreuve.
+  const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio);
 
   const onProgress = ({ picks, index, left }) => {
     persist({
@@ -171,11 +183,15 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         storageKey={`mock-${attempt.id}-${order}`}
         deferResults
         hideReport
+        examLayout
+        candidate={candidatePanel}
+        oneWay={mode === "test"}
+        autoAdvance={autoAdvance}
         initialPicks={savedPicks}
         initialIndex={savedIndex}
         onProgress={onProgress}
         onComplete={({ ok, total }) => advanceWith({ ok, total })}
-        renderAbove={(q, qi) => <BankQuestionMedia key={q.id ?? qi} question={q} />}
+        renderAbove={(q, qi, ctx) => <BankQuestionMedia key={q.id ?? qi} question={q} allowReplay={mode !== "test"} autoPlay={ctx?.autoPlay} onAudioEnded={ctx?.onAudioEnded} />}
       />
     </div>
   );
@@ -188,6 +204,7 @@ export function Mocks() {
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
+  const [setup, setSetup] = useState(false); // pre-exam mode + candidate screen
   const [starting, setStarting] = useState(false);
 
   const reload = async () => {
@@ -200,12 +217,14 @@ export function Mocks() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const start = async () => {
+  // Called by the setup screen with the chosen mode + candidate identity.
+  const start = async ({ mode, nom, email, pays }) => {
     setStarting(true);
     const tasks = generateExamTasks(attempts || []);
     if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
-    const attempt = await createAttempt(user?.id, tasks);
+    const attempt = await createAttempt(user?.id, tasks, { mode, candidate: { nom, email, pays } });
     setStarting(false);
+    setSetup(false);
     setActive(attempt);
   };
 
@@ -213,6 +232,14 @@ export function Mocks() {
     return (
       <PageShell wide eyebrow={t("TCF blanc")} title={t("Conditions d'examen")} sub={t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}>
         <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
+      </PageShell>
+    );
+  }
+
+  if (setup) {
+    return (
+      <PageShell back wide eyebrow={t("TCF blanc")} title={t("Vos informations")} sub={t("Choisissez votre mode et renseignez vos informations avant de démarrer.")}>
+        <ExamSetup onStart={start} onCancel={() => setSetup(false)} busy={starting} />
       </PageShell>
     );
   }
@@ -265,7 +292,7 @@ export function Mocks() {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <Btn variant="accent" icon={Play} disabled={starting || attempts === null} onClick={start}>{t(starting ? "Génération…" : "Commencer l'examen")}</Btn>
+            <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>{t("Commencer l'examen")}</Btn>
             <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
           </div>
         </div>

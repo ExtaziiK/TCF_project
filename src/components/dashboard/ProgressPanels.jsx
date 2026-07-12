@@ -13,6 +13,8 @@ export function ProgressPanels({ data }) {
   const maxMin = Math.max(1, ...data.week.days.map((d) => d.minutes));
   // Weekday initials come from the service in French (L M M J V S D).
   const dayInitial = (label, i) => (lang === "en" ? ["M", "T", "W", "T", "F", "S", "S"][i] : label);
+  const todayIdx = (new Date().getDay() + 6) % 7; // service weeks are Monday-first
+  const LANE = 150; // px height of each day's track
 
   return (
     <div className="grid sm:grid-cols-2 gap-5">
@@ -20,23 +22,38 @@ export function ProgressPanels({ data }) {
       <Card className="p-6">
         <h3 className={`font-display font-bold mb-1 ${c.text}`}>{t("Temps d'étude cette semaine")}</h3>
         <p className={`text-sm ${c.faint} mb-6`}>{formatDuration(data.week.minutes)} {t("au total ·")} {data.week.activeDays} {t(data.week.activeDays > 1 ? "jours actifs" : "jour actif")}</p>
-        {/* Bars are sized in pixels against a fixed budget: a percentage
-            height would collapse here, since the column's height isn't
-            definite (the row aligns items to the bottom). */}
-        <div className="flex items-end gap-2 sm:gap-3" style={{ height: 176 }} role="img" aria-label={t("Minutes d'étude par jour")}>
+        {/* Each day is a rounded "lane" (track) with a gradient fill growing
+            from the bottom and its value floating just above — so empty days
+            read as intentional rather than as a stray nub. Heights are pixel
+            values against a fixed budget: a percentage height would collapse,
+            since the row's height isn't definite. */}
+        <div className="flex items-end gap-2 sm:gap-3" style={{ height: LANE + 26 }} role="img" aria-label={t("Minutes d'étude par jour")}>
           {data.week.days.map((d, i) => {
-            const barPx = d.minutes > 0 ? Math.max(16, Math.round((d.minutes / maxMin) * 150)) : 4;
+            const active = d.minutes > 0;
+            const fillPx = active ? Math.max(12, Math.round((d.minutes / maxMin) * LANE)) : 0;
+            const isToday = i === todayIdx;
             return (
-              <div key={i} className="flex-1 h-full flex flex-col items-center justify-end gap-1.5" title={`${d.minutes} min · ${d.count} ${t(d.count > 1 ? "activités" : "activité")}`}>
-                <span className={`text-[11px] font-mono2 font-bold whitespace-nowrap ${d.minutes > 0 ? c.sub : c.faint}`}>{d.minutes > 0 ? `${d.minutes}'` : "—"}</span>
-                <div className="w-full max-w-[34px] rounded-t-lg grad-brand transition-[height] duration-500" style={{ height: barPx, opacity: d.minutes > 0 ? 1 : 0.2 }} />
+              <div key={i} className="group relative flex-1 h-full" aria-label={`${dayInitial(d.label, i)} · ${d.minutes} min · ${d.count} ${t(d.count > 1 ? "activités" : "activité")}`}>
+                {/* hover summary (concise) */}
+                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="px-3 py-2 rounded-xl bg-slate-900 text-white text-[11px] leading-tight whitespace-nowrap shadow-xl shadow-slate-900/25 text-center">
+                    <p className="font-bold">{active ? `${d.minutes} min` : t("Pas d'activité")}</p>
+                    <p className="opacity-80">{active ? `${d.count} ${t(d.count > 1 ? "activités" : "activité")}` : "—"}</p>
+                  </div>
+                  <span className="absolute left-1/2 -translate-x-1/2 top-full -mt-1 w-2.5 h-2.5 bg-slate-900 rotate-45" aria-hidden="true" />
+                </div>
+                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-[26px] sm:w-[30px] rounded-xl ${c.track} ${isToday ? "ring-2 ring-blue-500/30" : ""}`} style={{ height: LANE }} />
+                {active && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[26px] sm:w-[30px] rounded-xl shadow-md shadow-rose-600/20 brightness-90 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-rose-600/35 group-hover:brightness-100" style={{ height: fillPx, background: "linear-gradient(180deg,#2E6BE6 0%,#6C4FE0 55%,#D8354A 100%)" }} />}
+                {active && <span className={`absolute left-1/2 -translate-x-1/2 text-[11px] font-mono2 font-bold whitespace-nowrap ${c.sub}`} style={{ bottom: fillPx + 6 }}>{d.minutes}&apos;</span>}
               </div>
             );
           })}
         </div>
-        <div className="flex gap-2 sm:gap-3 mt-2.5">
+        <div className="flex gap-2 sm:gap-3 mt-3">
           {data.week.days.map((d, i) => (
-            <span key={i} className={`flex-1 text-center text-xs font-semibold ${c.sub}`}>{dayInitial(d.label, i)}</span>
+            <span key={i} className="flex-1 flex justify-center">
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${i === todayIdx ? "grad-brand text-white shadow-sm shadow-blue-600/30" : c.sub}`}>{dayInitial(d.label, i)}</span>
+            </span>
           ))}
         </div>
       </Card>

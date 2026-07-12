@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ZoomIn, ZoomOut } from "lucide-react";
 import { Card } from "@/components/common";
 import { RealAudio } from "@/components/quiz/RealAudio";
 
@@ -7,30 +8,45 @@ import { RealAudio } from "@/components/quiz/RealAudio";
 // only), so we keep the frame hidden until the image successfully loads —
 // otherwise an empty box would flash in and out on every question. The <img>
 // still loads while hidden (display:none), so onLoad/onError fire normally.
+// The "Agrandir" magnifier enlarges the document in place (it grows to the
+// full column width) rather than in a full-screen overlay, so the question
+// and answers below stay visible while the fine print is readable.
 function QuestionImage({ src }) {
   const [status, setStatus] = useState("loading"); // loading | loaded | failed
-  useEffect(() => setStatus("loading"), [src]);
+  const [big, setBig] = useState(false);
+  useEffect(() => { setStatus("loading"); setBig(false); }, [src]);
   if (status === "failed") return null;
   return (
-    <Card className={status === "loaded" ? "p-4 flex justify-center" : "hidden"}>
-      <img
-        src={src}
-        alt="Illustration de la question"
-        className="max-h-64 rounded-2xl object-contain"
-        onLoad={() => setStatus("loaded")}
-        onError={() => setStatus("failed")}
-      />
+    <Card className={status === "loaded" ? "p-4" : "hidden"}>
+      <div className="relative">
+        <img
+          src={src}
+          alt="Illustration de la question"
+          className={`rounded-2xl object-contain mx-auto transition-all duration-300 ${big ? "w-full max-h-[80vh]" : "max-h-80 md:max-h-96"}`}
+          onLoad={() => setStatus("loaded")}
+          onError={() => setStatus("failed")}
+        />
+        <button
+          type="button"
+          onClick={() => setBig((v) => !v)}
+          aria-label={big ? "Réduire l'image" : "Agrandir l'image"}
+          className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900/70 text-white shadow-lg hover:bg-slate-900/90 transition-colors"
+        >
+          {big ? <><ZoomOut size={14} /> Réduire</> : <><ZoomIn size={14} /> Agrandir</>}
+        </button>
+      </div>
     </Card>
   );
 }
 
 // Media block above a bank question: audio player and/or illustration.
-// Questions without media render nothing (no fake player).
-export function BankQuestionMedia({ question }) {
+// Questions without media render nothing (no fake player). `allowReplay`,
+// `autoPlay` and `onAudioEnded` drive the exam "test" mode audio behaviour.
+export function BankQuestionMedia({ question, allowReplay = true, autoPlay = false, onAudioEnded }) {
   if (!question.audio && !question.image) return null;
   return (
     <div className="space-y-4">
-      {question.audio && <RealAudio src={question.audio} />}
+      {question.audio && <RealAudio src={question.audio} allowReplay={allowReplay} autoPlay={autoPlay} onEnded={onAudioEnded} />}
       {question.image && <QuestionImage src={question.image} />}
     </div>
   );

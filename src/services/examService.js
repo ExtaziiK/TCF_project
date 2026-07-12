@@ -144,14 +144,16 @@ export async function listAttempts(userId) {
   return { attempts: data.map((r) => rowToAttempt(r)), backend: "supabase" };
 }
 
-export async function createAttempt(userId, tasks) {
+export async function createAttempt(userId, tasks, meta = {}) {
+  // `meta` (mode + candidate identity, chosen on the pre-exam setup screen) is
+  // carried inside the progress JSON so it persists and drives the runner.
   const attempt = {
     id: globalThis.crypto?.randomUUID?.() || `local-${Date.now()}`,
     status: "in_progress",
     startedAt: new Date().toISOString(),
     completedAt: null,
     score: null,
-    progress: { taskIndex: 0, picks: {}, timeLeft: {} },
+    progress: { taskIndex: 0, picks: {}, timeLeft: {}, ...meta },
     tasks,
   };
   const { data, error } = await supabase

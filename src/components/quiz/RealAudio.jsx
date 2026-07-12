@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, VolumeX } from "lucide-react";
+import { Play, Pause, RotateCcw, VolumeX, Headphones } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card } from "@/components/common";
 import { fmt } from "@/utils/format";
@@ -7,7 +7,11 @@ import { fmt } from "@/utils/format";
 // Styled audio player for real files — same design as FakeAudio (gradient
 // play button, brand progress bar, equalizer) but driven by an <audio>
 // element. The bar is clickable to seek.
-export function RealAudio({ src }) {
+// `allowReplay` (default true): in test mode it's false, reproducing real exam
+// conditions — the clip plays once, can't be rewound and can't be replayed.
+// `autoPlay`: start playback automatically (CO test mode). `onEnded`: notified
+// when the clip finishes OR fails to load, so the runner can auto-advance.
+export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }) {
   const { c } = useApp();
   const audioRef = useRef(null);
   const barRef = useRef(null);
@@ -19,9 +23,18 @@ export function RealAudio({ src }) {
 
   useEffect(() => { setPlaying(false); setT(0); setDur(0); setEnded(false); setFailed(false); }, [src]);
 
+  // Auto-play the new clip (browsers allow it after the user's "Commencer"
+  // gesture; if blocked, the play button remains and playback stays manual).
+  useEffect(() => {
+    if (!autoPlay || !audioRef.current) return;
+    audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+  }, [src, autoPlay]);
+
+  const spent = ended && !allowReplay; // played once already, no second listen
+
   const toggle = () => {
     const a = audioRef.current;
-    if (!a) return;
+    if (!a || spent) return;
     if (playing) { a.pause(); setPlaying(false); }
     else { if (ended) { a.currentTime = 0; setEnded(false); } a.play().catch(() => setFailed(true)); setPlaying(true); }
   };
@@ -29,7 +42,7 @@ export function RealAudio({ src }) {
   const seek = (e) => {
     const a = audioRef.current;
     const bar = barRef.current;
-    if (!a || !bar || !dur) return;
+    if (!a || !bar || !dur || !allowReplay) return; // no scrubbing in test mode
     const rect = bar.getBoundingClientRect();
     const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
     a.currentTime = ratio * dur;
@@ -54,18 +67,25 @@ export function RealAudio({ src }) {
         preload="metadata"
         onLoadedMetadata={(e) => setDur(e.currentTarget.duration || 0)}
         onTimeUpdate={(e) => setT(e.currentTarget.currentTime)}
-        onEnded={() => { setPlaying(false); setEnded(true); }}
-        onError={() => { setFailed(true); setPlaying(false); }}
+        onEnded={() => { setPlaying(false); setEnded(true); onEnded?.(); }}
+        onError={() => { setFailed(true); setPlaying(false); onEnded?.(); }}
       />
-      <button onClick={toggle} aria-label={playing ? "Pause" : ended ? "Réécouter" : "Écouter"} className="w-12 h-12 rounded-full grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/30 hover:scale-105 transition-transform shrink-0">
-        {playing ? <Pause size={20} /> : ended ? <RotateCcw size={18} /> : <Play size={20} className="ml-0.5" />}
-      </button>
+      {autoPlay ? (
+        // Test mode: the clip plays by itself — no play/pause/replay control.
+        <span className="w-12 h-12 rounded-full grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/30 shrink-0" aria-hidden="true">
+          <Headphones size={20} />
+        </span>
+      ) : (
+        <button onClick={toggle} disabled={spent} aria-label={spent ? "Écoute terminée" : playing ? "Pause" : ended ? "Réécouter" : "Écouter"} className={`w-12 h-12 rounded-full grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/30 transition-transform shrink-0 ${spent ? "opacity-40 cursor-not-allowed" : "hover:scale-105"}`}>
+          {spent ? <VolumeX size={18} /> : playing ? <Pause size={20} /> : ended ? <RotateCcw size={18} /> : <Play size={20} className="ml-0.5" />}
+        </button>
+      )}
       <div className="flex-1">
         <div className="flex justify-between text-xs font-mono2 mb-1.5">
-          <span className="text-blue-600 font-semibold">Document audio · écoute unique le jour J</span>
+          <span className="text-blue-600 font-semibold">{spent ? "Document audio · écoute terminée" : "Document audio · écoute unique le jour J"}</span>
           <span className={c.faint}>{fmt(Math.floor(t))} / {dur ? fmt(Math.round(dur)) : "–:––"}</span>
         </div>
-        <div ref={barRef} onClick={seek} role="progressbar" aria-valuenow={Math.floor(t)} aria-valuemax={Math.round(dur)} aria-label="Position de lecture" className={`h-2 rounded-full ${c.track} overflow-hidden cursor-pointer`}>
+        <div ref={barRef} onClick={seek} role="progressbar" aria-valuenow={Math.floor(t)} aria-valuemax={Math.round(dur)} aria-label="Position de lecture" className={`h-2 rounded-full ${c.track} overflow-hidden ${allowReplay ? "cursor-pointer" : "cursor-default"}`}>
           <div className="h-full grad-brand rounded-full" style={{ width: dur ? `${(t / dur) * 100}%` : 0 }} />
         </div>
       </div>
