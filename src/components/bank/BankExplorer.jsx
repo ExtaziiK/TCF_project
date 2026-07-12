@@ -24,23 +24,23 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
   const minutes = Math.max(1, Math.round((count * 55) / 60));
 
   const badge = locked ? (
-    <span className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
+    <span className="w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
   ) : done ? (
-    <span className="w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
+    <span className="w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
   ) : (
-    <span className="w-8 h-8 rounded-full bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Play size={14} className="ml-0.5" /></span>
+    <span className="w-7 h-7 rounded-full bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Play size={14} className="ml-0.5" /></span>
   );
 
   return (
     <button onClick={onOpen} className="text-left w-full" aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}>
-      <Card lift={!locked} className={`p-4 h-full flex flex-col gap-2.5 ${done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+      <Card lift={!locked} className={`p-3.5 h-full flex flex-col gap-2 ${done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
         <div className="flex items-start justify-between gap-2">
-          <h3 className={`font-display font-bold text-[15px] leading-snug ${locked ? c.sub : c.text}`}>
+          <h3 className={`font-display font-bold text-sm leading-snug ${locked ? c.sub : c.text}`}>
             {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
           </h3>
           {badge}
         </div>
-        <p className={`text-xs font-semibold ${c.faint}`}>
+        <p className={`text-[11px] font-semibold ${c.faint}`}>
           {prompt
             ? `${count} ${t(count > 1 ? "consignes" : "consigne")}`
             : `${count} ${t("questions")} · ≈ ${minutes} min`}
@@ -124,6 +124,11 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
 
   const closeQuiz = () => { setQuiz(null); reloadScores(); };
 
+  // Jump to the top when a quiz opens or closes — this swaps the whole panel
+  // in place (no route change), so without this the user stays scrolled to
+  // wherever the quiz grid card was.
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [quiz]);
+
   if (quiz && isPrompt(quiz)) return <PromptList quiz={quiz} onBack={closeQuiz} />;
 
   if (quiz) {
@@ -178,7 +183,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           <p className={`mt-2 text-sm ${c.sub}`}>{t("De nouveaux quiz sont ajoutés régulièrement — revenez bientôt.")}</p>
         </Card>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
           {quizzes.map((qz, idx) => {
             const locked = freeTier && idx > 0;
             return (

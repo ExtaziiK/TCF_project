@@ -217,6 +217,11 @@ export function Mocks() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
+  // Jump to the top when the exam runner mounts (new attempt or resumed one) —
+  // this swaps the whole panel in place (no route change), so without this
+  // the user stays scrolled to wherever the "Reprendre"/"Commencer" button was.
+  useEffect(() => { if (active) window.scrollTo({ top: 0 }); }, [active]);
+
   // Called by the setup screen with the chosen mode + candidate identity.
   const start = async ({ mode, nom, email, pays }) => {
     setStarting(true);
