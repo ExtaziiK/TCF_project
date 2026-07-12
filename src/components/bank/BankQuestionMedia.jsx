@@ -45,11 +45,17 @@ function QuestionImage({ src }) {
 // Media block above a bank question: audio player and/or illustration.
 // Questions without media render nothing (no fake player). `allowReplay`,
 // `autoPlay` and `onAudioEnded` drive the exam "test" mode audio behaviour.
+//
+// Callers must NOT key this per question: keeping the block mounted lets the
+// image <img> persist across questions, so the browser swaps its src smoothly
+// (it holds the current image until the next is decoded) instead of flickering
+// through a blank frame. The audio, which does need a fresh instance each
+// question, is keyed by its src here instead.
 export function BankQuestionMedia({ question, allowReplay = true, autoPlay = false, onAudioEnded }) {
   if (!question.audio && !question.image) return null;
   return (
     <div className="space-y-4">
-      {question.audio && <RealAudio src={question.audio} allowReplay={allowReplay} autoPlay={autoPlay} onEnded={onAudioEnded} />}
+      {question.audio && <RealAudio key={question.audio} src={question.audio} allowReplay={allowReplay} autoPlay={autoPlay} onEnded={onAudioEnded} />}
       {question.image && <QuestionImage src={question.image} />}
     </div>
   );

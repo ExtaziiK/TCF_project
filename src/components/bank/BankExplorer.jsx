@@ -136,7 +136,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           duration={quiz.questions.length * 55}
           storageKey={`bank-${quiz.id}`}
           deferResults
-          renderAbove={(q, idx) => <BankQuestionMedia key={q.id ?? idx} question={q} />}
+          renderAbove={(q) => <BankQuestionMedia question={q} />}
           doneExtra={<Btn variant="ghost" onClick={closeQuiz}>{t("Choisir un autre quiz")}</Btn>}
         />
       </PageShell>

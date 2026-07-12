@@ -27,7 +27,7 @@ export function Practice() {
           duration={openQuiz.questions.length * 55}
           storageKey={`bank-${openQuiz.id}`}
           deferResults
-          renderAbove={(q, idx) => <BankQuestionMedia key={q.id ?? idx} question={q} />}
+          renderAbove={(q) => <BankQuestionMedia question={q} />}
           doneExtra={<Btn variant="ghost" onClick={() => setOpenQuiz(null)}>{t("Choisir un autre module")}</Btn>}
         />
       </PageShell>
