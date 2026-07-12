@@ -1,0 +1,1733 @@
+{
+    "id": 40852,
+    "exam_id": 12,
+    "score": 205.0,
+    "score_percent": 29.33,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T15:38:00.146697+00:00",
+    "time_spent": 46,
+    "section_breakdown": {
+        "Identification": {
+            "score": 7.3,
+            "weight": 0.25
+        },
+        "Compr\u00e9hension": {
+            "score": 10.3,
+            "weight": 0.35
+        },
+        "Inf\u00e9rence": {
+            "score": 5.9,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.9,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 430,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D",
+            "user_selected_option_id": 15180,
+            "correct_answer": "A",
+            "correct_option_id": 15177,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_12_question1.webp",
+            "all_options": [
+                {
+                    "id": 15177,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15178,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15179,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15180,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 431,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "C",
+            "user_selected_option_id": 15183,
+            "correct_answer": "D",
+            "correct_option_id": 15184,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_12_question2.webp",
+            "all_options": [
+                {
+                    "id": 15181,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15182,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15183,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15184,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 432,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "D",
+            "user_selected_option_id": 15188,
+            "correct_answer": "B",
+            "correct_option_id": 15186,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question3.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15185,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15186,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15187,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15188,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 433,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "D",
+            "user_selected_option_id": 15192,
+            "correct_answer": "A",
+            "correct_option_id": 15189,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question4.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15189,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15190,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15191,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15192,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 434,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "D",
+            "user_selected_option_id": 15196,
+            "correct_answer": "D",
+            "correct_option_id": 15196,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15193,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15194,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15195,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15196,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 435,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "D",
+            "user_selected_option_id": 15200,
+            "correct_answer": "D",
+            "correct_option_id": 15200,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15197,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15198,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15199,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15200,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 436,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D",
+            "user_selected_option_id": 15204,
+            "correct_answer": "B",
+            "correct_option_id": 15202,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15201,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15202,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15203,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15204,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 437,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "D",
+            "user_selected_option_id": 15208,
+            "correct_answer": "C",
+            "correct_option_id": 15207,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15205,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15206,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15207,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15208,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 438,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "D",
+            "user_selected_option_id": 15212,
+            "correct_answer": "D",
+            "correct_option_id": 15212,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15209,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15210,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15211,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15212,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 439,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "D",
+            "user_selected_option_id": 15216,
+            "correct_answer": "A",
+            "correct_option_id": 15213,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15213,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15214,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15215,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15216,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 440,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Sa colocataire est partie.",
+            "user_selected_option_id": 15220,
+            "correct_answer": "Elle doit quitter son logement.",
+            "correct_option_id": 15217,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15217,
+                    "text": "Elle doit quitter son logement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15218,
+                    "text": "Il y a des travaux chez elle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15219,
+                    "text": "Le loyer est devenu trop cher.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15220,
+                    "text": "Sa colocataire est partie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 441,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Parce que Yasmine a perdu sa valise.",
+            "user_selected_option_id": 15224,
+            "correct_answer": "Parce que leur avion d\u00e9colle bient\u00f4t.",
+            "correct_option_id": 15222,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15221,
+                    "text": "Parce que la zone d\u2019embarquement est loin.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15222,
+                    "text": "Parce que leur avion d\u00e9colle bient\u00f4t.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15223,
+                    "text": "Parce que leur vol est en retard.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15224,
+                    "text": "Parce que Yasmine a perdu sa valise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 442,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Sur le bureau.",
+            "user_selected_option_id": 15228,
+            "correct_answer": "Dans la poubelle.",
+            "correct_option_id": 15225,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15225,
+                    "text": "Dans la poubelle.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15226,
+                    "text": "Aux archives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15227,
+                    "text": "Dans le tiroir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15228,
+                    "text": "Sur le bureau.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 443,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Le prix du s\u00e9jour.",
+            "user_selected_option_id": 15232,
+            "correct_answer": "Le prix du s\u00e9jour.",
+            "correct_option_id": 15232,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15229,
+                    "text": "La date de d\u00e9part.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15230,
+                    "text": "La dur\u00e9e du voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15231,
+                    "text": "La situation de l\u2019h\u00f4tel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15232,
+                    "text": "Le prix du s\u00e9jour.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 444,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Pour lui rappeler une chose importante.",
+            "user_selected_option_id": 15236,
+            "correct_answer": "Pour lui rappeler une chose importante.",
+            "correct_option_id": 15236,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15233,
+                    "text": "Pour lui conseiller d\u2019aller voir un m\u00e9decin.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15234,
+                    "text": "Pour lui dire qu\u2019elle sera un peu en retard.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15235,
+                    "text": "Pour lui proposer un film qu\u2019elle veut voir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15236,
+                    "text": "Pour lui rappeler une chose importante.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 445,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Pour lui proposer un entretien.",
+            "user_selected_option_id": 15240,
+            "correct_answer": "Pour lui proposer un entretien.",
+            "correct_option_id": 15240,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15237,
+                    "text": "Pour lui communiquer une d\u00e9cision.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15238,
+                    "text": "Pour lui confirmer une adresse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15239,
+                    "text": "Pour lui demander d\u2019envoyer un CV.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15240,
+                    "text": "Pour lui proposer un entretien.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 446,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "V\u00e9rifier les comptes.",
+            "user_selected_option_id": 15244,
+            "correct_answer": "Classer des documents.",
+            "correct_option_id": 15241,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15241,
+                    "text": "Classer des documents.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15242,
+                    "text": "Pr\u00e9parer des courriers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15243,
+                    "text": "T\u00e9l\u00e9phoner aux clients.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15244,
+                    "text": "V\u00e9rifier les comptes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 447,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Elles re\u00e7oivent peu de candidatures spontan\u00e9es.",
+            "user_selected_option_id": 15248,
+            "correct_answer": "Elles modernisent leurs proc\u00e9d\u00e9s de recrutement.",
+            "correct_option_id": 15246,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15245,
+                    "text": "Elles cherchent des sp\u00e9cialistes en vid\u00e9o.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15246,
+                    "text": "Elles modernisent leurs proc\u00e9d\u00e9s de recrutement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15247,
+                    "text": "Elles pr\u00e9f\u00e8rent employer des stagiaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15248,
+                    "text": "Elles re\u00e7oivent peu de candidatures spontan\u00e9es.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 448,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Des probl\u00e8mes fr\u00e9quents de transports.",
+            "user_selected_option_id": 15252,
+            "correct_answer": "Des avantages du travail \u00e0 distance.",
+            "correct_option_id": 15251,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15249,
+                    "text": "D\u2019une n\u00e9gociation par visioconf\u00e9rence.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15250,
+                    "text": "De l\u2019urgence des dossiers \u00e0 traiter.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15251,
+                    "text": "Des avantages du travail \u00e0 distance.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15252,
+                    "text": "Des probl\u00e8mes fr\u00e9quents de transports.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 449,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Une visite \u00e0 Anne Roman.",
+            "user_selected_option_id": 15256,
+            "correct_answer": "Une sortie au th\u00e9\u00e2tre.",
+            "correct_option_id": 15253,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15253,
+                    "text": "Une sortie au th\u00e9\u00e2tre.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15254,
+                    "text": "Un voyage au P\u00e9rou.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15255,
+                    "text": "Un s\u00e9jour en Bretagne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15256,
+                    "text": "Une visite \u00e0 Anne Roman.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 450,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "D\u2019une sortie au cin\u00e9ma.",
+            "user_selected_option_id": 15260,
+            "correct_answer": "D\u2019un projet de voyage.",
+            "correct_option_id": 15257,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15257,
+                    "text": "D\u2019un projet de voyage.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15258,
+                    "text": "D\u2019un changement de travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15259,
+                    "text": "D\u2019un futur d\u00e9m\u00e9nagement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15260,
+                    "text": "D\u2019une sortie au cin\u00e9ma.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 451,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Le logement \u00e9tait mal situ\u00e9.",
+            "user_selected_option_id": 15264,
+            "correct_answer": "La m\u00e9t\u00e9o \u00e9tait tr\u00e8s mauvaise.",
+            "correct_option_id": 15263,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15261,
+                    "text": "Elle a perdu aux jeux de soci\u00e9t\u00e9.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15262,
+                    "text": "Elle est rest\u00e9e pr\u00e8s de chez elle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15263,
+                    "text": "La m\u00e9t\u00e9o \u00e9tait tr\u00e8s mauvaise.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15264,
+                    "text": "Le logement \u00e9tait mal situ\u00e9.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 452,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Leur talent est d\u00e9valoris\u00e9.",
+            "user_selected_option_id": 15268,
+            "correct_answer": "Leur salaire est insuffisant.",
+            "correct_option_id": 15266,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15265,
+                    "text": "Leur public est en diminution.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15266,
+                    "text": "Leur salaire est insuffisant.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15267,
+                    "text": "Leur savoir est peu transmis.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15268,
+                    "text": "Leur talent est d\u00e9valoris\u00e9.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 453,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Des premiers mois d\u2019un b\u00e9b\u00e9.",
+            "user_selected_option_id": 15272,
+            "correct_answer": "Des premiers mois d\u2019un b\u00e9b\u00e9.",
+            "correct_option_id": 15272,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15269,
+                    "text": "De conseils pour mieux dormir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15270,
+                    "text": "De difficult\u00e9s \u00e0 calmer les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15271,
+                    "text": "De la relation entre fille et m\u00e8re.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15272,
+                    "text": "Des premiers mois d\u2019un b\u00e9b\u00e9.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 454,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les gens sont peu demandeurs de sensations fortes.",
+            "user_selected_option_id": 15276,
+            "correct_answer": "Les gens cherchent davantage \u00e0 \u00eatre heureux.",
+            "correct_option_id": 15273,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15273,
+                    "text": "Les gens cherchent davantage \u00e0 \u00eatre heureux.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15274,
+                    "text": "Les gens deviennent de plus en plus \u00e9go\u00efstes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15275,
+                    "text": "Les gens se pr\u00e9occupent moins de leur famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15276,
+                    "text": "Les gens sont peu demandeurs de sensations fortes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 455,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "L\u2019achat en gros d\u2019aliments labellis\u00e9s bio.",
+            "user_selected_option_id": 15280,
+            "correct_answer": "La cr\u00e9ation de meubles \u00e0 partir du recyclage.",
+            "correct_option_id": 15277,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15277,
+                    "text": "La cr\u00e9ation de meubles \u00e0 partir du recyclage.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15278,
+                    "text": "La distribution d\u2019emballages non polluants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15279,
+                    "text": "La promotion des marques peu connues.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15280,
+                    "text": "L\u2019achat en gros d\u2019aliments labellis\u00e9s bio.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 456,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Il r\u00e9dige des manuels de jardinage.",
+            "user_selected_option_id": 15284,
+            "correct_answer": "Il pratique son art depuis l\u2019enfance.",
+            "correct_option_id": 15283,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15281,
+                    "text": "Il a eu conscience de son talent t\u00f4t.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15282,
+                    "text": "Il \u00e9dite des \u0153uvres pour la jeunesse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15283,
+                    "text": "Il pratique son art depuis l\u2019enfance.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15284,
+                    "text": "Il r\u00e9dige des manuels de jardinage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 457,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "D\u2019explorer l\u2019\u00e9cosyst\u00e8me.",
+            "user_selected_option_id": 15288,
+            "correct_answer": "De sensibiliser l\u2019opinion.",
+            "correct_option_id": 15287,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15285,
+                    "text": "De collecter des dons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15286,
+                    "text": "De d\u00e9velopper la recherche.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15287,
+                    "text": "De sensibiliser l\u2019opinion.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15288,
+                    "text": "D\u2019explorer l\u2019\u00e9cosyst\u00e8me.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 458,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Mener une politique d\u2019am\u00e9nagement des villes.",
+            "user_selected_option_id": 15292,
+            "correct_answer": "Adopter un mode de vie collectif responsable.",
+            "correct_option_id": 15289,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15289,
+                    "text": "Adopter un mode de vie collectif responsable.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15290,
+                    "text": "Construire un r\u00e9seau d\u2019assainissement des eaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15291,
+                    "text": "Faire la promotion de logements \u00e9cologiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15292,
+                    "text": "Mener une politique d\u2019am\u00e9nagement des villes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 459,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Il permet d\u2019entrer en relation avec les autres.",
+            "user_selected_option_id": 15296,
+            "correct_answer": "Il permet d\u2019entrer en relation avec les autres.",
+            "correct_option_id": 15296,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15293,
+                    "text": "Il aide \u00e0 lutter efficacement contre la tristesse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15294,
+                    "text": "Il est indispensable pour l\u2019activit\u00e9 de notre cerveau.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15295,
+                    "text": "Il montre les progr\u00e8s dans l\u2019apprentissage des \u00e9motions.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15296,
+                    "text": "Il permet d\u2019entrer en relation avec les autres.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 460,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "La question est pr\u00e9occupante pour les plus jeunes.",
+            "user_selected_option_id": 15300,
+            "correct_answer": "La question est pr\u00e9occupante pour les plus jeunes.",
+            "correct_option_id": 15300,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15297,
+                    "text": "C\u2019est un d\u00e9lai n\u00e9gligeable pour les recruteurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15298,
+                    "text": "Il est ind\u00e9pendant de la promotion professionnelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15299,
+                    "text": "Il est pr\u00e9vu de tester celui des futurs salari\u00e9s.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15300,
+                    "text": "La question est pr\u00e9occupante pour les plus jeunes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 461,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Le manque d\u2019estime de soi.",
+            "user_selected_option_id": 15304,
+            "correct_answer": "Le manque d\u2019estime de soi.",
+            "correct_option_id": 15304,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15301,
+                    "text": "L\u2019absence de formes d\u2019altruisme.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15302,
+                    "text": "La place accord\u00e9e \u00e0 l\u2019apparence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15303,
+                    "text": "La superficialit\u00e9 des relations.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15304,
+                    "text": "Le manque d\u2019estime de soi.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 462,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "En s\u2019engageant comme citoyenne.",
+            "user_selected_option_id": 15308,
+            "correct_answer": "En s\u2019engageant comme citoyenne.",
+            "correct_option_id": 15308,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15305,
+                    "text": "En communiquant dans les m\u00e9dias.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15306,
+                    "text": "En critiquant le pouvoir en place.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15307,
+                    "text": "En repr\u00e9sentant les \u00e9lecteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15308,
+                    "text": "En s\u2019engageant comme citoyenne.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 463,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Les p\u00e9cheurs pillent les fonds marins pour soutenir la concurrence.",
+            "user_selected_option_id": 15312,
+            "correct_answer": "La fili\u00e8re aquacole fragilise l\u2019\u00e9quilibre alimentaire mondial.",
+            "correct_option_id": 15311,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15309,
+                    "text": "L\u2019alimentation fournie aux \u00e9levages est de mauvaise qualit\u00e9.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15310,
+                    "text": "L\u2019existence d\u2019industries piscicoles nuit \u00e0 la vari\u00e9t\u00e9 des esp\u00e8ces.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15311,
+                    "text": "La fili\u00e8re aquacole fragilise l\u2019\u00e9quilibre alimentaire mondial.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15312,
+                    "text": "Les p\u00e9cheurs pillent les fonds marins pour soutenir la concurrence.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 464,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Un dispositif gouvernemental.",
+            "user_selected_option_id": 15316,
+            "correct_answer": "La perte de son emploi.",
+            "correct_option_id": 15313,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15313,
+                    "text": "La perte de son emploi.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15314,
+                    "text": "Sa volont\u00e9 d\u2019apprendre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15315,
+                    "text": "Ses nouvelles fonctions.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15316,
+                    "text": "Un dispositif gouvernemental.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 465,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "C\u2019est une invention de science-fiction.",
+            "user_selected_option_id": 15320,
+            "correct_answer": "C\u2019est un th\u00e8me controvers\u00e9.",
+            "correct_option_id": 15317,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15317,
+                    "text": "C\u2019est un th\u00e8me controvers\u00e9.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15318,
+                    "text": "C\u2019est une croyance invraisemblable.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15319,
+                    "text": "C\u2019est une hypoth\u00e8se v\u00e9rifi\u00e9e.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15320,
+                    "text": "C\u2019est une invention de science-fiction.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 466,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il est convaincu de l\u2019efficacit\u00e9 des rem\u00e8des naturelle.",
+            "user_selected_option_id": 15324,
+            "correct_answer": "Il consid\u00e8re que la m\u00e9decine a du mal \u00e0 tout expliquer.",
+            "correct_option_id": 15322,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15321,
+                    "text": "Il admet que les gu\u00e9risons spontan\u00e9es sont fr\u00e9quentes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15322,
+                    "text": "Il consid\u00e8re que la m\u00e9decine a du mal \u00e0 tout expliquer.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 15323,
+                    "text": "Il d\u00e9conseille l\u2019utilisation de certains m\u00e9dicaments.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15324,
+                    "text": "Il est convaincu de l\u2019efficacit\u00e9 des rem\u00e8des naturelle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 467,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les th\u00e8ses avanc\u00e9es varient selon les pays.",
+            "user_selected_option_id": 15328,
+            "correct_answer": "Le consensus \u00e0 ce sujet semble impossible.",
+            "correct_option_id": 15325,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15325,
+                    "text": "Le consensus \u00e0 ce sujet semble impossible.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 15326,
+                    "text": "Le nombre de donn\u00e9es complexifie l\u2019analyse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15327,
+                    "text": "Les \u00e9tudes existantes doivent \u00eatre r\u00e9vis\u00e9es.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 15328,
+                    "text": "Les th\u00e8ses avanc\u00e9es varient selon les pays.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 468,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 12 \u2013 Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Le manque d\u2019action.",
+            "user_selected_option_id": 15332,
+            "correct_answer": "L\u2019insuffisance de repos.",
+            "correct_option_id": 15331,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_12_question39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 15329,
+                    "text": "L\u2019absence de temps morts.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 15330,
+                    "text": "L\u2019ennui des distractions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 15331,
+                    "text": "L\u2019insuffisance de repos.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 15332,
+                    "text": "Le manque d\u2019action.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 29,
+    "strengths": [
+        "Compr\u00e9hension d'une majorit\u00e9 de dialogues simples",
+        "Identification des id\u00e9es principales",
+        "Bonne r\u00e9action aux mots-cl\u00e9s",
+        "Compr\u00e9hension de l'intention g\u00e9n\u00e9rale du locuteur"
+    ],
+    "improvements": [
+        "Inf\u00e9rence et sous-entendus simples",
+        "Compr\u00e9hension de d\u00e9tails complexes",
+        "Gestion de vocabulaire peu familier",
+        "Compr\u00e9hension d'accents r\u00e9gionaux vari\u00e9s"
+    ],
+    "recommendations": [
+        "Consacrer 20 min/jour aux podcasts authentiques (RFI Savoirs, Fran\u00e7ais Facile)",
+        "Utiliser les fiches vocabulaire th\u00e9matiques (shopping, restaurant, voyage)",
+        "\u00c9couter des dialogues avec transcriptions puis sans",
+        "Faire 5-10 exercices de compr\u00e9hension 3x/semaine",
+        "Passer un examen r\u00e9el complet chaque semaine"
+    ],
+    "exam_title": "Compr\u00e9hension orale \u2013 Quiz 12",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

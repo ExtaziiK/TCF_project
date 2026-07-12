@@ -1,0 +1,1733 @@
+{
+    "id": 40863,
+    "exam_id": 26,
+    "score": 200.0,
+    "score_percent": 28.61,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T15:54:15.454513+00:00",
+    "time_spent": 43,
+    "section_breakdown": {
+        "Identification": {
+            "score": 7.2,
+            "weight": 0.25
+        },
+        "Compr\u00e9hension": {
+            "score": 10.0,
+            "weight": 0.35
+        },
+        "Inf\u00e9rence": {
+            "score": 5.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 976,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D",
+            "user_selected_option_id": 17364,
+            "correct_answer": "B",
+            "correct_option_id": 17362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_26_question1.webp",
+            "all_options": [
+                {
+                    "id": 17361,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17362,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17363,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17364,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 977,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "D",
+            "user_selected_option_id": 17368,
+            "correct_answer": "D",
+            "correct_option_id": 17368,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_26_question2.webp",
+            "all_options": [
+                {
+                    "id": 17365,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17366,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17367,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17368,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 978,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "D",
+            "user_selected_option_id": 17372,
+            "correct_answer": "C",
+            "correct_option_id": 17371,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question3.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_26_question3.webp",
+            "all_options": [
+                {
+                    "id": 17369,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17370,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17371,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17372,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 979,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "D",
+            "user_selected_option_id": 17376,
+            "correct_answer": "A",
+            "correct_option_id": 17373,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question4.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_26_question4.webp",
+            "all_options": [
+                {
+                    "id": 17373,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17374,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17375,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17376,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 980,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "D",
+            "user_selected_option_id": 17380,
+            "correct_answer": "C",
+            "correct_option_id": 17379,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question5.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_26_question5.webp",
+            "all_options": [
+                {
+                    "id": 17377,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17378,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17379,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17380,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 981,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "D",
+            "user_selected_option_id": 17384,
+            "correct_answer": "C",
+            "correct_option_id": 17383,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17381,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17382,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17383,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17384,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 982,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D",
+            "user_selected_option_id": 17388,
+            "correct_answer": "C",
+            "correct_option_id": 17387,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17385,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17386,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17387,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17388,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 983,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "D",
+            "user_selected_option_id": 17392,
+            "correct_answer": "B",
+            "correct_option_id": 17390,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17389,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17390,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17391,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17392,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 984,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Se plaindre d\u2019une r\u00e9paration.",
+            "user_selected_option_id": 17396,
+            "correct_answer": "Obtenir un rendez-vous.",
+            "correct_option_id": 17395,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17393,
+                    "text": "Acheter un nouveau v\u00e9hicule.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17394,
+                    "text": "Conna\u00eetre les horaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17395,
+                    "text": "Obtenir un rendez-vous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17396,
+                    "text": "Se plaindre d\u2019une r\u00e9paration.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 985,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "D\u2019une s\u00e9ance de sport.",
+            "user_selected_option_id": 17400,
+            "correct_answer": "D\u2019un souci de transport.",
+            "correct_option_id": 17398,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17397,
+                    "text": "D\u2019un nouveau film \u00e0 voir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17398,
+                    "text": "D\u2019un souci de transport.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17399,
+                    "text": "D\u2019une recherche d\u2019emploi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17400,
+                    "text": "D\u2019une s\u00e9ance de sport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 986,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Voir une exposition.",
+            "user_selected_option_id": 17404,
+            "correct_answer": "Voir une exposition.",
+            "correct_option_id": 17404,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17401,
+                    "text": "D\u00eener au restaurant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17402,
+                    "text": "Faire des courses.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17403,
+                    "text": "Travailler tard.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17404,
+                    "text": "Voir une exposition.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 987,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Les tarifs sont chers pour lui.",
+            "user_selected_option_id": 17408,
+            "correct_answer": "Les cours ont lieu en journ\u00e9e.",
+            "correct_option_id": 17407,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17405,
+                    "text": "Le test de niveau est difficile.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17406,
+                    "text": "L\u2019\u00e9cole est loin de son bureau.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17407,
+                    "text": "Les cours ont lieu en journ\u00e9e.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17408,
+                    "text": "Les tarifs sont chers pour lui.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 988,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Leur professeur.",
+            "user_selected_option_id": 17412,
+            "correct_answer": "Leur coll\u00e8gue.",
+            "correct_option_id": 17410,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17409,
+                    "text": "Leur client.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17410,
+                    "text": "Leur coll\u00e8gue.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17411,
+                    "text": "Leur directeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17412,
+                    "text": "Leur professeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 989,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Un v\u00eatement de plage.",
+            "user_selected_option_id": 17416,
+            "correct_answer": "Un v\u00eatement de plage.",
+            "correct_option_id": 17416,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17413,
+                    "text": "Un chapeau de soleil.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17414,
+                    "text": "Un maillot de foot.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17415,
+                    "text": "Un sac de sport.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17416,
+                    "text": "Un v\u00eatement de plage.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 990,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "L\u2019utilisation des medias.",
+            "user_selected_option_id": 17420,
+            "correct_answer": "L\u2019utilisation des medias.",
+            "correct_option_id": 17420,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17417,
+                    "text": "L\u2019int\u00e9r\u00eat pour le cin\u00e9ma.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17418,
+                    "text": "Les activit\u00e9s de loisirs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17419,
+                    "text": "Les habitudes de transport.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17420,
+                    "text": "L\u2019utilisation des medias.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 991,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "S\u2019inscrire \u00e0 l\u2019universit\u00e9.",
+            "user_selected_option_id": 17424,
+            "correct_answer": "Obtenir une aide financi\u00e8re.",
+            "correct_option_id": 17421,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17421,
+                    "text": "Obtenir une aide financi\u00e8re.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17422,
+                    "text": "R\u00e9cup\u00e9rer un dossier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17423,
+                    "text": "Remettre un devoir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17424,
+                    "text": "S\u2019inscrire \u00e0 l\u2019universit\u00e9.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 992,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Pour corriger l\u2019orthographe de son nom sur son ch\u00e9quier.",
+            "user_selected_option_id": 17428,
+            "correct_answer": "Pour savoir quand il aura son carnet de ch\u00e8ques.",
+            "correct_option_id": 17427,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17425,
+                    "text": "Pour retirer le ch\u00e9quier arriv\u00e9 une semaine avant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17426,
+                    "text": "Pour v\u00e9rifier le renouvellement de son ch\u00e9quier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17427,
+                    "text": "Pour savoir quand il aura son carnet de ch\u00e8ques.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17428,
+                    "text": "Pour corriger l\u2019orthographe de son nom sur son ch\u00e9quier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 993,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "De s\u2019inscrire dans un nouveau club.",
+            "user_selected_option_id": 17432,
+            "correct_answer": "De jouer au basket-ball sans payer.",
+            "correct_option_id": 17431,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17429,
+                    "text": "D\u2019assister \u00e0 une rencontre sportive.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17430,
+                    "text": "De f\u00eater leur victoire entre copains.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17431,
+                    "text": "De jouer au basket-ball sans payer.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17432,
+                    "text": "De s\u2019inscrire dans un nouveau club.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 994,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Le co\u00fbt de l\u2019inscription dans l\u2019enseignement sup\u00e9rieur.",
+            "user_selected_option_id": 17436,
+            "correct_answer": "L\u2019inad\u00e9quation entre l\u2019universit\u00e9 et le monde du travail.",
+            "correct_option_id": 17433,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17433,
+                    "text": "L\u2019inad\u00e9quation entre l\u2019universit\u00e9 et le monde du travail.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17434,
+                    "text": "La baisse de qualit\u00e9 des formations professionnelles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17435,
+                    "text": "La comp\u00e9tition pour entrer dans les grandes \u00e9coles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17436,
+                    "text": "Le co\u00fbt de l\u2019inscription dans l\u2019enseignement sup\u00e9rieur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 995,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "De s\u00e9lectionner les meilleurs \u00e9l\u00e8ves des \u00e9coles.",
+            "user_selected_option_id": 17440,
+            "correct_answer": "De r\u00e9viser les m\u00e9thodes p\u00e9dagogiques actuelles.",
+            "correct_option_id": 17439,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17437,
+                    "text": "De cr\u00e9er des groupes de recherche scientifique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17438,
+                    "text": "De reculer l\u2019\u00e2ge de d\u00e9but de leur apprentissage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17439,
+                    "text": "De r\u00e9viser les m\u00e9thodes p\u00e9dagogiques actuelles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17440,
+                    "text": "De s\u00e9lectionner les meilleurs \u00e9l\u00e8ves des \u00e9coles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 996,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Elle voyage souvent.",
+            "user_selected_option_id": 17444,
+            "correct_answer": "Elle voyage souvent.",
+            "correct_option_id": 17444,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17441,
+                    "text": "Elle est en cong\u00e9.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17442,
+                    "text": "Elle est tomb\u00e9e malade.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17443,
+                    "text": "Elle travaille la nuit.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17444,
+                    "text": "Elle voyage souvent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 997,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "De s\u00e9lectionner des lectures classiques.",
+            "user_selected_option_id": 17448,
+            "correct_answer": "D\u2019attribuer \u00e0 la lecture le statut de loisir.",
+            "correct_option_id": 17445,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17445,
+                    "text": "D\u2019attribuer \u00e0 la lecture le statut de loisir.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17446,
+                    "text": "De favoriser la lecture en autonomie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17447,
+                    "text": "De limiter la lecture d\u2019histoires illustr\u00e9es.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17448,
+                    "text": "De s\u00e9lectionner des lectures classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 998,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Comment scier une branche.",
+            "user_selected_option_id": 17452,
+            "correct_answer": "Comment recycler son sapin.",
+            "correct_option_id": 17450,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17449,
+                    "text": "Comment prot\u00e9ger ses v\u00e9g\u00e9taux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17450,
+                    "text": "Comment recycler son sapin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17451,
+                    "text": "Comment replanter un arbre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17452,
+                    "text": "Comment scier une branche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 999,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Elle propose une liste de num\u00e9ros d\u2019urgence.",
+            "user_selected_option_id": 17456,
+            "correct_answer": "Elle leur permet de se loger en toute s\u00e9curit\u00e9.",
+            "correct_option_id": 17455,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17453,
+                    "text": "Elle fournit une carte de lieux dangereux \u00e0 \u00e9viter.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17454,
+                    "text": "Elle leur enseigne des techniques d\u2019autod\u00e9fense.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17455,
+                    "text": "Elle leur permet de se loger en toute s\u00e9curit\u00e9.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17456,
+                    "text": "Elle propose une liste de num\u00e9ros d\u2019urgence.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1000,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Responsabiliser les \u00e9l\u00e8ves encore immatures",
+            "user_selected_option_id": 17460,
+            "correct_answer": "Amener l\u2019\u00e9l\u00e8ve \u00e0 participer \u00e0 sa propre formation.",
+            "correct_option_id": 17457,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17457,
+                    "text": "Amener l\u2019\u00e9l\u00e8ve \u00e0 participer \u00e0 sa propre formation.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17458,
+                    "text": "Axer principalement l\u2019apprentissage sur le jeu",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17459,
+                    "text": "Initier les \u00e9l\u00e8ves \u00e0 des activit\u00e9s parascolaires",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17460,
+                    "text": "Responsabiliser les \u00e9l\u00e8ves encore immatures",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1001,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Elle est respect\u00e9e pour son professionnalisme.",
+            "user_selected_option_id": 17464,
+            "correct_answer": "Elle est respect\u00e9e pour son professionnalisme.",
+            "correct_option_id": 17464,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17461,
+                    "text": "Elle a d\u00e9cid\u00e9 d\u2019adopter une attitude agressive.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17462,
+                    "text": "Elle a eu des probl\u00e8mes pour se faire une place",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17463,
+                    "text": "Elle est harcel\u00e9e par des plaisanteries sexistes",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17464,
+                    "text": "Elle est respect\u00e9e pour son professionnalisme.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1002,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Ils sont dynamiques en cours.",
+            "user_selected_option_id": 17468,
+            "correct_answer": "Ils apprennent \u00e0 communiquer.",
+            "correct_option_id": 17465,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17465,
+                    "text": "Ils apprennent \u00e0 communiquer.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17466,
+                    "text": "Ils developpent leur cr\u00e9ativit\u00e9.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17467,
+                    "text": "Ils s\u2019ouvrent \u00e0 d\u2019autres cultures.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17468,
+                    "text": "Ils sont dynamiques en cours.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1003,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Proposer une \u00e9mission de cuisine sur Internet.",
+            "user_selected_option_id": 17472,
+            "correct_answer": "Faciliter la consommation de produits sains.",
+            "correct_option_id": 17470,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17469,
+                    "text": "Conseiller gratuitement des r\u00e9gimes minceur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17470,
+                    "text": "Faciliter la consommation de produits sains.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17471,
+                    "text": "Livrer des sp\u00e9cialit\u00e9s r\u00e9gionales \u00e0 domicile.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17472,
+                    "text": "Proposer une \u00e9mission de cuisine sur Internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1004,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "D\u2019une sensibilisation aux injustices.",
+            "user_selected_option_id": 17476,
+            "correct_answer": "D\u2019une sensibilisation aux injustices.",
+            "correct_option_id": 17476,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17473,
+                    "text": "D\u2019un ancien \u00e9v\u00e9nement protestataire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17474,
+                    "text": "D\u2019un nouveau code vestimentaire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17475,
+                    "text": "D\u2019une f\u00eate scolaire traditionnelle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17476,
+                    "text": "D\u2019une sensibilisation aux injustices.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1005,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Du type d\u2019\u00e9tablissement.",
+            "user_selected_option_id": 17480,
+            "correct_answer": "Du bon vouloir du client.",
+            "correct_option_id": 17479,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17477,
+                    "text": "De la l\u00e9gislation en vigueur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17478,
+                    "text": "De la paye des employ\u00e9s.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17479,
+                    "text": "Du bon vouloir du client.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 17480,
+                    "text": "Du type d\u2019\u00e9tablissement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1006,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Elle permet la poursuite des travaux d\u2019Einstein.",
+            "user_selected_option_id": 17484,
+            "correct_answer": "Elle confirme une th\u00e9orie ancienne.",
+            "correct_option_id": 17482,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17481,
+                    "text": "Elle annonce de futures d\u00e9couvertes",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17482,
+                    "text": "Elle confirme une th\u00e9orie ancienne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17483,
+                    "text": "Elle illustre les progr\u00e8s du mat\u00e9riel scientifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17484,
+                    "text": "Elle permet la poursuite des travaux d\u2019Einstein.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1007,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il procure des bienfaits physiques.",
+            "user_selected_option_id": 17488,
+            "correct_answer": "Il enrichit les relations humaines.",
+            "correct_option_id": 17486,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17485,
+                    "text": "Il d\u00e9veloppe la volont\u00e9 de vaincre",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17486,
+                    "text": "Il enrichit les relations humaines.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17487,
+                    "text": "Il garantit l\u2019\u00e9quilibre psychologique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17488,
+                    "text": "Il procure des bienfaits physiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1008,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "En s\u2019engageant comme citoyenne.",
+            "user_selected_option_id": 17492,
+            "correct_answer": "En s\u2019engageant comme citoyenne.",
+            "correct_option_id": 17492,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17489,
+                    "text": "En communiquant dans les m\u00e9dias.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17490,
+                    "text": "En critiquant le pouvoir en place.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17491,
+                    "text": "En repr\u00e9sentant ses \u00e9lecteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17492,
+                    "text": "En s\u2019engageant comme citoyenne.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1009,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L\u2019int\u00e9r\u00eat de partager des services.",
+            "user_selected_option_id": 17496,
+            "correct_answer": "L\u2019int\u00e9r\u00eat de partager des services.",
+            "correct_option_id": 17496,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17493,
+                    "text": "Le co\u00fbt de l\u2019entretien d\u2019une voiture.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17494,
+                    "text": "Les tendances en mati\u00e8re de loisirs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17495,
+                    "text": "L\u2019\u00e9volution des tarifs des transports.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17496,
+                    "text": "L\u2019int\u00e9r\u00eat de partager des services.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1010,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Les taxes importantes appliqu\u00e9es aux entreprises",
+            "user_selected_option_id": 17500,
+            "correct_answer": "Les contr\u00f4les syst\u00e9matiques impos\u00e9s aux banques",
+            "correct_option_id": 17497,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17497,
+                    "text": "Les contr\u00f4les syst\u00e9matiques impos\u00e9s aux banques",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17498,
+                    "text": "Les interventions n\u00e9cessaires des \u00c9tats dans l\u2019\u00e9conomie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17499,
+                    "text": "Les r\u00e8gles strictes r\u00e9gulant les marche (\u2026)",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17500,
+                    "text": "Les taxes importantes appliqu\u00e9es aux entreprises",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1011,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "C\u2019est une invention de science-fiction.",
+            "user_selected_option_id": 17504,
+            "correct_answer": "C\u2019est un th\u00e8me controvers\u00e9.",
+            "correct_option_id": 17501,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17501,
+                    "text": "C\u2019est un th\u00e8me controvers\u00e9.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17502,
+                    "text": "C\u2019est une croyance invraisemblable,",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17503,
+                    "text": "C\u2019est une hypoth\u00e8se v\u00e9rifi\u00e9e.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17504,
+                    "text": "C\u2019est une invention de science-fiction.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1012,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il est convaincu de l\u2019efficacit\u00e9 des rem\u00e8des naturels.",
+            "user_selected_option_id": 17508,
+            "correct_answer": "Il consid\u00e8re que la m\u00e9decine a du mal \u00e0 tout expliquer.",
+            "correct_option_id": 17506,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17505,
+                    "text": "Il admet que les gu\u00e9risons spontan\u00e9es sont fr\u00e9quentes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17506,
+                    "text": "Il consid\u00e8re que la m\u00e9decine a du mal \u00e0 tout expliquer.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 17507,
+                    "text": "Il d\u00e9conseille l\u2019utilisation de certains m\u00e9dicaments.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17508,
+                    "text": "Il est convaincu de l\u2019efficacit\u00e9 des rem\u00e8des naturels.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1013,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les th\u00e8ses avanc\u00e9es varient selon les pays.",
+            "user_selected_option_id": 17512,
+            "correct_answer": "Le consensus \u00e0 ce sujet semble impossible.",
+            "correct_option_id": 17509,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17509,
+                    "text": "Le consensus \u00e0 ce sujet semble impossible.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 17510,
+                    "text": "Le nombre de donn\u00e9es complexifie l\u2019analyse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17511,
+                    "text": "Les \u00e9tudes existantes doivent \u00eatre r\u00e9vis\u00e9es.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17512,
+                    "text": "Les th\u00e8ses avanc\u00e9es varient selon les pays.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1014,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 26 \u2013 Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Les r\u00e9habilitations ont une port\u00e9e limit\u00e9e",
+            "user_selected_option_id": 17516,
+            "correct_answer": "Les r\u00e9habilitations ont une port\u00e9e limit\u00e9e",
+            "correct_option_id": 17516,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_26_question39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 17513,
+                    "text": "Les b\u00e2timents restaur\u00e9s sont en nombre insuffisan",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 17514,
+                    "text": "Les cit\u00e9s r\u00e9am\u00e9nag\u00e9es sont surtout r\u00e9sidentielles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 17515,
+                    "text": "Les municipalit\u00e9s privil\u00e9gient les projets co\u00fbteux",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 17516,
+                    "text": "Les r\u00e9habilitations ont une port\u00e9e limit\u00e9e",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 28,
+    "strengths": [
+        "Compr\u00e9hension d'une majorit\u00e9 de dialogues simples",
+        "Identification des id\u00e9es principales",
+        "Bonne r\u00e9action aux mots-cl\u00e9s",
+        "Compr\u00e9hension de l'intention g\u00e9n\u00e9rale du locuteur"
+    ],
+    "improvements": [
+        "Inf\u00e9rence et sous-entendus simples",
+        "Compr\u00e9hension de d\u00e9tails complexes",
+        "Gestion de vocabulaire peu familier",
+        "Compr\u00e9hension d'accents r\u00e9gionaux vari\u00e9s"
+    ],
+    "recommendations": [
+        "Consacrer 20 min/jour aux podcasts authentiques (RFI Savoirs, Fran\u00e7ais Facile)",
+        "Utiliser les fiches vocabulaire th\u00e9matiques (shopping, restaurant, voyage)",
+        "\u00c9couter des dialogues avec transcriptions puis sans",
+        "Faire 5-10 exercices de compr\u00e9hension 3x/semaine",
+        "Passer un examen r\u00e9el complet chaque semaine"
+    ],
+    "exam_title": "Compr\u00e9hension orale \u2013 Quiz 26",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

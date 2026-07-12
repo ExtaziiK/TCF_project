@@ -711,6 +711,7 @@ export const EN = {
   "Terminé": "Completed",
   "bonnes réponses": "correct answers",
   "niveau": "level",
+  "Auto": "Auto",
   "Le déroulé, épreuve par épreuve": "The flow, section by section",
   "L'ordre et les durées reproduisent la session officielle. Vous pouvez aussi vous entraîner sur une seule épreuve.":
     "The order and durations reproduce the official session. You can also practice a single section.",

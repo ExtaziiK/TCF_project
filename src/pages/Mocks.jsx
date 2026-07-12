@@ -330,17 +330,37 @@ export function Mocks() {
         <>
           <SectionHead tight title={t("Historique")} sub={t("Vos TCF blancs terminés.")} />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            {history.map((a) => (
-              <Card key={a.id} className="p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <Pill tone="green"><CheckCircle2 size={12} /> {t("Terminé")}</Pill>
-                  <span className={`text-xs font-mono2 ${c.faint}`}>{t(when(a.completedAt))}</span>
-                </div>
-                <p className="font-display font-extrabold text-3xl grad-text">{a.score?.points ?? 0} / 699</p>
-                <p className={`text-xs mt-1 ${c.sub}`}>{a.score?.ok} / {a.score?.total} {t("bonnes réponses")} · {t("niveau")} {a.score?.level}</p>
-                <div className="mt-3"><ProgressBar pct={a.score?.pct || 0} tone="grad" /></div>
-              </Card>
-            ))}
+            {history.map((a) => {
+              const perTask = a.score?.perTask || [];
+              return (
+                <Card key={a.id} className="p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <Pill tone="green"><CheckCircle2 size={12} /> {t("Terminé")}</Pill>
+                    <span className={`text-xs font-mono2 ${c.faint}`}>{t(when(a.completedAt))}</span>
+                  </div>
+                  <p className="font-display font-extrabold text-3xl grad-text">{a.score?.points ?? 0} / 699</p>
+                  <p className={`text-xs mt-1 ${c.sub}`}>{a.score?.ok} / {a.score?.total} {t("bonnes réponses")}</p>
+                  <div className="mt-3"><ProgressBar pct={a.score?.pct || 0} tone="grad" /></div>
+                  {/* Per-task levels — one badge per épreuve, not the single
+                      blended global level, since a candidate may be B1 in one
+                      épreuve and A2 in another. */}
+                  {perTask.length > 0 && (
+                    <div className="mt-3 grid grid-cols-2 gap-1.5">
+                      {perTask.map((task, i) => {
+                        const selfAssessed = task.type && task.type !== "quiz";
+                        const taskPct = task.total ? Math.round((task.ok / task.total) * 100) : 0;
+                        return (
+                          <div key={i} className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl border ${c.border}`}>
+                            <span className={`text-[11px] font-bold uppercase tracking-wide ${c.faint}`}>{task.section}</span>
+                            <span className={`text-xs font-mono2 font-bold ${c.text}`}>{selfAssessed ? t("Auto") : levelForPct(taskPct)}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </Card>
+              );
+            })}
           </div>
         </>
       )}
