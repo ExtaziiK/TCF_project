@@ -8,9 +8,10 @@ import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
+import { loadDark, saveDark } from "@/constants/theme";
 
 export function AppProvider({ children }) {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(loadDark);
   const [lang, setLang] = useState(loadLang);
   const [route, setRoute] = useState("home");
   const [user, setUser] = useState(null);
@@ -41,6 +42,9 @@ export function AppProvider({ children }) {
     document.documentElement.lang = lang;
   }, [lang]);
   const t = (text) => translate(lang, text);
+
+  // Dark mode is persisted the same way, so a reload doesn't snap back to light.
+  useEffect(() => { saveDark(dark); }, [dark]);
 
   // The app stores its route in state and never changes the URL path; without
   // this the browser back/forward buttons stay greyed out. Seed the initial
