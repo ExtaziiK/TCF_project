@@ -190,7 +190,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         initialPicks={savedPicks}
         initialIndex={savedIndex}
         onProgress={onProgress}
-        onComplete={({ ok, total }) => advanceWith({ ok, total })}
+        onComplete={({ ok, total, answered }) => advanceWith({ ok, total, answered })}
         renderAbove={(q, qi, ctx) => <BankQuestionMedia question={q} allowReplay={mode !== "test"} autoPlay={ctx?.autoPlay} onAudioEnded={ctx?.onAudioEnded} />}
       />
     </div>

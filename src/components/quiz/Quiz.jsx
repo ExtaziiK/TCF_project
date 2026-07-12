@@ -90,7 +90,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     }
     setAnswers(finalAnswers);
     setFinished(true);
-    onComplete?.({ answers: finalAnswers, ok, total: questions.length });
+    onComplete?.({ answers: finalAnswers, ok, total: questions.length, answered: finalAnswers.length });
   };
 
   const [left, setLeft] = useCountdown(duration, !finished, () =>

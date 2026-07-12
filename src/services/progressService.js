@@ -58,11 +58,20 @@ export function computeProgress({ results = [], attempts = [] }) {
       answered: r.answered ?? r.total, quizKey: r.quizKey,
       minutes: r.durationSec ? Math.max(1, Math.round(r.durationSec / 60)) : 1,
     })),
-    ...exams.map((a) => ({
-      kind: "exam", at: a.completedAt, ok: a.score.ok, total: a.score.total, pct: a.score.pct,
-      answered: a.score.total, points: a.score.points,
-      minutes: Math.max(1, Math.round((new Date(a.completedAt) - new Date(a.startedAt)) / 60000)),
-    })),
+    ...exams.map((a) => {
+      // Count only questions the candidate actually answered (skips excluded),
+      // summed from the per-task results. Attempts recorded before per-task
+      // answered counts existed fall back to the exam total.
+      const perTask = a.score.perTask || [];
+      const answered = perTask.length
+        ? perTask.reduce((s, r) => s + (r.answered ?? r.total ?? 0), 0)
+        : a.score.total;
+      return {
+        kind: "exam", at: a.completedAt, ok: a.score.ok, total: a.score.total, pct: a.score.pct,
+        answered, points: a.score.points,
+        minutes: Math.max(1, Math.round((new Date(a.completedAt) - new Date(a.startedAt)) / 60000)),
+      };
+    }),
   ].filter((e) => e.at).sort((a, b) => new Date(a.at) - new Date(b.at));
 
   /* ---- totals ---- */
