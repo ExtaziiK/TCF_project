@@ -1,0 +1,1733 @@
+{
+    "id": 39935,
+    "exam_id": 58,
+    "score": 67.0,
+    "score_percent": 9.59,
+    "cefr_level": "A1 Not Achieved",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T15:37:43.018338+00:00",
+    "time_spent": 4050,
+    "section_breakdown": {
+        "Identification": {
+            "score": 2.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 3.4,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 1.9,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 1.9,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2224,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une fête.",
+            "user_selected_option_id": 34524,
+            "correct_answer": "Une fête.",
+            "correct_option_id": 34524,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34521,
+                    "text": "Un anniversaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34522,
+                    "text": "Un concert.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34523,
+                    "text": "Une exposition.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34524,
+                    "text": "Une fête.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2225,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Ils vont à l’université dans une autre ville.",
+            "user_selected_option_id": 34528,
+            "correct_answer": "Ils ont besoin de l’aide de leur famille.",
+            "correct_option_id": 34525,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34525,
+                    "text": "Ils ont besoin de l’aide de leur famille.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34526,
+                    "text": "Ils travaillent pour payer leur logement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34527,
+                    "text": "Ils veulent finir leurs études rapidement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34528,
+                    "text": "Ils vont à l’université dans une autre ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2226,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "De soigner des habitants.",
+            "user_selected_option_id": 34532,
+            "correct_answer": "D’aider à faire des repas.",
+            "correct_option_id": 34529,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34529,
+                    "text": "D’aider à faire des repas.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34530,
+                    "text": "De caner de profession.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34531,
+                    "text": "De servir dans une cantine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34532,
+                    "text": "De soigner des habitants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2227,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De garder les enfants.",
+            "user_selected_option_id": 34536,
+            "correct_answer": "De déjeuner chez lui.",
+            "correct_option_id": 34535,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_4.webp",
+            "all_options": [
+                {
+                    "id": 34533,
+                    "text": "D’aller à un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34534,
+                    "text": "D’organiser un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34535,
+                    "text": "De déjeuner chez lui.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34536,
+                    "text": "De garder les enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2228,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Une location de voiture.",
+            "user_selected_option_id": 34540,
+            "correct_answer": "Un séjour à l’hôtel.",
+            "correct_option_id": 34538,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34537,
+                    "text": "Un repas au restaurant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34538,
+                    "text": "Un séjour à l’hôtel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34539,
+                    "text": "Une commande de matériel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34540,
+                    "text": "Une location de voiture.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2229,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De préparer des danses.",
+            "user_selected_option_id": 34544,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 34543,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34541,
+                    "text": "D’écrire aux invites.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34542,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34543,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34544,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2230,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour inviter son amie à diner.",
+            "user_selected_option_id": 34548,
+            "correct_answer": "Pour décider d’un rendez-vous.",
+            "correct_option_id": 34547,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34545,
+                    "text": "Pour acheter un cadeau avec elle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34546,
+                    "text": "Pour annuler sa venue à une fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34547,
+                    "text": "Pour décider d’un rendez-vous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34548,
+                    "text": "Pour inviter son amie à diner.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2231,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "S’inscrire à un jeu.",
+            "user_selected_option_id": 34552,
+            "correct_answer": "Écrire un message.",
+            "correct_option_id": 34549,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34549,
+                    "text": "Écrire un message.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34550,
+                    "text": "Prendre un billet d’avion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34551,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34552,
+                    "text": "S’inscrire à un jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2232,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De voir un spectacle.",
+            "user_selected_option_id": 34556,
+            "correct_answer": "De tester des activités.",
+            "correct_option_id": 34555,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_9.webp",
+            "all_options": [
+                {
+                    "id": 34553,
+                    "text": "De participer à un concours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34554,
+                    "text": "De s’inscrire à un stage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34555,
+                    "text": "De tester des activités.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34556,
+                    "text": "De voir un spectacle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2233,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Prévoir de nouveaux moyens de transport.",
+            "user_selected_option_id": 34560,
+            "correct_answer": "Inventer une ville facile à vivre pour tous.",
+            "correct_option_id": 34559,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34557,
+                    "text": "Dessiner des bâtiments publics originaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34558,
+                    "text": "Donner le gout du voyage aux habitants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34559,
+                    "text": "Inventer une ville facile à vivre pour tous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34560,
+                    "text": "Prévoir de nouveaux moyens de transport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2234,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Des visites de Paris.",
+            "user_selected_option_id": 34564,
+            "correct_answer": "Des activités pour l’été.",
+            "correct_option_id": 34562,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34561,
+                    "text": "Des informations sur les sports.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34562,
+                    "text": "Des activités pour l’été.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34563,
+                    "text": "Des promotions pour les enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34564,
+                    "text": "Des visites de Paris.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2235,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De tester un autre type de matériel.",
+            "user_selected_option_id": 34568,
+            "correct_answer": "De pratiquer leur sport différemment.",
+            "correct_option_id": 34566,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34565,
+                    "text": "D’améliorer leur niveau de compétence.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34566,
+                    "text": "De pratiquer leur sport différemment.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34567,
+                    "text": "De se préparer à des compétitions.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34568,
+                    "text": "De tester un autre type de matériel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2236,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Un lycéen en demande d’orientation.",
+            "user_selected_option_id": 34572,
+            "correct_answer": "Un candidat a des études supérieures.",
+            "correct_option_id": 34569,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34569,
+                    "text": "Un candidat a des études supérieures.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34570,
+                    "text": "Un étudiant en quête d’un stage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34571,
+                    "text": "Un informaticien en recherche d’emploi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34572,
+                    "text": "Un lycéen en demande d’orientation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2237,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Du problème créé par les déchets.",
+            "user_selected_option_id": 34576,
+            "correct_answer": "D’une idée nouvelle de recyclage.",
+            "correct_option_id": 34574,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34573,
+                    "text": "D’une banque pour les mineurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34574,
+                    "text": "D’une idée nouvelle de recyclage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34575,
+                    "text": "Des enfants qui doivent travailler.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34576,
+                    "text": "Du problème créé par les déchets.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2238,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Ils sont saisonniers et occupés par des étudiants.",
+            "user_selected_option_id": 34580,
+            "correct_answer": "Ils s’exercent sans interruption dans l’année.",
+            "correct_option_id": 34577,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34577,
+                    "text": "Ils s’exercent sans interruption dans l’année.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34578,
+                    "text": "Ils sont en difficulté à cause des trente-cinq heures.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34579,
+                    "text": "Ils sont inadaptés aux besoins des vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34580,
+                    "text": "Ils sont saisonniers et occupés par des étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2239,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "On va arrêter de les vendre.",
+            "user_selected_option_id": 34584,
+            "correct_answer": "On va arrêter de les vendre.",
+            "correct_option_id": 34584,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_16.webp",
+            "all_options": [
+                {
+                    "id": 34581,
+                    "text": "Ils servent pour un seul trajet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34582,
+                    "text": "Les gens les jettent dans la rue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34583,
+                    "text": "Leur prix va encore augmenter.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34584,
+                    "text": "On va arrêter de les vendre.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2240,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Retirer de l’argent a un distributeur.",
+            "user_selected_option_id": 34588,
+            "correct_answer": "Faire des courses dans un magasin.",
+            "correct_option_id": 34586,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34585,
+                    "text": "Avoirs des réductions sur certains articles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34586,
+                    "text": "Faire des courses dans un magasin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34587,
+                    "text": "Offrir une surprise pour un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34588,
+                    "text": "Retirer de l’argent a un distributeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2241,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Les envies des adolescents.",
+            "user_selected_option_id": 34592,
+            "correct_answer": "La pression de la société.",
+            "correct_option_id": 34589,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34589,
+                    "text": "La pression de la société.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34590,
+                    "text": "La réputation des clubs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34591,
+                    "text": "Les bienfaits pour la santé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34592,
+                    "text": "Les envies des adolescents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2242,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Ils sont attentifs après un moment de détente.",
+            "user_selected_option_id": 34596,
+            "correct_answer": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+            "correct_option_id": 34595,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_19.webp",
+            "all_options": [
+                {
+                    "id": 34593,
+                    "text": "Ils apprennent à se servir correctement des réseaux sociaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34594,
+                    "text": "Ils communiquent plus facilement avec l’instituteur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34595,
+                    "text": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34596,
+                    "text": "Ils sont attentifs après un moment de détente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2243,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il raconte la rencontre entre Modiano et sa femme.",
+            "user_selected_option_id": 34600,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano.",
+            "correct_option_id": 34598,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_20.webp",
+            "all_options": [
+                {
+                    "id": 34597,
+                    "text": "Il cite un extrait d’une œuvre de Modiano.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34598,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34599,
+                    "text": "Il présente le métier de Modiano à ses débuts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34600,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2244,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Une sortie au zoo.",
+            "user_selected_option_id": 34604,
+            "correct_answer": "Une activité de maquillage.",
+            "correct_option_id": 34602,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_21.webp",
+            "all_options": [
+                {
+                    "id": 34601,
+                    "text": "Un spectacle de cirque.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34602,
+                    "text": "Une activité de maquillage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34603,
+                    "text": "Une rencontre avec un clown.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34604,
+                    "text": "Une sortie au zoo.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2245,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Privilégier les aliments bio et avoir du mal à s’en procurer.",
+            "user_selected_option_id": 34608,
+            "correct_answer": "Être amateur de viande et militer pour le bien-être animal.",
+            "correct_option_id": 34607,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34605,
+                    "text": "Acheter les meilleurs produits et dépenser le moins possible.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34606,
+                    "text": "Avoir la garantie de la qualité du produit.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34607,
+                    "text": "Être amateur de viande et militer pour le bien-être animal.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34608,
+                    "text": "Privilégier les aliments bio et avoir du mal à s’en procurer.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2246,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Lister les différents types de stages professionnels destinés aux élèves.",
+            "user_selected_option_id": 34612,
+            "correct_answer": "Définir les conditions d’accueil des élèves en milieu professionnel.",
+            "correct_option_id": 34609,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_23.webp",
+            "all_options": [
+                {
+                    "id": 34609,
+                    "text": "Définir les conditions d’accueil des élèves en milieu professionnel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34610,
+                    "text": "Expliquer le déroulement des stages en entreprise pour les élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34611,
+                    "text": "Informer des mesures de sécurité des élèves lors de visites d’entreprises.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34612,
+                    "text": "Lister les différents types de stages professionnels destinés aux élèves.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2247,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Il s’impose comme le moyen de déplacement à la mode chez les jeunes.",
+            "user_selected_option_id": 34616,
+            "correct_answer": "Il est accessible à un nombre croissant d’utilisateurs grâce à internet.",
+            "correct_option_id": 34614,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_24.webp",
+            "all_options": [
+                {
+                    "id": 34613,
+                    "text": "Il devient la solution idéale des voyages organisés à la dernière minute.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34614,
+                    "text": "Il est accessible à un nombre croissant d’utilisateurs grâce à internet.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34615,
+                    "text": "Il occupe une place grandissante dans les petites annonces des journaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34616,
+                    "text": "Il s’impose comme le moyen de déplacement à la mode chez les jeunes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2248,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Pour obtenir des données sur sa composition.",
+            "user_selected_option_id": 34620,
+            "correct_answer": "Pour obtenir des données sur sa composition.",
+            "correct_option_id": 34620,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_25.webp",
+            "all_options": [
+                {
+                    "id": 34617,
+                    "text": "Pour comparer son histoire à celle de la Terre.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34618,
+                    "text": "Pour évaluer les possibilités d’aller y vivre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34619,
+                    "text": "Pour expliquer son grand nombre de séismes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34620,
+                    "text": "Pour obtenir des données sur sa composition.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2249,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Le recul des difficultés économiques des ménages.",
+            "user_selected_option_id": 34624,
+            "correct_answer": "L’essor de nouveaux modes de consommation.",
+            "correct_option_id": 34621,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_26.webp",
+            "all_options": [
+                {
+                    "id": 34621,
+                    "text": "L’essor de nouveaux modes de consommation.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34622,
+                    "text": "La stagnation de la dépendance au numérique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34623,
+                    "text": "Le développement des voitures ultraconnectées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34624,
+                    "text": "Le recul des difficultés économiques des ménages.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2250,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Reverser ses bénéfices à des associations.",
+            "user_selected_option_id": 34628,
+            "correct_answer": "Organiser des séjours à vocation humanitaire.",
+            "correct_option_id": 34626,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34625,
+                    "text": "Faire découvrir des destinations authentiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34626,
+                    "text": "Organiser des séjours à vocation humanitaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34627,
+                    "text": "Recruter des salariés a l’international.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34628,
+                    "text": "Reverser ses bénéfices à des associations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2251,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Les Français sont encore attachés à cette tradition.",
+            "user_selected_option_id": 34632,
+            "correct_answer": "Il est difficile d’en évaluer l’impact sur la santé.",
+            "correct_option_id": 34629,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34629,
+                    "text": "Il est difficile d’en évaluer l’impact sur la santé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34630,
+                    "text": "Il permet la consommation de médicaments.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34631,
+                    "text": "Le sénat a toujours refusé de voter une loi sur le sujet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34632,
+                    "text": "Les Français sont encore attachés à cette tradition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2252,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Pour piéger les gens visés par les enquêtes.",
+            "user_selected_option_id": 34636,
+            "correct_answer": "Pour dissimuler la pauvreté des contenus.",
+            "correct_option_id": 34634,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34633,
+                    "text": "Pour améliorer la qualité des documentaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34634,
+                    "text": "Pour dissimuler la pauvreté des contenus.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34635,
+                    "text": "Pour moderniser leurs méthodes de travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34636,
+                    "text": "Pour piéger les gens visés par les enquêtes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2253,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Les bateaux en détresse sont laissés à leur sort.",
+            "user_selected_option_id": 34640,
+            "correct_answer": "La technologie facilite le pillage des mers.",
+            "correct_option_id": 34638,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34637,
+                    "text": "La faune aquatique est en danger.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34638,
+                    "text": "La technologie facilite le pillage des mers.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34639,
+                    "text": "Le nombre de voleurs dépaves augmente.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34640,
+                    "text": "Les bateaux en détresse sont laissés à leur sort.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2254,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Elle serait néfaste pour le rendement.",
+            "user_selected_option_id": 34644,
+            "correct_answer": "Elle peine à se répandre en milieu professionnel.",
+            "correct_option_id": 34643,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34641,
+                    "text": "Elle devrait être réservée aux périodes de congés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34642,
+                    "text": "Elle est préconisée par la médecine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34643,
+                    "text": "Elle peine à se répandre en milieu professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34644,
+                    "text": "Elle serait néfaste pour le rendement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2255,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+            "user_selected_option_id": 34648,
+            "correct_answer": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+            "correct_option_id": 34646,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34645,
+                    "text": "Aider les femmes à se battre pour améliorer leur situation familiale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34646,
+                    "text": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34647,
+                    "text": "Démontrer que la condition de la femme dans les cités est désastreuse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34648,
+                    "text": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2256,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Leur proposer des énigmes à résoudre.",
+            "user_selected_option_id": 34652,
+            "correct_answer": "Leur permettre d’inventer des activités.",
+            "correct_option_id": 34650,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34649,
+                    "text": "Leur donner le gout de l’observation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34650,
+                    "text": "Leur permettre d’inventer des activités.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34651,
+                    "text": "Leur procurer des jeux éducatifs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34652,
+                    "text": "Leur proposer des énigmes à résoudre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2257,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Son fonctionnement est encore mystérieux.",
+            "user_selected_option_id": 34656,
+            "correct_answer": "Son fonctionnement est encore mystérieux.",
+            "correct_option_id": 34656,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34653,
+                    "text": "Sa structure est identique chez l’homme et l’animal.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34654,
+                    "text": "Sa taille influe sur les compétences cognitives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34655,
+                    "text": "Son développement est ralenti les premiers mois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34656,
+                    "text": "Son fonctionnement est encore mystérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2258,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Son savoir-faire met en valeur des procédés connus.",
+            "user_selected_option_id": 34660,
+            "correct_answer": "Ses œuvres se fondent dans leur environnement.",
+            "correct_option_id": 34658,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34657,
+                    "text": "Sa technique puise dans divers mouvements artistiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34658,
+                    "text": "Ses œuvres se fondent dans leur environnement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34659,
+                    "text": "Son inspiration provient de ses nombreuses lectures.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34660,
+                    "text": "Son savoir-faire met en valeur des procédés connus.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2259,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Les principes actuels d’organisation du travail.",
+            "user_selected_option_id": 34664,
+            "correct_answer": "La primauté de l’apparence sur les compétences.",
+            "correct_option_id": 34661,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34661,
+                    "text": "La primauté de l’apparence sur les compétences.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34662,
+                    "text": "Le corporatisme pousse de certaines sociétés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34663,
+                    "text": "Le manque de formation aux nouvelles technologies.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34664,
+                    "text": "Les principes actuels d’organisation du travail.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2260,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Les préoccupations écologistes des industriels.",
+            "user_selected_option_id": 34668,
+            "correct_answer": "La rentabilité d’un nouveau système d’extraction.",
+            "correct_option_id": 34666,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34665,
+                    "text": "La capacité des plantes à nettoyer les sols.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34666,
+                    "text": "La rentabilité d’un nouveau système d’extraction.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34667,
+                    "text": "Le résultat des recherches de Mr Van der Hert.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34668,
+                    "text": "Les préoccupations écologistes des industriels.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2261,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Protéger des espaces marins menacés.",
+            "user_selected_option_id": 34672,
+            "correct_answer": "Concevoir des lieux de vie alternatifs.",
+            "correct_option_id": 34669,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34669,
+                    "text": "Concevoir des lieux de vie alternatifs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34670,
+                    "text": "Étudier de nouvelles technologies.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34671,
+                    "text": "Proposer des activités futuristes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34672,
+                    "text": "Protéger des espaces marins menacés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2262,
+            "question_text": "Compréhension écrite – Quiz 22 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Elle serait issue du patrimoine génétique.",
+            "user_selected_option_id": 34676,
+            "correct_answer": "Elle résulterait de l’observation de normes.",
+            "correct_option_id": 34674,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_22_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34673,
+                    "text": "Elle représenterait l’influence de l’inconscient.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34674,
+                    "text": "Elle résulterait de l’observation de normes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34675,
+                    "text": "Elle révélerait la part de l’acquis due au groupe",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34676,
+                    "text": "Elle serait issue du patrimoine génétique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 9,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 22",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

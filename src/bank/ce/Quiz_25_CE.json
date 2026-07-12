@@ -1,0 +1,1733 @@
+{
+    "id": 40854,
+    "exam_id": 61,
+    "score": 159.0,
+    "score_percent": 22.75,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T15:40:26.718519+00:00",
+    "time_spent": 35,
+    "section_breakdown": {
+        "Identification": {
+            "score": 5.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 8.0,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 4.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 4.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2341,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Pour préparer son voyage.",
+            "user_selected_option_id": 34992,
+            "correct_answer": "Pour organiser leur journée de travail.",
+            "correct_option_id": 34991,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34989,
+                    "text": "Pour lui annoncer un projet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34990,
+                    "text": "Pour lui présenter un nouveau produit.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34991,
+                    "text": "Pour organiser leur journée de travail.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34992,
+                    "text": "Pour préparer son voyage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2342,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "L’entrée est gratuite.",
+            "user_selected_option_id": 34996,
+            "correct_answer": "Elle est déjà finie.",
+            "correct_option_id": 34995,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34993,
+                    "text": "C’est un succès.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34994,
+                    "text": "Elle changera de lieu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34995,
+                    "text": "Elle est déjà finie.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34996,
+                    "text": "L’entrée est gratuite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2343,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Un livre.",
+            "user_selected_option_id": 35000,
+            "correct_answer": "Un film.",
+            "correct_option_id": 34999,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34997,
+                    "text": "Un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34998,
+                    "text": "Une exposition.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34999,
+                    "text": "Un film.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35000,
+                    "text": "Un livre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2344,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Réparer de vieilles bicyclettes.",
+            "user_selected_option_id": 35004,
+            "correct_answer": "Donner un vélo à des élèves.",
+            "correct_option_id": 35002,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35001,
+                    "text": "Aider des familles en difficulté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35002,
+                    "text": "Donner un vélo à des élèves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35003,
+                    "text": "Ouvrir de nouveaux collèges.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35004,
+                    "text": "Réparer de vieilles bicyclettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2345,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "La télévision.",
+            "user_selected_option_id": 35008,
+            "correct_answer": "La télévision.",
+            "correct_option_id": 35008,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_5.webp",
+            "all_options": [
+                {
+                    "id": 35005,
+                    "text": "L’Internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35006,
+                    "text": "La presse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35007,
+                    "text": "La radio.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35008,
+                    "text": "La télévision.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2346,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "On y donne des cours de cuisine.",
+            "user_selected_option_id": 35012,
+            "correct_answer": "Beaucoup de personnes le visitent.",
+            "correct_option_id": 35009,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_6.webp",
+            "all_options": [
+                {
+                    "id": 35009,
+                    "text": "Beaucoup de personnes le visitent.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35010,
+                    "text": "Il vend des articles bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35011,
+                    "text": "Il y a un célèbre musée à l’intérieur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35012,
+                    "text": "On y donne des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2347,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Quand elle a échangé un vêtement soldé.",
+            "user_selected_option_id": 35016,
+            "correct_answer": "Comment elle a acheté un article en ligne.",
+            "correct_option_id": 35013,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_7.webp",
+            "all_options": [
+                {
+                    "id": 35013,
+                    "text": "Comment elle a acheté un article en ligne.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35014,
+                    "text": "Où elle a cherché un cadeau bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35015,
+                    "text": "Pourquoi elle a eu un chèque de réduction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35016,
+                    "text": "Quand elle a échangé un vêtement soldé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2348,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Elles suivent des traitements coûteux.",
+            "user_selected_option_id": 35020,
+            "correct_answer": "Elles ont besoin d’accompagnement.",
+            "correct_option_id": 35017,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_8.webp",
+            "all_options": [
+                {
+                    "id": 35017,
+                    "text": "Elles ont besoin d’accompagnement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35018,
+                    "text": "Elles ont peur de quitter leur logement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35019,
+                    "text": "Elles souffrent de grande solitude.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35020,
+                    "text": "Elles suivent des traitements coûteux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2349,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Pour réserver une place dans un camping.",
+            "user_selected_option_id": 35024,
+            "correct_answer": "Pour raconter son séjour en Bretagne.",
+            "correct_option_id": 35022,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_9.webp",
+            "all_options": [
+                {
+                    "id": 35021,
+                    "text": "Pour proposer une promenade en bateau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35022,
+                    "text": "Pour raconter son séjour en Bretagne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35023,
+                    "text": "Pour répondre à son cousin Benjamin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35024,
+                    "text": "Pour réserver une place dans un camping.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2350,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "De participer à un événement sportif.",
+            "user_selected_option_id": 35028,
+            "correct_answer": "De participer à un événement sportif.",
+            "correct_option_id": 35028,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_10.webp",
+            "all_options": [
+                {
+                    "id": 35025,
+                    "text": "D’aider à organiser une",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35026,
+                    "text": "Devenir membre d’une association.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35027,
+                    "text": "Distribuer des repas gratuits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35028,
+                    "text": "De participer à un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2351,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De visiter de nouveaux logements.",
+            "user_selected_option_id": 35032,
+            "correct_answer": "De faire un repas entre voisins.",
+            "correct_option_id": 35030,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35029,
+                    "text": "De cuisiner tous ensemble.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35030,
+                    "text": "De faire un repas entre voisins.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35031,
+                    "text": "De s’inscrire à des activités.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35032,
+                    "text": "De visiter de nouveaux logements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2352,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Retirer de l’argent à un distributeur.",
+            "user_selected_option_id": 35036,
+            "correct_answer": "Faire des courses dans un magasin.",
+            "correct_option_id": 35034,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_12.webp",
+            "all_options": [
+                {
+                    "id": 35033,
+                    "text": "Avoir des réductions sur certains articles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35034,
+                    "text": "Faire des courses dans un magasin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35035,
+                    "text": "Offrir une surprise pour un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35036,
+                    "text": "Retirer de l’argent à un distributeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2353,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Elle enrichit la personnalité.",
+            "user_selected_option_id": 35040,
+            "correct_answer": "Elle est bonne pour la santé.",
+            "correct_option_id": 35037,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35037,
+                    "text": "Elle est bonne pour la santé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35038,
+                    "text": "Elle facilite la socialisation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35039,
+                    "text": "Elle développe la mémoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35040,
+                    "text": "Elle enrichit la personnalité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2354,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Les heures d’ouverture.",
+            "user_selected_option_id": 35044,
+            "correct_answer": "L’offre spéciale de l’été.",
+            "correct_option_id": 35041,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35041,
+                    "text": "L’offre spéciale de l’été.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35042,
+                    "text": "La date des vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35043,
+                    "text": "Le prix de l’entrée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35044,
+                    "text": "Les heures d’ouverture.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2355,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Recevoir sans frais des produits d’essai.",
+            "user_selected_option_id": 35048,
+            "correct_answer": "Faire ses courses plus rapidement.",
+            "correct_option_id": 35047,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_15.webp",
+            "all_options": [
+                {
+                    "id": 35045,
+                    "text": "Avoir des réductions sur certains produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35046,
+                    "text": "Bénéficier de facilités de paiement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35047,
+                    "text": "Faire ses courses plus rapidement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35048,
+                    "text": "Recevoir sans frais des produits d’essai.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2356,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De passer une nuit sous la tente.",
+            "user_selected_option_id": 35052,
+            "correct_answer": "De dormir au milieu de la nature.",
+            "correct_option_id": 35049,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35049,
+                    "text": "De dormir au milieu de la nature.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35050,
+                    "text": "De faire un parcours dans les arbres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35051,
+                    "text": "De participer à une aventure sportive.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35052,
+                    "text": "De passer une nuit sous la tente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2357,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Pour prendre des décisions.",
+            "user_selected_option_id": 35056,
+            "correct_answer": "Pour clarifier ses idées.",
+            "correct_option_id": 35053,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35053,
+                    "text": "Pour clarifier ses idées.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35054,
+                    "text": "Pour combler la solitude.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35055,
+                    "text": "Pour exercer la mémoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35056,
+                    "text": "Pour prendre des décisions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2358,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Il raconte une anecdote.",
+            "user_selected_option_id": 35060,
+            "correct_answer": "Il donne un conseil.",
+            "correct_option_id": 35059,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35057,
+                    "text": "Il commente une loi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35058,
+                    "text": "Il formule une plainte.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35059,
+                    "text": "Il donne un conseil.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35060,
+                    "text": "Il raconte une anecdote.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2359,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Si c’est le fruit d’une décision personnelle.",
+            "user_selected_option_id": 35064,
+            "correct_answer": "Si c’est le fruit d’une décision personnelle.",
+            "correct_option_id": 35064,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_19.webp",
+            "all_options": [
+                {
+                    "id": 35061,
+                    "text": "Si c’est une occasion d’élargir son réseau social.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35062,
+                    "text": "Si c’est une opportunité de changer de mode de vie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35063,
+                    "text": "Si c’est la possibilité de trouver un emploi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35064,
+                    "text": "Si c’est le fruit d’une décision personnelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2360,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Maintenir les performances de la mémoire.",
+            "user_selected_option_id": 35068,
+            "correct_answer": "Maintenir les performances de la mémoire.",
+            "correct_option_id": 35068,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_20.webp",
+            "all_options": [
+                {
+                    "id": 35065,
+                    "text": "Améliorer les capacités physiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35066,
+                    "text": "Découvrir de nouveaux types de sports.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35067,
+                    "text": "Développer le cercle de ses relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35068,
+                    "text": "Maintenir les performances de la mémoire.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2361,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Les adolescents adorent l’univers imaginé.",
+            "user_selected_option_id": 35072,
+            "correct_answer": "Le public se reconnaît à travers le héros.",
+            "correct_option_id": 35070,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_21.webp",
+            "all_options": [
+                {
+                    "id": 35069,
+                    "text": "Le dessinateur utilise une technique inédite.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35070,
+                    "text": "Le public se reconnaît à travers le héros.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35071,
+                    "text": "Le scénario repose sur une intrigue excitante.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35072,
+                    "text": "Les adolescents adorent l’univers imaginé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2362,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "À une simulation de mission spatiale.",
+            "user_selected_option_id": 35076,
+            "correct_answer": "À une simulation de mission spatiale.",
+            "correct_option_id": 35076,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_22.webp",
+            "all_options": [
+                {
+                    "id": 35073,
+                    "text": "À un vol interstellaire vers une planète lointaine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35074,
+                    "text": "À une expérience d’autosuffisance alimentaire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35075,
+                    "text": "À une exploration de cratères de volcans.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35076,
+                    "text": "À une simulation de mission spatiale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2363,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Pouvoir travailler en totale autonomie.",
+            "user_selected_option_id": 35080,
+            "correct_answer": "Être titulaire d’une formation reconnue.",
+            "correct_option_id": 35079,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_23.webp",
+            "all_options": [
+                {
+                    "id": 35077,
+                    "text": "Avoir une expérience dans l’enseignement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35078,
+                    "text": "Être impérativement disponible le matin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35079,
+                    "text": "Être titulaire d’une formation reconnue.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35080,
+                    "text": "Pouvoir travailler en totale autonomie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2364,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Garantir une pédagogie différenciée.",
+            "user_selected_option_id": 35084,
+            "correct_answer": "Favoriser l’égalité des chances.",
+            "correct_option_id": 35083,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_24.webp",
+            "all_options": [
+                {
+                    "id": 35081,
+                    "text": "Allouer une bourse aux plus modestes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35082,
+                    "text": "Épauler les familles en difficulté.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35083,
+                    "text": "Favoriser l’égalité des chances.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35084,
+                    "text": "Garantir une pédagogie différenciée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2365,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Leur multiplication réduit le stress des consommateurs.",
+            "user_selected_option_id": 35088,
+            "correct_answer": "L’optimisation de leur gestion est en cours d’étude.",
+            "correct_option_id": 35087,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_25.webp",
+            "all_options": [
+                {
+                    "id": 35085,
+                    "text": "Chaque magasin met en place son propre système.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35086,
+                    "text": "Elles diminuent avec l’automatisation des caisses.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35087,
+                    "text": "L’optimisation de leur gestion est en cours d’étude.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35088,
+                    "text": "Leur multiplication réduit le stress des consommateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2366,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Les spectateurs privilégient les créations classiques.",
+            "user_selected_option_id": 35092,
+            "correct_answer": "Les producteurs évitent de prendre des risques.",
+            "correct_option_id": 35089,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_26.webp",
+            "all_options": [
+                {
+                    "id": 35089,
+                    "text": "Les producteurs évitent de prendre des risques.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35090,
+                    "text": "Les réalisateurs sont à la recherche d’idées neuves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35091,
+                    "text": "Les scénaristes font preuve d’une imagination limitée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35092,
+                    "text": "Les spectateurs privilégient les créations classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2367,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Elle tente d’imiter sa voisine.",
+            "user_selected_option_id": 35096,
+            "correct_answer": "Elle abrite une vie animée.",
+            "correct_option_id": 35093,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_27.webp",
+            "all_options": [
+                {
+                    "id": 35093,
+                    "text": "Elle abrite une vie animée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35094,
+                    "text": "Elle perpétue des traditions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35095,
+                    "text": "Elle se préserve du tourisme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35096,
+                    "text": "Elle tente d’imiter sa voisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2368,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Opposer un veto à certaines décisions.",
+            "user_selected_option_id": 35100,
+            "correct_answer": "Choisir des actions pour leur commune.",
+            "correct_option_id": 35098,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_28.webp",
+            "all_options": [
+                {
+                    "id": 35097,
+                    "text": "Aider à la préservation de leur quartier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35098,
+                    "text": "Choisir des actions pour leur commune.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35099,
+                    "text": "Contrôler les dépenses privées des élus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35100,
+                    "text": "Opposer un veto à certaines décisions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2369,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "II véhicule des valeurs obsolètes.",
+            "user_selected_option_id": 35104,
+            "correct_answer": "Il appartient à une réflexion philosophique.",
+            "correct_option_id": 35101,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_29.webp",
+            "all_options": [
+                {
+                    "id": 35101,
+                    "text": "Il appartient à une réflexion philosophique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35102,
+                    "text": "Il fait souvent la une des journaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35103,
+                    "text": "Il résulte des modes de vie contemporains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35104,
+                    "text": "II véhicule des valeurs obsolètes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2370,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elle révèlerait la part de l’acquis due au groupe.",
+            "user_selected_option_id": 35108,
+            "correct_answer": "Elle résulterait de l’observation de normes.",
+            "correct_option_id": 35106,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_30.webp",
+            "all_options": [
+                {
+                    "id": 35105,
+                    "text": "Elle représenterait l’influence de l’inconscient.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35106,
+                    "text": "Elle résulterait de l’observation de normes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35107,
+                    "text": "Elle serait issue du patrimoine génétique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35108,
+                    "text": "Elle révèlerait la part de l’acquis due au groupe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2371,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "On veut les préserver durablement.",
+            "user_selected_option_id": 35112,
+            "correct_answer": "On veut les préserver durablement.",
+            "correct_option_id": 35112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_31.webp",
+            "all_options": [
+                {
+                    "id": 35109,
+                    "text": "Des musées sont prêts à les accueillir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35110,
+                    "text": "Le marché voit leur cote grimper.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35111,
+                    "text": "Leurs auteurs sont devenus célèbres.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35112,
+                    "text": "On veut les préserver durablement.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2372,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il révèle qu’elles contribuent au déclin industriel.",
+            "user_selected_option_id": 35116,
+            "correct_answer": "Il remet en question leurs retombées positives.",
+            "correct_option_id": 35115,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_32.webp",
+            "all_options": [
+                {
+                    "id": 35113,
+                    "text": "Il déconseille au grand public de les adopter.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35114,
+                    "text": "Il estime qu’elles sont insuffisamment promues.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35115,
+                    "text": "Il remet en question leurs retombées positives.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35116,
+                    "text": "Il révèle qu’elles contribuent au déclin industriel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2373,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "user_selected_option_id": 35120,
+            "correct_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "correct_option_id": 35120,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_33.webp",
+            "all_options": [
+                {
+                    "id": 35117,
+                    "text": "Ce sont des blessures corporelles superficielles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35118,
+                    "text": "Elles sont commises par des groupes minoritaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35119,
+                    "text": "Les autorités universitaires s’en préoccupent peu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35120,
+                    "text": "Lutter contre elles peut nuire à certaines libertés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2374,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+            "user_selected_option_id": 35124,
+            "correct_answer": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+            "correct_option_id": 35122,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_34.webp",
+            "all_options": [
+                {
+                    "id": 35121,
+                    "text": "Aider les femmes à se battre pour améliorer leur situation familiale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35122,
+                    "text": "Amener les spectateurs à s’émouvoir d’un quotidien douloureux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35123,
+                    "text": "Démontrer que la condition de la femme dans les cités est désastreuse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35124,
+                    "text": "Informer des difficultés que peuvent rencontrer les enfants des cités.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2375,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Simplifier le vocabulaire employé.",
+            "user_selected_option_id": 35128,
+            "correct_answer": "Simplifier le vocabulaire employé.",
+            "correct_option_id": 35128,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_35.webp",
+            "all_options": [
+                {
+                    "id": 35125,
+                    "text": "Améliorer la formation des enseignants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35126,
+                    "text": "Instaurer des discussions en classe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35127,
+                    "text": "Programmer des sorties dans la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35128,
+                    "text": "Simplifier le vocabulaire employé.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2376,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle serait néfaste pour le rendement.",
+            "user_selected_option_id": 35132,
+            "correct_answer": "Elle peine à se répandre en milieu professionnel.",
+            "correct_option_id": 35131,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_36.webp",
+            "all_options": [
+                {
+                    "id": 35129,
+                    "text": "Elle devrait être réservée aux périodes de congés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35130,
+                    "text": "Elle est préconisée par la médecine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35131,
+                    "text": "Elle peine à se répandre en milieu professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35132,
+                    "text": "Elle serait néfaste pour le rendement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2377,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elles symbolisent la peur de l’inconnu.",
+            "user_selected_option_id": 35136,
+            "correct_answer": "Elles bénéficient d’un effet de mode.",
+            "correct_option_id": 35133,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_37.webp",
+            "all_options": [
+                {
+                    "id": 35133,
+                    "text": "Elles bénéficient d’un effet de mode.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35134,
+                    "text": "Elles inquiètent les jeunes enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35135,
+                    "text": "Elles relèvent d’un genre spécifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35136,
+                    "text": "Elles symbolisent la peur de l’inconnu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2378,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’évolution d’Internet a affaibli le respect porté au statut de journaliste.",
+            "user_selected_option_id": 35139,
+            "correct_answer": "Une frontière est apparue entre les journalistes confirmés et les autres.",
+            "correct_option_id": 35138,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_38.webp",
+            "all_options": [
+                {
+                    "id": 35137,
+                    "text": "La formation au métier de journaliste est devenue tout à fait inutile.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35138,
+                    "text": "Une frontière est apparue entre les journalistes confirmés et les autres.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35139,
+                    "text": "L’évolution d’Internet a affaibli le respect porté au statut de journaliste.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35140,
+                    "text": "Des internautes publiant sur le net se prennent pour des journalistes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2379,
+            "question_text": "Compréhension écrite – Quiz 25 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il suscite l’engouement des professionnels du secteur.",
+            "user_selected_option_id": 35144,
+            "correct_answer": "Il nécessite une réorganisation des lieux les plus visités.",
+            "correct_option_id": 35142,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_25_question_39.webp",
+            "all_options": [
+                {
+                    "id": 35141,
+                    "text": "Il est à l’origine d’une politique de diminution des flux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35142,
+                    "text": "Il nécessite une réorganisation des lieux les plus visités.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35143,
+                    "text": "Il permet de répartir les voyageurs sur tout le territoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35144,
+                    "text": "Il suscite l’engouement des professionnels du secteur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 22,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 25",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

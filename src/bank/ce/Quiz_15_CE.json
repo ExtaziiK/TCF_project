@@ -1,0 +1,1732 @@
+{
+    "id": 40344,
+    "exam_id": 51,
+    "score": 678.0,
+    "score_percent": 97.0,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-07T15:34:11.933032+00:00",
+    "time_spent": 494,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.2,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 33.9,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1951,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Le mardi matin.",
+            "user_selected_option_id": 33430,
+            "correct_answer": "Le mardi matin.",
+            "correct_option_id": 33430,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33429,
+                    "text": "Le jeudi soir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33430,
+                    "text": "Le mardi matin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33431,
+                    "text": "Le mercredi après-midi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33432,
+                    "text": "Le samedi midi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1952,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Le prix du billet.",
+            "user_selected_option_id": 33435,
+            "correct_answer": "Le prix du billet.",
+            "correct_option_id": 33435,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33433,
+                    "text": "La durée du spectacle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33434,
+                    "text": "Le nom du cinéma.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33435,
+                    "text": "Le prix du billet.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33436,
+                    "text": "Le titre du film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1953,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "De rester en bonne santé.",
+            "user_selected_option_id": 33439,
+            "correct_answer": "De rester en bonne santé.",
+            "correct_option_id": 33439,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33437,
+                    "text": "De faire des économies.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33438,
+                    "text": "De pratiquer un sport.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33439,
+                    "text": "De rester en bonne santé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33440,
+                    "text": "De trouver des produits bios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1954,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Aux clients de l’hôtel.",
+            "user_selected_option_id": 33441,
+            "correct_answer": "Aux clients de l’hôtel.",
+            "correct_option_id": 33441,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33441,
+                    "text": "Aux clients de l’hôtel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33442,
+                    "text": "Au service de nettoyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33443,
+                    "text": "Au directeur de l’hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33444,
+                    "text": "Aux serveurs du bar.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1955,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "La secrétaire.",
+            "user_selected_option_id": 33446,
+            "correct_answer": "La secrétaire.",
+            "correct_option_id": 33446,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33445,
+                    "text": "La comptable.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33446,
+                    "text": "La secrétaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33447,
+                    "text": "Le directeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33448,
+                    "text": "Le réparateur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1956,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il leur permet de trouver un emploi.",
+            "user_selected_option_id": 33450,
+            "correct_answer": "Il leur permet de trouver un emploi.",
+            "correct_option_id": 33450,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33449,
+                    "text": "Il les renseigne sur des formations.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33450,
+                    "text": "Il leur permet de trouver un emploi.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33451,
+                    "text": "Il leur présente des stages en entreprise.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33452,
+                    "text": "Il leur propose des logements étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1957,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Une manifestation sociale.",
+            "user_selected_option_id": 33456,
+            "correct_answer": "Une manifestation sociale.",
+            "correct_option_id": 33456,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33453,
+                    "text": "Un salon des entreprises.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33454,
+                    "text": "Une compétition sportive.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33455,
+                    "text": "Une conférence sur le chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33456,
+                    "text": "Une manifestation sociale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1958,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Il doit utiliser les escaliers.",
+            "user_selected_option_id": 33458,
+            "correct_answer": "Il doit utiliser les escaliers.",
+            "correct_option_id": 33458,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33457,
+                    "text": "C’est lui qui appelle le réparateur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33458,
+                    "text": "Il doit utiliser les escaliers.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33459,
+                    "text": "Ses voisins sont bruyants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33460,
+                    "text": "Son logement est au dernier étage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1959,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "D’envoyer des photos.",
+            "user_selected_option_id": 33461,
+            "correct_answer": "D’envoyer des photos.",
+            "correct_option_id": 33461,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33461,
+                    "text": "D’envoyer des photos.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33462,
+                    "text": "D’inventer une recette.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33463,
+                    "text": "De créer un spectacle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33464,
+                    "text": "De découvrir une langue.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1960,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Dialoguer avec le personnel enseignant.",
+            "user_selected_option_id": 33465,
+            "correct_answer": "Dialoguer avec le personnel enseignant.",
+            "correct_option_id": 33465,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33465,
+                    "text": "Dialoguer avec le personnel enseignant.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33466,
+                    "text": "Écouter une présentation du directeur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33467,
+                    "text": "Participer à une conférence sur l’éducation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33468,
+                    "text": "Répondre à un questionnaire sur les cours.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1961,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Une publicité à faible coût.",
+            "user_selected_option_id": 33472,
+            "correct_answer": "Une publicité à faible coût.",
+            "correct_option_id": 33472,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33469,
+                    "text": "Un service de création de sites.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33470,
+                    "text": "Une aide informatique rapide.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33471,
+                    "text": "Une formation sur internet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33472,
+                    "text": "Une publicité à faible coût.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1962,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Sur la somme qu’elle a coûtée.",
+            "user_selected_option_id": 33475,
+            "correct_answer": "Sur la somme qu’elle a coûtée.",
+            "correct_option_id": 33475,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33473,
+                    "text": "Sur l’architecte qui l’a conçue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33474,
+                    "text": "Sur l’emplacement qui a été choisi.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33475,
+                    "text": "Sur la somme qu’elle a coûtée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33476,
+                    "text": "Sur le symbole qu’elle représente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1963,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "La rapidité de sa construction.",
+            "user_selected_option_id": 33478,
+            "correct_answer": "La rapidité de sa construction.",
+            "correct_option_id": 33478,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33477,
+                    "text": "L’aménagement des lieux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33478,
+                    "text": "La rapidité de sa construction.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33479,
+                    "text": "Le choix de son emplacement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33480,
+                    "text": "Le coût des matériaux utilisés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1964,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Transporter des personnes.",
+            "user_selected_option_id": 33484,
+            "correct_answer": "Transporter des personnes.",
+            "correct_option_id": 33484,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33481,
+                    "text": "Acheter un billet d’avion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33482,
+                    "text": "Organiser des vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33483,
+                    "text": "Réserver un parking.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33484,
+                    "text": "Transporter des personnes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1965,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Les clubs disparaissaient vite après leur création.",
+            "user_selected_option_id": 33485,
+            "correct_answer": "Les clubs disparaissaient vite après leur création.",
+            "correct_option_id": 33485,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33485,
+                    "text": "Les clubs disparaissaient vite après leur création.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33486,
+                    "text": "Les groupes concernés étaient trop nombreux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33487,
+                    "text": "Les lecteurs refusaient de parler à des journalistes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33488,
+                    "text": "Les rencontres se faisaient de manière irrégulière.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1966,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "D’organiser des échanges de longue durée.",
+            "user_selected_option_id": 33492,
+            "correct_answer": "D’organiser des échanges de longue durée.",
+            "correct_option_id": 33492,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33489,
+                    "text": "D’améliorer rapidement les résultats scolaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33490,
+                    "text": "De délivrer des bourses d’études à l’étranger.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33491,
+                    "text": "De proposer des circuits touristiques complets.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33492,
+                    "text": "D’organiser des échanges de longue durée.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1967,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Un accompagnement personnalisé.",
+            "user_selected_option_id": 33495,
+            "correct_answer": "Un accompagnement personnalisé.",
+            "correct_option_id": 33495,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33493,
+                    "text": "Des ateliers pendant les vacances.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33494,
+                    "text": "Des cours particuliers payants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33495,
+                    "text": "Un accompagnement personnalisé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33496,
+                    "text": "Un suivi psychologique gratuit.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1968,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Pour marcher sans souffrir.",
+            "user_selected_option_id": 33499,
+            "correct_answer": "Pour marcher sans souffrir.",
+            "correct_option_id": 33499,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33497,
+                    "text": "Pour éviter de conduire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33498,
+                    "text": "Pour faire rêver les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33499,
+                    "text": "Pour marcher sans souffrir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33500,
+                    "text": "Pour porter des objets lourds.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1969,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Satisfaire la demande en produits biologiques locaux.",
+            "user_selected_option_id": 33503,
+            "correct_answer": "Satisfaire la demande en produits biologiques locaux.",
+            "correct_option_id": 33503,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 53,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33501,
+                    "text": "Exporter davantage de produits biologiques nationaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33502,
+                    "text": "Inciter à la consommation de produits biologiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33503,
+                    "text": "Satisfaire la demande en produits biologiques locaux.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33504,
+                    "text": "Simplifier la certification des produits biologiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1970,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "L’expression du temps est opposée à la représentation habituelle.",
+            "user_selected_option_id": 33508,
+            "correct_answer": "L’expression du temps est opposée à la représentation habituelle.",
+            "correct_option_id": 33508,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33505,
+                    "text": "Le temps chronologique est impossible à représenter.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33506,
+                    "text": "La notion de projection spatiale a disparu au fil du temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33507,
+                    "text": "Les différentes expressions du temps ont la même forme linguistique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33508,
+                    "text": "L’expression du temps est opposée à la représentation habituelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1971,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Leur nom s’est transformé en Label de prestige.",
+            "user_selected_option_id": 33511,
+            "correct_answer": "Leur nom s’est transformé en Label de prestige.",
+            "correct_option_id": 33511,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33509,
+                    "text": "Leur conception de la cuisine est passée de mode.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33510,
+                    "text": "Leur créativité leur assure une célébrité mondiale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33511,
+                    "text": "Leur nom s’est transformé en Label de prestige.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33512,
+                    "text": "Leurs établissements sont cotés en bourse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1972,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Pour participer à la finale d’un jeu.",
+            "user_selected_option_id": 33514,
+            "correct_answer": "Pour participer à la finale d’un jeu.",
+            "correct_option_id": 33514,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33513,
+                    "text": "Pour bénéficier d’une promotion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33514,
+                    "text": "Pour participer à la finale d’un jeu.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33515,
+                    "text": "Pour recevoir un coupon de voyage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33516,
+                    "text": "Pour retirer un chèque cadeau.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1973,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "De lutter contre la saleté dans la capitale.",
+            "user_selected_option_id": 33517,
+            "correct_answer": "De lutter contre la saleté dans la capitale.",
+            "correct_option_id": 33517,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33517,
+                    "text": "De lutter contre la saleté dans la capitale.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33518,
+                    "text": "De proposer plus de moyens à l’avenir.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33519,
+                    "text": "De récompenser le civisme des gens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33520,
+                    "text": "D’écouter les plaintes des riverains.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1974,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils sont financés discrètement par des entreprises.",
+            "user_selected_option_id": 33522,
+            "correct_answer": "Ils sont financés discrètement par des entreprises.",
+            "correct_option_id": 33522,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33521,
+                    "text": "Ce sont des réseaux de commerçants qui les ont créés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33522,
+                    "text": "Ils sont financés discrètement par des entreprises.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33523,
+                    "text": "Les prestations qu’ils proposent sont payantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33524,
+                    "text": "Leur maintenance est assurée par des bénévoles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1975,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Intégrer des valeurs sociales et environnementales.",
+            "user_selected_option_id": 33527,
+            "correct_answer": "Intégrer des valeurs sociales et environnementales.",
+            "correct_option_id": 33527,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33525,
+                    "text": "Créer des partenariats avec le milieu associatif.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33526,
+                    "text": "Former des jeunes défavorisés au management.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33527,
+                    "text": "Intégrer des valeurs sociales et environnementales.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33528,
+                    "text": "Préparer des techniques aux dangers de la finance.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1976,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Généraliser l’agriculture biologique.",
+            "user_selected_option_id": 33531,
+            "correct_answer": "Généraliser l’agriculture biologique.",
+            "correct_option_id": 33531,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33529,
+                    "text": "Augmenter la surface des terres agricoles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33530,
+                    "text": "Garantir la qualité des aliments pour animaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33531,
+                    "text": "Généraliser l’agriculture biologique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33532,
+                    "text": "Lutter contre la démographie galopante.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1977,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Une diminution de la diversité de la faune océanique.",
+            "user_selected_option_id": 33536,
+            "correct_answer": "Une diminution de la diversité de la faune océanique.",
+            "correct_option_id": 33536,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33533,
+                    "text": "Un obstacle pour les bateaux de pêche.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33534,
+                    "text": "Un réchauffement dramatique des eaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33535,
+                    "text": "Un risque d’intoxication des populations du pacifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33536,
+                    "text": "Une diminution de la diversité de la faune océanique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1978,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Une manifestation culturelle.",
+            "user_selected_option_id": 33540,
+            "correct_answer": "Une manifestation culturelle.",
+            "correct_option_id": 33540,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33537,
+                    "text": "Un marché traditionnel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33538,
+                    "text": "Un spectacle de cirque.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33539,
+                    "text": "Une cérémonie officielle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33540,
+                    "text": "Une manifestation culturelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1979,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Pour dissimuler la pauvreté des contenus.",
+            "user_selected_option_id": 33542,
+            "correct_answer": "Pour dissimuler la pauvreté des contenus.",
+            "correct_option_id": 33542,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33541,
+                    "text": "Pour améliorer la qualité des documentaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33542,
+                    "text": "Pour dissimuler la pauvreté des contenus.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33543,
+                    "text": "Pour moderniser leurs méthodes de travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33544,
+                    "text": "Pour piége les gens visés par les enquêtes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1980,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "user_selected_option_id": 33548,
+            "correct_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "correct_option_id": 33548,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33545,
+                    "text": "Ils finissent par maîtriser l’ensemble des matières.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33546,
+                    "text": "Ils font des efforts dans les autres matières étudiées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33547,
+                    "text": "Ils négligent les matières trop faciles pour eux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33548,
+                    "text": "Ils se fixent des objectifs élevés dans ces matières.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1981,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Ils sont parfaitement à l’aise avec les derniers outils multimédias.",
+            "user_selected_option_id": 33552,
+            "correct_answer": "Ils sont parfaitement à l’aise avec les derniers outils multimédias.",
+            "correct_option_id": 33552,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33549,
+                    "text": "Ils résistent aux comportements de la société du tout numérique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33550,
+                    "text": "Ils se remettent à niveau pour utiliser les téléphones portables.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33551,
+                    "text": "Ils se sentent désorientés face aux outils technologies.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33552,
+                    "text": "Ils sont parfaitement à l’aise avec les derniers outils multimédias.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1982,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "L’accès réglementé à un emplacement protégé.",
+            "user_selected_option_id": 33556,
+            "correct_answer": "L’accès réglementé à un emplacement protégé.",
+            "correct_option_id": 33556,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33553,
+                    "text": "L’inauguration d’une exposition temporaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33554,
+                    "text": "L’inscription d’une œuvre au patrimoine mondial.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33555,
+                    "text": "L’ouverture au public d’une zone dangereuse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33556,
+                    "text": "L’accès réglementé à un emplacement protégé.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1983,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "À minimiser les aléas.",
+            "user_selected_option_id": 33558,
+            "correct_answer": "À minimiser les aléas.",
+            "correct_option_id": 33558,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33557,
+                    "text": "À gagner du temps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33558,
+                    "text": "À minimiser les aléas.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33559,
+                    "text": "À réduire les frais.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33560,
+                    "text": "À simplifier les procédures.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1984,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Parce que l’approvisionnement en électricité est compromis.",
+            "user_selected_option_id": 33562,
+            "correct_answer": "Parce que l’approvisionnement en électricité est compromis.",
+            "correct_option_id": 33562,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33561,
+                    "text": "Parce que des tests sur les réacteurs nucléaires sont en cours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33562,
+                    "text": "Parce que l’approvisionnement en électricité est compromis.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33563,
+                    "text": "Parce que la production française couvre à peine les besoins nationaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33564,
+                    "text": "Parce que la régulation de la consommation d’énergie est inefficace.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1985,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "La quasi-absence d’héroïnes.",
+            "user_selected_option_id": 33565,
+            "correct_answer": "La quasi-absence d’héroïnes.",
+            "correct_option_id": 33565,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33565,
+                    "text": "La quasi-absence d’héroïnes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33566,
+                    "text": "L’appel constant à la violence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33567,
+                    "text": "L’atténuation des clichés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33568,
+                    "text": "L’uniformité des scénarios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1986,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Il retrace l’improbable parcours de vie d’un ancien cancre.",
+            "user_selected_option_id": 33572,
+            "correct_answer": "Il retrace l’improbable parcours de vie d’un ancien cancre.",
+            "correct_option_id": 33572,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33569,
+                    "text": "Il permet d’apprendre à lire et à écrire de façon ludique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33570,
+                    "text": "Il raconte les aventures d’un professeur d’histoire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33571,
+                    "text": "Il ravive l’intérêt des littéraires pour les matières scientifiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33572,
+                    "text": "Il retrace l’improbable parcours de vie d’un ancien cancre.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1987,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Le manque d’inventivité des promoteurs.",
+            "user_selected_option_id": 33576,
+            "correct_answer": "Le manque d’inventivité des promoteurs.",
+            "correct_option_id": 33576,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33573,
+                    "text": "La démesure du complexe imaginé.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33574,
+                    "text": "La flambée des prix de l’immobilier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33575,
+                    "text": "La lenteur de la construction du centre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33576,
+                    "text": "Le manque d’inventivité des promoteurs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1988,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Rendre intelligible le langage mathématique.",
+            "user_selected_option_id": 33579,
+            "correct_answer": "Rendre intelligible le langage mathématique.",
+            "correct_option_id": 33579,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33577,
+                    "text": "Redonner un côté ludique aux mathématiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33578,
+                    "text": "Inventer un nouveau langage mathématique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33579,
+                    "text": "Rendre intelligible le langage mathématique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33580,
+                    "text": "Trouver une explication logique aux erreurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1989,
+            "question_text": "Compréhension écrite – Quiz 15 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "La défaillance récurrente de l’arbitrage.",
+            "user_selected_option_id": 33582,
+            "correct_answer": "La concurrence de reportages en direct.",
+            "correct_option_id": 33581,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 65,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_15_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33581,
+                    "text": "La concurrence de reportages en direct.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33582,
+                    "text": "La défaillance récurrente de l’arbitrage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33583,
+                    "text": "La diminution du nombre de fans.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33584,
+                    "text": "Le rajeunissement des spectateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 97,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 15",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}
