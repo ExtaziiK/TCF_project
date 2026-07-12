@@ -2,19 +2,22 @@ import { useEffect, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import { Card } from "@/components/common";
 import { RealAudio } from "@/components/quiz/RealAudio";
+import { isImagePreloaded, markImagePreloaded } from "@/utils/imagePreload";
 
 // Illustration for a question. Many questions carry a convention-based image
 // URL that doesn't actually exist (e.g. Compréhension orale, which is audio
 // only), so we keep the frame hidden until the image successfully loads —
 // otherwise an empty box would flash in and out on every question. The <img>
 // still loads while hidden (display:none), so onLoad/onError fire normally.
+// Images prefetched by the quiz (see utils/imagePreload) start "loaded" so
+// they appear instantly on navigation, with no load flash or layout shift.
 // The "Agrandir" magnifier enlarges the document in place (it grows to the
 // full column width) rather than in a full-screen overlay, so the question
 // and answers below stay visible while the fine print is readable.
 function QuestionImage({ src }) {
-  const [status, setStatus] = useState("loading"); // loading | loaded | failed
+  const [status, setStatus] = useState(() => (isImagePreloaded(src) ? "loaded" : "loading")); // loading | loaded | failed
   const [big, setBig] = useState(false);
-  useEffect(() => { setStatus("loading"); setBig(false); }, [src]);
+  useEffect(() => { setStatus(isImagePreloaded(src) ? "loaded" : "loading"); setBig(false); }, [src]);
   if (status === "failed") return null;
   return (
     <Card className={status === "loaded" ? "p-4" : "hidden"}>
@@ -23,7 +26,7 @@ function QuestionImage({ src }) {
           src={src}
           alt="Illustration de la question"
           className={`rounded-2xl object-contain mx-auto transition-all duration-300 ${big ? "w-full max-h-[80vh]" : "max-h-80 md:max-h-96"}`}
-          onLoad={() => setStatus("loaded")}
+          onLoad={() => { markImagePreloaded(src); setStatus("loaded"); }}
           onError={() => setStatus("failed")}
         />
         <button

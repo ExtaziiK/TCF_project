@@ -7,6 +7,7 @@ import { useCountdown } from "@/hooks/useCountdown";
 import { recordQuizResult } from "@/services/quizResultsService";
 import { recordAttempts } from "@/services/questionAnalyticsService";
 import { fmt } from "@/utils/format";
+import { preloadImages } from "@/utils/imagePreload";
 
 // Mock-exam quiz tasks (storageKey "mock-<attemptId>-<order>") are already
 // tracked in full by examService's exam_attempts table - recording them here
@@ -47,6 +48,12 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   picksRef.current = picks;
   const answersRef = useRef(answers);
   answersRef.current = answers;
+
+  // Prefetch every question's image up front so navigating to the next
+  // question renders it from cache instead of loading (and flashing) one by one.
+  useEffect(() => {
+    preloadImages(questions.map((qq) => qq.image).filter(Boolean));
+  }, [questions]);
 
   const buildExamAnswers = (p) =>
     Object.entries(p).map(([idx, s]) => ({ i: +idx, sel: s, ok: s === questions[+idx].a }));
