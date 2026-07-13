@@ -53,17 +53,37 @@ function quizNumber(fileName, title) {
   return fromTitle ? Number(fromTitle[1]) : null;
 }
 
-// Resolves a question's media: a local bundled file (matched by URL basename
-// or by naming convention) wins, then the matching file in Supabase Storage,
-// then whatever URL was in the JSON itself (e.g. the original scrape source)
-// as a last resort.
+// When on, remote media is not resolved to a predictable public URL here.
+// Instead the question carries a `sign` descriptor and Quiz.jsx exchanges the
+// logical coordinates for short-lived signed URLs at open time (see
+// mediaService + api/media). Bundled dev media still resolves directly, so
+// local `vite dev` is unaffected. Off (default) → the original behaviour.
+const SIGNED_MEDIA = import.meta.env.VITE_SIGNED_MEDIA === "true";
+
+// Resolves a question's media to a usable URL when one is available without
+// signing (a bundled file, or — flag off — the Storage convention URL / raw
+// JSON url). Returns { url, needsSigning }: needsSigning is true only when
+// signed media is enabled and the file lives remotely, i.e. the client must
+// sign it rather than receive a public URL.
 function resolveMedia(url, conventionKey, mediaMap, { imagesOnly, remote } = {}) {
   if (imagesOnly && url && !IMAGE_EXT.test(url)) url = null; // junk like noUser.html
   const key = baseName(url) || conventionKey;
-  if (key && mediaMap[key]) return mediaMap[key];
+  if (key && mediaMap[key]) return { url: mediaMap[key], needsSigning: false }; // bundled (dev) wins
+  if (SIGNED_MEDIA) return { url: null, needsSigning: !!remote };
   const fromStorage = remote && remoteMediaUrl(remote.section, remote.qNum, remote.order, remote.bucket, remote.ext);
-  if (fromStorage) return fromStorage;
-  return url || null;
+  return { url: fromStorage || url || null, needsSigning: false };
+}
+
+// Builds the optional `sign` descriptor from the per-kind resolution results:
+// the coordinates Quiz.jsx needs to batch-sign, or null when nothing remote
+// needs signing (flag off, or all media is bundled/local). Compréhension orale
+// is audio-only — its convention image URL is a phantom the UI hides on load
+// failure — so we never sign a CO "image" (it would 404 like today, just wastefully).
+function signDescriptor(section, qNum, order, img, aud) {
+  const image = img.needsSigning && section !== "co";
+  const audio = aud.needsSigning;
+  if (!image && !audio) return null;
+  return { section, quiz: qNum, order, image, audio };
 }
 
 function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
@@ -76,14 +96,20 @@ function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
     .map((a) => {
       const options = [...a.all_options].sort((x, y) => (x.order || 0) - (y.order || 0));
       const conventionKey = qNum != null ? `${prefix}_quiz_${qNum}_question_${a.order}` : null;
+      const aud = section === "co"
+        ? resolveMedia(a.audio_url, conventionKey, audioMap, { remote: { section, qNum, order: a.order, bucket: "Audio", ext: "mp3" } })
+        : { url: null, needsSigning: false };
+      const img = resolveMedia(a.image_url, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: a.order, bucket: "Image", ext: "webp" } });
+      const sign = signDescriptor(section, qNum, a.order, img, aud);
       return {
         id: `bank-${section}-${data.exam_id ?? fileName}-${a.question_id}`,
         q: a.question_text,
         opts: options.map((o) => o.text),
         a: options.findIndex((o) => o.is_correct),
         exp: a.explanation || "",
-        audio: section === "co" ? resolveMedia(a.audio_url, conventionKey, audioMap, { remote: { section, qNum, order: a.order, bucket: "Audio", ext: "mp3" } }) : null,
-        image: resolveMedia(a.image_url, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: a.order, bucket: "Image", ext: "webp" } }),
+        audio: aud.url,
+        image: img.url,
+        ...(sign ? { sign } : {}),
       };
     })
     .filter((q) => q.a >= 0);
@@ -99,7 +125,13 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
     .filter((item) => item && item.question && Array.isArray(item.alternatives || item.options))
     .map((item, idx) => {
       const alts = item.alternatives || item.options;
-      const conventionKey = qNum != null ? `${prefix}_quiz_${qNum}_question_${idx + 1}` : null;
+      const order = idx + 1;
+      const conventionKey = qNum != null ? `${prefix}_quiz_${qNum}_question_${order}` : null;
+      const aud = section === "co"
+        ? resolveMedia(item.audio, conventionKey, audioMap, { remote: { section, qNum, order, bucket: "Audio", ext: "mp3" } })
+        : { url: null, needsSigning: false };
+      const img = resolveMedia(item.image, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order, bucket: "Image", ext: "webp" } });
+      const sign = signDescriptor(section, qNum, order, img, aud);
       return {
         id: `bank-${section}-${fileName}-${idx}`,
         q: item.question,
@@ -107,8 +139,9 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
         a: Number.isInteger(item.answer_index) ? item.answer_index : 0,
         exp: item.explanation || "",
         level: item.level,
-        audio: section === "co" ? resolveMedia(item.audio, conventionKey, audioMap, { remote: { section, qNum, order: idx + 1, bucket: "Audio", ext: "mp3" } }) : null,
-        image: resolveMedia(item.image, conventionKey, imageMap, { imagesOnly: true, remote: { section, qNum, order: idx + 1, bucket: "Image", ext: "webp" } }),
+        audio: aud.url,
+        image: img.url,
+        ...(sign ? { sign } : {}),
       };
     });
   if (!questions.length) return null;

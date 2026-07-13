@@ -53,4 +53,13 @@ export default [
       },
     },
   },
+  {
+    // One-off maintenance scripts - Node runtime.
+    files: ["scripts/**/*.{js,mjs}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: { process: "readonly", console: "readonly" },
+    },
+  },
 ];

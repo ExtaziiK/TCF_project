@@ -6,6 +6,7 @@ import { QuizReport } from "@/components/quiz/QuizReport";
 import { useCountdown } from "@/hooks/useCountdown";
 import { recordQuizResult } from "@/services/quizResultsService";
 import { recordAttempts } from "@/services/questionAnalyticsService";
+import { signQuizMedia } from "@/services/mediaService";
 import { fmt } from "@/utils/format";
 import { preloadImages } from "@/utils/imagePreload";
 
@@ -42,6 +43,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const [finished, setFinished] = useState(false);
   const [confirmFinish, setConfirmFinish] = useState(false);
   const [advanceIn, setAdvanceIn] = useState(null); // autoAdvance: seconds until the question moves on, or null
+  const [signedMedia, setSignedMedia] = useState({}); // index -> { image?, audio? } (signed-media mode only)
 
   // The countdown captures its callback once, so read live state via refs.
   const picksRef = useRef(picks);
@@ -49,11 +51,36 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const answersRef = useRef(answers);
   answersRef.current = answers;
 
+  // Signed-media mode: questions carry a `sign` descriptor (logical coordinates)
+  // instead of a public URL. Exchange them all for short-lived signed URLs in a
+  // single batch when the quiz opens, so preloading and playback work exactly as
+  // before — just resolved through the server. A no-op when no question needs
+  // signing (flag off, or bundled dev media), so nothing changes there.
+  useEffect(() => {
+    const descriptors = questions
+      .map((qq, idx) => (qq.sign ? { idx, ...qq.sign } : null))
+      .filter(Boolean);
+    if (descriptors.length === 0) return;
+    let cancelled = false;
+    signQuizMedia(descriptors).then((map) => { if (!cancelled) setSignedMedia(map); });
+    return () => { cancelled = true; };
+  }, [questions]);
+
+  // The effective media URL for a question: the signed one once it arrives,
+  // else whatever the question already carries (bundled dev media / flag off).
+  const mediaUrl = (idx, kind) => signedMedia[idx]?.[kind] ?? questions[idx]?.[kind] ?? null;
+  // Question with its media fields resolved, for rendering (media components read
+  // question.image / question.audio). Everything else is passed through untouched.
+  const withMedia = (qq, idx) =>
+    qq.sign ? { ...qq, image: mediaUrl(idx, "image"), audio: mediaUrl(idx, "audio") } : qq;
+
   // Prefetch every question's image up front so navigating to the next
   // question renders it from cache instead of loading (and flashing) one by one.
+  // Re-runs when signed URLs arrive so the batch is prefetched then too.
   useEffect(() => {
-    preloadImages(questions.map((qq) => qq.image).filter(Boolean));
-  }, [questions]);
+    preloadImages(questions.map((qq, idx) => (qq.sign ? mediaUrl(idx, "image") : qq.image)).filter(Boolean));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questions, signedMedia]);
 
   const buildExamAnswers = (p) =>
     Object.entries(p).map(([idx, s]) => ({ i: +idx, sel: s, ok: s === questions[+idx].a }));
@@ -109,10 +136,12 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     else finishWith(buildExamAnswers(picksRef.current));
   };
   // New question: clear any pending countdown. A question with no audio can't
-  // fire onEnded, so start the window immediately.
+  // fire onEnded, so start the window immediately. In signed-media mode the URL
+  // may not be resolved yet, so presence is judged by the `sign` descriptor too.
   useEffect(() => {
     if (!autoAdvance) { setAdvanceIn(null); return; }
-    if (!questions[i]?.audio) { setAdvanceIn(ANSWER_WINDOW); return; }
+    const hasAudio = !!(questions[i]?.audio || questions[i]?.sign?.audio);
+    if (!hasAudio) { setAdvanceIn(ANSWER_WINDOW); return; }
     setAdvanceIn(null);
     // Safety net: if autoplay is blocked and the clip never fires onEnded (no
     // manual control exists in this mode), move on anyway after a hard cap.
@@ -145,7 +174,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     );
   }
 
-  const q = questions[i];
+  const q = withMedia(questions[i], i); // media resolved for rendering; other fields untouched
   const key = `${storageKey}-${i}`;
   const marked = bookmarks.includes(key);
   const answeredCount = deferResults ? Object.keys(picks).length : answers.length;
