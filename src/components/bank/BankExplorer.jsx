@@ -14,17 +14,22 @@ const isPrompt = (quiz) => quiz.kind === "prompt";
 // Compact quiz tile for the épreuves grid. The section is already shown by the
 // tabs above the grid and the page header, so it's dropped here to keep the
 // card small. The corner badge and colour encode state at a glance:
-// emerald = completed, blue = ready to start, amber lock = Premium-only
+// emerald = completed (all questions answered), orange = completed but some
+// questions left unanswered, blue = ready to start, amber lock = Premium-only
 // (free tier, everything past quiz 1 of each épreuve).
 function QuizCard({ quiz, number, onOpen, best, locked }) {
   const { c, t } = useApp();
   const prompt = isPrompt(quiz);
   const count = quiz.questions.length;
   const done = !prompt && !!best;
+  const answered = best?.answered ?? best?.total;
+  const partial = done && !!best.total && answered < best.total;
   const minutes = Math.max(1, Math.round((count * 55) / 60));
 
   const badge = locked ? (
     <span className="w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
+  ) : partial ? (
+    <span className="w-7 h-7 rounded-full bg-orange-500/15 text-orange-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
   ) : done ? (
     <span className="w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
   ) : (
@@ -33,7 +38,7 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
 
   return (
     <button onClick={onOpen} className="text-left w-full" aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}>
-      <Card lift={!locked} className={`p-3.5 h-full flex flex-col gap-2 ${done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+      <Card lift={!locked} className={`p-3.5 h-full flex flex-col gap-2 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
         <div className="flex items-start justify-between gap-2">
           <h3 className={`font-display font-bold text-sm leading-snug ${locked ? c.sub : c.text}`}>
             {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
@@ -48,7 +53,7 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
         {done ? (
           <div className="mt-auto pt-1">
             <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
-              <span className="text-emerald-600">{t("Terminé")}</span>
+              <span className={partial ? "text-orange-600" : "text-emerald-600"}>{t("Terminé")}</span>
               <span className={c.faint}>{best.ok}/{best.total} · {best.pct} %</span>
             </div>
             <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
