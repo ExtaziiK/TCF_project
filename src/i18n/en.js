@@ -29,6 +29,7 @@ export const EN = {
   "Mode sombre": "Dark mode",
   "Se déconnecter": "Log out",
   "Vous êtes déconnecté·e. À bientôt !": "You have been logged out. See you soon!",
+  "Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.": "You've been logged out: your account was used on another device.",
   "Connexion": "Log in",
   "S'inscrire": "Sign up",
 

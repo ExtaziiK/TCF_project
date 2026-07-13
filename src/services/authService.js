@@ -1,5 +1,75 @@
 import { supabase } from "@/services/supabaseClient";
 
+// ── Single active session ("last login wins") ──────────────────────────────
+// Each login claims a fresh random id, stored both locally and in
+// profiles.active_session_id. Any device whose local id no longer matches the
+// row was superseded by a newer login and signs itself out (see AppProvider's
+// validation + heartbeat). The whole mechanism is inert until the migration
+// adding the column is applied: the write/read below fail open, so pre-migration
+// or offline states never wrongly boot a logged-in user.
+const DEVICE_SESSION_KEY = "tcf_device_session";
+const OAUTH_PENDING_KEY = "tcf_oauth_pending_at";
+
+export function getDeviceSessionId() {
+  try { return localStorage.getItem(DEVICE_SESSION_KEY) || null; } catch { return null; }
+}
+function setDeviceSessionId(id) {
+  try {
+    if (id) localStorage.setItem(DEVICE_SESSION_KEY, id);
+    else localStorage.removeItem(DEVICE_SESSION_KEY);
+  } catch { /* storage unavailable */ }
+}
+
+// True while a claim is mid-flight, so a concurrent validation check (heartbeat
+// / focus) can't read the not-yet-written row and wrongly boot the device that
+// is in the middle of logging in.
+let claiming = false;
+
+// Claims this browser as the account's single active session: writes a new id
+// (overwriting any other device's) and remembers it locally. Swallows errors so
+// a missing column (pre-migration) or a network blip leaves the feature inert
+// rather than breaking login.
+export async function claimDeviceSession(userId) {
+  if (!userId) return null;
+  claiming = true;
+  try {
+    const id = globalThis.crypto?.randomUUID?.() || `dev-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    setDeviceSessionId(id);
+    const { error } = await supabase.from("profiles").update({ active_session_id: id }).eq("id", userId);
+    if (error) { /* column missing or offline — mechanism stays inert */ }
+    return id;
+  } finally {
+    claiming = false;
+  }
+}
+
+// True while this browser still holds the account's active session. False once
+// another device has logged in and claimed it. Fails open on any uncertainty
+// (a claim in flight, no local id yet, missing column, network error, null in
+// DB) so a legitimate session is never booted by a transient condition.
+export async function isDeviceSessionActive(userId) {
+  if (claiming) return true;
+  const local = getDeviceSessionId();
+  if (!userId || !local) return true;
+  const { data, error } = await supabase.from("profiles").select("active_session_id").eq("id", userId).maybeSingle();
+  if (error || !data || data.active_session_id == null) return true;
+  return data.active_session_id === local;
+}
+
+// OAuth logins redirect away before we can claim, so we flag the intent and
+// claim on return. Timestamped and consumed on the next load so an abandoned
+// sign-in can't linger and trigger a spurious claim on a later reload.
+export function markOAuthPending() {
+  try { localStorage.setItem(OAUTH_PENDING_KEY, String(Date.now())); } catch { /* ignore */ }
+}
+export function consumeOAuthPending() {
+  try {
+    const raw = localStorage.getItem(OAUTH_PENDING_KEY);
+    localStorage.removeItem(OAUTH_PENDING_KEY);
+    return !!raw && Date.now() - Number(raw) < 5 * 60 * 1000;
+  } catch { return false; }
+}
+
 const FIRST_LOGIN_KEY = "tcf_first_login_seen";
 
 function seenFirstLoginIds() {
@@ -119,7 +189,9 @@ export async function signIn({ identifier, password }) {
     }
     const { data, error } = await supabase.auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
-    return { ok: true, user: mapSupabaseUser(data.session) };
+    const user = mapSupabaseUser(data.session);
+    await claimDeviceSession(user?.id);
+    return { ok: true, user };
   }
 
   const json = await res.json().catch(() => ({}));
@@ -127,7 +199,9 @@ export async function signIn({ identifier, password }) {
   if (json.session) {
     const { data, error } = await supabase.auth.setSession(json.session);
     if (error) return { ok: false, message: error.message };
-    return { ok: true, user: mapSupabaseUser(data.session) };
+    const user = mapSupabaseUser(data.session);
+    await claimDeviceSession(user?.id);
+    return { ok: true, user };
   }
   if (json.locked) {
     const mins = Math.ceil((json.retryAfter || 600) / 60);
@@ -146,6 +220,7 @@ export async function signIn({ identifier, password }) {
 }
 
 export async function signInWithGoogle() {
+  markOAuthPending(); // claimed on return (see AppProvider), since the redirect leaves this page
   return supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: window.location.origin },
@@ -153,6 +228,7 @@ export async function signInWithGoogle() {
 }
 
 export async function signOut() {
+  setDeviceSessionId(null); // next login re-claims cleanly
   return supabase.auth.signOut();
 }
 

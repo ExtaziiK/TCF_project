@@ -1,4 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
+import { getDeviceSessionId } from "@/services/authService";
 
 // Client for the AI evaluation endpoints (api/expression-*). The Groq key
 // lives on the server; here we just forward the request with the user's
@@ -15,7 +16,13 @@ async function authHeaders() {
   try {
     const { data } = await supabase.auth.getSession();
     const token = data?.session?.access_token;
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    const headers = {};
+    if (token) headers.Authorization = `Bearer ${token}`;
+    // Lets the server refuse a device whose single-active-session id was
+    // superseded by a newer login, even while its JWT is still valid.
+    const deviceSession = getDeviceSessionId();
+    if (deviceSession) headers["x-device-session"] = deviceSession;
+    return headers;
   } catch {
     return {};
   }

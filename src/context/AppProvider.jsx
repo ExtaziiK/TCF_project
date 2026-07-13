@@ -4,7 +4,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -24,13 +24,60 @@ export function AppProvider({ children }) {
   const c = useTheme(dark);
 
   useEffect(() => {
-    getSession().then((session) => {
-      setUser(mapSupabaseUser(session));
+    getSession().then(async (session) => {
+      // Consumed unconditionally so an abandoned OAuth flow can't leave the flag
+      // set and trigger a spurious claim on a later reload.
+      const wasOAuth = consumeOAuthPending();
+      const mapped = mapSupabaseUser(session);
+      if (mapped) {
+        if (wasOAuth) {
+          // Fresh Google login just redirected back — claim this device.
+          await claimDeviceSession(mapped.id);
+        } else if (!(await isDeviceSessionActive(mapped.id))) {
+          // The account was claimed by another device while this one was away.
+          await authSignOut();
+          setUser(null);
+          setAuthReady(true);
+          notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
+          return;
+        }
+      }
+      setUser(mapped);
       setAuthReady(true);
     });
     const subscription = onAuthStateChange((session) => setUser(mapSupabaseUser(session)));
     return () => subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Single-active-session heartbeat: while signed in, re-check periodically and
+  // whenever the tab regains focus that this device still holds the account's
+  // session; sign out with a notice if a newer login elsewhere superseded it.
+  // No immediate check on mount — the just-completed login's claim may still be
+  // in flight, and reloads are already validated by the effect above.
+  useEffect(() => {
+    if (!user?.id) return;
+    const uid = user.id;
+    let cancelled = false;
+    const check = async () => {
+      if (document.hidden) return;
+      if (await isDeviceSessionActive(uid)) return;
+      if (cancelled) return;
+      await authSignOut();
+      setUser(null);
+      notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
+    };
+    const interval = setInterval(check, 45000);
+    window.addEventListener("focus", check);
+    document.addEventListener("visibilitychange", check);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      window.removeEventListener("focus", check);
+      document.removeEventListener("visibilitychange", check);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   // Pull admin-authored questions (QMS) into the bank and workshop pages.
   useEffect(() => { syncSiteContent(); }, []);
