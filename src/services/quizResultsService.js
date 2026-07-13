@@ -20,6 +20,9 @@ const localStore = {
 };
 
 const isMissingTable = (error) => error && (error.code === "42P01" || /quiz_results/.test(error.message || ""));
+// Postgres "undefined column" (42703) or PostgREST's schema-cache miss (PGRST204) —
+// happens when the `answers` migration hasn't been applied to this database yet.
+const isMissingAnswersColumn = (error) => error && (error.code === "42703" || error.code === "PGRST204" || /answers/.test(error.message || ""));
 
 const rowToResult = (r) => ({
   quizKey: r.quiz_key,
@@ -49,9 +52,13 @@ export async function recordQuizResult(userId, { quizKey, section, ok, total, an
   if (!quizKey || !total) return;
   const pct = Math.round((ok / total) * 100);
   const ans = answered ?? total;
-  const { error } = await supabase.from("quiz_results").insert({
-    user_id: userId, quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null, answers: answers ?? null,
-  });
+  const base = { user_id: userId, quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null };
+  let { error } = await supabase.from("quiz_results").insert({ ...base, answers: answers ?? null });
+  if (error && isMissingAnswersColumn(error)) {
+    // The `answers` migration isn't applied on this database yet — still record
+    // the score itself rather than losing the whole attempt to localStorage.
+    ({ error } = await supabase.from("quiz_results").insert(base));
+  }
   if (error) {
     localStore.add(userId, { quizKey, section: section || null, ok, total, answered: ans, pct, durationSec: durationSec ?? null, answers: answers ?? null, completedAt: new Date().toISOString() });
   }
@@ -62,6 +69,19 @@ export function bestScoresByKey(results) {
   const map = {};
   for (const r of results) {
     if (!map[r.quizKey] || r.pct > map[r.quizKey].pct) map[r.quizKey] = r;
+  }
+  return map;
+}
+
+// Most recent attempt per quiz key that has per-question detail on record, for
+// the "review this attempt" button — deliberately independent of the best
+// score above: the highest-scoring attempt may predate this feature (or a
+// pending migration) and carry no `answers`, while a more recent attempt does.
+// `results` is already ordered newest-first by listQuizResults.
+export function reviewableAttemptsByKey(results) {
+  const map = {};
+  for (const r of results) {
+    if (!map[r.quizKey] && Array.isArray(r.answers) && r.answers.length > 0) map[r.quizKey] = r;
   }
   return map;
 }

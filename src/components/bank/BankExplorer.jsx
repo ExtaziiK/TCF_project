@@ -7,7 +7,7 @@ import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
-import { listQuizResults, bestScoresByKey } from "@/services/quizResultsService";
+import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { ROLES } from "@/auth/rbac";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
@@ -19,17 +19,18 @@ const isPrompt = (quiz) => quiz.kind === "prompt";
 // questions left unanswered, blue = ready to start, amber lock = Premium-only
 // (free tier, everything past quiz 1 of each épreuve).
 // Hovering (or focusing) a completed card reveals a "Voir la correction"
-// button that reopens that attempt's full per-question review, when the
-// attempt has per-question detail on record (older attempts, recorded
-// before that detail was captured, don't and simply show no button).
-function QuizCard({ quiz, number, onOpen, onReview, best, locked }) {
+// button that reopens the most recent attempt with per-question detail on
+// record (which isn't necessarily the best-scoring one shown on the card —
+// older attempts, or ones recorded before a pending migration, carry no
+// detail; the button simply doesn't show until a reviewable attempt exists).
+function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked }) {
   const { c, t } = useApp();
   const prompt = isPrompt(quiz);
   const count = quiz.questions.length;
   const done = !prompt && !!best;
   const answered = best?.answered ?? best?.total;
   const partial = done && !!best.total && answered < best.total;
-  const canReview = done && Array.isArray(best?.answers) && best.answers.length > 0;
+  const canReview = !!reviewAttempt;
   const minutes = Math.max(1, Math.round((count * 55) / 60));
 
   const badge = locked ? (
@@ -95,15 +96,15 @@ function QuizCard({ quiz, number, onOpen, onReview, best, locked }) {
 
 // Reopens a past attempt's full correction (score, per-question right/wrong/
 // skipped, explanations) from its stored answers, without re-running the quiz.
-function ReviewPanel({ quiz, best, onBack, onRestart }) {
+function ReviewPanel({ quiz, attempt, onBack, onRestart }) {
   const { t } = useApp();
   return (
-    <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={t("Correction de votre meilleure tentative.")}>
+    <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={t("Correction de votre dernière tentative revoyable.")}>
       <button onClick={onBack} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
       <QuizReport
         questions={quiz.questions}
-        answers={best.answers}
-        duration={best.durationSec ?? 0}
+        answers={attempt.answers}
+        duration={attempt.durationSec ?? 0}
         left={0}
         onRestart={onRestart}
         renderAbove={(q) => <BankQuestionMedia question={q} />}
@@ -161,8 +162,9 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
-  const [review, setReview] = useState(null); // { quiz, best } — reopened past attempt, read-only
+  const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
   const [bestScores, setBestScores] = useState({});
+  const [reviewableAttempts, setReviewableAttempts] = useState({});
 
   // Free tier: only the first quiz of each épreuve is playable — the rest are
   // locked and route to the upgrade page. Premium/admin never hit this.
@@ -170,7 +172,10 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const goUpgrade = () => { notify(t("Ce quiz fait partie de l'abonnement Premium.")); nav("pricing"); };
 
   const reloadScores = () => {
-    listQuizResults(user?.id).then(({ results }) => setBestScores(bestScoresByKey(results)));
+    listQuizResults(user?.id).then(({ results }) => {
+      setBestScores(bestScoresByKey(results));
+      setReviewableAttempts(reviewableAttemptsByKey(results));
+    });
   };
   useEffect(reloadScores, [user?.id]);
 
@@ -185,7 +190,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
     return (
       <ReviewPanel
         quiz={review.quiz}
-        best={review.best}
+        attempt={review.attempt}
         onBack={() => setReview(null)}
         onRestart={() => { const qz = review.quiz; setReview(null); setQuiz(qz); }}
       />
@@ -250,6 +255,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           {quizzes.map((qz, idx) => {
             const locked = freeTier && idx > 0;
             const best = bestScores[`bank-${qz.id}`];
+            const reviewAttempt = reviewableAttempts[`bank-${qz.id}`];
             return (
               <QuizCard
                 key={qz.id}
@@ -257,8 +263,9 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
                 number={idx + 1}
                 locked={locked}
                 best={best}
+                reviewAttempt={reviewAttempt}
                 onOpen={() => (locked ? goUpgrade() : setQuiz(qz))}
-                onReview={() => setReview({ quiz: qz, best })}
+                onReview={() => setReview({ quiz: qz, attempt: reviewAttempt })}
               />
             );
           })}
