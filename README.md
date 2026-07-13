@@ -1,4 +1,4 @@
-# Passerelle · Préparation au TCF Canada
+# Passerelle · Préparation au TCF Canada.
 
 A web app for practicing the TCF Canada French proficiency exam — listening,
 reading, writing, speaking, grammar, and vocabulary exercises backed by a
@@ -26,6 +26,15 @@ npm run lint       # run ESLint
 ```
 
 The `@/` import alias resolves to `src/` (see `vite.config.js` / `jsconfig.json`).
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` and fill it in. `VITE_`-prefixed vars are
+inlined into the client bundle **at build time** (changing one requires a
+rebuild/redeploy, not just an env edit); the rest are server-only (used by
+`api/*`) and must never carry a `VITE_` prefix. Quiz media can be served as
+short-lived signed URLs with opaque names by setting `VITE_SIGNED_MEDIA=true`
+and `MEDIA_SECRET` — see `scripts/rename-media.mjs` for the one-time rollout.
 
 ## Project structure
 
