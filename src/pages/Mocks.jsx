@@ -250,7 +250,7 @@ export function Mocks() {
   }
 
   const inProgress = (attempts || []).filter((a) => a.status === "in_progress").slice(0, 2);
-  const history = (attempts || []).filter((a) => a.status === "completed");
+  const history = (attempts || []).filter((a) => a.status === "completed").slice(0, 6);
 
   return (
     <PageShell tight center big back wide eyebrow={t("TCF blanc")} title={t("Répétez le jour J, dans les conditions du jour J")} sub={`${t("Chaque examen est généré aléatoirement :")} ${TASKS_PER_EXAM} ${t("tâches tirées de la banque de questions, jamais deux fois la même combinaison.")}`}>
