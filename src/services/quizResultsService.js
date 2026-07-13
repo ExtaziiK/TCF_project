@@ -30,6 +30,7 @@ const rowToResult = (r) => ({
   pct: r.pct,
   durationSec: r.duration_sec,
   completedAt: r.completed_at,
+  answers: r.answers ?? null, // per-question detail; null on rows predating the column
 });
 
 export async function listQuizResults(userId) {
@@ -44,15 +45,15 @@ export async function listQuizResults(userId) {
   return { results: data.map(rowToResult), backend: "supabase" };
 }
 
-export async function recordQuizResult(userId, { quizKey, section, ok, total, answered, durationSec }) {
+export async function recordQuizResult(userId, { quizKey, section, ok, total, answered, durationSec, answers }) {
   if (!quizKey || !total) return;
   const pct = Math.round((ok / total) * 100);
   const ans = answered ?? total;
   const { error } = await supabase.from("quiz_results").insert({
-    user_id: userId, quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null,
+    user_id: userId, quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null, answers: answers ?? null,
   });
   if (error) {
-    localStore.add(userId, { quizKey, section: section || null, ok, total, answered: ans, pct, durationSec: durationSec ?? null, completedAt: new Date().toISOString() });
+    localStore.add(userId, { quizKey, section: section || null, ok, total, answered: ans, pct, durationSec: durationSec ?? null, answers: answers ?? null, completedAt: new Date().toISOString() });
   }
 }
 

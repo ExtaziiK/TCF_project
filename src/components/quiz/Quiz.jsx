@@ -68,6 +68,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         total: questions.length,
         answered: finalAnswers.length, // questions with a selected answer (skips excluded)
         durationSec: Math.max(0, duration - left),
+        answers: finalAnswers, // per-question detail, so this attempt can be reviewed later
       });
     }
     // Per-question analytics for every question that carries an id (bank &

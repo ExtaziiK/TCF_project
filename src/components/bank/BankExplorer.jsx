@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
+import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
@@ -17,13 +18,18 @@ const isPrompt = (quiz) => quiz.kind === "prompt";
 // emerald = completed (all questions answered), orange = completed but some
 // questions left unanswered, blue = ready to start, amber lock = Premium-only
 // (free tier, everything past quiz 1 of each épreuve).
-function QuizCard({ quiz, number, onOpen, best, locked }) {
+// Hovering (or focusing) a completed card reveals a "Voir la correction"
+// button that reopens that attempt's full per-question review, when the
+// attempt has per-question detail on record (older attempts, recorded
+// before that detail was captured, don't and simply show no button).
+function QuizCard({ quiz, number, onOpen, onReview, best, locked }) {
   const { c, t } = useApp();
   const prompt = isPrompt(quiz);
   const count = quiz.questions.length;
   const done = !prompt && !!best;
   const answered = best?.answered ?? best?.total;
   const partial = done && !!best.total && answered < best.total;
+  const canReview = done && Array.isArray(best?.answers) && best.answers.length > 0;
   const minutes = Math.max(1, Math.round((count * 55) / 60));
 
   const badge = locked ? (
@@ -37,32 +43,72 @@ function QuizCard({ quiz, number, onOpen, best, locked }) {
   );
 
   return (
-    <button onClick={onOpen} className="text-left w-full" aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}>
-      <Card lift={!locked} className={`p-3.5 h-full flex flex-col gap-2 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
-        <div className="flex items-start justify-between gap-2">
-          <h3 className={`font-display font-bold text-sm leading-snug ${locked ? c.sub : c.text}`}>
-            {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
-          </h3>
-          {badge}
-        </div>
-        <p className={`text-[11px] font-semibold ${c.faint}`}>
-          {prompt
-            ? `${count} ${t(count > 1 ? "consignes" : "consigne")}`
-            : `${count} ${t("questions")} · ≈ ${minutes} min`}
-        </p>
-        {done ? (
-          <div className="mt-auto pt-1">
-            <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
-              <span className={partial ? "text-orange-600" : "text-emerald-600"}>{t("Terminé")}</span>
-              <span className={c.faint}>{best.ok}/{best.total} · {best.pct} %</span>
-            </div>
-            <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
+    <div className="group relative h-full">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={onOpen}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
+        aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
+        className="text-left w-full h-full block cursor-pointer"
+      >
+        <Card lift={!locked} className={`p-3.5 h-full flex flex-col gap-2 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+          <div className="flex items-start justify-between gap-2">
+            <h3 className={`font-display font-bold text-sm leading-snug ${locked ? c.sub : c.text}`}>
+              {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
+            </h3>
+            {badge}
           </div>
-        ) : locked ? (
-          <p className="mt-auto pt-1 text-[11px] font-bold text-amber-600">{t("Réservé au Premium")}</p>
-        ) : null}
-      </Card>
-    </button>
+          <p className={`text-[11px] font-semibold ${c.faint}`}>
+            {prompt
+              ? `${count} ${t(count > 1 ? "consignes" : "consigne")}`
+              : `${count} ${t("questions")} · ≈ ${minutes} min`}
+          </p>
+          {done ? (
+            <div className="mt-auto pt-1">
+              <div className="flex items-center justify-between text-[11px] font-semibold mb-1.5">
+                <span className={partial ? "text-orange-600" : "text-emerald-600"}>{t("Terminé")}</span>
+                <span className={c.faint}>{best.ok}/{best.total} · {best.pct} %</span>
+              </div>
+              <ProgressBar pct={best.pct} tone={best.pct >= 65 ? "grad" : "blue"} />
+            </div>
+          ) : locked ? (
+            <p className="mt-auto pt-1 text-[11px] font-bold text-amber-600">{t("Réservé au Premium")}</p>
+          ) : null}
+        </Card>
+      </div>
+      {canReview && (
+        <div className="absolute inset-0 rounded-3xl bg-slate-900/55 opacity-0 pointer-events-none transition-opacity
+          group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto
+          flex items-center justify-center">
+          <button
+            onClick={(e) => { e.stopPropagation(); onReview(); }}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-900 shadow-lg hover:scale-105 transition-transform"
+          >
+            <Eye size={14} /> {t("Voir la correction")}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Reopens a past attempt's full correction (score, per-question right/wrong/
+// skipped, explanations) from its stored answers, without re-running the quiz.
+function ReviewPanel({ quiz, best, onBack, onRestart }) {
+  const { t } = useApp();
+  return (
+    <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={t("Correction de votre meilleure tentative.")}>
+      <button onClick={onBack} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
+      <QuizReport
+        questions={quiz.questions}
+        answers={best.answers}
+        duration={best.durationSec ?? 0}
+        left={0}
+        onRestart={onRestart}
+        renderAbove={(q) => <BankQuestionMedia question={q} />}
+      />
+    </PageShell>
   );
 }
 
@@ -115,6 +161,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
+  const [review, setReview] = useState(null); // { quiz, best } — reopened past attempt, read-only
   const [bestScores, setBestScores] = useState({});
 
   // Free tier: only the first quiz of each épreuve is playable — the rest are
@@ -132,7 +179,18 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   // Jump to the top when a quiz opens or closes — this swaps the whole panel
   // in place (no route change), so without this the user stays scrolled to
   // wherever the quiz grid card was.
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [quiz]);
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [quiz, review]);
+
+  if (review) {
+    return (
+      <ReviewPanel
+        quiz={review.quiz}
+        best={review.best}
+        onBack={() => setReview(null)}
+        onRestart={() => { const qz = review.quiz; setReview(null); setQuiz(qz); }}
+      />
+    );
+  }
 
   if (quiz && isPrompt(quiz)) return <PromptList quiz={quiz} onBack={closeQuiz} />;
 
@@ -191,14 +249,16 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
           {quizzes.map((qz, idx) => {
             const locked = freeTier && idx > 0;
+            const best = bestScores[`bank-${qz.id}`];
             return (
               <QuizCard
                 key={qz.id}
                 quiz={qz}
                 number={idx + 1}
                 locked={locked}
-                best={bestScores[`bank-${qz.id}`]}
+                best={best}
                 onOpen={() => (locked ? goUpgrade() : setQuiz(qz))}
+                onReview={() => setReview({ quiz: qz, best })}
               />
             );
           })}
