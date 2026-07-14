@@ -11,13 +11,13 @@ import { PAGES } from "@/pages";
 function AppShell() {
   const { route, role, c } = useApp();
   const Page = PAGES[route] || PAGES.home;
-  // The announcement bar is shown only on the Accueil (home) page, to everyone
-  // who isn't a paying/admin user — i.e. logged-out visitors and free accounts
-  // (Premium and admin users don't need the promo). When it's hidden the fixed
-  // nav stays at top-0 with no reserved space; when it's shown, the nav (top-10)
+  // The announcement bar is shown on every page to everyone who isn't a
+  // paying/admin user — i.e. logged-out visitors and free accounts (Premium
+  // and admin users don't need the promo). When it's hidden the fixed nav
+  // stays at top-0 with no reserved space; when it's shown, the nav (top-10)
   // and the page content (pt-10) shift down together by the bar's 40px height,
   // preserving each page's clearance.
-  const showAnnounce = route === "home" && (role === ROLES.VISITOR || role === ROLES.FREE_USER);
+  const showAnnounce = role === ROLES.VISITOR || role === ROLES.FREE_USER;
   return (
     <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
       {showAnnounce && <AnnouncementBar />}
