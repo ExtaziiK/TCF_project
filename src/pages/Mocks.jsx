@@ -230,7 +230,10 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   };
   // Real-exam Compréhension orale: audio auto-plays and the question moves on
   // by itself. Only in test mode, and only for the audio-driven CO épreuve.
-  const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio);
+  // Audio presence must also consider the `sign` descriptor: in signed-media
+  // mode (VITE_SIGNED_MEDIA) questions carry audio: null until the quiz opens,
+  // and testing only qq.audio silently degraded Mode Test to free navigation.
+  const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio || qq.sign?.audio);
 
   const onProgress = ({ picks, index, left }) => {
     persist({
