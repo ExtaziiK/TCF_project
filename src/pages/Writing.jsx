@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Play, Sparkles, GraduationCap, ChevronDown, Check, Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { Play, Sparkles, GraduationCap, ChevronDown, Check, Loader2, Keyboard } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
@@ -9,6 +9,12 @@ import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
+
+// Accented letters and punctuation a French exam station offers on-screen, for
+// candidates whose physical keyboard can't type them. Base = lowercase; the
+// "Maj" toggle inserts the uppercase form (JS upper-cases œ→Œ, ç→Ç, æ→Æ too).
+const ACCENT_KEYS = ["à", "â", "æ", "ç", "é", "è", "ê", "ë", "î", "ï", "ô", "œ", "ù", "û", "ü", "ÿ", "«", "»"];
+const FRKB_STORE = "passerelle.frkb"; // "0" = the candidate hid it (has a FR keyboard)
 
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
@@ -66,6 +72,33 @@ function WritingTaskPane({ task }) {
   const { c, notify, t } = useApp();
   const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, words, lo, hi } = useWritingTask(task, notify);
 
+  const taRef = useRef(null);
+  const [shift, setShift] = useState(false); // "Maj": insert uppercase accents
+  const [kbOn, setKbOn] = useState(() => {
+    try { return localStorage.getItem(FRKB_STORE) !== "0"; } catch { return true; }
+  });
+  const toggleKb = () => setKbOn((v) => {
+    const next = !v;
+    try { localStorage.setItem(FRKB_STORE, next ? "1" : "0"); } catch { /* storage blocked */ }
+    return next;
+  });
+
+  // Insert a character at the caret. execCommand("insertText") keeps the native
+  // undo/redo stack and fires a real input event (so the controlled onChange
+  // runs and the caret stays put); we fall back to a manual splice if it's
+  // unavailable. The buttons preventDefault on mousedown so the textarea never
+  // loses focus, keeping the caret where the candidate left it.
+  const insertChar = (ch) => {
+    const ta = taRef.current;
+    if (!ta) return;
+    ta.focus();
+    if (document.execCommand && document.execCommand("insertText", false, ch)) return;
+    const start = ta.selectionStart ?? text.length;
+    const end = ta.selectionEnd ?? text.length;
+    onTextChange(text.slice(0, start) + ch + text.slice(end));
+    window.requestAnimationFrame(() => { ta.selectionStart = ta.selectionEnd = start + ch.length; });
+  };
+
   return (
     <div className="grid lg:grid-cols-3 gap-5 rise">
       <div className="lg:col-span-2 space-y-5">
@@ -80,13 +113,58 @@ function WritingTaskPane({ task }) {
           <p className={`font-medium leading-relaxed ${c.text}`}>{task.prompt}</p>
         </Card>
         <Card className="p-2">
-          <div className={`flex items-center gap-1 px-3 py-2 border-b ${c.border}`} aria-hidden="true">
-            <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${c.sub} ${c.hoverSoft}`}>G</span>
-            <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm italic ${c.sub} ${c.hoverSoft}`}>I</span>
-            <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm underline ${c.sub} ${c.hoverSoft}`}>S</span>
+          {/* Top toolbar: the on-screen French accents (for candidates without
+              a FR keyboard) and the live word count pushed to the right. The
+              Accents toggle stays visible so anyone with a FR keyboard can hide
+              the keys (their choice is remembered). Insertion preserves undo/redo. */}
+          <div className={`flex items-center gap-1.5 px-3 py-2 border-b ${c.border} flex-wrap`}>
+            <button type="button" onClick={toggleKb} aria-pressed={kbOn} title={t("Afficher ou masquer le clavier d'accents")}
+              className={`inline-flex items-center gap-1.5 px-3 h-9 rounded-lg border text-xs font-semibold transition-colors ${kbOn ? "border-blue-600 text-blue-600 bg-blue-600/5" : `${c.border} ${c.faint} ${c.hoverSoft}`}`}>
+              <Keyboard size={14} /> {t("Accents")}{kbOn ? "" : ` · ${t("masqué")}`}
+            </button>
+            {kbOn && (
+              <>
+                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => setShift((s) => !s)} aria-pressed={shift} title={t("Majuscule")}
+                  className={`w-11 h-9 rounded-lg border text-xs font-bold transition-colors ${shift ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+                  Maj
+                </button>
+                {ACCENT_KEYS.map((base) => {
+                  const ch = shift ? base.toUpperCase() : base;
+                  return (
+                    <button key={base} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => insertChar(ch)}
+                      aria-label={`${t("Insérer")} ${ch}`}
+                      className={`w-9 h-9 rounded-lg border text-sm font-semibold transition-all ${c.border} ${c.text} ${c.hoverSoft} hover:border-blue-600 hover:text-blue-600`}>
+                      {ch}
+                    </button>
+                  );
+                })}
+              </>
+            )}
             <span className={`ml-auto pr-2 text-xs font-mono2 font-semibold ${words >= lo && words <= hi ? "text-emerald-500" : words > 0 ? "text-amber-500" : c.faint}`}>{words} {t(words > 1 ? "mots" : "mot")} · {t("cible")} {lo}–{hi}</span>
           </div>
-          <textarea value={text} onChange={(e) => onTextChange(e.target.value)} rows={11} placeholder={t("Commencez à écrire ici — le chronomètre démarre automatiquement…")} aria-label={t("Zone de rédaction")} className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text} placeholder:opacity-40`} />
+          {/* Real-exam conditions: the browser must not help the candidate
+              write. spellCheck off removes the red squiggles; autoCorrect /
+              autoCapitalize / autoComplete off kill iOS/Android autocorrect,
+              QuickType predictions and any "previously entered" suggestions;
+              the data-gramm* attributes opt the field out of Grammarly-style
+              extensions. No placeholder, so the zone is completely blank until
+              the candidate types. Copy/paste/undo/redo/shortcuts are untouched
+              (no handlers block them), so normal editing still works. */}
+          <textarea
+            ref={taRef}
+            value={text}
+            onChange={(e) => onTextChange(e.target.value)}
+            rows={11}
+            aria-label={t("Zone de rédaction")}
+            spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+            autoComplete="off"
+            data-gramm="false"
+            data-gramm_editor="false"
+            data-enable-grammarly="false"
+            className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text}`}
+          />
         </Card>
         <div className="flex gap-3 flex-wrap">
           <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>

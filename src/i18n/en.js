@@ -532,6 +532,11 @@ export const EN = {
   "cible": "target",
   "Commencez à écrire ici — le chronomètre démarre automatiquement…": "Start writing here — the timer starts automatically…",
   "Zone de rédaction": "Writing area",
+  "Accents": "Accents",
+  "masqué": "hidden",
+  "Afficher ou masquer le clavier d'accents": "Show or hide the accents keyboard",
+  "Majuscule": "Uppercase",
+  "Insérer": "Insert",
   "Analyser avec l'IA": "Analyze with AI",
   "Envoyer à un enseignant": "Send to a teacher",
   "Texte envoyé pour correction humaine (fonctionnalité Premium Annuel — démo).": "Text sent for human correction (Premium Annual feature — demo).",
@@ -782,6 +787,10 @@ export const EN = {
   "Questions du quiz": "Quiz questions",
   "Revoir la question": "Review question",
   "Recommencer la série": "Restart the set",
+  "Revoir mes réponses": "Review my answers",
+  "Revoir le détail": "Review the details",
+  "Retour au résultat": "Back to the result",
+  "vos réponses": "your answers",
 
   // ── Audio players / timer ────────────────────────────────────────────
   "Document audio · écoute unique le jour J": "Audio document · played once on exam day",

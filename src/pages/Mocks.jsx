@@ -3,6 +3,7 @@ import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, C
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
+import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { ExamSetup } from "@/components/exam/ExamSetup";
 import { WritingWorkshopBody } from "@/pages/Writing";
@@ -21,6 +22,41 @@ const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric"
 function ExamReport({ attempt, onRestart, onBack }) {
   const { c, nav, t } = useApp();
   const s = attempt.score;
+  const [reviewIdx, setReviewIdx] = useState(null); // task index being reviewed, or null
+  const quizzes = resolveTasks(attempt.tasks);
+
+  // Rebuild the per-question answers of a quiz épreuve (CO/CE) from the saved
+  // picks, so it can be reopened in the exact same QuizReport review UI as the
+  // standalone bank quizzes. Works for any completed attempt (picks are
+  // persisted with the attempt), so no answers need to be stored separately.
+  const answersFor = (taskIdx) => {
+    const quiz = quizzes[taskIdx];
+    if (!quiz) return [];
+    const picks = attempt.progress?.picks?.[attempt.tasks[taskIdx].order] || {};
+    return Object.entries(picks).map(([idx, sel]) => ({ i: +idx, sel, ok: sel === quiz.questions[+idx].a }));
+  };
+  const canReview = (task, i) =>
+    !(task.type && task.type !== "quiz") && !!quizzes[i] &&
+    Object.keys(attempt.progress?.picks?.[attempt.tasks[i].order] || {}).length > 0;
+
+  // Reviewing one épreuve: same score + clickable grid + per-question review
+  // (audio replayable) the candidate gets after any bank quiz.
+  if (reviewIdx !== null && quizzes[reviewIdx]) {
+    const section = attempt.tasks[reviewIdx].section;
+    return (
+      <div className="max-w-2xl mx-auto">
+        <QuizReport
+          title={`${t(SECTION_LABELS[section])} — ${t("vos réponses")}`}
+          questions={quizzes[reviewIdx].questions}
+          answers={answersFor(reviewIdx)}
+          onBack={() => setReviewIdx(null)}
+          backLabel={t("Retour au résultat")}
+          renderAbove={(q) => <BankQuestionMedia question={q} allowReplay />}
+        />
+      </div>
+    );
+  }
+
   return (
     <Card className="p-7 rise max-w-2xl mx-auto">
       <div className="text-center">
@@ -36,26 +72,36 @@ function ExamReport({ attempt, onRestart, onBack }) {
           const selfAssessed = task.type && task.type !== "quiz";
           const taskPct = task.total ? Math.round((task.ok / task.total) * 100) : 0;
           return (
-            <div key={i} className={`flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl border ${c.border}`}>
-              <div className="flex items-center gap-3">
-                <span className={`text-xs font-mono2 font-bold ${c.faint}`}>{t("TÂCHE")} {i + 1}</span>
-                <span className={`text-sm font-semibold ${c.text}`}>{t(SECTION_LABELS[task.section])}</span>
-              </div>
-              {selfAssessed ? (
-                <Pill tone="blue"><CheckCircle2 size={12} /> {t("Complétée · auto-évaluée")}</Pill>
-              ) : (
+            <div key={i} className={`px-5 py-3.5 rounded-2xl border ${c.border}`}>
+              <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <span className={`text-sm font-mono2 ${c.sub}`}>{task.ok} / {task.total}</span>
-                  <Pill tone="slate">{t("Niveau")} {levelForPct(taskPct)}</Pill>
-                  <Pill tone={taskPct >= 65 ? "green" : "amber"}>{taskPct} %</Pill>
+                  <span className={`text-xs font-mono2 font-bold ${c.faint}`}>{t("TÂCHE")} {i + 1}</span>
+                  <span className={`text-sm font-semibold ${c.text}`}>{t(SECTION_LABELS[task.section])}</span>
                 </div>
+                {selfAssessed ? (
+                  <Pill tone="blue"><CheckCircle2 size={12} /> {t("Complétée · auto-évaluée")}</Pill>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <span className={`text-sm font-mono2 ${c.sub}`}>{task.ok} / {task.total}</span>
+                    <Pill tone="slate">{t("Niveau")} {levelForPct(taskPct)}</Pill>
+                    <Pill tone={taskPct >= 65 ? "green" : "amber"}>{taskPct} %</Pill>
+                  </div>
+                )}
+              </div>
+              {/* CO / CE are auto-corrected, so the candidate can reopen each
+                  question — replay the audio, see their answer vs. the right one
+                  and read the explanation. EE/EO are self-assessed: nothing to review. */}
+              {canReview(task, i) && (
+                <button onClick={() => setReviewIdx(i)} className="mt-2.5 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:gap-1.5 transition-all">
+                  {t("Revoir mes réponses")} <ArrowRight size={12} />
+                </button>
               )}
             </div>
           );
         })}
       </div>
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
-        <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouveau TCF blanc")}</Btn>
+        {onRestart && <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouveau TCF blanc")}</Btn>}
         <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>{t("Ma progression")}</Btn>
         <Btn variant="ghost" onClick={onBack}>{t("Mes examens")}</Btn>
       </div>
@@ -214,6 +260,7 @@ export function Mocks() {
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
+  const [reviewing, setReviewing] = useState(null); // completed attempt reopened from Historique
   const [setup, setSetup] = useState(false); // pre-exam mode + candidate screen
   const [starting, setStarting] = useState(false);
 
@@ -230,7 +277,7 @@ export function Mocks() {
   // Jump to the top when the exam runner mounts (new attempt or resumed one) —
   // this swaps the whole panel in place (no route change), so without this
   // the user stays scrolled to wherever the "Reprendre"/"Commencer" button was.
-  useEffect(() => { if (active) window.scrollTo({ top: 0 }); }, [active]);
+  useEffect(() => { if (active || reviewing) window.scrollTo({ top: 0 }); }, [active, reviewing]);
 
   // Called by the setup screen with the chosen mode + candidate identity.
   const start = async ({ mode, nom, pays }) => {
@@ -250,6 +297,16 @@ export function Mocks() {
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 pb-10">
         <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
+      </main>
+    );
+  }
+
+  if (reviewing) {
+    // Reopen a finished exam's report (score + per-épreuve answer review).
+    // No onRestart here — this is a review, not a fresh start.
+    return (
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 pb-10">
+        <ExamReport attempt={reviewing} onBack={() => setReviewing(null)} />
       </main>
     );
   }
@@ -376,6 +433,7 @@ export function Mocks() {
                       })}
                     </div>
                   )}
+                  <Btn small variant="ghost" className="mt-4 w-full" icon={ArrowRight} onClick={() => setReviewing(a)}>{t("Revoir le détail")}</Btn>
                 </Card>
               );
             })}
