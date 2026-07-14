@@ -10,11 +10,14 @@ import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
+import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
 
 export function AppProvider({ children }) {
   const [dark, setDark] = useState(loadDark);
   const [lang, setLang] = useState(loadLang);
-  const [route, setRoute] = useState("home");
+  // The route is derived from (and mirrored back to) the URL path, so every
+  // page has a real, crawlable, shareable address — see src/constants/seo.js.
+  const [route, setRoute] = useState(() => routeFromPath(window.location.pathname));
   const [user, setUser] = useState(null);
   const [authReady, setAuthReady] = useState(false);
   const [bookmarks, toggleBookmark] = useToggleSet([]);
@@ -95,13 +98,14 @@ export function AppProvider({ children }) {
   // Dark mode is persisted the same way, so a reload doesn't snap back to light.
   useEffect(() => { saveDark(dark); }, [dark]);
 
-  // The app stores its route in state and never changes the URL path; without
-  // this the browser back/forward buttons stay greyed out. Seed the initial
-  // entry and restore the route whenever the user navigates the history.
+  // Seed the initial history entry with its canonical path (normalizing e.g.
+  // a trailing slash; the query string and hash are preserved — Supabase's
+  // OAuth return and the Stripe ?checkout flag both ride on them), and restore
+  // the route whenever the user navigates the history.
   useEffect(() => {
-    window.history.replaceState({ route }, "");
+    window.history.replaceState({ route }, "", pathForRoute(route) + window.location.search + window.location.hash);
     const onPop = (e) => {
-      setRoute(e.state?.route || "home");
+      setRoute(e.state?.route || routeFromPath(window.location.pathname));
       window.scrollTo({ top: 0 });
     };
     window.addEventListener("popstate", onPop);
@@ -109,11 +113,22 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Stripe Checkout redirects back to "/?checkout=success|cancelled" (the app
-  // has no URL routing, so this is read once on load and then stripped).
+  // Keep the document head (title, description, canonical, robots, OG tags)
+  // in sync with the current page; the structured data is injected once.
+  useEffect(() => {
+    injectStructuredData();
+    applyRouteMeta(route);
+  }, [route]);
+
+  // Stripe Checkout redirects back to "/?checkout=success|cancelled"; the flag
+  // is read once on load, then the URL is rewritten to the landing route's
+  // clean path.
   useEffect(() => {
     const checkout = new URLSearchParams(window.location.search).get("checkout");
-    if (checkout) window.history.replaceState({ route: checkout === "success" ? "dashboard" : "home" }, "", window.location.pathname);
+    if (checkout) {
+      const target = checkout === "success" ? "dashboard" : "home";
+      window.history.replaceState({ route: target }, "", pathForRoute(target));
+    }
     if (checkout === "cancelled") return notify("Paiement annulé.");
     if (checkout !== "success") return;
 
@@ -137,14 +152,15 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Each route change pushes a browser history entry, so the in-app "Retour"
-  // affordance and the browser's own back/forward buttons share one history.
-  // The URL path is left unchanged (no server rewrites needed).
+  // Each route change pushes a browser history entry with the route's real
+  // URL path, so pages are deep-linkable/crawlable and the in-app "Retour"
+  // affordance shares one history with the browser's back/forward buttons
+  // (vercel.json rewrites every path to index.html so a direct hit works).
   // `replace: true` swaps the current history entry instead of pushing a new
   // one — used after login/registration so Back doesn't return to the auth
   // page (which the user has already left by signing in).
   const nav = (r, { replace = false } = {}) => {
-    if (r !== route) window.history[replace ? "replaceState" : "pushState"]({ route: r }, "");
+    if (r !== route) window.history[replace ? "replaceState" : "pushState"]({ route: r }, "", pathForRoute(r));
     setRoute(r);
     window.scrollTo({ top: 0 });
   };

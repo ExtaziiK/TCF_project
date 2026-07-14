@@ -1,0 +1,8 @@
+# Gated pages (dashboard, workshops, admin…) are excluded from search via a
+# per-route noindex meta tag (src/constants/seo.js), not Disallow rules — a
+# disallowed page can't be crawled, so its noindex would never be seen.
+# TODO: replace the placeholder domain with the real production domain.
+User-agent: *
+Allow: /
+
+Sitemap: https://passerelle-tcf.vercel.app/sitemap.xml

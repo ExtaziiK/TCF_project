@@ -11,7 +11,7 @@ export function PageShell({ eyebrow, title, sub, children, wide, back, tight, ce
           <ChevronLeft size={15} /> {t("Retour")}
         </button>
       )}
-      <SectionHead eyebrow={eyebrow} title={title} sub={sub} tight={tight} center={center} big={big} />
+      <SectionHead as="h1" eyebrow={eyebrow} title={title} sub={sub} tight={tight} center={center} big={big} />
       {children}
     </main>
   );

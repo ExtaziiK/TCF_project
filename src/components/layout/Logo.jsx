@@ -1,6 +1,10 @@
-export function Logo({ onClick }) {
+import { RouteLink } from "@/components/common/RouteLink";
+
+// A real link to the homepage (crawlable, middle-click/new-tab friendly);
+// `onNavigate` lets the caller close its menus after an in-app navigation.
+export function Logo({ onNavigate }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-2.5 group" aria-label="Passerelle — accueil">
+    <RouteLink r="home" onNavigate={onNavigate} className="flex items-center gap-2.5 group" aria-label="Passerelle — accueil">
       <img
         src="/logo-mark.png"
         alt=""
@@ -11,6 +15,6 @@ export function Logo({ onClick }) {
       <span className="font-display font-bold text-lg leading-none">
         Passerelle<span className="block text-[10px] font-body font-semibold tracking-widest uppercase text-blue-600">TCF Canada</span>
       </span>
-    </button>
+    </RouteLink>
   );
 }
