@@ -1325,6 +1325,9 @@ export const EN = {
   "Sélectionnez votre pays pour continuer.": "Select your country to continue.",
   "Commencer le test": "Start the test",
   "Le chronomètre démarre dès la première question. Score calculé automatiquement.": "The timer starts on the first question. Score calculated automatically.",
+  "Le TCF blanc commence dans…": "The TCF blanc starts in…",
+  "L'entraînement commence dans…": "The practice session starts in…",
+  "Préparez-vous : le premier document audio sera joué automatiquement.": "Get ready: the first audio document will play automatically.",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

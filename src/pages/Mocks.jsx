@@ -108,7 +108,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   };
 
   const header = (
-    <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
+    <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
       <div className="flex items-center gap-2 flex-wrap">
         {attempt.tasks.map((_, k) => (
           <span key={k} className={`px-3 py-1.5 rounded-full text-xs font-bold font-mono2 border
@@ -118,6 +118,16 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         ))}
       </div>
       <button onClick={onExit} className={`text-sm font-semibold ${c.sub} hover:text-blue-600`}>{t("Quitter (progression sauvegardée)")}</button>
+    </div>
+  );
+
+  // Compact "Tâche X / Y" label + the exam-conditions reminder (moved here
+  // from the old page-level title so it repeats under every task instead of
+  // taking a whole header screen before the exam).
+  const taskLabel = (
+    <div className="mb-4">
+      <p className="text-xs font-bold uppercase tracking-widest text-blue-600">{t("Tâche")} {idx + 1} / {attempt.tasks.length}</p>
+      <p className={`text-sm mt-1 ${c.sub}`}>{t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}</p>
     </div>
   );
 
@@ -175,7 +185,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   return (
     <div>
       {header}
-      <SectionHead eyebrow={`${t("Tâche")} ${idx + 1} / ${attempt.tasks.length}`} title={t(SECTION_LABELS[task.section])} sub={`${quiz.title} · ${quiz.questions.length} ${t("questions · vos réponses sont enregistrées automatiquement.")}`} />
+      {taskLabel}
       <Quiz
         key={attempt.id + "-" + order}
         questions={quiz.questions}
@@ -223,21 +233,24 @@ export function Mocks() {
   useEffect(() => { if (active) window.scrollTo({ top: 0 }); }, [active]);
 
   // Called by the setup screen with the chosen mode + candidate identity.
-  const start = async ({ mode, nom, email, pays }) => {
+  const start = async ({ mode, nom, pays }) => {
     setStarting(true);
     const tasks = generateExamTasks(attempts || []);
     if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
-    const attempt = await createAttempt(user?.id, tasks, { mode, candidate: { nom, email, pays } });
+    const attempt = await createAttempt(user?.id, tasks, { mode, candidate: { nom, pays } });
     setStarting(false);
     setSetup(false);
     setActive(attempt);
   };
 
   if (active) {
+    // No PageShell/title here on purpose: the exam (palette · question ·
+    // candidate + timer) should be the very first thing the candidate sees,
+    // with only the height needed to clear the fixed nav — no scrolling.
     return (
-      <PageShell wide eyebrow={t("TCF blanc")} title={t("Conditions d'examen")} sub={t("Répondez à chaque tâche comme le jour J : la correction n'est révélée qu'à la toute fin.")}>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 pb-10">
         <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
-      </PageShell>
+      </main>
     );
   }
 
