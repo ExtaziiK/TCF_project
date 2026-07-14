@@ -19,10 +19,17 @@ create index if not exists question_attempts_qid_idx on public.question_attempts
 
 alter table public.question_attempts enable row level security;
 
--- Anyone practising (including anonymous free practice) may log an attempt;
--- the rows carry no sensitive data. Only admins can read them for analytics.
-create policy "attempts: anyone insert" on public.question_attempts
-  for insert with check (true);
+-- Signed-in users may log their own attempts (anonymous visitors never reach
+-- the quiz engine — practice routes require an account — and an open policy
+-- would let anyone spam rows or attribute attempts to another user's id).
+-- Only admins can read them for analytics.
+drop policy if exists "attempts: insert own" on public.question_attempts;
+create policy "attempts: insert own" on public.question_attempts
+  for insert with check (
+    auth.uid() is not null
+    and (user_id is null or user_id = auth.uid())
+  );
+drop policy if exists "attempts: admin read" on public.question_attempts;
 create policy "attempts: admin read" on public.question_attempts
   for select using (
     coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false)

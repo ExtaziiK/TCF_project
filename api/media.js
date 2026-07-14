@@ -1,4 +1,4 @@
-import { requireUser } from "./_lib/auth.js";
+import { requireUser, isPremiumUser } from "./_lib/auth.js";
 import { signMediaBatch } from "./_lib/media.js";
 import { HttpError } from "./_lib/groq.js";
 
@@ -15,16 +15,22 @@ const MAX_ITEMS = 120;
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    await requireUser(req);
+    const user = await requireUser(req);
 
     const items = Array.isArray(req.body?.items) ? req.body.items : [];
     if (items.length === 0) return res.status(200).json({ urls: {} });
     if (items.length > MAX_ITEMS) throw new HttpError(400, "Too many items requested.");
 
     // Whitelist and normalize; anything malformed is dropped rather than trusted.
-    const clean = items
+    let clean = items
       .filter((it) => it && (it.kind === "image" || it.kind === "audio") && it.section && it.quiz != null && it.order != null)
       .map((it) => ({ ref: String(it.ref), section: String(it.section), quiz: it.quiz, order: it.order, kind: it.kind }));
+
+    // Free accounts may only sign media for the free quiz of each épreuve
+    // (quiz 1 — the same one BankExplorer leaves unlocked). Enforced here, not
+    // just in the UI, so a free session can't bulk-download the premium bank
+    // by calling this endpoint directly with arbitrary coordinates.
+    if (!isPremiumUser(user)) clean = clean.filter((it) => Number(it.quiz) === 1);
 
     const urls = await signMediaBatch(clean);
     res.status(200).json({ urls });

@@ -1,4 +1,4 @@
-import { requireUser } from "./_lib/auth.js";
+import { requirePremium } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError } from "./_lib/groq.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -16,7 +16,7 @@ Respond with ONLY a minified JSON object of this exact shape:
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    await requireUser(req);
+    await requirePremium(req);
 
     const { prompt = "", response = "", taskLabel = "", targetWords = "", lang = "fr" } = req.body || {};
     const text = String(response).trim();

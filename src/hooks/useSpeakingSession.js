@@ -25,6 +25,7 @@ export function useSpeakingSession(task, notify) {
   const streamRef = useRef(null);
   const recorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const objectUrlsRef = useRef([]); // recording URLs, revoked on unmount
   const startedAtRef = useRef(0);
   const taskRef = useRef(task);
   taskRef.current = task;
@@ -45,6 +46,7 @@ export function useSpeakingSession(task, notify) {
     const elapsed = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
     const id = `rec-${nextId.current++}`;
     const url = chunks.length ? URL.createObjectURL(blob) : null;
+    if (url) objectUrlsRef.current.push(url);
 
     setHistory((h) => [{ id, t: taskRef.current.t, when: "à l'instant", dur: fmt(elapsed), url, status: "processing" }, ...h]);
     setPhase("idle");
@@ -119,8 +121,13 @@ export function useSpeakingSession(task, notify) {
     setCount(0);
   }, [task.id]);
 
-  // Release the mic if the component unmounts mid-session.
-  useEffect(() => () => releaseStream(), []);
+  // Release the mic if the component unmounts mid-session, and free the
+  // recordings' object URLs (they otherwise pin their blobs for the whole tab).
+  useEffect(() => () => {
+    releaseStream();
+    objectUrlsRef.current.forEach((u) => URL.revokeObjectURL(u));
+    objectUrlsRef.current = [];
+  }, []);
 
   // Countdown ticks during prep / rec.
   useEffect(() => {

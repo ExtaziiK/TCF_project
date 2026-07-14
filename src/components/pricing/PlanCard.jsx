@@ -13,8 +13,10 @@ export function PlanCard({ p, compact }) {
     setBusy(true);
     try {
       await startCheckout(p.priceId);
-    } catch {
-      notify(t("Impossible de démarrer le paiement. Réessayez."));
+    } catch (err) {
+      notify(t(err?.message === "already-subscribed"
+        ? "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil."
+        : "Impossible de démarrer le paiement. Réessayez."));
       setBusy(false);
     }
   };

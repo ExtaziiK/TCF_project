@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
+import { levelForPct } from "@/services/examService";
 import { fmt } from "@/utils/format";
 
 // End-of-quiz report: score, clickable question grid, full correction with
@@ -22,7 +23,9 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
   const wrongCount = answers.length - ok;
   const skipped = questions.length - answers.length;
   const pct = Math.round((ok / questions.length) * 100);
-  const est = pct >= 85 ? "B2+" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
+  // Shared with the mock-exam report and the dashboard, so the same score
+  // never shows a different CEFR estimate depending on the screen.
+  const est = levelForPct(pct);
 
   const statusOf = (idx) => {
     const a = byIndex.get(idx);

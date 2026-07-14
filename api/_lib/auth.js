@@ -30,3 +30,24 @@ export async function requireUser(req) {
   }
   return user;
 }
+
+// Mirrors src/auth/rbac.js (hasActiveSubscription + admin): Premium is only
+// active while premium_until — when set — is in the future. Evaluated from
+// app_metadata, which clients cannot self-edit.
+export function isPremiumUser(user) {
+  const meta = user?.app_metadata || {};
+  if (meta.role === "admin") return true;
+  if (meta.plan !== "Premium") return false;
+  if (!meta.premium_until) return true;
+  const until = Date.parse(meta.premium_until);
+  return Number.isFinite(until) && until > Date.now();
+}
+
+// requireUser + an active Premium plan (or admin). The Expression workshops
+// are Premium in the UI; without this check any free account could drive the
+// billable Groq endpoints directly, bypassing the client-side gate.
+export async function requirePremium(req) {
+  const user = await requireUser(req);
+  if (!isPremiumUser(user)) throw new HttpError(403, "Réservé à l'abonnement Premium.");
+  return user;
+}

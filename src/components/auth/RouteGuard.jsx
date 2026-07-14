@@ -9,8 +9,8 @@ import { deniedReason } from "@/auth/rbac";
 function RegisterGate() {
   const { c, nav, t } = useApp();
   const perks = [
-    "10 questions gratuites par jour et par module",
     "Un quiz complet offert dans chaque épreuve, au format officiel TCF",
+    "Corrections détaillées et explications après chaque quiz",
     "Votre progression et vos signets sauvegardés",
     "Gratuit, sans carte bancaire — prêt en 30 secondes",
   ];

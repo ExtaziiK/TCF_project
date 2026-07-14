@@ -8,6 +8,7 @@ import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
+import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES } from "@/auth/rbac";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
@@ -98,11 +99,14 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
 // skipped, explanations) from its stored answers, without re-running the quiz.
 function ReviewPanel({ quiz, attempt, onBack, onRestart }) {
   const { t } = useApp();
+  // The Quiz engine isn't mounted here, so signed-media descriptors are
+  // exchanged for fresh URLs directly (no-op when the flag is off).
+  const questions = useSignedQuestions(quiz.questions);
   return (
     <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={t("Correction de votre dernière tentative revoyable.")}>
       <button onClick={onBack} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
       <QuizReport
-        questions={quiz.questions}
+        questions={questions}
         answers={attempt.answers}
         duration={attempt.durationSec ?? 0}
         left={0}

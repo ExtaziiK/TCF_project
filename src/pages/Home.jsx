@@ -148,7 +148,7 @@ function Landing() {
       {/* FINAL CTA */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
-        <p className={`mt-5 text-lg ${c.sub}`}>{t("10 questions gratuites par jour. Aucune carte bancaire requise.")}</p>
+        <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
         <div className="mt-8 flex justify-center gap-3 flex-wrap">
           <Btn variant="accent" icon={ArrowRight} onClick={() => nav("register")}>{t("Créer mon compte gratuit")}</Btn>
         </div>

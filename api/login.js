@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 
 // Password login with username-or-email support and a brute-force lockout.
@@ -5,6 +6,10 @@ import { createClient } from "@supabase/supabase-js";
 // service-role key (the browser must never see other users' emails) and
 // (b) a "5 tries then 10-minute block" is only real if it can't be reset by
 // clearing browser storage.
+//
+// The lockout counter is keyed by account AND caller IP, so a stranger who
+// hammers someone's email with wrong passwords only locks the account for
+// their own IP — the legitimate owner, on their own connection, is unaffected.
 
 const url = process.env.VITE_SUPABASE_URL;
 const admin = createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
@@ -32,7 +37,9 @@ export default async function handler(req, res) {
       if (u?.user?.email) email = u.user.email;
     }
   }
-  const key = email.toLowerCase();
+  // First hop of x-forwarded-for is the real client on Vercel.
+  const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.socket?.remoteAddress || "unknown";
+  const key = `${email.toLowerCase()}|${ip}`;
   const now = Date.now();
 
   // Already locked?
@@ -67,9 +74,19 @@ export default async function handler(req, res) {
     });
   }
 
-  // Success: clear the counter and hand the session to the client.
+  // Success: clear the counter, claim this device as the account's single
+  // active session (the id is generated HERE, with the service role — clients
+  // can no longer write active_session_id directly, see the 20260714
+  // migration), and hand both to the client.
   await admin.from("login_attempts").delete().eq("identifier", key);
+  let deviceSession = randomUUID();
+  const { error: claimErr } = await admin
+    .from("profiles")
+    .update({ active_session_id: deviceSession })
+    .eq("id", data.user.id);
+  if (claimErr) deviceSession = null; // column missing (pre-migration): feature stays inert
   return res.status(200).json({
     session: { access_token: data.session.access_token, refresh_token: data.session.refresh_token },
+    deviceSession,
   });
 }

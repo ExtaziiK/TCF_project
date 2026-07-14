@@ -25,19 +25,21 @@ function setDeviceSessionId(id) {
 // is in the middle of logging in.
 let claiming = false;
 
-// Claims this browser as the account's single active session: writes a new id
-// (overwriting any other device's) and remembers it locally. Swallows errors so
-// a missing column (pre-migration) or a network blip leaves the feature inert
-// rather than breaking login.
+// Claims this browser as the account's single active session via the
+// claim_device_session RPC (security definer): the id is generated
+// SERVER-SIDE, so a client can never write an arbitrary value — or null —
+// into active_session_id to defeat the mechanism (direct column updates are
+// revoked by the 20260714 migration). Swallows errors so a missing function
+// (pre-migration) or a network blip leaves the feature inert rather than
+// breaking login.
 export async function claimDeviceSession(userId) {
   if (!userId) return null;
   claiming = true;
   try {
-    const id = globalThis.crypto?.randomUUID?.() || `dev-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    setDeviceSessionId(id);
-    const { error } = await supabase.from("profiles").update({ active_session_id: id }).eq("id", userId);
-    if (error) { /* column missing or offline — mechanism stays inert */ }
-    return id;
+    const { data, error } = await supabase.rpc("claim_device_session");
+    if (error || !data) return null; // RPC missing or offline — mechanism stays inert
+    setDeviceSessionId(data);
+    return data;
   } finally {
     claiming = false;
   }
@@ -200,7 +202,10 @@ export async function signIn({ identifier, password }) {
     const { data, error } = await supabase.auth.setSession(json.session);
     if (error) return { ok: false, message: error.message };
     const user = mapSupabaseUser(data.session);
-    await claimDeviceSession(user?.id);
+    // api/login already claimed the device session server-side; just store the
+    // id it handed back. Fall back to the RPC claim for a pre-migration server.
+    if (json.deviceSession) setDeviceSessionId(json.deviceSession);
+    else await claimDeviceSession(user?.id);
     return { ok: true, user };
   }
   if (json.locked) {

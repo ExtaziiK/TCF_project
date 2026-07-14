@@ -46,10 +46,13 @@ returns boolean language sql stable as $$
   select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false);
 $$;
 
--- Everyone (including anonymous practice pages) can read ACTIVE questions;
--- admins can read everything and are the only writers.
+-- Signed-in users can read ACTIVE questions (every page that consumes them
+-- already requires an account — and an anonymous-readable policy would let
+-- the bare anon key dump every question, correct answer included, straight
+-- from the table); admins can read everything and are the only writers.
+drop policy if exists "questions: read active" on public.questions;
 create policy "questions: read active" on public.questions
-  for select using (status = 'active' or public.is_admin());
+  for select using ((status = 'active' and auth.uid() is not null) or public.is_admin());
 create policy "questions: admin insert" on public.questions
   for insert with check (public.is_admin());
 create policy "questions: admin update" on public.questions

@@ -35,7 +35,7 @@ export function Practice() {
   }
 
   return (
-    <PageShell back wide eyebrow={t("Pratique gratuite")} title={t("Essayez chaque module, sans compte ni carte")} sub={t("10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.")}>
+    <PageShell back wide eyebrow={t("Pratique gratuite")} title={t("Essayez chaque module gratuitement")} sub={t("Le premier quiz de chaque épreuve est ouvert gratuitement, dans les conditions réelles de l'examen.")}>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => {
           const section = ROUTE_SECTION[f.route];

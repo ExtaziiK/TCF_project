@@ -124,7 +124,7 @@ export const EN = {
   "Comparer les forfaits en détail": "Compare plans in detail",
   "Votre passerelle vers le Canada": "Your gateway to Canada",
   "commence aujourd'hui.": "starts today.",
-  "10 questions gratuites par jour. Aucune carte bancaire requise.": "10 free questions a day. No credit card required.",
+  "Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.": "One full free quiz in every test section. No credit card required.",
   "Créer mon compte gratuit": "Create my free account",
 
   // ── Home stats (constants/home.js STATS) ─────────────────────────────
@@ -220,8 +220,8 @@ export const EN = {
   "Créer un compte": "Create an account",
   "Commencer l'essai": "Start the trial",
   "Choisir l'annuel": "Choose annual",
-  "10 questions par module et par jour": "10 questions per module per day",
-  "1 TCF blanc partiel": "1 partial mock exam",
+  "Le premier quiz de chaque épreuve offert": "The first quiz of every test section included",
+  "Corrections détaillées et explications": "Detailed corrections and explanations",
   "Cartes de vocabulaire de base": "Basic vocabulary flashcards",
   "Suivi de progression simple": "Simple progress tracking",
   "Questions et audios illimités": "Unlimited questions and audio",
@@ -235,6 +235,8 @@ export const EN = {
   "Garantie satisfait ou remboursé 30 jours": "30-day money-back guarantee",
   "Le plus populaire": "Most popular",
   "Créez un compte gratuit pour vous abonner.": "Create a free account to subscribe.",
+  "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil.":
+    "Your Premium subscription is already active. Manage it from your profile.",
   "Impossible de démarrer le paiement. Réessayez.": "Could not start the checkout. Please try again.",
 
   // ── FAQ ──────────────────────────────────────────────────────────────
@@ -492,9 +494,9 @@ export const EN = {
     "questions · exam conditions: the full correction is revealed at the end, with your score.",
   "Retour à la pratique gratuite": "Back to free practice",
   "Choisir un autre module": "Choose another module",
-  "Essayez chaque module, sans compte ni carte": "Try every module, no account or card needed",
-  "10 questions gratuites par jour et par module. Créez un compte pour sauvegarder votre progression.":
-    "10 free questions per day per module. Create an account to save your progress.",
+  "Essayez chaque module gratuitement": "Try every module for free",
+  "Le premier quiz de chaque épreuve est ouvert gratuitement, dans les conditions réelles de l'examen.":
+    "The first quiz of every test section is free, under real exam conditions.",
   "Gratuit": "Free",
   "Essayer maintenant": "Try now",
   "Envie de tout débloquer ?": "Want to unlock everything?",
@@ -812,8 +814,8 @@ export const EN = {
   "Temps restant": "Time left",
 
   // ── Route guard gates ────────────────────────────────────────────────
-  "10 questions gratuites par jour et par module": "10 free questions per day per module",
   "Un quiz complet offert dans chaque épreuve, au format officiel TCF": "One full free quiz in every section, in the official TCF format",
+  "Corrections détaillées et explications après chaque quiz": "Detailed corrections and explanations after every quiz",
   "Votre progression et vos signets sauvegardés": "Your progress and bookmarks saved",
   "Gratuit, sans carte bancaire — prêt en 30 secondes": "Free, no credit card — ready in 30 seconds",
   "Créez un compte gratuit pour commencer": "Create a free account to get started",

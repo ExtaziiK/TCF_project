@@ -9,6 +9,7 @@ import { ExamSetup } from "@/components/exam/ExamSetup";
 import { WritingWorkshopBody } from "@/pages/Writing";
 import { SpeakingStudioBody } from "@/pages/Speaking";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
   TASKS_PER_EXAM, generateExamTasks, resolveTasks, scoreExam, levelForPct,
@@ -18,6 +19,27 @@ import {
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 
 /* --------------------------- final report view --------------------------- */
+
+// Reviewing one épreuve of a finished exam: same score + clickable grid +
+// per-question review (audio replayable) the candidate gets after any bank
+// quiz. Own component so signed-media descriptors can be exchanged for fresh
+// URLs — the Quiz engine that normally does this isn't mounted in a review.
+function ExamTaskReview({ quiz, answers, title, onBack }) {
+  const { t } = useApp();
+  const questions = useSignedQuestions(quiz.questions);
+  return (
+    <div className="max-w-2xl mx-auto">
+      <QuizReport
+        title={title}
+        questions={questions}
+        answers={answers}
+        onBack={onBack}
+        backLabel={t("Retour au résultat")}
+        renderAbove={(q) => <BankQuestionMedia question={q} allowReplay />}
+      />
+    </div>
+  );
+}
 
 function ExamReport({ attempt, onRestart, onBack }) {
   const { c, nav, t } = useApp();
@@ -39,21 +61,15 @@ function ExamReport({ attempt, onRestart, onBack }) {
     !(task.type && task.type !== "quiz") && !!quizzes[i] &&
     Object.keys(attempt.progress?.picks?.[attempt.tasks[i].order] || {}).length > 0;
 
-  // Reviewing one épreuve: same score + clickable grid + per-question review
-  // (audio replayable) the candidate gets after any bank quiz.
   if (reviewIdx !== null && quizzes[reviewIdx]) {
     const section = attempt.tasks[reviewIdx].section;
     return (
-      <div className="max-w-2xl mx-auto">
-        <QuizReport
-          title={`${t(SECTION_LABELS[section])} — ${t("vos réponses")}`}
-          questions={quizzes[reviewIdx].questions}
-          answers={answersFor(reviewIdx)}
-          onBack={() => setReviewIdx(null)}
-          backLabel={t("Retour au résultat")}
-          renderAbove={(q) => <BankQuestionMedia question={q} allowReplay />}
-        />
-      </div>
+      <ExamTaskReview
+        quiz={quizzes[reviewIdx]}
+        answers={answersFor(reviewIdx)}
+        title={`${t(SECTION_LABELS[section])} — ${t("vos réponses")}`}
+        onBack={() => setReviewIdx(null)}
+      />
     );
   }
 

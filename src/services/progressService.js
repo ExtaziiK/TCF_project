@@ -1,4 +1,5 @@
 import { getBank } from "@/services/bankService";
+import { levelForPct } from "@/services/examService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 
 // Pure progress engine for the member dashboard. Everything is derived from
@@ -245,7 +246,7 @@ function sectionStats(section, bank, results) {
     completionPct: bankQuizzes.length ? Math.round((attempted.length / bankQuizzes.length) * 100) : 0,
     best,
     avg,
-    cefr: avg === null ? null : avg >= 85 ? "C1" : avg >= 65 ? "B2" : avg >= 40 ? "B1" : "A2",
+    cefr: avg === null ? null : levelForPct(avg),
     strongest: ranked[0] || null,
     weakest: ranked.length > 1 ? ranked[ranked.length - 1] : null,
   };

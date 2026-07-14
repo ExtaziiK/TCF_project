@@ -21,6 +21,14 @@ export default async function handler(req, res) {
   const { priceId } = req.body || {};
   if (!priceId) return res.status(400).json({ error: "Missing priceId" });
 
+  // A user whose Premium is still active must manage/upgrade through the
+  // billing portal — starting a second Checkout would create a second live
+  // subscription (double billing).
+  const meta = user.app_metadata || {};
+  const premiumActive =
+    meta.plan === "Premium" && (!meta.premium_until || Date.parse(meta.premium_until) > Date.now());
+  if (premiumActive) return res.status(400).json({ error: "already-subscribed" });
+
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
   try {
@@ -28,7 +36,9 @@ export default async function handler(req, res) {
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
       client_reference_id: user.id,
-      customer_email: user.email,
+      // Reuse the Stripe customer from a previous subscription (stored by the
+      // webhook) so re-subscribing doesn't create a duplicate customer record.
+      ...(meta.stripe_customer_id ? { customer: meta.stripe_customer_id } : { customer_email: user.email }),
       metadata: { supabase_user_id: user.id },
       subscription_data: { metadata: { supabase_user_id: user.id } },
       success_url: `${origin}/?checkout=success`,

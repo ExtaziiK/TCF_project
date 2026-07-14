@@ -50,6 +50,11 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   picksRef.current = picks;
   const answersRef = useRef(answers);
   answersRef.current = answers;
+  const iRef = useRef(i);
+  iRef.current = i;
+  const leftRef = useRef(duration);
+  const onProgressRef = useRef(onProgress);
+  onProgressRef.current = onProgress;
 
   // Signed-media mode: questions carry a `sign` descriptor (logical coordinates)
   // instead of a public URL. Exchange them all for short-lived signed URLs in a
@@ -124,6 +129,21 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const [left, setLeft] = useCountdown(duration, !finished, () =>
     finishWith(deferResults ? buildExamAnswers(picksRef.current) : answersRef.current)
   );
+  leftRef.current = left;
+
+  // Autosave heartbeat (embedded exam sessions only): picks/index already
+  // persist on every answer or navigation, but the ticking timer otherwise
+  // only reaches storage on those same events — quitting mid-question would
+  // restore an older, larger timeLeft on resume (free extra time). A
+  // low-frequency persist keeps the resumable clock honest.
+  useEffect(() => {
+    if (!deferResults || finished || !onProgressRef.current) return;
+    const id = setInterval(
+      () => onProgressRef.current?.({ picks: picksRef.current, index: iRef.current, left: leftRef.current }),
+      10000
+    );
+    return () => clearInterval(id);
+  }, [deferResults, finished]);
 
   const restart = () => { setI(0); setSel(null); setPicks({}); setAnswers([]); setLeft(duration); setFinished(false); setConfirmFinish(false); };
 
@@ -162,7 +182,10 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     if (hideReport) return null;
     return (
       <QuizReport
-        questions={questions}
+        // media resolved per question: in signed-media mode the raw questions
+        // carry null URLs + a `sign` descriptor, and the report's review pane
+        // (audio replay, illustrations) renders from these fields
+        questions={questions.map(withMedia)}
         answers={answers}
         duration={duration}
         left={left}

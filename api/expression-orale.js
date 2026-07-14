@@ -1,4 +1,4 @@
-import { requireUser } from "./_lib/auth.js";
+import { requirePremium } from "./_lib/auth.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError } from "./_lib/groq.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
@@ -28,7 +28,7 @@ function extForMime(mime = "") {
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    await requireUser(req);
+    await requirePremium(req);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     if (!audio) throw new HttpError(400, "No audio was received.");
