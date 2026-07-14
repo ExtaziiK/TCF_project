@@ -23,6 +23,17 @@ html{scroll-behavior:smooth}
 .fface{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .fback{transform:rotateY(180deg)}
 .grad-brand{background:linear-gradient(90deg,#2E6BE6 0%,#6C4FE0 55%,#D8354A 100%)}
+/* Infinite announcement marquee. The track holds two identical copies of the
+   message list, so translating it by exactly one copy (-50%) loops seamlessly.
+   Paused on hover/focus; stopped entirely under prefers-reduced-motion by the
+   global rule at the bottom of this file. GPU-friendly (transform only → 60fps). */
+.marquee-track{display:flex;flex-wrap:nowrap;width:max-content;animation:marquee var(--marquee-duration,40s) linear infinite;will-change:transform}
+.announce-bar:hover .marquee-track,.announce-bar:focus-within .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;flex-wrap:nowrap;align-items:center;flex-shrink:0;margin:0;padding:0}
+.marquee-item{display:inline-flex;align-items:center;white-space:nowrap}
+.marquee-sep{margin:0 1.5rem;opacity:.55}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (max-width:640px){.marquee-sep{margin:0 1.1rem}}
 .grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .card-lift{transition:transform .25s ease,box-shadow .25s ease}
 .card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(15,42,82,.22)}

@@ -8,7 +8,7 @@ import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigatio
 import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES } from "@/auth/rbac";
 
-export function Nav() {
+export function Nav({ barOffset = false }) {
   const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role } = useApp();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
@@ -36,7 +36,7 @@ export function Nav() {
   ];
   return (
     <>
-      <header className={`fixed top-0 inset-x-0 z-40 border-b ${c.navBorder} ${c.nav} backdrop-blur-xl`}>
+      <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 border-b ${c.navBorder} ${c.nav} backdrop-blur-xl`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onClick={() => go("home")} />
           <nav className="hidden lg:flex items-center gap-1" aria-label={t("Navigation principale")}>

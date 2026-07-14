@@ -2,6 +2,17 @@
 // t() falls back to the French key when an entry is missing, so partial
 // coverage is safe: untranslated strings simply stay in French.
 export const EN = {
+  // ── Announcement bar (constants/announcements.js) ────────────────────
+  "Annonces": "Announcements",
+  "🎯 Entraînez-vous au TCF Canada avec des questions réalistes.": "🎯 Practice the TCF Canada exam with realistic questions.",
+  "📚 De nouvelles questions ajoutées régulièrement.": "📚 New questions added regularly.",
+  "⭐ Entraînement illimité avec Premium.": "⭐ Unlimited practice with Premium.",
+  "🇨🇦 Préparez votre test linguistique d'immigration ou de citoyenneté.": "🇨🇦 Prepare for your immigration or citizenship language test.",
+  "📈 Suivez votre progression et améliorez votre score.": "📈 Track your progress and improve your score.",
+  "🔥 Examen blanc complet disponible.": "🔥 Full-length Examen Blanc available.",
+  "💬 Entraînez-vous aux quatre épreuves du TCF.": "💬 Practice all four TCF sections.",
+  "🎓 Vivez une vraie simulation d'examen.": "🎓 Experience a real exam simulation.",
+
   // ── Navigation (constants/navigation.js) ─────────────────────────────
   "Accueil": "Home",
   "Mes examens": "My exams",
