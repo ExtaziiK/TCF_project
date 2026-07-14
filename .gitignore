@@ -17,3 +17,7 @@ dist
 # quiz audio/images now served from Supabase Storage (Audio/Image buckets),
 # not bundled into the app - see src/bank/README.md and src/utils/bankAdapter.js
 /src/bank/media/
+
+# generated media name maps (opaque hash -> question) - keep local, never share
+media-inventory.csv
+media-manifest.*
