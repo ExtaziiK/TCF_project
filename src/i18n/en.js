@@ -611,6 +611,36 @@ export const EN = {
   "Aucune consigne disponible pour la Tâche": "No prompt available for Task",
   "De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.": "New topics are added regularly — check back soon.",
 
+  // ── Oral interview simulation (Expression orale) ─────────────────────
+  "Passez l'entretien avec l'examinateur IA": "Take the interview with the AI examiner",
+  "Découvrez le sujet, répondez à voix haute : l'examinateur IA vous relance trois fois — à l'écrit et à l'oral — puis évalue tout l'entretien.":
+    "Read the subject, answer out loud: the AI examiner follows up three times — in text and voice — then grades the whole interview.",
+  "Lecture du sujet :": "Subject review:",
+  "Relances :": "Follow-ups:",
+  "Examinateur": "Examiner",
+  "Vous": "You",
+  "Tentative non prise en compte": "Attempt not counted",
+  "Réécouter la question": "Replay the question",
+  "Lisez le sujet et préparez vos idées… l'enregistrement démarrera automatiquement.": "Read the subject and prepare your ideas… recording will start automatically.",
+  "L'examinateur vous écoute…": "The examiner is listening…",
+  "L'examinateur parle…": "The examiner is speaking…",
+  "À vous de répondre.": "Your turn to answer.",
+  "Entretien terminé — consultez votre évaluation.": "Interview over — see your evaluation.",
+  "Commencer l'entretien": "Start the interview",
+  "Passer la lecture et parler maintenant": "Skip the review and speak now",
+  "Répondre": "Answer",
+  "Refaire un entretien": "Do another interview",
+  "Aucune parole détectée dans l'enregistrement. Réessayez.": "No speech detected in the recording. Try again.",
+  "Simulation indisponible ici (fonctions serverless non déployées).": "Simulation unavailable here (serverless functions not deployed).",
+  "L'analyse a échoué. Réessayez.": "The analysis failed. Try again.",
+  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.":
+    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, browser speech synthesis voice.",
+  "Comment ça marche": "How it works",
+  "Prenez connaissance du sujet pendant le temps de lecture.": "Review the subject during the reading time.",
+  "Répondez à voix haute — votre réponse est transcrite.": "Answer out loud — your answer is transcribed.",
+  "L'examinateur IA vous relance 3 fois, à l'écrit et à l'oral.": "The AI examiner follows up 3 times, in text and voice.",
+  "À la fin, l'IA évalue l'ensemble de l'entretien.": "At the end, the AI evaluates the whole interview.",
+
   // ── AI evaluation (Expression écrite / orale) ────────────────────────
   "Analyse IA": "AI analysis",
   "Points forts": "Strengths",

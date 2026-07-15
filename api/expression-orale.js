@@ -7,6 +7,15 @@ import { logAiUsage } from "./_lib/usage.js";
 // 2) Groq chat (openai/gpt-oss-20b) evaluates the transcript.
 // The client posts the audio as base64 JSON (no multipart parsing needed);
 // short TCF speaking clips stay well under the request-size limit.
+//
+// Two modes share this function (one endpoint keeps us inside Vercel Hobby's
+// 12-function cap, same reason api/admin is consolidated):
+//   - default: one-shot transcript + evaluation (legacy flow)
+//   - mode "dialogue": one turn of the interview simulation — transcribe the
+//     candidate's answer, then either ask the next follow-up question or,
+//     after MAX_FOLLOW_UPS follow-ups have been answered, grade the whole
+//     conversation. The client keeps the dialogue state and sends it back as
+//     `history`; the function stays stateless.
 
 const system = (lang) => `You are a certified TCF Canada examiner grading the Expression orale (spoken expression) section from a TRANSCRIPT of the candidate's speech.
 Assess: relevance to the task, task coverage, vocabulary range, grammar, and fluency/coherence. You only have the transcript, so DO NOT judge pronunciation or accent.
@@ -15,6 +24,93 @@ Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
 {"level":"<CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
 "strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
+
+/* ------------------------- dialogue (interview) mode ------------------------ */
+
+export const MAX_FOLLOW_UPS = 3;
+
+// The interview itself is always in French (it's a French exam); only the
+// final feedback follows the user's UI language, like the one-shot mode.
+export const followUpSystem = `Tu es un examinateur du TCF Canada qui fait passer l'épreuve d'Expression orale sous forme d'entretien.
+On te donne la consigne de la tâche et le dialogue déjà échangé avec le candidat. Ses répliques sont des transcriptions automatiques (Whisper) : ignore les petites fautes de transcription et ne juge jamais la prononciation.
+Réagis à sa dernière réponse en UNE courte phrase naturelle, puis pose UNE question de relance qui l'amène à développer (précisions, exemples, justification, point de vue opposé). Reste strictement dans le sujet de la tâche, adopte un registre oral avec vouvoiement, et ne dépasse pas 2 phrases au total. Ne répète pas une question déjà posée.
+Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réaction + ta question de relance, en français>"}`;
+
+export const finalSystem = (lang) => `You are a certified TCF Canada examiner. You just conducted the Expression orale section as a short interview: the candidate answered the task prompt, then ${MAX_FOLLOW_UPS} follow-up questions. You are given the full dialogue; the candidate's lines are Whisper transcripts, so ignore minor transcription noise and DO NOT judge pronunciation or accent.
+Evaluate ONLY the candidate's contributions: relevance to the task, how well they developed and defended their answers under the follow-up questions, vocabulary range, grammar, and fluency/coherence.
+Be encouraging but honest and concrete. Estimate a CEFR level (A1, A2, B1, B2, C1 or C2).
+Write ALL feedback in ${lang === "en" ? "English" : "French"}.
+Respond with ONLY a minified JSON object of this exact shape:
+{"level":"<CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
+"strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
+
+// The client echoes the conversation back each turn; clamp it so a tampered
+// payload can't smuggle an arbitrary prompt volume into the billable call.
+function sanitizeHistory(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .slice(0, 2 + MAX_FOLLOW_UPS * 2)
+    .map((m) => ({
+      role: m?.role === "examiner" ? "examiner" : "candidate",
+      text: String(m?.text || "").trim().slice(0, 2000),
+    }))
+    .filter((m) => m.text);
+}
+
+async function dialogueTurn(res, user, body) {
+  const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+  if (!audio) throw new HttpError(400, "No audio was received.");
+  const buffer = Buffer.from(audio, "base64");
+  if (!buffer.length) throw new HttpError(400, "The audio was empty.");
+
+  const transcribeStart = Date.now();
+  const transcript = await groqTranscribe(buffer, {
+    filename: `speech.${extForMime(mime)}`,
+    mime,
+    language: "fr",
+  });
+  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
+
+  // Same near-silence guard as the one-shot mode: let the client re-prompt
+  // the user instead of feeding an empty answer to the examiner.
+  if (!transcript || transcript.replace(/\s/g, "").length < 3) {
+    return res.status(200).json({ transcript: transcript || "", empty: true });
+  }
+
+  const history = sanitizeHistory(body.history);
+  const followUpsAsked = history.filter((m) => m.role === "examiner").length;
+  const dialogue = [...history, { role: "candidate", text: transcript.slice(0, 4000) }]
+    .map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`)
+    .join("\n");
+  const userMsg = [
+    taskLabel && `Tâche : ${taskLabel}`,
+    prompt && `Consigne donnée au candidat : ${prompt}`,
+    `Dialogue :\n"""\n${dialogue}\n"""`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const chatStart = Date.now();
+  if (followUpsAsked < MAX_FOLLOW_UPS) {
+    const { json: raw, usage } = await groqChatJSON([
+      { role: "system", content: followUpSystem },
+      { role: "user", content: userMsg },
+    ]);
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
+    const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
+    if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
+    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false });
+  }
+
+  const { json: raw, usage } = await groqChatJSON([
+    { role: "system", content: finalSystem(lang) },
+    { role: "user", content: userMsg },
+  ]);
+  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
+  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), done: true });
+}
+
+/* ------------------------------- shared bits ------------------------------- */
 
 // Whisper accepts several containers; map the browser MIME to a matching
 // extension so the multipart filename doesn't mislead the decoder.
@@ -30,6 +126,8 @@ export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     const user = await requirePremium(req);
+
+    if (req.body?.mode === "dialogue") return await dialogueTurn(res, user, req.body);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     if (!audio) throw new HttpError(400, "No audio was received.");

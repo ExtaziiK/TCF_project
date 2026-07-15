@@ -57,6 +57,16 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang })
   return postJSON("/api/expression-orale", { audio: audioBase64, mime, prompt, taskLabel, lang });
 }
 
+// One turn of the oral-interview simulation. `history` is the dialogue so far
+// as [{ role: "examiner" | "candidate", text }]. Returns either the next
+// follow-up question ({ transcript, reply, followUp, done: false }) or, once
+// the last follow-up has been answered, the final evaluation
+// ({ transcript, feedback, done: true }). `empty: true` means no speech was
+// detected — the caller should re-prompt instead of advancing the dialogue.
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, lang }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, lang });
+}
+
 // Reads a recorded Blob as a bare base64 string (no data: prefix).
 export function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
