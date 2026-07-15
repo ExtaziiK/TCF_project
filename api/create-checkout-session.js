@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   if (userError || !userData?.user) return res.status(401).json({ error: "Invalid session" });
   const user = userData.user;
 
-  const { priceId } = req.body || {};
+  const { priceId, promoCode } = req.body || {};
   if (!priceId) return res.status(400).json({ error: "Missing priceId" });
 
   // A user whose Premium is still active must manage/upgrade through the
@@ -32,6 +32,16 @@ export default async function handler(req, res) {
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
   try {
+    // A code applied on the Pricing page is attached to the session directly;
+    // otherwise Stripe's own promo-code field is enabled on the checkout page
+    // (the two options are mutually exclusive in the Stripe API).
+    let discounts = null;
+    if (promoCode) {
+      const { data } = await stripe.promotionCodes.list({ code: String(promoCode).trim().toUpperCase(), active: true, limit: 1 });
+      if (!data[0]) return res.status(400).json({ error: "invalid-promo" });
+      discounts = [{ promotion_code: data[0].id }];
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
@@ -39,6 +49,7 @@ export default async function handler(req, res) {
       // Reuse the Stripe customer from a previous subscription (stored by the
       // webhook) so re-subscribing doesn't create a duplicate customer record.
       ...(meta.stripe_customer_id ? { customer: meta.stripe_customer_id } : { customer_email: user.email }),
+      ...(discounts ? { discounts } : { allow_promotion_codes: true }),
       metadata: { supabase_user_id: user.id },
       subscription_data: { metadata: { supabase_user_id: user.id } },
       success_url: `${origin}/?checkout=success`,

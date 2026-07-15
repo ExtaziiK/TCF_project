@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { startCheckout } from "@/services/stripeService";
 
-export function PlanCard({ p, compact }) {
+export function PlanCard({ p, compact, promo }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
 
@@ -12,11 +12,13 @@ export function PlanCard({ p, compact }) {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
     setBusy(true);
     try {
-      await startCheckout(p.priceId);
+      await startCheckout(p.priceId, promo);
     } catch (err) {
       notify(t(err?.message === "already-subscribed"
         ? "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil."
-        : "Impossible de démarrer le paiement. Réessayez."));
+        : err?.message === "invalid-promo"
+          ? "Ce code promo n'est plus valide. Retirez-le et réessayez."
+          : "Impossible de démarrer le paiement. Réessayez."));
       setBusy(false);
     }
   };

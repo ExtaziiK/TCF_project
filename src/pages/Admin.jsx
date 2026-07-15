@@ -3,6 +3,7 @@ import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
+  Ticket, Plus,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -13,7 +14,9 @@ import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
+  listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
+import { promoLabel } from "@/services/stripeService";
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -263,6 +266,156 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
   );
 }
 
+/* ------------------------------- promo codes ------------------------------ */
+
+const DURATION_LABELS = { once: "Premier paiement", repeating: "mois", forever: "Tous les paiements" };
+const promoDuration = (p) =>
+  p.duration === "repeating" ? `${p.durationInMonths} ${DURATION_LABELS.repeating}` : DURATION_LABELS[p.duration] || p.duration;
+
+const EMPTY_PROMO_FORM = { code: "", type: "percent", value: "", duration: "once", months: "3", maxRedemptions: "", expiresAt: "" };
+
+function PromosTab() {
+  const { c, notify } = useApp();
+  const [codes, setCodes] = useState(null);
+  const [state, setState] = useState("loading");
+  const [form, setForm] = useState(EMPTY_PROMO_FORM);
+  const [formError, setFormError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const set = (k) => (e) => { setForm({ ...form, [k]: e.target.value }); setFormError(""); };
+  const inp = `px-3.5 py-2.5 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  const load = () => {
+    listPromoCodes().then((r) => {
+      if (r.ok) { setCodes(r.data.codes); setState("ready"); }
+      else setState(r.unavailable ? "unavailable" : "error");
+    });
+  };
+  useEffect(load, []);
+
+  const create = async () => {
+    if (!form.code.trim()) return setFormError("Indiquez le code (ex. : BIENVENUE20).");
+    if (!(Number(form.value) > 0)) return setFormError(form.type === "percent" ? "Indiquez le pourcentage de rabais." : "Indiquez le montant du rabais en dollars.");
+    setBusy(true);
+    const r = await createPromoCode({
+      code: form.code.trim().toUpperCase(),
+      ...(form.type === "percent" ? { percentOff: Number(form.value) } : { amountOff: Number(form.value) }),
+      duration: form.duration,
+      durationInMonths: form.duration === "repeating" ? Number(form.months) : null,
+      maxRedemptions: Number(form.maxRedemptions) || null,
+      expiresAt: form.expiresAt ? `${form.expiresAt}T23:59:59` : null,
+    });
+    setBusy(false);
+    if (!r.ok) return setFormError(r.error || "Création refusée.");
+    notify(`Code ${r.data.code.code} créé.`);
+    setForm(EMPTY_PROMO_FORM);
+    load();
+  };
+
+  const toggle = async (p) => {
+    setBusy(true);
+    const r = await togglePromoCode(p.id, !p.active);
+    setBusy(false);
+    if (!r.ok) return notify(r.error || "Action refusée.");
+    notify(p.active ? `Code ${p.code} désactivé.` : `Code ${p.code} réactivé.`);
+    load();
+  };
+
+  if (state === "unavailable") {
+    return <UnavailableCard>La gestion des codes promo passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
+  }
+  if (state === "error") return <UnavailableCard>Impossible de charger les codes promo. Vérifiez la clé Stripe et réessayez.</UnavailableCard>;
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Créer un code promo</h3>
+        <p className={`text-sm mb-5 ${c.sub}`}>Le code est créé dans Stripe (coupon + code promotionnel) : limites d'utilisation et expiration sont appliquées par Stripe au moment du paiement. Les clients l'entrent sur la page Tarifs ou directement sur la page de paiement Stripe.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="promo-code">Code</label>
+            <input id="promo-code" value={form.code} onChange={set("code")} placeholder="BIENVENUE20" className={`w-full font-mono2 ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="promo-value">Rabais</label>
+            <div className="flex gap-2">
+              <input id="promo-value" type="number" min="1" value={form.value} onChange={set("value")} placeholder={form.type === "percent" ? "20" : "5"} className={`w-full ${inp}`} />
+              <select value={form.type} onChange={set("type")} aria-label="Type de rabais" className={inp}>
+                <option value="percent">%</option>
+                <option value="amount">$ CAD</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="promo-duration">S'applique sur</label>
+            <div className="flex gap-2">
+              <select id="promo-duration" value={form.duration} onChange={set("duration")} className={`w-full ${inp}`}>
+                <option value="once">Le premier paiement</option>
+                <option value="repeating">Plusieurs mois</option>
+                <option value="forever">Tous les paiements</option>
+              </select>
+              {form.duration === "repeating" && (
+                <input type="number" min="1" max="36" value={form.months} onChange={set("months")} aria-label="Nombre de mois" className={`w-20 ${inp}`} />
+              )}
+            </div>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="promo-max">Limite d'utilisations <span className="normal-case font-medium">(optionnel)</span></label>
+            <input id="promo-max" type="number" min="1" value={form.maxRedemptions} onChange={set("maxRedemptions")} placeholder="Illimité" className={`w-full ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="promo-exp">Expire le <span className="normal-case font-medium">(optionnel)</span></label>
+            <input id="promo-exp" type="date" value={form.expiresAt} onChange={set("expiresAt")} className={`w-full ${inp}`} />
+          </div>
+          <div className="flex items-end">
+            <Btn icon={Plus} disabled={busy} onClick={create} className="w-full">{busy ? "Création…" : "Créer le code"}</Btn>
+          </div>
+        </div>
+        {formError && <p className="mt-3 text-sm text-rose-600 flex items-center gap-1.5"><XCircle size={15} /> {formError}</p>}
+      </Card>
+
+      <Card className="p-6 overflow-x-auto">
+        <h3 className={`font-display font-bold mb-4 ${c.text}`}>Codes existants</h3>
+        {state === "loading" || codes === null ? (
+          <p className={`text-sm py-8 text-center ${c.faint}`}>Chargement…</p>
+        ) : codes.length === 0 ? (
+          <p className={`text-sm py-8 text-center ${c.faint}`}>Aucun code promo pour l'instant.</p>
+        ) : (
+          <table className="w-full text-sm min-w-[680px]">
+            <thead>
+              <tr className={`text-left text-xs uppercase tracking-wider ${c.faint}`}>
+                <th className="pb-3 pr-4 font-semibold">Code</th>
+                <th className="pb-3 pr-4 font-semibold">Rabais</th>
+                <th className="pb-3 pr-4 font-semibold">S'applique sur</th>
+                <th className="pb-3 pr-4 font-semibold">Utilisations</th>
+                <th className="pb-3 pr-4 font-semibold">Expire</th>
+                <th className="pb-3 pr-4 font-semibold">Statut</th>
+                <th className="pb-3 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {codes.map((p) => (
+                <tr key={p.id} className={`border-t ${c.border}`}>
+                  <td className={`py-3 pr-4 font-mono2 font-semibold ${c.text}`}>{p.code}</td>
+                  <td className="py-3 pr-4"><Pill tone="blue">{promoLabel(p)}</Pill></td>
+                  <td className={`py-3 pr-4 text-xs ${c.sub}`}>{promoDuration(p)}</td>
+                  <td className={`py-3 pr-4 text-xs font-mono2 ${c.sub}`}>{p.timesRedeemed}{p.maxRedemptions ? ` / ${p.maxRedemptions}` : ""}</td>
+                  <td className={`py-3 pr-4 text-xs ${c.sub}`}>{p.expiresAt ? dateOnly(p.expiresAt) : "—"}</td>
+                  <td className="py-3 pr-4"><Pill tone={p.active ? "green" : "slate"}>{p.active ? "Actif" : "Inactif"}</Pill></td>
+                  <td className="py-3">
+                    <Btn small variant="ghost" disabled={busy} className={p.active ? "text-rose-600" : ""} onClick={() => toggle(p)}>
+                      {p.active ? "Désactiver" : "Réactiver"}
+                    </Btn>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* ---------------------------------- usage --------------------------------- */
 
 const fmtBytes = (n) => {
@@ -479,6 +632,8 @@ const AUDIT_LABELS = {
   "set-plan": ["Forfait modifié", "blue"],
   "set-role": ["Rôle modifié", "red"],
   "delete-user": ["Compte supprimé", "amber"],
+  "create-promo": ["Code promo créé", "green"],
+  "toggle-promo": ["Code promo modifié", "slate"],
 };
 
 function AuditTab() {
@@ -569,6 +724,7 @@ export function Admin() {
     { id: "questions", l: "Questions", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "promos", l: "Promos", icon: Ticket },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
   ];
@@ -627,6 +783,7 @@ export function Admin() {
         </div>
       )}
       {tab === "messages" && <MessagesTab />}
+      {tab === "promos" && <PromosTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
     </PageShell>

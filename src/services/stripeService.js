@@ -1,9 +1,10 @@
 import { supabase } from "@/services/supabaseClient";
 
-// Starts a Stripe Checkout session for the given price and redirects the
-// browser to Stripe's hosted payment page. The session is created server-side
-// (api/create-checkout-session) since it needs the Stripe secret key.
-export async function startCheckout(priceId) {
+// Starts a Stripe Checkout session for the given price (optionally carrying a
+// validated promo code) and redirects the browser to Stripe's hosted payment
+// page. The session is created server-side (api/create-checkout-session)
+// since it needs the Stripe secret key.
+export async function startCheckout(priceId, promoCode) {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error("not-authenticated");
@@ -11,11 +12,37 @@ export async function startCheckout(priceId) {
   const res = await fetch("/api/create-checkout-session", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ priceId }),
+    body: JSON.stringify({ priceId, promoCode: promoCode || null }),
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "checkout-failed");
   window.location.href = json.url;
+}
+
+// Checks a promo code against Stripe (api/promo-validate) so the Pricing page
+// can show the real discount before checkout. Fails closed: network errors or
+// the local-dev 404 read as "not valid" (with `unavailable` set for the 404
+// so the UI can explain why).
+export async function validatePromoCode(code) {
+  try {
+    const res = await fetch(`/api/promo-validate?code=${encodeURIComponent(code)}`);
+    // Local `vite` has no serverless routes: GET /api/* returns 404 or the raw
+    // source file (200, text/javascript) — either way, not a JSON verdict.
+    const isJson = (res.headers.get("content-type") || "").includes("json");
+    if (res.status === 404 || !isJson) return { valid: false, unavailable: true };
+    const json = await res.json().catch(() => ({}));
+    return res.ok && json.valid ? json : { valid: false };
+  } catch {
+    return { valid: false };
+  }
+}
+
+// Human label for a promo discount ("−20 %", "−5 $ CAD").
+export function promoLabel(promo) {
+  if (!promo) return "";
+  return promo.percentOff
+    ? `−${promo.percentOff} %`
+    : `−${formatAmount(promo.amountOff || 0, promo.currency || "cad")}`;
 }
 
 // Redirects a subscriber to the Stripe billing portal (manage card, invoices,

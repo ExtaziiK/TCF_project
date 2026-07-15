@@ -56,6 +56,21 @@ export function updateAdminUser(payload) {
   return adminFetch("/api/admin/users", { method: "POST", body: JSON.stringify(payload) });
 }
 
+/* ------------------------------- promo codes ------------------------------ */
+
+export function listPromoCodes() {
+  return adminFetch("/api/admin/promo");
+}
+
+// { code, percentOff | amountOff, duration, durationInMonths?, maxRedemptions?, expiresAt? }
+export function createPromoCode(payload) {
+  return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "create", ...payload }) });
+}
+
+export function togglePromoCode(id, active) {
+  return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "toggle", id, active }) });
+}
+
 /* ---------------------------- contact messages ---------------------------- */
 
 // Public form submission (Contact page) — RLS allows anyone to insert.
