@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "../_lib/auth.js";
-import { HttpError } from "../_lib/groq.js";
+import { requireAdmin } from "../auth.js";
+import { HttpError } from "../groq.js";
 
 // Promo code management (admin only). Codes live in Stripe — a Coupon holds
 // the discount, a Promotion Code is its customer-facing name — so redemption,

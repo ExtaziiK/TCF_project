@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "../_lib/auth.js";
-import { HttpError } from "../_lib/groq.js";
+import { requireAdmin } from "../auth.js";
+import { HttpError } from "../groq.js";
 
 // Admin user management. Runs server-side because listing accounts (emails)
 // and editing app_metadata (plan, role) require the service-role key — the

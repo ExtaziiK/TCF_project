@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "../_lib/auth.js";
-import { HttpError } from "../_lib/groq.js";
+import { requireAdmin } from "../auth.js";
+import { HttpError } from "../groq.js";
 
 // Platform stats for the admin overview. Server-side because account data
 // (auth.users) is only reachable with the service-role key; activity counts

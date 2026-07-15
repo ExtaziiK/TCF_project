@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "../_lib/auth.js";
-import { HttpError } from "../_lib/groq.js";
+import { requireAdmin } from "../auth.js";
+import { HttpError } from "../groq.js";
 
 // Usage & consumption for the admin "Utilisation" tab:
 // - AI (Groq): aggregated from our own meter (ai_usage_log) — Groq has no
