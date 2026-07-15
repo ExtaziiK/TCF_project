@@ -65,8 +65,8 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang })
 // server-synthesized speech ({ audio: <base64>, audioMime }); when absent the
 // client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, lang }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, lang });
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang });
 }
 
 // Reads a recorded Blob as a bare base64 string (no data: prefix).

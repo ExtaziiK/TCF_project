@@ -45,6 +45,55 @@ Respond with ONLY a minified JSON object of this exact shape:
 {"level":"<CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
 "strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
 
+// A silent/near-silent recording gets up to this many spoken re-prompts
+// ("I didn't hear you, please answer") before the interview stops nagging.
+// These re-prompts are NOT follow-up questions — they don't count against
+// MAX_FOLLOW_UPS.
+export const MAX_EMPTY_REPROMPTS = 2;
+
+const EMPTY_REPROMPTS = [
+  "Je n'ai pas entendu votre réponse. Prenez votre temps, puis répondez à la question.",
+  "Je n'ai toujours rien entendu. Vérifiez votre micro et reprenez votre réponse, s'il vous plaît.",
+];
+
+// Whisper invents boilerplate captions when handed silence/noise — the most
+// common French ones are TV-subtitle and YouTube-outro credits. Normalize the
+// transcript (lowercase, strip accents/punctuation) and, if what remains after
+// removing these phrases is trivial, treat the whole thing as "nothing said".
+const WHISPER_HALLUCINATIONS = [
+  "sous titrage societe radio canada",
+  "sous titrage st 501",
+  "sous titres realises par la communaute d amara org",
+  "sous titres faits par la communaute d amara org",
+  "merci d avoir regarde cette video",
+  "merci d avoir regarde la video",
+  "merci a tous et a la prochaine",
+  "merci a tous et a bientot",
+  "abonnez vous",
+  "par soustitreur com",
+  "amara org",
+  "merci",
+].sort((a, b) => b.length - a.length); // strip longest phrases first
+
+function normalizeTranscript(s) {
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// True when the recording carries no real speech: empty, near-silent, or only
+// a Whisper hallucination (possibly repeated).
+function isSilent(transcript) {
+  if (!transcript || transcript.replace(/\s/g, "").length < 3) return true;
+  let norm = normalizeTranscript(transcript);
+  for (const phrase of WHISPER_HALLUCINATIONS) norm = norm.split(phrase).join(" ");
+  return norm.replace(/\s/g, "").length < 3;
+}
+
 // The client echoes the conversation back each turn; clamp it so a tampered
 // payload can't smuggle an arbitrary prompt volume into the billable call.
 function sanitizeHistory(raw) {
@@ -72,24 +121,7 @@ async function dialogueTurn(res, user, body) {
   });
   logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
 
-  // Same near-silence guard as the one-shot mode: let the client re-prompt
-  // the user instead of feeding an empty answer to the examiner.
-  if (!transcript || transcript.replace(/\s/g, "").length < 3) {
-    return res.status(200).json({ transcript: transcript || "", empty: true });
-  }
-
   const history = sanitizeHistory(body.history);
-  const followUpsAsked = history.filter((m) => m.role === "examiner").length;
-  const dialogue = [...history, { role: "candidate", text: transcript.slice(0, 4000) }]
-    .map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`)
-    .join("\n");
-  const userMsg = [
-    taskLabel && `Tâche : ${taskLabel}`,
-    prompt && `Consigne donnée au candidat : ${prompt}`,
-    `Dialogue :\n"""\n${dialogue}\n"""`,
-  ]
-    .filter(Boolean)
-    .join("\n");
 
   // Voices an examiner line via the TTS provider; null (no key / API failure)
   // degrades to a text-only turn, spoken client-side if a voice exists there.
@@ -101,6 +133,44 @@ async function dialogueTurn(res, user, body) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
     return { audio: tts.audio, audioMime: "audio/mpeg" };
   };
+
+  const buildUserMsg = (dialogue) =>
+    [
+      taskLabel && `Tâche : ${taskLabel}`,
+      prompt && `Consigne donnée au candidat : ${prompt}`,
+      `Dialogue :\n"""\n${dialogue}\n"""`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`).join("\n");
+
+  // Nothing intelligible was said (silence, or only a Whisper hallucination).
+  // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
+  // asking a new follow-up (these turns never enter `history`, so they don't
+  // count against MAX_FOLLOW_UPS). Once the cap is hit we stop nagging and end
+  // the interview: grade what was actually said, or, if nothing was, close out.
+  if (isSilent(transcript)) {
+    const emptyStreak = Math.max(0, Math.min(10, Number(body.emptyStreak) || 0));
+    if (emptyStreak < MAX_EMPTY_REPROMPTS) {
+      const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
+      return res.status(200).json({ empty: true, transcript: "", reprompt: line, ...(await voiceLine(line)) });
+    }
+    if (!history.some((m) => m.role === "candidate")) {
+      const line = "Je n'ai pas entendu de réponse. Nous allons nous arrêter ici ; vous pourrez reprendre l'entretien quand vous le souhaitez.";
+      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
+    }
+    const gradeStart = Date.now();
+    const { json: rawGrade, usage: gradeUsage } = await groqChatJSON([
+      { role: "system", content: finalSystem(lang) },
+      { role: "user", content: buildUserMsg(renderDialogue(history)) },
+    ]);
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
+    const closing = "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici. Voici mon évaluation.";
+    return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade), closing, ...(await voiceLine(closing)) });
+  }
+
+  const followUpsAsked = history.filter((m) => m.role === "examiner").length;
+  const userMsg = buildUserMsg(renderDialogue([...history, { role: "candidate", text: transcript.slice(0, 4000) }]));
 
   const chatStart = Date.now();
   if (followUpsAsked < MAX_FOLLOW_UPS) {

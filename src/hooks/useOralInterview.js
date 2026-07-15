@@ -12,6 +12,7 @@ const pickMime = () =>
     : undefined;
 
 export const MAX_FOLLOW_UPS = 3; // keep in sync with api/expression-orale.js
+export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most this many times
 const FOLLOW_UP_ANSWER_SECS = 90; // answers to follow-ups are shorter than the main answer
 const DEFAULT_REVIEW_SECS = 60; // tasks without official prep still get review time
 
@@ -32,8 +33,10 @@ export function useOralInterview(task, notify) {
   const [count, setCount] = useState(0);
   const [turns, setTurns] = useState([]); // { id, role: "examiner"|"candidate", text, url?, failed? }
   const [feedback, setFeedback] = useState(null);
+  const [ended, setEnded] = useState(false); // interview stopped after too many silent answers, no grade
   const [error, setError] = useState("");
   const nextId = useRef(1);
+  const emptyStreak = useRef(0); // consecutive silent answers at the current question
   const ttsHintShown = useRef(false);
   const playerRef = useRef(null); // examiner audio currently playing
   const streamRef = useRef(null);
@@ -46,7 +49,9 @@ export function useOralInterview(task, notify) {
   taskRef.current = task;
 
   const reviewSecs = task.prep > 0 ? task.prep : DEFAULT_REVIEW_SECS;
-  const followUpsAsked = turns.filter((tn) => tn.role === "examiner" && !tn.closing).length;
+  // Only real follow-up questions count; silent-answer re-prompts and the
+  // closing line don't.
+  const followUpsAsked = turns.filter((tn) => tn.role === "examiner" && !tn.closing && !tn.reprompt).length;
 
   const releaseStream = () => {
     streamRef.current?.getTracks().forEach((tr) => tr.stop());
@@ -128,9 +133,10 @@ export function useOralInterview(task, notify) {
     }
     try {
       const audioBase64 = await blobToBase64(blob);
-      // Failed attempts stay visible in the dialogue but are not part of it.
+      // Only real exchanges are part of the dialogue: silent attempts
+      // (emptyRec), re-prompts, and failed attempts are display-only.
       const history = turnsRef.current
-        .filter((tn) => !tn.failed && tn.text)
+        .filter((tn) => !tn.failed && !tn.reprompt && !tn.emptyRec && tn.text)
         .map(({ role, text }) => ({ role, text }));
       const res = await speakingDialogueTurn({
         audioBase64,
@@ -138,16 +144,48 @@ export function useOralInterview(task, notify) {
         prompt: taskRef.current.prompt,
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
         history,
+        emptyStreak: emptyStreak.current,
         lang,
       });
 
+      const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
+
+      // Nothing intelligible was said (silence or a Whisper hallucination).
       if (res.empty) {
-        fail(t("Aucune parole détectée dans l'enregistrement. Réessayez."));
+        // Keep the silent take visible so the user can replay and notice their
+        // mic was quiet, but it's not part of the graded dialogue.
+        if (url) addTurn({ role: "candidate", url, emptyRec: true });
+
+        // Cap reached: the examiner stops re-prompting and closes out —
+        // grading what was said (res.done) or ending without a grade (ended).
+        if (res.capped) {
+          releaseStream();
+          emptyStreak.current = 0;
+          const line = res.closing || res.reprompt || t("Nous allons nous arrêter ici.");
+          addTurn({ role: "examiner", text: line, closing: true, audioUrl: examinerAudio });
+          if (res.done) setFeedback(res.feedback || null);
+          else setEnded(true);
+          setPhase("done");
+          sayLine(line, examinerAudio, noteUnspoken);
+          return;
+        }
+
+        // Under the cap: re-prompt the same question. This examiner turn is a
+        // re-prompt (reprompt:true) so it never counts as a follow-up.
+        emptyStreak.current += 1;
+        const line = res.reprompt || t("Je n'ai pas entendu votre réponse. Réessayez.");
+        addTurn({ role: "examiner", text: line, reprompt: true, audioUrl: examinerAudio });
+        setPhase("speaking");
+        sayLine(line, examinerAudio, (spoken) => {
+          noteUnspoken(spoken);
+          setPhase((p) => (p === "speaking" ? "ready" : p));
+        });
         return;
       }
-      addTurn({ role: "candidate", text: res.transcript, url });
 
-      const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
+      // A real answer resets the silent-answer streak.
+      emptyStreak.current = 0;
+      addTurn({ role: "candidate", text: res.transcript, url });
 
       if (res.done) {
         releaseStream();
@@ -198,7 +236,7 @@ export function useOralInterview(task, notify) {
     setPhase("rec");
     // First answer gets the task's official speaking time; follow-up answers
     // are shorter, like the real examiner's relances.
-    const firstAnswer = !turnsRef.current.some((tn) => tn.role === "candidate" && !tn.failed);
+    const firstAnswer = !turnsRef.current.some((tn) => tn.role === "candidate" && !tn.failed && !tn.emptyRec);
     setCount(firstAnswer ? taskRef.current.dur : Math.min(taskRef.current.dur, FOLLOW_UP_ANSWER_SECS));
   };
 
@@ -223,10 +261,12 @@ export function useOralInterview(task, notify) {
     abortRecorder();
     releaseStream();
     stopExaminerAudio();
+    emptyStreak.current = 0;
     setPhase("idle");
     setCount(0);
     setTurns([]);
     setFeedback(null);
+    setEnded(false);
     setError("");
   };
 
@@ -282,5 +322,5 @@ export function useOralInterview(task, notify) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }

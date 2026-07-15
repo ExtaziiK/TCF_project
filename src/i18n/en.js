@@ -631,6 +631,14 @@ export const EN = {
   "Répondre": "Answer",
   "Refaire un entretien": "Do another interview",
   "Aucune parole détectée dans l'enregistrement. Réessayez.": "No speech detected in the recording. Try again.",
+  "Je n'ai pas entendu votre réponse. Réessayez.": "I didn't hear your answer. Please try again.",
+  "Nous allons nous arrêter ici.": "We'll stop here.",
+  "Examinateur · relance micro": "Examiner · mic check",
+  "Rien entendu": "Nothing heard",
+  "Entretien interrompu": "Interview interrupted",
+  "Nous n'avons rien entendu à plusieurs reprises, alors l'entretien s'est arrêté. Vérifiez votre micro, puis relancez un entretien.":
+    "We couldn't hear anything several times, so the interview stopped. Check your microphone, then start a new interview.",
+  "Entretien interrompu, faute de réponse audible.": "Interview interrupted — no audible answer.",
   "Simulation indisponible ici (fonctions serverless non déployées).": "Simulation unavailable here (serverless functions not deployed).",
   "Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système.":
     "No French voice in this browser: questions are shown in writing only. Try Microsoft Edge or install a French voice on your system.",
