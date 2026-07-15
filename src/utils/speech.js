@@ -35,7 +35,9 @@ function scoreVoice(v) {
 
 function pickFrenchVoice() {
   if (!voices.length) refreshVoices();
-  const fr = voices.filter((v) => /^fr([-_]|$)/i.test(v.lang));
+  // Match by lang, with the name as fallback (some engines expose French
+  // voices with an empty or malformed lang).
+  const fr = voices.filter((v) => /^fr([-_]|$)/i.test(v.lang) || /fran[cç]ais|french/i.test(v.name));
   if (!fr.length) return null;
   return fr.reduce((best, v) => (scoreVoice(v) > scoreVoice(best) ? v : best));
 }
@@ -71,29 +73,33 @@ function whenVoicesReady(cb) {
 }
 
 // Speaks `text` in French and always calls `onEnd` exactly once — on normal
-// completion, on error, on cancel, or immediately when TTS is unavailable
-// (the caller uses it to advance the interview state machine).
+// completion, on error, on cancel, or immediately when speech is skipped
+// (the caller uses it to advance the interview state machine). `onEnd`
+// receives `spoken`: false means no audio was produced. When the browser has
+// NO French voice at all we deliberately stay silent — an English voice
+// mangling French sounds broken, and the question is on screen anyway.
 export function speak(text, onEnd) {
   const cleaned = canSpeak() ? cleanForSpeech(text || "") : "";
-  if (!cleaned) { onEnd?.(); return; }
+  if (!cleaned) { onEnd?.(false); return; }
   const synth = window.speechSynthesis;
   synth.cancel(); // never queue behind a previous utterance
 
   let ended = false;
-  const finish = () => { if (!ended) { ended = true; onEnd?.(); } };
+  const finish = (spoken) => { if (!ended) { ended = true; onEnd?.(spoken); } };
 
   whenVoicesReady(() => {
     if (ended) return;
-    const u = new window.SpeechSynthesisUtterance(cleaned);
     const voice = pickFrenchVoice();
-    if (voice) u.voice = voice;
-    u.lang = voice?.lang || "fr-FR";
+    if (!voice) { finish(false); return; }
+    const u = new window.SpeechSynthesisUtterance(cleaned);
+    u.voice = voice;
+    u.lang = voice.lang || "fr-FR";
     // Neural voices sound best at natural speed; robotic ones gain a lot of
     // intelligibility from a slight slowdown.
-    u.rate = voice && scoreVoice(voice) >= 5 ? 1 : 0.92;
-    u.onend = finish;
-    u.onerror = finish;
-    try { synth.speak(u); } catch { finish(); }
+    u.rate = scoreVoice(voice) >= 5 ? 1 : 0.92;
+    u.onend = () => finish(true);
+    u.onerror = () => finish(false);
+    try { synth.speak(u); } catch { finish(false); }
   });
 }
 

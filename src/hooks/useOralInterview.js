@@ -34,6 +34,7 @@ export function useOralInterview(task, notify) {
   const [feedback, setFeedback] = useState(null);
   const [error, setError] = useState("");
   const nextId = useRef(1);
+  const ttsHintShown = useRef(false);
   const streamRef = useRef(null);
   const recorderRef = useRef(null);
   const chunksRef = useRef([]);
@@ -54,6 +55,14 @@ export function useOralInterview(task, notify) {
   const addTurn = (turn) => {
     const id = `turn-${nextId.current++}`;
     setTurns((ts) => [...ts, { id, ...turn }]);
+  };
+
+  // speak() stays silent when the browser has no French voice (better than an
+  // English voice mangling the question); explain that once per interview.
+  const noteUnspoken = (spoken) => {
+    if (spoken || ttsHintShown.current) return;
+    ttsHintShown.current = true;
+    notify(t("Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système."));
   };
 
   // Assembles the recording and plays one dialogue turn against the server:
@@ -108,13 +117,16 @@ export function useOralInterview(task, notify) {
         addTurn({ role: "examiner", text: closing, closing: true });
         setFeedback(res.feedback || null);
         setPhase("done");
-        speak(closing, () => {});
+        speak(closing, noteUnspoken);
         return;
       }
 
       addTurn({ role: "examiner", text: res.reply });
       setPhase("speaking");
-      speak(res.reply, () => setPhase((p) => (p === "speaking" ? "ready" : p)));
+      speak(res.reply, (spoken) => {
+        noteUnspoken(spoken);
+        setPhase((p) => (p === "speaking" ? "ready" : p));
+      });
     } catch (err) {
       const msg =
         err instanceof AiError && (err.status === 404 || err.status === 0)

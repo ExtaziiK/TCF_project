@@ -632,6 +632,8 @@ export const EN = {
   "Refaire un entretien": "Do another interview",
   "Aucune parole détectée dans l'enregistrement. Réessayez.": "No speech detected in the recording. Try again.",
   "Simulation indisponible ici (fonctions serverless non déployées).": "Simulation unavailable here (serverless functions not deployed).",
+  "Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système.":
+    "No French voice in this browser: questions are shown in writing only. Try Microsoft Edge or install a French voice on your system.",
   "L'analyse a échoué. Réessayez.": "The analysis failed. Try again.",
   "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.":
     "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, browser speech synthesis voice.",
