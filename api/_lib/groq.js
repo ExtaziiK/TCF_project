@@ -21,9 +21,13 @@ function groqKey() {
   return key;
 }
 
-// Chat completion that returns parsed JSON. gpt-oss models emit reasoning
+// Chat completion that returns the parsed JSON plus Groq's token usage
+// (metered into ai_usage_log by the callers). gpt-oss models emit reasoning
 // tokens before the answer, so we keep reasoning low, force JSON output, and
 // leave a generous token budget for the structured feedback.
+export const CHAT_MODEL_NAME = CHAT_MODEL;
+export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
+
 export async function groqChatJSON(messages, { maxTokens = 2000 } = {}) {
   const res = await fetch(`${GROQ_BASE}/chat/completions`, {
     method: "POST",
@@ -44,7 +48,7 @@ export async function groqChatJSON(messages, { maxTokens = 2000 } = {}) {
   const data = await res.json();
   const content = data?.choices?.[0]?.message?.content || "";
   try {
-    return JSON.parse(content);
+    return { json: JSON.parse(content), usage: data?.usage || null };
   } catch {
     throw new HttpError(502, "The AI returned a response we couldn't parse.");
   }

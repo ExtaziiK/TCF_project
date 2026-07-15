@@ -1,5 +1,6 @@
 import { requirePremium } from "./_lib/auth.js";
-import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError } from "./_lib/groq.js";
+import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
+import { logAiUsage } from "./_lib/usage.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -28,7 +29,7 @@ function extForMime(mime = "") {
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    await requirePremium(req);
+    const user = await requirePremium(req);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     if (!audio) throw new HttpError(400, "No audio was received.");
@@ -36,11 +37,13 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(audio, "base64");
     if (!buffer.length) throw new HttpError(400, "The audio was empty.");
 
+    const transcribeStart = Date.now();
     const transcript = await groqTranscribe(buffer, {
       filename: `speech.${extForMime(mime)}`,
       mime,
       language: lang === "en" ? "en" : "fr",
     });
+    logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
 
     // Whisper hallucinates captions on near-silence; treat very short output
     // as "nothing said" and skip the (pointless) evaluation call.
@@ -56,10 +59,12 @@ export default async function handler(req, res) {
       .filter(Boolean)
       .join("\n");
 
-    const raw = await groqChatJSON([
+    const chatStart = Date.now();
+    const { json: raw, usage } = await groqChatJSON([
       { role: "system", content: system(lang) },
       { role: "user", content: userMsg },
     ]);
+    logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
     res.status(200).json({ transcript, ...normalizeFeedback(raw) });
   } catch (err) {

@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
-  ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2,
+  ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn } from "@/components/common";
+import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
 import { DayBars } from "@/components/dashboard/charts";
 import {
-  fetchAdminStats, listAdminUsers, updateAdminUser,
+  fetchAdminStats, fetchAdminUsage, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
 } from "@/services/adminService";
 
@@ -263,6 +263,145 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
   );
 }
 
+/* ---------------------------------- usage --------------------------------- */
+
+const fmtBytes = (n) => {
+  if (n == null) return "—";
+  if (n >= 1e9) return `${(n / 1e9).toFixed(2)} Go`;
+  if (n >= 1e6) return `${(n / 1e6).toFixed(1)} Mo`;
+  return `${Math.round(n / 1e3)} ko`;
+};
+const fmtTokens = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)} M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)} k` : String(n ?? 0));
+
+// Supabase Free plan ceilings; adjust if the project is upgraded (values
+// shown as denominators, they don't gate anything).
+const SUPABASE_LIMITS = { dbBytes: 500e6, storageBytes: 1e9, mau: 50000 };
+
+function LimitBar({ label, used, limit, format }) {
+  const { c } = useApp();
+  const pct = Math.min(100, Math.round((used / limit) * 100));
+  return (
+    <div>
+      <div className="flex justify-between text-xs mb-1">
+        <span className={`font-medium ${c.sub}`}>{label}</span>
+        <span className={`font-mono2 font-semibold ${pct >= 90 ? "text-rose-600" : pct >= 70 ? "text-amber-600" : c.text}`}>
+          {format(used)} / {format(limit)} · {pct} %
+        </span>
+      </div>
+      <ProgressBar pct={pct} tone={pct >= 70 ? "blue" : "grad"} />
+    </div>
+  );
+}
+
+function UsageTab() {
+  const { c } = useApp();
+  const [data, setData] = useState(null);
+  const [state, setState] = useState("loading");
+
+  useEffect(() => {
+    fetchAdminUsage().then((r) => {
+      if (r.ok) { setData(r.data); setState("ready"); }
+      else setState(r.unavailable ? "unavailable" : "error");
+    });
+  }, []);
+
+  if (state === "loading") return <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement de l'utilisation…</p></Card>;
+  if (state === "unavailable") {
+    return <UnavailableCard>Le suivi d'utilisation passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
+  }
+  if (state === "error") return <UnavailableCard>Impossible de charger l'utilisation. Réessayez.</UnavailableCard>;
+
+  const { ai, platform, mau } = data;
+  const storageTotal = platform ? (platform.storage || []).reduce((s, b) => s + (b.bytes || 0), 0) : null;
+
+  return (
+    <div className="space-y-4">
+      {/* ── IA (Groq) ── */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>IA — Groq (30 derniers jours)</h3>
+          <a href="https://console.groq.com/settings/billing" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+            Facturation exacte sur console.groq.com <ExternalLink size={12} />
+          </a>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré par la plateforme elle-même : chaque appel des ateliers d'expression est journalisé (Groq n'expose pas d'API d'utilisation).</p>
+        {!ai ? (
+          <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée — appliquez la migration <span className="font-mono2">20260715_usage_tracking.sql</span> ; les appels seront comptés à partir de là.</p>
+        ) : (
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              {[
+                [ai.calls30d, "Appels IA (30 j)", ai.calls7d > 0 ? `${ai.calls7d} ces 7 derniers jours` : null],
+                [fmtTokens(ai.promptTokens30d), "Jetons d'entrée", null],
+                [fmtTokens(ai.completionTokens30d), "Jetons de sortie", null],
+                [ai.transcriptions30d, "Transcriptions audio", `${fmtBytes(ai.audioBytes30d)} envoyés`],
+              ].map(([v, l, h]) => (
+                <div key={l}>
+                  <p className="font-display font-extrabold text-2xl grad-text">{v}</p>
+                  <p className={`text-sm font-medium mt-0.5 ${c.text}`}>{l}</p>
+                  {h && <p className={`text-xs mt-0.5 ${c.faint}`}>{h}</p>}
+                </div>
+              ))}
+            </div>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Appels par jour — 14 jours</p>
+                <DayBars days={ai.callsByDay} label="Appels IA par jour sur 14 jours" />
+              </div>
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Plus gros utilisateurs (30 j)</p>
+                {ai.topUsers.length === 0 ? (
+                  <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun appel sur la période.</p>
+                ) : (
+                  <div className="space-y-1">
+                    {ai.topUsers.map((u) => (
+                      <div key={u.email} className={`flex items-center justify-between px-3 py-2 rounded-xl ${c.hoverSoft}`}>
+                        <span className={`text-sm truncate ${c.text}`}>{u.email}</span>
+                        <span className={`text-xs font-mono2 shrink-0 ${c.sub}`}>{u.calls} appel{u.calls > 1 ? "s" : ""} · {fmtTokens(u.tokens)} jetons</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </Card>
+
+      {/* ── Supabase ── */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Supabase — consommation du forfait</h3>
+          <a href="https://supabase.com/dashboard/project/_/settings/billing/usage" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+            Détail complet (dont l'egress) sur supabase.com <ExternalLink size={12} />
+          </a>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré depuis la base elle-même. Les plafonds affichés sont ceux du forfait Free — ajustez <span className="font-mono2">SUPABASE_LIMITS</span> si le projet passe au forfait Pro.</p>
+        {!platform ? (
+          <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée — appliquez la migration <span className="font-mono2">20260715_usage_tracking.sql</span> (fonction <span className="font-mono2">admin_platform_usage</span>).</p>
+        ) : (
+          <div className="space-y-5">
+            <LimitBar label="Base de données" used={platform.db_bytes || 0} limit={SUPABASE_LIMITS.dbBytes} format={fmtBytes} />
+            <LimitBar label="Stockage (tous les buckets)" used={storageTotal || 0} limit={SUPABASE_LIMITS.storageBytes} format={fmtBytes} />
+            <LimitBar label="Utilisateurs actifs mensuels (MAU)" used={mau || 0} limit={SUPABASE_LIMITS.mau} format={(n) => String(Math.round(n))} />
+            {(platform.storage || []).length > 0 && (
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${c.faint}`}>Stockage par bucket</p>
+                {(platform.storage || []).map((b) => (
+                  <div key={b.bucket} className={`flex items-center justify-between px-3 py-2 rounded-xl ${c.hoverSoft}`}>
+                    <span className={`text-sm font-mono2 ${c.text}`}>{b.bucket}</span>
+                    <span className={`text-xs font-mono2 ${c.sub}`}>{fmtBytes(b.bytes)} · {b.files} fichier{b.files > 1 ? "s" : ""}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* --------------------------------- messages ------------------------------- */
 
 const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived", "Archivés"], ["all", "Tous"]];
@@ -430,6 +569,7 @@ export function Admin() {
     { id: "questions", l: "Questions", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
   ];
 
@@ -487,6 +627,7 @@ export function Admin() {
         </div>
       )}
       {tab === "messages" && <MessagesTab />}
+      {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
     </PageShell>
   );

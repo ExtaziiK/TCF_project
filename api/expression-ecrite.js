@@ -1,5 +1,6 @@
 import { requirePremium } from "./_lib/auth.js";
-import { groqChatJSON, normalizeFeedback, HttpError } from "./_lib/groq.js";
+import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
+import { logAiUsage } from "./_lib/usage.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
 // Text-to-text via Groq chat (openai/gpt-oss-20b). Returns structured
@@ -16,7 +17,7 @@ Respond with ONLY a minified JSON object of this exact shape:
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    await requirePremium(req);
+    const user = await requirePremium(req);
 
     const { prompt = "", response = "", taskLabel = "", targetWords = "", lang = "fr" } = req.body || {};
     const text = String(response).trim();
@@ -31,10 +32,12 @@ export default async function handler(req, res) {
       .filter(Boolean)
       .join("\n");
 
-    const raw = await groqChatJSON([
+    const startedAt = Date.now();
+    const { json: raw, usage } = await groqChatJSON([
       { role: "system", content: system(lang) },
       { role: "user", content: userMsg },
     ]);
+    logAiUsage({ userId: user.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - startedAt });
 
     res.status(200).json(normalizeFeedback(raw));
   } catch (err) {

@@ -38,6 +38,11 @@ export function fetchAdminStats() {
   return adminFetch("/api/admin/stats");
 }
 
+// AI (Groq) metering + Supabase consumption for the "Utilisation" tab.
+export function fetchAdminUsage() {
+  return adminFetch("/api/admin/usage");
+}
+
 export function listAdminUsers({ search = "", page = 1 } = {}) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);
