@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -34,20 +34,49 @@ function UnavailableCard({ children }) {
   );
 }
 
+// Animated placeholder while a tab's data loads — same rounded geometry as
+// the content it replaces, so the layout doesn't jump when data lands.
+function Skeleton({ className = "" }) {
+  const { c } = useApp();
+  return <div aria-hidden="true" className={`animate-pulse rounded-2xl ${c.track} ${className}`} />;
+}
+
+function SkeletonRows({ n = 6, className = "h-12" }) {
+  return (
+    <div className="space-y-3 py-2">
+      {Array.from({ length: n }).map((_, i) => <Skeleton key={i} className={className} />)}
+    </div>
+  );
+}
+
+function EmptyState({ icon: Icon, title, sub }) {
+  const { c } = useApp();
+  return (
+    <div className="py-10 text-center">
+      <span className="w-12 h-12 rounded-2xl mx-auto flex items-center justify-center bg-blue-600/10 text-blue-600"><Icon size={20} /></span>
+      <p className={`mt-3 font-display font-bold text-sm ${c.text}`}>{title}</p>
+      {sub && <p className={`mt-1 text-sm ${c.faint}`}>{sub}</p>}
+    </div>
+  );
+}
+
 /* --------------------------------- overview ------------------------------- */
 
-function StatCard({ value, label, hint }) {
+function StatCard({ icon: Icon, value, label, hint }) {
   const { c } = useApp();
   return (
     <Card className="p-5">
-      <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
+      <div className="flex items-start justify-between gap-3">
+        <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
+        {Icon && <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Icon size={16} /></span>}
+      </div>
       <p className={`text-sm font-medium mt-1 ${c.text}`}>{label}</p>
       {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
     </Card>
   );
 }
 
-function OverviewTab() {
+function OverviewTab({ go }) {
   const { c } = useApp();
   const [stats, setStats] = useState(null);
   const [state, setState] = useState("loading");
@@ -59,7 +88,21 @@ function OverviewTab() {
     });
   }, []);
 
-  if (state === "loading") return <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement des statistiques…</p></Card>;
+  if (state === "loading") {
+    return (
+      <div className="space-y-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i} className="p-5"><Skeleton className="h-9 w-20" /><Skeleton className="h-4 w-36 mt-3" /></Card>
+          ))}
+        </div>
+        <div className="grid lg:grid-cols-2 gap-4">
+          <Card className="p-6"><Skeleton className="h-5 w-56 mb-4" /><Skeleton className="h-24" /></Card>
+          <Card className="p-6"><Skeleton className="h-5 w-56 mb-4" /><Skeleton className="h-24" /></Card>
+        </div>
+      </div>
+    );
+  }
   if (state === "unavailable") {
     return <UnavailableCard>Les statistiques passent par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>. Déployez sur Vercel ou lancez <span className="font-mono2">vercel dev</span>.</UnavailableCard>;
   }
@@ -71,13 +114,20 @@ function OverviewTab() {
   return (
     <div className="space-y-4">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <StatCard value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
-        <StatCard value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} />
-        <StatCard value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
-        <StatCard value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
-        <StatCard value={a.questionAttempts} label="Réponses enregistrées" />
-        <StatCard value={stats.messagesNew} label="Messages à traiter" />
+        <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
+        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} />
+        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
+        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
+        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées" />
+        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter" />
       </div>
+      <Card className="p-4 flex items-center gap-2 flex-wrap">
+        <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
+        <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
+        <Btn small variant="ghost" icon={Ticket} onClick={() => go("promos")}>Créer un code promo</Btn>
+        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les questions</Btn>
+        <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
+      </Card>
       <div className="grid lg:grid-cols-2 gap-4">
         <Card className="p-6">
           <h3 className={`font-display font-bold mb-4 ${c.text}`}>Inscriptions — 14 derniers jours</h3>
@@ -128,6 +178,12 @@ function UsersTab() {
   };
   useEffect(load, [search, page]);
 
+  // Live search, debounced so a keystroke burst issues one request.
+  useEffect(() => {
+    const id = setTimeout(() => { setPage(1); setSearch(query.trim()); }, 350);
+    return () => clearTimeout(id);
+  }, [query]);
+
   const act = async (payload, done) => {
     setBusy(true);
     const r = await updateAdminUser(payload);
@@ -156,20 +212,21 @@ function UsersTab() {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") { setPage(1); setSearch(query.trim()); } }}
           placeholder="Rechercher par courriel, nom ou nom d'utilisateur…"
           aria-label="Rechercher un utilisateur"
           className={`flex-1 bg-transparent text-sm outline-none ${c.text}`}
         />
-        <Btn small variant="ghost" onClick={() => { setPage(1); setSearch(query.trim()); }}>Rechercher</Btn>
-        {search && <Btn small variant="ghost" onClick={() => { setQuery(""); setSearch(""); setPage(1); }}>Effacer</Btn>}
+        {data && <span className={`text-xs font-mono2 shrink-0 ${c.faint}`}>{data.total} compte{data.total > 1 ? "s" : ""}</span>}
+        {query && (
+          <button onClick={() => setQuery("")} aria-label="Effacer la recherche" className={`p-1.5 rounded-full ${c.hoverSoft} ${c.faint}`}><XCircle size={15} /></button>
+        )}
       </Card>
 
       <Card className="p-6 overflow-x-auto">
         {state === "loading" || !data ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>Chargement des comptes…</p>
+          <SkeletonRows n={6} className="h-14" />
         ) : data.users.length === 0 ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>Aucun compte ne correspond à cette recherche.</p>
+          <EmptyState icon={Users} title="Aucun compte ne correspond" sub="Essayez un autre courriel, nom ou nom d'utilisateur." />
         ) : (
           <table className="w-full text-sm min-w-[760px]">
             <thead>
@@ -217,10 +274,17 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
   const { c } = useApp();
   return (
     <>
-      <tr className={`border-t ${c.border}`}>
+      <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
         <td className="py-3.5 pr-4">
-          <p className={`font-medium ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}</p>
-          <p className={`text-xs ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
+              {(u.name || u.username || u.email || "?").trim()[0]?.toUpperCase()}
+            </span>
+            <div className="min-w-0">
+              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}</p>
+              <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
+            </div>
+          </div>
         </td>
         <td className="py-3.5 pr-4">
           <Pill tone={u.premiumActive ? "blue" : "slate"}>{u.premiumActive ? "Premium" : "Découverte"}</Pill>
@@ -376,9 +440,9 @@ function PromosTab() {
       <Card className="p-6 overflow-x-auto">
         <h3 className={`font-display font-bold mb-4 ${c.text}`}>Codes existants</h3>
         {state === "loading" || codes === null ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>Chargement…</p>
+          <SkeletonRows n={4} className="h-10" />
         ) : codes.length === 0 ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>Aucun code promo pour l'instant.</p>
+          <EmptyState icon={Ticket} title="Aucun code promo pour l'instant" sub="Créez-en un ci-dessus — il sera utilisable immédiatement sur la page Tarifs." />
         ) : (
           <table className="w-full text-sm min-w-[680px]">
             <thead>
@@ -458,7 +522,14 @@ function UsageTab() {
     });
   }, []);
 
-  if (state === "loading") return <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement de l'utilisation…</p></Card>;
+  if (state === "loading") {
+    return (
+      <div className="space-y-4">
+        <Card className="p-6"><Skeleton className="h-5 w-64 mb-5" /><SkeletonRows n={3} className="h-8" /></Card>
+        <Card className="p-6"><Skeleton className="h-5 w-64 mb-5" /><SkeletonRows n={3} className="h-8" /></Card>
+      </div>
+    );
+  }
   if (state === "unavailable") {
     return <UnavailableCard>Le suivi d'utilisation passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
   }
@@ -561,13 +632,18 @@ const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived",
 const MSG_TONES = { new: "amber", resolved: "green", archived: "slate" };
 const MSG_LABELS = { new: "Nouveau", resolved: "Résolu", archived: "Archivé" };
 
-function MessagesTab() {
+function MessagesTab({ onCount }) {
   const { c, notify } = useApp();
   const [messages, setMessages] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("new");
 
-  const load = () => listContactMessages().then((r) => { setMessages(r.messages); setUnavailable(!r.ok); });
+  const load = () => listContactMessages().then((r) => {
+    setMessages(r.messages);
+    setUnavailable(!r.ok);
+    onCount?.((r.messages || []).filter((m) => m.status === "new").length); // keep the sidebar badge in sync
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
 
   const patch = async (id, status, msg) => {
@@ -596,13 +672,13 @@ function MessagesTab() {
       </div>
       <Card className="p-6">
         {messages === null ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>Chargement…</p>
+          <SkeletonRows n={4} className="h-24" />
         ) : list.length === 0 ? (
-          <p className={`text-sm py-8 text-center ${c.faint}`}>{filter === "new" ? "File de modération vide. Beau travail !" : "Aucun message dans cette catégorie."}</p>
+          <EmptyState icon={Inbox} title={filter === "new" ? "File de modération vide. Beau travail !" : "Aucun message dans cette catégorie."} sub={filter === "new" ? "Les nouveaux messages du formulaire de contact apparaîtront ici." : null} />
         ) : (
           <div className="space-y-2">
             {list.map((m) => (
-              <div key={m.id} className={`p-4 rounded-2xl border ${c.border}`}>
+              <div key={m.id} className={`p-4 rounded-2xl border ${m.status === "new" ? "border-amber-500/40 bg-amber-500/5" : c.border}`}>
                 <div className="flex items-center gap-2 flex-wrap mb-2">
                   <Pill tone={MSG_TONES[m.status]}>{MSG_LABELS[m.status]}</Pill>
                   <span className={`text-sm font-semibold ${c.text}`}>{m.name}</span>
@@ -656,9 +732,9 @@ function AuditTab() {
       <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Journal des actions administrateur</h3>
       <p className={`text-sm mb-5 ${c.sub}`}>Trace en lecture seule, écrite par le serveur : qui a modifié quel compte, quand. Les 100 dernières entrées.</p>
       {entries === null ? (
-        <p className={`text-sm py-8 text-center ${c.faint}`}>Chargement…</p>
+        <SkeletonRows n={5} className="h-9" />
       ) : entries.length === 0 ? (
-        <p className={`text-sm py-8 text-center ${c.faint}`}>Aucune action enregistrée pour l'instant.</p>
+        <EmptyState icon={ScrollText} title="Aucune action enregistrée pour l'instant" sub="Chaque modification de forfait, de rôle ou de code promo laissera une trace ici." />
       ) : (
         <table className="w-full text-sm min-w-[640px]">
           <thead>
@@ -695,9 +771,17 @@ function AuditTab() {
 export function Admin() {
   const { c, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
   const [tab, setTab] = useState("overview");
+  const [newMessages, setNewMessages] = useState(0);
   const [importText, setImportText] = useState("");
   const [importError, setImportError] = useState("");
   const fileInputRef = useRef(null);
+
+  // Sidebar badge: loaded once here (client-direct through the admin RLS
+  // policy, so it works even without the serverless routes), then kept in
+  // sync by MessagesTab whenever the inbox (re)loads.
+  useEffect(() => {
+    listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
+  }, []);
 
   const handleImportFile = (e) => {
     const file = e.target.files?.[0];
@@ -731,14 +815,30 @@ export function Admin() {
 
   return (
     <PageShell back wide eyebrow="Panneau d'administration" title="Gestion de la plateforme" sub="Statistiques, comptes, questions et messages — connectés en direct à la base de données.">
-      <div className="flex gap-2 flex-wrap mb-8">
-        {tabs.map((t) => (
-          <button key={t.id} onClick={() => setTab(t.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${tab === t.id ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-            <t.icon size={15} />{t.l}
-          </button>
-        ))}
-      </div>
-      {tab === "overview" && <OverviewTab />}
+      {/* Console layout: sticky section rail on desktop, horizontally
+          scrollable chip row on mobile. The Messages entry carries a live
+          unread badge. */}
+      <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6 items-start">
+        <nav role="tablist" aria-label="Sections d'administration" className="lg:sticky lg:top-24 flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 pb-2 lg:pb-0">
+          {tabs.map((t) => {
+            const active = tab === t.id;
+            return (
+              <button key={t.id} role="tab" aria-selected={active} onClick={() => setTab(t.id)}
+                className={`flex items-center gap-2.5 shrink-0 lg:w-full px-4 py-2.5 rounded-2xl text-sm font-semibold transition-colors
+                ${active ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+                <t.icon size={16} className="shrink-0" />
+                <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
+                {t.id === "messages" && newMessages > 0 && (
+                  <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
+                    {newMessages > 9 ? "9+" : newMessages}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+        <div role="tabpanel" className="min-w-0">
+      {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "users" && <UsersTab />}
       {tab === "questions" && <QuestionManager />}
       {tab === "import" && (
@@ -782,10 +882,12 @@ export function Admin() {
           </Card>
         </div>
       )}
-      {tab === "messages" && <MessagesTab />}
+      {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
       {tab === "promos" && <PromosTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
+        </div>
+      </div>
     </PageShell>
   );
 }
