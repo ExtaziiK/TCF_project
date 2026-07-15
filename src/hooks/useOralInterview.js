@@ -35,6 +35,7 @@ export function useOralInterview(task, notify) {
   const [error, setError] = useState("");
   const nextId = useRef(1);
   const ttsHintShown = useRef(false);
+  const playerRef = useRef(null); // examiner audio currently playing
   const streamRef = useRef(null);
   const recorderRef = useRef(null);
   const chunksRef = useRef([]);
@@ -59,10 +60,47 @@ export function useOralInterview(task, notify) {
 
   // speak() stays silent when the browser has no French voice (better than an
   // English voice mangling the question); explain that once per interview.
+  // Only reachable when the server sent no ElevenLabs audio for the line.
   const noteUnspoken = (spoken) => {
     if (spoken || ttsHintShown.current) return;
     ttsHintShown.current = true;
     notify(t("Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système."));
+  };
+
+  // Decodes the server-synthesized speech (base64 mp3) into a playable
+  // object URL, tracked for revocation with the recordings.
+  const audioUrlFromBase64 = (b64, mime = "audio/mpeg") => {
+    if (!b64) return null;
+    try {
+      const bytes = Uint8Array.from(window.atob(b64), (ch) => ch.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: mime }));
+      objectUrlsRef.current.push(url);
+      return url;
+    } catch {
+      return null;
+    }
+  };
+
+  const stopExaminerAudio = () => {
+    playerRef.current?.pause();
+    playerRef.current = null;
+    stopSpeaking();
+  };
+
+  // Voices one examiner line: the server's ElevenLabs audio when available,
+  // browser TTS otherwise. `onDone(spoken)` fires exactly once.
+  const sayLine = (text, audioUrl, onDone) => {
+    stopExaminerAudio();
+    if (!audioUrl) { speak(text, onDone); return; }
+    let handled = false;
+    const finish = (spoken) => { if (!handled) { handled = true; onDone(spoken); } };
+    const player = new window.Audio(audioUrl);
+    playerRef.current = player;
+    player.onended = () => finish(true);
+    // Bad decode/interrupted playback: fall back to browser TTS so the line
+    // is still heard where possible.
+    player.onerror = () => { if (!handled) { handled = true; speak(text, onDone); } };
+    player.play().catch(() => { if (!handled) { handled = true; speak(text, onDone); } });
   };
 
   // Assembles the recording and plays one dialogue turn against the server:
@@ -109,21 +147,23 @@ export function useOralInterview(task, notify) {
       }
       addTurn({ role: "candidate", text: res.transcript, url });
 
+      const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
+
       if (res.done) {
         releaseStream();
         // Examiner lines stay in French whatever the UI language — the
         // interview itself is in French, only the feedback follows `lang`.
-        const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
-        addTurn({ role: "examiner", text: closing, closing: true });
+        const closing = res.closing || "Merci, l'entretien est terminé. Voici mon évaluation.";
+        addTurn({ role: "examiner", text: closing, closing: true, audioUrl: examinerAudio });
         setFeedback(res.feedback || null);
         setPhase("done");
-        speak(closing, noteUnspoken);
+        sayLine(closing, examinerAudio, noteUnspoken);
         return;
       }
 
-      addTurn({ role: "examiner", text: res.reply });
+      addTurn({ role: "examiner", text: res.reply, audioUrl: examinerAudio });
       setPhase("speaking");
-      speak(res.reply, (spoken) => {
+      sayLine(res.reply, examinerAudio, (spoken) => {
         noteUnspoken(spoken);
         setPhase((p) => (p === "speaking" ? "ready" : p));
       });
@@ -182,7 +222,7 @@ export function useOralInterview(task, notify) {
   const reset = () => {
     abortRecorder();
     releaseStream();
-    stopSpeaking();
+    stopExaminerAudio();
     setPhase("idle");
     setCount(0);
     setTurns([]);
@@ -238,8 +278,9 @@ export function useOralInterview(task, notify) {
   const skipReview = () => { if (phase === "review") beginRecording(); };
   const answer = () => { if (phase === "ready") beginRecording(); };
   const stop = () => { if (phase === "rec") finishRecording(); };
-  // Replays an examiner line out loud (e.g. if the user missed the question).
-  const replay = (text) => { if (phase === "ready" || phase === "done") speak(text, () => {}); };
+  // Replays an examiner turn out loud (e.g. if the user missed the question),
+  // reusing its server-synthesized audio when it has one.
+  const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
   return { phase, count, turns, feedback, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }

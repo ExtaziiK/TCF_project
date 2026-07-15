@@ -1,5 +1,6 @@
 import { requirePremium } from "./_lib/auth.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
+import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
 import { logAiUsage } from "./_lib/usage.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
@@ -90,6 +91,17 @@ async function dialogueTurn(res, user, body) {
     .filter(Boolean)
     .join("\n");
 
+  // Voices an examiner line with ElevenLabs; null (no key / API failure)
+  // degrades to a text-only turn, spoken client-side if a voice exists there.
+  // Character count is metered as "tokens" — ElevenLabs bills per character.
+  const voiceLine = async (line) => {
+    const ttsStart = Date.now();
+    const tts = await synthesizeFrench(line);
+    if (!tts) return {};
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
+    return { audio: tts.audio, audioMime: "audio/mpeg" };
+  };
+
   const chatStart = Date.now();
   if (followUpsAsked < MAX_FOLLOW_UPS) {
     const { json: raw, usage } = await groqChatJSON([
@@ -99,7 +111,7 @@ async function dialogueTurn(res, user, body) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
-    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false });
+    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false, ...(await voiceLine(reply)) });
   }
 
   const { json: raw, usage } = await groqChatJSON([
@@ -107,7 +119,10 @@ async function dialogueTurn(res, user, body) {
     { role: "user", content: userMsg },
   ]);
   logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
-  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), done: true });
+  // The closing line lives here (not client-side) so it comes out in the same
+  // examiner voice as the follow-ups.
+  const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
+  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), closing, done: true, ...(await voiceLine(closing)) });
 }
 
 /* ------------------------------- shared bits ------------------------------- */

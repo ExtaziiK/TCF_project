@@ -43,7 +43,7 @@ export function OralInterview({ task }) {
                 key={tn.id}
                 turn={tn}
                 speakingNow={phase === "speaking" && i === turns.length - 1}
-                onReplay={(phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn.text) : null}
+                onReplay={(phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn) : null}
               />
             ))}
             <div ref={endRef} />
@@ -59,7 +59,7 @@ export function OralInterview({ task }) {
         <InterviewControls c={c} t={t} phase={phase} count={count} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
 
         <p className={`mt-5 text-xs ${c.faint} flex items-center justify-center gap-1.5 text-center`}>
-          <Sparkles size={13} className="text-blue-600" /> {t("Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.")}
+          <Sparkles size={13} className="text-blue-600" /> {t("Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.")}
         </p>
       </Card>
 

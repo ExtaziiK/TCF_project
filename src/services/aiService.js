@@ -61,7 +61,9 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang })
 // as [{ role: "examiner" | "candidate", text }]. Returns either the next
 // follow-up question ({ transcript, reply, followUp, done: false }) or, once
 // the last follow-up has been answered, the final evaluation
-// ({ transcript, feedback, done: true }). `empty: true` means no speech was
+// ({ transcript, feedback, closing, done: true }). Examiner lines may carry
+// server-synthesized speech ({ audio: <base64>, audioMime }); when absent the
+// client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
 export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, lang }) {
   return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, lang });

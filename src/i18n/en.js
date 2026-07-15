@@ -635,8 +635,8 @@ export const EN = {
   "Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système.":
     "No French voice in this browser: questions are shown in writing only. Try Microsoft Edge or install a French voice on your system.",
   "L'analyse a échoué. Réessayez.": "The analysis failed. Try again.",
-  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.":
-    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, browser speech synthesis voice.",
+  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.":
+    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, AI examiner voice.",
   "Comment ça marche": "How it works",
   "Prenez connaissance du sujet pendant le temps de lecture.": "Review the subject during the reading time.",
   "Répondez à voix haute — votre réponse est transcrite.": "Answer out loud — your answer is transcribed.",
