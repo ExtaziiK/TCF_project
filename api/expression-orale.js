@@ -91,9 +91,9 @@ async function dialogueTurn(res, user, body) {
     .filter(Boolean)
     .join("\n");
 
-  // Voices an examiner line with ElevenLabs; null (no key / API failure)
+  // Voices an examiner line via the TTS provider; null (no key / API failure)
   // degrades to a text-only turn, spoken client-side if a voice exists there.
-  // Character count is metered as "tokens" — ElevenLabs bills per character.
+  // Character count is metered as "tokens" — neural TTS bills per character.
   const voiceLine = async (line) => {
     const ttsStart = Date.now();
     const tts = await synthesizeFrench(line);
