@@ -23,7 +23,13 @@ export default [
         FileReader: "readonly",
         TextDecoder: "readonly",
         Uint8Array: "readonly",
+        URLSearchParams: "readonly",
+        URL: "readonly",
+        fetch: "readonly",
         console: "readonly",
+        navigator: "readonly",
+        MediaRecorder: "readonly",
+        Blob: "readonly",
       },
     },
     settings: { react: { version: "detect" } },
@@ -33,6 +39,27 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",
+    },
+  },
+  {
+    // Vercel serverless functions - Node runtime, not the browser.
+    files: ["api/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: {
+        process: "readonly", Buffer: "readonly", console: "readonly",
+        fetch: "readonly", FormData: "readonly", Blob: "readonly",
+      },
+    },
+  },
+  {
+    // One-off maintenance scripts - Node runtime.
+    files: ["scripts/**/*.{js,mjs}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: { process: "readonly", console: "readonly" },
     },
   },
 ];

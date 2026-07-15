@@ -1,0 +1,1732 @@
+{
+    "id": 40822,
+    "exam_id": 59,
+    "score": 629.0,
+    "score_percent": 89.99,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-12T10:26:47.741217+00:00",
+    "time_spent": 1672,
+    "section_breakdown": {
+        "Identification": {
+            "score": 22.5,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 31.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 18.0,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 18.0,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2263,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Le mardi matin.",
+            "user_selected_option_id": 34678,
+            "correct_answer": "Le mardi matin.",
+            "correct_option_id": 34678,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le service est ouvert « les mardis et vendredis de 14h30 à 18h » : il est donc fermé le mardi matin.",
+            "time_spent": 35,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34677,
+                    "text": "Le lundi matin.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34678,
+                    "text": "Le mardi matin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34679,
+                    "text": "Le mercredi matin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34680,
+                    "text": "Le jeudi matin.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2264,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Trouver un logement.",
+            "user_selected_option_id": 34683,
+            "correct_answer": "Trouver un logement.",
+            "correct_option_id": 34683,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce précise « cherche maison à louer pour vacances d'été » : Laetitia veut trouver un logement.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34681,
+                    "text": "Habiter à la compagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34682,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34683,
+                    "text": "Trouver un logement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34684,
+                    "text": "Vendre un appartement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2265,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Avec un chauffeur.",
+            "user_selected_option_id": 34686,
+            "correct_answer": "Avec un chauffeur.",
+            "correct_option_id": 34686,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise qu'« une voiture de notre société va vous attendre... pour vous conduire au Palais des Congrès » : M. Lefort y ira avec un chauffeur.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34685,
+                    "text": "Avec Mme Deor.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34686,
+                    "text": "Avec un chauffeur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34687,
+                    "text": "En autobus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34688,
+                    "text": "En taxi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2266,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "La secrétaire.",
+            "user_selected_option_id": 34690,
+            "correct_answer": "La secrétaire.",
+            "correct_option_id": 34690,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le directeur précise « donnez vos documents à ma secrétaire qui les photocopiera » : c'est la secrétaire qui va faire les photocopies.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_4.webp",
+            "all_options": [
+                {
+                    "id": 34689,
+                    "text": "La comptable.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34690,
+                    "text": "La secrétaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34691,
+                    "text": "Le directeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34692,
+                    "text": "Le réparateur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2267,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Une journée.",
+            "user_selected_option_id": 34693,
+            "correct_answer": "Une nuit.",
+            "correct_option_id": 34695,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le billet précise qu'il est « utilisable sans limite du 21 juin à 20 heures au 22 juin à 7 heures » : cela correspond à une nuit.",
+            "time_spent": 48,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34693,
+                    "text": "Une journée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34694,
+                    "text": "Une semaine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34695,
+                    "text": "Une nuit.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34696,
+                    "text": "Un mois.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2268,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il veut venir plus tôt.",
+            "user_selected_option_id": 34700,
+            "correct_answer": "Il est très occupé.",
+            "correct_option_id": 34697,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Paul écrit « j'ai beaucoup de travail en ce moment » pour expliquer qu'il ne peut pas venir : il est très occupé.",
+            "time_spent": 73,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34697,
+                    "text": "Il est très occupé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34698,
+                    "text": "Il part en vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34699,
+                    "text": "Il travaille avec Fred.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34700,
+                    "text": "Il veut venir plus tôt.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2269,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "À ses collègues.",
+            "user_selected_option_id": 34702,
+            "correct_answer": "À ses collègues.",
+            "correct_option_id": 34702,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message commence par « chers tous » et concerne la « journée sans voiture » pour venir « au bureau » : Paul s'adresse à ses collègues.",
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34701,
+                    "text": "À ses amis.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34702,
+                    "text": "À ses collègues.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34703,
+                    "text": "À ses enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34704,
+                    "text": "À ses voisins.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2270,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "En début et en fin de soirée.",
+            "user_selected_option_id": 34706,
+            "correct_answer": "En début et en fin de soirée.",
+            "correct_option_id": 34706,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le programme indique le « journal télévisé » à 20h00 et le « journal de la nuit » à 0h40 : les informations sont diffusées en début et en fin de soirée.",
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34705,
+                    "text": "En cours de soirée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34706,
+                    "text": "En début et en fin de soirée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34707,
+                    "text": "Entre chaque émission.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34708,
+                    "text": "Quatre fois dans la soirée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2271,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Une fête entre voisins.",
+            "user_selected_option_id": 34711,
+            "correct_answer": "Une fête entre voisins.",
+            "correct_option_id": 34711,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message invite à un « repas de quartier devant notre immeuble » : c'est une fête entre voisins.",
+            "time_spent": 18,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_9.webp",
+            "all_options": [
+                {
+                    "id": 34709,
+                    "text": "Un atelier de cuisine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34710,
+                    "text": "Un déménagement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34711,
+                    "text": "Une fête entre voisins.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34712,
+                    "text": "Une visite d’appartement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2272,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Elle est interdite.",
+            "user_selected_option_id": 34715,
+            "correct_answer": "Elle est interdite.",
+            "correct_option_id": 34715,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise « vous ne pouvez plus les utiliser à l'intérieur du lycée » à cause des vols : leur utilisation est interdite.",
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34713,
+                    "text": "Elle est autorisée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34714,
+                    "text": "Elle est dangereuse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34715,
+                    "text": "Elle est interdite.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34716,
+                    "text": "Elle est limitée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2273,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Téléphoner aux horaires indiqués.",
+            "user_selected_option_id": 34719,
+            "correct_answer": "Téléphoner aux horaires indiqués.",
+            "correct_option_id": 34719,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'on peut parler à des conseillers « du lundi au vendredi de 8h à 22h, le samedi de 8h à 18h » : il faut téléphoner aux horaires indiqués.",
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34717,
+                    "text": "Consulter le serveur vocal.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34718,
+                    "text": "Prendre rendez-vous par téléphone.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34719,
+                    "text": "Téléphoner aux horaires indiqués.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34720,
+                    "text": "Demander le service de relation avec la clientèle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2274,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Un message d’excuse.",
+            "user_selected_option_id": 34721,
+            "correct_answer": "Un message d’excuse.",
+            "correct_option_id": 34721,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Pierre écrit « je ne pourrai hélas pas être parmi vous... je suis vraiment déçu » : c'est un message d'excuse.",
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34721,
+                    "text": "Un message d’excuse.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34722,
+                    "text": "Une déclaration d’amour.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34723,
+                    "text": "Une invitation à une fête.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34724,
+                    "text": "Une lettre de vacances.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2275,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "De libérer les lieux pendant les travaux.",
+            "user_selected_option_id": 34727,
+            "correct_answer": "De libérer les lieux pendant les travaux.",
+            "correct_option_id": 34727,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Jacques Legendre demande qu'« il serait préférable que les services du bâtiment concerné soient suspendus » pendant le chantier : il demande de libérer les lieux pendant les travaux.",
+            "time_spent": 46,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34725,
+                    "text": "D’envoyer très rapidement le devis.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34726,
+                    "text": "D’interdire l’emploi de produits toxiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34727,
+                    "text": "De libérer les lieux pendant les travaux.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34728,
+                    "text": "De préciser la nature de l’intervention.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2276,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Il présente des films réalisés par des personnes sourdes.",
+            "user_selected_option_id": 34731,
+            "correct_answer": "Il présente des films réalisés par des personnes sourdes.",
+            "correct_option_id": 34731,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le festival « présente des réalisateurs sourds » : il présente des films réalisés par des personnes sourdes.",
+            "time_spent": 84,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34729,
+                    "text": "Il montre des documentaires sur les conditions de vie des sourds.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34730,
+                    "text": "Il organise des conférences sur la langue utilisée par les sourds.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34731,
+                    "text": "Il présente des films réalisés par des personnes sourdes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34732,
+                    "text": "Il programme des spectacles destinés à un jeune public sourd.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2277,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Marrakech.",
+            "user_selected_option_id": 34735,
+            "correct_answer": "Marrakech.",
+            "correct_option_id": 34735,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Mathilde écrit qu'ils « ont dû nous rendre à Marrakech pour régler les frais » : elle se trouve à Marrakech.",
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34733,
+                    "text": "Casablanca.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34734,
+                    "text": "Fès.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34735,
+                    "text": "Marrakech.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34736,
+                    "text": "Tanger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2278,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Une manière originale de rencontrer des gens près de chez elle.",
+            "user_selected_option_id": 34740,
+            "correct_answer": "Une manière originale de rencontrer des gens près de chez elle.",
+            "correct_option_id": 34740,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Léa explique que sur le site MIAM, « tu consultes les propositions de rendez-vous dans ton quartier » : c'est une manière originale de rencontrer des gens près de chez elle.",
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_16.webp",
+            "all_options": [
+                {
+                    "id": 34737,
+                    "text": "Un centre de loisirs pour les habitants de son quartier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34738,
+                    "text": "Un restaurant qui sert des spécialités de sa région.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34739,
+                    "text": "Un service municipal d’aide sociale aux jeunes célibataires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34740,
+                    "text": "Une manière originale de rencontrer des gens près de chez elle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2279,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Pour marcher sans souffrir.",
+            "user_selected_option_id": 34743,
+            "correct_answer": "Pour marcher sans souffrir.",
+            "correct_option_id": 34743,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le concurrent explique que « la draisienne vous permet de ne pas avoir à supporter votre poids » : il l'a modernisée pour marcher sans souffrir.",
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34741,
+                    "text": "Pour éviter de conduire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34742,
+                    "text": "Pour faire rêver les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34743,
+                    "text": "Pour marcher sans souffrir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34744,
+                    "text": "Pour porter des objets lourds.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2280,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Mieux comprendre les préférences alimentaires des enfants.",
+            "user_selected_option_id": 34747,
+            "correct_answer": "Mieux comprendre les préférences alimentaires des enfants.",
+            "correct_option_id": 34747,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le délégué explique que le projet vise à « sonder les goûts des bambins... cerner plus subtilement leur profil alimentaire » : il s'agit de mieux comprendre les préférences alimentaires des enfants.",
+            "time_spent": 57,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34745,
+                    "text": "Corriger les mauvaises habitudes alimentaires des enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34746,
+                    "text": "Faire respecter la législation sur l’alimentation des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34747,
+                    "text": "Mieux comprendre les préférences alimentaires des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34748,
+                    "text": "Permettre aux enfants de découvrir de nouveaux aliments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2281,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "La vie des paysans néerlandais au XVIIIE siècle.",
+            "user_selected_option_id": 34751,
+            "correct_answer": "L’enquête policière d’une personne très rationnelle.",
+            "correct_option_id": 34750,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« un jeune inspecteur de police ne jure que par la science et la logique » face à des meurtres étranges : le film présente l'enquête policière d'une personne très rationnelle.",
+            "time_spent": 38,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_19.webp",
+            "all_options": [
+                {
+                    "id": 34749,
+                    "text": "L’arrivée d’une troupe de comédiens à la campagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34750,
+                    "text": "L’enquête policière d’une personne très rationnelle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34751,
+                    "text": "La vie des paysans néerlandais au XVIIIE siècle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34752,
+                    "text": "Les expériences originales d’un scientifique anglais.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2282,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Leur nom s’est transformé en label de prestige.",
+            "user_selected_option_id": 34755,
+            "correct_answer": "Leur nom s’est transformé en label de prestige.",
+            "correct_option_id": 34755,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « les marques de grands chefs ne cessent de prendre de la valeur » en s'autoproclamant élève de tel ou tel maître : leur nom s'est transformé en label de prestige.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_20.webp",
+            "all_options": [
+                {
+                    "id": 34753,
+                    "text": "Leur conception de la cuisine est passée de mode.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34754,
+                    "text": "Leur créativité leur assure une célébrité mondiale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34755,
+                    "text": "Leur nom s’est transformé en label de prestige.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34756,
+                    "text": "Leurs établissements sont cotés en bourse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2283,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Le remboursement de son article.",
+            "user_selected_option_id": 34757,
+            "correct_answer": "Le remboursement de son article.",
+            "correct_option_id": 34757,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "M. Cellier « souhaiterait le rendre » et demande qu'on lui « restitue la somme de 80 euros » : il s'agit du remboursement de son article.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_21.webp",
+            "all_options": [
+                {
+                    "id": 34757,
+                    "text": "Le remboursement de son article.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34758,
+                    "text": "L’échange de son téléphone.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34759,
+                    "text": "L’envoi de son téléphone par la poste.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34760,
+                    "text": "Une réclamation sur son achat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2284,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "D’analyser les moyens de séduire les jeunes.",
+            "user_selected_option_id": 34761,
+            "correct_answer": "D’analyser les moyens de séduire les jeunes.",
+            "correct_option_id": 34761,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « les jeunes deviennent aujourd'hui pour les musées une cible prioritaire » et qu'il faut « réfléchir à de nouvelles approches adaptées à ce public » : l'auteur suggère d'analyser les moyens de séduire les jeunes.",
+            "time_spent": 45,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34761,
+                    "text": "D’analyser les moyens de séduire les jeunes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34762,
+                    "text": "De moderniser le contenu des expositions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34763,
+                    "text": "De s’inspirer des approches pédagogiques scolaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34764,
+                    "text": "De systématiser l’accès gratuit pour les adolescents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2285,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Elle permet de dépenser moins d’argent.",
+            "user_selected_option_id": 34768,
+            "correct_answer": "Elle permet de dépenser moins d’argent.",
+            "correct_option_id": 34768,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que cette pratique constitue « une alternative au neuf » avec « un bénéfice économique » : elle permet de dépenser moins d'argent.",
+            "time_spent": 48,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_23.webp",
+            "all_options": [
+                {
+                    "id": 34765,
+                    "text": "Elle donne l’assurance d’un dépannage rapide.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34766,
+                    "text": "Elle donne lieu à une réduction sur l’assurance.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34767,
+                    "text": "Elle offre la possibilité d’une garantie de qualité.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34768,
+                    "text": "Elle permet de dépenser moins d’argent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2286,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "L’originalité des plats.",
+            "user_selected_option_id": 34769,
+            "correct_answer": "L’originalité des plats.",
+            "correct_option_id": 34769,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte critique que « la cuisine reste une cuisine vue et revue, tellement prévisible » : la critique porte sur l'originalité des plats.",
+            "time_spent": 51,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_24.webp",
+            "all_options": [
+                {
+                    "id": 34769,
+                    "text": "L’originalité des plats.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34770,
+                    "text": "La qualité des produits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34771,
+                    "text": "Le cadre du restaurant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34772,
+                    "text": "Le prix des menus.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2287,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Une erreur de règlement.",
+            "user_selected_option_id": 34776,
+            "correct_answer": "Un rappel d’un impayé en cours.",
+            "correct_option_id": 34773,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le courrier précise que « le règlement de votre facture du mois dernier ne nous est pas encore parvenu » : c'est un rappel d'un impayé en cours.",
+            "time_spent": 43,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_25.webp",
+            "all_options": [
+                {
+                    "id": 34773,
+                    "text": "Un rappel d’un impayé en cours.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34774,
+                    "text": "Une facture à payer rapidement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34775,
+                    "text": "Une proposition de paiement différé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34776,
+                    "text": "Une erreur de règlement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2288,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Elle répond de manière pertinente aux difficultés et aux aspirations des élèves.",
+            "user_selected_option_id": 34779,
+            "correct_answer": "Elle répond de manière pertinente aux difficultés et aux aspirations des élèves.",
+            "correct_option_id": 34779,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enjeux de la RSE « sont finalement proches des questions chères à la jeunesse » : elle répond de manière pertinente aux difficultés et aux aspirations des élèves.",
+            "time_spent": 73,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_26.webp",
+            "all_options": [
+                {
+                    "id": 34777,
+                    "text": "Elle favorise l’orientation des élèves après l’obtention du baccalauréat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34778,
+                    "text": "Elle permet de renforcer les liens éducatifs entre adultes et élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34779,
+                    "text": "Elle répond de manière pertinente aux difficultés et aux aspirations des élèves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34780,
+                    "text": "Elle veille à la concrétisation des projets professionnels des élèves.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2289,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Obtenir de l’argent pour développer des centres d’accueil.",
+            "user_selected_option_id": 34781,
+            "correct_answer": "Obtenir de l’argent pour développer des centres d’accueil.",
+            "correct_option_id": 34781,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'elle « voyage à travers le monde... dans l'espoir d'obtenir des subventions » et « a ainsi ouvert deux centres pour enfants » : le but est d'obtenir de l'argent pour développer des centres d'accueil.",
+            "time_spent": 92,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34781,
+                    "text": "Obtenir de l’argent pour développer des centres d’accueil.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34782,
+                    "text": "Convaincre les entreprises étrangères d’investir au Burundi.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34783,
+                    "text": "Soutenir les étudiants burundais expatriés pour leurs études.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34784,
+                    "text": "Trouver des bénévoles pour s’occuper des enfants à l’hôpital.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2290,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Des outils de communication.",
+            "user_selected_option_id": 34785,
+            "correct_answer": "Des outils de communication.",
+            "correct_option_id": 34785,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'entreprise propose « audioconférence, visioconférence et messagerie » : ce sont des outils de communication.",
+            "time_spent": 70,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34785,
+                    "text": "Des outils de communication.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34786,
+                    "text": "Des voyages organisés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34787,
+                    "text": "Une formation à l’écologie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34788,
+                    "text": "Un système d’information.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2291,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "L’ambiguïté du néologisme « chat » à l’écrit.",
+            "user_selected_option_id": 34790,
+            "correct_answer": "L’ambiguïté du néologisme « chat » à l’écrit.",
+            "correct_option_id": 34790,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'auteure raconte avoir confondu « le chat, le félidé, avec le chat, la discussion sur Internet » : c'est l'ambiguïté du néologisme « chat » à l'écrit qui la dérange.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34789,
+                    "text": "L’abus d’anglicismes en langage informatique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34790,
+                    "text": "L’ambiguïté du néologisme « chat » à l’écrit.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34791,
+                    "text": "Le laxisme orthographique dans les forums.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34792,
+                    "text": "Le manque d’imagination des lexicologues.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2292,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Profiter d’un encadrement spécifique.",
+            "user_selected_option_id": 34796,
+            "correct_answer": "Profiter d’un encadrement spécifique.",
+            "correct_option_id": 34796,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enfants sont « entourés d'une équipe de professionnels » dans « une classe intégrée » : ils peuvent profiter d'un encadrement spécifique.",
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34793,
+                    "text": "Guérir de leurs troubles du langage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34794,
+                    "text": "Intégrer une classe traditionnelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34795,
+                    "text": "Préparer leur entrée au collègue.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34796,
+                    "text": "Profiter d’un encadrement spécifique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2293,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "De solliciter davantage la raison.",
+            "user_selected_option_id": 34799,
+            "correct_answer": "De solliciter davantage la raison.",
+            "correct_option_id": 34799,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que dans une langue étrangère, « le résultat est plus réfléchi, moins dicté par les émotions, plus orienté vers l'utilité » : cela permet de solliciter davantage la raison.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34797,
+                    "text": "D’attirer l’attention de l’interlocuteur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34798,
+                    "text": "D’imaginer des solutions originales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34799,
+                    "text": "De solliciter davantage la raison.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34800,
+                    "text": "De trouver des réponses rapides.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2294,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Les arguments hypocrites avancés par les fabricants.",
+            "user_selected_option_id": 34803,
+            "correct_answer": "Les arguments hypocrites avancés par les fabricants.",
+            "correct_option_id": 34803,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte dénonce qu'« on vous dit que les conservateurs... servent à vous protéger » alors qu'ils « servent surtout à prolonger les dates limites... pour les industriels » : ce sont les arguments hypocrites avancés par les fabricants qui sont critiqués.",
+            "time_spent": 52,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34801,
+                    "text": "Le dosage des produits chimiques dans les aliments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34802,
+                    "text": "Le manque de lisibilité des étiquettes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34803,
+                    "text": "Les arguments hypocrites avancés par les fabricants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34804,
+                    "text": "Les conséquences sanitaires des ajouts.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2295,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Son existence doit être officialisée.",
+            "user_selected_option_id": 34807,
+            "correct_answer": "Son existence doit être officialisée.",
+            "correct_option_id": 34807,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que ce syndrome « est le mal du siècle et pourtant il n'est pas encore reconnu » : son existence doit être officialisée.",
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34805,
+                    "text": "Il inquiète les patrons de sociétés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34806,
+                    "text": "Il touche les employés les plus faibles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34807,
+                    "text": "Son existence doit être officialisée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34808,
+                    "text": "Son traitement est peu efficace.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2296,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique.",
+            "user_selected_option_id": 34810,
+            "correct_answer": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique.",
+            "correct_option_id": 34810,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que malgré des ordres de mots différents à l'oral, « les descriptions faites avec les mains reprenaient toutes le même ordre » : il existerait un ordre universel de la pensée, indépendant de l'ordre linguistique.",
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34809,
+                    "text": "Les gestes révèleraient systématiquement la langue maternelle des locuteurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34810,
+                    "text": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34811,
+                    "text": "Il y aurait autant de façons de penser que de structures de langue différentes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34812,
+                    "text": "Les structures des langues seraient dépendantes de notre expérience du monde.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2297,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "C’est une source de connaissances sûre et fiable.",
+            "user_selected_option_id": 34814,
+            "correct_answer": "C’est un vecteur de diffusion des œuvres littéraires.",
+            "correct_option_id": 34813,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que la télévision est « la plupart du temps un incomparable promoteur » de la lecture et que les ventes de livres évoqués « comblent toujours d'aise les éditeurs » : c'est un vecteur de diffusion des œuvres littéraires.",
+            "time_spent": 155,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34813,
+                    "text": "C’est un vecteur de diffusion des œuvres littéraires.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34814,
+                    "text": "C’est une source de connaissances sûre et fiable.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34815,
+                    "text": "L’audience des émissions culturelles est en hausse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34816,
+                    "text": "La concurrence qu’elle mène à la lecture est acharnée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2298,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La quasi-absence d’héroïnes.",
+            "user_selected_option_id": 34817,
+            "correct_answer": "La quasi-absence d’héroïnes.",
+            "correct_option_id": 34817,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte constate que « l'œil avisé aura lui-même bien du mal à trouver un personnage principal féminin » dans les jeux vidéo : le constat est la quasi-absence d'héroïnes.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34817,
+                    "text": "La quasi-absence d’héroïnes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34818,
+                    "text": "L’appel constant à la violence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34819,
+                    "text": "L’atténuation des clichés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34820,
+                    "text": "L’uniformité des scénarios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2299,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "La rentabilité d’un nouveau système d’extraction.",
+            "user_selected_option_id": 34822,
+            "correct_answer": "La rentabilité d’un nouveau système d’extraction.",
+            "correct_option_id": 34822,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte laisse entendre que la vraie motivation des industriels est « la possibilité d'allier la régénération... à des assurances de gains financiers supplémentaires » : le scepticisme porte sur la rentabilité d'un nouveau système d'extraction.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34821,
+                    "text": "La capacité des plantes à nettoyer les sols.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34822,
+                    "text": "La rentabilité d’un nouveau système d’extraction.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34823,
+                    "text": "Le résultat des recherches de M. Van der Hent.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34824,
+                    "text": "Les préoccupations écologistes des industriels.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2300,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "De concrétiser des objectifs personnels.",
+            "user_selected_option_id": 34825,
+            "correct_answer": "De concrétiser des objectifs personnels.",
+            "correct_option_id": 34825,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le critère retenu est « surtout le besoin de réaliser ses projets plutôt que ceux des autres » : la structure familiale permet de concrétiser des objectifs personnels.",
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34825,
+                    "text": "De concrétiser des objectifs personnels.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34826,
+                    "text": "De fonctionner dans un cadre innovent.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34827,
+                    "text": "De limiter la répartition des gains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34828,
+                    "text": "De renforcer les liens entre les générations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2301,
+            "question_text": "Compréhension écrite – Quiz 23 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Des attitudes contradictoires forgeant une identité.",
+            "user_selected_option_id": 34829,
+            "correct_answer": "Des attitudes contradictoires forgeant une identité.",
+            "correct_option_id": 34829,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte définit l'esprit français comme un équilibre entre « panache et arrogance, élégance et futilité, galanterie et gauloiserie » : ce sont des attitudes contradictoires forgeant une identité.",
+            "time_spent": 94,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_23_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34829,
+                    "text": "Des attitudes contradictoires forgeant une identité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34830,
+                    "text": "Un égocentrisme désuet au temps de la mondialisation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34831,
+                    "text": "Un ensemble de valeurs partagées par une élite.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34832,
+                    "text": "Une aptitude à l’ouverture qui tend à disparaître.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 89,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 23",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

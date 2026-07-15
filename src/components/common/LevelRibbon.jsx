@@ -3,15 +3,15 @@ import { LEVELS } from "@/constants/levels";
 
 // Signature element: the CEFR level ribbon (A1 → C2, blue → maple gradient)
 export function LevelRibbon({ current = "B1", target = "B2", compact }) {
-  const { c } = useApp();
+  const { c, t } = useApp();
   const ci = LEVELS.indexOf(current);
   const ti = LEVELS.indexOf(target);
   return (
-    <div role="img" aria-label={`Niveau actuel ${current}, objectif ${target}`}>
+    <div role="img" aria-label={`${t("Niveau actuel")} ${current}, ${t("objectif")} ${target}`}>
       {!compact && (
         <div className={`flex justify-between text-xs font-semibold mb-2 ${c.sub}`}>
-          <span>Niveau actuel · <span className="text-blue-600">{current}</span></span>
-          <span>Objectif · <span className="text-rose-600">{target}</span></span>
+          <span>{t("Niveau actuel")} · <span className="text-blue-600">{current}</span></span>
+          <span>{t("Objectif")} · <span className="text-rose-600">{target}</span></span>
         </div>
       )}
       <div className="flex gap-1.5">

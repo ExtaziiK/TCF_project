@@ -1,0 +1,1733 @@
+{
+    "id": 40083,
+    "exam_id": 73,
+    "score": 133.0,
+    "score_percent": 19.03,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:01:24.467082+00:00",
+    "time_spent": 55,
+    "section_breakdown": {
+        "Identification": {
+            "score": 4.8,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 6.7,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 3.8,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 3.8,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2809,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D’acheter un appartement.",
+            "user_selected_option_id": 36861,
+            "correct_answer": "D’habiter avec quelqu’un.",
+            "correct_option_id": 36862,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le site propose de « vivre chez une personne âgée pendant vos études » : il s'agit d'habiter avec quelqu'un.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_1.webp",
+            "all_options": [
+                {
+                    "id": 36861,
+                    "text": "D’acheter un appartement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36862,
+                    "text": "D’habiter avec quelqu’un.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36863,
+                    "text": "De rencontrer ses voisins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36864,
+                    "text": "De visiter son quartier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2810,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Pour aller visiter un musée",
+            "user_selected_option_id": 36865,
+            "correct_answer": "Pour voir un événement sportif.",
+            "correct_option_id": 36868,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Laura écrit « je t'attends devant l'entrée du stade... le match va commencer » : elle attend Mathilde pour voir un événement sportif.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_2.webp",
+            "all_options": [
+                {
+                    "id": 36865,
+                    "text": "Pour aller visiter un musée",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36866,
+                    "text": "Pour participer à un concours.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36867,
+                    "text": "Pour prendre un café ensemble.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36868,
+                    "text": "Pour voir un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2811,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Aller à une réunion.",
+            "user_selected_option_id": 36869,
+            "correct_answer": "S’occuper des enfants.",
+            "correct_option_id": 36871,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Claudia demande à Jean de « ne pas oublier d'aller chercher les enfants à l'école » car elle est en rendez-vous : il doit s'occuper des enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_3.webp",
+            "all_options": [
+                {
+                    "id": 36869,
+                    "text": "Aller à une réunion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36870,
+                    "text": "Déjeuner avec Claudia.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36871,
+                    "text": "S’occuper des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36872,
+                    "text": "Téléphoner à l’école.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2812,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Aux serveurs du bar.",
+            "user_selected_option_id": 36876,
+            "correct_answer": "Aux clients de l’hôtel.",
+            "correct_option_id": 36873,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise « Prière de n'emporter ni les draps de bain ni les objets appartenant au bar de la chambre... La direction de l'hôtel » : cette annonce est destinée aux clients de l'hôtel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_4.webp",
+            "all_options": [
+                {
+                    "id": 36873,
+                    "text": "Aux clients de l’hôtel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36874,
+                    "text": "Au service de nettoyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36875,
+                    "text": "Au directeur de l’hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36876,
+                    "text": "Aux serveurs du bar.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2813,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Visiter une ferme française.",
+            "user_selected_option_id": 36880,
+            "correct_answer": "Découvrir la nourriture locale",
+            "correct_option_id": 36877,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte invite à « discuter avec eux et goûter leurs délicieux produits : pommes, fromages, beurre, miel » : on peut découvrir la nourriture locale.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_5.webp",
+            "all_options": [
+                {
+                    "id": 36877,
+                    "text": "Découvrir la nourriture locale",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36878,
+                    "text": "Gagner un repas traditionnel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36879,
+                    "text": "Prendre un cours de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36880,
+                    "text": "Visiter une ferme française.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2814,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De préparer des danses.",
+            "user_selected_option_id": 36884,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 36883,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Cannelle demande à Elke de « t'occuper d'eux en journée » pendant que les invités dansent : elle lui demande de garder des enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_6.webp",
+            "all_options": [
+                {
+                    "id": 36881,
+                    "text": "D’écrire aux invités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36882,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36883,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36884,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2815,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Une école.",
+            "user_selected_option_id": 36888,
+            "correct_answer": "Un journal.",
+            "correct_option_id": 36885,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte propose « devenez reporter pour le mensuel de notre ville » avec pour contact « publications@nanterre.fr » : c'est un journal qui a écrit cette proposition.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_7.webp",
+            "all_options": [
+                {
+                    "id": 36885,
+                    "text": "Un journal.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36886,
+                    "text": "Un restaurant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36887,
+                    "text": "Une association.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36888,
+                    "text": "Une école.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2816,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Des jeux.",
+            "user_selected_option_id": 36892,
+            "correct_answer": "De la nourriture.",
+            "correct_option_id": 36889,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'invitation précise « venez avec des gâteaux, des boissons et votre bonne humeur » : les parents peuvent apporter de la nourriture.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_8.webp",
+            "all_options": [
+                {
+                    "id": 36889,
+                    "text": "De la nourriture.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36890,
+                    "text": "Des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36891,
+                    "text": "Des chansons.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36892,
+                    "text": "Des jeux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2817,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Téléphoner à Biotopia.",
+            "user_selected_option_id": 36896,
+            "correct_answer": "Continuer ses ventes.",
+            "correct_option_id": 36893,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Jean explique « je reste à Montélimar une semaine de plus parce que les ventes sur les marchés sont très bonnes » : il va continuer ses ventes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_9.webp",
+            "all_options": [
+                {
+                    "id": 36893,
+                    "text": "Continuer ses ventes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36894,
+                    "text": "Déménager à Montélimar.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36895,
+                    "text": "Rencontrer des clients.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36896,
+                    "text": "Téléphoner à Biotopia.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2818,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "L’explication d’une punition donnée.",
+            "user_selected_option_id": 36900,
+            "correct_answer": "La confirmation d’un rendez-vous.",
+            "correct_option_id": 36897,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Madame Fernand écrit « nous pourrons nous rencontrer mardi prochain afin de parler des problèmes scolaires de Guillaume » : c'est la confirmation d'un rendez-vous.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_10.webp",
+            "all_options": [
+                {
+                    "id": 36897,
+                    "text": "La confirmation d’un rendez-vous.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36898,
+                    "text": "La date des évaluations en français.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36899,
+                    "text": "Les résultats scolaires de son élève.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36900,
+                    "text": "L’explication d’une punition donnée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2819,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Répondre à un questionnaire.",
+            "user_selected_option_id": 36904,
+            "correct_answer": "Présenter un film.",
+            "correct_option_id": 36903,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les étudiant(e)s intéressé(e)s peuvent faire un exposé sur un film au choix » : il faut présenter un film.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_11.webp",
+            "all_options": [
+                {
+                    "id": 36901,
+                    "text": "Aller à Houston.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36902,
+                    "text": "Prendre un abonnement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36903,
+                    "text": "Présenter un film.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36904,
+                    "text": "Répondre à un questionnaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2820,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De suivre un traitement de pilules au chocolat.",
+            "user_selected_option_id": 36908,
+            "correct_answer": "De manger quotidiennement du chocolat.",
+            "correct_option_id": 36907,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise « il suffirait de consommer trois carrés par jour pour bénéficier des bienfaits du chocolat » : les chercheurs conseillent de manger quotidiennement du chocolat.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_12.webp",
+            "all_options": [
+                {
+                    "id": 36905,
+                    "text": "D’utiliser des crèmes solaires à base de chocolat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36906,
+                    "text": "De diminuer sa consommation de chocolat.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36907,
+                    "text": "De manger quotidiennement du chocolat.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36908,
+                    "text": "De suivre un traitement de pilules au chocolat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2821,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Rendre le vêtement.",
+            "user_selected_option_id": 36912,
+            "correct_answer": "Annuler son achat.",
+            "correct_option_id": 36909,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La cliente écrit « je vous demande de me rembourser le plus rapidement possible » pour une robe jamais reçue : elle veut annuler son achat.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_13.webp",
+            "all_options": [
+                {
+                    "id": 36909,
+                    "text": "Annuler son achat.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36910,
+                    "text": "Echanger son article.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36911,
+                    "text": "Obtenir une réduction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36912,
+                    "text": "Rendre le vêtement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2822,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "l’inconscience des enfants imprudents.",
+            "user_selected_option_id": 36916,
+            "correct_answer": "les dangers des aliments mal conservés.",
+            "correct_option_id": 36914,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte raconte que des enfants ont été hospitalisés après avoir mangé « des beignets à la crème » qui « avaient passé la journée au soleil » : l'anecdote dénonce les dangers des aliments mal conservés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_14.webp",
+            "all_options": [
+                {
+                    "id": 36913,
+                    "text": "le grand nombre de vendeurs ambulants",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36914,
+                    "text": "les dangers des aliments mal conservés.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36915,
+                    "text": "les méfaits des collations après le bain.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36916,
+                    "text": "l’inconscience des enfants imprudents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2823,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Pour faire des économies de papier",
+            "user_selected_option_id": 36920,
+            "correct_answer": "Pour faire des économies de papier",
+            "correct_option_id": 36920,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'Assemblée est gourmande en feuilles » et que ce chiffre « a déjà énormément diminué » grâce au numérique : c'est pour faire des économies de papier.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_15.webp",
+            "all_options": [
+                {
+                    "id": 36917,
+                    "text": "Pour diminuer l’empreinte carbone.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36918,
+                    "text": "Pour donner une image moderne de l’Assemblée",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36919,
+                    "text": "Pour étudier plus rapidement les amendements",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36920,
+                    "text": "Pour faire des économies de papier",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2824,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Obtenir des créations de postes.",
+            "user_selected_option_id": 36924,
+            "correct_answer": "Améliorer l’environnement professionnel.",
+            "correct_option_id": 36921,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la réunion doit « désamorcer les tensions » liées à « la non-prise en compte de la pénibilité du travail et les problèmes croissants de sécurité » : l'objectif est d'améliorer l'environnement professionnel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_16.webp",
+            "all_options": [
+                {
+                    "id": 36921,
+                    "text": "Améliorer l’environnement professionnel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36922,
+                    "text": "Éviter des licenciements abusifs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36923,
+                    "text": "Modifier les termes d’accords obsolètes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36924,
+                    "text": "Obtenir des créations de postes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2825,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Les produits ne sont pas toujours de très bonne qualité.",
+            "user_selected_option_id": 36928,
+            "correct_answer": "Les frais d’envoi peuvent en augmenter le coût.",
+            "correct_option_id": 36926,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise « vérifiez toujours que le montant du cadeau ou de la réduction est supérieur aux frais de port exigés » : les frais d'envoi peuvent en augmenter le coût.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_17.webp",
+            "all_options": [
+                {
+                    "id": 36925,
+                    "text": "Les produits sont toujours plus chers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36926,
+                    "text": "Les frais d’envoi peuvent en augmenter le coût.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36927,
+                    "text": "Les laboratoires offrent souvent des cadeaux sans valeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36928,
+                    "text": "Les produits ne sont pas toujours de très bonne qualité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2826,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Une fête.",
+            "user_selected_option_id": 36932,
+            "correct_answer": "Un jeu.",
+            "correct_option_id": 36931,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le supermarché « organise un concours gratuit pour gagner des milliers d'articles » : il s'agit d'un jeu.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_18.webp",
+            "all_options": [
+                {
+                    "id": 36929,
+                    "text": "Des promotions.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36930,
+                    "text": "Des vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36931,
+                    "text": "Un jeu.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36932,
+                    "text": "Une fête.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2827,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Elle est sous-estimée en tant que moyen d’amélioration.",
+            "user_selected_option_id": 36936,
+            "correct_answer": "Elle est sous-estimée en tant que moyen d’amélioration.",
+            "correct_option_id": 36936,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'erreur est trop peu valorisée » alors qu'elle permet de « découvrir tout ce qu'ils ont compris » : elle est sous-estimée en tant que moyen d'amélioration.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_19.webp",
+            "all_options": [
+                {
+                    "id": 36933,
+                    "text": "Elle a des conséquences négatives sur l’apprentissage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36934,
+                    "text": "Elle doit être sévèrement sanctionnée durant la formation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36935,
+                    "text": "Elle est moins bien tolérée dans le domaine scientifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36936,
+                    "text": "Elle est sous-estimée en tant que moyen d’amélioration.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2828,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Proposer des cours de botanique.",
+            "user_selected_option_id": 36940,
+            "correct_answer": "Créer un site collaboratif de données.",
+            "correct_option_id": 36937,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le Muséum a créé « une plate-forme sur laquelle les internautes sont invités à retranscrire les informations » : il s'agit de créer un site collaboratif de données.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36937,
+                    "text": "Créer un site collaboratif de données.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36938,
+                    "text": "Mener une enquête sur les plantes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36939,
+                    "text": "Organiser des visites de l’herbier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36940,
+                    "text": "Proposer des cours de botanique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2829,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Il modifie le moment du coucher.",
+            "user_selected_option_id": 36944,
+            "correct_answer": "Il modifie le moment du coucher.",
+            "correct_option_id": 36944,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ce changement d'heure « amène logiquement à se coucher plus tard » : il modifie le moment du coucher.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36941,
+                    "text": "Il convient aux enfants d’âge scolaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36942,
+                    "text": "Il dérègle l’organisation des élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36943,
+                    "text": "Il est adapté au rythme biologique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36944,
+                    "text": "Il modifie le moment du coucher.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2830,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "D’organiser des ventes groupées.",
+            "user_selected_option_id": 36948,
+            "correct_answer": "De limiter le gaspillage alimentaire.",
+            "correct_option_id": 36945,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'application permet d'accéder à « des produits invendus au moins à moitié prix » et « aurait déjà sauvé 65 000 repas » : elle permet de limiter le gaspillage alimentaire.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_22.webp",
+            "all_options": [
+                {
+                    "id": 36945,
+                    "text": "De limiter le gaspillage alimentaire.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36946,
+                    "text": "De livrer des plats dans les entreprises.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36947,
+                    "text": "De soutenir les magasins de proximité.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36948,
+                    "text": "D’organiser des ventes groupées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2831,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Le désir de reconnaissance.",
+            "user_selected_option_id": 36952,
+            "correct_answer": "Le besoin d’interaction sociale.",
+            "correct_option_id": 36951,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur explique avoir choisi ce métier car « on riait beaucoup plus au contact des êtres humains plongés dans la vie qu'à celui des chercheurs » : c'est le besoin d'interaction sociale qui l'a guidé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_23.webp",
+            "all_options": [
+                {
+                    "id": 36949,
+                    "text": "L’attirance pour les études.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36950,
+                    "text": "L’appel des pays chauds.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36951,
+                    "text": "Le besoin d’interaction sociale.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36952,
+                    "text": "Le désir de reconnaissance.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2832,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Aux vibrations transmises par des corps extra-terrestres.",
+            "user_selected_option_id": 36956,
+            "correct_answer": "Aux étincelles produites par des perturbations orageuses.",
+            "correct_option_id": 36954,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces lueurs « proviendraient d'orages grondant dans la haute atmosphère » : elles font référence aux étincelles produites par des perturbations orageuses.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36953,
+                    "text": "Aux équipes d’universitaires qui travaillent sur la lumière.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36954,
+                    "text": "Aux étincelles produites par des perturbations orageuses.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36955,
+                    "text": "Aux scientifiques qui guettent des signaux dans l’espace.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36956,
+                    "text": "Aux vibrations transmises par des corps extra-terrestres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2833,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Respectueux des valeurs de sa famille.",
+            "user_selected_option_id": 36960,
+            "correct_answer": "Rebelle à toute forme d’autorité.",
+            "correct_option_id": 36959,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur se décrit comme « un indiscipliné de naissance ; on n'a jamais pu me plier même dans ma petite enfance à une règle » : il était rebelle à toute forme d'autorité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_25.webp",
+            "all_options": [
+                {
+                    "id": 36957,
+                    "text": "Malheureux de vivre en province.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36958,
+                    "text": "Persévérant dans ses études.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36959,
+                    "text": "Rebelle à toute forme d’autorité.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36960,
+                    "text": "Respectueux des valeurs de sa famille.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2834,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Le malentendu sur le lieu où est enterré Brassens.",
+            "user_selected_option_id": 36964,
+            "correct_answer": "Le malentendu sur le lieu où est enterré Brassens.",
+            "correct_option_id": 36964,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le conservateur explique que « malgré sa chanson bien connue, Georges Brassens n'est pas enterré au Cimetière marin » mais que « les trois-quarts » des visiteurs « demandent où se trouve la tombe de Brassens » : il décrit le malentendu sur le lieu où est enterré Brassens.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36961,
+                    "text": "L’afflux des fans de Brassens dans un espace intime.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36962,
+                    "text": "L’intérêt exclusif des visiteurs du cimetière pour Brassens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36963,
+                    "text": "La situation peu accessible de la tombe de Brassens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36964,
+                    "text": "Le malentendu sur le lieu où est enterré Brassens.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2835,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Les problèmes causés par la surpopulation.",
+            "user_selected_option_id": 36968,
+            "correct_answer": "Les doutes sur les méthodes de production.",
+            "correct_option_id": 36966,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte insiste sur le fait que « les incertitudes scientifiques demeurent quant à leurs réels impacts sur les rendements » entre agriculture biologique et conventionnelle : l'auteur insiste sur les doutes sur les méthodes de production.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36965,
+                    "text": "Les conséquences d’un régime végétarien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36966,
+                    "text": "Les doutes sur les méthodes de production.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36967,
+                    "text": "Les effets de l’usage de produits chimiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36968,
+                    "text": "Les problèmes causés par la surpopulation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2836,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Elles sont victimes d’accidents fréquents.",
+            "user_selected_option_id": 36972,
+            "correct_answer": "Elles gagnent en visibilité dans ce milieu.",
+            "correct_option_id": 36969,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« une génération de femmes alpinistes est en train de bouleverser la donne » et que « les femmes ont leur place dans l'élite de l'himalayisme » : elles gagnent en visibilité dans ce milieu.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36969,
+                    "text": "Elles gagnent en visibilité dans ce milieu.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36970,
+                    "text": "Elles remportent des compétitions mixtes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36971,
+                    "text": "Elles sont rabaissées par les hommes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36972,
+                    "text": "Elles sont victimes d’accidents fréquents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2837,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Elles provoquent la disparition de l’écriture.",
+            "user_selected_option_id": 36976,
+            "correct_answer": "Elles modifient nos processus cognitifs.",
+            "correct_option_id": 36975,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le philosophe explique que « cet organe évolue » et que « les facultés cognitives ne sont pas stables chez l'homme » avec les nouvelles technologies : elles modifient nos processus cognitifs.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_29.webp",
+            "all_options": [
+                {
+                    "id": 36973,
+                    "text": "A Elles détruisent les cellules du cerveau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36974,
+                    "text": "Elles développent la mémoire à court terme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36975,
+                    "text": "Elles modifient nos processus cognitifs.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36976,
+                    "text": "Elles provoquent la disparition de l’écriture.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2838,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "user_selected_option_id": 36980,
+            "correct_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "correct_option_id": 36980,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que les élèves confiants « choisissent de préférence des activités présentant... un défi » : ils se fixent des objectifs élevés dans ces matières.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36977,
+                    "text": "Ils finissent par maîtriser l’ensemble des matières",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36978,
+                    "text": "Ils font des efforts dans les autres matières étudiées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36979,
+                    "text": "Ils négligent les matières trop faciles pour eux",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36980,
+                    "text": "Ils se fixent des objectifs élevés dans ces matières.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2839,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "De trouver des réponses rapides.",
+            "user_selected_option_id": 36984,
+            "correct_answer": "De solliciter davantage la raison.",
+            "correct_option_id": 36983,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que dans une langue étrangère, « le résultat est plus réfléchi, moins dicté par les émotions, plus orienté vers l'utilité » : cela permet de solliciter davantage la raison.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_31.webp",
+            "all_options": [
+                {
+                    "id": 36981,
+                    "text": "D’attirer l’attention de l’interlocuteur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36982,
+                    "text": "D’imaginer des solutions originales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36983,
+                    "text": "De solliciter davantage la raison.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36984,
+                    "text": "De trouver des réponses rapides.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2840,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "De surveiller la navigation des jeunes sur la toile.",
+            "user_selected_option_id": 36988,
+            "correct_answer": "De participer à l’exploration du monde numérique.",
+            "correct_option_id": 36985,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le docteur Huerre recommande aux parents d'« explorer avec leur enfant les jeux qui l'intéressent » et de jouer avec lui : il préconise de participer à l'exploration du monde numérique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36985,
+                    "text": "De participer à l’exploration du monde numérique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36986,
+                    "text": "De restreindre le temps consacré aux jeux vidéo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36987,
+                    "text": "De sélectionner des contenus adaptés aux enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36988,
+                    "text": "De surveiller la navigation des jeunes sur la toile.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2841,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Leur proposer des énigmes à résoudre.",
+            "user_selected_option_id": 36992,
+            "correct_answer": "Leur permettre d’inventer des activités.",
+            "correct_option_id": 36990,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les matériaux les moins finis... laissent à l'enfant l'espace nécessaire pour tenter de les transformer » : il faut leur permettre d'inventer des activités.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36989,
+                    "text": "Leur donner le goût de l’observation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36990,
+                    "text": "Leur permettre d’inventer des activités.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36991,
+                    "text": "Leur procurer des jeux éducatifs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36992,
+                    "text": "Leur proposer des énigmes à résoudre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2842,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Restaurer d’anciens bâtiments.",
+            "user_selected_option_id": 36996,
+            "correct_answer": "Former les spécialistes du secteur.",
+            "correct_option_id": 36994,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il s'agit d'« adapter l'offre du marché et d'élargir les domaines de compétences des professionnels » : le défi est de former les spécialistes du secteur.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_34.webp",
+            "all_options": [
+                {
+                    "id": 36993,
+                    "text": "Convaincre la clientèle cible.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36994,
+                    "text": "Former les spécialistes du secteur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36995,
+                    "text": "Rentabiliser les projets à venir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36996,
+                    "text": "Restaurer d’anciens bâtiments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2843,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "À simplifier les procédures.",
+            "user_selected_option_id": 37000,
+            "correct_answer": "À minimiser les aléas.",
+            "correct_option_id": 36998,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le responsable explique que la cooptation « permet de limiter les risques » lors du recrutement : les entreprises cherchent à minimiser les aléas.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_35.webp",
+            "all_options": [
+                {
+                    "id": 36997,
+                    "text": "À gagner du temps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36998,
+                    "text": "À minimiser les aléas.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36999,
+                    "text": "À réduire les frais.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37000,
+                    "text": "À simplifier les procédures.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2844,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "L’uniformité des scénarios.",
+            "user_selected_option_id": 37004,
+            "correct_answer": "La quasi-absence d’héroïnes.",
+            "correct_option_id": 37001,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte constate que « l'œil avisé aura lui-même bien du mal à trouver un personnage principal féminin » dans les jeux vidéo : le constat est la quasi-absence d'héroïnes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_36.webp",
+            "all_options": [
+                {
+                    "id": 37001,
+                    "text": "La quasi-absence d’héroïnes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 37002,
+                    "text": "L’appel constant à la violence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37003,
+                    "text": "L’atténuation des clichés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37004,
+                    "text": "L’uniformité des scénarios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2845,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Proposer des disciplines inédites.",
+            "user_selected_option_id": 37008,
+            "correct_answer": "Ouvrir ses cours à un public élargi.",
+            "correct_option_id": 37007,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'université veut « l'accès à un enseignement supérieur qualitatif pour le plus grand nombre » : son objectif est d'ouvrir ses cours à un public élargi.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_37.webp",
+            "all_options": [
+                {
+                    "id": 37005,
+                    "text": "Attirer davantage d’étudiants brillants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37006,
+                    "text": "Être à la pointe de la technologie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37007,
+                    "text": "Ouvrir ses cours à un public élargi.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37008,
+                    "text": "Proposer des disciplines inédites.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2846,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "C’est une marque de courtoisie.",
+            "user_selected_option_id": 37012,
+            "correct_answer": "C’est une marque de courtoisie.",
+            "correct_option_id": 37012,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Serge Carreira explique que la cravate reste « un symbole d'autorité et de respect vis-à-vis de ses interlocuteurs, de ses clients » : elle est une marque de courtoisie.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_38.webp",
+            "all_options": [
+                {
+                    "id": 37009,
+                    "text": "C’est un accessoire d’élégance masculine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37010,
+                    "text": "C’est un signe de reconnaissance entre pairs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37011,
+                    "text": "C’est une coutume en réunion.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 37012,
+                    "text": "C’est une marque de courtoisie.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2847,
+            "question_text": "Compréhension écrite – Quiz 37 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il s’émerveille de sa technologie.",
+            "user_selected_option_id": 37016,
+            "correct_answer": "Il s’inquiète de son usage abusif.",
+            "correct_option_id": 37015,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur regrette que le téléphone intelligent fasse « peu à peu disparaître » l'ennui et l'observation, et qu'on puisse « regarder en permanence... au détriment de la vôtre » : il s'inquiète de son usage abusif.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_37_question_39.webp",
+            "all_options": [
+                {
+                    "id": 37013,
+                    "text": "Il reconnaît ses aspects pratiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37014,
+                    "text": "Il remet en cause ses bienfaits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37015,
+                    "text": "Il s’inquiète de son usage abusif.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37016,
+                    "text": "Il s’émerveille de sa technologie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 19,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 37",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

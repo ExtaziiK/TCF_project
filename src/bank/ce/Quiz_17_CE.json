@@ -1,0 +1,1733 @@
+{
+    "id": 40356,
+    "exam_id": 53,
+    "score": 711.0,
+    "score_percent": 101.72,
+    "cefr_level": null,
+    "clb_level": null,
+    "completed_at": "2026-07-07T17:42:50.592287+00:00",
+    "time_spent": 217,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20.3,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20.3,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2029,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "À une fête d’anniversaire.",
+            "user_selected_option_id": 33743,
+            "correct_answer": "À une fête d’anniversaire.",
+            "correct_option_id": 33743,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Bastien écrit « j'organise une soirée pour mes 25 ans » : Justine est invitée à une fête d'anniversaire.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33741,
+                    "text": "À un cours de pâtisserie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33742,
+                    "text": "À un déjeuner chez un ami.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33743,
+                    "text": "À une fête d’anniversaire.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33744,
+                    "text": "À une sortie en discothèque.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2030,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Pour lui raconter ses vacances.",
+            "user_selected_option_id": 33748,
+            "correct_answer": "Pour lui raconter ses vacances.",
+            "correct_option_id": 33748,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Clémence raconte son arrivée à Cannes, l'hôtel, le théâtre et le musée du cinéma : elle écrit pour raconter ses vacances à sa mère.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33745,
+                    "text": "Pour lui conseiller un film.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33746,
+                    "text": "Pour lui demander des nouvelles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33747,
+                    "text": "Pour lui proposer une sortie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33748,
+                    "text": "Pour lui raconter ses vacances.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2031,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Un nouvel horaire.",
+            "user_selected_option_id": 33750,
+            "correct_answer": "Un nouvel horaire.",
+            "correct_option_id": 33750,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message annonce que les cours d'anglais « ne commenceront plus à 10h30 mais à 12h30 » : c'est un nouvel horaire qui est annoncé.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33749,
+                    "text": "Un changement de lieu.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33750,
+                    "text": "Un nouvel horaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33751,
+                    "text": "Une absence de professeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33752,
+                    "text": "Une rencontre entre étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2032,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Avant ce soir.",
+            "user_selected_option_id": 33753,
+            "correct_answer": "Avant ce soir.",
+            "correct_option_id": 33753,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise que Vincent Jade « part à 20 heures en Inde » : Adrien doit donc le rappeler avant ce soir.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33753,
+                    "text": "Avant ce soir.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33754,
+                    "text": "Cette semaine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33755,
+                    "text": "Dans trois mois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33756,
+                    "text": "Pendant le déjeuner.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2033,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Découvrir la nourriture locale.",
+            "user_selected_option_id": 33757,
+            "correct_answer": "Découvrir la nourriture locale.",
+            "correct_option_id": 33757,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le salon gastronomique invite à « discuter avec eux et goûter leurs délicieux produits » : on peut y découvrir la nourriture locale.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33757,
+                    "text": "Découvrir la nourriture locale.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33758,
+                    "text": "Gagner un repas traditionnel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33759,
+                    "text": "Prendre un cours de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33760,
+                    "text": "Visiter une ferme française.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2034,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Elle travaille dans un restaurant.",
+            "user_selected_option_id": 33764,
+            "correct_answer": "Elle travaille dans un restaurant.",
+            "correct_option_id": 33764,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Camille explique qu'elle « est serveuse dans un restaurant depuis une semaine » : elle explique donc qu'elle travaille dans un restaurant.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33761,
+                    "text": "Elle est en voyage à Montpellier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33762,
+                    "text": "Elle rencontre des amis à Paris.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33763,
+                    "text": "Elle suit des cours à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33764,
+                    "text": "Elle travaille dans un restaurant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2035,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D’utiliser des véhicules.",
+            "user_selected_option_id": 33768,
+            "correct_answer": "D’utiliser des véhicules.",
+            "correct_option_id": 33768,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce Citiz propose « des voitures en libre-service 24h/24 » : le service propose donc d'utiliser des véhicules.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33765,
+                    "text": "D’apprendre à conduire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33766,
+                    "text": "De réparer des automobiles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33767,
+                    "text": "De voyager plus rapidement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33768,
+                    "text": "D’utiliser des véhicules.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2036,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Comment elle a acheté un article en ligne ?",
+            "user_selected_option_id": 33769,
+            "correct_answer": "Comment elle a acheté un article en ligne ?",
+            "correct_option_id": 33769,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La personne explique avoir « trouvé une jolie robe » sur www.lamode.com et l'avoir commandée : elle explique comment elle a acheté un article en ligne.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33769,
+                    "text": "Comment elle a acheté un article en ligne ?",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33770,
+                    "text": "Où elle a cherché un cadeau bon marché ?",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33771,
+                    "text": "Pourquoi elle a eu un chèque de réduction ?",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33772,
+                    "text": "Quand elle a échangé un vêtement soldé ?",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2037,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Continuer ses ventes.",
+            "user_selected_option_id": 33773,
+            "correct_answer": "Continuer ses ventes.",
+            "correct_option_id": 33773,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Jean Roussel écrit « je reste à Montélimar une semaine de plus parce que les ventes sur les marchés sont très bonnes » : il va donc continuer ses ventes.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33773,
+                    "text": "Continuer ses ventes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33774,
+                    "text": "Déménager à Montélimar.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33775,
+                    "text": "Rencontrer des clients.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33776,
+                    "text": "Téléphoner à Biotopia.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2038,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Un billet d’avion.",
+            "user_selected_option_id": 33778,
+            "correct_answer": "Un billet d’avion.",
+            "correct_option_id": 33778,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La publicité annonce « 15 % de réduction sur nos vols Air France Paris-Londres » : elle propose donc un billet d'avion.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33777,
+                    "text": "Une visite de Londres.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33778,
+                    "text": "Un billet d’avion.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33779,
+                    "text": "Un séjour à Paris.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33780,
+                    "text": "Un voyage en train.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2039,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De collecter du plastique.",
+            "user_selected_option_id": 33782,
+            "correct_answer": "De collecter du plastique.",
+            "correct_option_id": 33782,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à donner ses bouteilles en plastique pour en faire des bicyclettes : elle propose de collecter du plastique.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33781,
+                    "text": "De changer les poubelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33782,
+                    "text": "De collecter du plastique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33783,
+                    "text": "De gagner une bicyclette.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33784,
+                    "text": "De travailler pour la mairie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2040,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Elle est bonne pour la santé.",
+            "user_selected_option_id": 33785,
+            "correct_answer": "Elle est bonne pour la santé.",
+            "correct_option_id": 33785,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la pratique du bilinguisme « aide à lutter contre certaines maladies » : elle est donc bonne pour la santé.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33785,
+                    "text": "Elle est bonne pour la santé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33786,
+                    "text": "Elle facilite la socialisation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33787,
+                    "text": "Elle développe la mémoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33788,
+                    "text": "Elle enrichit la personnalité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2041,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Annuler son achat.",
+            "user_selected_option_id": 33789,
+            "correct_answer": "Annuler son achat.",
+            "correct_option_id": 33789,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La cliente écrit « je vous demande de me rembourser le plus rapidement possible » car elle n'a jamais reçu sa robe : elle veut donc annuler son achat.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33789,
+                    "text": "Annuler son achat.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33790,
+                    "text": "Échanger son article.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33791,
+                    "text": "Obtenir une réduction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33792,
+                    "text": "Rendre le vêtement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2042,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Assister à des spectacles.",
+            "user_selected_option_id": 33793,
+            "correct_answer": "Assister à des spectacles.",
+            "correct_option_id": 33793,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la carte Scène permet d'aller « voir plus de 150 pièces » dans une quarantaine de théâtres : elle permet d'assister à des spectacles.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33793,
+                    "text": "Assister à des spectacles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33794,
+                    "text": "Obtenir de meilleures places.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33795,
+                    "text": "Rencontrer des comédiens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33796,
+                    "text": "Suivre des visites guidées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2043,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Les clubs disparaissaient vite après leur création.",
+            "user_selected_option_id": 33797,
+            "correct_answer": "Les clubs disparaissaient vite après leur création.",
+            "correct_option_id": 33797,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « beaucoup suivent la mode et ont une durée de vie très courte » : les clubs disparaissaient vite après leur création.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33797,
+                    "text": "Les clubs disparaissaient vite après leur création.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33798,
+                    "text": "Les groupes concernés étaient trop nombreux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33799,
+                    "text": "Les lecteurs refusaient de parler à des journalistes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33800,
+                    "text": "Les rencontres se faisaient de manière irrégulière.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2044,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Pour respecter des normes d’hygiène.",
+            "user_selected_option_id": 33803,
+            "correct_answer": "Pour respecter des normes d’hygiène.",
+            "correct_option_id": 33803,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le règlement vise à éviter les tenues « pour respecter des normes d'hygiène » dans certains établissements scolaires.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33801,
+                    "text": "Pour aider les élèves à ne pas s’enrhumer.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33802,
+                    "text": "Pour enseigner le droit à la tolérance.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33803,
+                    "text": "Pour respecter des normes d’hygiène.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33804,
+                    "text": "Pour supprimer les différences sociales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2045,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "De traiter seul des affectations bénignes.",
+            "user_selected_option_id": 33808,
+            "correct_answer": "De traiter seul des affectations bénignes.",
+            "correct_option_id": 33808,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'application vise à « faire un tri entre les petits maux du quotidien qui peuvent être traités par les gens eux-mêmes et les maladies plus graves » : elle permet de traiter seul des affectations bénignes.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33805,
+                    "text": "D’acheter des médicaments sans ordonnance.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33806,
+                    "text": "D’avoir le choix entre différents spécialistes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33807,
+                    "text": "De prendre rapidement rendez-vous.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33808,
+                    "text": "De traiter seul des affectations bénignes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2046,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Une offre intéressante.",
+            "user_selected_option_id": 33812,
+            "correct_answer": "Une offre intéressante.",
+            "correct_option_id": 33812,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose « 3 mois d'assurance gratuite si vous vous inscrivez avant le 30 septembre » : c'est une offre intéressante qui est proposée.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33809,
+                    "text": "Un abonnement mensuel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33810,
+                    "text": "Un choix d’appartements.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33811,
+                    "text": "Une location moins chère.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33812,
+                    "text": "Une offre intéressante.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2047,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Faire de ces loisirs des moments de partage.",
+            "user_selected_option_id": 33814,
+            "correct_answer": "Faire de ces loisirs des moments de partage.",
+            "correct_option_id": 33814,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conclut qu'il faut « faire des écrans des objets d'échange familial et non un refuge individuel » : l'objectif est de faire de ces loisirs des moments de partage.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33813,
+                    "text": "Donner à ces activités une fonction éducative.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33814,
+                    "text": "Faire de ces loisirs des moments de partage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33815,
+                    "text": "Fixer des plages horaires pour jouer en ligne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33816,
+                    "text": "S’informer auprès des professionnels de santé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2048,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Une perte de spontanéité des matchs.",
+            "user_selected_option_id": 33820,
+            "correct_answer": "Une perte de spontanéité des matchs.",
+            "correct_option_id": 33820,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque l'attente liée à la VAR au football qui ferait perdre « l'essence même du football qui est la joie, la folie » : c'est une perte de spontanéité des matchs.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33817,
+                    "text": "Un manque d’intérêt du grand public.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33818,
+                    "text": "Un risque de déconcentration des joueurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33819,
+                    "text": "Une moindre crédibilité des arbitres.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33820,
+                    "text": "Une perte de spontanéité des matchs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2049,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Maintenir les performances de la mémoire.",
+            "user_selected_option_id": 33824,
+            "correct_answer": "Maintenir les performances de la mémoire.",
+            "correct_option_id": 33824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conseille, après la soixantaine, de « conserver une vie active physiquement... et aussi intellectuellement en sollicitant nos fonctions mentales » : l'objectif est de maintenir les performances de la mémoire.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33821,
+                    "text": "Améliorer des capacités physiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33822,
+                    "text": "Découvrir de nouveaux types de sports.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33823,
+                    "text": "Développer le cercle de ses relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33824,
+                    "text": "Maintenir les performances de la mémoire.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2050,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Il nécessite une réorganisation des lieux les plus visités.",
+            "user_selected_option_id": 33826,
+            "correct_answer": "Il nécessite une réorganisation des lieux les plus visités.",
+            "correct_option_id": 33826,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « 20 % du pays accueillent 80 % des touristes » en l'absence de tout aménagement : le surtourisme nécessite une réorganisation des lieux les plus visités.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33825,
+                    "text": "Il est à l’origine d’une politique de diminution des flux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33826,
+                    "text": "Il nécessite une réorganisation des lieux les plus visités.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33827,
+                    "text": "Il permet de répartir les voyageurs sur tout le territoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33828,
+                    "text": "Il suscite l’engagement des professionnels du secteur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2051,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "C’est un carrefour culturel intercontinental.",
+            "user_selected_option_id": 33830,
+            "correct_answer": "C’est un carrefour culturel intercontinental.",
+            "correct_option_id": 33830,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit Vancouver comme « un lieu de croisement inédit des humanismes » avec des connexions entre Shanghai, Tokyo, la Californie et l'Europe : c'est un carrefour culturel intercontinental.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33829,
+                    "text": "Elle concentre une intense activité diplomatique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33830,
+                    "text": "C’est un carrefour culturel intercontinental.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33831,
+                    "text": "C’est une plaque tournante du marché de l’art.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33832,
+                    "text": "Elle héberge de multiples lieux d’exposition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2052,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Il est accessible à un nombre croissant d’utilisateurs grâce à internet.",
+            "user_selected_option_id": 33834,
+            "correct_answer": "Il est accessible à un nombre croissant d’utilisateurs grâce à internet.",
+            "correct_option_id": 33834,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'organisation d'un trajet est devenue « si simple et si efficace avec les sites spécialisés » : le covoiturage est accessible à un nombre croissant d'utilisateurs grâce à internet.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33833,
+                    "text": "Il devient la solution idéale des voyages organisés à la dernière minute.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33834,
+                    "text": "Il est accessible à un nombre croissant d’utilisateurs grâce à internet.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33835,
+                    "text": "Il occupe une place grandissante dans les petites annonces des journaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33836,
+                    "text": "Il s’impose comme le moyen de déplacement à la mode chez les jeunes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2053,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Pour obtenir des données sur sa composition.",
+            "user_selected_option_id": 33840,
+            "correct_answer": "Pour obtenir des données sur sa composition.",
+            "correct_option_id": 33840,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que SEIS va « récolter des données qui permettront de déterminer si le noyau de la planète est liquide ou solide » : il a été envoyé pour obtenir des données sur sa composition.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33837,
+                    "text": "Pour comparer son histoire à celle de la Terre.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33838,
+                    "text": "Pour évaluer les possibilités d’aller y vivre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33839,
+                    "text": "Pour expliquer son grand nombre de séismes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33840,
+                    "text": "Pour obtenir des données sur sa composition.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2054,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "De nouvelles pédagogies semblent nécessaires.",
+            "user_selected_option_id": 33841,
+            "correct_answer": "De nouvelles pédagogies semblent nécessaires.",
+            "correct_option_id": 33841,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'il faudrait « enseigner [les mathématiques] comme un outil de réflexion ancré dans le quotidien » pour réconcilier les écoliers avec elles : de nouvelles pédagogies semblent nécessaires.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33841,
+                    "text": "De nouvelles pédagogies semblent nécessaires.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33842,
+                    "text": "Il conviendrait d’améliorer les résultats des élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33843,
+                    "text": "L’Europe doit engager une réforme des programmes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33844,
+                    "text": "Un soutien scolaire journalier serait bénéfique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2055,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Les doutes sur les méthodes de production.",
+            "user_selected_option_id": 33846,
+            "correct_answer": "Les doutes sur les méthodes de production.",
+            "correct_option_id": 33846,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « les incertitudes scientifiques demeurent quant à leurs réels impacts sur les rendements » de l'agriculture biologique : l'auteur insiste sur les doutes concernant les méthodes de production.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33845,
+                    "text": "Les conséquences d’un régime végétarien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33846,
+                    "text": "Les doutes sur les méthodes de production.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33847,
+                    "text": "Les effets de l’usage de produits chimiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33848,
+                    "text": "Les problèmes causés par la surpopulation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2056,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "La manipulation des clients par les industriels.",
+            "user_selected_option_id": 33849,
+            "correct_answer": "La manipulation des clients par les industriels.",
+            "correct_option_id": 33849,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte dénonce que les entreprises agroalimentaires « exploitent notre préférence innée pour le sucre » en sachant que « l'éducation nutritionnelle... est défaillante » : c'est la manipulation des clients par les industriels qui est dénoncée.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33849,
+                    "text": "La manipulation des clients par les industriels.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33850,
+                    "text": "L’attitude imprévisible des consommateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33851,
+                    "text": "L’uniformisation des saveurs et des gouts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33852,
+                    "text": "L’utilisation abusive des produits de synthèse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2057,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Faire évoluer les mentalités au sujet du handicap au travail.",
+            "user_selected_option_id": 33853,
+            "correct_answer": "Faire évoluer les mentalités au sujet du handicap au travail.",
+            "correct_option_id": 33853,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'association veut « modifier la vision commune du handicap et encourager les entreprises à s'engager dans cette voie » : sa mission est de faire évoluer les mentalités au sujet du handicap au travail.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33853,
+                    "text": "Faire évoluer les mentalités au sujet du handicap au travail.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33854,
+                    "text": "Permettre de modifier la législation sur le handicap au travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33855,
+                    "text": "Recenser les discriminations dont sont victimes les handicapés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33856,
+                    "text": "Subventionner les entreprises qui recrutent des handicapés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2058,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "user_selected_option_id": 33860,
+            "correct_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "correct_option_id": 33860,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les élèves confiants « choisissent en préférence des activités présentant... un défi » : ils se fixent des objectifs élevés dans ces matières.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33857,
+                    "text": "Ils finissent par maîtriser l’ensemble des matières.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33858,
+                    "text": "Ils font des efforts dans les autres matières étudiées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33859,
+                    "text": "Ils négligent les matières trop faciles pour eux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33860,
+                    "text": "Ils se fixent des objectifs élevés dans ces matières.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2059,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "C’est la photographie qui est la forme d’art la moins valorisée.",
+            "user_selected_option_id": 33861,
+            "correct_answer": "C’est la photographie qui est la forme d’art la moins valorisée.",
+            "correct_option_id": 33861,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte constate que ce qui « choquerait pour tout autre secteur... n'offusque personne dès lors qu'il s'agit du photographe » privé de droits d'auteur : c'est la photographie qui est la forme d'art la moins valorisée.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33861,
+                    "text": "C’est la photographie qui est la forme d’art la moins valorisée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33862,
+                    "text": "Il y a peu d’événements culturels consacrés à la photographie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33863,
+                    "text": "Les photographies sont commercialisées à bas prix.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33864,
+                    "text": "N’importe qui peut s’improviser photographe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2060,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "De participer à l’exploration du monde numérique.",
+            "user_selected_option_id": 33865,
+            "correct_answer": "De participer à l’exploration du monde numérique.",
+            "correct_option_id": 33865,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le médecin recommande « d'explorer avec leur enfant les jeux qui l'intéressent » et de « jouer avec lui » : il préconise de participer à l'exploration du monde numérique.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33865,
+                    "text": "De participer à l’exploration du monde numérique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33866,
+                    "text": "De restreindre le temps consacré aux jeux vidéo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33867,
+                    "text": "De sélectionner des contenus adaptés aux enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33868,
+                    "text": "De surveiller la navigation des jeunes sur la toile.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2061,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Son existence doit être officialisée.",
+            "user_selected_option_id": 33871,
+            "correct_answer": "Son existence doit être officialisée.",
+            "correct_option_id": 33871,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que ce syndrome « est le mal du siècle et pourtant il n'est pas encore reconnu » : son existence doit être officialisée.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33869,
+                    "text": "Il inquiète les patrons de sociétés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33870,
+                    "text": "Il touche les employés les plus faibles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33871,
+                    "text": "Son existence doit être officialisée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33872,
+                    "text": "Son traitement est peu efficace.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2062,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "user_selected_option_id": 33876,
+            "correct_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "correct_option_id": 33876,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque le débat sur la liberté d'expression et la crainte que « l'excès de précaution ne vienne tuer le débat d'idées » : lutter contre les microagressions peut nuire à certaines libertés.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33873,
+                    "text": "Ce sont des blessures corporelles superficielles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33874,
+                    "text": "Elles sont commises par des groupes minoritaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33875,
+                    "text": "Les autorités universitaires s’en préoccupent peu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33876,
+                    "text": "Lutter contre elles peut nuire à certaines libertés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2063,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Aborder des œuvres réputées difficiles avec leurs élèves.",
+            "user_selected_option_id": 33877,
+            "correct_answer": "Aborder des œuvres réputées difficiles avec leurs élèves.",
+            "correct_option_id": 33877,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'auteure affirme que « c'est la mission de l'école que de sensibiliser les élèves aux grands textes classiques » : les enseignants devraient aborder des œuvres réputées difficiles avec leurs élèves.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33877,
+                    "text": "Aborder des œuvres réputées difficiles avec leurs élèves.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33878,
+                    "text": "Encourager leurs élèves à écrire des textes littéraires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33879,
+                    "text": "Inviter régulièrement des écrivains célèbres dans leur classe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33880,
+                    "text": "Monter des pièces de théâtre d’auteurs classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2064,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La singularité de ses portraits.",
+            "user_selected_option_id": 33882,
+            "correct_answer": "La singularité de ses portraits.",
+            "correct_option_id": 33882,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'exposition présente Hortense Fiquet, l'épouse de Cézanne, comme « seul motif autant étudié... que la montagne Sainte-Victoire » : elle souligne la singularité de ses portraits.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33881,
+                    "text": "L’influence de ses contemporains.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33882,
+                    "text": "La singularité de ses portraits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33883,
+                    "text": "Son engouement pour la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33884,
+                    "text": "Son travail post-impressionniste.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2065,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il explore la construction identitaire des Français.",
+            "user_selected_option_id": 33887,
+            "correct_answer": "Il explore la construction identitaire des Français.",
+            "correct_option_id": 33887,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que Dominique Barthélemy confronte les légendes de la bataille « à la réalité des faits » et invite à « poursuivre la réflexion sur l'idée que les Français se font d'eux-mêmes » : il explore la construction identitaire des Français.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33885,
+                    "text": "Il analyse l’établissement d’une dynastie royale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33886,
+                    "text": "Il explique l’origine d’une légende médiévale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33887,
+                    "text": "Il explore la construction identitaire des Français.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33888,
+                    "text": "Il renforce de mythe de la bataille de Bouvines.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2066,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Il est inutile de partir loin pour être dépaysé.",
+            "user_selected_option_id": 33890,
+            "correct_answer": "Il est inutile de partir loin pour être dépaysé.",
+            "correct_option_id": 33890,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que le concept invite ceux qui croient que « la véritable aventure se trouve à l'autre bout du monde » à passer « une nuit ou deux dehors » même en ville : il démontre qu'il est inutile de partir loin pour être dépaysé.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33889,
+                    "text": "Il est déconseillé de rester enfermé chez soi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33890,
+                    "text": "Il est inutile de partir loin pour être dépaysé.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33891,
+                    "text": "Il faut organiser les voyages avec des proches.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33892,
+                    "text": "Il suffit d’apprendre à profiter du quotidien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2067,
+            "question_text": "Compréhension écrite – Quiz 17 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Se donner bonne conscience.",
+            "user_selected_option_id": 33896,
+            "correct_answer": "Se donner bonne conscience.",
+            "correct_option_id": 33896,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces activités apparaissent « aux parents comme des marqueurs de leur bonne parentalité » : les parents cherchent surtout à se donner bonne conscience.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_17_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33893,
+                    "text": "Améliorer les résultats scolaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33894,
+                    "text": "Avoir plus de temps pour eux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33895,
+                    "text": "Resserrer les liens familiaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33896,
+                    "text": "Se donner bonne conscience.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 17",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

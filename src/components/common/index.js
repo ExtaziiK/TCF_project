@@ -1,4 +1,5 @@
 export { Btn } from "@/components/common/Btn";
+export { RouteLink } from "@/components/common/RouteLink";
 export { Pill } from "@/components/common/Pill";
 export { Card } from "@/components/common/Card";
 export { ProgressBar } from "@/components/common/ProgressBar";

@@ -1,0 +1,1733 @@
+{
+    "id": 40853,
+    "exam_id": 60,
+    "score": 191.0,
+    "score_percent": 27.32,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T15:39:16.097552+00:00",
+    "time_spent": 40,
+    "section_breakdown": {
+        "Identification": {
+            "score": 6.8,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 9.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 5.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2302,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D’une naissance.",
+            "user_selected_option_id": 34836,
+            "correct_answer": "D’une naissance.",
+            "correct_option_id": 34836,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Alina et Paul annoncent « l'arrivée d'un nouveau membre dans notre famille » qui « a vu le jour » : il s'agit d'une naissance.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34833,
+                    "text": "D’un anniversaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34834,
+                    "text": "D’un décès.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34835,
+                    "text": "D’un mariage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34836,
+                    "text": "D’une naissance.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2303,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "D’un tableau.",
+            "user_selected_option_id": 34840,
+            "correct_answer": "D’un film.",
+            "correct_option_id": 34838,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'affiche annonce « drôle, très beau ! De acteur magnifique ! À voir absolument » : c'est la critique d'un film.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34837,
+                    "text": "D’un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34838,
+                    "text": "D’un film.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34839,
+                    "text": "D’un livre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34840,
+                    "text": "D’un tableau.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2304,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Des vêtements.",
+            "user_selected_option_id": 34844,
+            "correct_answer": "Des pâtisseries.",
+            "correct_option_id": 34843,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La liste propose « choux, Paris-Brest, éclairs au café, tartes aux pommes » : ce sont des pâtisseries qu'on peut acheter.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34841,
+                    "text": "Des billets de train.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34842,
+                    "text": "Des légumes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34843,
+                    "text": "Des pâtisseries.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34844,
+                    "text": "Des vêtements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2305,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Aux serveurs du bar.",
+            "user_selected_option_id": 34848,
+            "correct_answer": "Aux clients de l’hôtel.",
+            "correct_option_id": 34845,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce précise « prière de ne pas emporter... la direction de l'hôtel » : elle s'adresse aux clients de l'hôtel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_4.webp",
+            "all_options": [
+                {
+                    "id": 34845,
+                    "text": "Aux clients de l’hôtel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34846,
+                    "text": "Au service de nettoyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34847,
+                    "text": "Au directeur de l’hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34848,
+                    "text": "Aux serveurs du bar.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2306,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Le réparateur.",
+            "user_selected_option_id": 34852,
+            "correct_answer": "La secrétaire.",
+            "correct_option_id": 34850,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le directeur précise « donnez vos documents à ma secrétaire qui les photocopiera » : c'est la secrétaire qui va faire les photocopies.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34849,
+                    "text": "La comptable.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34850,
+                    "text": "La secrétaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34851,
+                    "text": "Le directeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34852,
+                    "text": "Le réparateur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2307,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Réparer de vieilles bicyclettes.",
+            "user_selected_option_id": 34856,
+            "correct_answer": "Donner un vélo à des élèves.",
+            "correct_option_id": 34854,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'association explique « faites un don... pour leur offrir une bicyclette » afin de faciliter le trajet à l'école : elle voudrait donner un vélo à des élèves.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34853,
+                    "text": "Aider des familles en difficulté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34854,
+                    "text": "Donner un vélo à des élèves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34855,
+                    "text": "Ouvrir de nouveaux collèges.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34856,
+                    "text": "Réparer de vieilles bicyclettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2308,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour rappeler l’utilisation correcte des poubelles.",
+            "user_selected_option_id": 34860,
+            "correct_answer": "Pour rappeler l’utilisation correcte des poubelles.",
+            "correct_option_id": 34860,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise « il faut séparer le plastique et le carton et les mettre dans les poubelles jaunes » : le gardien écrit pour rappeler l'utilisation correcte des poubelles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34857,
+                    "text": "Pour annoncer un changement de couleur des poubelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34858,
+                    "text": "Pour informer de l’ouverture du nouveau local poubelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34859,
+                    "text": "Pour présenter l’entreprise de tri des poubelles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34860,
+                    "text": "Pour rappeler l’utilisation correcte des poubelles.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2309,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "De passer un moment agréable en musique.",
+            "user_selected_option_id": 34864,
+            "correct_answer": "De passer un moment agréable en musique.",
+            "correct_option_id": 34864,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La bibliothèque invite à « venir écouter une sélection de CD à l'occasion du festival de musique » : elle propose de passer un moment agréable en musique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34861,
+                    "text": "De découvrir une sélection de livres.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34862,
+                    "text": "De gagner des places pour un festival.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34863,
+                    "text": "De participer à une discussion sur le jazz.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34864,
+                    "text": "De passer un moment agréable en musique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2310,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Une crème de beauté.",
+            "user_selected_option_id": 34868,
+            "correct_answer": "Une crème de beauté.",
+            "correct_option_id": 34868,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ce soin « corrige les signes de fatigue et réveille votre visage » : il s'agit d'une crème de beauté.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_9.webp",
+            "all_options": [
+                {
+                    "id": 34865,
+                    "text": "Un savon pour le corps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34866,
+                    "text": "Un shampoing aux herbes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34867,
+                    "text": "Une boisson pour dormir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34868,
+                    "text": "Une crème de beauté.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2311,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "On y donne des cours de cuisine.",
+            "user_selected_option_id": 34872,
+            "correct_answer": "Beaucoup de personnes le visitent.",
+            "correct_option_id": 34869,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les Galeries Lafayette sont « le site le plus visité à Paris après le musée du Louvre » : beaucoup de personnes le visitent.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34869,
+                    "text": "Beaucoup de personnes le visitent.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34870,
+                    "text": "Il vend des articles bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34871,
+                    "text": "Il y a un célèbre musée à l’intérieur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34872,
+                    "text": "On y donne des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2312,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Pour trouver des vélos bon marché.",
+            "user_selected_option_id": 34876,
+            "correct_answer": "Pour échanger des conseils sur le vélo.",
+            "correct_option_id": 34873,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'atelier permet aux gens de « parler de vélos et de les réparer gratuitement » : il propose d'échanger des conseils sur le vélo.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34873,
+                    "text": "Pour échanger des conseils sur le vélo.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34874,
+                    "text": "Pour échanger des promenades à vélo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34875,
+                    "text": "Pour s’entrainer aux courses de vélo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34876,
+                    "text": "Pour trouver des vélos bon marché.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2313,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De voir Lyon d’une façon différente.",
+            "user_selected_option_id": 34880,
+            "correct_answer": "De voir Lyon d’une façon différente.",
+            "correct_option_id": 34880,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte propose de « découvrir la ville autrement » et de connaître « les endroits secrets de Lyon » : il permet de voir Lyon d'une façon différente.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34877,
+                    "text": "D’apprendre à s’orienter dans la ville.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34878,
+                    "text": "De se former au métier de guide.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34879,
+                    "text": "De visiter des expositions photo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34880,
+                    "text": "De voir Lyon d’une façon différente.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2314,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "D’une voiture pour le transport.",
+            "user_selected_option_id": 34884,
+            "correct_answer": "D’argent pour la course.",
+            "correct_option_id": 34881,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les deux amis « recherchent des solutions pour payer leur voyage » : ils ont besoin d'argent pour la course.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34881,
+                    "text": "D’argent pour la course.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34882,
+                    "text": "De livres pour les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34883,
+                    "text": "De produits pour les repas.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34884,
+                    "text": "D’une voiture pour le transport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2315,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Elle s’est terminée dimanche dernier.",
+            "user_selected_option_id": 34888,
+            "correct_answer": "Elle propose une découverte du Japon.",
+            "correct_option_id": 34887,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la foire propose « une très belle expo consacrée aux traditions japonaises » : elle propose une découverte du Japon.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34885,
+                    "text": "Elle accueille plus de visiteurs cette année.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34886,
+                    "text": "Pourquoi elle a eu un chèque de réduction.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34887,
+                    "text": "Elle propose une découverte du Japon.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34888,
+                    "text": "Elle s’est terminée dimanche dernier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2316,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Pour faire des économies de papier.",
+            "user_selected_option_id": 34892,
+            "correct_answer": "Pour faire des économies de papier.",
+            "correct_option_id": 34892,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'Assemblée est gourmande en feuilles » et que ce chiffre « a déjà énormément diminué » grâce au numérique : c'est pour faire des économies de papier.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34889,
+                    "text": "Pour diminuer l’empreinte carbone.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34890,
+                    "text": "Pour donner une image moderne de l’Assemblée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34891,
+                    "text": "Pour étudier plus rapidement les amendements.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34892,
+                    "text": "Pour faire des économies de papier.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2317,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Une facture à payer.",
+            "user_selected_option_id": 34896,
+            "correct_answer": "Un lieu de livraison.",
+            "correct_option_id": 34893,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise « vous pourrez aller dans un bureau de poste chercher votre commande » : c'est un lieu de livraison qui est annoncé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_16.webp",
+            "all_options": [
+                {
+                    "id": 34893,
+                    "text": "Un lieu de livraison.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34894,
+                    "text": "Un problème de colis.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34895,
+                    "text": "Une date d’envoi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34896,
+                    "text": "Une facture à payer.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2318,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "De mesures écologiques prises par une mairie.",
+            "user_selected_option_id": 34900,
+            "correct_answer": "D’un homme qui produit des œuvres originales.",
+            "correct_option_id": 34898,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il « crée des tableaux en relief à partir des déchets trouvés dans la ville » : il s'agit d'un homme qui produit des œuvres originales.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34897,
+                    "text": "D’un comédien qui tourne dans les bidonvilles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34898,
+                    "text": "D’un homme qui produit des œuvres originales.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34899,
+                    "text": "De la santé d’un membre du gouvernement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34900,
+                    "text": "De mesures écologiques prises par une mairie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2319,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Leurs auteurs sont devenus célèbres.",
+            "user_selected_option_id": 34903,
+            "correct_answer": "On veut les préserver durablement.",
+            "correct_option_id": 34904,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la conservation des œuvres d'art urbain... pose de sérieux défis » et qu'il faut « les protéger des agressions du temps » : on veut les préserver durablement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34901,
+                    "text": "Des musées sont prêts à les accueillir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34902,
+                    "text": "Le marché voit sa cote grimper.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34903,
+                    "text": "Leurs auteurs sont devenus célèbres.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34904,
+                    "text": "On veut les préserver durablement.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2320,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "L’entrée est gratuite.",
+            "user_selected_option_id": 34908,
+            "correct_answer": "Elle est déjà finie.",
+            "correct_option_id": 34907,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'exposition des sculptures de César s'est terminée hier » : elle est déjà finie.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_19.webp",
+            "all_options": [
+                {
+                    "id": 34905,
+                    "text": "C’est un succès.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34906,
+                    "text": "Elle changera de lieu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34907,
+                    "text": "Elle est déjà finie.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34908,
+                    "text": "L’entrée est gratuite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2321,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Les traditions culinaires peuvent se perpétuer grâce au numérique.",
+            "user_selected_option_id": 34912,
+            "correct_answer": "La technologie modifie la relation à la gastronomie.",
+            "correct_option_id": 34910,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte décrit comment « la cuisine est devenue l'univers le plus plébiscité » sur les réseaux sociaux où l'on « dégaine son smartphone » avant de manger : la technologie modifie la relation à la gastronomie.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_20.webp",
+            "all_options": [
+                {
+                    "id": 34909,
+                    "text": "La réputation de restaurants touristiques est menacée par internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34910,
+                    "text": "La technologie modifie la relation à la gastronomie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34911,
+                    "text": "Les grands chefs livrent leurs secrets sur des sites.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34912,
+                    "text": "Les traditions culinaires peuvent se perpétuer grâce au numérique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2322,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Parce qu’ils ne veulent plus être seuls.",
+            "user_selected_option_id": 34916,
+            "correct_answer": "Pour créer un lien entre générations.",
+            "correct_option_id": 34913,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces jeunes « tiennent compagnie à ces personnes isolées, délaissées par leur famille » : c'est pour créer un lien entre générations.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_21.webp",
+            "all_options": [
+                {
+                    "id": 34913,
+                    "text": "Pour créer un lien entre générations.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34914,
+                    "text": "Pour compléter leurs études.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34915,
+                    "text": "Pour améliorer leurs revenus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34916,
+                    "text": "Parce qu’ils ne veulent plus être seuls.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2323,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Sélectionner un souvenir.",
+            "user_selected_option_id": 34920,
+            "correct_answer": "Sélectionner un souvenir.",
+            "correct_option_id": 34920,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les participants « doivent se remémorer une histoire personnelle » qui devient une œuvre unique : leur rôle est de sélectionner un souvenir.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34917,
+                    "text": "Effectuer un calcul.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34918,
+                    "text": "Évoquer un fait divers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34919,
+                    "text": "Fournir un support.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34920,
+                    "text": "Sélectionner un souvenir.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2324,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Il l’a retenue prisonnière toute la nuit.",
+            "user_selected_option_id": 34924,
+            "correct_answer": "Il a acclamé de toutes ses forces la chanteuse.",
+            "correct_option_id": 34921,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la salle noire de monde s'est mise à hurler afin de l'empêcher de partir » : le public a acclamé de toutes ses forces la chanteuse.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_23.webp",
+            "all_options": [
+                {
+                    "id": 34921,
+                    "text": "Il a acclamé de toutes ses forces la chanteuse.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34922,
+                    "text": "Il a demandé l’annulation du concert.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34923,
+                    "text": "Il a invité le groupe suivant à partir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34924,
+                    "text": "Il l’a retenue prisonnière toute la nuit.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2325,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "De créer des taxes sur les produits de la pêche.",
+            "user_selected_option_id": 34928,
+            "correct_answer": "D’aménager des réserves restreignant la pêche.",
+            "correct_option_id": 34925,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'Australie va mener « la création d'un réseau de parcs naturels » : le gouvernement projette d'aménager des réserves restreignant la pêche.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_24.webp",
+            "all_options": [
+                {
+                    "id": 34925,
+                    "text": "D’aménager des réserves restreignant la pêche.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34926,
+                    "text": "D’encourager une politique mondiale de la pêche.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34927,
+                    "text": "D’organiser des contrôles pour surveiller la pêche.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34928,
+                    "text": "De créer des taxes sur les produits de la pêche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2326,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "D’éviter la discrimination à l’embauche.",
+            "user_selected_option_id": 34932,
+            "correct_answer": "De vérifier le profil des postulants.",
+            "correct_option_id": 34930,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'entreprise « promet une analyse complète de la personnalité des candidats » : l'intelligence artificielle devrait permettre de vérifier le profil des postulants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_25.webp",
+            "all_options": [
+                {
+                    "id": 34929,
+                    "text": "De protéger les droits du personnel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34930,
+                    "text": "De vérifier le profil des postulants.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34931,
+                    "text": "D’encourager la création d’emplois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34932,
+                    "text": "D’éviter la discrimination à l’embauche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2327,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Une technique de retouche.",
+            "user_selected_option_id": 34936,
+            "correct_answer": "Une mise en valeur de l’autre.",
+            "correct_option_id": 34935,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne « son talent pour mettre en lumière le meilleur de chacun, sa singularité » : le travail repose sur une mise en valeur de l'autre.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_26.webp",
+            "all_options": [
+                {
+                    "id": 34933,
+                    "text": "Un engagement politique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34934,
+                    "text": "Une contemplation abstraite.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34935,
+                    "text": "Une mise en valeur de l’autre.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34936,
+                    "text": "Une technique de retouche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2328,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Elle transforme le geste graphique.",
+            "user_selected_option_id": 34940,
+            "correct_answer": "Elle modifie le rapport au temps.",
+            "correct_option_id": 34938,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne qu'« on ne connaît plus l'attente d'une lettre » et que l'on vit dans « un monde sans attente où tous les vides doivent être comblés » : la communication numérique modifie le rapport au temps.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34937,
+                    "text": "Elle appauvrit le lexique courant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34938,
+                    "text": "Elle modifie le rapport au temps.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34939,
+                    "text": "Elle provoque la fin du courrier postal.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34940,
+                    "text": "Elle transforme le geste graphique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2329,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Transmettre des connaissances.",
+            "user_selected_option_id": 34944,
+            "correct_answer": "Transmettre des connaissances.",
+            "correct_option_id": 34944,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que Kelly H. « devenait professeure de mathématiques » et encourageait d'anciens cadres à « enseigner » : sa nouvelle priorité est de transmettre des connaissances.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34941,
+                    "text": "Changer la façon de gérer des équipes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34942,
+                    "text": "Compenser le manque de formateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34943,
+                    "text": "Réussir au sein d’une société.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34944,
+                    "text": "Transmettre des connaissances.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2330,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Que ses textes confortent l’image que l’on avait de lui.",
+            "user_selected_option_id": 34948,
+            "correct_answer": "Que ses écrits permettent de mieux cerner qu’il était.",
+            "correct_option_id": 34947,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'une étude de sa correspondance « donne une impression beaucoup plus nuancée » et montre qu'« il savait raconter... ce qui l'occupait » : ses écrits permettent de mieux cerner qui il était.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34945,
+                    "text": "Que sa biographie aide à mieux comprendre ses tableaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34946,
+                    "text": "Que sa correspondance avec ses proches a influencé sa peinture.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34947,
+                    "text": "Que ses écrits permettent de mieux cerner qu’il était.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34948,
+                    "text": "Que ses textes confortent l’image que l’on avait de lui.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2331,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elles nourrissent une curiosité naissance.",
+            "user_selected_option_id": 34952,
+            "correct_answer": "Elles captivent l’instantanéité.",
+            "correct_option_id": 34949,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne qu'« avec le direct, nous pouvons imaginer qu'il peut toujours se passer quelque chose » et que « cela devient addictif » : les chaînes en continu captivent l'instantanéité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34949,
+                    "text": "Elles captivent l’instantanéité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34950,
+                    "text": "Elles exigent un sens du discernement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34951,
+                    "text": "Elles modifient le rapport au temps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34952,
+                    "text": "Elles nourrissent une curiosité naissance.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2332,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Sur la progression des cultures tropicales.",
+            "user_selected_option_id": 34956,
+            "correct_answer": "Sur la pollution atmosphérique.",
+            "correct_option_id": 34955,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la destruction de la forêt tropicale provoque chaque année plus de rejets dans l'atmosphère que l'ensemble du secteur des transports » : elle a un impact sur la pollution atmosphérique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34953,
+                    "text": "Sur l’industrie des bois rares.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34954,
+                    "text": "Sur la démographie dans ces zones.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34955,
+                    "text": "Sur la pollution atmosphérique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34956,
+                    "text": "Sur la progression des cultures tropicales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2333,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Répondre à l’allongement de la durée de vie.",
+            "user_selected_option_id": 34960,
+            "correct_answer": "Instaurer des rapports de réciprocité.",
+            "correct_option_id": 34959,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte conclut que favoriser ces échanges permet d'établir des relations « où chacun prend conscience qu'il peut apporter quelque chose à l'autre » : l'intérêt est d'instaurer des rapports de réciprocité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34957,
+                    "text": "Créer de nouvelles sources d’emploi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34958,
+                    "text": "Éviter la solitude des personnes âgées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34959,
+                    "text": "Instaurer des rapports de réciprocité.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34960,
+                    "text": "Répondre à l’allongement de la durée de vie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2334,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les moqueries de leurs camarades.",
+            "user_selected_option_id": 34964,
+            "correct_answer": "La difficulté d’accéder au sens.",
+            "correct_option_id": 34961,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « lorsqu'on demande à l'enfant... de comprendre, il peut perdre son intérêt » à cause de « l'absence de compréhension » : c'est la difficulté d'accéder au sens qui décourage les enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34961,
+                    "text": "La difficulté d’accéder au sens.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34962,
+                    "text": "La pression exercée par la famille.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34963,
+                    "text": "Les méthodes d’enseignement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34964,
+                    "text": "Les moqueries de leurs camarades.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2335,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Son fonctionnement est encore mystérieux.",
+            "user_selected_option_id": 34968,
+            "correct_answer": "Son fonctionnement est encore mystérieux.",
+            "correct_option_id": 34968,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "SEIS sera « le premier sismomètre déployé sur un autre sol » et nous ignorons encore « ce qui s'est produit à ce moment-là et ce qu'elle recèle dans son sous-sol » : son fonctionnement est encore mystérieux.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34965,
+                    "text": "Sa structure est identique chez l’homme et l’animal.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34966,
+                    "text": "Sa taille influe sur les compétences cognitives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34967,
+                    "text": "Son développement est ralenti les premiers mois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34968,
+                    "text": "Son fonctionnement est encore mystérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2336,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il doute de l’intérêt des médias traditionnels.",
+            "user_selected_option_id": 34972,
+            "correct_answer": "Il doute de l’intérêt des médias traditionnels.",
+            "correct_option_id": 34972,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste doute de la fiabilité de la distribution d'informations à la télévision tout en reconnaissant son rôle d'éveilleur d'intérêt : il doute de l'intérêt des médias traditionnels.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34969,
+                    "text": "Il conteste la fiabilité des sources d’internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34970,
+                    "text": "Il critique la surabondance de l’information.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34971,
+                    "text": "Il dénonce la médiocrité de la presse écrite.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34972,
+                    "text": "Il doute de l’intérêt des médias traditionnels.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2337,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Recenser des dérives de la société.",
+            "user_selected_option_id": 34976,
+            "correct_answer": "Présenter des histoires positives.",
+            "correct_option_id": 34974,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que les découvertes des journalistes « annihilent tout défaitisme » et sont « proprement humain[es] » : leur parti pris est de présenter des histoires positives.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34973,
+                    "text": "Être au plus près de l’actualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34974,
+                    "text": "Présenter des histoires positives.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34975,
+                    "text": "Proposer des anecdotes amusantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34976,
+                    "text": "Recenser des dérives de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2338,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle reflète les clivages de la société.",
+            "user_selected_option_id": 34980,
+            "correct_answer": "Elle favorise l’évolution des mentalités.",
+            "correct_option_id": 34977,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Éliane Viennot défend l'écriture inclusive car elle « vise à combattre les stéréotypes sexistes » et contribue « à forger des consciences égalitaristes » : elle estime qu'elle favorise l'évolution des mentalités.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34977,
+                    "text": "Elle favorise l’évolution des mentalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34978,
+                    "text": "Elle incarne une première historique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34979,
+                    "text": "Elle permet de moderniser le lexique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34980,
+                    "text": "Elle reflète les clivages de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2339,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’émancipation des héros au cours du récit.",
+            "user_selected_option_id": 34984,
+            "correct_answer": "L’émancipation des héros au cours du récit.",
+            "correct_option_id": 34984,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'histoire se fait-elle peu à peu libération et rédemption » offrant « un espoir, un bonheur encore possible » aux personnages : l'atout principal est l'émancipation des héros au cours du récit.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34981,
+                    "text": "L’alternance entre le comique et le drame.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34982,
+                    "text": "L’atmosphère énigmatique et inquiétante.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34983,
+                    "text": "La présentation de particularités régionales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34984,
+                    "text": "L’émancipation des héros au cours du récit.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2340,
+            "question_text": "Compréhension écrite – Quiz 24 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Le maintien du patrimoine culturel.",
+            "user_selected_option_id": 34988,
+            "correct_answer": "L’évolution des aptitudes mentales.",
+            "correct_option_id": 34985,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Michel Serres explique que chaque révolution fait perdre « une part de mémoire et de capacité de traitement de l'information » tout en apportant « une possibilité nouvelle de mise en relation » : il attire l'attention sur l'évolution des aptitudes mentales.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_24_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34985,
+                    "text": "L’évolution des aptitudes mentales.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34986,
+                    "text": "La mondialisation de la recherche scientifique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34987,
+                    "text": "La transformation des savoirs fondamentaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34988,
+                    "text": "Le maintien du patrimoine culturel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 27,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 24",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

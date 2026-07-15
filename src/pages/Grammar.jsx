@@ -6,16 +6,16 @@ import { GrammarExercise } from "@/components/grammar/GrammarExercise";
 import { GRAMMAR_TOPICS } from "@/constants/grammar";
 
 export function Grammar() {
-  const { c } = useApp();
+  const { c, t } = useApp();
   const [topicId, setTopicId] = useState(null);
-  const topic = GRAMMAR_TOPICS.find((t) => t.id === topicId);
+  const topic = GRAMMAR_TOPICS.find((tp) => tp.id === topicId);
   if (topic) {
     return (
-      <PageShell eyebrow="Grammaire" title={topic.t} sub={topic.d}>
-        <button onClick={() => setTopicId(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> Tous les sujets</button>
+      <PageShell eyebrow={t("Grammaire")} title={t(topic.t)} sub={t(topic.d)}>
+        <button onClick={() => setTopicId(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les sujets")}</button>
         <div className="grid lg:grid-cols-2 gap-5">
           <Card className="p-7">
-            <h3 className={`font-display font-bold mb-4 flex items-center gap-2 ${c.text}`}><BookOpen size={18} className="text-blue-600" /> La leçon</h3>
+            <h3 className={`font-display font-bold mb-4 flex items-center gap-2 ${c.text}`}><BookOpen size={18} className="text-blue-600" /> {t("La leçon")}</h3>
             <ul className="space-y-4">
               {topic.lesson.map((l, i) => (
                 <li key={i} className={`flex gap-3 text-sm leading-relaxed ${c.sub}`}>
@@ -25,7 +25,7 @@ export function Grammar() {
             </ul>
           </Card>
           <div className="space-y-4">
-            <h3 className={`font-display font-bold flex items-center gap-2 ${c.text}`}><PenLine size={18} className="text-rose-600" /> À vous de jouer</h3>
+            <h3 className={`font-display font-bold flex items-center gap-2 ${c.text}`}><PenLine size={18} className="text-rose-600" /> {t("À vous de jouer")}</h3>
             {topic.qs.map((q) => <GrammarExercise key={q.q} q={q} />)}
           </div>
         </div>
@@ -33,18 +33,18 @@ export function Grammar() {
     );
   }
   return (
-    <PageShell wide eyebrow="Grammaire" title="Des leçons courtes, des exercices immédiats" sub="Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.">
+    <PageShell back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.")}>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {GRAMMAR_TOPICS.map((t, i) => (
-          <button key={t.id} onClick={() => setTopicId(t.id)} className="text-left">
+        {GRAMMAR_TOPICS.map((tp, i) => (
+          <button key={tp.id} onClick={() => setTopicId(tp.id)} className="text-left">
             <Card lift className="p-6 h-full">
               <div className="flex items-center justify-between">
                 <span className="w-10 h-10 rounded-2xl bg-blue-600/10 text-blue-600 font-mono2 font-bold flex items-center justify-center">{String(i + 1).padStart(2, "0")}</span>
-                <Pill tone="slate">{t.qs.length} exercice{t.qs.length > 1 ? "s" : ""}</Pill>
+                <Pill tone="slate">{tp.qs.length} {t(tp.qs.length > 1 ? "exercices" : "exercice")}</Pill>
               </div>
-              <h3 className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t.t}</h3>
-              <p className={`mt-1.5 text-sm ${c.sub}`}>{t.d}</p>
-              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">Ouvrir la leçon <ArrowRight size={14} /></p>
+              <h3 className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t(tp.t)}</h3>
+              <p className={`mt-1.5 text-sm ${c.sub}`}>{t(tp.d)}</p>
+              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">{t("Ouvrir la leçon")} <ArrowRight size={14} /></p>
             </Card>
           </button>
         ))}

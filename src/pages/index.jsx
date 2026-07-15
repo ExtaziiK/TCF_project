@@ -2,6 +2,7 @@ import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { Pricing } from "@/pages/Pricing";
 import { Practice } from "@/pages/Practice";
+import { Exams } from "@/pages/Exams";
 import { AuthPage } from "@/components/auth/AuthPage";
 import { Listening } from "@/pages/Listening";
 import { Reading } from "@/pages/Reading";
@@ -10,11 +11,16 @@ import { Speaking } from "@/pages/Speaking";
 import { Vocabulary } from "@/pages/Vocabulary";
 import { Grammar } from "@/pages/Grammar";
 import { Mocks } from "@/pages/Mocks";
+import { Calculator } from "@/pages/Calculator";
+import { Guide } from "@/pages/Guide";
+import { GuideExpressionEcrite } from "@/pages/GuideExpressionEcrite";
+import { GuideExpressionOrale } from "@/pages/GuideExpressionOrale";
+import { GuideComprehensionOrale, GuideComprehensionEcrite } from "@/pages/GuideComprehension";
 import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
 import { Dashboard } from "@/pages/Dashboard";
-import { ProgressPage } from "@/pages/ProgressPage";
+import { Profile } from "@/pages/Profile";
 import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
 
@@ -26,13 +32,14 @@ function Register() {
   return <AuthPage mode="register" />;
 }
 
-// Maps each route id to its page component. Dashboard/Progress already
-// self-gate behind LoginGate; Admin self-gates on `user.admin`.
+// Maps each route id to its page component. Access control (auth, premium,
+// admin) is enforced centrally by RouteGuard (src/auth/rbac.js), not here.
 export const PAGES = {
   home: Home,
   about: About,
   pricing: Pricing,
   practice: Practice,
+  exams: Exams,
   login: Login,
   register: Register,
   listening: Listening,
@@ -42,11 +49,17 @@ export const PAGES = {
   vocabulary: Vocabulary,
   grammar: Grammar,
   mocks: Mocks,
+  calculator: Calculator,
+  guide: Guide,
+  "guide-ee": GuideExpressionEcrite,
+  "guide-eo": GuideExpressionOrale,
+  "guide-co": GuideComprehensionOrale,
+  "guide-ce": GuideComprehensionEcrite,
   contact: Contact,
   faq: FAQ,
   blog: Blog,
   dashboard: Dashboard,
-  progress: ProgressPage,
+  profile: Profile,
   admin: Admin,
   bank: QuestionBank,
 };

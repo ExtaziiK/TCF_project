@@ -1,0 +1,1732 @@
+{
+    "id": 40360,
+    "exam_id": 54,
+    "score": 696.0,
+    "score_percent": 99.57,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-07T18:35:59.187369+00:00",
+    "time_spent": 304,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.9,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.8,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.9,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.9,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2068,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une activité à faire en famille.",
+            "user_selected_option_id": 33899,
+            "correct_answer": "Une activité à faire en famille.",
+            "correct_option_id": 33899,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message invite à « venir avec votre enfant écrire une histoire avec des dessins » : la bibliothèque organise une activité à faire en famille.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33897,
+                    "text": "La décoration de ses salles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33898,
+                    "text": "La lecture d’un roman jeunesse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33899,
+                    "text": "Une activité à faire en famille.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33900,
+                    "text": "Une rencontre avec un auteur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2069,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Le bus.",
+            "user_selected_option_id": 33901,
+            "correct_answer": "Le bus.",
+            "correct_option_id": 33901,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « 23 lignes de bus dont une de nuit » assurent la circulation : c'est le bus qui circule après 23h.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33901,
+                    "text": "Le bus.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33902,
+                    "text": "Le métro.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33903,
+                    "text": "Le train.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33904,
+                    "text": "Le tramway.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2070,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Travailler à Bordeaux.",
+            "user_selected_option_id": 33908,
+            "correct_answer": "Travailler à Bordeaux.",
+            "correct_option_id": 33908,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Simon écrit « j'ai trouvé un poste de vendeur pour cet été... dans une boutique du centre-ville de Bordeaux » : il va donc travailler à Bordeaux.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33905,
+                    "text": "Acheter une voiture.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33906,
+                    "text": "Aller chez Anthony.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33907,
+                    "text": "Faire des courses samedi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33908,
+                    "text": "Travailler à Bordeaux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2071,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De participer à un concours.",
+            "user_selected_option_id": 33910,
+            "correct_answer": "De participer à un concours.",
+            "correct_option_id": 33910,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « envoyer une photo sur le thème de l'amitié » pour « un appareil photo à gagner » : le club Images propose de participer à un concours.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33909,
+                    "text": "D’acheter du matériel en soldes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33910,
+                    "text": "De participer à un concours.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33911,
+                    "text": "De rencontre des professionnels.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33912,
+                    "text": "De suivre des cours débutants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2072,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De participer à un événement sportif.",
+            "user_selected_option_id": 33916,
+            "correct_answer": "De participer à un événement sportif.",
+            "correct_option_id": 33916,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « venir courir 10K pour aider l'association » : elle propose de participer à un événement sportif.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33913,
+                    "text": "D’aider à organiser une fête.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33914,
+                    "text": "De devenir membre d’une association.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33915,
+                    "text": "De distribuer des repas gratuits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33916,
+                    "text": "De participer à un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2073,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De garder des enfants.",
+            "user_selected_option_id": 33919,
+            "correct_answer": "De garder des enfants.",
+            "correct_option_id": 33919,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Cannelle demande à Elke de « t'occuper d'eux en journée » pendant que les invités dansent : elle lui demande de garder des enfants.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33917,
+                    "text": "D’écrire aux invités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33918,
+                    "text": "D’organiser la fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33919,
+                    "text": "De garder des enfants.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33920,
+                    "text": "De préparer des danses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2074,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour présenter des élèves.",
+            "user_selected_option_id": 33923,
+            "correct_answer": "Pour présenter des élèves.",
+            "correct_option_id": 33923,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Mme Lebon invite à « venir rencontrer les nouveaux étudiants de la semaine » : elle écrit pour présenter des élèves.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33921,
+                    "text": "Pour changer un horaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33922,
+                    "text": "Pour organiser une fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33923,
+                    "text": "Pour présenter des élèves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33924,
+                    "text": "Pour proposer une sortie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2075,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Écrire un message.",
+            "user_selected_option_id": 33925,
+            "correct_answer": "Écrire un message.",
+            "correct_option_id": 33925,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message demande à Mme Chanmont de « prendre contact par courriel avec notre service clientèle » : elle doit donc écrire un message.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33925,
+                    "text": "Écrire un message.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33926,
+                    "text": "Prendre un billet d’avion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33927,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33928,
+                    "text": "S’inscrire à un jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2076,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De donner des cours.",
+            "user_selected_option_id": 33929,
+            "correct_answer": "De donner des cours.",
+            "correct_option_id": 33929,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce recherche des personnes pour « offrir vos services de soutien scolaire » aux élèves en difficulté : elle propose de donner des cours.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33929,
+                    "text": "De donner des cours.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33930,
+                    "text": "De garder des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33931,
+                    "text": "De rencontre des voisins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33932,
+                    "text": "De suivre des formations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2077,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "À choisir ses produits.",
+            "user_selected_option_id": 33934,
+            "correct_answer": "À choisir ses produits.",
+            "correct_option_id": 33934,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'application « vous conseille les bons fruits et légumes de saison » : elle aide donc à choisir ses produits.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33933,
+                    "text": "À acheter sur internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33934,
+                    "text": "À choisir ses produits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33935,
+                    "text": "À noter les magasins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33936,
+                    "text": "À trouver des recettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2078,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De plus en plus de jeunes souhaitent s’y installer.",
+            "user_selected_option_id": 33938,
+            "correct_answer": "Elle réunit les caractéristiques de deux continents.",
+            "correct_option_id": 33939,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte décrit Montréal comme « la cité la plus européenne d'Amérique, mais surtout comme la plus américaine des francophones » : elle réunit les caractéristiques de deux continents.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33937,
+                    "text": "C’est la destination préférée des touristes français.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33938,
+                    "text": "De plus en plus de jeunes souhaitent s’y installer.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33939,
+                    "text": "Elle réunit les caractéristiques de deux continents.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33940,
+                    "text": "On y entend des langues du monde entier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2079,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De faire un don.",
+            "user_selected_option_id": 33942,
+            "correct_answer": "De faire un don.",
+            "correct_option_id": 33942,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « donner votre sang pour les malades et les blessés » : elle propose de faire un don.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33941,
+                    "text": "D’aider des malades.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33942,
+                    "text": "De faire un don.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33943,
+                    "text": "De s’informer à la mairie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33944,
+                    "text": "De travailler l’été.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2080,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Jouer dans un film.",
+            "user_selected_option_id": 33946,
+            "correct_answer": "Jouer dans un film.",
+            "correct_option_id": 33946,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce cherche « des acteurs sportifs entre 18 et 45 ans » pour un tournage : elle propose de jouer dans un film.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33945,
+                    "text": "Écrire une pièce.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33946,
+                    "text": "Jouer dans un film.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33947,
+                    "text": "Organiser un concert.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33948,
+                    "text": "Participer à une course.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2081,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "D’envoyer des photos.",
+            "user_selected_option_id": 33951,
+            "correct_answer": "D’envoyer des photos.",
+            "correct_option_id": 33951,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le concours invite à « partager vos images qui montrent que l'Europe fait partie de votre vie » : il propose d'envoyer des photos.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33949,
+                    "text": "De découvrir une langue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33950,
+                    "text": "De faire un spectacle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33951,
+                    "text": "D’envoyer des photos.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33952,
+                    "text": "D’inventer une recette.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2082,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Goûter des recettes.",
+            "user_selected_option_id": 33955,
+            "correct_answer": "Goûter des recettes.",
+            "correct_option_id": 33955,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le programme prévoit « des dégustations de desserts » : on pourra goûter des recettes.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33953,
+                    "text": "Écouter des chansons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33954,
+                    "text": "Gagner des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33955,
+                    "text": "Goûter des recettes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33956,
+                    "text": "Jouer dans un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2083,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Exercer un travail satisfaisant.",
+            "user_selected_option_id": 33958,
+            "correct_answer": "Exercer un travail satisfaisant.",
+            "correct_option_id": 33958,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les gens partiraient « s'ils pouvaient pratiquer une activité professionnelle qui leur plaît » : la condition est d'exercer un travail satisfaisant.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33957,
+                    "text": "Avoir un logement spacieux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33958,
+                    "text": "Exercer un travail satisfaisant.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33959,
+                    "text": "Modifier le rythme quotidien.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33960,
+                    "text": "Se rapprocher du monde agricole.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2084,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Son ambiance créative.",
+            "user_selected_option_id": 33963,
+            "correct_answer": "Son ambiance créative.",
+            "correct_option_id": 33963,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que Nantes a « retrouvé le goût du risque, un grain de folie » et reste « une vraie boîte à idées » : c'est son ambiance créative qui attire les gens.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33961,
+                    "text": "Sa position géographique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33962,
+                    "text": "Ses traditions régionales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33963,
+                    "text": "Son ambiance créative.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33964,
+                    "text": "Son économie stable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2085,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+            "user_selected_option_id": 33967,
+            "correct_answer": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+            "correct_option_id": 33967,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'instituteur explique que grâce à Twitter, il peut « approfondir les notions de façon concrète » contrairement aux exercices « artificiels, hors contexte » : les élèves comprennent mieux l'intérêt des apprentissages proposés.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33965,
+                    "text": "Ils apprennent à se servir correctement des réseaux sociaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33966,
+                    "text": "Ils communiquent plus facilement avec l’instituteur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33967,
+                    "text": "Ils comprennent mieux l’intérêt des apprentissages proposés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33968,
+                    "text": "Ils sont attentifs après un moment de détente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2086,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Ils modifient les aptitudes mentales.",
+            "user_selected_option_id": 33972,
+            "correct_answer": "Ils modifient les aptitudes mentales.",
+            "correct_option_id": 33972,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « notre rapport à la mémoire a changé » et que la concentration et les apprentissages « s'en trouvent ralentis » : les outils numériques modifient les aptitudes mentales.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33969,
+                    "text": "Ils améliorent l’efficacité au travail.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33970,
+                    "text": "Ils dérèglent les rythmes biologiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33971,
+                    "text": "Ils fluidifient les relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33972,
+                    "text": "Ils modifient les aptitudes mentales.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2087,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Son humour fait passer un message sérieux.",
+            "user_selected_option_id": 33976,
+            "correct_answer": "Son humour fait passer un message sérieux.",
+            "correct_option_id": 33976,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste note que le film est « résolument léger tout en ayant du fond » et aborde « la crise des éleveurs avec beaucoup d'humanité » : son humour fait passer un message sérieux.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33973,
+                    "text": "Il est facile de s’identifier aux personnages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33974,
+                    "text": "Les lieux de tournage sont authentiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33975,
+                    "text": "On y dresse un portrait juste de la société.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33976,
+                    "text": "Son humour fait passer un message sérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2088,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Entrer en contact avec les gens.",
+            "user_selected_option_id": 33978,
+            "correct_answer": "Entrer en contact avec les gens.",
+            "correct_option_id": 33978,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le roquefort était simplement un moyen de faire connaissance avec les habitants » : leur objectif était d'entrer en contact avec les gens.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33977,
+                    "text": "Découvrir des recettes locales.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33978,
+                    "text": "Entrer en contact avec les gens.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33979,
+                    "text": "Réaliser une opération publicitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33980,
+                    "text": "Vendre des spécialités françaises.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2089,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Elle masque les problèmes pédagogiques essentiels.",
+            "user_selected_option_id": 33983,
+            "correct_answer": "Elle masque les problèmes pédagogiques essentiels.",
+            "correct_option_id": 33983,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte reproche que la mode du ludique fasse croire que « les difficultés des enfants sont liées uniquement au côté poussiéreux » des exercices, occultant « l'échec de la pédagogie traditionnelle » : elle masque les problèmes pédagogiques essentiels.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33981,
+                    "text": "Elle demande des connaissances techniques poussées.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33982,
+                    "text": "Elle empêche les jeunes utilisateurs de se concentrer.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33983,
+                    "text": "Elle masque les problèmes pédagogiques essentiels.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33984,
+                    "text": "Elle sert sans succès d’argument commercial.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2090,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Entreprendre une rénovation du lieu.",
+            "user_selected_option_id": 33987,
+            "correct_answer": "Entreprendre une rénovation du lieu.",
+            "correct_option_id": 33987,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la Ville et le diocèse ont pris la décision de conserver l'église Sainte-Madeleine » et de lancer un « programme de restauration » : la décision est d'entreprendre une rénovation du lieu.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33985,
+                    "text": "Bâtir une église identique dans le quartier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33986,
+                    "text": "Débuter le réaménagement du boulevard.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33987,
+                    "text": "Entreprendre une rénovation du lieu.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33988,
+                    "text": "Réhabiliter les logements sociaux existants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2091,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Très peu de francophones occupent des fonctions à responsabilité.",
+            "user_selected_option_id": 33992,
+            "correct_answer": "Très peu de francophones occupent des fonctions à responsabilité.",
+            "correct_option_id": 33992,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte révèle que les francophones sont « présents... mais en nombre insuffisant aux postes de décision » : très peu de francophones occupent des fonctions à responsabilité.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33989,
+                    "text": "La langue française et l’anglais jouissent d’un statut équitable.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33990,
+                    "text": "Les ligues sportives internationales comptent peu de francophones.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33991,
+                    "text": "Les textes officiels et les règlements sont traduits en langue française.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33992,
+                    "text": "Très peu de francophones occupent des fonctions à responsabilité.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2092,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "S’ils appartiennent à une espèce adéquate.",
+            "user_selected_option_id": 33993,
+            "correct_answer": "S’ils appartiennent à une espèce adéquate.",
+            "correct_option_id": 33993,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les espèces plantées il y a 50 ans ne conviennent pas alors que « les arbres aux feuilles poilues sont eux efficaces » : la condition est qu'ils appartiennent à une espèce adéquate.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33993,
+                    "text": "S’ils appartiennent à une espèce adéquate.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33994,
+                    "text": "S’ils ont des feuilles persistantes en hiver.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33995,
+                    "text": "S’ils ont été plantés il y a longtemps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33996,
+                    "text": "S’ils se trouvent loin des zones de logement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2093,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Généraliser l’agriculture biologique.",
+            "user_selected_option_id": 33999,
+            "correct_answer": "Généraliser l’agriculture biologique.",
+            "correct_option_id": 33999,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte affirme qu'« il est possible de nourrir plus de 9 milliards d'êtres humains en 2050 avec 100 % d'agriculture biologique » : le défi est de généraliser l'agriculture biologique.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33997,
+                    "text": "Augmenter la surface des terres agricoles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33998,
+                    "text": "Garantir la qualité des aliments pour animaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33999,
+                    "text": "Généraliser l’agriculture biologique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34000,
+                    "text": "Lutter contre la démographie galopante.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2094,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Diminuer les risques sanitaires.",
+            "user_selected_option_id": 34002,
+            "correct_answer": "Diminuer les risques sanitaires.",
+            "correct_option_id": 34002,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que Paris veut « maîtriser l'exposition des Parisiens aux ondes » pour des « préoccupations de santé publique » : l'objectif est de diminuer les risques sanitaires.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34001,
+                    "text": "Améliorer la puissance de la réception.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34002,
+                    "text": "Diminuer les risques sanitaires.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34003,
+                    "text": "Limiter les dépenses de la ville.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34004,
+                    "text": "Respecter les normes internationales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2095,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Le développement d’une conscience civique.",
+            "user_selected_option_id": 34008,
+            "correct_answer": "Le développement d’une conscience civique.",
+            "correct_option_id": 34008,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que l'éducation favorise « le progrès démocratique et social... la paix et la sécurité » et la compréhension des « valeurs de paix et d'égalité » : elle favorise le développement d'une conscience civique.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34005,
+                    "text": "La constitution d’une culture nationale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34006,
+                    "text": "La stimulation de la croissance économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34007,
+                    "text": "L’amélioration des comportements sanitaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34008,
+                    "text": "Le développement d’une conscience civique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2096,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les méthodes de culture.",
+            "user_selected_option_id": 34010,
+            "correct_answer": "Les méthodes de culture.",
+            "correct_option_id": 34010,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « si les modes de production alimentaire ne changent pas », les insectes s'éteindront : ce sont donc les méthodes de culture qui sont à l'origine de leur disparition.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34009,
+                    "text": "Les changements de climat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34010,
+                    "text": "Les méthodes de culture.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34011,
+                    "text": "Les oiseaux prédateurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34012,
+                    "text": "Les politiques publiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2097,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "L’innovation des procédés de production.",
+            "user_selected_option_id": 34014,
+            "correct_answer": "L’innovation des procédés de production.",
+            "correct_option_id": 34014,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste défend « l'alliance de la technologie et de l'écologie » offrant « une panoplie de techniques inédites » face au productivisme chimique : il défend l'innovation des procédés de production.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34013,
+                    "text": "L’accès universel à des aliments bon marché.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34014,
+                    "text": "L’innovation des procédés de production.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34015,
+                    "text": "Le développement du commerce équitable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34016,
+                    "text": "Le partage d’expériences traditionnelles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2098,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "De solliciter davantage la raison.",
+            "user_selected_option_id": 34019,
+            "correct_answer": "De solliciter davantage la raison.",
+            "correct_option_id": 34019,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que dans une langue étrangère, « le résultat est plus réfléchi, moins dicté par les émotions, plus orienté vers l'utilité » : cela permet de solliciter davantage la raison.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34017,
+                    "text": "D’attirer l’attention de l’interlocuteur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34018,
+                    "text": "D’imaginer des solutions originales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34019,
+                    "text": "De solliciter davantage la raison.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34020,
+                    "text": "De trouver des réponses rapides.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2099,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Encourager le dialogue avec le public.",
+            "user_selected_option_id": 34021,
+            "correct_answer": "Encourager le dialogue avec le public.",
+            "correct_option_id": 34021,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que « quand il y a un phénomène d'identification, la parole se libère lors de la rencontre qui suit la représentation » : l'association cherche à encourager le dialogue avec le public.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34021,
+                    "text": "Encourager le dialogue avec le public.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34022,
+                    "text": "Former des acteurs en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34023,
+                    "text": "Réaliser une œuvre à plusieurs mains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34024,
+                    "text": "Sensibiliser à l’égalité des sexes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2100,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "C’est un handicap qui peut se transformer en atout.",
+            "user_selected_option_id": 34025,
+            "correct_answer": "C’est un handicap qui peut se transformer en atout.",
+            "correct_option_id": 34025,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique « comment canaliser ce stress pour le transformer en énergie positive » : c'est donc un handicap qui peut se transformer en atout.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34025,
+                    "text": "C’est un handicap qui peut se transformer en atout.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34026,
+                    "text": "Il décuple l’ensemble des aptitudes cérébrales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34027,
+                    "text": "Il est officiellement reconnu comme une maladie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34028,
+                    "text": "Ses effets touchent plus particulièrement les seniors.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2101,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Attirer l’attention grâce à un coup de publicité.",
+            "user_selected_option_id": 34029,
+            "correct_answer": "Attirer l’attention grâce à un coup de publicité.",
+            "correct_option_id": 34029,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la société « a fait parler d'elle en proposant 500 paires de chaussures-billets » : son objectif est d'attirer l'attention grâce à un coup de publicité.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34029,
+                    "text": "Attirer l’attention grâce à un coup de publicité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34030,
+                    "text": "Concurrencer les autres moyens de locomotion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34031,
+                    "text": "Multiplier le nombre de souscripteurs par internet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34032,
+                    "text": "Permettre de voyager extramuros à moindres frais.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2102,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Ils se détériorent après un certain temps.",
+            "user_selected_option_id": 34033,
+            "correct_answer": "Ils se détériorent après un certain temps.",
+            "correct_option_id": 34033,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte constate que les fabricants réduisent « volontairement la durée de vie ou d'emploi d'un produit » : les produits se détériorent après un certain temps.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34033,
+                    "text": "Ils se détériorent après un certain temps.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34034,
+                    "text": "Ils sont dangereux pour la santé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34035,
+                    "text": "Ils sont nuisibles pour l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34036,
+                    "text": "Ils sont vendus à des prix élevés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2103,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Restreindre l’impact des écrans.",
+            "user_selected_option_id": 34040,
+            "correct_answer": "Restreindre l’impact des écrans.",
+            "correct_option_id": 34040,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la loi vise à « lutter contre l'exposition précoce des enfants aux écrans » jugée « nocive pour un cerveau en construction » : son objectif est de restreindre l'impact des écrans.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34037,
+                    "text": "Encadrer le marché du numérique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34038,
+                    "text": "Prévenir l’addiction aux jeux vidéo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34039,
+                    "text": "Protéger les enfants des ondes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34040,
+                    "text": "Restreindre l’impact des écrans.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2104,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Je percevais parfaitement la quiétude de cet instant.",
+            "user_selected_option_id": 34042,
+            "correct_answer": "Je percevais parfaitement la quiétude de cet instant.",
+            "correct_option_id": 34042,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit des animaux « en paix avec la brousse, elles-mêmes et l'aurore », sans « peur ou hâte » : la phrase qui résume l'extrait est « je percevais parfaitement la quiétude de cet instant ».",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34041,
+                    "text": "Je ressentais pleinement l’anxiété des bêtes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34042,
+                    "text": "Je percevais parfaitement la quiétude de cet instant.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34043,
+                    "text": "Je découvrais inopinément un spectacle effrayant et inquiétant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34044,
+                    "text": "J’éprouvais un sentiment de crainte face à ces troupeaux d’animaux sauvages.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2105,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les employés sont attachés à l’origine des aliments.",
+            "user_selected_option_id": 34047,
+            "correct_answer": "Les employés sont attachés à l’origine des aliments.",
+            "correct_option_id": 34047,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le souci de quantité a laissé la place à la sélection, gage... de qualité » dans le choix des repas : les employés sont attachés à l'origine des aliments.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34045,
+                    "text": "Elle engendre une baisse du rendement du personnel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34046,
+                    "text": "Elle est en partie prise en charge par les entreprises.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34047,
+                    "text": "Les employés sont attachés à l’origine des aliments.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34048,
+                    "text": "Les salariés ont tendance à la prendre à l’extérieur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2106,
+            "question_text": "Compréhension écrite – Quiz 18 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Il s’enrichit des connaissances théoriques.",
+            "user_selected_option_id": 34051,
+            "correct_answer": "Il s’enrichit des connaissances théoriques.",
+            "correct_option_id": 34051,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'« une éducation musicale associée à l'intelligence peut faciliter ces associations » en nourrissant « le cerveau d'expériences... et d'idées » : la créativité s'enrichit des connaissances théoriques.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_18_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34049,
+                    "text": "Il mobilise une zone spécifique du cerveau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34050,
+                    "text": "Il s’avère plus spontané chez les enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34051,
+                    "text": "Il s’enrichit des connaissances théoriques.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34052,
+                    "text": "Il semble réservé aux esprits imaginatifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 18",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

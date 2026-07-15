@@ -1,0 +1,1733 @@
+{
+    "id": 40270,
+    "exam_id": 56,
+    "score": 152.0,
+    "score_percent": 21.75,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-06T22:25:08.410233+00:00",
+    "time_spent": 31,
+    "section_breakdown": {
+        "Identification": {
+            "score": 5.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 7.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 4.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 4.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2146,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Le tramway.",
+            "user_selected_option_id": 34212,
+            "correct_answer": "Le bus.",
+            "correct_option_id": 34209,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « 23 lignes de bus dont une de nuit » assurent la circulation : c'est le bus qui circule après 23h.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34209,
+                    "text": "Le bus.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34210,
+                    "text": "Le métro.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34211,
+                    "text": "Le train.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34212,
+                    "text": "Le tramway.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2147,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Le transport.",
+            "user_selected_option_id": 34216,
+            "correct_answer": "Le transport.",
+            "correct_option_id": 34216,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message demande de « donner deux tickets de métro à votre enfant » : les parents payent le transport.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34213,
+                    "text": "L’entrée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34214,
+                    "text": "Le guide.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34215,
+                    "text": "Le repas.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34216,
+                    "text": "Le transport.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2148,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Une maison de campagne.",
+            "user_selected_option_id": 34220,
+            "correct_answer": "Un appartement familial.",
+            "correct_option_id": 34217,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce propose un « logement très lumineux de trois pièces... parfait pour des parents avec enfants » : c'est un appartement familial qui est à louer.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34217,
+                    "text": "Un appartement familial.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34218,
+                    "text": "Un logement étudiant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34219,
+                    "text": "Une chambre en colocation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34220,
+                    "text": "Une maison de campagne.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2149,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Les familles.",
+            "user_selected_option_id": 34224,
+            "correct_answer": "Les familles.",
+            "correct_option_id": 34224,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message invite à « venir écouter vos enfants et leurs professeurs de musique chanter » : les familles sont invitées.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_4.webp",
+            "all_options": [
+                {
+                    "id": 34221,
+                    "text": "Les artistes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34222,
+                    "text": "Les élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34223,
+                    "text": "Les enseignants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34224,
+                    "text": "Les familles.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2150,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De participer à un événement sportif.",
+            "user_selected_option_id": 34228,
+            "correct_answer": "De participer à un événement sportif.",
+            "correct_option_id": 34228,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « venir courir pour l'aide de l'association » : elle propose de participer à un événement sportif.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34225,
+                    "text": "D’aider à organiser une fête.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34226,
+                    "text": "De devenir membre d’une association.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34227,
+                    "text": "De distribuer des repas gratuits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34228,
+                    "text": "De participer à un événement sportif.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2151,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Elle travaille dans un restaurant.",
+            "user_selected_option_id": 34232,
+            "correct_answer": "Elle travaille dans un restaurant.",
+            "correct_option_id": 34232,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Camille explique qu'elle « est serveuse dans un restaurant depuis une semaine » : elle explique donc qu'elle travaille dans un restaurant.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34229,
+                    "text": "Elle est en voyage à Montpellier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34230,
+                    "text": "Elle rencontre des amis à Paris.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34231,
+                    "text": "Elle suit des cours à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34232,
+                    "text": "Elle travaille dans un restaurant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2152,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Ses fils sont en noir et blanc.",
+            "user_selected_option_id": 34236,
+            "correct_answer": "C’est un bâtiment ancien.",
+            "correct_option_id": 34233,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le cinéma a ouvert « en 1911 » et que « la famille propriétaire... n'a pas changé » : c'est un bâtiment ancien.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34233,
+                    "text": "C’est un bâtiment ancien.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34234,
+                    "text": "Il se trouve en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34235,
+                    "text": "On peut y rencontrer des acteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34236,
+                    "text": "Ses fils sont en noir et blanc.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2153,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Ils vont les voir dans les zoos.",
+            "user_selected_option_id": 34240,
+            "correct_answer": "Ils sont nombreux à en avoir.",
+            "correct_option_id": 34239,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la France est le pays d'Europe où il y a le plus d'animaux par habitant » : les Français sont donc nombreux à en avoir.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34237,
+                    "text": "Ils aiment en voir dans la nature.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34238,
+                    "text": "Ils les regardent à la télévision.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34239,
+                    "text": "Ils sont nombreux à en avoir.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34240,
+                    "text": "Ils vont les voir dans les zoos.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2154,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "On y donne des cours de cuisine.",
+            "user_selected_option_id": 34244,
+            "correct_answer": "Beaucoup de personnes le visitent.",
+            "correct_option_id": 34241,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les Galeries Lafayette sont « le site le plus visité à Paris après le musée du Louvre » : beaucoup de personnes le visitent.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_9.webp",
+            "all_options": [
+                {
+                    "id": 34241,
+                    "text": "Beaucoup de personnes le visitent.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34242,
+                    "text": "Il vend des articles bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34243,
+                    "text": "Il y a un célèbre musée à l’intérieur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34244,
+                    "text": "On y donne des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2155,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "À trouver des recettes.",
+            "user_selected_option_id": 34248,
+            "correct_answer": "À choisir ses produits.",
+            "correct_option_id": 34246,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'application « vous conseille les bons fruits et légumes de saison » : elle aide donc à choisir ses produits.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34245,
+                    "text": "À acheter sur internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34246,
+                    "text": "À choisir ses produits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34247,
+                    "text": "À noter les magasins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34248,
+                    "text": "À trouver des recettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2156,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Une formation d’entraîneur.",
+            "user_selected_option_id": 34252,
+            "correct_answer": "Un travail avec des enfants.",
+            "correct_option_id": 34249,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce cherche « un animateur ou une animatrice avec un bon niveau en tennis pour entraîner les enfants » : elle propose un travail avec des enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34249,
+                    "text": "Un travail avec des enfants.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34250,
+                    "text": "Une colonie de vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34251,
+                    "text": "Une compétition de sport.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34252,
+                    "text": "Une formation d’entraîneur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2157,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Ouvrir d’autres magasins.",
+            "user_selected_option_id": 34256,
+            "correct_answer": "Baisser certains tarifs.",
+            "correct_option_id": 34253,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le patron « a donc l'intention de prolonger cette stratégie » de promotions et qu'il vaut « mieux diminuer les prix » : la stratégie est de baisser certains tarifs.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34253,
+                    "text": "Baisser certains tarifs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34254,
+                    "text": "Faire plus de publicité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34255,
+                    "text": "Multiplier les produits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34256,
+                    "text": "Ouvrir d’autres magasins.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2158,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Une remise de 2 euros par article.",
+            "user_selected_option_id": 34260,
+            "correct_answer": "De l’aide pour une association.",
+            "correct_option_id": 34257,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « 2 euros seront donnés à Apprendre mieux à l'école, une association qui s'occupe d'enfants » : la publicité annonce de l'aide pour une association.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34257,
+                    "text": "De l’aide pour une association.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34258,
+                    "text": "De nouveaux rayons jouets.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34259,
+                    "text": "Un concours de jeux vidéo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34260,
+                    "text": "Une remise de 2 euros par article.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2159,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Suivre des visites avec un guide.",
+            "user_selected_option_id": 34264,
+            "correct_answer": "Découvrir des monuments connus.",
+            "correct_option_id": 34262,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'on peut « passer de la Tour Eiffel au Mont Saint-Michel en quelques minutes » grâce à des bâtiments miniatures : on peut y découvrir des monuments connus.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34261,
+                    "text": "Acheter des souvenirs bon marché.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34262,
+                    "text": "Découvrir des monuments connus.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34263,
+                    "text": "Se promener à vélo en famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34264,
+                    "text": "Suivre des visites avec un guide.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2160,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Trois ans d’expérience professionnelle.",
+            "user_selected_option_id": 34268,
+            "correct_answer": "Trois ans d’expérience professionnelle.",
+            "correct_option_id": 34268,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le dispositif permet « d'obtenir un diplôme après trois années d'activité » : il faut trois ans d'expérience professionnelle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34265,
+                    "text": "Trois années d’études rémunérées.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34266,
+                    "text": "Une période courte sans emploi.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34267,
+                    "text": "Un niveau d’études universitaires minimum.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34268,
+                    "text": "Trois ans d’expérience professionnelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2161,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Les plans de plusieurs églises marseillaises.",
+            "user_selected_option_id": 34272,
+            "correct_answer": "Les œuvres de peintres du début du 20e siècle.",
+            "correct_option_id": 34270,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le musée est « consacré à l'art de son époque, le modernisme » avec des « tableaux d'artistes adeptes de ce mouvement » : on y voit des œuvres de peintres du début du 20e siècle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_16.webp",
+            "all_options": [
+                {
+                    "id": 34269,
+                    "text": "Les objets de la vie quotidienne d’autrefois.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34270,
+                    "text": "Les œuvres de peintres du début du 20e siècle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34271,
+                    "text": "Les pièces de mobilier du dernier propriétaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34272,
+                    "text": "Les plans de plusieurs églises marseillaises.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2162,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Sensibiliser leur entourage aux dangers de la pollution.",
+            "user_selected_option_id": 34276,
+            "correct_answer": "Apprendre des gestes pour protéger l’environnement.",
+            "correct_option_id": 34273,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enfants vont « réaliser une exposition sur les économies d'eau... et faire une chasse au gaspillage d'eau » : ils vont apprendre des gestes pour protéger l'environnement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34273,
+                    "text": "Apprendre des gestes pour protéger l’environnement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34274,
+                    "text": "Dessiner des affiches contre le gaspillage alimentaire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34275,
+                    "text": "Participer à un concours sur le développement durable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34276,
+                    "text": "Sensibiliser leur entourage aux dangers de la pollution.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2163,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Rencontrer les candidats sans rien savoir d’eux.",
+            "user_selected_option_id": 34280,
+            "correct_answer": "Rencontrer les candidats sans rien savoir d’eux.",
+            "correct_option_id": 34280,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le cabinet organise des entretiens « sans consulter au préalable le dossier des candidats » : la méthode est de rencontrer les candidats sans rien savoir d'eux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34277,
+                    "text": "Auditionner plusieurs candidats en même temps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34278,
+                    "text": "Faire mener l’entrevue des candidats par un futur collègue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34279,
+                    "text": "Laisser les candidats s’exprimer sans les interrompe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34280,
+                    "text": "Rencontrer les candidats sans rien savoir d’eux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2164,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les raisons de leur popularité.",
+            "user_selected_option_id": 34284,
+            "correct_answer": "Le secret d’une bonne préparation.",
+            "correct_option_id": 34282,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise « il faut les cuire puis les frire en deux temps » pour réussir les frites : l'article révèle le secret d'une bonne préparation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_19.webp",
+            "all_options": [
+                {
+                    "id": 34281,
+                    "text": "L’origine historique de la recette.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34282,
+                    "text": "Le secret d’une bonne préparation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34283,
+                    "text": "Les adresses où les consommer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34284,
+                    "text": "Les raisons de leur popularité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2165,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Des séjours alliant détente et découvertes.",
+            "user_selected_option_id": 34288,
+            "correct_answer": "Des séjours alliant détente et découvertes.",
+            "correct_option_id": 34288,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enfants ont « un besoin vital de se détendre » et propose « des ateliers scientifiques passionnants » : ce sont des séjours alliant détente et découvertes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_20.webp",
+            "all_options": [
+                {
+                    "id": 34285,
+                    "text": "Des cours de rattrapage scolaires en sciences.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34286,
+                    "text": "Des activités de découverte de la nature.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34287,
+                    "text": "Des stages de travail en laboratoire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34288,
+                    "text": "Des séjours alliant détente et découvertes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2166,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Son économie stable.",
+            "user_selected_option_id": 34292,
+            "correct_answer": "Son ambiance créative.",
+            "correct_option_id": 34291,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que Nantes a « retrouvé le goût du risque, un grain de folie » et reste « une vraie boîte à idées » : c'est son ambiance créative qui attire les gens.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_21.webp",
+            "all_options": [
+                {
+                    "id": 34289,
+                    "text": "Sa position géographique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34290,
+                    "text": "Ses traditions régionales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34291,
+                    "text": "Son ambiance créative.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34292,
+                    "text": "Son économie stable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2167,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Les prix deviennent de plus en plus attractifs.",
+            "user_selected_option_id": 34296,
+            "correct_answer": "Le confort a été très nettement amélioré.",
+            "correct_option_id": 34293,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les campeurs se tournent vers « des tentes meublées, chalets et mobil-homes classés 3 à 5 étoiles » : le confort a été très nettement amélioré.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34293,
+                    "text": "Le confort a été très nettement amélioré.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34294,
+                    "text": "Le mode d’hébergement est écologique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34295,
+                    "text": "Les prestations proposées sont inédites.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34296,
+                    "text": "Les prix deviennent de plus en plus attractifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2168,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Parce qu’ils ont hiberné plus longtemps.",
+            "user_selected_option_id": 34300,
+            "correct_answer": "Parce que les larves ont beaucoup mangé.",
+            "correct_option_id": 34299,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les larves « se nourrissent de matières organiques » et que « plus il fait chaud, plus il y a des moustiques de tailles XXL » : c'est parce que les larves ont beaucoup mangé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_23.webp",
+            "all_options": [
+                {
+                    "id": 34297,
+                    "text": "Parce qu’il y a eu des pluies importantes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34298,
+                    "text": "Parce que les femelles ont moins pondu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34299,
+                    "text": "Parce que les larves ont beaucoup mangé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34300,
+                    "text": "Parce qu’ils ont hiberné plus longtemps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2169,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "À visiter le château, ses jardins et expositions.",
+            "user_selected_option_id": 34304,
+            "correct_answer": "À financer les travaux du château par un don.",
+            "correct_option_id": 34303,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« à partir de 15 euros, les contributeurs pourront recevoir des entrées gratuites... » pour restaurer le château : les internautes sont encouragés à financer les travaux par un don.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_24.webp",
+            "all_options": [
+                {
+                    "id": 34301,
+                    "text": "À aider à la rénovation en travaillant au château.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34302,
+                    "text": "À entrer en contact avec les occupants du château.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34303,
+                    "text": "À financer les travaux du château par un don.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34304,
+                    "text": "À visiter le château, ses jardins et expositions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2170,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Renforcer la sécurité de l’établissement.",
+            "user_selected_option_id": 34308,
+            "correct_answer": "Améliorer les relations au sein du lycée.",
+            "correct_option_id": 34306,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Naya « apporte une présence apaisante et permet aux élèves de tisser un lien » et qu'ils « dialoguent beaucoup avec elle » : sa présence améliore les relations au sein du lycée.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_25.webp",
+            "all_options": [
+                {
+                    "id": 34305,
+                    "text": "Aider les élèves en situation de handicap.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34306,
+                    "text": "Améliorer les relations au sein du lycée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34307,
+                    "text": "Expérimenter une méthode pédagogique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34308,
+                    "text": "Renforcer la sécurité de l’établissement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2171,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Trouver des valeurs communes.",
+            "user_selected_option_id": 34312,
+            "correct_answer": "Trouver des valeurs communes.",
+            "correct_option_id": 34312,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conclut qu'on peut éduquer un enfant sans accord total « à une condition : que les parents s'entendent sur les valeurs fondamentales » : ils doivent trouver des valeurs communes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_26.webp",
+            "all_options": [
+                {
+                    "id": 34309,
+                    "text": "Dialoguer avec leurs enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34310,
+                    "text": "Prendre appui sur leur expérience.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34311,
+                    "text": "S’affranchir de leur héritage familial.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34312,
+                    "text": "Trouver des valeurs communes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2172,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Il prédit son échec.",
+            "user_selected_option_id": 34316,
+            "correct_answer": "Il critique son concept.",
+            "correct_option_id": 34313,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur se dit « sidéré » par cet écran géant conçu pour « générer des sentiments... afin de vendre plus cher aux marques » : il critique le concept de cette campagne publicitaire.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34313,
+                    "text": "Il critique son concept.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34314,
+                    "text": "Il dénonce son coût élevé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34315,
+                    "text": "Il doute se son efficacité.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34316,
+                    "text": "Il prédit son échec.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2173,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "On les réforme régulièrement.",
+            "user_selected_option_id": 34320,
+            "correct_answer": "Ils perpétuent une forme d’exclusion.",
+            "correct_option_id": 34317,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les concours peuvent « écarter insidieusement une partie des jeunes en fonction de leur origine sociale voire ethnique » : ils perpétuent une forme d'exclusion.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34317,
+                    "text": "Ils perpétuent une forme d’exclusion.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34318,
+                    "text": "Le nombre de candidats s’amenuise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34319,
+                    "text": "Leur niveau d’exigence diminue.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34320,
+                    "text": "On les réforme régulièrement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2174,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les politiques publiques.",
+            "user_selected_option_id": 34324,
+            "correct_answer": "Les méthodes de culture.",
+            "correct_option_id": 34322,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « si les modes de production alimentaire ne changent pas », les insectes s'éteindront : ce sont donc les méthodes de culture qui sont à l'origine de leur disparition.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34321,
+                    "text": "Les changements de climat.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34322,
+                    "text": "Les méthodes de culture.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34323,
+                    "text": "Les oiseaux prédateurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34324,
+                    "text": "Les politiques publiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2175,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Les images influencent en permanence les consommateurs.",
+            "user_selected_option_id": 34328,
+            "correct_answer": "La population est insuffisamment formée aux médias.",
+            "correct_option_id": 34326,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne qu'il est « nécessaire de développer des médias relais et d'éclairer le public par une pédagogie visant à savoir choisir et interpréter les médias » : la population est insuffisamment formée aux médias.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34325,
+                    "text": "L’information est trio rarement contrôlé à sa source.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34326,
+                    "text": "La population est insuffisamment formée aux médias.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34327,
+                    "text": "Les fausses nouvelles facilement diffusées en ligne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34328,
+                    "text": "Les images influencent en permanence les consommateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2176,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Ils tiennent à la stabilité de l’emploi.",
+            "user_selected_option_id": 34332,
+            "correct_answer": "Ils bouleversent les rapports d’autorité.",
+            "correct_option_id": 34329,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'heure n'est plus à la relation de subordination mais à la coopération », ce qui « déconcerte les managers » : les Millennials bouleversent les rapports d'autorité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34329,
+                    "text": "Ils bouleversent les rapports d’autorité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34330,
+                    "text": "Ils évitent les postes à responsabilité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34331,
+                    "text": "Ils sont moins motivés que leurs aînés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34332,
+                    "text": "Ils tiennent à la stabilité de l’emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2177,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Sensibiliser à l’égalité des sexes.",
+            "user_selected_option_id": 34336,
+            "correct_answer": "Encourager le dialogue avec le public.",
+            "correct_option_id": 34333,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que « quand il y a un phénomène d'identification, la parole se libère lors de la rencontre qui suit la représentation » : l'association cherche à encourager le dialogue avec le public.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34333,
+                    "text": "Encourager le dialogue avec le public.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34334,
+                    "text": "Former des acteurs en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34335,
+                    "text": "Réaliser une œuvre à plusieurs mains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34336,
+                    "text": "Sensibiliser à l’égalité des sexes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2178,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Le désir de vivre en communauté.",
+            "user_selected_option_id": 34340,
+            "correct_answer": "La précarité du monde professionnel.",
+            "correct_option_id": 34339,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les néo-nomades vont « d'un lieu à l'autre au gré des impératifs de leur travail souvent saisonnier » : l'origine est la précarité du monde professionnel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34337,
+                    "text": "L’attirance pour les espaces naturels.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34338,
+                    "text": "L’insécurité des zones urbaines.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34339,
+                    "text": "La précarité du monde professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34340,
+                    "text": "Le désir de vivre en communauté.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2179,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Lutter contre elle peut nuire à certaines libertés.",
+            "user_selected_option_id": 34344,
+            "correct_answer": "Lutter contre elle peut nuire à certaines libertés.",
+            "correct_option_id": 34344,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque le débat sur la liberté d'expression et la crainte que « l'excès de précaution ne vienne tuer le débat d'idées » : lutter contre les microagressions peut nuire à certaines libertés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34341,
+                    "text": "Ce sont des blessures corporelles superficielles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34342,
+                    "text": "Elles sont commises par des groupes minoritaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34343,
+                    "text": "Les autorités universitaires s’en préoccupent peu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34344,
+                    "text": "Lutter contre elle peut nuire à certaines libertés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2180,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Si c’est le fruit d’une décision personnelle.",
+            "user_selected_option_id": 34348,
+            "correct_answer": "Si c’est le fruit d’une décision personnelle.",
+            "correct_option_id": 34348,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la mobilité peut être un facteur d'épanouissement ou de précarité « notamment si elles sont subies » : elle est bien vécue si c'est le fruit d'une décision personnelle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34345,
+                    "text": "Si c’est une occasion d’élargir son réseau social.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34346,
+                    "text": "Si c’est une opportunité de changer de mode de vie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34347,
+                    "text": "Si c’est la possibilité de trouver un emploi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34348,
+                    "text": "Si c’est le fruit d’une décision personnelle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2181,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Recenser des dérives de la société.",
+            "user_selected_option_id": 34352,
+            "correct_answer": "Présenter des histoires positives.",
+            "correct_option_id": 34350,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que les découvertes des journalistes « annihilent tout défaitisme » et sont « proprement humain[es] » : leur parti pris est de présenter des histoires positives.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34349,
+                    "text": "Être au plus près de l’actualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34350,
+                    "text": "Présenter des histoires positives.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34351,
+                    "text": "Proposer des anecdotes amusantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34352,
+                    "text": "Recenser des dérives de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2182,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle reflète les clivages de la société.",
+            "user_selected_option_id": 34356,
+            "correct_answer": "Elle favorise l’évolution des mentalités.",
+            "correct_option_id": 34353,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Éliane Viennot défend l'écriture inclusive car elle « vise à combattre les stéréotypes sexistes » et contribue « à forger des consciences égalitaristes » : elle estime qu'elle favorise l'évolution des mentalités.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34353,
+                    "text": "Elle favorise l’évolution des mentalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34354,
+                    "text": "Elle incarne une première historique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34355,
+                    "text": "Elle permet de moderniser le lexique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34356,
+                    "text": "Elle reflète les clivages de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2183,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Elle rend les émissions littéraires prétentieuses.",
+            "user_selected_option_id": 34360,
+            "correct_answer": "Elle dessert le travail d’écriture du romancier.",
+            "correct_option_id": 34358,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte critique cette pratique qui exige « une habitude, une habileté... qui ne sont pas données à tous les romanciers » : elle dessert le travail d'écriture du romancier.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34357,
+                    "text": "Elle demande de posséder des talents d’acteur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34358,
+                    "text": "Elle dessert le travail d’écriture du romancier.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34359,
+                    "text": "Elle est particulièrement adaptée au petit écran.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34360,
+                    "text": "Elle rend les émissions littéraires prétentieuses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2184,
+            "question_text": "Compréhension écrite – Quiz 20 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "A s’enrichir au contact de nouvelles civilisations.",
+            "user_selected_option_id": 34364,
+            "correct_answer": "A échapper à la banalité du quotidien.",
+            "correct_option_id": 34362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte évoque « une quête de sens désespérée de populations culturellement désorientées » qui voyagent pour se désennuyer : elles cherchent à échapper à la banalité du quotidien.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_20_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34361,
+                    "text": "A diminuer leur emprunte écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34362,
+                    "text": "A échapper à la banalité du quotidien.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34363,
+                    "text": "A participer à l’essor économique des pays visités.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34364,
+                    "text": "A s’enrichir au contact de nouvelles civilisations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 21,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 20",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

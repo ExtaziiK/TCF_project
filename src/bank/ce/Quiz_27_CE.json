@@ -1,0 +1,1733 @@
+{
+    "id": 40103,
+    "exam_id": 63,
+    "score": 191.0,
+    "score_percent": 27.32,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T15:12:55.082431+00:00",
+    "time_spent": 48,
+    "section_breakdown": {
+        "Identification": {
+            "score": 6.8,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 9.6,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 5.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2419,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D’une sortie culturelle.",
+            "user_selected_option_id": 35304,
+            "correct_answer": "D’un grand voyage.",
+            "correct_option_id": 35302,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Antoine écrit « ça y est ! J'ai commencé mon tour du monde ! » : il s'agit d'un grand voyage.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_1.webp",
+            "all_options": [
+                {
+                    "id": 35301,
+                    "text": "D’un déménagement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35302,
+                    "text": "D’un grand voyage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35303,
+                    "text": "D’une réunion de travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35304,
+                    "text": "D’une sortie culturelle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2420,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Un travail à temps partiel.",
+            "user_selected_option_id": 35308,
+            "correct_answer": "Un travail à temps partiel.",
+            "correct_option_id": 35308,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le musée cherche un guide « disponible le week-end entre 14h et 20h » : il s'agit d'un travail à temps partiel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_2.webp",
+            "all_options": [
+                {
+                    "id": 35305,
+                    "text": "Des informations culturelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35306,
+                    "text": "Des visites en ligne gratuites.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35307,
+                    "text": "Un cours d’initiation à l’art.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35308,
+                    "text": "Un travail à temps partiel.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2421,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Elle prend un rendez-vous.",
+            "user_selected_option_id": 35312,
+            "correct_answer": "Elle informé une cliente.",
+            "correct_option_id": 35311,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Sophie Leloux écrit « suite à votre courrier du 17 juin, je vous envoie le catalogue de nos produits » : elle informe une cliente.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_3.webp",
+            "all_options": [
+                {
+                    "id": 35309,
+                    "text": "Elle cherche une vendeuse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35310,
+                    "text": "Elle demande un renseignement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35311,
+                    "text": "Elle informé une cliente.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35312,
+                    "text": "Elle prend un rendez-vous.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2422,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "S’inscrire sur Internet.",
+            "user_selected_option_id": 35316,
+            "correct_answer": "Compléter une fiche.",
+            "correct_option_id": 35313,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'affiche demande de « remplir un formulaire à l'accueil du magasin » pour participer au jeu : il faut compléter une fiche.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35313,
+                    "text": "Compléter une fiche.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35314,
+                    "text": "Proposer une recette.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35315,
+                    "text": "Répondre à une question.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35316,
+                    "text": "S’inscrire sur Internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2423,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Téléphoner à Ludovic.",
+            "user_selected_option_id": 35320,
+            "correct_answer": "Rencontrer un collègue.",
+            "correct_option_id": 35319,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Ludovic écrit « viens dans mon bureau après la réunion » : Antoine doit rencontrer un collègue.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_5.webp",
+            "all_options": [
+                {
+                    "id": 35317,
+                    "text": "Apporter un document.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35318,
+                    "text": "Organiser un entretien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35319,
+                    "text": "Rencontrer un collègue.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35320,
+                    "text": "Téléphoner à Ludovic.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2424,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Voir une exposition de bijoux.",
+            "user_selected_option_id": 35324,
+            "correct_answer": "Aller dans une boutique.",
+            "correct_option_id": 35321,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Nathalie propose « est-ce que tu veux y faire un tour avec moi vendredi prochain » au magasin Zoreilles : elle veut aller dans une boutique avec Corinne.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_6.webp",
+            "all_options": [
+                {
+                    "id": 35321,
+                    "text": "Aller dans une boutique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35322,
+                    "text": "Faire une fête ensemble.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35323,
+                    "text": "Vendre des vêtements.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35324,
+                    "text": "Voir une exposition de bijoux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2425,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Une manifestation sociale.",
+            "user_selected_option_id": 35328,
+            "correct_answer": "Une manifestation sociale.",
+            "correct_option_id": 35328,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'affiche annonce un « grand marché pour défendre nos emplois » : il s'agit d'une manifestation sociale.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_7.webp",
+            "all_options": [
+                {
+                    "id": 35325,
+                    "text": "Un salon des entrepreneurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35326,
+                    "text": "Une compétition sportive.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35327,
+                    "text": "Une conférence sur le chômage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35328,
+                    "text": "Une manifestation sociale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2426,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Des jeux.",
+            "user_selected_option_id": 35332,
+            "correct_answer": "De la nourriture.",
+            "correct_option_id": 35329,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'invitation précise « venez avec des gâteaux, des boissons et votre bonne humeur » : les parents peuvent apporter de la nourriture.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_8.webp",
+            "all_options": [
+                {
+                    "id": 35329,
+                    "text": "De la nourriture.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35330,
+                    "text": "Des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35331,
+                    "text": "Des chansons.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35332,
+                    "text": "Des jeux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2427,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Pour préparer son voyage.",
+            "user_selected_option_id": 35336,
+            "correct_answer": "Pour organiser leur journée de travail.",
+            "correct_option_id": 35335,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Madame Dire précise « je viendrai vous chercher... nous rencontrerons les responsables... pour signer le contrat » : elle écrit pour organiser leur journée de travail.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_9.webp",
+            "all_options": [
+                {
+                    "id": 35333,
+                    "text": "Pour lui annoncer un projet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35334,
+                    "text": "Pour lui présenter un nouveau produit.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35335,
+                    "text": "Pour organiser leur journée de travail.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35336,
+                    "text": "Pour préparer son voyage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2428,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Des tickets bon marché.",
+            "user_selected_option_id": 35340,
+            "correct_answer": "Des menus différents.",
+            "correct_option_id": 35338,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le restaurant universitaire propose « des recettes régionales variées » cette semaine : ce sont des menus différents.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_10.webp",
+            "all_options": [
+                {
+                    "id": 35337,
+                    "text": "Des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35338,
+                    "text": "Des menus différents.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35339,
+                    "text": "Des plats à emporter.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35340,
+                    "text": "Des tickets bon marché.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2429,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De les protéger de la chaleur.",
+            "user_selected_option_id": 35344,
+            "correct_answer": "De les protéger de la chaleur.",
+            "correct_option_id": 35344,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conseille de « rafraîchir » les chiens et de « préférer les promenades du matin ou du soir » quand il fait très chaud : il conseille de les protéger de la chaleur.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35341,
+                    "text": "De les doucher tous les jours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35342,
+                    "text": "De les nourrir le matin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35343,
+                    "text": "De les promener souvent.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35344,
+                    "text": "De les protéger de la chaleur.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2430,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De remplir un formulaire.",
+            "user_selected_option_id": 35348,
+            "correct_answer": "De participer à un jeu.",
+            "correct_option_id": 35345,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "CuisineAZ.com « propose de gagner des appareils de cuisine » gratuitement : elle propose de participer à un jeu.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_12.webp",
+            "all_options": [
+                {
+                    "id": 35345,
+                    "text": "De participer à un jeu.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35346,
+                    "text": "De préparer un repas.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35347,
+                    "text": "De recevoir de l’argent.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35348,
+                    "text": "De remplir un formulaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2431,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Il va arriver en retard chez lui.",
+            "user_selected_option_id": 35352,
+            "correct_answer": "Il va arriver en retard chez lui.",
+            "correct_option_id": 35352,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Dominique explique « je suis sorti pour une urgence... je serai de retour à la maison vers 19h » : il va arriver en retard chez lui.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35349,
+                    "text": "Il a un rendez-vous à l’hôpital.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35350,
+                    "text": "Il doit annuler leur rencontre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35351,
+                    "text": "Il est parti acheter un portable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35352,
+                    "text": "Il va arriver en retard chez lui.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2432,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "En France.",
+            "user_selected_option_id": 35356,
+            "correct_answer": "En France.",
+            "correct_option_id": 35356,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les vacanciers français ont trouvé cet été le bonheur chez eux avec une nette préférence pour les côtes ensoleillées » : ils ont préféré rester en France.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35353,
+                    "text": "À l’étranger.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35354,
+                    "text": "Dans les Alpes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35355,
+                    "text": "En Europe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35356,
+                    "text": "En France.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2433,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Savoir travailler en équipe restreinte.",
+            "user_selected_option_id": 35360,
+            "correct_answer": "Accueillir les patients avec bienveillance.",
+            "correct_option_id": 35357,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le médecin explique que « la gentillesse est sans conteste la meilleure façon de leur répondre » face à des patients angoissés : un urgentiste doit accueillir les patients avec bienveillance.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_15.webp",
+            "all_options": [
+                {
+                    "id": 35357,
+                    "text": "Accueillir les patients avec bienveillance.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35358,
+                    "text": "Évaluer rapidement la gravité des situations.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35359,
+                    "text": "Expliquer clairement les problèmes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35360,
+                    "text": "Savoir travailler en équipe restreinte.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2434,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De s’inscrire dans une école.",
+            "user_selected_option_id": 35364,
+            "correct_answer": "De bien choisir une formation.",
+            "correct_option_id": 35362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« une information de qualité est gage d'une orientation pertinente » lors de ces forums : ils permettent de bien choisir une formation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35361,
+                    "text": "D’avoir rapidement un emploi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35362,
+                    "text": "De bien choisir une formation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35363,
+                    "text": "De s’entretenir avec des élus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35364,
+                    "text": "De s’inscrire dans une école.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2435,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Dormir, c’est quoi ?",
+            "user_selected_option_id": 35368,
+            "correct_answer": "Pourquoi dormir ?",
+            "correct_option_id": 35366,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'« on ne sait pas encore à quoi sert exactement le sommeil » mais qu'il répond à un besoin de récupération : le titre le plus adapté est « Pourquoi dormir ? ».",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35365,
+                    "text": "Dormir ou pas ?",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35366,
+                    "text": "Pourquoi dormir ?",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35367,
+                    "text": "Mieux dormir comment ?",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35368,
+                    "text": "Dormir, c’est quoi ?",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2436,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Restreindre le nombre de familles concernées.",
+            "user_selected_option_id": 35372,
+            "correct_answer": "Faciliter le retour à l’emploi des mères.",
+            "correct_option_id": 35370,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte évoque l'idée de « garantir aux salariées une reprise d'activité dans des conditions fixées à l'avance » : l'objectif serait de faciliter le retour à l'emploi des mères.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35369,
+                    "text": "Allonger la durée du congé parental.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35370,
+                    "text": "Faciliter le retour à l’emploi des mères.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35371,
+                    "text": "Augmenter la participation des entreprises.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35372,
+                    "text": "Restreindre le nombre de familles concernées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2437,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Son humour fait passer un message sérieux.",
+            "user_selected_option_id": 35376,
+            "correct_answer": "Son humour fait passer un message sérieux.",
+            "correct_option_id": 35376,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste souligne que le film est « résolument léger tout en ayant du fond » et « aborde la crise des éleveurs avec beaucoup d'humanité » : son humour fait passer un message sérieux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_19.webp",
+            "all_options": [
+                {
+                    "id": 35373,
+                    "text": "Il est facile de s’identifier aux personnages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35374,
+                    "text": "Les lieux de tournage sont authentiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35375,
+                    "text": "On y dresse un portrait juste de la société.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35376,
+                    "text": "Son humour fait passer un message sérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2438,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Elle s’occupe de gérer des jardins collectifs.",
+            "user_selected_option_id": 35380,
+            "correct_answer": "Elle récolte les produits de terrains privés.",
+            "correct_option_id": 35379,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'association « intervient dans les vergers de particuliers » pour ramasser les fruits à leur place : elle récolte les produits de terrains privés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_20.webp",
+            "all_options": [
+                {
+                    "id": 35377,
+                    "text": "Elle cultive des espaces verts abandonnés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35378,
+                    "text": "Elle réalise de petits services d’entretien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35379,
+                    "text": "Elle récolte les produits de terrains privés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35380,
+                    "text": "Elle s’occupe de gérer des jardins collectifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2439,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Maintenir les performances de la mémoire.",
+            "user_selected_option_id": 35384,
+            "correct_answer": "Maintenir les performances de la mémoire.",
+            "correct_option_id": 35384,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conseille, après la soixantaine, de « conserver une vie active physiquement... et aussi intellectuellement » : l'objectif est de maintenir les performances de la mémoire.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_21.webp",
+            "all_options": [
+                {
+                    "id": 35381,
+                    "text": "Améliorer les capacités physiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35382,
+                    "text": "Découvrir de nouveaux types de sports.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35383,
+                    "text": "Développer le cercle de ses relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35384,
+                    "text": "Maintenir les performances de la mémoire.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2440,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Sélectionner un souvenir.",
+            "user_selected_option_id": 35388,
+            "correct_answer": "Sélectionner un souvenir.",
+            "correct_option_id": 35388,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les participants « doivent se remémorer une histoire personnelle » qui devient une œuvre unique : leur rôle est de sélectionner un souvenir.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_22.webp",
+            "all_options": [
+                {
+                    "id": 35385,
+                    "text": "Effectuer un calcul.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35386,
+                    "text": "Évoquer un fait divers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35387,
+                    "text": "Fournir un support.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35388,
+                    "text": "Sélectionner un souvenir.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2441,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Il peine à écrire depuis quelque temps.",
+            "user_selected_option_id": 35392,
+            "correct_answer": "Il a écrit une œuvre abondante et variée.",
+            "correct_option_id": 35389,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« en vingt ans, il a écrit près de mille cent titres » aussi bien pour herboristes que pour la pharmacopée policière : il a écrit une œuvre abondante et variée.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_23.webp",
+            "all_options": [
+                {
+                    "id": 35389,
+                    "text": "Il a écrit une œuvre abondante et variée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35390,
+                    "text": "Il a toujours rêvé de devenir médecin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35391,
+                    "text": "Il est emballé par les histoires d’épouvante.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35392,
+                    "text": "Il peine à écrire depuis quelque temps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2442,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Elles sécurisent les modes de paiement.",
+            "user_selected_option_id": 35396,
+            "correct_answer": "Elles contribuent à protéger l’environnement.",
+            "correct_option_id": 35394,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les monnaies locales sont des « outils intéressants pour encourager l'adoption de comportements plus écologiques » : elles contribuent à protéger l'environnement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_24.webp",
+            "all_options": [
+                {
+                    "id": 35393,
+                    "text": "Elles concurrencent le marché numérique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35394,
+                    "text": "Elles contribuent à protéger l’environnement.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35395,
+                    "text": "Elles favorisent l’épargne des citoyens.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35396,
+                    "text": "Elles sécurisent les modes de paiement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2443,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Il sera situé près d’un axe routier.",
+            "user_selected_option_id": 35400,
+            "correct_answer": "Il sera proche d’un jardin public.",
+            "correct_option_id": 35399,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'architecte précise que « le parc Étienne est à proximité de la résidence » : le projet sera proche d'un jardin public.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_25.webp",
+            "all_options": [
+                {
+                    "id": 35397,
+                    "text": "Il sera éloigné des magasins.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35398,
+                    "text": "Il sera isolé au milieu d’un parc.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35399,
+                    "text": "Il sera proche d’un jardin public.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35400,
+                    "text": "Il sera situé près d’un axe routier.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2444,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Elle est modelée par ses locuteurs.",
+            "user_selected_option_id": 35404,
+            "correct_answer": "Elle est modelée par ses locuteurs.",
+            "correct_option_id": 35404,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le français ne dépend pas seulement d'une élite intellectuelle... mais surtout de ses locuteurs » : elle est modelée par ses locuteurs.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_26.webp",
+            "all_options": [
+                {
+                    "id": 35401,
+                    "text": "Elle est dépendante de décisions politiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35402,
+                    "text": "Elle est limitée par les intellectuels.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35403,
+                    "text": "Elle est menacée par l’essor d’autres langues.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35404,
+                    "text": "Elle est modelée par ses locuteurs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2445,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Respecter les normes internationales.",
+            "user_selected_option_id": 35408,
+            "correct_answer": "Diminuer les risques sanitaires.",
+            "correct_option_id": 35406,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Paris veut « trouver un équilibre entre préoccupations de santé publique et bonne qualité du service » en réduisant l'exposition aux ondes : l'objectif est de diminuer les risques sanitaires.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_27.webp",
+            "all_options": [
+                {
+                    "id": 35405,
+                    "text": "Améliorer la puissance de la réception.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35406,
+                    "text": "Diminuer les risques sanitaires.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35407,
+                    "text": "Limiter les dépenses de la ville",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35408,
+                    "text": "Respecter les normes internationales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2446,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Vulgariser des techniques de rendement des terres.",
+            "user_selected_option_id": 35412,
+            "correct_answer": "Démontrer les dégâts des méthodes de culture intensive.",
+            "correct_option_id": 35409,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Claude Bourguignon milite pour « convaincre les agriculteurs que le labourage intensif et les pesticides causent la perte de la matière organique terrestre » : son objectif est de démontrer les dégâts des méthodes de culture intensive.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_28.webp",
+            "all_options": [
+                {
+                    "id": 35409,
+                    "text": "Démontrer les dégâts des méthodes de culture intensive.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35410,
+                    "text": "Prouver l’efficacité des insectes contre les parasites.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35411,
+                    "text": "Recommander des procédés de gestion durable de l’eau.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35412,
+                    "text": "Vulgariser des techniques de rendement des terres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2447,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Elle est incompatible avec les objectifs politiques.",
+            "user_selected_option_id": 35416,
+            "correct_answer": "Elle demande trop d’entretien aux petites villes.",
+            "correct_option_id": 35414,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il faut « des dizaines d'années, un accès à l'eau, de l'espace, des congénères, un environnement écologique » pour qu'un arbre rende ses services : cette exigence demande trop d'entretien aux petites villes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_29.webp",
+            "all_options": [
+                {
+                    "id": 35413,
+                    "text": "Elle a peu d’action sur le dérèglement climatique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35414,
+                    "text": "Elle demande trop d’entretien aux petites villes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35415,
+                    "text": "Elle doit figurer dans les programmes électoraux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35416,
+                    "text": "Elle est incompatible avec les objectifs politiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2448,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Voir le violon modifie l’appréciation de l’auditeur.",
+            "user_selected_option_id": 35420,
+            "correct_answer": "Ce sont les violons récents qui sont les plus estimés.",
+            "correct_option_id": 35417,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que tous ont préféré la sonorité des violons les plus récents lors du test à l'aveugle : ce sont les violons récents qui sont les plus estimés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_30.webp",
+            "all_options": [
+                {
+                    "id": 35417,
+                    "text": "Ce sont les violons récents qui sont les plus estimés.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35418,
+                    "text": "Il est difficile de maîtriser les violons anciens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35419,
+                    "text": "La qualité des violons évolue avec le temps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35420,
+                    "text": "Voir le violon modifie l’appréciation de l’auditeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2449,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Sur la progression des cultures tropicales.",
+            "user_selected_option_id": 35424,
+            "correct_answer": "Sur la pollution atmosphérique.",
+            "correct_option_id": 35423,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la destruction de la forêt tropicale provoque chaque année plus de rejets dans l'atmosphère que l'ensemble du secteur des transports » : elle a un impact sur la pollution atmosphérique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_31.webp",
+            "all_options": [
+                {
+                    "id": 35421,
+                    "text": "Sur l’industrie des bois rares.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35422,
+                    "text": "Sur la démographie dans ces zones.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35423,
+                    "text": "Sur la pollution atmosphérique.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35424,
+                    "text": "Sur la progression des cultures tropicales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2450,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Évaluer régulièrement leurs acquis.",
+            "user_selected_option_id": 35428,
+            "correct_answer": "Développer leur esprit critique.",
+            "correct_option_id": 35425,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Marcel Gauchet explique que « savoir, c'est se confronter à l'incertitude et non réciter bêtement des connaissances » : le rôle de l'enseignant sera de développer l'esprit critique des élèves.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_32.webp",
+            "all_options": [
+                {
+                    "id": 35425,
+                    "text": "Développer leur esprit critique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35426,
+                    "text": "Encourager les débats entre eux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35427,
+                    "text": "Enrichir leur capacité mémorielle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35428,
+                    "text": "Évaluer régulièrement leurs acquis.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2451,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il souffre d’une image négative.",
+            "user_selected_option_id": 35432,
+            "correct_answer": "Il est méconnu du public visé.",
+            "correct_option_id": 35429,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le programme Erasmus « souffre néanmoins d'un vrai déficit de notoriété » et qu'« on le découvre souvent par hasard » : il est méconnu du public visé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_33.webp",
+            "all_options": [
+                {
+                    "id": 35429,
+                    "text": "Il est méconnu du public visé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35430,
+                    "text": "Il est restreint à quelques pays",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35431,
+                    "text": "Il favorise certains établissements",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35432,
+                    "text": "Il souffre d’une image négative.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2452,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Son fonctionnement est encore mystérieux.",
+            "user_selected_option_id": 35436,
+            "correct_answer": "Son fonctionnement est encore mystérieux.",
+            "correct_option_id": 35436,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "SEIS sera « le premier sismomètre déployé sur un autre sol » et nous ignorons encore ce qu'il va découvrir : son fonctionnement est encore mystérieux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_34.webp",
+            "all_options": [
+                {
+                    "id": 35433,
+                    "text": "Sa structure est identique chez l’homme et l’animal.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35434,
+                    "text": "Sa taille influe sur les compétences cognitives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35435,
+                    "text": "Son développement est ralenti les premiers mois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35436,
+                    "text": "Son fonctionnement est encore mystérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2453,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il doute de l’intérêt des médias traditionnels.",
+            "user_selected_option_id": 35440,
+            "correct_answer": "Il doute de l’intérêt des médias traditionnels.",
+            "correct_option_id": 35440,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste doute de la fiabilité de la distribution d'informations à la télévision tout en reconnaissant son rôle d'éveilleur d'intérêt : il doute de l'intérêt des médias traditionnels.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_35.webp",
+            "all_options": [
+                {
+                    "id": 35437,
+                    "text": "Il conteste la fiabilité des sources d’internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35438,
+                    "text": "Il critique la surabondance de l’information.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35439,
+                    "text": "Il dénonce la médiocrité de la presse écrite.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35440,
+                    "text": "Il doute de l’intérêt des médias traditionnels.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2454,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "L’uniformité des scénarios.",
+            "user_selected_option_id": 35444,
+            "correct_answer": "La quasi-absence d’héroïnes.",
+            "correct_option_id": 35441,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte constate que « l'œil avisé aura lui-même bien du mal à trouver un personnage principal féminin » dans les jeux vidéo : le constat est la quasi-absence d'héroïnes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_36.webp",
+            "all_options": [
+                {
+                    "id": 35441,
+                    "text": "La quasi-absence d’héroïnes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35442,
+                    "text": "L’appel constant à la violence.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35443,
+                    "text": "L’atténuation des clichés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35444,
+                    "text": "L’uniformité des scénarios.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2455,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il renforce le mythe de la bataille de Bouvines.",
+            "user_selected_option_id": 35448,
+            "correct_answer": "Il explore la construction identitaire des Français.",
+            "correct_option_id": 35447,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Dominique Barthélemy « nous invite à poursuivre la réflexion sur l'idée que les Français se font d'eux-mêmes » : il explore la construction identitaire des Français.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_37.webp",
+            "all_options": [
+                {
+                    "id": 35445,
+                    "text": "Il analyse l’établissement d’une dynastie royale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35446,
+                    "text": "Il explique l’origine d’une légende médiévale.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35447,
+                    "text": "Il explore la construction identitaire des Français.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35448,
+                    "text": "Il renforce le mythe de la bataille de Bouvines.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2456,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Représenter le gouvernement français lors d’une rencontre.",
+            "user_selected_option_id": 35452,
+            "correct_answer": "Observer l’écosystème dans une région de grands fleuves.",
+            "correct_option_id": 35451,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le voilier « se consacrera aux études scientifiques et humaines concernant la biosphère » sur « l'Amérique du Sud et ses grands fleuves » : l'équipage va observer l'écosystème dans une région de grands fleuves.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_38.webp",
+            "all_options": [
+                {
+                    "id": 35449,
+                    "text": "Former des scientifiques à la prévention de risques écologiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35450,
+                    "text": "Innover dans les moyens de lutte contre les pollutions fluviales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35451,
+                    "text": "Observer l’écosystème dans une région de grands fleuves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35452,
+                    "text": "Représenter le gouvernement français lors d’une rencontre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2457,
+            "question_text": "Compréhension écrite – Quiz 27 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Ils sont fiers de leurs apports à l’économie.",
+            "user_selected_option_id": 35456,
+            "correct_answer": "Ils éprouvent le sentiment d’être incompris.",
+            "correct_option_id": 35454,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les agriculteurs sont « mis en cause de manière massive et généralisée, ce qui revient à contester en bloc leurs façons de travailler, leur utilité sociale et leur existence » : ils éprouvent le sentiment d'être incompris.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_27_question_39.webp",
+            "all_options": [
+                {
+                    "id": 35453,
+                    "text": "Ils défendent les pratiques traditionnelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35454,
+                    "text": "Ils éprouvent le sentiment d’être incompris.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35455,
+                    "text": "Ils réfutent les reproches qui leur sont faits.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35456,
+                    "text": "Ils sont fiers de leurs apports à l’économie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 27,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 27",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

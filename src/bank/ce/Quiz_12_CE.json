@@ -1,0 +1,1732 @@
+{
+    "id": 40162,
+    "exam_id": 48,
+    "score": 683.0,
+    "score_percent": 97.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-05T23:13:39.238618+00:00",
+    "time_spent": 341,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.4,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.2,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.5,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.5,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1834,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Revenir plus tard.",
+            "user_selected_option_id": 32963,
+            "correct_answer": "Revenir plus tard.",
+            "correct_option_id": 32963,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le panneau précise « je suis en consultation. Revenez dans quelques minutes » : il faut donc revenir plus tard.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_1.webp",
+            "all_options": [
+                {
+                    "id": 32961,
+                    "text": "Frapper et entrer.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32962,
+                    "text": "Prendre rendez-vous.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32963,
+                    "text": "Revenir plus tard.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32964,
+                    "text": "Téléphoner.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1835,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Des rencontres entre jeunes.",
+            "user_selected_option_id": 32967,
+            "correct_answer": "Des rencontres entre jeunes.",
+            "correct_option_id": 32967,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'association propose de « discuter avec des étudiants français », de « participer à des groupes de conversation » et de « faire des activités ensemble » : elle organise des rencontres entre jeunes.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32965,
+                    "text": "Des cours particuliers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32966,
+                    "text": "Des jobs pendant le week-end.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32967,
+                    "text": "Des rencontres entre jeunes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32968,
+                    "text": "Des voyages à l’étranger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1836,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Il annonce son absence.",
+            "user_selected_option_id": 32969,
+            "correct_answer": "Il annonce son absence.",
+            "correct_option_id": 32969,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Pierre écrit « je ne peux pas venir ce soir » : il annonce donc son absence.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_3.webp",
+            "all_options": [
+                {
+                    "id": 32969,
+                    "text": "Il annonce son absence.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32970,
+                    "text": "Il donne un rendez-vous.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32971,
+                    "text": "Il indique son arrivée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32972,
+                    "text": "Il signale son retard.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1837,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Assister à des concerts.",
+            "user_selected_option_id": 32974,
+            "correct_answer": "Assister à des concerts.",
+            "correct_option_id": 32974,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose « musique jazz et brésilienne... profitez d'un été musical » sur les terrasses : on peut donc assister à des concerts.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32973,
+                    "text": "Apprendre à jouer d’un instrument.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32974,
+                    "text": "Assister à des concerts.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32975,
+                    "text": "Réserver des billets de spectacle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32976,
+                    "text": "S’inscrire à des animations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1838,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Elle souhaite parler à Françoise.",
+            "user_selected_option_id": 32979,
+            "correct_answer": "Elle souhaite parler à Françoise.",
+            "correct_option_id": 32979,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Ariane demande à Françoise « pouvons-nous nous rencontrer dans ton bureau demain matin » : elle souhaite donc lui parler.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32977,
+                    "text": "Elle doit partir une journée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32978,
+                    "text": "Elle propose un déjeuner.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32979,
+                    "text": "Elle souhaite parler à Françoise.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32980,
+                    "text": "Elle veut visiter une entreprise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1839,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Regarder des films.",
+            "user_selected_option_id": 32984,
+            "correct_answer": "Regarder des films.",
+            "correct_option_id": 32984,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Lali propose à Samira de choisir un film pour la fête du cinéma : elle veut donc regarder des films.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32981,
+                    "text": "Aller à un anniversaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32982,
+                    "text": "Dîner avec son amie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32983,
+                    "text": "Partir en week-end.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32984,
+                    "text": "Regarder des films.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1840,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour modifier l’horaire d’un cours.",
+            "user_selected_option_id": 32987,
+            "correct_answer": "Pour modifier l’horaire d’un cours.",
+            "correct_option_id": 32987,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "M. Valmont informe que « le cours de mathématiques aura exceptionnellement lieu à 15 heures » : il écrit donc pour modifier l'horaire d'un cours.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32985,
+                    "text": "Pour annoncer un changement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32986,
+                    "text": "Pour inviter les élèves à une réunion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32987,
+                    "text": "Pour modifier l’horaire d’un cours.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32988,
+                    "text": "Pour remercier les élèves de 5e B.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1841,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Joyeux.",
+            "user_selected_option_id": 32992,
+            "correct_answer": "Joyeux.",
+            "correct_option_id": 32992,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit Mimiquette et Théophilou comme des personnages « gais » qui « aiment inventer des jeux » : ils sont donc joyeux.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32989,
+                    "text": "Beaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32990,
+                    "text": "Calmes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32991,
+                    "text": "Courageux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32992,
+                    "text": "Joyeux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1842,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "À des employés.",
+            "user_selected_option_id": 32996,
+            "correct_answer": "À des employés.",
+            "correct_option_id": 32996,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message, envoyé par « le bureau du personnel » au sujet des « demandes de congés », s'adresse aux employés.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32993,
+                    "text": "À des clients.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32994,
+                    "text": "À madame Létourneau.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32995,
+                    "text": "À des élèves.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32996,
+                    "text": "À des employés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1843,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Aux professeurs.",
+            "user_selected_option_id": 33000,
+            "correct_answer": "Aux professeurs.",
+            "correct_option_id": 33000,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message, envoyé par « la direction du lycée » à ses « chers collègues » au sujet d'une « réunion parents-professeurs », s'adresse aux professeurs.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_10.webp",
+            "all_options": [
+                {
+                    "id": 32997,
+                    "text": "Aux élèves.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32998,
+                    "text": "Aux étudiants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32999,
+                    "text": "Aux parents.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33000,
+                    "text": "Aux professeurs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1844,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Oui, grâce à des méthodes très simples.",
+            "user_selected_option_id": 33003,
+            "correct_answer": "Oui, grâce à des méthodes très simples.",
+            "correct_option_id": 33003,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte affirme qu'« il est possible de le surmonter » en « respirant bien » et en « visualisant la scène idéale » : oui, grâce à des méthodes très simples.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33001,
+                    "text": "Non, parce que c’est une réaction normale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33002,
+                    "text": "Bien sûr ! il existe des médicaments très efficaces.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33003,
+                    "text": "Oui, grâce à des méthodes très simples.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33004,
+                    "text": "Certainement pas. Il est insurmontable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1845,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Pour favoriser une autre pédagogie.",
+            "user_selected_option_id": 33006,
+            "correct_answer": "Pour favoriser une autre pédagogie.",
+            "correct_option_id": 33006,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que « le mouvement aide à la concentration » et que les psychologues pensent qu'il faut « laisser les écoliers bouger » : le mobilier a changé pour favoriser une autre pédagogie.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33005,
+                    "text": "Pour accueillir des élèves handicapés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33006,
+                    "text": "Pour favoriser une autre pédagogie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33007,
+                    "text": "Pour limiter les problèmes de santé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33008,
+                    "text": "Pour rénover les salles de classe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1846,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Elle souhaite des renseignements.",
+            "user_selected_option_id": 33011,
+            "correct_answer": "Elle souhaite des renseignements.",
+            "correct_option_id": 33011,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Madame Pierre a envoyé « une demande de documentation concernant nos services de téléphonie » : elle souhaite donc des renseignements.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33009,
+                    "text": "Elle demande un remboursement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33010,
+                    "text": "Elle doit prendre un rendez-vous.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33011,
+                    "text": "Elle souhaite des renseignements.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33012,
+                    "text": "Elle veut faire une réclamation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1847,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Partager son appartement pour deux mois.",
+            "user_selected_option_id": 33015,
+            "correct_answer": "Partager son appartement pour deux mois.",
+            "correct_option_id": 33015,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose une « colocation pour l'été du 1er juillet au 31 août seulement » : Julie veut donc partager son appartement pour deux mois.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33013,
+                    "text": "Échanger son appartement pendant l’été.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33014,
+                    "text": "Louer un appartement meublé de 20 m².",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33015,
+                    "text": "Partager son appartement pour deux mois.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33016,
+                    "text": "Vendre son appartement près de Paris.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1848,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Présenter de nouveaux produits.",
+            "user_selected_option_id": 33019,
+            "correct_answer": "Présenter de nouveaux produits.",
+            "correct_option_id": 33019,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'entreprise Labayle et Chandon envoie son « catalogue de boissons pour cette année » à un confrère : l'objet du courrier est de présenter de nouveaux produits.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33017,
+                    "text": "Demander des informations sur des produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33018,
+                    "text": "Passer une commande de produits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33019,
+                    "text": "Présenter de nouveaux produits.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33020,
+                    "text": "Proposer une dégustation de produit.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1849,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Créer des emplois.",
+            "user_selected_option_id": 33022,
+            "correct_answer": "Créer des emplois.",
+            "correct_option_id": 33022,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'intelligence artificielle « pourrait augmenter de 10 % en moyenne les effectifs des entreprises ayant investi » : elle peut donc créer des emplois.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33021,
+                    "text": "Baisser les salaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33022,
+                    "text": "Créer des emplois.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33023,
+                    "text": "Diviser le travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33024,
+                    "text": "Favoriser la recherche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1850,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Faire la preuve de son désir de travailler.",
+            "user_selected_option_id": 33026,
+            "correct_answer": "Faire la preuve de son désir de travailler.",
+            "correct_option_id": 33026,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'article conseille de « parler de sa passion et démontrer sa motivation » car « c'est ce qui reste souvent le critère le plus important » pour l'employeur : il faut faire la preuve de son désir de travailler.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33025,
+                    "text": "Exposer l’ensemble de ses qualités professionnelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33026,
+                    "text": "Faire la preuve de son désir de travailler.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33027,
+                    "text": "Parler avec enthousiasme de ses projets de formations.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33028,
+                    "text": "Parler des emplois qu’on a déjà occupés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1851,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Présenter les relations familiales avec humour.",
+            "user_selected_option_id": 33031,
+            "correct_answer": "Présenter les relations familiales avec humour.",
+            "correct_option_id": 33031,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les parents « font de grosses erreurs, ce qui nous amuse et nous fait rire » : la série veut présenter les relations familiales avec humour.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33029,
+                    "text": "Informer sur de nouvelles méthodes éducatives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33030,
+                    "text": "Montrer la vie de tous les jours d’un jeune couple.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33031,
+                    "text": "Présenter les relations familiales avec humour.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33032,
+                    "text": "Proposer des solutions à des situations de crise.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1852,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Tenter une nouvelle aventure.",
+            "user_selected_option_id": 33036,
+            "correct_answer": "Tenter une nouvelle aventure.",
+            "correct_option_id": 33036,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les néo-ruraux « veulent avant tout vivre une expérience », ce qui les différencie de la population locale : ils cherchent donc à tenter une nouvelle aventure.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33033,
+                    "text": "Accéder à la propriété privée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33034,
+                    "text": "Avoir un mode de vie économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33035,
+                    "text": "Participer à la vie associative.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33036,
+                    "text": "Tenter une nouvelle aventure.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1853,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Responsabiliser les acteurs concernés.",
+            "user_selected_option_id": 33040,
+            "correct_answer": "Responsabiliser les acteurs concernés.",
+            "correct_option_id": 33040,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'il faut agir « en concertation avec les habitants » et « avec les entreprises... afin que chacun ait un objectif à atteindre » : il s'agit donc de responsabiliser les acteurs concernés.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33037,
+                    "text": "Moderniser les installations anti-pollution.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33038,
+                    "text": "Modifier les circuits de production.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33039,
+                    "text": "Organiser des formations sur le sujet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33040,
+                    "text": "Responsabiliser les acteurs concernés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1854,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "À accueillir des artistes ainsi que leurs œuvres.",
+            "user_selected_option_id": 33041,
+            "correct_answer": "À accueillir des artistes ainsi que leurs œuvres.",
+            "correct_option_id": 33041,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le CENTQUATRE est un « lieu de résidence et de création artistiques unique au monde » : il sert donc à accueillir des artistes ainsi que leurs œuvres.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33041,
+                    "text": "À accueillir des artistes ainsi que leurs œuvres.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33042,
+                    "text": "À créer des ateliers d’arts pour les habitants du quartier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33043,
+                    "text": "À former une nouvelle génération d’artistes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33044,
+                    "text": "À transformer des ateliers d’artistes en logement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1855,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "L’homme se laisse dominer par la technologie.",
+            "user_selected_option_id": 33047,
+            "correct_answer": "L’homme se laisse dominer par la technologie.",
+            "correct_option_id": 33047,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'auteur explique que nous devenons « souvent prisonniers » des nouveaux produits et « les suiveurs inconscients » du progrès : l'homme se laisse dominer par la technologie.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33045,
+                    "text": "Le progrès passe par les nouvelles technologies.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33046,
+                    "text": "L’attrait de la nouveauté est incontournable.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33047,
+                    "text": "L’homme se laisse dominer par la technologie.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33048,
+                    "text": "La technologie est le reflet de la modernité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1856,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Le retard pris dans ses recherches.",
+            "user_selected_option_id": 33051,
+            "correct_answer": "Le retard pris dans ses recherches.",
+            "correct_option_id": 33051,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Géraldine explique que « des événements d'ordre privé » l'empêchent d'« achever [ses] lectures avant [le] prochain rendez-vous » : c'est le retard pris dans ses recherches qu'elle annonce.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33049,
+                    "text": "L’envoi d’un bilan de ses lectures.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33050,
+                    "text": "La fin des modifications sur sa thèse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33051,
+                    "text": "Le retard pris dans ses recherches.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33052,
+                    "text": "La date de leur prochaine rencontre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1857,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Il a écrit une œuvre abondante et variée.",
+            "user_selected_option_id": 33053,
+            "correct_answer": "Il a écrit une œuvre abondante et variée.",
+            "correct_option_id": 33053,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« en vingt ans, il a écrit près de mille cent titres », touchant à des genres très divers : il a donc écrit une œuvre abondante et variée.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33053,
+                    "text": "Il a écrit une œuvre abondante et variée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33054,
+                    "text": "Il a toujours rêve de devenir médecin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33055,
+                    "text": "Il est emballé par les histoires d’épouvante.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33056,
+                    "text": "Il peine à écrire depuis quelques temps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1858,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Le sport sans douleur.",
+            "user_selected_option_id": 33058,
+            "correct_answer": "Le sport sans douleur.",
+            "correct_option_id": 33058,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte affirme que « c'est la meilleure garantie pour ne pas souffrir en faisant du sport » à condition de bien se préparer : le titre le plus adapté est donc « le sport sans douleur ».",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33057,
+                    "text": "Les sports à risque.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33058,
+                    "text": "Le sport sans douleur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33059,
+                    "text": "Les dangers du sport.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33060,
+                    "text": "Les bienfaits du sport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1859,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Faire découvrir les formations pour devenir ingénieur.",
+            "user_selected_option_id": 33062,
+            "correct_answer": "Faire découvrir les formations pour devenir ingénieur.",
+            "correct_option_id": 33062,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « rencontrer les étudiants, enseignants » et présente « les études et les métiers d'ingénieur » : son objectif est de faire découvrir les formations pour devenir ingénieur.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33061,
+                    "text": "Découvrir le travail de recherche en laboratoire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33062,
+                    "text": "Faire découvrir les formations pour devenir ingénieur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33063,
+                    "text": "Inaugurer l’ouverture d’un campus universitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33064,
+                    "text": "Obtenir des conseils afin de créer une association.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1860,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Ils alternent les supports selon le type d’activité.",
+            "user_selected_option_id": 33065,
+            "correct_answer": "Ils alternent les supports selon le type d’activité.",
+            "correct_option_id": 33065,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le numérique est « préféré pour l'étude d'images » tandis que « le papier est privilégié pour... les évaluations » : les enseignants alternent les supports selon le type d'activité.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33065,
+                    "text": "Ils alternent les supports selon le type d’activité.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33066,
+                    "text": "Ils hésitent à utiliser les techniques informatiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33067,
+                    "text": "Ils optent toujours pour des ouvrages imprimés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33068,
+                    "text": "Ils tiennent compte des progrès des apprenants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1861,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "à Paris et partout en Europe.",
+            "user_selected_option_id": 33072,
+            "correct_answer": "à Paris et partout en Europe.",
+            "correct_option_id": 33072,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque le chorégraphe William Forsythe, qui a quitté les États-Unis pour diriger le Ballet de Francfort avant de revenir sur les scènes parisiennes et européennes : ses œuvres sont donc représentées à Paris et partout en Europe.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33069,
+                    "text": "en grande majorité New York.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33070,
+                    "text": "rarement ailleurs qu’à Francfort.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33071,
+                    "text": "en Russie et aux États-Unis.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33072,
+                    "text": "à Paris et partout en Europe.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1862,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Que son dossier est examiné.",
+            "user_selected_option_id": 33075,
+            "correct_answer": "Que son dossier est examiné.",
+            "correct_option_id": 33075,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le service recrutement informe que « nous allons l'étudier dans les prochains jours » et qu'en l'absence de réponse sous trois semaines la candidature ne sera pas retenue : le destinataire apprend donc que son dossier est examiné.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33073,
+                    "text": "Que sa candidature est sélectionnée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33074,
+                    "text": "Que sa proposition est acceptée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33075,
+                    "text": "Que son dossier est examiné.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33076,
+                    "text": "Que son recrutement est retardé.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1863,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "user_selected_option_id": 33080,
+            "correct_answer": "Ils se fixent des objectifs élevés dans ces matières.",
+            "correct_option_id": 33080,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que les élèves confiants « choisissent de préférence des activités présentant... un défi » : ils se fixent donc des objectifs élevés dans ces matières.",
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33077,
+                    "text": "Ils finissent par maîtriser l’ensemble des matières.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33078,
+                    "text": "Ils font des efforts dans les autres matières étudiées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33079,
+                    "text": "Ils négligent les matières trop faciles pour eux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33080,
+                    "text": "Ils se fixent des objectifs élevés dans ces matières.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1864,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Il y a peu d’événements culturels consacrés à la photographie.",
+            "user_selected_option_id": 33082,
+            "correct_answer": "C’est la photographie qui est la forme d’art la moins valorisée.",
+            "correct_option_id": 33081,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur constate qu'il « choquerait pour tout autre secteur » de ne pas rémunérer les auteurs, mais que cela « n'offusque personne » pour le photographe : c'est la photographie qui est la forme d'art la moins valorisée.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33081,
+                    "text": "C’est la photographie qui est la forme d’art la moins valorisée.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33082,
+                    "text": "Il y a peu d’événements culturels consacrés à la photographie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33083,
+                    "text": "Les photographies sont commercialisées à bas prix.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33084,
+                    "text": "N’importe qui peut s’improviser photographe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1865,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Encourager le dialogue avec le public.",
+            "user_selected_option_id": 33085,
+            "correct_answer": "Encourager le dialogue avec le public.",
+            "correct_option_id": 33085,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que « l'enjeu... est que les spectateurs s'approprient la pièce » et que « la parole se libère » lors de la rencontre qui suit : l'objectif est d'encourager le dialogue avec le public.",
+            "time_spent": 17,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33085,
+                    "text": "Encourager le dialogue avec le public.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33086,
+                    "text": "Former des acteurs en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33087,
+                    "text": "Réaliser une œuvre à plusieurs mains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33088,
+                    "text": "Sensibiliser à l’égalité des sexes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1866,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Elle permet le dépassement des normes édictées.",
+            "user_selected_option_id": 33091,
+            "correct_answer": "Elle permet le dépassement des normes édictées.",
+            "correct_option_id": 33091,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'« un pays riche pourrait acheter le droit de polluer à un autre » : le paradoxe est qu'elle permet le dépassement des normes édictées.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33089,
+                    "text": "Elle concerne uniquement les économies fortes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33090,
+                    "text": "Elle freine l’utilisation de ressources renouvelables.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33091,
+                    "text": "Elle permet le dépassement des normes édictées.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33092,
+                    "text": "Elle ralentit le progrès dans les États émergents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1867,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L’extension d’un système de climatisation à tout un quartier.",
+            "user_selected_option_id": 33093,
+            "correct_answer": "L’extension d’un système de climatisation à tout un quartier.",
+            "correct_option_id": 33093,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit un projet de « centrale hydrothermique » de la Compagnie Parisienne du Chauffage Urbain « pour chauffer et refroidir » tout un quartier : c'est donc l'extension d'un système de climatisation à tout un quartier qui est présentée comme réaliste.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33093,
+                    "text": "L’extension d’un système de climatisation à tout un quartier.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33094,
+                    "text": "L’installation de parcs sur les toits des bâtiments parisiens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33095,
+                    "text": "La construction de pistes cyclables au sommet des immeubles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33096,
+                    "text": "La création de jardins communs pour planter des légumes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1868,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il s’indigne en estimant que les reproches faits aux consommateurs sont injustifiés.",
+            "user_selected_option_id": 33099,
+            "correct_answer": "Il s’indigne en estimant que les reproches faits aux consommateurs sont injustifiés.",
+            "correct_option_id": 33099,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "André s'indigne que « les médias ne dénoncent pas l'absence d'efforts des milieux industriels » alors qu'ils jettent la pierre aux particuliers : il estime que les reproches faits aux consommateurs sont injustifiés.",
+            "time_spent": 15,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33097,
+                    "text": "Il aimerait que sa région soit plus combative et engagée face aux problèmes locaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33098,
+                    "text": "Il réclame de nouvelles dispositions tarifaires pour que les factures soient moins élevées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33099,
+                    "text": "Il s’indigne en estimant que les reproches faits aux consommateurs sont injustifiés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33100,
+                    "text": "Il trouve inquiétantes les conséquences de la mauvaise gestion des sources d’énergie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1869,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Il se sentait trop vieux pour les tournées.",
+            "user_selected_option_id": 33101,
+            "correct_answer": "Il se sentait trop vieux pour les tournées.",
+            "correct_option_id": 33101,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque qu'« il lui a fallu du temps pour se convaincre que monter sur scène... était encore de son âge » : il se sentait trop vieux pour les tournées.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33101,
+                    "text": "Il se sentait trop vieux pour les tournées.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33102,
+                    "text": "Il voulait fuir son image d’idole des jeunes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33103,
+                    "text": "Le public préférait l’écrivain au chanteur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33104,
+                    "text": "Ses chansons étaient passées de mode.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1870,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "user_selected_option_id": 33108,
+            "correct_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "correct_option_id": 33108,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Les partisans de la seconde école craignent que l'eugénisme « permette la sélection efficace des embryons » selon « des exigences non pathologiques » : leurs réserves portent sur les dérives induites par l'amélioration du patrimoine génétique.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33105,
+                    "text": "Le coût social élevé de prise en charge des maladies génétiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33106,
+                    "text": "Le développement de traitements curatifs de pathologies génétiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33107,
+                    "text": "Le mode de financement de la recherche génétique fondamentale.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33108,
+                    "text": "Les dérives induites par l’amélioration du patrimoine génétique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1871,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+            "user_selected_option_id": 33112,
+            "correct_answer": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+            "correct_option_id": 33112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'article explore des tags « d'il y a deux mille ans » témoignant de « l'humeur, de l'écriture et du langage quotidien » à l'époque gallo-romaine : l'expression picturale populaire existait donc déjà à cette époque.",
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33109,
+                    "text": "La pratique de la peinture murale a pris naissance à l’ère gallo-romaine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33110,
+                    "text": "Les archéologues refusent de reconnaître la valeur des graffitis gallo-romains.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33111,
+                    "text": "Les tagueurs d’aujourd’hui se sont inspirés des œuvres gallo-romaines.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33112,
+                    "text": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1872,
+            "question_text": "Compréhension écrite – Quiz 12 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Pour découvrir de nouvelles références.",
+            "user_selected_option_id": 33113,
+            "correct_answer": "Pour découvrir de nouvelles références.",
+            "correct_option_id": 33113,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Jean-Claude Siméon explique que les dictionnaires « ouvrent de nouveaux horizons » en le « renvoyant souvent à d'autres ouvrages » : c'est pour découvrir de nouvelles références qu'il les aime.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_12_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33113,
+                    "text": "Pour découvrir de nouvelles références.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33114,
+                    "text": "Pour posséder une bibliothèque fournie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33115,
+                    "text": "Pour s’évader vers des horizons lointains.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33116,
+                    "text": "Pour trouver les remèdes à ses maux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 97,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 12",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

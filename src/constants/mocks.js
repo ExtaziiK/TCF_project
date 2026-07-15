@@ -7,8 +7,8 @@ export const MOCKS = [
 ];
 
 export const MOCK_SECTIONS = [
-  { icon: Headphones, t: "Compréhension orale", d: "39 questions · 35 min", route: "listening" },
-  { icon: BookOpen, t: "Compréhension écrite", d: "39 questions · 60 min", route: "reading" },
-  { icon: PenLine, t: "Expression écrite", d: "3 tâches · 60 min", route: "writing" },
-  { icon: Mic, t: "Expression orale", d: "3 tâches · 12 min", route: "speaking" },
+  { icon: Headphones, t: "Compréhension orale", d: "39 questions · 35 min", route: "listening", desc: "Des annonces, conversations et documents radio, écoutés une seule fois comme le jour de l'examen, avec des questions à choix multiple." },
+  { icon: BookOpen, t: "Compréhension écrite", d: "39 questions · 60 min", route: "reading", desc: "Des documents écrits authentiques — courriels, affiches, articles de la vie quotidienne — suivis de questions à choix multiple." },
+  { icon: PenLine, t: "Expression écrite", d: "3 tâches · 60 min", route: "writing", desc: "Trois rédactions guidées : message court, article de blogue et texte argumenté, chacune avec un nombre de mots imposé." },
+  { icon: Mic, t: "Expression orale", d: "3 tâches · 12 min", route: "speaking", desc: "Trois prises de parole : entretien dirigé, exercice en interaction et expression d'un point de vue argumenté." },
 ];

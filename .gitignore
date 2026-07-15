@@ -3,5 +3,21 @@ dist
 .DS_Store
 *.local
 
+# local env vars (Supabase keys, etc.) - keep .env.example tracked as the template
+.env
+.env.*
+!.env.example
+
 # stray nested repo (leftover empty clone, not part of the app)
 /TCF/
+
+# local Claude Code tool settings (per-machine, not shared)
+.claude/settings.local.json
+
+# quiz audio/images now served from Supabase Storage (Audio/Image buckets),
+# not bundled into the app - see src/bank/README.md and src/utils/bankAdapter.js
+/src/bank/media/
+
+# generated media name maps (opaque hash -> question) - keep local, never share
+media-inventory.csv
+media-manifest.*

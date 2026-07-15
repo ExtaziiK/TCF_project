@@ -1,0 +1,1733 @@
+{
+    "id": 40086,
+    "exam_id": 71,
+    "score": 113.0,
+    "score_percent": 16.17,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T14:07:15.833742+00:00",
+    "time_spent": 62,
+    "section_breakdown": {
+        "Identification": {
+            "score": 4.0,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 5.7,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 3.2,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 3.2,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2731,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Pour lui proposer un voyage",
+            "user_selected_option_id": 36552,
+            "correct_answer": "Pour lui demander d’être sa femme",
+            "correct_option_id": 36549,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Robert écrit « je t'aime ! Marions-nous ! » : il écrit pour lui demander d'être sa femme.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_1.webp",
+            "all_options": [
+                {
+                    "id": 36549,
+                    "text": "Pour lui demander d’être sa femme",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36550,
+                    "text": "Pour lui donner du courage",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36551,
+                    "text": "Pour lui offrir un emploi",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36552,
+                    "text": "Pour lui proposer un voyage",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2732,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Au bureau",
+            "user_selected_option_id": 36556,
+            "correct_answer": "À l’hôpital",
+            "correct_option_id": 36554,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise « Camilo est né... ils vous attendent dans la chambre 335 au 3e étage » : cela se passe à l'hôpital.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_2.webp",
+            "all_options": [
+                {
+                    "id": 36553,
+                    "text": "À la maison",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36554,
+                    "text": "À l’hôpital",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36555,
+                    "text": "À l’hôtel",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36556,
+                    "text": "Au bureau",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2733,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "De vendre des vêtements",
+            "user_selected_option_id": 36560,
+            "correct_answer": "De donner des cadeaux",
+            "correct_option_id": 36558,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'association « Un Noël pour tous » propose de « les offre en cadeau à des enfants pour les fêtes de fin d'année » : elle propose de donner des cadeaux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_3.webp",
+            "all_options": [
+                {
+                    "id": 36557,
+                    "text": "D’échanger des livres",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36558,
+                    "text": "De donner des cadeaux",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36559,
+                    "text": "De réparer des jouets",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36560,
+                    "text": "De vendre des vêtements",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2734,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Comment récupérer de l’argent",
+            "user_selected_option_id": 36564,
+            "correct_answer": "Comment récupérer de l’argent",
+            "correct_option_id": 36564,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise « vous pouvez demander le remboursement de votre billet de train... vous recevrez un virement sur votre compte » : l'annonce explique comment récupérer de l'argent.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_4.webp",
+            "all_options": [
+                {
+                    "id": 36561,
+                    "text": "Comment envoyer un don aux conducteurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36562,
+                    "text": "Comment faire un paiement en ligne.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36563,
+                    "text": "Comment modifier un forfait de transport",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36564,
+                    "text": "Comment récupérer de l’argent",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2735,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "La télévision",
+            "user_selected_option_id": 36568,
+            "correct_answer": "La télévision",
+            "correct_option_id": 36568,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ce documentaire est diffusé « sur Politike, la chaîne de la vie politique française » : c'est la télévision qui donne ces informations.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_5.webp",
+            "all_options": [
+                {
+                    "id": 36565,
+                    "text": "L’Internet",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36566,
+                    "text": "La presse",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36567,
+                    "text": "La radio",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36568,
+                    "text": "La télévision",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2736,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Regarder des films",
+            "user_selected_option_id": 36572,
+            "correct_answer": "Regarder des films",
+            "correct_option_id": 36572,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Lali écrit « la fête du cinéma commence samedi prochain » et propose de « choisir ce qu'on ira voir » : elle veut regarder des films.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_6.webp",
+            "all_options": [
+                {
+                    "id": 36569,
+                    "text": "Aller à un anniversaire",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36570,
+                    "text": "Diner avec son amie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36571,
+                    "text": "Partir en week-end",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36572,
+                    "text": "Regarder des films",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2737,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "De visiter de nouveaux logements",
+            "user_selected_option_id": 36576,
+            "correct_answer": "De faire un repas entre voisins",
+            "correct_option_id": 36574,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'association Immeubles en fête invite à « apporter un plat et une boisson et partageons-les ensemble » entre habitants du quartier : c'est pour faire un repas entre voisins.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_7.webp",
+            "all_options": [
+                {
+                    "id": 36573,
+                    "text": "De cuisiner tous ensemble",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36574,
+                    "text": "De faire un repas entre voisins",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36575,
+                    "text": "De s’inscrire à des activités",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36576,
+                    "text": "De visiter de nouveaux logements",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2738,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Une formation à la musique",
+            "user_selected_option_id": 36580,
+            "correct_answer": "Une compétition artistique",
+            "correct_option_id": 36579,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'affiche annonce « une compétition de danse traditionnelle » organisée par la mairie : il s'agit d'une compétition artistique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_8.webp",
+            "all_options": [
+                {
+                    "id": 36577,
+                    "text": "Un événement à la mairie",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36578,
+                    "text": "Un séjour touristique à Berlin",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36579,
+                    "text": "Une compétition artistique",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36580,
+                    "text": "Une formation à la musique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2739,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Réserver un ordinateur",
+            "user_selected_option_id": 36584,
+            "correct_answer": "Apporter des documents",
+            "correct_option_id": 36581,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message rappelle que « la présentation de vos diplômes est obligatoire » pour le stage de formation : mademoiselle Brun doit apporter des documents.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_9.webp",
+            "all_options": [
+                {
+                    "id": 36581,
+                    "text": "Apporter des documents",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36582,
+                    "text": "Confirmer son inscription",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36583,
+                    "text": "Remplir un formulaire",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36584,
+                    "text": "Réserver un ordinateur",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2740,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Une réponse à une réclamation",
+            "user_selected_option_id": 36588,
+            "correct_answer": "Un paiement en ligne",
+            "correct_option_id": 36585,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message invite à « consulter et régler votre facture » sur Internet : ce message propose un paiement en ligne.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_10.webp",
+            "all_options": [
+                {
+                    "id": 36585,
+                    "text": "Un paiement en ligne",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36586,
+                    "text": "Un remboursement immédiat",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36587,
+                    "text": "Une promotion spéciale",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36588,
+                    "text": "Une réponse à une réclamation",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2741,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Partir en voyage",
+            "user_selected_option_id": 36592,
+            "correct_answer": "Enseigner une langue",
+            "correct_option_id": 36590,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce précise « étudiante donne cours d'anglais » : elle veut enseigner une langue.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_11.webp",
+            "all_options": [
+                {
+                    "id": 36589,
+                    "text": "Demander une information",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36590,
+                    "text": "Enseigner une langue",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36591,
+                    "text": "Étudier l’anglais",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36592,
+                    "text": "Partir en voyage",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2742,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De visiter le conservatoire",
+            "user_selected_option_id": 36596,
+            "correct_answer": "De devenir membre de l’orchestre municipal",
+            "correct_option_id": 36594,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « rejoindre l'orchestre des agents de la ville de Rouen » : elle propose de devenir membre de l'orchestre municipal.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_12.webp",
+            "all_options": [
+                {
+                    "id": 36593,
+                    "text": "D’assister à un concert à Rouen",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36594,
+                    "text": "De devenir membre de l’orchestre municipal",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36595,
+                    "text": "De suivre des cours de musique à la rentrée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36596,
+                    "text": "De visiter le conservatoire",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2743,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Du problème créé par les déchets",
+            "user_selected_option_id": 36600,
+            "correct_answer": "D’une idée nouvelle de recyclage",
+            "correct_option_id": 36598,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que José a imaginé « une banque écologique » où l'on échange des déchets ramassés contre de l'argent : il s'agit d'une idée nouvelle de recyclage.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_13.webp",
+            "all_options": [
+                {
+                    "id": 36597,
+                    "text": "D’une banque pour les mineurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36598,
+                    "text": "D’une idée nouvelle de recyclage",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36599,
+                    "text": "Des enfants qui doivent travailler",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36600,
+                    "text": "Du problème créé par les déchets",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2744,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Une nouvelle adresse",
+            "user_selected_option_id": 36604,
+            "correct_answer": "De nouveaux horaires",
+            "correct_option_id": 36601,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise que « vous pouvez venir sur place seulement... entre 9h et 12h30 » pendant les travaux : ce sont de nouveaux horaires qui sont annoncés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_14.webp",
+            "all_options": [
+                {
+                    "id": 36601,
+                    "text": "De nouveaux horaires",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36602,
+                    "text": "De nouveaux tarifs",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36603,
+                    "text": "Un nouveau site Internet",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36604,
+                    "text": "Une nouvelle adresse",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2745,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Rencontrer des artisans d’art",
+            "user_selected_option_id": 36608,
+            "correct_answer": "Obtenir des articles variés",
+            "correct_option_id": 36607,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'événement permet « l'échange entre particuliers de livres, de bandes dessinées, de disques, de DVD, de petits objets design » : on peut obtenir des articles variés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_15.webp",
+            "all_options": [
+                {
+                    "id": 36605,
+                    "text": "Acheter des produits bon marché",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36606,
+                    "text": "Admirer des collections rares",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36607,
+                    "text": "Obtenir des articles variés",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36608,
+                    "text": "Rencontrer des artisans d’art",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2746,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De visiter des expositions dans des lieux insolites",
+            "user_selected_option_id": 36612,
+            "correct_answer": "De développer des projets collectifs pour la ville",
+            "correct_option_id": 36609,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les architectes ont imaginé « un meilleur partage de l'espace entre piétons, vélos et véhicules » : le but est de développer des projets collectifs pour la ville.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_16.webp",
+            "all_options": [
+                {
+                    "id": 36609,
+                    "text": "De développer des projets collectifs pour la ville",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36610,
+                    "text": "De donner un avis sur les nouveaux bâtiments",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36611,
+                    "text": "De participer à des débats sur l’environnement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36612,
+                    "text": "De visiter des expositions dans des lieux insolites",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2747,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "De visiter une grande exposition",
+            "user_selected_option_id": 36616,
+            "correct_answer": "De visiter une grande exposition",
+            "correct_option_id": 36616,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce invite à « visiter le salon de l'agriculture à Strasbourg » avec ateliers et balades : elle propose de visiter une grande exposition.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_17.webp",
+            "all_options": [
+                {
+                    "id": 36613,
+                    "text": "De découvrir un parc d’animation",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36614,
+                    "text": "De gagner un séjour en famille",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36615,
+                    "text": "De se promener dans une ferme",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36616,
+                    "text": "De visiter une grande exposition",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2748,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Réclamer un paiement",
+            "user_selected_option_id": 36620,
+            "correct_answer": "Demander un justificatif",
+            "correct_option_id": 36618,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le courrier demande de « bien vouloir nous adresser votre nouvelle attestation d'assurance responsabilité civile locataire » : il s'agit de demander un justificatif.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_18.webp",
+            "all_options": [
+                {
+                    "id": 36617,
+                    "text": "Communiquer une adresse",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36618,
+                    "text": "Demander un justificatif",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36619,
+                    "text": "Proposer une assurance",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36620,
+                    "text": "Réclamer un paiement",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2749,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Standardiser les programmes scolaires",
+            "user_selected_option_id": 36624,
+            "correct_answer": "Développer la formation continue",
+            "correct_option_id": 36622,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'UNESCO « apporte son aide aux projets pour une éducation de qualité tout au long de la vie » et que les villes « partagent leur expérience » : le but est de développer la formation continue.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_19.webp",
+            "all_options": [
+                {
+                    "id": 36621,
+                    "text": "Créer des lieux d’échanges culturels",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36622,
+                    "text": "Développer la formation continue",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36623,
+                    "text": "Favoriser la mobilité professionnelle",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36624,
+                    "text": "Standardiser les programmes scolaires",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2750,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "L’hostilité des critiques spécialisés locaux",
+            "user_selected_option_id": 36628,
+            "correct_answer": "L’adaptation de l’offre culinaire à la mode actuelle",
+            "correct_option_id": 36625,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les végétariens peuvent vraiment manger à Lyon » grâce à de nouveaux restaurants qui proposent « des plats originaux et goûteux » : les restaurateurs adaptent leur offre culinaire à la mode actuelle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36625,
+                    "text": "L’adaptation de l’offre culinaire à la mode actuelle",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36626,
+                    "text": "La baisse de la qualité des établissements",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36627,
+                    "text": "La disparition graduelle de la cuisine traditionnelle",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36628,
+                    "text": "L’hostilité des critiques spécialisés locaux",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2751,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Une réclamation sur son achat",
+            "user_selected_option_id": 36632,
+            "correct_answer": "Le remboursement de son article",
+            "correct_option_id": 36629,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "M. Cellier « souhaiterait le rendre » et demande qu'on lui « restitue la somme de 80 euros » : il s'agit du remboursement de son article.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36629,
+                    "text": "Le remboursement de son article",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36630,
+                    "text": "L’échange de son téléphone",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36631,
+                    "text": "L’envoi de son téléphone par la poste",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36632,
+                    "text": "Une réclamation sur son achat",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2752,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ses effets sont néfastes pour l’emploi",
+            "user_selected_option_id": 36636,
+            "correct_answer": "Il influence la productivité des salariés",
+            "correct_option_id": 36634,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« un salarié trop présent risque d'être moins efficace car il s'épuisera... perdra sa concentration et sera démotivé » : le présentéisme influence la productivité des salariés.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_22.webp",
+            "all_options": [
+                {
+                    "id": 36633,
+                    "text": "C’est un phénomène mondial",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36634,
+                    "text": "Il influence la productivité des salariés",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36635,
+                    "text": "On peut facilement le repérer",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36636,
+                    "text": "Ses effets sont néfastes pour l’emploi",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2753,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Le montant élevé des frais d’électricité",
+            "user_selected_option_id": 36640,
+            "correct_answer": "La multiplication des éclairages publics",
+            "correct_option_id": 36637,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le nombre de sources lumineuses sur la voie publique... a progressé en France de 30 % » et que « 50 % de la population ne peut plus voir les étoiles » : l'auteur déplore la multiplication des éclairages publics.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_23.webp",
+            "all_options": [
+                {
+                    "id": 36637,
+                    "text": "La multiplication des éclairages publics",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36638,
+                    "text": "La prolifération des insectes nocturnes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36639,
+                    "text": "La suppression des supports publicitaires",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36640,
+                    "text": "Le montant élevé des frais d’électricité",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2754,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "II transforme l’organisation des rayons",
+            "user_selected_option_id": 36644,
+            "correct_answer": "Il facilite la lecture des étiquettes",
+            "correct_option_id": 36642,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le Nutri-Score « avec une lettre et une couleur informe le consommateur sur la qualité nutritionnelle d'un produit » : il facilite la lecture des étiquettes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36641,
+                    "text": "Il est obligatoire sur les produits",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36642,
+                    "text": "Il facilite la lecture des étiquettes",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36643,
+                    "text": "II répond à une décision des fabricants",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36644,
+                    "text": "II transforme l’organisation des rayons",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2755,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Ils incitent leur entourage à les imiter",
+            "user_selected_option_id": 36648,
+            "correct_answer": "Ils incitent leur entourage à les imiter",
+            "correct_option_id": 36648,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enfants « deviennent ainsi des ambassadeurs du tri » et que « les parents risquent désormais de se faire rappeler à l'ordre » : ils incitent leur entourage à les imiter.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_25.webp",
+            "all_options": [
+                {
+                    "id": 36645,
+                    "text": "Ils allègent la tâche du personnel de cantine",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36646,
+                    "text": "Ils attendent le repas avec impatience",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36647,
+                    "text": "Ils servent d’exemple aux élèves plus âgés",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36648,
+                    "text": "Ils incitent leur entourage à les imiter",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2756,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Elle résulte de difficultés économiques",
+            "user_selected_option_id": 36652,
+            "correct_answer": "Elle répond aux tendances actuelles",
+            "correct_option_id": 36651,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le sociologue explique que « nous faisons face à un mouvement de fond » et non à un phénomène marginal : la consommation collaborative répond aux tendances actuelles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36649,
+                    "text": "Elle concerne une poignée de militants",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36650,
+                    "text": "Elle consolide le système en place",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36651,
+                    "text": "Elle répond aux tendances actuelles",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36652,
+                    "text": "Elle résulte de difficultés économiques",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2757,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Un éditeur refuse de participer à cette tradition",
+            "user_selected_option_id": 36656,
+            "correct_answer": "Le nombre d’ouvrages à paraître a diminué",
+            "correct_option_id": 36655,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il s'agit de « la rentrée française la plus modeste en nombre de titres depuis vingt ans » : le nombre d'ouvrages à paraître a diminué.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36653,
+                    "text": "Des librairies menacent de fermer boutique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36654,
+                    "text": "La qualité des livres publiés est catastrophique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36655,
+                    "text": "Le nombre d’ouvrages à paraître a diminué",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36656,
+                    "text": "Un éditeur refuse de participer à cette tradition",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2758,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Les orientations pédagogiques à soutenir",
+            "user_selected_option_id": 36660,
+            "correct_answer": "La mise en œuvre d’une action collective",
+            "correct_option_id": 36657,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'idée d'une journée de grève n'a pas fait l'unanimité » au sein du groupe : les avis diffèrent sur la mise en œuvre d'une action collective.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36657,
+                    "text": "La mise en œuvre d’une action collective",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36658,
+                    "text": "La mission des organisations professionnelles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36659,
+                    "text": "Le contenu des revendications présentées",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36660,
+                    "text": "Les orientations pédagogiques à soutenir",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2759,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Les politiques publiques",
+            "user_selected_option_id": 36664,
+            "correct_answer": "Les méthodes de culture",
+            "correct_option_id": 36662,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « si les modes de production alimentaire ne changent pas, les insectes... s'engageront sur la voie de l'extinction » : leur disparition est liée aux méthodes de culture.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_29.webp",
+            "all_options": [
+                {
+                    "id": 36661,
+                    "text": "Les changements de climat",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36662,
+                    "text": "Les méthodes de culture",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36663,
+                    "text": "Les oiseaux prédateurs",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36664,
+                    "text": "Les politiques publiques",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2760,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils sont capables de se reconnaître entre eux",
+            "user_selected_option_id": 36668,
+            "correct_answer": "Ils sont capables de se reconnaître entre eux",
+            "correct_option_id": 36668,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le chercheur estime que ce phénomène « pourrait aider les individus à s'identifier » entre eux dans l'obscurité des profondeurs : les requins-houle seraient capables de se reconnaître entre eux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36665,
+                    "text": "Ils changent d’apparence en cas de danger",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36666,
+                    "text": "Ils produisent une substance chimique nocive",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36667,
+                    "text": "Ils se déplacent principalement en groupe",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36668,
+                    "text": "Ils sont capables de se reconnaître entre eux",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2761,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Ils tiennent à la stabilité de l’emploi",
+            "user_selected_option_id": 36672,
+            "correct_answer": "Ils bouleversent les rapports d’autorité",
+            "correct_option_id": 36669,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que chez les Milléniaux « l'heure n'est plus à la relation de subordination mais à la coopération » : ils bouleversent les rapports d'autorité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_31.webp",
+            "all_options": [
+                {
+                    "id": 36669,
+                    "text": "Ils bouleversent les rapports d’autorité",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36670,
+                    "text": "Ils évitent les postes à responsabilité",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36671,
+                    "text": "Ils sont moins motivés que leurs ainés",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36672,
+                    "text": "Ils tiennent à la stabilité de l’emploi",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2762,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il permet d’élargir son réseau social",
+            "user_selected_option_id": 36676,
+            "correct_answer": "Il met à jour un enfermement ignoré",
+            "correct_option_id": 36675,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le professeur explique qu'apprendre une langue étrangère permet de « voir apparaître cette prison dans laquelle on vivait sans forcément s'en rendre compte » : cela met à jour un enfermement ignoré.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36673,
+                    "text": "Il favorise un enrichissement lexical",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36674,
+                    "text": "Il incite à entreprendre des voyages",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36675,
+                    "text": "Il met à jour un enfermement ignoré",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36676,
+                    "text": "Il permet d’élargir son réseau social",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2763,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les moqueries de leurs camarades",
+            "user_selected_option_id": 36680,
+            "correct_answer": "La difficulté d’accéder au sens",
+            "correct_option_id": 36677,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « lorsqu'on demande à l'enfant... de comprendre, il peut lâcher prise » à cause de « l'absence de compréhension » : c'est la difficulté d'accéder au sens qui décourage les enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36677,
+                    "text": "La difficulté d’accéder au sens",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36678,
+                    "text": "La pression exercée par la famille",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36679,
+                    "text": "Les méthodes d’enseignement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36680,
+                    "text": "Les moqueries de leurs camarades",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2764,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L’exclusion des classes populaires des activités touristiques",
+            "user_selected_option_id": 36684,
+            "correct_answer": "L’avidité financière des acteurs du secteur touristique",
+            "correct_option_id": 36682,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte dénonce « l'appât du gain » des « professionnels qui veulent leur part du gâteau sans penser à la saturation » : l'auteur déplore l'avidité financière des acteurs du secteur touristique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_34.webp",
+            "all_options": [
+                {
+                    "id": 36681,
+                    "text": "La pénurie de logement liée à la présence des touristes",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36682,
+                    "text": "L’avidité financière des acteurs du secteur touristique",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36683,
+                    "text": "Le mépris des touristes pour les considérations écologiques",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36684,
+                    "text": "L’exclusion des classes populaires des activités touristiques",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2765,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "L’auteur a imaginé différents scénarios",
+            "user_selected_option_id": 36688,
+            "correct_answer": "L’auteur a imaginé différents scénarios",
+            "correct_option_id": 36688,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« il faut découper les dernières pages du livre pour en connaître la fin, sachant que plusieurs dénouements sont possibles » : l'auteur a imaginé différents scénarios.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_35.webp",
+            "all_options": [
+                {
+                    "id": 36685,
+                    "text": "Elle a été adaptée pour la télévision",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36686,
+                    "text": "Elle s’inspire de la vie des jeunes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36687,
+                    "text": "La clé de l’énigme sera éditée plus tard",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36688,
+                    "text": "L’auteur a imaginé différents scénarios",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2766,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle montre leur importance chez les adolescents",
+            "user_selected_option_id": 36692,
+            "correct_answer": "Elle en explique les origines historiques",
+            "correct_option_id": 36690,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le présentateur explique vouloir « autopsier un délire collectif » car « le complotisme n'est jamais innocent et son histoire explique beaucoup de notre époque » : le podcast en explique les origines historiques.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_36.webp",
+            "all_options": [
+                {
+                    "id": 36689,
+                    "text": "Elle cherche à les identifier sur Internet",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36690,
+                    "text": "Elle en explique les origines historiques",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36691,
+                    "text": "Elle interviewe les personnes qui les propagent",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36692,
+                    "text": "Elle montre leur importance chez les adolescents",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2767,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Il renforce le mythe de la bataille de Bouvines",
+            "user_selected_option_id": 36696,
+            "correct_answer": "Il explore la construction identitaire des Français",
+            "correct_option_id": 36695,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Dominique Barthélemy « nous invite à poursuivre la réflexion sur l'idée que les Français se font d'eux-mêmes » : il explore la construction identitaire des Français.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_37.webp",
+            "all_options": [
+                {
+                    "id": 36693,
+                    "text": "Il analyse l’établissement d’une dynastie royale",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36694,
+                    "text": "Il explique l’origine d’une légende médiévale",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36695,
+                    "text": "Il explore la construction identitaire des Français",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36696,
+                    "text": "Il renforce le mythe de la bataille de Bouvines",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2768,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Le maintien du patrimoine culturel",
+            "user_selected_option_id": 36700,
+            "correct_answer": "L’évolution des aptitudes mentales",
+            "correct_option_id": 36697,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Michel Serres explique que chaque révolution fait perdre « une part de mémoire et de capacité de traitement de l'information » tout en apportant « une possibilité nouvelle de mise en relation » : il attire l'attention sur l'évolution des aptitudes mentales.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_38.webp",
+            "all_options": [
+                {
+                    "id": 36697,
+                    "text": "L’évolution des aptitudes mentales",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36698,
+                    "text": "La mondialisation de la recherche scientifique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36699,
+                    "text": "La transformation des savoirs fondamentaux",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36700,
+                    "text": "Le maintien du patrimoine culturel",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2769,
+            "question_text": "Compréhension écrite – Quiz 35 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Elles se justifient par des arguments fallacieux",
+            "user_selected_option_id": 36704,
+            "correct_answer": "Elles résultent du fonctionnement d’une société",
+            "correct_option_id": 36702,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'auteur explique que « l'organisation sociale est expliquée et justifiée par un discours sophistiqué » mêlant « sincérité et hypocrisie » : les inégalités résultent du fonctionnement d'une société.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_35_question_39.webp",
+            "all_options": [
+                {
+                    "id": 36701,
+                    "text": "Elles diminuent dans toutes les organisations",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36702,
+                    "text": "Elles résultent du fonctionnement d’une société",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36703,
+                    "text": "Elles se combattent mieux avec de la sincénté",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36704,
+                    "text": "Elles se justifient par des arguments fallacieux",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 16,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 35",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

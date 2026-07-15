@@ -36,12 +36,20 @@ export function fixEncoding(s) {
   return decoded.includes("\ufffd") ? s : decoded;
 }
 
-// Recursively fixes every string in a JSON structure.
+// Recursively fixes every string in a JSON structure. `explanation` is
+// exempt: it's always either legacy null or freshly authored, already-clean
+// UTF-8 (see progressService/bank editorial content) - never scraped, so it
+// never needs repair. That matters because the apostrophe heuristic above
+// can't tell a corrupted "aujourdâhui" from a genuine word like "tâche": any
+// â directly followed by a letter is rewritten, which would mangle perfectly
+// clean French (tâche, âge, château, grâce...) if applied here.
 export function fixEncodingDeep(value) {
   if (typeof value === "string") return fixEncoding(value);
   if (Array.isArray(value)) return value.map(fixEncodingDeep);
   if (value && typeof value === "object") {
-    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, fixEncodingDeep(v)]));
+    return Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, k === "explanation" ? v : fixEncodingDeep(v)])
+    );
   }
   return value;
 }

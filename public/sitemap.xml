@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Public, indexable routes only (gated routes carry a noindex meta tag).
+     Paths must stay in sync with src/constants/seo.js.
+     TODO: replace the placeholder domain with the real production domain. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://passerelle-tcf.vercel.app/</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/tarifs</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/calculateur-tcf-nclc</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/comprehension-orale</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/comprehension-ecrite</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/expression-ecrite</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/expression-orale</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/blogue</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/faq</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/a-propos</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/contact</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://passerelle-tcf.vercel.app/inscription</loc><lastmod>2026-07-14</lastmod></url>
+</urlset>

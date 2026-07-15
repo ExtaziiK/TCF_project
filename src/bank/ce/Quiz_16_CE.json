@@ -1,0 +1,1732 @@
+{
+    "id": 40353,
+    "exam_id": 52,
+    "score": 690.0,
+    "score_percent": 98.71,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10",
+    "completed_at": "2026-07-07T17:04:07.515214+00:00",
+    "time_spent": 309,
+    "section_breakdown": {
+        "Identification": {
+            "score": 24.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 34.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 19.7,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 19.7,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1990,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "De garder son fils.",
+            "user_selected_option_id": 33586,
+            "correct_answer": "De garder son fils.",
+            "correct_option_id": 33586,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Agnès demande « est-ce que vous pouvez vous occuper de Jérôme après l'école vendredi » : elle demande à Anna de garder son fils.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33585,
+                    "text": "D’aller au supermarché.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33586,
+                    "text": "De garder son fils.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33587,
+                    "text": "De préparer un dessert.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33588,
+                    "text": "ÀDe rester dormir.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1991,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "16 euros.",
+            "user_selected_option_id": 33591,
+            "correct_answer": "16 euros.",
+            "correct_option_id": 33591,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le menu précise « formule déjeuner 16 (12 eau minérale et café compris) » : la formule avec boisson coûte 16 euros.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_2.webp",
+            "all_options": [
+                {
+                    "id": 33589,
+                    "text": "9 euros.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33590,
+                    "text": "12,50 euros.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33591,
+                    "text": "16 euros.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33592,
+                    "text": "20 euros.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1992,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Des cours gratuits.",
+            "user_selected_option_id": 33593,
+            "correct_answer": "Des cours gratuits.",
+            "correct_option_id": 33593,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise « des formations dans les langues des pays de l'Union européenne » pour ses salariés : le Conseil de l'Europe propose des cours gratuits.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_3.webp",
+            "all_options": [
+                {
+                    "id": 33593,
+                    "text": "Des cours gratuits.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33594,
+                    "text": "Des postes à l’étranger.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33595,
+                    "text": "Des stages en Italie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33596,
+                    "text": "Des voyages en Europe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1993,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Jouer au cinéma.",
+            "user_selected_option_id": 33599,
+            "correct_answer": "Jouer au cinéma.",
+            "correct_option_id": 33599,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la comédienne « part tourner un film à Paris » : elle va jouer au cinéma.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_4.webp",
+            "all_options": [
+                {
+                    "id": 33597,
+                    "text": "Avoir un bébé.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33598,
+                    "text": "Déménager en France.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33599,
+                    "text": "Jouer au cinéma.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33600,
+                    "text": "Organiser une exposition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1994,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "De jeunes mamans.",
+            "user_selected_option_id": 33603,
+            "correct_answer": "De jeunes mamans.",
+            "correct_option_id": 33603,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce précise « figuration dans un film... de jeunes mères confrontées à l'éducation de leurs enfants » : la société recherche de jeunes mamans.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_5.webp",
+            "all_options": [
+                {
+                    "id": 33601,
+                    "text": "De jeunes enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33602,
+                    "text": "Des femmes et des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33603,
+                    "text": "De jeunes mamans.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33604,
+                    "text": "Des parents avec leurs enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1995,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "À la caisse d’un cinéma.",
+            "user_selected_option_id": 33605,
+            "correct_answer": "À la caisse d’un cinéma.",
+            "correct_option_id": 33605,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le ticket est un billet « TARIF ÉTUDIANT : 6.00 » pour une place de cinéma : on peut le donner à la caisse d'un cinéma.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_6.webp",
+            "all_options": [
+                {
+                    "id": 33605,
+                    "text": "À la caisse d’un cinéma.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33606,
+                    "text": "À l’accueil d’un opéra.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33607,
+                    "text": "À l’entrée d’un musée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33608,
+                    "text": "Au guichet d’un théâtre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1996,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "De regarder un spectacle.",
+            "user_selected_option_id": 33610,
+            "correct_answer": "De regarder un spectacle.",
+            "correct_option_id": 33610,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message invite à « voir la pièce... qu'ils joueront pour vous » : on propose aux parents de regarder un spectacle.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_7.webp",
+            "all_options": [
+                {
+                    "id": 33609,
+                    "text": "De préparer un voyage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33610,
+                    "text": "De regarder un spectacle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33611,
+                    "text": "De venir à une réunion.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33612,
+                    "text": "De visiter une classe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1997,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Pour présenter des élèves.",
+            "user_selected_option_id": 33615,
+            "correct_answer": "Pour présenter des élèves.",
+            "correct_option_id": 33615,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Mme Lebon invite à « venir rencontrer les nouveaux étudiants de la Semaine » : elle écrit pour présenter des élèves.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_8.webp",
+            "all_options": [
+                {
+                    "id": 33613,
+                    "text": "Pour changer un horaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33614,
+                    "text": "Pour organiser une fête.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33615,
+                    "text": "Pour présenter des élèves.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33616,
+                    "text": "Pour proposer une sortie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1998,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "D’apprendre à préparer des plats chez soi.",
+            "user_selected_option_id": 33617,
+            "correct_answer": "D’apprendre à préparer des plats chez soi.",
+            "correct_option_id": 33617,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose « des cours de cuisine à domicile... apprenez à cuisiner des recettes de qualité » : elle propose d'apprendre à préparer des plats chez soi.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_9.webp",
+            "all_options": [
+                {
+                    "id": 33617,
+                    "text": "D’apprendre à préparer des plats chez soi.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33618,
+                    "text": "De devenir un chef cuisinier professionnel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33619,
+                    "text": "De réaliser des repas pour de grands groupes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33620,
+                    "text": "De trouver de bonnes recettes sur internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1999,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "L’entrée se fera par une autre porte.",
+            "user_selected_option_id": 33623,
+            "correct_answer": "L’entrée se fera par une autre porte.",
+            "correct_option_id": 33623,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise que « l'accès à la piscine municipale se fera côté boulevard Camélines » pendant les travaux : l'entrée se fera par une autre porte.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33621,
+                    "text": "Elle sera fermée au mois de mars.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33622,
+                    "text": "Il y aura des travaux à l’intérieur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33623,
+                    "text": "L’entrée se fera par une autre porte.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33624,
+                    "text": "Le service municipal réparera les lieux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2000,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Pour lui proposer de passer le voir avec son amie.",
+            "user_selected_option_id": 33626,
+            "correct_answer": "Pour lui proposer de passer le voir avec son amie.",
+            "correct_option_id": 33626,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Ahmed écrit « nous voudrions vous rendre visite » avec Natacha lors de leur passage à Toulouse : il propose de passer le voir avec son amie.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_11.webp",
+            "all_options": [
+                {
+                    "id": 33625,
+                    "text": "Pour lui communiquer la date de ses fiançailles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33626,
+                    "text": "Pour lui proposer de passer le voir avec son amie.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33627,
+                    "text": "Pour lui annoncer son déménagement à Toulouse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33628,
+                    "text": "Pour lui demander de l’accompagner en voyage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2001,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Faciliter la recherche d’emploi.",
+            "user_selected_option_id": 33630,
+            "correct_answer": "Faciliter la recherche d’emploi.",
+            "correct_option_id": 33630,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'objectif était de « favoriser la rencontre entre les entreprises qui recrutent et les élèves » : le but était de faciliter la recherche d'emploi.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_12.webp",
+            "all_options": [
+                {
+                    "id": 33629,
+                    "text": "Accueillir les étudiants étrangers.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33630,
+                    "text": "Faciliter la recherche d’emploi.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33631,
+                    "text": "Préparer la rentrée universitaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33632,
+                    "text": "Présenter de nouvelles formations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2002,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Ils donnent accès au sauna.",
+            "user_selected_option_id": 33634,
+            "correct_answer": "Ils donnent accès au sauna.",
+            "correct_option_id": 33634,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les tarifs « comprennent systématiquement le coût de l'entrée à la piscine et au sauna » : les cours donnent donc accès au sauna.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_13.webp",
+            "all_options": [
+                {
+                    "id": 33633,
+                    "text": "Ils doivent être réservés à l’avance.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33634,
+                    "text": "Ils donnent accès au sauna.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33635,
+                    "text": "Ils ont lieu pendant les vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33636,
+                    "text": "Ils sont gratuits pour les enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2003,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Faire plus attention au bruit.",
+            "user_selected_option_id": 33637,
+            "correct_answer": "Faire plus attention au bruit.",
+            "correct_option_id": 33637,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La concierge demande à M. Lejeune « d'être plus discret à partir d'une certaine heure » : il doit faire plus attention au bruit.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_14.webp",
+            "all_options": [
+                {
+                    "id": 33637,
+                    "text": "Faire plus attention au bruit.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33638,
+                    "text": "Informer Mme Quincampoix.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33639,
+                    "text": "Inviter les voisins de l’étage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33640,
+                    "text": "Recevoir ses invités plus tôt.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2004,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Assister à un spectacle.",
+            "user_selected_option_id": 33642,
+            "correct_answer": "Assister à un spectacle.",
+            "correct_option_id": 33642,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Sarah organise un rendez-vous « pour le concert ce soir » qui « commence à 20h30 » : les deux femmes vont assister à un spectacle.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_15.webp",
+            "all_options": [
+                {
+                    "id": 33641,
+                    "text": "Aller dans un bar.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33642,
+                    "text": "Assister à un spectacle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33643,
+                    "text": "Dîner au restaurant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33644,
+                    "text": "Voir une pièce de théâtre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2005,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Un jeu.",
+            "user_selected_option_id": 33647,
+            "correct_answer": "Un jeu.",
+            "correct_option_id": 33647,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le supermarché « organise un concours gratuit pour gagner des milliers de lots » : il propose un jeu à ses clients.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33645,
+                    "text": "Des promotions.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33646,
+                    "text": "Des vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33647,
+                    "text": "Un jeu.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33648,
+                    "text": "Une fête.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2006,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "La réduction des effectifs de l’entreprise.",
+            "user_selected_option_id": 33650,
+            "correct_answer": "La réduction des effectifs de l’entreprise.",
+            "correct_option_id": 33650,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte annonce que « nous ne pourrons malheureusement pas continuer à employer l'ensemble des techniciens » et que seuls 80 % des contrats seront renouvelés : la lettre annonce la réduction des effectifs de l'entreprise.",
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_17.webp",
+            "all_options": [
+                {
+                    "id": 33649,
+                    "text": "La délocalisation de l’entreprise.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33650,
+                    "text": "La réduction des effectifs de l’entreprise.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33651,
+                    "text": "La restructuration des postes de direction.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33652,
+                    "text": "La suspension des contrats à durer déterminés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2007,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Il permet d’être plus détendu.",
+            "user_selected_option_id": 33655,
+            "correct_answer": "Il permet d’être plus détendu.",
+            "correct_option_id": 33655,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que le bavardage « peut libérer les tensions » et que formuler ses soucis « aide à les relativiser : cela soulage » : il permet donc d'être plus détendu.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_18.webp",
+            "all_options": [
+                {
+                    "id": 33653,
+                    "text": "Il encourage les initiatives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33654,
+                    "text": "Il favorise le rendement au travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33655,
+                    "text": "Il permet d’être plus détendu.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33656,
+                    "text": "Il rend les gens plus cultivés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2008,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Il a trouvé quelque chose dans son fromage.",
+            "user_selected_option_id": 33658,
+            "correct_answer": "Il a trouvé quelque chose dans son fromage.",
+            "correct_option_id": 33658,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le père raconte que Youenn « est en train de recracher un bout de plastique » retrouvé dans le fromage : il a trouvé quelque chose dans son fromage.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33657,
+                    "text": "Il a avalé un mauvais morceau de fromage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33658,
+                    "text": "Il a trouvé quelque chose dans son fromage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33659,
+                    "text": "Il est tombé malade en mangeant du fromage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33660,
+                    "text": "Il s’est fait mal aux dents avec le fromage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2009,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Favoriser la mobilité urbaine grâce aux cycles non motorisés.",
+            "user_selected_option_id": 33663,
+            "correct_answer": "Favoriser la mobilité urbaine grâce aux cycles non motorisés.",
+            "correct_option_id": 33663,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit des services de vélos (libre-service, location, vélos-parcs) qui « facilitent vos déplacements » à la place de la voiture : l'offre vise à favoriser la mobilité urbaine grâce aux cycles non motorisés.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33661,
+                    "text": "Découvrir les sites touristiques hors des sentiers battus.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33662,
+                    "text": "Diversifier l’offre d’abonnement aux transports en commun.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33663,
+                    "text": "Favoriser la mobilité urbaine grâce aux cycles non motorisés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33664,
+                    "text": "Promouvoir les énergies propres respectant l’environnement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2010,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Il a trouvé les causes du rétrécissement de la laine.",
+            "user_selected_option_id": 33667,
+            "correct_answer": "Il a trouvé les causes du rétrécissement de la laine.",
+            "correct_option_id": 33667,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le chercheur a « identifié un gène du mouton responsable de la modification des fibres de laine », permettant une laine qui résiste au lavage : il a trouvé les causes du rétrécissement de la laine.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33665,
+                    "text": "Il a découvert une nouvelle race de mouton.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33666,
+                    "text": "Il a perfectionné une machine à laver la laine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33667,
+                    "text": "Il a trouvé les causes du rétrécissement de la laine.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33668,
+                    "text": "Il a identifié une nouvelle façon de produire de la laine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2011,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Elle a diversifié son alimentation.",
+            "user_selected_option_id": 33670,
+            "correct_answer": "Elle a diversifié son alimentation.",
+            "correct_option_id": 33670,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'étudiante explique avoir « privilégié les œufs... les céréales... les viandes riches en fer, l'iode avec les poissons et les légumes verts » : elle a diversifié son alimentation.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_22.webp",
+            "all_options": [
+                {
+                    "id": 33669,
+                    "text": "Elle a consommé des sucres lents.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33670,
+                    "text": "Elle a diversifié son alimentation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33671,
+                    "text": "Elle a préféré sauter certains repas.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33672,
+                    "text": "Elle a privilégié les repas rapides.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2012,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Son succès auprès des étudiants se dégrade.",
+            "user_selected_option_id": 33676,
+            "correct_answer": "Son succès auprès des étudiants se dégrade.",
+            "correct_option_id": 33676,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « près de quatre mille bourses n'ont pas trouvé preneur » et révèle « une absence de désir de mobilité chez les jeunes » : le succès d'Erasmus auprès des étudiants se dégrade.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33673,
+                    "text": "Il est financé par des universités publiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33674,
+                    "text": "Il est remplacé par un autre programme.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33675,
+                    "text": "Il facilite l’accès au monde de l’entreprise.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33676,
+                    "text": "Son succès auprès des étudiants se dégrade.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2013,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Le personnel manque de chaleur et d’amabilité.",
+            "user_selected_option_id": 33678,
+            "correct_answer": "Le personnel manque de chaleur et d’amabilité.",
+            "correct_option_id": 33678,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte critique « un accueil si éloigné de la convivialité latino » malgré la popularité du lieu : le personnel manque de chaleur et d'amabilité.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33677,
+                    "text": "La salle a besoin d’une rénovation complète.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33678,
+                    "text": "Le personnel manque de chaleur et d’amabilité.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33679,
+                    "text": "Les artistes jouent trop fort pour le lieu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33680,
+                    "text": "Les tarifs sont élevés une cuisine ordinaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2014,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Ils sont financés discrètement par des entreprises.",
+            "user_selected_option_id": 33682,
+            "correct_answer": "Ils sont financés discrètement par des entreprises.",
+            "correct_option_id": 33682,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte révèle que « de grandes sociétés rémunèrent les sites de localisation » et que « ces liens sponsorisés » sont perçus « comme un service » plutôt qu'une publicité : ils sont financés discrètement par des entreprises.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33681,
+                    "text": "Ce sont des réseaux de commerçants qui les ont créés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33682,
+                    "text": "Ils sont financés discrètement par des entreprises.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33683,
+                    "text": "Les prestations qu’ils proposent sont payantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33684,
+                    "text": "Leur maintenance est assurée par des bénévoles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2015,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Du manque de familles d’accueil.",
+            "user_selected_option_id": 33688,
+            "correct_answer": "Du manque de familles d’accueil.",
+            "correct_option_id": 33688,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Christine Vaillant juge que malgré les bénévoles existants, « c'est toujours insuffisant » et qu'elle « recherche de nouveaux maîtres » : elle se plaint du manque de familles d'accueil.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33685,
+                    "text": "Du manque de salariés motivés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33686,
+                    "text": "Du manque de moyens financiers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33687,
+                    "text": "Du manque de chiens à former.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33688,
+                    "text": "Du manque de familles d’accueil.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2016,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "La réelle dimension écologique du festival.",
+            "user_selected_option_id": 33690,
+            "correct_answer": "La réelle dimension écologique du festival.",
+            "correct_option_id": 33690,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'enquête vise à « savoir où le festival en est vraiment » en matière environnementale, au-delà des déclarations : elle cherche à mesurer la réelle dimension écologique du festival.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_27.webp",
+            "all_options": [
+                {
+                    "id": 33689,
+                    "text": "La proportion de spectateurs écologistes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33690,
+                    "text": "La réelle dimension écologique du festival.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33691,
+                    "text": "Le degré de popularité de ce festival en France.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33692,
+                    "text": "L’impact négatif du festival sur l’environnement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2017,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Le message véhiculé par la publicité était inacceptable.",
+            "user_selected_option_id": 33695,
+            "correct_answer": "Le message véhiculé par la publicité était inacceptable.",
+            "correct_option_id": 33695,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte juge « criminel de laisser croire que l'aliment immunise l'enfant » : la publicité a été interdite car le message véhiculé était inacceptable.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_28.webp",
+            "all_options": [
+                {
+                    "id": 33693,
+                    "text": "L’image proposée par la publicité nuisait au fabricant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33694,
+                    "text": "Le produit vendu par la publicité était nocif pour la santé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33695,
+                    "text": "Le message véhiculé par la publicité était inacceptable.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33696,
+                    "text": "L’usage du produit promu par la publicité était illicite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2018,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "La qualité des violons évolue avec le temps.",
+            "user_selected_option_id": 33699,
+            "correct_answer": "Ce sont les violons récents qui sont les plus estimés.",
+            "correct_option_id": 33697,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les participants « ont préféré la sonorité des premiers », c'est-à-dire des violons modernes cités en premier : ce sont les violons récents qui sont les plus estimés.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_29.webp",
+            "all_options": [
+                {
+                    "id": 33697,
+                    "text": "Ce sont les violons récents qui sont les plus estimés.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33698,
+                    "text": "Il est difficile de maîtriser les violons anciens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33699,
+                    "text": "La qualité des violons évolue avec le temps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33700,
+                    "text": "Voir le violon modifier l’appréciation de l’auditeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2019,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "La méfiance des propriétaires.",
+            "user_selected_option_id": 33701,
+            "correct_answer": "La méfiance des propriétaires.",
+            "correct_option_id": 33701,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la sélection des candidats par les propriétaires est très dure » : l'obstacle principal est la méfiance des propriétaires.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_30.webp",
+            "all_options": [
+                {
+                    "id": 33701,
+                    "text": "La méfiance des propriétaires.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33702,
+                    "text": "La rareté des offres de logement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33703,
+                    "text": "L’absence d’engagement de l’Etat.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33704,
+                    "text": "Le montant de la caution exigée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2020,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "la sagesse doit l’emporter sur la tentation.",
+            "user_selected_option_id": 33707,
+            "correct_answer": "la sagesse doit l’emporter sur la tentation.",
+            "correct_option_id": 33707,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conclut qu'« en matière d'hygiène, le bon sens du consommateur doit prévaloir » : la sagesse doit l'emporter sur la tentation.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33705,
+                    "text": "les problèmes liés à l’hygiène sont insolubles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33706,
+                    "text": "tout le monde doit dénoncer les tricheries.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33707,
+                    "text": "la sagesse doit l’emporter sur la tentation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33708,
+                    "text": "l’honnêteté des vendeurs est indéniable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2021,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Ils saisissent toutes les occasions.",
+            "user_selected_option_id": 33711,
+            "correct_answer": "Ils saisissent toutes les occasions.",
+            "correct_option_id": 33711,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le jeune, « profitant de toutes les opportunités, quittera une entreprise sans aucun remords » : il saisit toutes les occasions.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33709,
+                    "text": "Ils apprennent à être patients.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33710,
+                    "text": "Ils évoluent selon l’ancienneté.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33711,
+                    "text": "Ils saisissent toutes les occasions.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33712,
+                    "text": "Ils tâchent de conserver leur emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2022,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Instaurer des rapports de réciprocité.",
+            "user_selected_option_id": 33715,
+            "correct_answer": "Instaurer des rapports de réciprocité.",
+            "correct_option_id": 33715,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conclut que favoriser ces échanges permet d'établir des relations « où chacun prend conscience qu'il peut apporter quelque chose à l'autre » : l'intérêt est d'instaurer des rapports de réciprocité.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_33.webp",
+            "all_options": [
+                {
+                    "id": 33713,
+                    "text": "Créer de nouvelles sources d’emploi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33714,
+                    "text": "Éviter la solitude des personnes âgées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33715,
+                    "text": "Instaurer des rapports de réciprocité.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33716,
+                    "text": "Répondre à l’allongement de la durée de vie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2023,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "La liberté accordée aux visiteurs.",
+            "user_selected_option_id": 33717,
+            "correct_answer": "La liberté accordée aux visiteurs.",
+            "correct_option_id": 33717,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le parcours « laisse assez d'espace au spectateur pour construire son propre récit » : la singularité tient à la liberté accordée aux visiteurs.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33717,
+                    "text": "La liberté accordée aux visiteurs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33718,
+                    "text": "La simplicité des moyens artistiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33719,
+                    "text": "Le classicisme de sa présentation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33720,
+                    "text": "Le discours politique des plasticiens.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2024,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il insiste sur le point de vue matériel.",
+            "user_selected_option_id": 33722,
+            "correct_answer": "Il insiste sur le point de vue matériel.",
+            "correct_option_id": 33722,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'intervenant décrit le discours écologique actuel comme réduit aux « aspects matériels, pratiques, biologiques » sans évoquer la beauté de la nature : il insiste donc sur le point de vue matériel.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_35.webp",
+            "all_options": [
+                {
+                    "id": 33721,
+                    "text": "Il apaise les tensions de la société.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33722,
+                    "text": "Il insiste sur le point de vue matériel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33723,
+                    "text": "Il propose des programmes utopiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33724,
+                    "text": "Il traite les problèmes liés aux sols.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2025,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "La singularité de ses portraits.",
+            "user_selected_option_id": 33726,
+            "correct_answer": "La singularité de ses portraits.",
+            "correct_option_id": 33726,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'exposition présente Hortense Fiquet, l'épouse de Cézanne, comme « seul motif autant étudié... que la montagne Sainte-Victoire » : elle souligne la singularité de ses portraits.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_36.webp",
+            "all_options": [
+                {
+                    "id": 33725,
+                    "text": "L’influence de ses contemporains.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33726,
+                    "text": "La singularité de ses portraits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33727,
+                    "text": "Son engouement pour la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33728,
+                    "text": "Son travail post-impressionniste.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2026,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Sa robustesse.",
+            "user_selected_option_id": 33731,
+            "correct_answer": "Sa robustesse.",
+            "correct_option_id": 33731,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le bambou est léger et que « sa résistance à la traction serait même sensiblement supérieure à celle de l'acier » : c'est sa robustesse qui intéresse les Africains.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_37.webp",
+            "all_options": [
+                {
+                    "id": 33729,
+                    "text": "Sa longévité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33730,
+                    "text": "Sa rigidité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33731,
+                    "text": "Sa robustesse.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33732,
+                    "text": "Son prix d’achat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2027,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "user_selected_option_id": 33733,
+            "correct_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "correct_option_id": 33733,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « le comédien principal nous entraîne avec une étonnante facilité » : la qualité principale est l'aisance de l'acteur qui tient le rôle principal.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33733,
+                    "text": "L’aisance de l’acteur qui tient le rôle principal.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33734,
+                    "text": "La finesse de l’humour présent dans la pièce.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33735,
+                    "text": "Le mystère qui entoure le personnage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33736,
+                    "text": "Le talent de l’ensemble des musiciens.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2028,
+            "question_text": "Compréhension écrite – Quiz 16 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Elles ont été pionnières en informatique.",
+            "user_selected_option_id": 33737,
+            "correct_answer": "Elles ont été pionnières en informatique.",
+            "correct_option_id": 33737,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte rappelle que « les femmes... furent les premières à programmer » : elles ont été pionnières en informatique.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_16_question_39.webp",
+            "all_options": [
+                {
+                    "id": 33737,
+                    "text": "Elles ont été pionnières en informatique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33738,
+                    "text": "Elles sont victimes d’inégalités salariales.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33739,
+                    "text": "Les sociétés craignent de les engager.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33740,
+                    "text": "Leurs compétences sont méconnues.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 98,
+    "strengths": [
+        "Compréhension quasi-parfaite de tous types de textes",
+        "Analyse nuancée de sens implicite et intention profonde",
+        "Reconnaissance maitrisée d'allusions littéraires et culturelles",
+        "Appréciation complete de la richesse linguistique française"
+    ],
+    "improvements": [
+        "Aucune amélioration requise - maîtrise complète atteinte",
+        "Approfondissement personnel selon intérêts spécialisés",
+        "Exploration de formes littéraires extrêmes si souhaité"
+    ],
+    "recommendations": [
+        "Continuer lecture quotidienne: littérature, journaux, essais",
+        "Explorer genres spécialisés: poésie, théâtre classique, critiques",
+        "Lire œuvres d'auteurs complexes: Proust, Deleuze, Foucault",
+        "Contribuer à littérature française: critiques, articles, compositions",
+        "Participer à salons du livre, cercles littéraires, débats critique"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 16",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

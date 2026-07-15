@@ -27,7 +27,7 @@ export const WHY = [
 ];
 
 export const TESTIMONIALS = [
-  { name: "Amira B.", from: "Casablanca → Montréal", level: "C1 obtenu", text: "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les examens blancs m'ont enlevé tout le stress le jour J." },
+  { name: "Amira B.", from: "Casablanca → Montréal", level: "C1 obtenu", text: "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les TCF blancs m'ont enlevé tout le stress le jour J." },
   { name: "Diego M.", from: "Bogotá → Québec", level: "B2 obtenu", text: "Le suivi de progression m'a montré exactement où je perdais des points. J'ai obtenu les 50 points d'Entrée express qu'il me fallait." },
   { name: "Lan N.", from: "Hanoï → Ottawa", level: "B2 obtenu", text: "Les cartes de vocabulaire quotidiennes et la série de jours d'étude m'ont gardée motivée jusqu'à l'examen." },
 ];

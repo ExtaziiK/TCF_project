@@ -1,0 +1,1733 @@
+{
+    "id": 40871,
+    "exam_id": 35,
+    "score": 248.0,
+    "score_percent": 35.48,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T16:07:49.314526+00:00",
+    "time_spent": 37,
+    "section_breakdown": {
+        "Identification": {
+            "score": 8.9,
+            "weight": 0.25
+        },
+        "Compr\u00e9hension": {
+            "score": 12.4,
+            "weight": 0.35
+        },
+        "Inf\u00e9rence": {
+            "score": 7.1,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 7.1,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1327,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D",
+            "user_selected_option_id": 18768,
+            "correct_answer": "B",
+            "correct_option_id": 18766,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_35_question1.webp",
+            "all_options": [
+                {
+                    "id": 18765,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18766,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18767,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18768,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1328,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "D",
+            "user_selected_option_id": 18772,
+            "correct_answer": "C",
+            "correct_option_id": 18771,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_35_question2.webp",
+            "all_options": [
+                {
+                    "id": 18769,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18770,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18771,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18772,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1329,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "D",
+            "user_selected_option_id": 18776,
+            "correct_answer": "A",
+            "correct_option_id": 18773,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question3.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_35_question3.webp",
+            "all_options": [
+                {
+                    "id": 18773,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18774,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18775,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18776,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1330,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "D",
+            "user_selected_option_id": 18780,
+            "correct_answer": "C",
+            "correct_option_id": 18779,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question4.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18777,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18778,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18779,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18780,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1331,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "D",
+            "user_selected_option_id": 18784,
+            "correct_answer": "C",
+            "correct_option_id": 18783,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18781,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18782,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18783,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18784,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1332,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "D",
+            "user_selected_option_id": 18788,
+            "correct_answer": "D",
+            "correct_option_id": 18788,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18785,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18786,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18787,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18788,
+                    "text": "D",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1333,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D",
+            "user_selected_option_id": 18792,
+            "correct_answer": "B",
+            "correct_option_id": 18790,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18789,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18790,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18791,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18792,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1334,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "D",
+            "user_selected_option_id": 18796,
+            "correct_answer": "A",
+            "correct_option_id": 18793,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18793,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18794,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18795,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18796,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1335,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Au th\u00e9\u00e2tre.",
+            "user_selected_option_id": 18800,
+            "correct_answer": "Au cin\u00e9ma.",
+            "correct_option_id": 18799,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18797,
+                    "text": "\u00c0 l\u2019op\u00e9ra.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18798,
+                    "text": "Au cabaret.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18799,
+                    "text": "Au cin\u00e9ma.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18800,
+                    "text": "Au th\u00e9\u00e2tre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1336,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Visiter un mus\u00e9e.",
+            "user_selected_option_id": 18804,
+            "correct_answer": "Prendre un train.",
+            "correct_option_id": 18802,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18801,
+                    "text": "Acheter un plan.Acheter un plan.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18802,
+                    "text": "Prendre un train.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18803,
+                    "text": "Trouver un h\u00f4tel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18804,
+                    "text": "Visiter un mus\u00e9e.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1337,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Utiliser internet.",
+            "user_selected_option_id": 18808,
+            "correct_answer": "Utiliser internet.",
+            "correct_option_id": 18808,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18805,
+                    "text": "S\u2019inscrire sur place.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18806,
+                    "text": "T\u00e9l\u00e9phoner.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18807,
+                    "text": "Envoyer un courrier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18808,
+                    "text": "Utiliser internet.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1338,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Trouver le code d\u2019acc\u00e8s \u00e0 la salle.",
+            "user_selected_option_id": 18812,
+            "correct_answer": "Utiliser la salle informatique.",
+            "correct_option_id": 18809,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18809,
+                    "text": "Utiliser la salle informatique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18810,
+                    "text": "Mettre \u00e0 jour sa carte d\u2019\u00e9tudiant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18811,
+                    "text": "Prendre une photo pour sa carte d\u2019\u00e9tudiant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18812,
+                    "text": "Trouver le code d\u2019acc\u00e8s \u00e0 la salle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1339,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Pour lui rappeler une chose importante.",
+            "user_selected_option_id": 18816,
+            "correct_answer": "Pour lui rappeler une chose importante.",
+            "correct_option_id": 18816,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18813,
+                    "text": "Pour lui conseiller d\u2019aller voir un m\u00e9decin.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18814,
+                    "text": "Pour lui dire qu\u2019elle sera un peu en retard.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18815,
+                    "text": "Pour lui proposer un film qu\u2019elle veut voir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18816,
+                    "text": "Pour lui rappeler une chose importante.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1340,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Avoir une exp\u00e9rience professionnelle pr\u00e9alable.",
+            "user_selected_option_id": 18820,
+            "correct_answer": "Avoir le Baccalaur\u00e9at.",
+            "correct_option_id": 18818,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18817,
+                    "text": "\u00catre inscrit dans une universit\u00e9.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18818,
+                    "text": "Avoir le Baccalaur\u00e9at.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18819,
+                    "text": "Avoir termin\u00e9 des \u00e9tudes de master.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18820,
+                    "text": "Avoir une exp\u00e9rience professionnelle pr\u00e9alable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1341,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Au th\u00e9\u00e2tre.",
+            "user_selected_option_id": 18824,
+            "correct_answer": "Au restaurant.",
+            "correct_option_id": 18823,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18821,
+                    "text": "Au bureau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18822,
+                    "text": "Au cin\u00e9ma.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18823,
+                    "text": "Au restaurant.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18824,
+                    "text": "Au th\u00e9\u00e2tre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1342,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Pour se plaindre d\u2019une commande non livr\u00e9e.",
+            "user_selected_option_id": 18828,
+            "correct_answer": "Pour se plaindre d\u2019une commande non livr\u00e9e.",
+            "correct_option_id": 18828,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18825,
+                    "text": "Pour commander un nouveau canap\u00e9-lit.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18826,
+                    "text": "Pour exiger l\u2019annulation de sa commande.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18827,
+                    "text": "Pour demander un \u00e9change de marchandise.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18828,
+                    "text": "Pour se plaindre d\u2019une commande non livr\u00e9e.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1343,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Comment se prot\u00e8ge des maladies contagieuses.",
+            "user_selected_option_id": 18832,
+            "correct_answer": "Comment la sant\u00e9 est influenc\u00e9e par le calendrier.",
+            "correct_option_id": 18831,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18829,
+                    "text": "Comment diminuer la consommation d\u2019\u00e9nergie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18830,
+                    "text": "Comment il faut appliquer les conseils des experts.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18831,
+                    "text": "Comment la sant\u00e9 est influenc\u00e9e par le calendrier.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18832,
+                    "text": "Comment se prot\u00e8ge des maladies contagieuses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1344,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "De reporter un entretien.",
+            "user_selected_option_id": 18836,
+            "correct_answer": "D\u2019informer de son retard.",
+            "correct_option_id": 18834,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18833,
+                    "text": "D\u2019annuler une r\u00e9union.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18834,
+                    "text": "D\u2019informer de son retard.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18835,
+                    "text": "De recevoir un client.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18836,
+                    "text": "De reporter un entretien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1345,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les patrons actuels ont un degr\u00e9 d\u2019exigence trop \u00e9lev\u00e9.",
+            "user_selected_option_id": 18840,
+            "correct_answer": "Les conditions de recrutement sont plus difficiles aujourd\u2019hui.",
+            "correct_option_id": 18837,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18837,
+                    "text": "Les conditions de recrutement sont plus difficiles aujourd\u2019hui.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18838,
+                    "text": "Les \u00e9tudiants ignorent le fonctionnement de l\u2019entreprise.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18839,
+                    "text": "Les jeunes \u00e9taient pr\u00e9par\u00e9s plus s\u00e9rieusement dans le pass\u00e9.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18840,
+                    "text": "Les patrons actuels ont un degr\u00e9 d\u2019exigence trop \u00e9lev\u00e9.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1346,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il va \u00eatre embauch\u00e9 d\u00e9finitivement.",
+            "user_selected_option_id": 18844,
+            "correct_answer": "Il est possible qu\u2019il soit renvoy\u00e9.",
+            "correct_option_id": 18841,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18841,
+                    "text": "Il est possible qu\u2019il soit renvoy\u00e9.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18842,
+                    "text": "Il est renvoy\u00e9 d\u00e9finitivement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18843,
+                    "text": "Il va commencer sa p\u00e9riode d\u2019essai.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18844,
+                    "text": "Il va \u00eatre embauch\u00e9 d\u00e9finitivement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1347,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "La compagnie de t\u00e9l\u00e9phone manque de personnel pour le faire.",
+            "user_selected_option_id": 18848,
+            "correct_answer": "Les travaux n\u00e9cessaires ne sont pas encore achev\u00e9s.",
+            "correct_option_id": 18847,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18845,
+                    "text": "Le promoteur a oubli\u00e9 de pr\u00e9venir la compagnie de t\u00e9l\u00e9phone.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18846,
+                    "text": "Le r\u00e9seau t\u00e9l\u00e9phonique du nouvel immeuble est d\u00e9j\u00e0 satur\u00e9.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18847,
+                    "text": "Les travaux n\u00e9cessaires ne sont pas encore achev\u00e9s.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18848,
+                    "text": "La compagnie de t\u00e9l\u00e9phone manque de personnel pour le faire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1348,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Elle demande des excuses.",
+            "user_selected_option_id": 18852,
+            "correct_answer": "Elle refuse de garder le chien.",
+            "correct_option_id": 18850,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18849,
+                    "text": "Elle accepte de garder le chien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18850,
+                    "text": "Elle refuse de garder le chien.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18851,
+                    "text": "Elle propose de trouver une autre solution.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18852,
+                    "text": "Elle demande des excuses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1349,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Que l\u2019homme se soit mis \u00e0 faire du sport.",
+            "user_selected_option_id": 18856,
+            "correct_answer": "Que l\u2019homme se soit mis \u00e0 faire du sport.",
+            "correct_option_id": 18856,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18853,
+                    "text": "Que l\u2019homme soit parti seul en vacances.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18854,
+                    "text": "Que l\u2019homme ait progress\u00e9 au golf.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18855,
+                    "text": "Que l\u2019homme lui ait envoy\u00e9 une carte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18856,
+                    "text": "Que l\u2019homme se soit mis \u00e0 faire du sport.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1350,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Les \u00e9quipements.",
+            "user_selected_option_id": 18860,
+            "correct_answer": "Les \u00e9quipements.",
+            "correct_option_id": 18860,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18857,
+                    "text": "L\u2019\u00e9cologie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18858,
+                    "text": "La puissance.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18859,
+                    "text": "La s\u00e9curit\u00e9.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18860,
+                    "text": "Les \u00e9quipements.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1351,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Pour fa\u00e7onner la personnalit\u00e9 de l\u2019enfant.",
+            "user_selected_option_id": 18864,
+            "correct_answer": "Pour fa\u00e7onner la personnalit\u00e9 de l\u2019enfant.",
+            "correct_option_id": 18864,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18861,
+                    "text": "Pour limiter le temps pass\u00e9 devant la t\u00e9l\u00e9vision.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18862,
+                    "text": "Pour am\u00e9liorer les performances scolaires de l\u2019enfant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18863,
+                    "text": "Pour respecter les obligations l\u00e9gales de parentalit\u00e9.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18864,
+                    "text": "Pour fa\u00e7onner la personnalit\u00e9 de l\u2019enfant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1352,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Il pense qu\u2019il aurait d\u00fb \u00eatre pr\u00e9venu.",
+            "user_selected_option_id": 18868,
+            "correct_answer": "Il pense qu\u2019il aurait d\u00fb \u00eatre pr\u00e9venu.",
+            "correct_option_id": 18868,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18865,
+                    "text": "Il trouve que cela lui co\u00fbte trop cher.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18866,
+                    "text": "Il pense que cela ne lui est plus utile.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18867,
+                    "text": "Il trouve que l\u2019augmentation est injustifi\u00e9e.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18868,
+                    "text": "Il pense qu\u2019il aurait d\u00fb \u00eatre pr\u00e9venu.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1353,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Les avis qu\u2019ils partagent au sujet de l\u2019\u00e9cole.",
+            "user_selected_option_id": 18872,
+            "correct_answer": "Les avis qu\u2019ils partagent au sujet de l\u2019\u00e9cole.",
+            "correct_option_id": 18872,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18869,
+                    "text": "Leur int\u00e9r\u00eat pour les m\u00e9thodes minimalistes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18870,
+                    "text": "Leur participation \u00e0 la m\u00eame \u00e9mission de radio.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18871,
+                    "text": "Leur processus cr\u00e9atif pour d\u00e9velopper des projets.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18872,
+                    "text": "Les avis qu\u2019ils partagent au sujet de l\u2019\u00e9cole.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1354,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Se concentrer sur l\u2019arrangement des produits.",
+            "user_selected_option_id": 18876,
+            "correct_answer": "Assister de fa\u00e7on discr\u00e8te le client.",
+            "correct_option_id": 18875,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18873,
+                    "text": "\u00catre insistant pour augmenter les ventes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18874,
+                    "text": "Ignorer les clients pour leur donner de l\u2019espace.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18875,
+                    "text": "Assister de fa\u00e7on discr\u00e8te le client.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18876,
+                    "text": "Se concentrer sur l\u2019arrangement des produits.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1355,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "De vivre plus longtemps.",
+            "user_selected_option_id": 18880,
+            "correct_answer": "De maigrir plus rapidement.",
+            "correct_option_id": 18877,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18877,
+                    "text": "De maigrir plus rapidement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18878,
+                    "text": "De manger sans compter.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18879,
+                    "text": "De s\u2019entra\u00eener moins souvent.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18880,
+                    "text": "De vivre plus longtemps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1356,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils sont tent\u00e9s par les d\u00e9penses.",
+            "user_selected_option_id": 18884,
+            "correct_answer": "Ils sont tent\u00e9s par les d\u00e9penses.",
+            "correct_option_id": 18884,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18881,
+                    "text": "Ils habitent plus longtemps en location.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18882,
+                    "text": "Ils per\u00e7oivent un salaire plus \u00e9lev\u00e9.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18883,
+                    "text": "Ils s\u2019investissent dans des associations.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18884,
+                    "text": "Ils sont tent\u00e9s par les d\u00e9penses.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1357,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Exclusivement \u00e0 la mi-temps.",
+            "user_selected_option_id": 18888,
+            "correct_answer": "Ils pr\u00e9f\u00e8rent intervenir apr\u00e8s la fin du match.",
+            "correct_option_id": 18886,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18885,
+                    "text": "Pendant le match, sur le terrain.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18886,
+                    "text": "Ils pr\u00e9f\u00e8rent intervenir apr\u00e8s la fin du match.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18887,
+                    "text": "\u00c0 chaque pause de jeu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18888,
+                    "text": "Exclusivement \u00e0 la mi-temps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1358,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Le partage de CD entre particuliers.",
+            "user_selected_option_id": 18892,
+            "correct_answer": "Les copies gratuites sur internet.",
+            "correct_option_id": 18890,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18889,
+                    "text": "L\u2019utilisation de la musique dans les programmes t\u00e9l\u00e9vis\u00e9s.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18890,
+                    "text": "Les copies gratuites sur internet.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18891,
+                    "text": "La diffusion non autoris\u00e9e en radio.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18892,
+                    "text": "Le partage de CD entre particuliers.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1359,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il peut \u00eatre compl\u00e8tement \u00e9vit\u00e9 si on agit maintenant.",
+            "user_selected_option_id": 18896,
+            "correct_answer": "Il peut \u00eatre compl\u00e8tement \u00e9vit\u00e9 si on agit maintenant.",
+            "correct_option_id": 18896,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18893,
+                    "text": "Il affecte uniquement les r\u00e9gions polaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18894,
+                    "text": "Il change notre quotidien et menace des saisons enti\u00e8res.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18895,
+                    "text": "Il est un ph\u00e9nom\u00e8ne lointain sans impact direct.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18896,
+                    "text": "Il peut \u00eatre compl\u00e8tement \u00e9vit\u00e9 si on agit maintenant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1360,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Ils se plaignent du climat.",
+            "user_selected_option_id": 18900,
+            "correct_answer": "Ils ont un souci de l\u2019int\u00e9gration.",
+            "correct_option_id": 18898,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18897,
+                    "text": "Ils sont satisfaits de l\u2019espace de leur nouvelle habitation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18898,
+                    "text": "Ils ont un souci de l\u2019int\u00e9gration.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18899,
+                    "text": "Ils regrettent le manque de culture \u00e0 Montpellier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18900,
+                    "text": "Ils se plaignent du climat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1361,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "La population urbaine est totalement engag\u00e9e avec l\u2019industrie foresti\u00e8re.",
+            "user_selected_option_id": 18904,
+            "correct_answer": "Probl\u00e8me de communication, aucun moyen de sensibiliser les \u00e9cologistes.",
+            "correct_option_id": 18901,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18901,
+                    "text": "Probl\u00e8me de communication, aucun moyen de sensibiliser les \u00e9cologistes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18902,
+                    "text": "\u2022 B Le lien avec la for\u00eat est bien \u00e9tabli gr\u00e2ce aux efforts continus.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18903,
+                    "text": "Les associations foresti\u00e8res sont suffisamment r\u00e9parties pour couvrir les besoins de sensibilisation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18904,
+                    "text": "La population urbaine est totalement engag\u00e9e avec l\u2019industrie foresti\u00e8re.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1362,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Construire des infrastructures de sant\u00e9.",
+            "user_selected_option_id": 18908,
+            "correct_answer": "Encadrer les projets locaux pour cr\u00e9er des activit\u00e9s \u00e9conomiques.",
+            "correct_option_id": 18906,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18905,
+                    "text": "Installer des fontaines d\u2019eau purifi\u00e9e dans les villages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18906,
+                    "text": "Encadrer les projets locaux pour cr\u00e9er des activit\u00e9s \u00e9conomiques.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18907,
+                    "text": "Distribuer gratuitement de l\u2019eau potable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18908,
+                    "text": "Construire des infrastructures de sant\u00e9.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1363,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "D\u2019un homme pr\u00e9historique.",
+            "user_selected_option_id": 18912,
+            "correct_answer": "D\u2019un citadin original.",
+            "correct_option_id": 18909,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18909,
+                    "text": "D\u2019un citadin original.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18910,
+                    "text": "D\u2019un cuisinier renomm\u00e9.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18911,
+                    "text": "D\u2019un historien passionn\u00e9.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18912,
+                    "text": "D\u2019un homme pr\u00e9historique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1364,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Ils sont publi\u00e9s par des organismes li\u00e9s aux entreprises.",
+            "user_selected_option_id": 18916,
+            "correct_answer": "Ils r\u00e9pondent \u00e0 des crit\u00e8res insuffisamment exigeants.",
+            "correct_option_id": 18914,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18913,
+                    "text": "Ils font l\u2019objet de manipulations douteuses par les pollueurs.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18914,
+                    "text": "Ils r\u00e9pondent \u00e0 des crit\u00e8res insuffisamment exigeants.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18915,
+                    "text": "Ils sont destin\u00e9s \u00e0 justifier les politiques \u00e9conomiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18916,
+                    "text": "Ils sont publi\u00e9s par des organismes li\u00e9s aux entreprises.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1365,
+            "question_text": "Compr\u00e9hension orale \u2013 Quiz 35 \u2013 Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Maintenir des tarifs comp\u00e9titifs.",
+            "user_selected_option_id": 18920,
+            "correct_answer": "Maintenir des tarifs comp\u00e9titifs.",
+            "correct_option_id": 18920,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_35_question39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18917,
+                    "text": "Am\u00e9liorer la pr\u00e9sentation des produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18918,
+                    "text": "Augmenter le nombre de clients.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18919,
+                    "text": "Multiplier les points de vente .",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18920,
+                    "text": "Maintenir des tarifs comp\u00e9titifs.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 35,
+    "strengths": [
+        "Compr\u00e9hension d'une majorit\u00e9 de dialogues simples",
+        "Identification des id\u00e9es principales",
+        "Bonne r\u00e9action aux mots-cl\u00e9s",
+        "Compr\u00e9hension de l'intention g\u00e9n\u00e9rale du locuteur"
+    ],
+    "improvements": [
+        "Inf\u00e9rence et sous-entendus simples",
+        "Compr\u00e9hension de d\u00e9tails complexes",
+        "Gestion de vocabulaire peu familier",
+        "Compr\u00e9hension d'accents r\u00e9gionaux vari\u00e9s"
+    ],
+    "recommendations": [
+        "Consacrer 20 min/jour aux podcasts authentiques (RFI Savoirs, Fran\u00e7ais Facile)",
+        "Utiliser les fiches vocabulaire th\u00e9matiques (shopping, restaurant, voyage)",
+        "\u00c9couter des dialogues avec transcriptions puis sans",
+        "Faire 5-10 exercices de compr\u00e9hension 3x/semaine",
+        "Passer un examen r\u00e9el complet chaque semaine"
+    ],
+    "exam_title": "Compr\u00e9hension orale \u2013 Quiz 35",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

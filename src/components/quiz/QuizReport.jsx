@@ -5,11 +5,17 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
+import { levelForPct } from "@/services/examService";
 import { fmt } from "@/utils/format";
 
 // End-of-quiz report: score, clickable question grid, full correction with
 // every explanation, and a per-question review mode that replays the media.
-export function QuizReport({ questions, answers, duration, left, onRestart, doneExtra, renderAbove, above }) {
+//
+// Reused for reviewing a finished TCF blanc épreuve (CO/CE): pass `onBack` for
+// a top "return" affordance and a custom `title`, and omit `onRestart`/time so
+// the restart button and the "terminé en …" line are hidden (a single mock
+// épreuve isn't restartable on its own, and per-task time isn't tracked).
+export function QuizReport({ questions, answers, duration, left, onRestart, doneExtra, renderAbove, above, onBack, backLabel = "Retour au rapport", title = "Rapport de score" }) {
   const { c } = useApp();
   const [reviewIdx, setReviewIdx] = useState(null);
   const byIndex = new Map(answers.map((a) => [a.i, a]));
@@ -17,7 +23,9 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
   const wrongCount = answers.length - ok;
   const skipped = questions.length - answers.length;
   const pct = Math.round((ok / questions.length) * 100);
-  const est = pct >= 85 ? "B2+" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
+  // Shared with the mock-exam report and the dashboard, so the same score
+  // never shows a different CEFR estimate depending on the screen.
+  const est = levelForPct(pct);
 
   const statusOf = (idx) => {
     const a = byIndex.get(idx);
@@ -54,7 +62,7 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
               const isCorrect = idx === q.a;
               const isUser = a && idx === a.sel;
               return (
-                <div key={o} className={`px-5 py-3.5 rounded-2xl border text-sm font-medium flex items-center justify-between gap-3
+                <div key={idx} className={`px-5 py-3.5 rounded-2xl border text-sm font-medium flex items-center justify-between gap-3
                   ${isCorrect ? "border-emerald-500 bg-emerald-500/10 text-emerald-600" : isUser ? "border-rose-500 bg-rose-500/10 text-rose-600" : `${c.border} opacity-50 ${c.sub}`}`}>
                   <span><span className="font-mono2 font-semibold mr-3 opacity-60">{String.fromCharCode(65 + idx)}</span>{o}</span>
                   <span className="flex items-center gap-2 shrink-0">
@@ -76,12 +84,18 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
   }
 
   /* ---- score report ---- */
+  const timed = duration != null && left != null;
   return (
     <Card className="p-7 rise">
+      {onBack && (
+        <button onClick={onBack} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-4">
+          <ChevronLeft size={15} /> {backLabel}
+        </button>
+      )}
       <div className="text-center">
         <Trophy size={36} className="text-amber-500 mx-auto" />
-        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>Rapport de score</h3>
-        <p className={`mt-1 text-sm ${c.sub}`}>Terminé en {fmt(duration - left)} · niveau estimé sur cette série : <span className="font-bold text-blue-600">{est}</span></p>
+        <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>{title}</h3>
+        <p className={`mt-1 text-sm ${c.sub}`}>{timed && <>Terminé en {fmt(duration - left)} · </>}niveau estimé sur cette série : <span className="font-bold text-blue-600">{est}</span></p>
         <p className="font-display font-extrabold text-5xl mt-5 grad-text">{ok} / {questions.length}</p>
         <div className="max-w-xs mx-auto mt-4"><ProgressBar pct={pct} tone="grad" /></div>
         <div className="mt-5 flex items-center justify-center gap-2 flex-wrap">
@@ -110,10 +124,12 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
         </div>
       </div>
 
-      <div className="mt-8 flex gap-3 justify-center flex-wrap">
-        <Btn icon={RotateCcw} onClick={onRestart}>Recommencer la série</Btn>
-        {doneExtra}
-      </div>
+      {(onRestart || doneExtra) && (
+        <div className="mt-8 flex gap-3 justify-center flex-wrap">
+          {onRestart && <Btn icon={RotateCcw} onClick={onRestart}>Recommencer la série</Btn>}
+          {doneExtra}
+        </div>
+      )}
     </Card>
   );
 }

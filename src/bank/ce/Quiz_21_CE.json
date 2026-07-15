@@ -1,0 +1,1733 @@
+{
+    "id": 40272,
+    "exam_id": 57,
+    "score": 188.0,
+    "score_percent": 26.9,
+    "cefr_level": "A1",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-06T22:26:03.630820+00:00",
+    "time_spent": 33,
+    "section_breakdown": {
+        "Identification": {
+            "score": 6.7,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 9.4,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 5.4,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 5.4,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2185,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Pour réserver une place dans un camping.",
+            "user_selected_option_id": 34368,
+            "correct_answer": "Pour raconter son séjour en Bretagne.",
+            "correct_option_id": 34366,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Laura raconte qu'elle a « pris le bateau pour l'île d'Arz », fait du camping et mangé des crêpes : elle écrit pour raconter son séjour en Bretagne.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_1.webp",
+            "all_options": [
+                {
+                    "id": 34365,
+                    "text": "Pour proposer une promenade en bateau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34366,
+                    "text": "Pour raconter son séjour en Bretagne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34367,
+                    "text": "Pour répondre à son cousin Benjamin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34368,
+                    "text": "Pour réserver une place dans un camping.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2186,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Quelque chose pour le soleil.",
+            "user_selected_option_id": 34372,
+            "correct_answer": "Quelque chose pour le soleil.",
+            "correct_option_id": 34372,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La directrice précise qu'« il va faire très chaud alors pensez aux casquettes » : les parents doivent donner quelque chose pour le soleil.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34369,
+                    "text": "Quelque chose à boire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34370,
+                    "text": "Quelque chose à manger.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34371,
+                    "text": "Quelque chose pour la pluie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34372,
+                    "text": "Quelque chose pour le soleil.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2187,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "20 euros.",
+            "user_selected_option_id": 34376,
+            "correct_answer": "16 euros.",
+            "correct_option_id": 34375,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le menu précise « formule déjeuner 16 (12 eau minérale et café compris) » : la formule avec boisson coûte 16 euros.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34373,
+                    "text": "9 euros.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34374,
+                    "text": "12,50 euros.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34375,
+                    "text": "16 euros.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34376,
+                    "text": "20 euros.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2188,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Des modèles de meubles.",
+            "user_selected_option_id": 34380,
+            "correct_answer": "Des idées de décoration.",
+            "correct_option_id": 34378,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le site propose de « suivre nos conseils pour réussir » et d'accompagner « pour le choix de la couleur de la peinture » : il donne des idées de décoration.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_4.webp",
+            "all_options": [
+                {
+                    "id": 34377,
+                    "text": "Des adresses d’artisans.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34378,
+                    "text": "Des idées de décoration.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34379,
+                    "text": "Des leçons de bricolage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34380,
+                    "text": "Des modèles de meubles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2189,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Visiter une ferme française.",
+            "user_selected_option_id": 34384,
+            "correct_answer": "Découvrir la nourriture locale.",
+            "correct_option_id": 34381,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le salon gastronomique invite à « discuter avec eux et goûter leurs délicieux produits » : on peut y découvrir la nourriture locale.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34381,
+                    "text": "Découvrir la nourriture locale.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34382,
+                    "text": "Gagner un repas traditionnel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34383,
+                    "text": "Prendre un cours de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34384,
+                    "text": "Visiter une ferme française.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2190,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Elle travaille dans un restaurant.",
+            "user_selected_option_id": 34388,
+            "correct_answer": "Elle travaille dans un restaurant.",
+            "correct_option_id": 34388,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Camille explique qu'elle « est serveuse dans un restaurant depuis une semaine » : elle explique donc qu'elle travaille dans un restaurant.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34385,
+                    "text": "Elle est en voyage à Montpellier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34386,
+                    "text": "Elle rencontre des amis à Paris.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34387,
+                    "text": "Elle suit des cours à l’université.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34388,
+                    "text": "Elle travaille dans un restaurant.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2191,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Ses films sont en noir et blanc.",
+            "user_selected_option_id": 34392,
+            "correct_answer": "C’est un bâtiment ancien.",
+            "correct_option_id": 34389,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le cinéma a ouvert « en 1911 » et que « la famille propriétaire... n'a pas changé » : c'est un bâtiment ancien.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34389,
+                    "text": "C’est un bâtiment ancien.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34390,
+                    "text": "Il se trouve en banlieue.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34391,
+                    "text": "On peut y rencontrer des acteurs.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34392,
+                    "text": "Ses films sont en noir et blanc.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2192,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "S’inscrire à un jeu.",
+            "user_selected_option_id": 34396,
+            "correct_answer": "Ecrire un message.",
+            "correct_option_id": 34393,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message invite Mme Chanmont à « prendre contact par courriel avec notre service clientèle » : elle doit donc écrire un message.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34393,
+                    "text": "Ecrire un message.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34394,
+                    "text": "Prendre un billet d’avion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34395,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34396,
+                    "text": "S’inscrire à un jeu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2193,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Une crème de beauté.",
+            "user_selected_option_id": 34400,
+            "correct_answer": "Une crème de beauté.",
+            "correct_option_id": 34400,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ce soin « corrige les signes de fatigue et réveille votre visage » : il s'agit d'une crème de beauté.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_9.webp",
+            "all_options": [
+                {
+                    "id": 34397,
+                    "text": "Un savon pour le corps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34398,
+                    "text": "Un shampoing aux herbes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34399,
+                    "text": "Une boisson pour dormir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34400,
+                    "text": "Une crème de beauté.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2194,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "On y donne des cours de cuisine.",
+            "user_selected_option_id": 34404,
+            "correct_answer": "Beaucoup de personnes le visitent.",
+            "correct_option_id": 34401,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les Galeries Lafayette sont « le site le plus visité à Paris après le musée du Louvre » : beaucoup de personnes le visitent.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34401,
+                    "text": "Beaucoup de personnes le visitent.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34402,
+                    "text": "Il vend des articles bon marché.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34403,
+                    "text": "Il y a un célèbre musée à l’intérieur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34404,
+                    "text": "On y donne des cours de cuisine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2195,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "À trouver des recettes.",
+            "user_selected_option_id": 34408,
+            "correct_answer": "À choisir ses produits.",
+            "correct_option_id": 34406,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'application « vous conseille les bons fruits et légumes de saison » : elle aide donc à choisir ses produits.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34405,
+                    "text": "À acheter sur internet.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34406,
+                    "text": "À choisir ses produits.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34407,
+                    "text": "À noter les magasins.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34408,
+                    "text": "À trouver des recettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2196,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "La vendre.",
+            "user_selected_option_id": 34412,
+            "correct_answer": "L’échanger.",
+            "correct_option_id": 34410,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La famille Beaulieu propose de venir chez elle « en juillet » pendant qu'ils iront « chez vous en France au même moment » : ils veulent échanger leur maison.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34409,
+                    "text": "L’agrandir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34410,
+                    "text": "L’échanger.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34411,
+                    "text": "La louer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34412,
+                    "text": "La vendre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2197,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Multiplier leurs variétés.",
+            "user_selected_option_id": 34416,
+            "correct_answer": "Analyser leurs effets.",
+            "correct_option_id": 34413,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le programme « teste l'action de nettoyage de l'air » de certaines plantes : son but est d'analyser leurs effets.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34413,
+                    "text": "Analyser leurs effets.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34414,
+                    "text": "Augmenter leur résistance.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34415,
+                    "text": "Étudier leur développement",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34416,
+                    "text": "Multiplier leurs variétés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2198,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Jouer dans un film.",
+            "user_selected_option_id": 34420,
+            "correct_answer": "Goûter des recettes.",
+            "correct_option_id": 34419,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le programme des soirées du livre de jeunesse propose « des dégustations de desserts » : on pourra donc goûter des recettes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34417,
+                    "text": "Écouter des chansons.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34418,
+                    "text": "Gagner des cadeaux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34419,
+                    "text": "Goûter des recettes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34420,
+                    "text": "Jouer dans un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2199,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Du vote d’une nouvelle loi.",
+            "user_selected_option_id": 34424,
+            "correct_answer": "De l’utilisation du portable.",
+            "correct_option_id": 34421,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que les piétons « regardent leur téléphone » au lieu de faire attention à la circulation : il est question de l'utilisation du portable.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34421,
+                    "text": "De l’utilisation du portable.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34422,
+                    "text": "De la sécurité au volant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34423,
+                    "text": "Du bruit de la circulation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34424,
+                    "text": "Du vote d’une nouvelle loi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2200,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Retirer de l’argent a un distributeur.",
+            "user_selected_option_id": 34428,
+            "correct_answer": "Faire des courses dans un magasin.",
+            "correct_option_id": 34426,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'on peut « l'utiliser pour acheter tous nos produits de beauté » : la carte permet de faire des courses dans un magasin.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_16.webp",
+            "all_options": [
+                {
+                    "id": 34425,
+                    "text": "Avoirs des réductions sur certains articles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34426,
+                    "text": "Faire des courses dans un magasin.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34427,
+                    "text": "Offrir une surprise pour un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34428,
+                    "text": "Retirer de l’argent a un distributeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2201,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "De visiter une grande exposition.",
+            "user_selected_option_id": 34432,
+            "correct_answer": "De visiter une grande exposition.",
+            "correct_option_id": 34432,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte invite à « visiter le SALON DE L'AGRICULTURE » avec ateliers, balades et stands : l'annonce propose de visiter une grande exposition.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34429,
+                    "text": "De découvrir un parc d’animation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34430,
+                    "text": "De gagner un séjour en famille.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34431,
+                    "text": "De se promener dans une ferme.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34432,
+                    "text": "De visiter une grande exposition.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2202,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Le lieu du spectacle.",
+            "user_selected_option_id": 34436,
+            "correct_answer": "La durée de la représentation.",
+            "correct_option_id": 34434,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« une ombre à ce tableau : la langueur excessive de la pièce » : la critique négative porte sur la durée de la représentation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34433,
+                    "text": "L’interprétation des comédiens.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34434,
+                    "text": "La durée de la représentation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34435,
+                    "text": "La qualité littéraire du texte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34436,
+                    "text": "Le lieu du spectacle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2203,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les raisons de leur popularité.",
+            "user_selected_option_id": 34440,
+            "correct_answer": "Le secret d’une bonne préparation.",
+            "correct_option_id": 34438,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise « il faut les cuire puis les frire en deux temps » pour réussir les frites : l'article révèle le secret d'une bonne préparation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_19.webp",
+            "all_options": [
+                {
+                    "id": 34437,
+                    "text": "L’origine historique de la recette.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34438,
+                    "text": "Le secret d’une bonne préparation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34439,
+                    "text": "Les adresses où les consommer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34440,
+                    "text": "Les raisons de leur popularité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2204,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il raconte la rencontre entre Modiano et sa femme.",
+            "user_selected_option_id": 34444,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano.",
+            "correct_option_id": 34442,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que Modiano « tombe sur une annonce » de recherche d'une jeune fille disparue et « va alors s'attacher à lever le mystère » : il explique l'idée de départ d'un livre de Modiano.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_20.webp",
+            "all_options": [
+                {
+                    "id": 34441,
+                    "text": "Il cite un extrait d’une œuvre de Modiano.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34442,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34443,
+                    "text": "Il présente le métier de Modiano à ses débuts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34444,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2205,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Une réclamation sur son achat.",
+            "user_selected_option_id": 34448,
+            "correct_answer": "Le remboursement de son article.",
+            "correct_option_id": 34445,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "M. Cellier « souhaiterait le rendre » et demande qu'on lui « restitue la somme de 80 euros » : il s'agit du remboursement de son article.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_21.webp",
+            "all_options": [
+                {
+                    "id": 34445,
+                    "text": "Le remboursement de son article.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34446,
+                    "text": "L’échange de son téléphone.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34447,
+                    "text": "L’envoi de son téléphone par la poste.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34448,
+                    "text": "Une réclamation sur son achat.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2206,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Sélectionner un souvenir.",
+            "user_selected_option_id": 34452,
+            "correct_answer": "Sélectionner un souvenir.",
+            "correct_option_id": 34452,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les participants « doivent se remémorer une histoire personnelle » qui devient une œuvre unique : leur rôle est de sélectionner un souvenir.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34449,
+                    "text": "Effectuer un calcul.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34450,
+                    "text": "Évoquer un fait divers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34451,
+                    "text": "Fournir un support.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34452,
+                    "text": "Sélectionner un souvenir.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2207,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Elle concurrence des modes naturels de rafraîchissement de l’air.",
+            "user_selected_option_id": 34456,
+            "correct_answer": "Elle entraine une trop grande consommation d’énergie.",
+            "correct_option_id": 34455,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la climatisation « crée des tensions sur le réseau électrique » : elle entraîne une trop grande consommation d'énergie.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_23.webp",
+            "all_options": [
+                {
+                    "id": 34453,
+                    "text": "Elle est simple à mettre en place, mais aussi très couteuse.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34454,
+                    "text": "Elle est source d’infection pour des patients déjà fragiles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34455,
+                    "text": "Elle entraine une trop grande consommation d’énergie.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34456,
+                    "text": "Elle concurrence des modes naturels de rafraîchissement de l’air.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2208,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Leur maintenance est assurée par des bénévoles.",
+            "user_selected_option_id": 34460,
+            "correct_answer": "Ils sont financés discrètement par des entreprises.",
+            "correct_option_id": 34458,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte révèle que « de grandes sociétés rémunèrent les sites de localisation » et que « ces liens sponsorisés » sont perçus « comme un service » plutôt qu'une publicité : ils sont financés discrètement par des entreprises.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_24.webp",
+            "all_options": [
+                {
+                    "id": 34457,
+                    "text": "Ce sont des réseaux de commerçants qui les ont créés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34458,
+                    "text": "Ils sont financés discrètement par des entreprises.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34459,
+                    "text": "Les prestations qu’ils proposent sont payantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34460,
+                    "text": "Leur maintenance est assurée par des bénévoles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2209,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Par la répartition équitable des profits entre salariés.",
+            "user_selected_option_id": 34464,
+            "correct_answer": "Par la primauté de l’intérêt collectif sur bénéfices.",
+            "correct_option_id": 34463,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que dans l'entreprise humaniste, les bénéfices « deviennent un moyen et l'objectif, c'est le bien commun » : elles se distinguent par la primauté de l'intérêt collectif sur les bénéfices.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_25.webp",
+            "all_options": [
+                {
+                    "id": 34461,
+                    "text": "Par l’abolition des relations hiérarchiques classiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34462,
+                    "text": "Par la mise en place d’une carte écologique commune.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34463,
+                    "text": "Par la primauté de l’intérêt collectif sur bénéfices.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34464,
+                    "text": "Par la répartition équitable des profits entre salariés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2210,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+            "user_selected_option_id": 34468,
+            "correct_answer": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+            "correct_option_id": 34468,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Ludovic ironise sur l'image du « gros bonhomme avec un tablier taché de sang » : il dénonce que l'image attachée à sa profession est stéréotypée et peu valorisante.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_26.webp",
+            "all_options": [
+                {
+                    "id": 34465,
+                    "text": "L’avenir de son travail est menacé par l’industrie agroalimentaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34466,
+                    "text": "La qualité des produits charcutiers est reconnue par les médecins.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34467,
+                    "text": "Le passage d’un métier de bouche à un autre se fait facilement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34468,
+                    "text": "L’image attachée à sa profession est stéréotypée et peu valorisante.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2211,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Il s’associe à l’écriture d’un documentaire.",
+            "user_selected_option_id": 34472,
+            "correct_answer": "Il envisage avec optimisme les futurs possibles.",
+            "correct_option_id": 34470,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « la somme des connaissances psychologiques et scientifiques favorise... des possibilités d'émancipation... qui n'ont jamais existé avant » : André Gorz envisage avec optimisme les futurs possibles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34469,
+                    "text": "Il dissocie environnement et questions sociales.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34470,
+                    "text": "Il envisage avec optimisme les futurs possibles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34471,
+                    "text": "Il reste sceptique envers les scientifiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34472,
+                    "text": "Il s’associe à l’écriture d’un documentaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2212,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Les nombreux échecs des projections proposées le weekend.",
+            "user_selected_option_id": 34476,
+            "correct_answer": "À quel problème sont confrontés les distributeurs indépendants.",
+            "correct_option_id": 34473,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les distributeurs indépendants « s'inquiètent de voir les salles de cinéma offrir de plus en plus de séances au spectacle vivant » : l'article traite du problème auquel sont confrontés les distributeurs indépendants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34473,
+                    "text": "À quel problème sont confrontés les distributeurs indépendants.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34474,
+                    "text": "La forte concurrence des vidéos à la demande à la télévision.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34475,
+                    "text": "Le désintérêt croissant du public pour les productions indépendantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34476,
+                    "text": "Les nombreux échecs des projections proposées le weekend.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2213,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Travailler sur soi-même.",
+            "user_selected_option_id": 34480,
+            "correct_answer": "Travailler sur soi-même.",
+            "correct_option_id": 34480,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque les « livres de développement personnel » et « introductions à la méditation » qui invitent à « apprendre à s'aimer » : la tendance du moment est de travailler sur soi-même.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34477,
+                    "text": "Commencer une thérapie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34478,
+                    "text": "Multiplier les passe-temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34479,
+                    "text": "Rechercher l’âme sœur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34480,
+                    "text": "Travailler sur soi-même.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2214,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Il raconte une anecdote.",
+            "user_selected_option_id": 34484,
+            "correct_answer": "Il donne un conseil.",
+            "correct_option_id": 34482,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte informe des différences de législation (vitesse, alcoolémie) selon les pays pour prévenir les voyageurs : l'auteur donne un conseil.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34481,
+                    "text": "Il commente une loi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34482,
+                    "text": "Il donne un conseil.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34483,
+                    "text": "Il formule une plainte.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34484,
+                    "text": "Il raconte une anecdote.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2215,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Développer l’activité de recyclage.",
+            "user_selected_option_id": 34488,
+            "correct_answer": "Aider les plus démunis à se loger.",
+            "correct_option_id": 34486,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'association a décidé de « faire de la construction d'habitations son cœur d'activité » pour « des publics précaires » : sa décision est d'aider les plus démunis à se loger.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_31.webp",
+            "all_options": [
+                {
+                    "id": 34485,
+                    "text": "Abandonner le travail du bois.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34486,
+                    "text": "Aider les plus démunis à se loger.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34487,
+                    "text": "Bâtir des locaux commerciaux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34488,
+                    "text": "Développer l’activité de recyclage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2216,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Le désir de vivre en communauté.",
+            "user_selected_option_id": 34492,
+            "correct_answer": "La précarité du monde professionnel.",
+            "correct_option_id": 34491,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les néo-nomades vont « d'un lieu à l'autre au gré des impératifs de leur travail souvent saisonnier » : l'origine est la précarité du monde professionnel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_32.webp",
+            "all_options": [
+                {
+                    "id": 34489,
+                    "text": "L’attirance pour les espaces naturels.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34490,
+                    "text": "L’insécurité des zones urbaines.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34491,
+                    "text": "La précarité du monde professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34492,
+                    "text": "Le désir de vivre en communauté.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2217,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il remet en question des traditions profondément ancrées.",
+            "user_selected_option_id": 34496,
+            "correct_answer": "Il remet en question des traditions profondément ancrées.",
+            "correct_option_id": 34496,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la suppression du mode traditionnel « suscite des réactions fortes » car les gens ont « le sentiment de ne plus comprendre les objectifs de l'école » : il remet en question des traditions profondément ancrées.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34493,
+                    "text": "Il est imposé sans explications aux enseignants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34494,
+                    "text": "Il manque de finesse dans l’analyse des résultats.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34495,
+                    "text": "Il propose des questions inadaptées aux enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34496,
+                    "text": "Il remet en question des traditions profondément ancrées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2218,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "user_selected_option_id": 34500,
+            "correct_answer": "Lutter contre elles peut nuire à certaines libertés.",
+            "correct_option_id": 34500,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque le débat sur la liberté d'expression et la crainte que « l'excès de précaution ne vienne tuer le débat d'idées » : lutter contre les microagressions peut nuire à certaines libertés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_34.webp",
+            "all_options": [
+                {
+                    "id": 34497,
+                    "text": "Ce sont des blessures corporelles superficielles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34498,
+                    "text": "Elles sont commises par des groupes minoritaires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34499,
+                    "text": "Les autorités universitaires s’en préoccupent peu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34500,
+                    "text": "Lutter contre elles peut nuire à certaines libertés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2219,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il traite les problèmes liés aux sols.",
+            "user_selected_option_id": 34504,
+            "correct_answer": "Il insiste sur le pont de vue matériel.",
+            "correct_option_id": 34502,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'intervenant décrit le discours écologique actuel comme réduit aux « aspects matériels, pratiques, biologiques » sans évoquer la beauté de la nature : il insiste donc sur le point de vue matériel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34501,
+                    "text": "Il apaise les tensions de la société.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34502,
+                    "text": "Il insiste sur le pont de vue matériel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34503,
+                    "text": "Il propose des programmes utopiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34504,
+                    "text": "Il traite les problèmes liés aux sols.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2220,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Recenser les dérives de la société.",
+            "user_selected_option_id": 34508,
+            "correct_answer": "Présenter des histoires positives.",
+            "correct_option_id": 34506,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que les découvertes des journalistes « annihilent tout défaitisme » et sont « proprement humain[es] » : leur parti pris est de présenter des histoires positives.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34505,
+                    "text": "Être au plus près de l’actualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34506,
+                    "text": "Présenter des histoires positives.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34507,
+                    "text": "Proposer des anecdotes amusantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34508,
+                    "text": "Recenser les dérives de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2221,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle reflète les clivages de la société.",
+            "user_selected_option_id": 34512,
+            "correct_answer": "Elle favorise l’évolution des mentalités.",
+            "correct_option_id": 34509,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Éliane Viennot défend l'écriture inclusive car elle « vise à combattre les stéréotypes sexistes » et contribue « à forger des consciences égalitaristes » : elle estime qu'elle favorise l'évolution des mentalités.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34509,
+                    "text": "Elle favorise l’évolution des mentalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34510,
+                    "text": "Elles incarnent une première historique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34511,
+                    "text": "Elle permet de moderniser le lexique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34512,
+                    "text": "Elle reflète les clivages de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2222,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Ils sont source de traumatismes musculaires.",
+            "user_selected_option_id": 34516,
+            "correct_answer": "Ils sont remplacés par des pathologies professionnelles.",
+            "correct_option_id": 34515,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « si les accidents sont moins nombreux, les maladies professionnelles, elles, ne cessent de progresser » : ils sont remplacés par des pathologies professionnelles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34513,
+                    "text": "Ils ont une influence très préoccupante sur l’économie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34514,
+                    "text": "Ils se produisent dans les entreprises industrielles.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34515,
+                    "text": "Ils sont remplacés par des pathologies professionnelles.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34516,
+                    "text": "Ils sont source de traumatismes musculaires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2223,
+            "question_text": "Compréhension écrite – Quiz 21 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "À vérifier l’empathie ressentie envers les robots.",
+            "user_selected_option_id": 34520,
+            "correct_answer": "À vérifier l’empathie ressentie envers les robots.",
+            "correct_option_id": 34520,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'émotion semble... plus intense lorsqu'un humain rencontre un obstacle » face à un robot : les scientifiques cherchent à vérifier l'empathie ressentie envers les robots.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_21_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34517,
+                    "text": "À établir un lien entre robotique et individualisme.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34518,
+                    "text": "À évaluer l’action des robots dans la lutte contre la solitude.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34519,
+                    "text": "À répéter les dérivés issus de la robotique dans le quotidien.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34520,
+                    "text": "À vérifier l’empathie ressentie envers les robots.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 26,
+    "strengths": [
+        "Reconnaissance de mots écrits simples",
+        "Compréhension de textes très courts (3-5 phrases)",
+        "Identification de noms et adjectifs basiques",
+        "Lecture de phrases présent tense simples"
+    ],
+    "improvements": [
+        "Compréhension de textes plus longs",
+        "Gestion du passé composé dans un texte",
+        "Inférence basique du contexte",
+        "Vocabulaire contextuel au-delà des listes"
+    ],
+    "recommendations": [
+        "Lire 15-20 min/jour de textes enfantins ou de contenu A1",
+        "Pratiquer avec des livres illustrés en français",
+        "Créer un vocabulaire personnel par catégorie (animaux, aliments, vêtements)",
+        "Relire les mêmes textes 3-4 fois pour fluidité",
+        "Utiliser une application type Anki pour mémorisation du vocabulaire"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 21",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

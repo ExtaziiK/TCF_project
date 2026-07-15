@@ -1,0 +1,1733 @@
+{
+    "id": 40868,
+    "exam_id": 32,
+    "score": 99.0,
+    "score_percent": 14.16,
+    "cefr_level": "A1 Not Achieved",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-12T16:04:55.292066+00:00",
+    "time_spent": 66,
+    "section_breakdown": {
+        "Identification": {
+            "score": 3.5,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 5.0,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 2.8,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 2.8,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1210,
+            "question_text": "Compréhension orale – Quiz 32 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "D",
+            "user_selected_option_id": 18300,
+            "correct_answer": "C",
+            "correct_option_id": 18299,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_1.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_32_question_1.webp",
+            "all_options": [
+                {
+                    "id": 18297,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18298,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18299,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18300,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1211,
+            "question_text": "Compréhension orale – Quiz 32 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "D",
+            "user_selected_option_id": 18304,
+            "correct_answer": "A",
+            "correct_option_id": 18301,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 19,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_2.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_32_question_2.webp",
+            "all_options": [
+                {
+                    "id": 18301,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18302,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18303,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18304,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1212,
+            "question_text": "Compréhension orale – Quiz 32 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "D",
+            "user_selected_option_id": 18308,
+            "correct_answer": "A",
+            "correct_option_id": 18305,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_3.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_32_question_3.webp",
+            "all_options": [
+                {
+                    "id": 18305,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18306,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18307,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18308,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1213,
+            "question_text": "Compréhension orale – Quiz 32 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "D",
+            "user_selected_option_id": 18312,
+            "correct_answer": "A",
+            "correct_option_id": 18309,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_4.mp3",
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_32_question_4.webp",
+            "all_options": [
+                {
+                    "id": 18309,
+                    "text": "A",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18310,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18311,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18312,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1214,
+            "question_text": "Compréhension orale – Quiz 32 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "D",
+            "user_selected_option_id": 18316,
+            "correct_answer": "C",
+            "correct_option_id": 18315,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_5.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18313,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18314,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18315,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18316,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1215,
+            "question_text": "Compréhension orale – Quiz 32 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "D",
+            "user_selected_option_id": 18320,
+            "correct_answer": "B",
+            "correct_option_id": 18318,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_6.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18317,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18318,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18319,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18320,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1216,
+            "question_text": "Compréhension orale – Quiz 32 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "D",
+            "user_selected_option_id": 18324,
+            "correct_answer": "B",
+            "correct_option_id": 18322,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_7.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18321,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18322,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18323,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18324,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1217,
+            "question_text": "Compréhension orale – Quiz 32 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "D",
+            "user_selected_option_id": 18328,
+            "correct_answer": "C",
+            "correct_option_id": 18327,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_8.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18325,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18326,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18327,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18328,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1218,
+            "question_text": "Compréhension orale – Quiz 32 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "D",
+            "user_selected_option_id": 18332,
+            "correct_answer": "B",
+            "correct_option_id": 18330,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_9.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18329,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18330,
+                    "text": "B",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18331,
+                    "text": "C",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18332,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1219,
+            "question_text": "Compréhension orale – Quiz 32 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "D",
+            "user_selected_option_id": 18336,
+            "correct_answer": "C",
+            "correct_option_id": 18335,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_10.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18333,
+                    "text": "A",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18334,
+                    "text": "B",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18335,
+                    "text": "C",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18336,
+                    "text": "D",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1220,
+            "question_text": "Compréhension orale – Quiz 32 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Un médecin.",
+            "user_selected_option_id": 18340,
+            "correct_answer": "Un médecin.",
+            "correct_option_id": 18340,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_11.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18337,
+                    "text": "Un coiffeur.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18338,
+                    "text": "Un déménageur.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18339,
+                    "text": "Un garagiste.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18340,
+                    "text": "Un médecin.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1221,
+            "question_text": "Compréhension orale – Quiz 32 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De leurs traditions familiales.",
+            "user_selected_option_id": 18344,
+            "correct_answer": "De leurs prochaines vacances.",
+            "correct_option_id": 18343,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_12.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18341,
+                    "text": "De leurs derniers voyages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18342,
+                    "text": "De leurs destinations préférées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18343,
+                    "text": "De leurs prochaines vacances.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18344,
+                    "text": "De leurs traditions familiales.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1222,
+            "question_text": "Compréhension orale – Quiz 32 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Les œuvres présentées.",
+            "user_selected_option_id": 18348,
+            "correct_answer": "Les conditions de visite.",
+            "correct_option_id": 18347,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_13.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18345,
+                    "text": "La qualité du catalogue.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18346,
+                    "text": "Le prix des entrées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18347,
+                    "text": "Les conditions de visite.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18348,
+                    "text": "Les œuvres présentées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1223,
+            "question_text": "Compréhension orale – Quiz 32 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Prendre contact avec sa banque.",
+            "user_selected_option_id": 18352,
+            "correct_answer": "Prendre contact avec sa banque.",
+            "correct_option_id": 18352,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_14.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18349,
+                    "text": "Rentrer en France.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18350,
+                    "text": "Remplir un dossier.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18351,
+                    "text": "Se rendre à l’ambassade.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18352,
+                    "text": "Prendre contact avec sa banque.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1224,
+            "question_text": "Compréhension orale – Quiz 32 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Elle n’a pas eu l’appel espéré.",
+            "user_selected_option_id": 18356,
+            "correct_answer": "Elle n’a pas eu l’appel espéré.",
+            "correct_option_id": 18356,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_15.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18353,
+                    "text": "Elle a cassé son téléphone.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18354,
+                    "text": "Elle a raté un appel important.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18355,
+                    "text": "Elle n’a pas été invitée à un anniversaire.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18356,
+                    "text": "Elle n’a pas eu l’appel espéré.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1225,
+            "question_text": "Compréhension orale – Quiz 32 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Elle veut prendre des risques.",
+            "user_selected_option_id": 18360,
+            "correct_answer": "Elle fait confiance à son guide.",
+            "correct_option_id": 18359,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_16.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18357,
+                    "text": "Elle aime être en altitude.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18358,
+                    "text": "Elle désire accompagner un ami.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18359,
+                    "text": "Elle fait confiance à son guide.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18360,
+                    "text": "Elle veut prendre des risques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1226,
+            "question_text": "Compréhension orale – Quiz 32 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Il offre un très bon salaire.",
+            "user_selected_option_id": 18364,
+            "correct_answer": "Il correspond à ses attentes.",
+            "correct_option_id": 18361,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_17.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18361,
+                    "text": "Il correspond à ses attentes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18362,
+                    "text": "Il dure six mois au total.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18363,
+                    "text": "Il est proche de son domicile.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18364,
+                    "text": "Il offre un très bon salaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1227,
+            "question_text": "Compréhension orale – Quiz 32 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "D’employer des jeunes pour réparer de vieux objets.",
+            "user_selected_option_id": 18368,
+            "correct_answer": "De mettre en contact des personnes pour partager du matériel.",
+            "correct_option_id": 18366,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_18.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18365,
+                    "text": "De créer un réseau étudiant pour échanger des services.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18366,
+                    "text": "De mettre en contact des personnes pour partager du matériel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18367,
+                    "text": "De trouver une voiture pour transporter des affaires lourdes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18368,
+                    "text": "D’employer des jeunes pour réparer de vieux objets.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1228,
+            "question_text": "Compréhension orale – Quiz 32 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "De reporter un entretien.",
+            "user_selected_option_id": 18372,
+            "correct_answer": "D’informer de son retard.",
+            "correct_option_id": 18370,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_19.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18369,
+                    "text": "D’annuler une réunion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18370,
+                    "text": "D’informer de son retard.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18371,
+                    "text": "De recevoir un client.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18372,
+                    "text": "De reporter un entretien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1229,
+            "question_text": "Compréhension orale – Quiz 32 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Offrir des emplois aux mères de famille.",
+            "user_selected_option_id": 18376,
+            "correct_answer": "Favoriser l’intégration des étrangers.",
+            "correct_option_id": 18374,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_20.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18373,
+                    "text": "Encourager la mobilité des étudiants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18374,
+                    "text": "Favoriser l’intégration des étrangers.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18375,
+                    "text": "Mettre en relation des francophones.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18376,
+                    "text": "Offrir des emplois aux mères de famille.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1230,
+            "question_text": "Compréhension orale – Quiz 32 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "De remplir la fiche de salaire du comptable.",
+            "user_selected_option_id": 18380,
+            "correct_answer": "De préparer des documents pour le comptable.",
+            "correct_option_id": 18379,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_21.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18377,
+                    "text": "De fixer les horaires de travail du comptable.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18378,
+                    "text": "De prendre rendez-vous avec le comptable.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18379,
+                    "text": "De préparer des documents pour le comptable.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18380,
+                    "text": "De remplir la fiche de salaire du comptable.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1231,
+            "question_text": "Compréhension orale – Quiz 32 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Le remboursement d’un produit.",
+            "user_selected_option_id": 18384,
+            "correct_answer": "Le conseil d’un professionnel.",
+            "correct_option_id": 18383,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_22.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18381,
+                    "text": "La visite d’un technicien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18382,
+                    "text": "L’échange d’un article abîmé.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18383,
+                    "text": "Le conseil d’un professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18384,
+                    "text": "Le remboursement d’un produit.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1232,
+            "question_text": "Compréhension orale – Quiz 32 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "La persuasion.",
+            "user_selected_option_id": 18388,
+            "correct_answer": "La mobilité.",
+            "correct_option_id": 18387,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_23.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18385,
+                    "text": "La créativité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18386,
+                    "text": "La disponibilité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18387,
+                    "text": "La mobilité.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18388,
+                    "text": "La persuasion.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1233,
+            "question_text": "Compréhension orale – Quiz 32 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Pour se reposer.",
+            "user_selected_option_id": 18392,
+            "correct_answer": "Pour se réchauffer.",
+            "correct_option_id": 18391,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_24.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18389,
+                    "text": "Pour conserver le poisson.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18390,
+                    "text": "Pour ranger leur matériel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18391,
+                    "text": "Pour se réchauffer.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18392,
+                    "text": "Pour se reposer.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1234,
+            "question_text": "Compréhension orale – Quiz 32 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Parce que les Français ne sont pas habitués à consommer le dimanche.",
+            "user_selected_option_id": 18396,
+            "correct_answer": "Parce que la consommation dépend avant tout du pouvoir d’achat.",
+            "correct_option_id": 18393,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_25.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18393,
+                    "text": "Parce que la consommation dépend avant tout du pouvoir d’achat.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18394,
+                    "text": "Parce que la création d’emploi restera rare dans ce secteur d’activité.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18395,
+                    "text": "Parce que les commerces font des bénéfices sur les ventes en semaine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18396,
+                    "text": "Parce que les Français ne sont pas habitués à consommer le dimanche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1235,
+            "question_text": "Compréhension orale – Quiz 32 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Ses résultats insuffisants.",
+            "user_selected_option_id": 18400,
+            "correct_answer": "Ses résultats insuffisants.",
+            "correct_option_id": 18400,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_26.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18397,
+                    "text": "Sa mauvaise gestion du temps.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18398,
+                    "text": "Ses dépenses excessives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18399,
+                    "text": "Ses absences répétées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18400,
+                    "text": "Ses résultats insuffisants.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1236,
+            "question_text": "Compréhension orale – Quiz 32 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Parce qu’elles y sont contraintes par la mondialisation.",
+            "user_selected_option_id": 18404,
+            "correct_answer": "Parce qu’elles ont beaucoup à apprendre d’eux.",
+            "correct_option_id": 18401,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_27.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18401,
+                    "text": "Parce qu’elles ont beaucoup à apprendre d’eux.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18402,
+                    "text": "Parce qu’elles s’implanteront mieux ensuite à l’étranger.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18403,
+                    "text": "Parce qu’elles sont en manque de main-d’oeuvre.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18404,
+                    "text": "Parce qu’elles y sont contraintes par la mondialisation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1237,
+            "question_text": "Compréhension orale – Quiz 32 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "En leur proposant de participer à des compétitions.",
+            "user_selected_option_id": 18408,
+            "correct_answer": "En les incitant à travailler de manière collaborative.",
+            "correct_option_id": 18405,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_28.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18405,
+                    "text": "En les incitant à travailler de manière collaborative.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18406,
+                    "text": "En les poussant à prendre des risques importants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18407,
+                    "text": "En leur offrant des formations personnalisées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18408,
+                    "text": "En leur proposant de participer à des compétitions.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1238,
+            "question_text": "Compréhension orale – Quiz 32 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Il renforce les compétences professionnelles.",
+            "user_selected_option_id": 18412,
+            "correct_answer": "Il donne de l’énergie pour faire face aux épreuves.",
+            "correct_option_id": 18410,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_29.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18409,
+                    "text": "Il améliore significativement la condition physique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18410,
+                    "text": "Il donne de l’énergie pour faire face aux épreuves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18411,
+                    "text": "Il fait naître un fort sentiment de confiance en soi.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18412,
+                    "text": "Il renforce les compétences professionnelles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1239,
+            "question_text": "Compréhension orale – Quiz 32 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elle l’a mis en danger pendant sa carrière.",
+            "user_selected_option_id": 18416,
+            "correct_answer": "Elle l’a laissé complètement indifférent.",
+            "correct_option_id": 18415,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_30.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18413,
+                    "text": "Elle l’a beaucoup fasciné à ses débuts.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18414,
+                    "text": "Elle l’a conduit à la tête d’un grand magazine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18415,
+                    "text": "Elle l’a laissé complètement indifférent.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18416,
+                    "text": "Elle l’a mis en danger pendant sa carrière.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1240,
+            "question_text": "Compréhension orale – Quiz 32 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "D’une rencontre amoureuse.",
+            "user_selected_option_id": 18420,
+            "correct_answer": "D’une histoire familiale.",
+            "correct_option_id": 18419,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_31.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18417,
+                    "text": "D’une compétition sportive.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18418,
+                    "text": "D’une croisière maritime.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18419,
+                    "text": "D’une histoire familiale.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18420,
+                    "text": "D’une rencontre amoureuse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1241,
+            "question_text": "Compréhension orale – Quiz 32 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il y organise un festival de musique électronique.",
+            "user_selected_option_id": 18424,
+            "correct_answer": "C’est à la fois un restaurant et une galerie d’art.",
+            "correct_option_id": 18423,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_32.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18421,
+                    "text": "C’est la reproduction d’un café du siècle dernier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18422,
+                    "text": "Il contient un dépôt-vente de meubles design.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18423,
+                    "text": "C’est à la fois un restaurant et une galerie d’art.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18424,
+                    "text": "Il y organise un festival de musique électronique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1242,
+            "question_text": "Compréhension orale – Quiz 32 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Les céréales étaient périmées.",
+            "user_selected_option_id": 18428,
+            "correct_answer": "La traduction était partielle.",
+            "correct_option_id": 18426,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_33.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18425,
+                    "text": "La notice était impossible à lire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18426,
+                    "text": "La traduction était partielle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18427,
+                    "text": "L’emballage était défectueux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18428,
+                    "text": "Les céréales étaient périmées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1243,
+            "question_text": "Compréhension orale – Quiz 32 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Une rémunération insuffisante.",
+            "user_selected_option_id": 18432,
+            "correct_answer": "La perte de sa liberté intellectuelle.",
+            "correct_option_id": 18429,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_34.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18429,
+                    "text": "La perte de sa liberté intellectuelle.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18430,
+                    "text": "Les nombreux voyages à l’étranger.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18431,
+                    "text": "Un manque de reconnaissance.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18432,
+                    "text": "Une rémunération insuffisante.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1244,
+            "question_text": "Compréhension orale – Quiz 32 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Son exportation à l’étranger est fortement contrôlée.",
+            "user_selected_option_id": 18436,
+            "correct_answer": "Il est utilisé dans de nombreux plats de la cuisine basque.",
+            "correct_option_id": 18435,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_35.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18433,
+                    "text": "Il a été découvert en Amérique avant d’être introduit en France.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18434,
+                    "text": "Il est cueilli uniquement en été pour être conforme aux normes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18435,
+                    "text": "Il est utilisé dans de nombreux plats de la cuisine basque.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 18436,
+                    "text": "Son exportation à l’étranger est fortement contrôlée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1245,
+            "question_text": "Compréhension orale – Quiz 32 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Par le côté imprévisible des mélodies qu’il invente.",
+            "user_selected_option_id": 18440,
+            "correct_answer": "Par le côté imprévisible des mélodies qu’il invente.",
+            "correct_option_id": 18440,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_36.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18437,
+                    "text": "Par l’originalité dont est marquée sa personnalité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18438,
+                    "text": "Par la modernité avec laquelle il joue des airs célèbres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18439,
+                    "text": "Par la place que la musique occupe dans son quotidien.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18440,
+                    "text": "Par le côté imprévisible des mélodies qu’il invente.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1246,
+            "question_text": "Compréhension orale – Quiz 32 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "L’évolution de l’espèce humaine.",
+            "user_selected_option_id": 18444,
+            "correct_answer": "La place de l’être humain dans la nature.",
+            "correct_option_id": 18442,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_37.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18441,
+                    "text": "La communication entre les animaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 18442,
+                    "text": "La place de l’être humain dans la nature.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 18443,
+                    "text": "Le progrès des sciences naturelles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18444,
+                    "text": "L’évolution de l’espèce humaine.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1247,
+            "question_text": "Compréhension orale – Quiz 32 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’absence du face à face.",
+            "user_selected_option_id": 18448,
+            "correct_answer": "La fragilité de l’engagement.",
+            "correct_option_id": 18445,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_38.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18445,
+                    "text": "La fragilité de l’engagement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18446,
+                    "text": "La multiplicité des contacts.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18447,
+                    "text": "La pauvreté des échanges.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18448,
+                    "text": "L’absence du face à face.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 1248,
+            "question_text": "Compréhension orale – Quiz 32 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "L’influence de la météorologie sur leur fécondation.",
+            "user_selected_option_id": 18452,
+            "correct_answer": "Le processus d’attractivité des cellules femelles.",
+            "correct_option_id": 18449,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": null,
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_32_question_39.mp3",
+            "image_url": null,
+            "all_options": [
+                {
+                    "id": 18449,
+                    "text": "Le processus d’attractivité des cellules femelles.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 18450,
+                    "text": "Les différences avec la reproduction des plantes terrestres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 18451,
+                    "text": "La constitution de certains organismes aquatiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 18452,
+                    "text": "L’influence de la météorologie sur leur fécondation.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 14,
+    "strengths": [
+        "Reconnaissance des mots simples et familiers",
+        "Compréhension de phrases très directes",
+        "Identification des nombres et informations évidentes",
+        "Réponse aux questions d'identification simple (nom, âge, lieu)"
+    ],
+    "improvements": [
+        "Compréhension globale du contexte",
+        "Gestion du vocabulaire au-delà des bases",
+        "Suivi d'une conversation continue",
+        "Distinction des différentes structures grammaticales"
+    ],
+    "recommendations": [
+        "Écouter 10-15 min/jour de français très lent (Easy French, Learn French by Ear)",
+        "Utiliser des vidéos YouTube avec sous-titres français",
+        "Apprendre les 100 mots les plus fréquents en français",
+        "Répéter après chaque phrase écoutée (shadowing)",
+        "Créer des fiches avec vocabulaire de base (salutations, nombres, jours)"
+    ],
+    "exam_title": "Compréhension orale – Quiz 32",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_orale",
+    "related_attempt_ids": null
+}

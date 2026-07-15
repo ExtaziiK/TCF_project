@@ -1,0 +1,1733 @@
+{
+    "id": 40110,
+    "exam_id": 62,
+    "score": 230.0,
+    "score_percent": 32.9,
+    "cefr_level": "A2",
+    "clb_level": "CLB/NCLC 1-3",
+    "completed_at": "2026-07-05T15:29:49.839508+00:00",
+    "time_spent": 48,
+    "section_breakdown": {
+        "Identification": {
+            "score": 8.2,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 11.5,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 6.6,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 6.6,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2380,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une soupe.",
+            "user_selected_option_id": 35148,
+            "correct_answer": "Un dessert.",
+            "correct_option_id": 35145,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La liste propose « choux, Paris-Brest, éclairs au café, tartes aux pommes » : il s'agit d'un dessert.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_1.webp",
+            "all_options": [
+                {
+                    "id": 35145,
+                    "text": "Un dessert.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35146,
+                    "text": "Une entrée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35147,
+                    "text": "Une salade.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35148,
+                    "text": "Une soupe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2381,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Ils vont à l’université dans une autre ville.",
+            "user_selected_option_id": 35152,
+            "correct_answer": "A Ils ont besoin de l’aide de leur famille.",
+            "correct_option_id": 35149,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le père d'Hamza calcule combien ça lui coûtera car « 80 % des parents aident leurs enfants » : les jeunes ont besoin de l'aide de leur famille.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_2.webp",
+            "all_options": [
+                {
+                    "id": 35149,
+                    "text": "A Ils ont besoin de l’aide de leur famille.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35150,
+                    "text": "Ils travaillent pour payer leur logement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35151,
+                    "text": "Ils veulent finir leurs études rapidement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35152,
+                    "text": "Ils vont à l’université dans une autre ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2382,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Une rencontre entre étudiants.",
+            "user_selected_option_id": 35156,
+            "correct_answer": "Un nouvel horaire.",
+            "correct_option_id": 35154,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise que « les cours d'anglais... ne commenceront plus à 10h30 mais à 12h30 » : c'est un nouvel horaire qui est annoncé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_3.webp",
+            "all_options": [
+                {
+                    "id": 35153,
+                    "text": "Un changement de lieu.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35154,
+                    "text": "Un nouvel horaire.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35155,
+                    "text": "Une absence de professeur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35156,
+                    "text": "Une rencontre entre étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2383,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De garder ses enfants.",
+            "user_selected_option_id": 35160,
+            "correct_answer": "De déjeuner chez lui.",
+            "correct_option_id": 35159,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Driss écrit « viens déjeuner à la maison dimanche » : il propose donc de déjeuner chez lui.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35157,
+                    "text": "D’aller à un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35158,
+                    "text": "D’organiser un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35159,
+                    "text": "De déjeuner chez lui.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35160,
+                    "text": "De garder ses enfants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2384,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Organiser une exposition.",
+            "user_selected_option_id": 35164,
+            "correct_answer": "Jouer au cinéma.",
+            "correct_option_id": 35163,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la comédienne « part tourner un film à Paris » : elle va jouer au cinéma.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_5.webp",
+            "all_options": [
+                {
+                    "id": 35161,
+                    "text": "Avoir un bébé.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35162,
+                    "text": "Déménager en France.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35163,
+                    "text": "Jouer au cinéma.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35164,
+                    "text": "Organiser une exposition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2385,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "De visiter une classe.",
+            "user_selected_option_id": 35168,
+            "correct_answer": "De regarder un spectacle.",
+            "correct_option_id": 35166,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'école invite les parents à « voir la pièce Vive les vacances qu'ils joueront pour vous » : elle propose de regarder un spectacle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_6.webp",
+            "all_options": [
+                {
+                    "id": 35165,
+                    "text": "De préparer un voyage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35166,
+                    "text": "De regarder un spectacle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35167,
+                    "text": "De venir à une réunion.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35168,
+                    "text": "De visiter une classe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2386,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Joyeux.",
+            "user_selected_option_id": 35172,
+            "correct_answer": "Joyeux.",
+            "correct_option_id": 35172,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que Mimiquette et Théophilou « sont gais, aiment inventer des jeux » : ils sont joyeux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_7.webp",
+            "all_options": [
+                {
+                    "id": 35169,
+                    "text": "Beaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35170,
+                    "text": "Calmes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35171,
+                    "text": "Courageux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35172,
+                    "text": "Joyeux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2387,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Une manifestation sociale.",
+            "user_selected_option_id": 35176,
+            "correct_answer": "Une manifestation sociale.",
+            "correct_option_id": 35176,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'affiche annonce un « grand marché pour défendre nos emplois » : il s'agit d'une manifestation sociale.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_8.webp",
+            "all_options": [
+                {
+                    "id": 35173,
+                    "text": "Un salon des entrepreneurs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35174,
+                    "text": "Une compétition sportive",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35175,
+                    "text": "Une conférence sur le chômage",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35176,
+                    "text": "Une manifestation sociale.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2388,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De recevoir des outils gratuits.",
+            "user_selected_option_id": 35180,
+            "correct_answer": "De participer à un concours.",
+            "correct_option_id": 35179,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Jardimarché invite à « envoyer une photo » de son jardin pour gagner un chèque : il propose de participer à un concours.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_9.webp",
+            "all_options": [
+                {
+                    "id": 35177,
+                    "text": "D’acheter des plantes à bon prix.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35178,
+                    "text": "De faire des courses en ligne.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35179,
+                    "text": "De participer à un concours.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35180,
+                    "text": "De recevoir des outils gratuits.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2389,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Trouver de l’aide pour écrire un CV.",
+            "user_selected_option_id": 35184,
+            "correct_answer": "S’informer sur le monde professionnel.",
+            "correct_option_id": 35182,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le salon invite les jeunes à « rencontrer des chefs d'entreprise et connaître les formations existantes » : il permet de s'informer sur le monde professionnel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_10.webp",
+            "all_options": [
+                {
+                    "id": 35181,
+                    "text": "Participer à un stage de plusieurs jours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35182,
+                    "text": "S’informer sur le monde professionnel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35183,
+                    "text": "S’inscrire à un cours réservé aux jeunes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35184,
+                    "text": "Trouver de l’aide pour écrire un CV.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2390,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Lister leurs besoins de matériel.",
+            "user_selected_option_id": 35188,
+            "correct_answer": "Lister leurs besoins de matériel.",
+            "correct_option_id": 35188,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message demande de « faire une liste » du matériel nécessaire : il s'agit de lister leurs besoins de matériel.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35185,
+                    "text": "Acheter des articles de bureau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35186,
+                    "text": "Commander une imprimante.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35187,
+                    "text": "Demander de l’encre et du papier.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35188,
+                    "text": "Lister leurs besoins de matériel.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2391,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Ils ont pu téléphoner gratuitement.",
+            "user_selected_option_id": 35192,
+            "correct_answer": "Ils ont fait le plein à très bas prix.",
+            "correct_option_id": 35191,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le prix de l'essence a chuté à la pompe » à cause d'un problème informatique : les habitants ont fait le plein à très bas prix.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_12.webp",
+            "all_options": [
+                {
+                    "id": 35189,
+                    "text": "Ils ont été invités à une fête en ville",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35190,
+                    "text": "Ils ont eu une coupure d’Internet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35191,
+                    "text": "Ils ont fait le plein à très bas prix.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35192,
+                    "text": "Ils ont pu téléphoner gratuitement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2392,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Pour soutenir les paysans locaux.",
+            "user_selected_option_id": 35196,
+            "correct_answer": "Pour éviter de tomber malades.",
+            "correct_option_id": 35193,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « pour les deux tiers des personnes interrogées, la santé est l'argument prioritaire » : ils consomment du bio pour éviter de tomber malades.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35193,
+                    "text": "Pour éviter de tomber malades.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35194,
+                    "text": "Pour profiter de tarifs avantageux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35195,
+                    "text": "Pour protéger l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35196,
+                    "text": "Pour soutenir les paysans locaux.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2393,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Proposer une dégustation de produit.",
+            "user_selected_option_id": 35200,
+            "correct_answer": "Présenter de nouveaux produits.",
+            "correct_option_id": 35199,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le courrier précise « ci-joint notre catalogue de boissons pour cette année » : il s'agit de présenter de nouveaux produits.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35197,
+                    "text": "Demander des informations sur des produits.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35198,
+                    "text": "Passer une commande de produits.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35199,
+                    "text": "Présenter de nouveaux produits.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35200,
+                    "text": "Proposer une dégustation de produit.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2394,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Voir une pièce de théâtre.",
+            "user_selected_option_id": 35204,
+            "correct_answer": "Assister à un spectacle.",
+            "correct_option_id": 35202,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Sarah précise « le concert commence à 20h30 » et propose de se retrouver avant : les deux femmes vont assister à un spectacle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_15.webp",
+            "all_options": [
+                {
+                    "id": 35201,
+                    "text": "Aller dans un bar.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35202,
+                    "text": "Assister à un spectacle.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35203,
+                    "text": "Dîner au restaurant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35204,
+                    "text": "Voir une pièce de théâtre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2395,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De visiter des expositions dans des lieux insolites.",
+            "user_selected_option_id": 35208,
+            "correct_answer": "De développer des projets collectifs pour la ville.",
+            "correct_option_id": 35205,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le concours vise à « produire en co-construction la ville avec les citoyens en s'inspirant des idées qu'ils proposent » : la mairie propose de développer des projets collectifs pour la ville.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35205,
+                    "text": "De développer des projets collectifs pour la ville.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35206,
+                    "text": "De donner un avis sur les nouveaux bâtiments.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35207,
+                    "text": "De participer à des débats sur l’environnement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35208,
+                    "text": "De visiter des expositions dans des lieux insolites.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2396,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Favoriser la recherche.",
+            "user_selected_option_id": 35212,
+            "correct_answer": "Créer des emplois.",
+            "correct_option_id": 35210,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'intelligence artificielle « pourrait augmenter de 10 % en moyenne les effectifs des entreprises » : elle permettrait de créer des emplois.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35209,
+                    "text": "Baisser les salaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35210,
+                    "text": "Créer des emplois.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35211,
+                    "text": "Diviser le travail.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35212,
+                    "text": "Favoriser la recherche.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2397,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Il rend les gens plus cultivés.",
+            "user_selected_option_id": 35216,
+            "correct_answer": "Il permet d’être plus détendu.",
+            "correct_option_id": 35215,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le bavardage peut libérer les tensions... cela soulage » : il permet d'être plus détendu.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35213,
+                    "text": "Il encourage les initiatives.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35214,
+                    "text": "Il favorise le rendement au travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35215,
+                    "text": "Il permet d’être plus détendu.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35216,
+                    "text": "Il rend les gens plus cultivés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2398,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "L’entrée est gratuite.",
+            "user_selected_option_id": 35220,
+            "correct_answer": "Elle est déjà finie.",
+            "correct_option_id": 35219,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'exposition des sculptures de César s'est terminée hier » : elle est déjà finie.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_19.webp",
+            "all_options": [
+                {
+                    "id": 35217,
+                    "text": "C’est un succès.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35218,
+                    "text": "Elle changera de lieu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35219,
+                    "text": "Elle est déjà finie.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35220,
+                    "text": "L’entrée est gratuite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2399,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il raconte la rencontre entre Modiano et sa femme.",
+            "user_selected_option_id": 35224,
+            "correct_answer": "Il explique l’idée de départ d’un livre de Modiano.",
+            "correct_option_id": 35222,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte explique que Modiano « tombe sur une annonce » de recherche d'une jeune fille disparue et « va alors s'attacher à lever le mystère » : il explique l'idée de départ d'un livre de Modiano.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_20.webp",
+            "all_options": [
+                {
+                    "id": 35221,
+                    "text": "Il cite un extrait d’une œuvre de Modiano.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35222,
+                    "text": "Il explique l’idée de départ d’un livre de Modiano.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35223,
+                    "text": "Il présente le métier de Modiano à ses débuts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35224,
+                    "text": "Il raconte la rencontre entre Modiano et sa femme.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2400,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Le choix des matériaux de fabrication.",
+            "user_selected_option_id": 35228,
+            "correct_answer": "La prise en compte de l’opinion publique.",
+            "correct_option_id": 35226,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « pour la première fois, la Ville de Paris recueille l'avis des usagers et des riverains » : l'originalité est la prise en compte de l'opinion publique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_21.webp",
+            "all_options": [
+                {
+                    "id": 35225,
+                    "text": "La priorité donnée à l’aspect écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35226,
+                    "text": "La prise en compte de l’opinion publique.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35227,
+                    "text": "Le caractère provisoire de l’installation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35228,
+                    "text": "Le choix des matériaux de fabrication.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2401,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "user_selected_option_id": 35232,
+            "correct_answer": "Ils peuvent être utilisés comme outils de contrôle.",
+            "correct_option_id": 35232,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que le smartphone entretient « le désir de mainmise des parents sur les adolescents » : il peut être utilisé comme un outil de contrôle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_22.webp",
+            "all_options": [
+                {
+                    "id": 35229,
+                    "text": "Ils éloignent les jeunes du monde des adultes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35230,
+                    "text": "Ils entraînent des comportements de type addictif.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35231,
+                    "text": "Ils ont tendance à couper les adolescents du réel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35232,
+                    "text": "Ils peuvent être utilisés comme outils de contrôle.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2402,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "De privilégier leur épanouissement personnel.",
+            "user_selected_option_id": 35236,
+            "correct_answer": "De faire un bilan de leurs aptitudes.",
+            "correct_option_id": 35235,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte conseille de « faire le point sur vos compétences » avant de changer de métier : il conseille de faire un bilan de leurs aptitudes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_23.webp",
+            "all_options": [
+                {
+                    "id": 35233,
+                    "text": "D’élargir leurs perspectives professionnelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35234,
+                    "text": "D’évaluer les possibilités d’évolution de leur carrière.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35235,
+                    "text": "De faire un bilan de leurs aptitudes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35236,
+                    "text": "De privilégier leur épanouissement personnel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2403,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils restaurent à l’identique de vieux édifices.",
+            "user_selected_option_id": 35240,
+            "correct_answer": "Ils intègrent l’ancien à leurs constructions.",
+            "correct_option_id": 35239,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces architectes veulent « imaginer de nouveaux projets à partir de ce qui reste » dans d'anciens bâtiments : ils intègrent l'ancien à leurs constructions.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_24.webp",
+            "all_options": [
+                {
+                    "id": 35237,
+                    "text": "Ils élaborent de nouvelles techniques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35238,
+                    "text": "Ils emploient des procédés traditionnels.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35239,
+                    "text": "Ils intègrent l’ancien à leurs constructions.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35240,
+                    "text": "Ils restaurent à l’identique de vieux édifices.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2404,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les relations de voisinage deviennent anonymes et dénuées de politesse.",
+            "user_selected_option_id": 35244,
+            "correct_answer": "Les grandes surfaces provoquent la fin des petites boutiques de quartier.",
+            "correct_option_id": 35242,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte constate qu'aujourd'hui « le boucher a fermé » après l'arrivée des magasins géants : les grandes surfaces provoquent la fin des petites boutiques de quartier.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_25.webp",
+            "all_options": [
+                {
+                    "id": 35241,
+                    "text": "Les courses représentent pour les ménages un budget en augmentation.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35242,
+                    "text": "Les grandes surfaces provoquent la fin des petites boutiques de quartier.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35243,
+                    "text": "Les prix pratiqués par la grande distribution défient toute concurrence.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35244,
+                    "text": "Les relations de voisinage deviennent anonymes et dénuées de politesse.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2405,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Du rapport entre les générations.",
+            "user_selected_option_id": 35248,
+            "correct_answer": "De la volanté d’émancipation.",
+            "correct_option_id": 35247,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les femmes berbères « veulent farouchement s'arracher à leur condition et offrir études et avenir à leurs enfants » : le documentaire traite de la volonté d'émancipation.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_26.webp",
+            "all_options": [
+                {
+                    "id": 35245,
+                    "text": "De l’éducation des plus jeunes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35246,
+                    "text": "De la transmission d’un savoir-faire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35247,
+                    "text": "De la volanté d’émancipation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35248,
+                    "text": "Du rapport entre les générations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2406,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Il révèle qu’elles contribuent au déclin industriel.",
+            "user_selected_option_id": 35252,
+            "correct_answer": "Il remet en question leurs retombées positives.",
+            "correct_option_id": 35251,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que les solutions écologiques « tendent en fait à accroître l'activité économique » à cause de « l'effet rebond » : l'auteur remet en question leurs retombées positives.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_27.webp",
+            "all_options": [
+                {
+                    "id": 35249,
+                    "text": "Il déconseille au grand public de les adopter.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35250,
+                    "text": "Il estime qu’elles sont insuffisamment promues.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35251,
+                    "text": "Il remet en question leurs retombées positives.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35252,
+                    "text": "Il révèle qu’elles contribuent au déclin industriel.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2407,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Le développement d’une conscience civique.",
+            "user_selected_option_id": 35256,
+            "correct_answer": "Le développement d’une conscience civique.",
+            "correct_option_id": 35256,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que dénier le droit à l'éducation, c'est « hypothéquer le progrès démocratique et social » et la compréhension des « valeurs de paix et d'égalité entre les personnes » : son respect favorise le développement d'une conscience civique.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_28.webp",
+            "all_options": [
+                {
+                    "id": 35253,
+                    "text": "La constitution d’une culture nationale.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35254,
+                    "text": "La stimulation de la croissance économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35255,
+                    "text": "L’amélioration des comportements sanitaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35256,
+                    "text": "Le développement d’une conscience civique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2408,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Subventionner les entreprises qui recrutent des handicapés.",
+            "user_selected_option_id": 35260,
+            "correct_answer": "Faire évoluer les mentalités au sujet du handicap au travail.",
+            "correct_option_id": 35257,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'association « souhaite modifier la vision commune du handicap » afin qu'on regarde « le savoir-faire et l'expérience avant le handicap » : sa mission est de faire évoluer les mentalités au sujet du handicap au travail.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_29.webp",
+            "all_options": [
+                {
+                    "id": 35257,
+                    "text": "Faire évoluer les mentalités au sujet du handicap au travail.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35258,
+                    "text": "Permettre de modifier la législation sur le handicap au travail.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35259,
+                    "text": "Recenser les discriminations dont sont victimes les handicapés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35260,
+                    "text": "Subventionner les entreprises qui recrutent des handicapés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2409,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Voir le violon modifier l’appréciation de l’auditeur.",
+            "user_selected_option_id": 35264,
+            "correct_answer": "Ce sont les violons récents qui sont les plus estimés.",
+            "correct_option_id": 35261,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que tous ont préféré la sonorité des violons les plus récents lors du test à l'aveugle : ce sont les violons récents qui sont les plus estimés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_30.webp",
+            "all_options": [
+                {
+                    "id": 35261,
+                    "text": "Ce sont les violons récents qui sont les plus estimés.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35262,
+                    "text": "Il est difficile de maîtriser les violons anciens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35263,
+                    "text": "La qualité des violons évolue avec le temps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35264,
+                    "text": "Voir le violon modifier l’appréciation de l’auditeur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2410,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "L’augmentation du prix des entrées pour les spectateurs.",
+            "user_selected_option_id": 35268,
+            "correct_answer": "L’accroissement du taux de chômage de ses administrés.",
+            "correct_option_id": 35266,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les professionnels du spectacle de la région... risquent d'être renvoyés » si le festival déménage : le maire craint l'accroissement du taux de chômage de ses administrés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_31.webp",
+            "all_options": [
+                {
+                    "id": 35265,
+                    "text": "La multiplication des nuisances sonores sur la commune.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35266,
+                    "text": "L’accroissement du taux de chômage de ses administrés.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35267,
+                    "text": "L’agrandissement de l’espace consacré aux spectacles",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35268,
+                    "text": "L’augmentation du prix des entrées pour les spectateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2411,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Ils tâchent de conserver leur emploi.",
+            "user_selected_option_id": 35272,
+            "correct_answer": "Ils saisissent toutes les occasions.",
+            "correct_option_id": 35271,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le jeune, « profitant de toutes les opportunités, il quittera une entreprise sans aucun remords » : les jeunes saisissent toutes les occasions.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_32.webp",
+            "all_options": [
+                {
+                    "id": 35269,
+                    "text": "Ils apprennent à être patients.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35270,
+                    "text": "Ils évoluent selon l’ancienneté.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35271,
+                    "text": "Ils saisissent toutes les occasions.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35272,
+                    "text": "Ils tâchent de conserver leur emploi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2412,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Une analyse du contexte socio-éducatif actuel.",
+            "user_selected_option_id": 35276,
+            "correct_answer": "Une analyse du contexte socio-éducatif actuel.",
+            "correct_option_id": 35276,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'enseignement se caractérise actuellement par des établissements du XIXe siècle : il s'agit d'une analyse du contexte socio-éducatif actuel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_33.webp",
+            "all_options": [
+                {
+                    "id": 35273,
+                    "text": "Des méthodes innovantes sur l’usage des TIC.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35274,
+                    "text": "Des pistes de recherche sur l’apprentissage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35275,
+                    "text": "Un état des lieux des ressources pédagogiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35276,
+                    "text": "Une analyse du contexte socio-éducatif actuel.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2413,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Son fonctionnement est encore mystérieux.",
+            "user_selected_option_id": 35280,
+            "correct_answer": "Son fonctionnement est encore mystérieux.",
+            "correct_option_id": 35280,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "SEIS sera « le premier sismomètre déployé sur un autre sol » et nous ignorons encore ce qu'il va découvrir : son fonctionnement est encore mystérieux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_34.webp",
+            "all_options": [
+                {
+                    "id": 35277,
+                    "text": "Sa structure est identique chez l’homme et l’animal.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35278,
+                    "text": "Sa taille influe sur les compétences cognitives.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35279,
+                    "text": "Son développement est ralenti les premiers mois.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35280,
+                    "text": "Son fonctionnement est encore mystérieux.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2414,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Monter des pièces de théâtre d’auteurs classiques.",
+            "user_selected_option_id": 35284,
+            "correct_answer": "Aborder des œuvres réputées difficiles avec leurs élèves.",
+            "correct_option_id": 35281,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « c'est la mission de l'école que de sensibiliser les élèves aux grands textes classiques » : les enseignants devraient aborder des œuvres réputées difficiles avec leurs élèves.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_35.webp",
+            "all_options": [
+                {
+                    "id": 35281,
+                    "text": "Aborder des œuvres réputées difficiles avec leurs élèves.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35282,
+                    "text": "Encourager leurs élèves à écrire des textes littéraires.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35283,
+                    "text": "Inviter régulièrement des écrivains célèbres dans leur classe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35284,
+                    "text": "Monter des pièces de théâtre d’auteurs classiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2415,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "L’auteur a imaginé différents scenarios.",
+            "user_selected_option_id": 35288,
+            "correct_answer": "L’auteur a imaginé différents scenarios.",
+            "correct_option_id": 35288,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« il faut découper les dernières pages du livre pour en connaître la fin, sachant que plusieurs dénouements sont possibles » : l'auteur a imaginé différents scénarios.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_36.webp",
+            "all_options": [
+                {
+                    "id": 35285,
+                    "text": "Elle a été adaptée pour la télévision.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35286,
+                    "text": "Elle s’inspire de la vie des jeunes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35287,
+                    "text": "La clé de l’énigme sera éditée plus tard.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35288,
+                    "text": "L’auteur a imaginé différents scenarios.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2416,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "user_selected_option_id": 35292,
+            "correct_answer": "Les dérives induites par l’amélioration du patrimoine génétique.",
+            "correct_option_id": 35292,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque le risque que la sélection génétique des embryons s'ouvre à des « exigences non pathologiques » : ce sont les dérives induites par l'amélioration du patrimoine génétique qui sont en cause.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_37.webp",
+            "all_options": [
+                {
+                    "id": 35289,
+                    "text": "Le coût social élevé de prise en charge des maladies génétiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35290,
+                    "text": "Le développement de traitements curatifs de pathologies génétiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35291,
+                    "text": "Le mode de financement de la recherche génétique fondamentale.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35292,
+                    "text": "Les dérives induites par l’amélioration du patrimoine génétique.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2417,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’émancipation des héros au cours du récit.",
+            "user_selected_option_id": 35296,
+            "correct_answer": "L’émancipation des héros au cours du récit.",
+            "correct_option_id": 35296,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'histoire se fait peu à peu libération et rédemption » offrant un espoir aux personnages : l'atout principal est l'émancipation des héros au cours du récit.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_38.webp",
+            "all_options": [
+                {
+                    "id": 35293,
+                    "text": "L’alternance entre le comique et le drame.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35294,
+                    "text": "L’atmosphère énigmatique et inquiétante.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35295,
+                    "text": "La présentation de particularités régionales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35296,
+                    "text": "L’émancipation des héros au cours du récit.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 2418,
+            "question_text": "Compréhension écrite – Quiz 26 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Ils seraient appropriés pour se détendre lors des pauses.",
+            "user_selected_option_id": 35300,
+            "correct_answer": "Ils permettraient à des adolescents de renouer avec elle.",
+            "correct_option_id": 35297,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte évoque l'idée d'utiliser ces jeux pour ramener à l'école les décrocheurs scolaires : ils permettraient à des adolescents de renouer avec elle.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_26_question_39.webp",
+            "all_options": [
+                {
+                    "id": 35297,
+                    "text": "Ils permettraient à des adolescents de renouer avec elle.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35298,
+                    "text": "Ils pourraient servir à enseigner certaines disciplines.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35299,
+                    "text": "Ils résoudraient des problèmes de violence en classe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35300,
+                    "text": "Ils seraient appropriés pour se détendre lors des pauses.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 32,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture de textes courts et simples",
+        "Compréhension du passé composé simple dans un texte"
+    ],
+    "improvements": [
+        "Travailler l'inférence et les sous-entendus",
+        "Compréhension du contexte au-delà du texte",
+        "Gestion de vocabulaire implicite",
+        "Compréhension de textes plus longs"
+    ],
+    "recommendations": [
+        "Lire des articles de niveau A2 (RFI, News in Slow French) 20 min/jour",
+        "Utiliser des fiches vocabulaire avec contexte",
+        "Pratiquer l'inférence: deviner le sens des mots inconnus",
+        "Lire et relire 3-4 textes par semaine",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 26",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}
