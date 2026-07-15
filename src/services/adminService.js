@@ -1,0 +1,98 @@
+import { supabase } from "@/services/supabaseClient";
+import { getDeviceSessionId } from "@/services/authService";
+
+// Client for the admin dashboard. Two data paths:
+// - api/admin/* (service-role serverless routes) for anything that touches
+//   auth accounts: platform stats and user management. Fails soft with
+//   { unavailable: true } on the local-dev 404 (plain `vite` has no
+//   serverless routes) so the dashboard can say so instead of erroring.
+// - Supabase directly (admin RLS policies) for contact messages and the
+//   audit log — no server hop needed, is_admin() gates the rows.
+
+async function authHeaders() {
+  const { data } = await supabase.auth.getSession();
+  const headers = { "Content-Type": "application/json" };
+  const token = data?.session?.access_token;
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const deviceSession = getDeviceSessionId();
+  if (deviceSession) headers["x-device-session"] = deviceSession;
+  return headers;
+}
+
+async function adminFetch(path, options = {}) {
+  let res;
+  try {
+    res = await fetch(path, { ...options, headers: await authHeaders() });
+  } catch {
+    return { ok: false, error: "Connexion au serveur impossible." };
+  }
+  if (res.status === 404) return { ok: false, unavailable: true };
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) return { ok: false, error: json.error || `Erreur ${res.status}` };
+  return { ok: true, data: json };
+}
+
+/* ------------------------------ stats & users ----------------------------- */
+
+export function fetchAdminStats() {
+  return adminFetch("/api/admin/stats");
+}
+
+export function listAdminUsers({ search = "", page = 1 } = {}) {
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  if (page > 1) params.set("page", String(page));
+  const qs = params.toString();
+  return adminFetch(`/api/admin/users${qs ? `?${qs}` : ""}`);
+}
+
+// action: "set-plan" { plan, months } | "set-role" { role } | "delete"
+export function updateAdminUser(payload) {
+  return adminFetch("/api/admin/users", { method: "POST", body: JSON.stringify(payload) });
+}
+
+/* ---------------------------- contact messages ---------------------------- */
+
+// Public form submission (Contact page) — RLS allows anyone to insert.
+export async function submitContactMessage({ name, email, subject, message, userId }) {
+  const { error } = await supabase.from("contact_messages").insert({
+    user_id: userId || null,
+    name: String(name).trim().slice(0, 120),
+    email: String(email).trim().slice(0, 200),
+    subject: String(subject || "").trim().slice(0, 200) || null,
+    message: String(message).trim().slice(0, 4000),
+  });
+  return { ok: !error, error: error?.message };
+}
+
+export async function listContactMessages() {
+  const { data, error } = await supabase
+    .from("contact_messages")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) return { ok: false, unavailable: true, messages: [] };
+  return { ok: true, messages: data };
+}
+
+export async function setMessageStatus(id, status) {
+  const { error } = await supabase.from("contact_messages").update({ status }).eq("id", id);
+  return { ok: !error };
+}
+
+export async function deleteMessage(id) {
+  const { error } = await supabase.from("contact_messages").delete().eq("id", id);
+  return { ok: !error };
+}
+
+/* -------------------------------- audit log ------------------------------- */
+
+export async function listAuditLog(limit = 100) {
+  const { data, error } = await supabase
+    .from("admin_audit_log")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return { ok: false, unavailable: true, entries: [] };
+  return { ok: true, entries: data };
+}

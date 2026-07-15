@@ -51,6 +51,27 @@ export function WeekBars({ days, height = 96 }) {
   );
 }
 
+// Daily counts over the last N days (admin overview): same idiom as WeekBars —
+// thin rounded bars, single brand hue, native tooltips — with sparse
+// day-of-month labels so 14 bars don't collide.
+export function DayBars({ days, height = 96, label }) {
+  const { c } = useApp();
+  const max = Math.max(1, ...days.map((d) => d.count));
+  return (
+    <div className="flex items-end justify-between gap-1" style={{ height }} role="img" aria-label={label}>
+      {days.map((d, i) => (
+        <div key={d.date} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end" title={`${d.date} · ${d.count}`}>
+          <div
+            className={`w-2 rounded-full ${d.count > 0 ? "" : c.track}`}
+            style={{ height: `${Math.max(6, (d.count / max) * 78)}%`, background: d.count > 0 ? BLUE : undefined }}
+          />
+          <span className={`text-[9px] font-mono2 ${c.faint}`}>{i % 2 === 0 ? d.date.slice(8) : " "}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Section performance: horizontal magnitude bars, labeled directly.
 export function SectionBars({ items }) {
   const { c } = useApp();

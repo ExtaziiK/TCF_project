@@ -51,3 +51,11 @@ export async function requirePremium(req) {
   if (!isPremiumUser(user)) throw new HttpError(403, "Réservé à l'abonnement Premium.");
   return user;
 }
+
+// requireUser + the admin role (app_metadata, server-controlled). Gates the
+// service-role admin API (api/admin/*): user management and platform stats.
+export async function requireAdmin(req) {
+  const user = await requireUser(req);
+  if (user.app_metadata?.role !== "admin") throw new HttpError(403, "Réservé à l'administration.");
+  return user;
+}
