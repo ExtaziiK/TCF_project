@@ -65,12 +65,6 @@ function Landing() {
         </div>
       </section>
 
-      {/* NCLC CALCULATOR */}
-      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
-        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
-        <div className="max-w-2xl mx-auto"><ScoreCalculator /></div>
-      </section>
-
       {/* FEATURES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
@@ -133,6 +127,12 @@ function Landing() {
             </Card>
           ))}
         </div>
+      </section>
+
+      {/* NCLC CALCULATOR */}
+      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
+        <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
       </section>
 
       {/* PRICING PREVIEW */}

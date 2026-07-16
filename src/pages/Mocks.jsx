@@ -203,7 +203,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         {type === "writing" ? <WritingWorkshopBody /> : <SpeakingStudioBody />}
         <Card className="mt-8 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-blue-600/40">
           <p className={`text-sm ${c.sub}`}>{t("Quand vous avez terminé cette épreuve, passez à la suite de l'examen.")}</p>
-          <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>{t("J'ai terminé cette tâche")}</Btn>
+          <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>{t("J'ai terminé cette épreuve")}</Btn>
         </Card>
       </div>
     );

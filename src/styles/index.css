@@ -35,6 +35,13 @@ html{scroll-behavior:smooth}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (max-width:640px){.marquee-sep{margin:0 1.1rem}}
 .grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* Brand range slider (score calculator): filled portion is set inline per
+   value; the thumb is a white knob with a brand-blue ring. */
+input[type="range"].range-brand{-webkit-appearance:none;appearance:none;height:8px;border-radius:9999px;cursor:pointer;outline:none}
+input[type="range"].range-brand::-webkit-slider-runnable-track{-webkit-appearance:none;height:8px;border-radius:9999px;background:transparent}
+input[type="range"].range-brand::-moz-range-track{height:8px;border-radius:9999px;background:transparent}
+input[type="range"].range-brand::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:-5px;border-radius:50%;background:#fff;border:2px solid #2E6BE6;box-shadow:0 2px 5px rgba(15,42,82,.3)}
+input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:2px solid #2E6BE6;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(15,42,82,.3)}
 .card-lift{transition:transform .25s ease,box-shadow .25s ease}
 .card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(15,42,82,.22)}
 .link-anim{position:relative}
