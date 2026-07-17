@@ -627,9 +627,8 @@ export const EN = {
   "De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.": "New topics are added regularly — check back soon.",
 
   // ── Oral interview simulation (Expression orale) ─────────────────────
-  "Passez l'entretien avec l'examinateur IA": "Take the interview with the AI examiner",
-  "Découvrez le sujet, répondez à voix haute : l'examinateur IA vous relance trois fois — à l'écrit et à l'oral — puis évalue tout l'entretien.":
-    "Read the subject, answer out loud: the AI examiner follows up three times — in text and voice — then grades the whole interview.",
+  "Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un entretien avec l'examinateur IA, qui vous relance puis évalue tout l'échange.":
+    "Tasks 1 and 3: record your answer, the AI transcribes and evaluates it. Task 2: an interview with the AI examiner, who follows up then grades the whole exchange.",
   "Lecture du sujet :": "Subject review:",
   "Relances :": "Follow-ups:",
   "Examinateur": "Examiner",
