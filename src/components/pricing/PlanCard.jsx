@@ -90,7 +90,9 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
             ))}
           </ul>
           <Btn
-            className="mt-7 w-full"
+            // Fixed min-height + tight leading so one- and two-line labels
+            // (e.g. "Choisir Première classe") render at the same size.
+            className="mt-7 w-full min-h-[3.5rem] leading-tight text-center"
             variant={paid ? "primary" : "ghost"}
             style={paid ? { background: a.grad } : undefined}
             disabled={busy}
