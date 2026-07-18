@@ -6,7 +6,7 @@
 // a single "Premium" role and does not yet enforce them per plan.
 export const PLANS = [
   {
-    name: "Découverte",
+    name: "Sans papier",
     price: "$0",
     per: "pour toujours",
     accent: "slate",
@@ -21,11 +21,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Starter",
+    name: "Passeport valide",
     price: "$4.99",
     per: "accès 5 jours",
     accent: "sky",
-    cta: "Choisir Starter",
+    cta: "Choisir Passeport valide",
     featured: false,
     priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
     feats: [
@@ -36,11 +36,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Essentiel",
+    name: "Visa accordé",
     price: "$8.99",
     per: "accès 15 jours",
     accent: "emerald",
-    cta: "Choisir Essentiel",
+    cta: "Choisir Visa accordé",
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
     feats: [
@@ -51,11 +51,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Premium",
+    name: "Classe économie",
     price: "$19.99",
     per: "accès 30 jours",
     accent: "violet",
-    cta: "Choisir Premium",
+    cta: "Choisir Classe économie",
     featured: true,
     priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
     feats: [
@@ -67,11 +67,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Premium+",
+    name: "Première classe",
     price: "$39.99",
     per: "accès 90 jours",
     accent: "amber",
-    cta: "Choisir Premium+",
+    cta: "Choisir Première classe",
     featured: false,
     priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
     feats: [
