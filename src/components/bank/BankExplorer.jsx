@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -19,11 +19,11 @@ const isPrompt = (quiz) => quiz.kind === "prompt";
 // emerald = completed (all questions answered), orange = completed but some
 // questions left unanswered, blue = ready to start, amber lock = Premium-only
 // (free tier, everything past quiz 1 of each épreuve).
-// Hovering (or focusing) a completed card reveals a "Voir la correction"
-// button that reopens the most recent attempt with per-question detail on
-// record (which isn't necessarily the best-scoring one shown on the card —
-// older attempts, or ones recorded before a pending migration, carry no
-// detail; the button simply doesn't show until a reviewable attempt exists).
+// Hovering (or focusing) a completed card reveals its actions — "Résultats"
+// (reopens the most recent attempt that carries per-question detail; not
+// necessarily the best-scoring one on the card, and hidden until such a
+// reviewable attempt exists) and "Refaire" (retake the quiz) — plus a caption
+// clarifying that the "ok/total" figure is correct answers, not answered.
 function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked }) {
   const { c, t } = useApp();
   const prompt = isPrompt(quiz);
@@ -71,7 +71,11 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
                 {prompt ? `${count} ${t(count > 1 ? "consignes" : "consigne")}` : `${count} ${t("questions")}`}
               </span>
               {done ? (
-                <span className={partial ? "text-orange-600" : "text-emerald-600"}>{best.ok}/{best.total}</span>
+                // "ok/total" is correct answers over total questions — not the
+                // number answered; the title + hover overlay spell that out.
+                <span className={`inline-flex items-center gap-1 ${partial ? "text-orange-600" : "text-emerald-600"}`} title={`${best.ok} ${t("bonnes réponses sur")} ${best.total}`}>
+                  <Check size={12} className="shrink-0" />{best.ok}/{best.total}
+                </span>
               ) : locked ? (
                 <span className="text-amber-600">{t("Premium")}</span>
               ) : !prompt ? (
@@ -90,16 +94,30 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
           )}
         </Card>
       </div>
-      {canReview && (
-        <div className="absolute inset-0 rounded-3xl bg-slate-900/55 opacity-0 pointer-events-none transition-opacity
+      {/* Completed cards reveal their actions on hover/focus: review the past
+          attempt (when one carries per-question detail) and/or retake the quiz.
+          The caption clarifies that "3/39" is correct answers, not answered. */}
+      {done && !locked && (
+        <div className="absolute inset-0 rounded-3xl bg-slate-900/65 opacity-0 pointer-events-none transition-opacity
           group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto
-          flex items-center justify-center">
-          <button
-            onClick={(e) => { e.stopPropagation(); onReview(); }}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-900 shadow-lg hover:scale-105 transition-transform"
-          >
-            <Eye size={14} /> {t("Voir la correction")}
-          </button>
+          flex flex-col items-center justify-center gap-1.5 p-2.5 text-center">
+          <p className="text-white/90 text-[10px] font-semibold leading-tight">{best.ok}/{best.total} {t("bonnes réponses")}</p>
+          <div className="flex items-center justify-center gap-1.5 flex-wrap">
+            {canReview && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onReview(); }}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-white text-slate-900 shadow hover:scale-105 transition-transform"
+              >
+                <Eye size={13} /> {t("Résultats")}
+              </button>
+            )}
+            <button
+              onClick={(e) => { e.stopPropagation(); onOpen(); }}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-blue-600 text-white shadow hover:scale-105 transition-transform"
+            >
+              <RotateCcw size={13} /> {t("Refaire")}
+            </button>
+          </div>
         </div>
       )}
     </div>
