@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, XCircle, Lightbulb, ArrowRight } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Lightbulb, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { getBank } from "@/services/bankService";
@@ -34,6 +34,7 @@ export function DemoQuestionCE() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const [imgOk, setImgOk] = useState(true);
+  const [big, setBig] = useState(false);
   const [base] = useState(realDemoQuestion);
   const singleton = useMemo(() => (base ? [base] : []), [base]);
   const [signed] = useSignedQuestions(singleton);
@@ -46,12 +47,24 @@ export function DemoQuestionCE() {
     <div className="space-y-4">
       {q.image && imgOk && (
         <div className={`rounded-2xl border ${c.border} ${c.card} p-2 shadow-xl shadow-rose-600/10`}>
-          <img
-            src={q.image}
-            alt={t("Document à lire")}
-            onError={() => setImgOk(false)}
-            className="w-full max-h-64 object-contain rounded-xl"
-          />
+          {/* Same in-place "Agrandir" magnifier as the bank quiz's document
+              frame (BankQuestionMedia), so the fine print stays readable. */}
+          <div className="relative">
+            <img
+              src={q.image}
+              alt={t("Document à lire")}
+              onError={() => setImgOk(false)}
+              className={`w-full object-contain rounded-xl transition-all duration-300 ${big ? "max-h-[80vh]" : "max-h-64"}`}
+            />
+            <button
+              type="button"
+              onClick={() => setBig((v) => !v)}
+              aria-label={big ? t("Réduire l'image") : t("Agrandir l'image")}
+              className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900/70 text-white shadow-lg hover:bg-slate-900/90 transition-colors"
+            >
+              {big ? <><ZoomOut size={14} /> {t("Réduire")}</> : <><ZoomIn size={14} /> {t("Agrandir")}</>}
+            </button>
+          </div>
         </div>
       )}
       <Card className="p-6 md:p-7 shadow-xl shadow-rose-600/10 relative overflow-hidden">

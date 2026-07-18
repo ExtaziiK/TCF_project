@@ -48,7 +48,9 @@ function Landing() {
           {/* below: the CO and CE daily questions side by side — blue CO on
               the left, rose CE on the right (same accent split the bonus
               question used to provide). */}
-          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-start">
+          {/* items-center: when answering extends one card (explanation shown),
+              the shorter one stays vertically centred beside it. */}
+          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-center">
             <div className="rise rise-2"><DemoQuestion /></div>
             <div className="rise rise-3"><DemoQuestionCE /></div>
           </div>
