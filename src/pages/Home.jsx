@@ -2,6 +2,7 @@ import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
+import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { DemoQuestionSecondary } from "@/components/home/DemoQuestionSecondary";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
@@ -45,10 +46,14 @@ function Landing() {
             </div>
           </div>
 
-          {/* below: the two demo questions, side by side on the same line */}
-          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-center">
-            <div className="rise rise-2"><DemoQuestion /></div>
-            <div className="rise rise-3"><DemoQuestionSecondary /></div>
+          {/* below: the CO + CE teasers side by side, with the grammar/vocab
+              bonus question centered underneath them. */}
+          <div className="mt-14 md:mt-16 space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6 items-start">
+              <div className="rise rise-2"><DemoQuestion /></div>
+              <div className="rise rise-3"><DemoQuestionCE /></div>
+            </div>
+            <div className="max-w-xl mx-auto rise rise-3"><DemoQuestionSecondary /></div>
           </div>
         </div>
       </section>

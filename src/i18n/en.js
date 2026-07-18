@@ -198,6 +198,10 @@ export const EN = {
   // ── Demo question (home hero) ────────────────────────────────────────
   "Question du jour · CO": "Daily question · Listening",
   "Écoutez le document sonore, puis choisissez la bonne réponse.": "Listen to the recording, then choose the correct answer.",
+  "Question du jour · CE": "Daily question · Reading",
+  "Lisez le document, puis choisissez la bonne réponse.": "Read the document, then choose the correct answer.",
+  "Document à lire": "Document to read",
+  "C'est la seule proposition fidèle au document.": "It is the only option faithful to the document.",
   "Bonne réponse :": "Correct answer:",
   "C'est la seule proposition fidèle à ce qu'annonce l'enregistrement.": "It's the only option that matches what the recording actually says.",
   "Explication": "Explanation",
