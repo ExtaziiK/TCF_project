@@ -33,8 +33,8 @@ export function Pricing() {
   };
 
   return (
-    <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars canadiens, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
-      <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+    <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
         {plans.map((p) => <PlanCard key={p.name} p={p} promo={applied?.code} />)}
       </div>
       <Card className="mt-10 max-w-xl mx-auto p-6">
@@ -51,7 +51,7 @@ export function Pricing() {
         {couponError && <p className="mt-3 text-sm text-rose-600 flex items-center gap-1.5"><XCircle size={15} /> {couponError}</p>}
       </Card>
       <div className={`mt-12 max-w-3xl mx-auto grid sm:grid-cols-3 gap-4 text-center`}>
-        {[{ icon: Shield, t: "Paiement chiffré Stripe" }, { icon: RotateCcw, t: "Garantie 30 jours (annuel)" }, { icon: CreditCard, t: "Sans engagement" }].map((b) => (
+        {[{ icon: Shield, t: "Paiement chiffré Stripe" }, { icon: RotateCcw, t: "Satisfait ou remboursé" }, { icon: CreditCard, t: "Sans engagement" }].map((b) => (
           <div key={b.t} className={`p-4 rounded-2xl border ${c.border} ${c.card} flex flex-col items-center gap-2`}>
             <b.icon size={20} className="text-blue-600" /><p className={`text-sm font-medium ${c.sub}`}>{t(b.t)}</p>
           </div>
