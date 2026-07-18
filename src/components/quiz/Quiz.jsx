@@ -30,7 +30,7 @@ const inferSection = (storageKey) => /^bank-(co|ce|ee|eo)-/.exec(storageKey || "
 // - hideReport: render nothing once finished (the caller owns the report)
 // Exam-runner extras (deferResults only):
 // - examLayout: 3-column exam view (palette | question | candidate + timer)
-// - candidate: { type, date } shown in the side panel
+// - candidate: { pays, type, date } shown in the side panel
 // - oneWay: test mode — no navigating back to earlier questions
 // - autoAdvance: real-exam CO test mode — audio auto-plays, then the question
 //   moves on by itself; no manual navigation and the palette is read-only
@@ -391,6 +391,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
                 <span className="w-14 h-14 rounded-full bg-white/95 text-blue-600 flex items-center justify-center shadow-lg"><User size={26} /></span>
               </div>
               <div className="p-5 space-y-3">
+                {row("Pays", candidate.pays)}
                 {row("Type", candidate.type)}
                 {row("Date", candidate.date)}
               </div>

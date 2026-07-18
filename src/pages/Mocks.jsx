@@ -223,6 +223,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   const savedLeft = attempt.progress.timeLeft?.[order];
   const duration = savedLeft ?? quiz.questions.length * 55;
   const candidatePanel = {
+    pays: user?.country, // from the account (chosen at registration); row() hides it if unset
     type: t(SECTION_LABELS[task.section]),
     date: startedLabel,
   };

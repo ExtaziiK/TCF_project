@@ -5,6 +5,11 @@
 @tailwind utilities;
 
 html{scroll-behavior:smooth}
+/* Content protection (added on <body> in production by useContentProtection):
+   block text selection / the iOS long-press "copy" callout site-wide, while
+   letting users still select & edit inside their own form fields. */
+.no-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
+.no-select input,.no-select textarea,.no-select select,.no-select [contenteditable="true"],.no-select [contenteditable=""]{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-touch-callout:default}
 .font-display{font-family:'Bricolage Grotesque',ui-sans-serif,sans-serif;letter-spacing:-0.02em}
 .font-body{font-family:'Instrument Sans',ui-sans-serif,sans-serif}
 .font-mono2{font-family:'Spline Sans Mono',ui-monospace,monospace}
