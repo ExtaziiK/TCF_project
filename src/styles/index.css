@@ -49,6 +49,18 @@ input[type="range"].range-brand::-webkit-slider-thumb{-webkit-appearance:none;ap
 input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:2px solid #2E6BE6;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(15,42,82,.3)}
 .card-lift{transition:transform .25s ease,box-shadow .25s ease}
 .card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(15,42,82,.22)}
+/* Pricing plan cards: hover lift with a tier-tinted glow, a diagonal sheen
+   sweep, and a gradient-text shimmer on the price. Colours come from inline
+   styles (--plan-glow / the price gradient); animations are killed under
+   prefers-reduced-motion by the global rule below. */
+.plan-card{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 26px 55px -20px var(--plan-glow,rgba(15,42,82,.22))}
+.plan-sheen{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:5}
+.plan-sheen:before{content:'';position:absolute;top:0;bottom:0;left:0;width:60%;transform:translateX(-180%) skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
+.plan-card:hover .plan-sheen:before{transform:translateX(320%) skewX(-18deg);transition:transform .9s ease}
+.metal-text{background-size:220% auto;background-position:0 center}
+.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out}
+@keyframes metal-shimmer{to{background-position:220% center}}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}

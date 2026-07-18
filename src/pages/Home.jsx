@@ -140,7 +140,7 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Des accès en dollars américains, sans engagement. Annulable en deux clics.")} />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-            {plans.map((p) => <PlanCard key={p.name} p={p} compact />)}
+            {plans.map((p, i) => <PlanCard key={p.name} p={p} compact index={i} />)}
           </div>
         </div>
       </section>

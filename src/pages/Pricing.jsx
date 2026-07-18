@@ -35,7 +35,7 @@ export function Pricing() {
   return (
     <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {plans.map((p) => <PlanCard key={p.name} p={p} promo={applied?.code} />)}
+        {plans.map((p, i) => <PlanCard key={p.name} p={p} promo={applied?.code} index={i} />)}
       </div>
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>

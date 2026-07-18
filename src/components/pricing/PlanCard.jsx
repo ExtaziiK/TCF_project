@@ -4,21 +4,22 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout } from "@/services/stripeService";
 
-// Per-plan accent, escalating with price. Full class strings (so Tailwind's JIT
-// keeps them) plus a `grad` used for the CTA fill and the "popular" badge. The
-// border is marked important to win over Card's default neutral border.
+// Metallic accents grading from cool gray (free) up to gold (top tier) — each
+// tier is one stop on a single gray→gold ramp. `grad` drives the price text,
+// the "popular" badge and the CTA; `solid` drives the border, checks and the
+// hover glow. (Colours are inline styles so the ramp isn't a Tailwind palette.)
 const ACCENTS = {
-  slate: { price: "text-slate-500 dark:text-slate-300", border: "!border-slate-400/40", check: "text-slate-400", grad: "linear-gradient(90deg,#64748b,#94a3b8)" },
-  sky: { price: "text-sky-600", border: "!border-sky-500/50", check: "text-sky-500", grad: "linear-gradient(90deg,#0284c7,#38bdf8)" },
-  emerald: { price: "text-emerald-600", border: "!border-emerald-500/50", check: "text-emerald-500", grad: "linear-gradient(90deg,#059669,#34d399)" },
-  violet: { price: "text-violet-600", border: "!border-violet-500/60", check: "text-violet-500", grad: "linear-gradient(90deg,#7c3aed,#c084fc)" },
-  amber: { price: "text-amber-600", border: "!border-amber-500/60", check: "text-amber-500", grad: "linear-gradient(90deg,#d97706,#fbbf24)" },
+  gray: { solid: "#6b7280", grad: "linear-gradient(135deg,#6b7280,#9aa3af)" },
+  steel: { solid: "#867f70", grad: "linear-gradient(135deg,#867f70,#b3ab98)" },
+  bronze: { solid: "#a97c3f", grad: "linear-gradient(135deg,#a97c3f,#cda76a)" },
+  gold: { solid: "#c2911d", grad: "linear-gradient(135deg,#c2911d,#e6c25a)" },
+  royal: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 
-export function PlanCard({ p, compact, promo }) {
+export function PlanCard({ p, compact, promo, index = 0 }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
-  const a = ACCENTS[p.accent] || ACCENTS.slate;
+  const a = ACCENTS[p.accent] || ACCENTS.gray;
   const paid = !!p.priceId;
 
   const subscribe = async () => {
@@ -36,27 +37,43 @@ export function PlanCard({ p, compact, promo }) {
     }
   };
 
+  const gradText = { backgroundImage: a.grad, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" };
+
   return (
-    <Card lift className={`p-7 flex flex-col relative ${a.border} ${p.featured ? "border-2 shadow-2xl shadow-black/5" : ""}`}>
-      {p.featured && (
-        <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg" style={{ background: a.grad }}>
-          <Sparkles size={12} /> {t("Le plus populaire")}
-        </span>
-      )}
-      <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
-      <p className="mt-3"><span className={`font-display font-extrabold text-4xl ${a.price}`}>{p.price}</span> <span className={`text-sm ${c.faint}`}>{t(p.per)}</span></p>
-      <ul className="mt-6 space-y-3 flex-1">
-        {p.feats.slice(0, compact ? 4 : 99).map((f) => (
-          <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={16} className={`${a.check} shrink-0 mt-0.5`} />{t(f)}</li>
-        ))}
-      </ul>
-      <Btn
-        className="mt-7 w-full"
-        variant={paid ? "primary" : "ghost"}
-        style={paid ? { background: a.grad } : undefined}
-        disabled={busy}
-        onClick={() => (paid ? subscribe() : nav("register"))}
-      >{t(p.cta)}</Btn>
-    </Card>
+    // Staggered entrance on the wrapper so the card itself keeps a clean
+    // transform for the hover lift (a finished `rise` would otherwise pin it).
+    <div className="rise h-full" style={{ animationDelay: `${index * 0.07}s` }}>
+      <Card
+        lift={false}
+        style={{ borderColor: a.solid + (p.featured ? "cc" : "55"), "--plan-glow": a.solid + "5e" }}
+        className={`plan-card relative h-full p-7 flex flex-col ${p.featured ? "border-2" : ""}`}
+      >
+        <span className="plan-sheen" aria-hidden="true" />
+        {p.featured && (
+          <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg" style={{ background: a.grad }}>
+            <Sparkles size={12} /> {t("Le plus populaire")}
+          </span>
+        )}
+        <div className="relative z-10 flex flex-col flex-1">
+          <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
+          <p className="mt-3">
+            <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>{" "}
+            <span className={`text-sm ${c.faint}`}>{t(p.per)}</span>
+          </p>
+          <ul className="mt-6 space-y-3 flex-1">
+            {p.feats.slice(0, compact ? 4 : 99).map((f) => (
+              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={16} color={a.solid} className="shrink-0 mt-0.5" />{t(f)}</li>
+            ))}
+          </ul>
+          <Btn
+            className="mt-7 w-full"
+            variant={paid ? "primary" : "ghost"}
+            style={paid ? { background: a.grad } : undefined}
+            disabled={busy}
+            onClick={() => (paid ? subscribe() : nav("register"))}
+          >{t(p.cta)}</Btn>
+        </div>
+      </Card>
+    </div>
   );
 }
