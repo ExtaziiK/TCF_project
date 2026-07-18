@@ -34,7 +34,7 @@ export const PLANS = [
       "20 quiz de compréhension écrite",
       "20 quiz de compréhension orale",
       "2 simulations IA par jour (écrit + oral)",
-      "1 TCF blanc chronométré",
+      "1 TCF blanc chronométré par jour",
     ],
   },
   {
@@ -50,7 +50,7 @@ export const PLANS = [
       "39 quiz de compréhension écrite",
       "40 quiz de compréhension orale",
       "6 simulations IA par jour (écrit + oral)",
-      "3 TCF blancs chronométrés",
+      "3 TCF blancs chronométrés par jour",
     ],
   },
   {
