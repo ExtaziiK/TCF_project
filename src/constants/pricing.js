@@ -1,6 +1,7 @@
 // Access passes, priced in USD. `accent` grades along the brand gradient from
-// blue (cheapest) to red (most expensive). `price` / `per` are static
-// fallbacks shown instantly; useLivePlans overlays the live Stripe amount.
+// blue up through red, then gold for the top VIP tier. `price` / `per` are
+// static fallbacks shown instantly; useLivePlans overlays the live Stripe
+// amount.
 // NOTE: the numeric quotas below (quiz counts, daily AI simulations, mock-exam
 // and device limits) are marketing copy — the checkout backend currently
 // grants a single "Premium" role and does not yet enforce them.
@@ -24,7 +25,7 @@ export const PLANS = [
     name: "Passeport valide",
     price: "$4.99",
     per: "5 jours d'accès",
-    accent: "indigo",
+    accent: "violet",
     cta: "Choisir Passeport valide",
     featured: false,
     priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
@@ -39,7 +40,7 @@ export const PLANS = [
     name: "Visa accordé",
     price: "$8.99",
     per: "15 jours d'accès",
-    accent: "violet",
+    accent: "rose",
     cta: "Choisir Visa accordé",
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
@@ -51,11 +52,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Classe économie",
+    name: "Première classe",
     price: "$19.99",
     per: "30 jours d'accès",
-    accent: "rose",
-    cta: "Choisir Classe économie",
+    accent: "red",
+    cta: "Choisir Première classe",
     featured: true,
     priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
     feats: [
@@ -67,11 +68,11 @@ export const PLANS = [
     ],
   },
   {
-    name: "Première classe",
+    name: "VIP",
     price: "$39.99",
     per: "90 jours d'accès",
-    accent: "red",
-    cta: "Choisir Première classe",
+    accent: "gold",
+    cta: "Choisir VIP",
     featured: false,
     priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
     feats: [
