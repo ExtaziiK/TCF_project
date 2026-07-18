@@ -5,6 +5,8 @@ export function Pill({ children, tone = "blue", className = "" }) {
     green: "bg-emerald-600/10 text-emerald-600",
     amber: "bg-amber-500/15 text-amber-600",
     slate: "bg-slate-500/10 text-slate-500",
+    // Matches the pricing page's top (VIP/Premium) tier accent.
+    gold: "bg-[#b8860b]/10 text-[#b8860b]",
   };
   return <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide ${tones[tone]} ${className}`}>{children}</span>;
 }
