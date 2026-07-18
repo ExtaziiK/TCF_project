@@ -34,7 +34,7 @@ export function DemoQuestionCE() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const [imgOk, setImgOk] = useState(true);
-  const [big, setBig] = useState(false);
+  const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
   const [base] = useState(realDemoQuestion);
   const singleton = useMemo(() => (base ? [base] : []), [base]);
   const [signed] = useSignedQuestions(singleton);
