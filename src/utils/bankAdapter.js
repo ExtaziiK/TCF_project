@@ -148,11 +148,54 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
   return { id: `${section}-${fileName}`, title, section, quizNumber: qNum, questions };
 }
 
-// Normalizes one bank JSON file (either supported format) into
+// Third supported shape: the "série" export ({ metadata, scoring, questions,
+// stats }) where each question has options as { id: "A", text } and a
+// letter-based `correct`. Option text is often empty for image/audio MCQs — the
+// answer is spoken in the audio — so it falls back to the letter id.
+//
+// Audio is served from OUR Supabase Storage via the naming convention
+// (Comprehension_Orale_quiz_<n>_question_<order>.mp3), NOT the file's own
+// audio_url — so it goes through the same signed-media path as the rest of the
+// bank in production. Images keep their public URL (only audio was uploaded).
+function fromSeriesFormat(data, { section, fileName, audioMap, imageMap }) {
+  const qNum = data.metadata?.serie_number ?? quizNumber(fileName, data.metadata?.page_title || "");
+  const title = `${SECTION_LABELS[section]} – Quiz ${qNum ?? "?"}`;
+  const prefix = SECTION_PREFIX[section];
+  const questions = (data.questions || [])
+    .filter((q) => q && Array.isArray(q.options) && q.options.length >= 2)
+    .map((q, idx) => {
+      const order = q.id ?? idx + 1;
+      const opts = q.options.map((o) => (o.text && String(o.text).trim()) ? o.text : String(o.id ?? ""));
+      const conventionKey = qNum != null ? `${prefix}_quiz_${qNum}_question_${order}` : null;
+      const aud = section === "co"
+        ? resolveMedia(q.audio_url, conventionKey, audioMap, { remote: { section, qNum, order, bucket: "Audio", ext: "mp3" } })
+        : { url: null, needsSigning: false };
+      // Image kept on its own public URL (bundled dev image wins if present).
+      const bundledImg = imageMap[baseName(q.image_url) || conventionKey];
+      const img = { url: bundledImg || q.image_url || null, needsSigning: false };
+      const sign = signDescriptor(section, qNum, order, img, aud);
+      return {
+        id: `bank-${section}-${fileName}-${order}`,
+        q: q.question,
+        opts,
+        a: q.options.findIndex((o) => String(o.id) === String(q.correct)),
+        exp: q.explanation || "",
+        audio: aud.url,
+        image: img.url,
+        ...(sign ? { sign } : {}),
+      };
+    })
+    .filter((q) => q.a >= 0);
+  if (!questions.length) return null;
+  return { id: `${section}-${fileName}`, title, section, quizNumber: qNum, questions };
+}
+
+// Normalizes one bank JSON file (any supported format) into
 // { id, title, section, quizNumber, questions: [{ q, opts, a, exp, audio, image }] }.
 export function adaptBankFile(raw, ctx) {
   const data = fixEncodingDeep(raw);
   if (data && Array.isArray(data.detailed_answers)) return fromDetailedAnswers(data, ctx);
+  if (data && Array.isArray(data.questions)) return fromSeriesFormat(data, ctx);
   if (Array.isArray(data)) return fromPlainArray(data, ctx);
   return null;
 }
