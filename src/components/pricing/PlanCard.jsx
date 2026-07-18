@@ -4,16 +4,16 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout } from "@/services/stripeService";
 
-// Metallic accents grading from cool gray (free) up to gold (top tier) — each
-// tier is one stop on a single gray→gold ramp. `grad` drives the price text,
-// the "popular" badge and the CTA; `solid` drives the border, checks and the
-// hover glow. (Colours are inline styles so the ramp isn't a Tailwind palette.)
+// Accents follow the site's blue palette, deepening with price — except the
+// top tier, which is gold. `grad` drives the price text, the "popular" badge
+// and the CTA; `solid` drives the border, checks and the hover glow. (Inline
+// styles, so the ramp isn't tied to a Tailwind palette.)
 const ACCENTS = {
-  gray: { solid: "#6b7280", grad: "linear-gradient(135deg,#6b7280,#9aa3af)" },
-  steel: { solid: "#867f70", grad: "linear-gradient(135deg,#867f70,#b3ab98)" },
-  bronze: { solid: "#a97c3f", grad: "linear-gradient(135deg,#a97c3f,#cda76a)" },
-  gold: { solid: "#c2911d", grad: "linear-gradient(135deg,#c2911d,#e6c25a)" },
-  royal: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
+  gray: { solid: "#64748b", grad: "linear-gradient(135deg,#64748b,#94a3b8)" },
+  sky: { solid: "#3b82f6", grad: "linear-gradient(135deg,#3b82f6,#7db0f7)" },
+  blue: { solid: "#2E6BE6", grad: "linear-gradient(135deg,#2E6BE6,#5b8bf0)" },
+  royal: { solid: "#1d4ed8", grad: "linear-gradient(135deg,#1d4ed8,#4f7ef0)" },
+  gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 
 export function PlanCard({ p, compact, promo, index = 0 }) {

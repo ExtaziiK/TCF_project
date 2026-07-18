@@ -1,9 +1,9 @@
-// Access passes, priced in USD. `accent` escalates with price and drives each
-// card's colour (see components/pricing/PlanCard). `price` / `per` are static
-// fallbacks shown instantly; useLivePlans overlays the live Stripe amount.
-// NOTE: the numeric quotas below (quiz counts, daily AI simulations, mock-exam
-// and device limits) are marketing copy — the checkout backend currently grants
-// a single "Premium" role and does not yet enforce them per plan.
+// Access passes, priced in USD. `accent` follows the site's blue palette and
+// deepens with price — except the top tier, which is gold. `price` / `per` are
+// static fallbacks shown instantly; useLivePlans overlays the live Stripe
+// amount. NOTE: the numeric quotas below (quiz counts, daily AI simulations,
+// mock-exam and device limits) are marketing copy — the checkout backend
+// currently grants a single "Premium" role and does not yet enforce them.
 export const PLANS = [
   {
     name: "Sans papier",
@@ -14,72 +14,72 @@ export const PLANS = [
     featured: false,
     priceId: null,
     feats: [
-      "Le premier quiz de chaque épreuve offert",
+      "Un quiz offert dans chaque épreuve",
       "Corrections détaillées et explications",
-      "Cartes de vocabulaire de base",
-      "Suivi de progression simple",
+      "Cartes de vocabulaire pour démarrer",
+      "Suivi de progression",
     ],
   },
   {
     name: "Passeport valide",
     price: "$4.99",
-    per: "accès 5 jours",
-    accent: "steel",
+    per: "5 jours d'accès",
+    accent: "sky",
     cta: "Choisir Passeport valide",
     featured: false,
     priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
     feats: [
       "20 quiz de compréhension écrite",
       "20 quiz de compréhension orale",
-      "Simulation IA (écrit + oral) : 2 / jour",
-      "1 TCF blanc complet",
+      "2 simulations IA par jour (écrit + oral)",
+      "1 TCF blanc chronométré",
     ],
   },
   {
     name: "Visa accordé",
     price: "$8.99",
-    per: "accès 15 jours",
-    accent: "bronze",
+    per: "15 jours d'accès",
+    accent: "blue",
     cta: "Choisir Visa accordé",
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
     feats: [
       "39 quiz de compréhension écrite",
       "40 quiz de compréhension orale",
-      "Simulation IA (écrit + oral) : 6 / jour",
-      "3 TCF blancs complets",
+      "6 simulations IA par jour (écrit + oral)",
+      "3 TCF blancs chronométrés",
     ],
   },
   {
     name: "Classe économie",
     price: "$19.99",
-    per: "accès 30 jours",
-    accent: "gold",
+    per: "30 jours d'accès",
+    accent: "royal",
     cta: "Choisir Classe économie",
     featured: true,
     priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
     feats: [
-      "39 quiz de compréhension écrite",
-      "40 quiz de compréhension orale",
-      "Simulation IA illimitée (10 / jour)",
+      "Tous les quiz de compréhension écrite (39)",
+      "Tous les quiz de compréhension orale (40)",
+      "Simulations IA illimitées (10 / jour)",
       "TCF blancs illimités",
-      "Jusqu'à 2 appareils",
+      "Accès sur 2 appareils",
     ],
   },
   {
     name: "Première classe",
     price: "$39.99",
-    per: "accès 90 jours",
-    accent: "royal",
+    per: "90 jours d'accès",
+    accent: "gold",
     cta: "Choisir Première classe",
     featured: false,
     priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
     feats: [
-      "39 quiz de compréhension écrite",
-      "40 quiz de compréhension orale",
-      "Simulation IA illimitée (50 / jour)",
+      "Tous les quiz de compréhension écrite (39)",
+      "Tous les quiz de compréhension orale (40)",
+      "Simulations IA illimitées (50 / jour)",
       "TCF blancs illimités",
-      "Jusqu'à 4 appareils",
+      "Accès sur 4 appareils",
     ],
   },
 ];
