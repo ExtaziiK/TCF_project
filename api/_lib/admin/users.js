@@ -22,7 +22,7 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 // single "Premium" role — the tier only differs by access duration and is kept
 // as a display label. Whitelisted here so an admin call can't stash arbitrary
 // metadata on the account.
-const PLAN_LABELS = ["Passeport valide", "Visa accordé", "Première classe", "VIP"];
+const PLAN_LABELS = ["Passeport", "Visa", "Première classe", "VIP"];
 
 const PER_PAGE = 25;
 // listUsers has no server-side search, so pages are fetched and filtered

@@ -22,12 +22,12 @@ export const PLANS = [
     ],
   },
   {
-    name: "Passeport valide",
+    name: "Passeport",
     price: "$4.99",
     per: "5 jours d'accès",
     days: 5,
     accent: "violet",
-    cta: "Choisir Passeport valide",
+    cta: "Choisir Passeport",
     featured: false,
     priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
     feats: [
@@ -38,12 +38,12 @@ export const PLANS = [
     ],
   },
   {
-    name: "Visa accordé",
+    name: "Visa",
     price: "$8.99",
     per: "15 jours d'accès",
     days: 15,
     accent: "rose",
-    cta: "Choisir Visa accordé",
+    cta: "Choisir Visa",
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
     feats: [
