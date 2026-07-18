@@ -76,11 +76,11 @@ function resolveMedia(url, conventionKey, mediaMap, { imagesOnly, remote } = {})
 
 // Builds the optional `sign` descriptor from the per-kind resolution results:
 // the coordinates Quiz.jsx needs to batch-sign, or null when nothing remote
-// needs signing (flag off, or all media is bundled/local). Compréhension orale
-// is audio-only — its convention image URL is a phantom the UI hides on load
-// failure — so we never sign a CO "image" (it would 404 like today, just wastefully).
+// needs signing (flag off, or all media is bundled/local). Both sections' images
+// are signed when remote; the server maps CO images to their Serie_<n>_Q<order>.jpg
+// object and everything else to its HMAC name (see api/_lib/media.js#objectNameFor).
 function signDescriptor(section, qNum, order, img, aud) {
-  const image = img.needsSigning && section !== "co";
+  const image = img.needsSigning;
   const audio = aud.needsSigning;
   if (!image && !audio) return null;
   return { section, quiz: qNum, order, image, audio };
@@ -156,7 +156,8 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
 // Audio is served from OUR Supabase Storage via the naming convention
 // (Comprehension_Orale_quiz_<n>_question_<order>.mp3), NOT the file's own
 // audio_url — so it goes through the same signed-media path as the rest of the
-// bank in production. Images keep their public URL (only audio was uploaded).
+// bank in production. Images likewise come from our Supabase Image bucket
+// (Serie_<n>_Q<order>.jpg), not the file's original public image_url.
 function fromSeriesFormat(data, { section, fileName, audioMap, imageMap }) {
   const qNum = data.metadata?.serie_number ?? quizNumber(fileName, data.metadata?.page_title || "");
   const title = `${SECTION_LABELS[section]} – Quiz ${qNum ?? "?"}`;
@@ -170,9 +171,17 @@ function fromSeriesFormat(data, { section, fileName, audioMap, imageMap }) {
       const aud = section === "co"
         ? resolveMedia(q.audio_url, conventionKey, audioMap, { remote: { section, qNum, order, bucket: "Audio", ext: "mp3" } })
         : { url: null, needsSigning: false };
-      // Image kept on its own public URL (bundled dev image wins if present).
+      // CO listening images live in our private Image bucket (Serie_<n>_Q<order>.jpg)
+      // and are reached through the same signed-URL path as the audio. A bundled dev
+      // image wins; with signing off (local dev) we fall back to the file's original
+      // public URL so nothing regresses. Only questions that actually carry an image
+      // are signed.
       const bundledImg = imageMap[baseName(q.image_url) || conventionKey];
-      const img = { url: bundledImg || q.image_url || null, needsSigning: false };
+      const img = bundledImg
+        ? { url: bundledImg, needsSigning: false }
+        : SIGNED_MEDIA
+          ? { url: null, needsSigning: !!q.image_url }
+          : { url: q.image_url || null, needsSigning: false };
       const sign = signDescriptor(section, qNum, order, img, aud);
       return {
         id: `bank-${section}-${fileName}-${order}`,

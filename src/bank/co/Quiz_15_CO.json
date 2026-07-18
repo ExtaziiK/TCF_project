@@ -80,9 +80,9 @@
       "id": 1,
       "points": 3,
       "audio_url": "https://tcfcanada.github.io/tcf-co/serie-15/Test-15–Q1.mp3",
-      "image_url": "https://tcfcanada.github.io/tcf-co/serie-15/Q1.jpg",
+      "image_url": "https://xxynrtfwesaulvezeveb.supabase.co/storage/v1/object/public/Image/CO_Serie_15_Q1.jpg",
       "audio_filename": "Test-15–Q1.mp3",
-      "image_filename": "Q1.jpg",
+      "image_filename": "CO_Serie_15_Q1.jpg",
       "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
       "max_plays": 2,
       "options": [
@@ -230,9 +230,9 @@
       "id": 2,
       "points": 3,
       "audio_url": "https://tcfcanada.github.io/tcf-co/serie-15/Test-15–Q2.mp3",
-      "image_url": "https://tcfcanada.github.io/tcf-co/serie-15/Q2.jpg",
+      "image_url": "https://xxynrtfwesaulvezeveb.supabase.co/storage/v1/object/public/Image/CO_Serie_15_Q2.jpg",
       "audio_filename": "Test-15–Q2.mp3",
-      "image_filename": "Q2.jpg",
+      "image_filename": "CO_Serie_15_Q2.jpg",
       "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
       "max_plays": 2,
       "options": [

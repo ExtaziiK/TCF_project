@@ -34,6 +34,16 @@ export function mediaObjectName(section, quiz, order, kind) {
   return `${hash}.${extFor(kind)}`;
 }
 
+// Physical object name for one media item. Everything is stored under its opaque
+// HMAC name EXCEPT compréhension-orale listening images, which live in the Image
+// bucket under their convention name CO_Serie_<serie>_Q<order>.jpg (always .jpg,
+// whatever the source extension was). Those names aren't secret, but the bucket
+// is private, so they're still only reachable through a short-lived signed URL.
+function objectNameFor({ section, quiz, order, kind }) {
+  if (kind === "image" && section === "co") return `CO_Serie_${quiz}_Q${order}.jpg`;
+  return mediaObjectName(section, quiz, order, kind);
+}
+
 // Batch-signs media for a whole quiz in one shot (one Storage call per bucket),
 // so the client can preload everything up front. Returns a map keyed by
 // "<ref>:<kind>" -> signed URL; entries that fail to sign are simply omitted.
@@ -44,7 +54,7 @@ export async function signMediaBatch(items, expiresIn = 3600) {
   for (const it of items) {
     const bucket = bucketFor(it.kind);
     if (!byBucket.has(bucket)) byBucket.set(bucket, []);
-    byBucket.get(bucket).push({ it, name: mediaObjectName(it.section, it.quiz, it.order, it.kind) });
+    byBucket.get(bucket).push({ it, name: objectNameFor(it) });
   }
 
   const urls = {};
