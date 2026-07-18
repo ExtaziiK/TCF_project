@@ -16,11 +16,24 @@ const ACCENTS = {
   gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 
+// The shown price is a launch offer at 50% off; the crossed-out "before" price
+// is simply double it. Doubles the numeric part while keeping whatever currency
+// formatting the string already carries ("$4.99" → "$9.98"). Null for free/$0.
+function beforePrice(price) {
+  const m = String(price).match(/\d+([.,]\d+)?/);
+  if (!m) return null;
+  const n = parseFloat(m[0].replace(",", "."));
+  if (!n) return null;
+  const doubled = n * 2;
+  return price.replace(m[0], Number.isInteger(doubled) ? String(doubled) : doubled.toFixed(2));
+}
+
 export function PlanCard({ p, compact, promo, index = 0 }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.priceId;
+  const oldPrice = paid ? beforePrice(p.price) : null;
 
   const subscribe = async () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
@@ -61,10 +74,16 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           <div className="relative z-10 flex flex-col flex-1">
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
           <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
-          <p className="mt-3">
-            <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>{" "}
+          <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
+            <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>
+            {oldPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{oldPrice}</span>}
             <span className={`text-sm ${c.faint}`}>{t(p.per)}</span>
           </p>
+          {oldPrice && (
+            <p className="mt-1.5">
+              <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">−50 %</span>
+            </p>
+          )}
           <ul className="mt-6 space-y-3 flex-1">
             {p.feats.slice(0, compact ? 4 : 99).map((f) => (
               <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={16} color={a.solid} className="shrink-0 mt-0.5" />{t(f)}</li>
