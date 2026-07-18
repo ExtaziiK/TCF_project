@@ -3,7 +3,6 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
-import { DemoQuestionSecondary } from "@/components/home/DemoQuestionSecondary";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -46,14 +45,12 @@ function Landing() {
             </div>
           </div>
 
-          {/* below: the CO + CE teasers side by side, with the grammar/vocab
-              bonus question centered underneath them. */}
-          <div className="mt-14 md:mt-16 space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6 items-start">
-              <div className="rise rise-2"><DemoQuestion /></div>
-              <div className="rise rise-3"><DemoQuestionCE /></div>
-            </div>
-            <div className="max-w-xl mx-auto rise rise-3"><DemoQuestionSecondary /></div>
+          {/* below: the CO and CE daily questions side by side — blue CO on
+              the left, rose CE on the right (same accent split the bonus
+              question used to provide). */}
+          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-start">
+            <div className="rise rise-2"><DemoQuestion /></div>
+            <div className="rise rise-3"><DemoQuestionCE /></div>
           </div>
         </div>
       </section>

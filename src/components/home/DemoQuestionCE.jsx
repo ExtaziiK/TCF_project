@@ -45,7 +45,7 @@ export function DemoQuestionCE() {
   return (
     <div className="space-y-4">
       {q.image && imgOk && (
-        <div className={`rounded-2xl border ${c.border} ${c.card} p-2 shadow-xl shadow-blue-600/10`}>
+        <div className={`rounded-2xl border ${c.border} ${c.card} p-2 shadow-xl shadow-rose-600/10`}>
           <img
             src={q.image}
             alt={t("Document à lire")}
@@ -54,10 +54,10 @@ export function DemoQuestionCE() {
           />
         </div>
       )}
-      <Card className="p-6 md:p-7 shadow-2xl shadow-blue-600/10 relative overflow-hidden">
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
+      <Card className="p-6 md:p-7 shadow-xl shadow-rose-600/10 relative overflow-hidden">
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
         <div className="flex items-center justify-between mb-4 relative">
-          <Pill tone="blue"><BookOpen size={12} /> {t("Question du jour · CE")}</Pill>
+          <Pill tone="red"><BookOpen size={12} /> {t("Question du jour · CE")}</Pill>
           <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
         </div>
         <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{t("Lisez le document, puis choisissez la bonne réponse.")}</p>
@@ -79,10 +79,10 @@ export function DemoQuestionCE() {
           })}
         </div>
         {sel !== null && (
-          <div className="mt-4 p-4 rounded-2xl bg-blue-600/10 text-sm rise">
-            <p className="font-semibold text-blue-600 flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> {t("Explication")}</p>
+          <div className="mt-4 p-4 rounded-2xl bg-rose-600/10 text-sm rise">
+            <p className="font-semibold text-rose-600 flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> {t("Explication")}</p>
             <p className={c.sub}>{explanation}</p>
-            <Btn small className="mt-4" icon={ArrowRight} onClick={() => nav("reading")}>{t("Continuer en pratique gratuite")}</Btn>
+            <Btn small variant="accent" className="mt-4" icon={ArrowRight} onClick={() => nav("reading")}>{t("Continuer en pratique gratuite")}</Btn>
           </div>
         )}
       </Card>
