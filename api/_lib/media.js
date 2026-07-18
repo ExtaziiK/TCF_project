@@ -34,13 +34,13 @@ export function mediaObjectName(section, quiz, order, kind) {
   return `${hash}.${extFor(kind)}`;
 }
 
-// Physical object name for one media item. Everything is stored under its opaque
-// HMAC name EXCEPT compréhension-orale listening images, which live in the Image
-// bucket under their convention name CO_Serie_<serie>_Q<order>.jpg (always .jpg,
-// whatever the source extension was). Those names aren't secret, but the bucket
-// is private, so they're still only reachable through a short-lived signed URL.
+// Physical object name for one media item — the same opaque HMAC name for
+// everything, so no stored file name leaks the bank's structure. Compréhension-
+// orale listening images are the one exception on extension only: they're JPEGs,
+// so they keep .jpg instead of the .webp the image derivation defaults to (the
+// hash itself is identical). Buckets are private; names are reached via signed URLs.
 function objectNameFor({ section, quiz, order, kind }) {
-  if (kind === "image" && section === "co") return `CO_Serie_${quiz}_Q${order}.jpg`;
+  if (kind === "image" && section === "co") return mediaObjectName(section, quiz, order, kind).replace(/\.webp$/, ".jpg");
   return mediaObjectName(section, quiz, order, kind);
 }
 
