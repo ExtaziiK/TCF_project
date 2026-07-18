@@ -65,7 +65,7 @@ export const PLANS = [
     feats: [
       "Tous les quiz de compréhension écrite (39)",
       "Tous les quiz de compréhension orale (40)",
-      "Simulations IA illimitées (10 / jour)",
+      "Simulations IA illimitées",
       "TCF blancs illimités",
       "Accès sur 2 appareils",
     ],
@@ -82,7 +82,7 @@ export const PLANS = [
     feats: [
       "Tous les quiz de compréhension écrite (39)",
       "Tous les quiz de compréhension orale (40)",
-      "Simulations IA illimitées (50 / jour)",
+      "Simulations IA illimitées",
       "TCF blancs illimités",
       "Accès sur 4 appareils",
     ],
