@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Leaf, Mail, Lock, User, AtSign, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Leaf, Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable, consumeFirstLogin } from "@/services/authService";
+import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
   return (
@@ -21,6 +22,7 @@ export function AuthPage({ mode }) {
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [country, setCountry] = useState("");
   const [identifier, setIdentifier] = useState(""); // login: username or email
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,8 +52,9 @@ export function AuthPage({ mode }) {
         nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
       } else if (view === "register") {
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
+        if (!country) return notify(t("Sélectionnez votre pays pour continuer."));
         if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."));
-        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password });
+        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country });
         if (error) return notify(error.message);
         if (needsEmailConfirmation) setVerify(true);
         else {
@@ -124,6 +127,13 @@ export function AuthPage({ mode }) {
                 <div className="relative">
                   <AtSign size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
                   <input placeholder={t("Nom d'utilisateur")} aria-label={t("Nom d'utilisateur")} autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
+                </div>
+                <div className="relative">
+                  <Globe size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
+                  <select aria-label={t("Pays")} value={country} onChange={(e) => setCountry(e.target.value)} className={`${inp} ${country ? "" : c.faint}`}>
+                    <option value="">{t("Sélectionnez votre pays")}</option>
+                    {COUNTRIES.map((p) => <option key={p} value={p}>{p}</option>)}
+                  </select>
                 </div>
               </>
             )}
