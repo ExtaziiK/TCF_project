@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause, RotateCcw, VolumeX, Headphones } from "lucide-react";
+import { Play, Pause, RotateCcw, VolumeX, Headphones, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card } from "@/components/common";
 import { fmt } from "@/utils/format";
+
+// How long to wait for a signed URL before giving up and showing the "couldn't
+// load" state — long enough for a slow media round-trip, short enough that a
+// failed sign call doesn't spin forever.
+const SRC_TIMEOUT_MS = 20000;
 
 // Styled audio player for real files — same design as FakeAudio (gradient
 // play button, brand progress bar, equalizer) but driven by an <audio>
@@ -11,6 +16,9 @@ import { fmt } from "@/utils/format";
 // conditions — the clip plays once, can't be rewound and can't be replayed.
 // `autoPlay`: start playback automatically (CO test mode). `onEnded`: notified
 // when the clip finishes OR fails to load, so the runner can auto-advance.
+// `src` may be null on first render while its signed URL is still being fetched:
+// the player shell appears immediately in a loading state and the <audio> only
+// mounts (and loads in the background) once the URL arrives — no late pop-in.
 export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }) {
   const { c } = useApp();
   const audioRef = useRef(null);
@@ -21,7 +29,17 @@ export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }
   const [ended, setEnded] = useState(false);
   const [failed, setFailed] = useState(false);
 
+  const loading = !src && !failed; // waiting for the signed URL
+
   useEffect(() => { setPlaying(false); setT(0); setDur(0); setEnded(false); setFailed(false); }, [src]);
+
+  // Don't spin forever if the signed URL never arrives (sign call failed): fall
+  // back to the same "couldn't load" state a real load error would produce.
+  useEffect(() => {
+    if (src) return;
+    const id = setTimeout(() => setFailed(true), SRC_TIMEOUT_MS);
+    return () => clearTimeout(id);
+  }, [src]);
 
   // Auto-play the new clip (browsers allow it after the user's "Commencer"
   // gesture; if blocked, the play button remains and playback stays manual).
@@ -61,16 +79,25 @@ export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }
 
   return (
     <Card className="p-5 flex items-center gap-4">
-      <audio
-        ref={audioRef}
-        src={src}
-        preload="metadata"
-        onLoadedMetadata={(e) => setDur(e.currentTarget.duration || 0)}
-        onTimeUpdate={(e) => setT(e.currentTarget.currentTime)}
-        onEnded={() => { setPlaying(false); setEnded(true); onEnded?.(); }}
-        onError={() => { setFailed(true); setPlaying(false); onEnded?.(); }}
-      />
-      {autoPlay ? (
+      {/* Only mount the element once its URL is known, so it starts loading in
+          the background the moment the signed URL lands. */}
+      {src && (
+        <audio
+          ref={audioRef}
+          src={src}
+          preload="metadata"
+          onLoadedMetadata={(e) => setDur(e.currentTarget.duration || 0)}
+          onTimeUpdate={(e) => setT(e.currentTarget.currentTime)}
+          onEnded={() => { setPlaying(false); setEnded(true); onEnded?.(); }}
+          onError={() => { setFailed(true); setPlaying(false); onEnded?.(); }}
+        />
+      )}
+      {loading ? (
+        // Player shell shown instantly while the signed URL is fetched.
+        <span className="w-12 h-12 rounded-full grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/30 shrink-0 opacity-80" aria-label="Chargement du document audio">
+          <Loader2 size={20} className="animate-spin" />
+        </span>
+      ) : autoPlay ? (
         // Test mode: the clip plays by itself — no play/pause/replay control.
         <span className="w-12 h-12 rounded-full grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/30 shrink-0" aria-hidden="true">
           <Headphones size={20} />
@@ -82,10 +109,10 @@ export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }
       )}
       <div className="flex-1">
         <div className="flex justify-between text-xs font-mono2 mb-1.5">
-          <span className="text-blue-600 font-semibold">{spent ? "Document audio · écoute terminée" : "Document audio · écoute unique le jour J"}</span>
-          <span className={c.faint}>{fmt(Math.floor(t))} / {dur ? fmt(Math.round(dur)) : "–:––"}</span>
+          <span className="text-blue-600 font-semibold">{loading ? "Document audio · chargement…" : spent ? "Document audio · écoute terminée" : "Document audio · écoute unique le jour J"}</span>
+          <span className={c.faint}>{loading ? "–:––" : fmt(Math.floor(t))} / {!loading && dur ? fmt(Math.round(dur)) : "–:––"}</span>
         </div>
-        <div ref={barRef} onClick={seek} role="progressbar" aria-valuenow={Math.floor(t)} aria-valuemax={Math.round(dur)} aria-label="Position de lecture" className={`h-2 rounded-full ${c.track} overflow-hidden ${allowReplay ? "cursor-pointer" : "cursor-default"}`}>
+        <div ref={barRef} onClick={seek} role="progressbar" aria-valuenow={Math.floor(t)} aria-valuemax={Math.round(dur)} aria-label="Position de lecture" className={`h-2 rounded-full ${c.track} overflow-hidden ${allowReplay && !loading ? "cursor-pointer" : "cursor-default"}`}>
           <div className="h-full grad-brand rounded-full" style={{ width: dur ? `${(t / dur) * 100}%` : 0 }} />
         </div>
       </div>
