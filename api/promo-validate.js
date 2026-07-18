@@ -13,20 +13,22 @@ export default async function handler(req, res) {
   if (!code) return res.status(400).json({ valid: false });
 
   try {
-    const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1 });
+    const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1, expand: ["data.promotion.coupon"] });
     const pc = data[0];
     const exhausted = pc?.max_redemptions && pc.times_redeemed >= pc.max_redemptions;
     const expired = pc?.expires_at && pc.expires_at * 1000 < Date.now();
     res.setHeader("Cache-Control", "no-store");
     if (!pc || exhausted || expired) return res.status(200).json({ valid: false });
+    // Since API 2025+, the coupon is nested under `promotion.coupon` (expanded above).
+    const coupon = typeof pc.promotion?.coupon === "object" ? pc.promotion.coupon : null;
     res.status(200).json({
       valid: true,
       code: pc.code,
-      percentOff: pc.coupon?.percent_off || null,
-      amountOff: pc.coupon?.amount_off || null,
-      currency: pc.coupon?.currency || null,
-      duration: pc.coupon?.duration || "once",
-      durationInMonths: pc.coupon?.duration_in_months || null,
+      percentOff: coupon?.percent_off || null,
+      amountOff: coupon?.amount_off || null,
+      currency: coupon?.currency || null,
+      duration: coupon?.duration || "once",
+      durationInMonths: coupon?.duration_in_months || null,
     });
   } catch {
     res.status(200).json({ valid: false });

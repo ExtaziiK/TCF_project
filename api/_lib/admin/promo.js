@@ -19,6 +19,11 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 
 const CODE_RE = /^[A-Z0-9_-]{3,30}$/;
 
+// Since the 2025+ API, a promotion code's coupon lives under `promotion.coupon`
+// (was a top-level `coupon`). It's only the full object when expanded; otherwise
+// it's just an id string. Callers below expand it.
+const couponOf = (pc) => (pc?.promotion?.coupon && typeof pc.promotion.coupon === "object" ? pc.promotion.coupon : null);
+
 async function audit(actor, action, target, detail) {
   await admin.from("admin_audit_log").insert({
     actor_id: actor.id,
@@ -29,20 +34,23 @@ async function audit(actor, action, target, detail) {
   });
 }
 
-const toRow = (pc) => ({
-  id: pc.id,
-  code: pc.code,
-  active: pc.active,
-  timesRedeemed: pc.times_redeemed || 0,
-  maxRedemptions: pc.max_redemptions || null,
-  expiresAt: pc.expires_at ? new Date(pc.expires_at * 1000).toISOString() : null,
-  percentOff: pc.coupon?.percent_off || null,
-  amountOff: pc.coupon?.amount_off || null,
-  currency: pc.coupon?.currency || null,
-  duration: pc.coupon?.duration || "once",
-  durationInMonths: pc.coupon?.duration_in_months || null,
-  createdAt: new Date(pc.created * 1000).toISOString(),
-});
+const toRow = (pc) => {
+  const coupon = couponOf(pc);
+  return {
+    id: pc.id,
+    code: pc.code,
+    active: pc.active,
+    timesRedeemed: pc.times_redeemed || 0,
+    maxRedemptions: pc.max_redemptions || null,
+    expiresAt: pc.expires_at ? new Date(pc.expires_at * 1000).toISOString() : null,
+    percentOff: coupon?.percent_off || null,
+    amountOff: coupon?.amount_off || null,
+    currency: coupon?.currency || null,
+    duration: coupon?.duration || "once",
+    durationInMonths: coupon?.duration_in_months || null,
+    createdAt: new Date(pc.created * 1000).toISOString(),
+  };
+};
 
 async function handleCreate(req, res, actor) {
   const { percentOff, amountOff, duration = "once", durationInMonths, maxRedemptions, expiresAt } = req.body;
@@ -67,8 +75,11 @@ async function handleCreate(req, res, actor) {
   let promo;
   try {
     promo = await stripe.promotionCodes.create({
-      coupon: coupon.id,
+      // Since API 2025+, the coupon is nested under `promotion` (a top-level
+      // `coupon` now errors with "Received unknown parameter: coupon").
+      promotion: { type: "coupon", coupon: coupon.id },
       code,
+      expand: ["promotion.coupon"],
       ...(Number(maxRedemptions) > 0 ? { max_redemptions: Number(maxRedemptions) } : {}),
       ...(expiresAt ? { expires_at: Math.floor(new Date(expiresAt).getTime() / 1000) } : {}),
     });
@@ -94,7 +105,7 @@ export default async function handler(req, res) {
     const actor = await requireAdmin(req);
 
     if (req.method === "GET") {
-      const { data } = await stripe.promotionCodes.list({ limit: 100 });
+      const { data } = await stripe.promotionCodes.list({ limit: 100, expand: ["data.promotion.coupon"] });
       return res.status(200).json({ codes: data.map(toRow) });
     }
 
@@ -104,7 +115,7 @@ export default async function handler(req, res) {
       if (action === "toggle") {
         const { id, active } = req.body;
         if (!id) throw new HttpError(400, "id requis.");
-        const promo = await stripe.promotionCodes.update(id, { active: !!active });
+        const promo = await stripe.promotionCodes.update(id, { active: !!active, expand: ["promotion.coupon"] });
         await audit(actor, "toggle-promo", promo.code, { active: !!active });
         return res.status(200).json({ code: toRow(promo) });
       }
