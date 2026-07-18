@@ -223,8 +223,6 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   const savedLeft = attempt.progress.timeLeft?.[order];
   const duration = savedLeft ?? quiz.questions.length * 55;
   const candidatePanel = {
-    nom: attempt.progress?.candidate?.nom,
-    pays: attempt.progress?.candidate?.pays,
     type: t(SECTION_LABELS[task.section]),
     date: startedLabel,
   };
@@ -298,12 +296,12 @@ export function Mocks() {
   // the user stays scrolled to wherever the "Reprendre"/"Commencer" button was.
   useEffect(() => { if (active || reviewing) window.scrollTo({ top: 0 }); }, [active, reviewing]);
 
-  // Called by the setup screen with the chosen mode + candidate identity.
-  const start = async ({ mode, nom, pays }) => {
+  // Called by the setup screen with the chosen mode.
+  const start = async ({ mode }) => {
     setStarting(true);
     const tasks = generateExamTasks(attempts || []);
     if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
-    const attempt = await createAttempt(user?.id, tasks, { mode, candidate: { nom, pays } });
+    const attempt = await createAttempt(user?.id, tasks, { mode });
     setStarting(false);
     setSetup(false);
     setActive(attempt);
