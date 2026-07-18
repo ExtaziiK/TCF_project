@@ -1,15 +1,15 @@
-// Access passes, priced in USD. `accent` follows the site's blue palette and
-// deepens with price — except the top tier, which is gold. `price` / `per` are
-// static fallbacks shown instantly; useLivePlans overlays the live Stripe
-// amount. NOTE: the numeric quotas below (quiz counts, daily AI simulations,
-// mock-exam and device limits) are marketing copy — the checkout backend
-// currently grants a single "Premium" role and does not yet enforce them.
+// Access passes, priced in USD. `accent` grades along the brand gradient from
+// blue (cheapest) to red (most expensive). `price` / `per` are static
+// fallbacks shown instantly; useLivePlans overlays the live Stripe amount.
+// NOTE: the numeric quotas below (quiz counts, daily AI simulations, mock-exam
+// and device limits) are marketing copy — the checkout backend currently
+// grants a single "Premium" role and does not yet enforce them.
 export const PLANS = [
   {
     name: "Sans papier",
     price: "$0",
     per: "pour toujours",
-    accent: "gray",
+    accent: "blue",
     cta: "Créer un compte",
     featured: false,
     priceId: null,
@@ -24,7 +24,7 @@ export const PLANS = [
     name: "Passeport valide",
     price: "$4.99",
     per: "5 jours d'accès",
-    accent: "sky",
+    accent: "indigo",
     cta: "Choisir Passeport valide",
     featured: false,
     priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
@@ -39,7 +39,7 @@ export const PLANS = [
     name: "Visa accordé",
     price: "$8.99",
     per: "15 jours d'accès",
-    accent: "blue",
+    accent: "violet",
     cta: "Choisir Visa accordé",
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
@@ -54,7 +54,7 @@ export const PLANS = [
     name: "Classe économie",
     price: "$19.99",
     per: "30 jours d'accès",
-    accent: "royal",
+    accent: "rose",
     cta: "Choisir Classe économie",
     featured: true,
     priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
@@ -70,7 +70,7 @@ export const PLANS = [
     name: "Première classe",
     price: "$39.99",
     per: "90 jours d'accès",
-    accent: "gold",
+    accent: "red",
     cta: "Choisir Première classe",
     featured: false,
     priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",

@@ -227,6 +227,7 @@ export const EN = {
   "Sans engagement": "No commitment",
 
   // ── Plans (constants/pricing.js PLANS) ───────────────────────────────
+  "Plan": "Plan",
   "Découverte": "Discovery",
   "Premium": "Premium",
   "Sans papier": "Undocumented",

@@ -4,16 +4,16 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout } from "@/services/stripeService";
 
-// Accents follow the site's blue palette, deepening with price — except the
-// top tier, which is gold. `grad` drives the price text, the "popular" badge
-// and the CTA; `solid` drives the border, checks and the hover glow. (Inline
+// Accents grade along the brand gradient, from blue (cheapest) to red (most
+// expensive). `grad` drives the price text, the "popular" badge and the CTA;
+// `solid` drives the eyebrow, border, checks and the hover glow. (Inline
 // styles, so the ramp isn't tied to a Tailwind palette.)
 const ACCENTS = {
-  gray: { solid: "#64748b", grad: "linear-gradient(135deg,#64748b,#94a3b8)" },
-  sky: { solid: "#3b82f6", grad: "linear-gradient(135deg,#3b82f6,#7db0f7)" },
-  blue: { solid: "#2E6BE6", grad: "linear-gradient(135deg,#2E6BE6,#5b8bf0)" },
-  royal: { solid: "#1d4ed8", grad: "linear-gradient(135deg,#1d4ed8,#4f7ef0)" },
-  gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
+  blue: { solid: "#2E6BE6", grad: "linear-gradient(135deg,#2E6BE6,#5f93f2)" },
+  indigo: { solid: "#5158E4", grad: "linear-gradient(135deg,#5158E4,#8288f0)" },
+  violet: { solid: "#6C4FE0", grad: "linear-gradient(135deg,#6C4FE0,#9a83f2)" },
+  rose: { solid: "#A8407C", grad: "linear-gradient(135deg,#A8407C,#cf6ba3)" },
+  red: { solid: "#D8354A", grad: "linear-gradient(135deg,#D8354A,#ef6f7e)" },
 };
 
 export function PlanCard({ p, compact, promo, index = 0 }) {
@@ -55,6 +55,7 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           </span>
         )}
         <div className="relative z-10 flex flex-col flex-1">
+          <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
           <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
           <p className="mt-3">
             <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>{" "}
