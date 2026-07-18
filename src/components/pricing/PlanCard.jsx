@@ -8,7 +8,7 @@ import { startCheckout } from "@/services/stripeService";
 // for the top VIP tier. `grad` drives the price text, the "popular" badge and
 // the CTA; `solid` drives the eyebrow, border, checks and the hover glow.
 // (Inline styles, so the ramp isn't tied to a Tailwind palette.)
-const ACCENTS = {
+export const ACCENTS = {
   blue: { solid: "#2E6BE6", grad: "linear-gradient(135deg,#2E6BE6,#5f93f2)" },
   violet: { solid: "#6C4FE0", grad: "linear-gradient(135deg,#6C4FE0,#9a83f2)" },
   rose: { solid: "#A8407C", grad: "linear-gradient(135deg,#A8407C,#cf6ba3)" },

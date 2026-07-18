@@ -17,6 +17,11 @@ import {
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
 import { promoLabel } from "@/services/stripeService";
+import { PLANS } from "@/constants/pricing";
+import { ACCENTS } from "@/components/pricing/PlanCard";
+
+// The four paid pricing tiers, offered as one-click grants in the Users tab.
+const PAID_PLANS = PLANS.filter((p) => p.priceId);
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -204,10 +209,19 @@ function UsersTab() {
   if (state === "error") return <UnavailableCard>Impossible de charger les comptes. Réessayez.</UnavailableCard>;
 
   const pages = data ? Math.max(1, Math.ceil(data.total / data.perPage)) : 1;
-  // Gold ghost — ties the Premium-granting actions to the pricing page's Premium tier.
-  const planButton = (u, label, months) => (
-    <Btn small variant="ghost" className="text-[#b8860b] border-[#b8860b]/40" disabled={busy} icon={Crown} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Premium", months }, `Premium accordé à ${u.email}.`)}>{label}</Btn>
-  );
+  // One grant button per paid pricing tier, coloured in that tier's accent, so
+  // the admin assigns the exact same plans (and access durations) offered on the
+  // Tarifs page. All four map to the single "Premium" role; only the access
+  // window and the display label differ.
+  const planButton = (u, plan) => {
+    const a = ACCENTS[plan.accent] || ACCENTS.blue;
+    return (
+      <Btn key={plan.name} small variant="ghost" style={{ color: a.solid, borderColor: a.solid + "66" }} disabled={busy} icon={Crown}
+        onClick={() => act({ action: "set-plan", userId: u.id, plan: "Premium", days: plan.days, label: plan.name }, `${plan.name} accordé à ${u.email} (${plan.days} j).`)}>
+        {plan.name}
+      </Btn>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -291,7 +305,7 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
           </div>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> Premium</> : "Découverte"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Découverte"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
         <td className="py-3.5 pr-4">{u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
@@ -305,9 +319,7 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
         <tr className={`border-t ${c.border}`}>
           <td colSpan={6} className="py-3">
             <div className="flex items-center gap-2 flex-wrap">
-              {planButton(u, "Premium 1 mois", 1)}
-              {planButton(u, "Premium 12 mois", 12)}
-              {planButton(u, "Premium illimité", null)}
+              {PAID_PLANS.map((p) => planButton(u, p))}
               {u.plan === "Premium" && (
                 <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Découverte" }, `${u.email} repassé en Découverte.`)}>Retirer Premium</Btn>
               )}
@@ -727,7 +739,12 @@ function AuditTab() {
   }
   const detailText = (e) => {
     if (!e.detail) return "";
-    if (e.action === "set-plan") return e.detail.plan === "Premium" ? `Premium ${e.detail.months ? `${e.detail.months} mois` : "illimité"}` : "Découverte";
+    if (e.action === "set-plan") {
+      if (e.detail.plan !== "Premium") return "Découverte";
+      const d = e.detail;
+      const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
+      return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;
+    }
     if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : "rôle retiré";
     return "";
   };

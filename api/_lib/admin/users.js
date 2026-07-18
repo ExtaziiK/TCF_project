@@ -10,13 +10,19 @@ import { HttpError } from "../groq.js";
 //
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
-//     action: "set-plan"  { plan: "Premium"|"Découverte", months?: number|null }
+//     action: "set-plan"  { plan: "Premium"|"Découverte", days?|months?: number|null, label? }
 //             "set-role"  { role: "admin"|null }   (cannot change your own role)
 //             "delete"    {}                        (cannot delete yourself)
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
 });
+
+// The four paid pricing tiers (src/constants/pricing.js). Access is still the
+// single "Premium" role — the tier only differs by access duration and is kept
+// as a display label. Whitelisted here so an admin call can't stash arbitrary
+// metadata on the account.
+const PLAN_LABELS = ["Passeport valide", "Visa accordé", "Première classe", "VIP"];
 
 const PER_PAGE = 25;
 // listUsers has no server-side search, so pages are fetched and filtered
@@ -46,6 +52,7 @@ function toRow(u, usernames) {
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
     username: usernames[u.id] || null,
     plan: meta.plan || "Découverte",
+    planLabel: meta.plan_label || null,
     premiumUntil: meta.premium_until || null,
     premiumActive: premiumActive(meta),
     admin: meta.role === "admin",
@@ -106,14 +113,17 @@ async function handlePost(req, res, actor) {
   if (!action || !userId) throw new HttpError(400, "action et userId sont requis.");
 
   if (action === "set-plan") {
-    const { plan, months } = req.body;
+    const { plan, months, days } = req.body;
     if (!["Premium", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
-    const until =
-      plan === "Premium" && Number(months) > 0
-        ? new Date(Date.now() + Number(months) * 30 * 24 * 3600 * 1000).toISOString()
-        : null;
-    const user = await patchMetadata(userId, { plan, premium_until: until });
-    await audit(actor, "set-plan", user.email, { plan, months: Number(months) || null, premium_until: until });
+    // Access window: `days` (pricing tiers: 5/15/30/90) takes precedence, else
+    // `months` (legacy). Neither → no expiry (unlimited Premium).
+    const durationMs = Number(days) > 0 ? Number(days) * 24 * 3600 * 1000
+      : Number(months) > 0 ? Number(months) * 30 * 24 * 3600 * 1000 : 0;
+    const isPremium = plan === "Premium";
+    const until = isPremium && durationMs > 0 ? new Date(Date.now() + durationMs).toISOString() : null;
+    const label = isPremium && PLAN_LABELS.includes(req.body.label) ? req.body.label : null;
+    const user = await patchMetadata(userId, { plan, premium_until: until, plan_label: label });
+    await audit(actor, "set-plan", user.email, { plan, days: Number(days) || null, months: Number(months) || null, label, premium_until: until });
     return res.status(200).json({ ok: true });
   }
 
