@@ -5,6 +5,11 @@
 @tailwind utilities;
 
 html{scroll-behavior:smooth}
+/* Page canvas: a soft brand-tinted wash (blue→lavender→rose, echoing the brand
+   gradient) instead of flat white, so the site's negative space carries the
+   palette. Kept very light so cards and text stay crisp on top. */
+.app-bg-light{background-color:#eef1fb;background-image:linear-gradient(160deg,#eef4fd 0%,#eaedfb 46%,#f7ebf1 100%)}
+.app-bg-dark{background-color:#020617;background-image:linear-gradient(160deg,#080d1c 0%,#0a0914 52%,#130810 100%)}
 /* Content protection (added on <body> in production by useContentProtection):
    block text selection / the iOS long-press "copy" callout site-wide, while
    letting users still select & edit inside their own form fields. */
