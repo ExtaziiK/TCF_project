@@ -27,6 +27,12 @@ function realDemoQuestion() {
   return { ...picked, level: A2_BAND.includes(idx) ? "A2" : "B1", kind: "bank" };
 }
 
+// Remembered document aspect ratio (width / height) so the reserved image slot
+// matches the real document — no empty letterbox space, and re-mounts within a
+// session reserve the exact box. Seeded with a landscape-ish default (these CE
+// documents are wider than tall) for the very first paint before any load.
+let CE_DOC_RATIO = 1.5;
+
 // Hero teaser mirroring the CO DemoQuestion, for Compréhension écrite: the
 // reading document on top (a short-lived signed image — quiz 1 is signable
 // anonymously), then the lettered options, correction and explanation below.
@@ -35,6 +41,7 @@ export function DemoQuestionCE() {
   const [sel, setSel] = useState(null);
   const [imgOk, setImgOk] = useState(true);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [ratio, setRatio] = useState(CE_DOC_RATIO); // width/height, learned on load
   const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
   const [base] = useState(realDemoQuestion);
   const singleton = useMemo(() => (base ? [base] : []), [base]);
@@ -53,10 +60,15 @@ export function DemoQuestionCE() {
     <div className="space-y-4">
       {hasImage && imgOk && (
         <div className={`rounded-2xl border ${c.border} ${c.card} p-2 shadow-xl shadow-rose-600/10`}>
-          {/* Fixed-height slot so the frame holds its space from first paint —
-              the document loads into it (object-contain) instead of growing the
-              layout. Same in-place "Agrandir" magnifier as the bank quiz frame. */}
-          <div className={`relative rounded-xl overflow-hidden transition-[height] duration-300 ${big ? "h-[70vh]" : "h-64"}`}>
+          {/* The slot reserves space from the document's aspect ratio (learned
+              on load, cached for the session) rather than a fixed height, so it
+              holds its place from first paint AND hugs the image with no empty
+              letterbox. Zoomed uses that ratio (capped so a tall document can't
+              exceed the viewport); collapsed is a short fixed preview. */}
+          <div
+            className={`relative rounded-xl overflow-hidden transition-all duration-300 ${big ? "w-full" : "h-64"}`}
+            style={big ? { aspectRatio: String(ratio), maxHeight: "82vh" } : undefined}
+          >
             {/* Skeleton reserves the slot until the signed URL resolves and the
                 image paints; it sits behind the fading-in document. */}
             {!imgLoaded && <div className={`absolute inset-0 animate-pulse rounded-xl ${c.track}`} aria-hidden="true" />}
@@ -64,7 +76,11 @@ export function DemoQuestionCE() {
               <img
                 src={q.image}
                 alt={t("Document à lire")}
-                onLoad={() => setImgLoaded(true)}
+                onLoad={(e) => {
+                  setImgLoaded(true);
+                  const el = e.currentTarget;
+                  if (el.naturalWidth && el.naturalHeight) { CE_DOC_RATIO = el.naturalWidth / el.naturalHeight; setRatio(CE_DOC_RATIO); }
+                }}
                 onError={() => setImgOk(false)}
                 className={`w-full h-full object-contain transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
               />
