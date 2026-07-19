@@ -34,6 +34,7 @@ export function DemoQuestionCE() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const [imgOk, setImgOk] = useState(true);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
   const [base] = useState(realDemoQuestion);
   const singleton = useMemo(() => (base ? [base] : []), [base]);
@@ -41,21 +42,33 @@ export function DemoQuestionCE() {
   const q = signed || base;
   if (!q) return null;
 
+  // Known from the base descriptor before the signed URL resolves, so the frame
+  // reserves its space on first paint — the document then fades in without
+  // shoving the question card below up and down (no layout shift on refresh).
+  const hasImage = !!(base.image || base.sign?.image);
+
   const explanation = `${t("Bonne réponse :")} « ${q.opts[q.a]} ». ${q.exp || t("C'est la seule proposition fidèle au document.")}`;
 
   return (
     <div className="space-y-4">
-      {q.image && imgOk && (
+      {hasImage && imgOk && (
         <div className={`rounded-2xl border ${c.border} ${c.card} p-2 shadow-xl shadow-rose-600/10`}>
-          {/* Same in-place "Agrandir" magnifier as the bank quiz's document
-              frame (BankQuestionMedia), so the fine print stays readable. */}
-          <div className="relative">
-            <img
-              src={q.image}
-              alt={t("Document à lire")}
-              onError={() => setImgOk(false)}
-              className={`w-full object-contain rounded-xl transition-all duration-300 ${big ? "max-h-[80vh]" : "max-h-64"}`}
-            />
+          {/* Fixed-height slot so the frame holds its space from first paint —
+              the document loads into it (object-contain) instead of growing the
+              layout. Same in-place "Agrandir" magnifier as the bank quiz frame. */}
+          <div className={`relative rounded-xl overflow-hidden transition-[height] duration-300 ${big ? "h-[70vh]" : "h-64"}`}>
+            {/* Skeleton reserves the slot until the signed URL resolves and the
+                image paints; it sits behind the fading-in document. */}
+            {!imgLoaded && <div className={`absolute inset-0 animate-pulse rounded-xl ${c.track}`} aria-hidden="true" />}
+            {q.image && (
+              <img
+                src={q.image}
+                alt={t("Document à lire")}
+                onLoad={() => setImgLoaded(true)}
+                onError={() => setImgOk(false)}
+                className={`w-full h-full object-contain transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+              />
+            )}
             <button
               type="button"
               onClick={() => setBig((v) => !v)}
