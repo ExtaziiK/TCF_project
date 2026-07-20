@@ -16,6 +16,13 @@ export const ACCENTS = {
   gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 
+// Bold the numbers in a line (digits only — a light touch) so quantities, and
+// especially how long the pass is valid, read at a glance.
+const NUM = /(\d+(?:[.,]\d+)?)/g;
+function boldNumbers(text, cls) {
+  return text.split(NUM).map((part, i) => (/^\d/.test(part) ? <strong key={i} className={cls}>{part}</strong> : part || null));
+}
+
 // The shown price is a launch offer at 50% off; the crossed-out "before" price
 // is simply double it. Doubles the numeric part while keeping whatever currency
 // formatting the string already carries ("$4.99" → "$9.98"). Null for free/$0.
@@ -77,7 +84,7 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
             <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>
             {oldPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{oldPrice}</span>}
-            <span className={`text-sm ${c.faint}`}>{t(p.per)}</span>
+            <span className={`text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
           </p>
           {oldPrice && (
             <p className="mt-1.5">
@@ -86,7 +93,10 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           )}
           <ul className="mt-6 space-y-3 flex-1">
             {p.feats.slice(0, compact ? 4 : 99).map((f) => (
-              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={16} color={a.solid} className="shrink-0 mt-0.5" />{t(f)}</li>
+              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
+                <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
+                <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
+              </li>
             ))}
           </ul>
           <Btn
