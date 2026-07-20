@@ -16,18 +16,6 @@ export const ACCENTS = {
   gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 
-// Bold the quantities in a feature line — numbers plus "illimité(es)" and
-// "Tous/Toutes" — so what's included, especially how much, reads at a glance.
-const QTY = /(\d+(?:[.,/]\d+)*|illimitées?|illimité|toutes|tous|toute)/gi;
-function emphasize(text, strongCls) {
-  return text.split(QTY).map((part, i) => {
-    if (!part) return null;
-    return /^(?:\d+(?:[.,/]\d+)*|illimitées?|illimité|toutes|tous|toute)$/i.test(part)
-      ? <strong key={i} className={strongCls}>{part}</strong>
-      : <span key={i}>{part}</span>;
-  });
-}
-
 // The shown price is a launch offer at 50% off; the crossed-out "before" price
 // is simply double it. Doubles the numeric part while keeping whatever currency
 // formatting the string already carries ("$4.99" → "$9.98"). Null for free/$0.
@@ -98,10 +86,7 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           )}
           <ul className="mt-6 space-y-3 flex-1">
             {p.feats.slice(0, compact ? 4 : 99).map((f) => (
-              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
-                <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
-                <span>{emphasize(t(f), `font-bold ${c.text}`)}</span>
-              </li>
+              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}><Check size={16} color={a.solid} className="shrink-0 mt-0.5" />{t(f)}</li>
             ))}
           </ul>
           <Btn
