@@ -10,7 +10,9 @@ import { PAGES } from "@/pages";
 
 function AppShell() {
   const { route, role, c, authReady } = useApp();
-  const Page = PAGES[route] || PAGES.home;
+  // Sub-routes like "blog/<slug>" (individual articles) resolve to their base
+  // page ("blog"); the page reads the full route to pick the article.
+  const Page = PAGES[route] || PAGES[route.split("/")[0]] || PAGES.home;
   // The announcement bar is shown on every page to everyone who isn't a
   // paying/admin user — i.e. logged-out visitors and free accounts (Premium
   // and admin users don't need the promo). Gated on authReady so a Premium

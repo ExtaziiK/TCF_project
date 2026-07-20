@@ -12,6 +12,8 @@
 // only ever sees the register/upgrade gate there — thin, duplicated content
 // that would compete with the real landing pages).
 
+import { POSTS } from "@/constants/blog";
+
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
 
@@ -112,6 +114,14 @@ export const ROUTE_META = {
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
 };
 
+// Each blog post is its own indexable route (`blog/<slug>` -> `/blogue/<slug>`)
+// with the post's title + excerpt as its <title>/description, generated from
+// POSTS so publishing an article automatically publishes its page (URL, meta,
+// canonical, structured data). The base `blog` route stays the article index.
+for (const post of POSTS) {
+  ROUTE_META[`blog/${post.slug}`] = { path: `/blogue/${post.slug}`, title: post.t, description: post.excerpt, post };
+}
+
 const PATH_TO_ROUTE = Object.fromEntries(Object.entries(ROUTE_META).map(([route, m]) => [m.path, route]));
 
 export function pathForRoute(route) {
@@ -164,6 +174,35 @@ export function applyRouteMeta(route) {
     document.head.appendChild(canonical);
   }
   canonical.setAttribute("href", url);
+
+  applyArticleJsonLd(meta);
+}
+
+// BlogPosting structured data for an article page; removed on any other route so
+// only the current article's markup is present in the head.
+function applyArticleJsonLd(meta) {
+  const el = document.getElementById("seo-article-jsonld");
+  if (!meta?.post) { if (el) el.remove(); return; }
+  const { post } = meta;
+  const url = window.location.origin + meta.path;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.t,
+    description: post.excerpt,
+    inLanguage: "fr-CA",
+    datePublished: post.iso,
+    dateModified: post.iso,
+    url,
+    mainEntityOfPage: url,
+    author: { "@type": "Organization", name: "Passerelle" },
+    publisher: { "@type": "Organization", name: "Passerelle", logo: { "@type": "ImageObject", url: `${window.location.origin}/logo-mark.png` } },
+  };
+  const script = el || document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "seo-article-jsonld";
+  script.textContent = JSON.stringify(data);
+  if (!el) document.head.appendChild(script);
 }
 
 // Organization + WebSite structured data, injected once at boot. Built at
