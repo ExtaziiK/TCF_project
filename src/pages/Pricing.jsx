@@ -34,8 +34,20 @@ export function Pricing() {
 
   return (
     <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {plans.map((p, i) => <PlanCard key={p.name} p={p} promo={applied?.code} index={i} />)}
+      {/* Wider cards (shorter than the cramped grid columns) in a horizontal
+          snap carousel. The trailing card is dimmed by a right-edge fade mask
+          (.carousel-fade) until you scroll it into view; the extra right
+          padding lets the last card clear the fade at the end of the scroll. */}
+      <div className="max-w-7xl mx-auto">
+        <div className="carousel-fade overflow-x-auto snap-x snap-mandatory scroll-smooth pt-8 pb-6 [scrollbar-width:thin]">
+          <div className="flex gap-5 w-max px-1 pr-16">
+            {plans.map((p, i) => (
+              <div key={p.name} className="snap-start shrink-0 w-[300px]">
+                <PlanCard p={p} promo={applied?.code} index={i} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
