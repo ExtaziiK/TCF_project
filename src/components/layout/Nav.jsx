@@ -38,8 +38,9 @@ export function Nav({ barOffset = false }) {
   return (
     <>
       <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 ${c.nav} backdrop-blur-xl`}>
-        {/* Brand-gradient accent line as the nav's bottom border. */}
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 grad-brand" />
+        {/* Soft fade just below the bar so the nav blends into the page
+            background instead of ending on a hard seam (no accent line). */}
+        <span aria-hidden="true" className={`pointer-events-none absolute inset-x-0 top-full h-6 bg-gradient-to-b ${c.navFade} to-transparent`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onNavigate={closeAll} />
           <nav className="hidden lg:flex items-center gap-1" aria-label={t("Navigation principale")}>
