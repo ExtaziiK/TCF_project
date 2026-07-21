@@ -74,20 +74,20 @@ export function Vocabulary() {
 
   const tapCard = () => (revealed ? nextCard() : setRevealed(true));
 
-  return (
-    <PageShell back wide eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.")}>
-      <Card className="p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-2 border-rose-600/30">
-        <span className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><Calendar size={20} /></span>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-rose-600">{t("Mot du jour")}</p>
-            <Pill tone={LEVEL_TONE[daily.level]} className="!px-2 !py-0.5">{daily.level}</Pill>
-          </div>
-          <p className={`font-display font-bold text-lg ${c.text}`}>{daily.fr}</p>
-          <p className={`text-sm ${c.sub}`}>{daily.def} — <span className="italic">« {daily.ex} »</span></p>
-        </div>
-      </Card>
+  const motDuJour = (
+    <Card className="p-4 border-2 border-rose-600/30 lg:w-80">
+      <div className="flex items-center gap-2 mb-1.5">
+        <span className="w-8 h-8 rounded-xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><Calendar size={15} /></span>
+        <p className="text-xs font-bold uppercase tracking-widest text-rose-600">{t("Mot du jour")}</p>
+        <Pill tone={LEVEL_TONE[daily.level]} className="!px-2 !py-0.5 ml-auto">{daily.level}</Pill>
+      </div>
+      <p className={`font-display font-bold ${c.text}`}>{daily.fr}</p>
+      <p className={`text-xs leading-relaxed ${c.sub}`}>{daily.def} — <span className="italic">« {daily.ex} »</span></p>
+    </Card>
+  );
 
+  return (
+    <PageShell back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.")}>
       <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6">
         <div className="flex gap-2 flex-wrap">
           {VOCAB_CATS.map((ct) => (
@@ -134,23 +134,23 @@ export function Vocabulary() {
           )}
         </Card>
       ) : card ? (
-        <div className="max-w-md mx-auto">
-          <div className="fwrap h-64">
+        <div className="max-w-2xl mx-auto">
+          <div className="fwrap h-[26rem]">
             <div className={`fcard relative w-full h-full ${revealed ? "flipped" : ""}`}>
-              <button onClick={tapCard} className={`fface absolute inset-0 rounded-3xl border ${c.border} ${c.card} p-6 flex flex-col items-center justify-center text-center card-lift`} aria-label={`${t("Voir la définition de")} ${card.fr}`}>
-                <Pill tone="slate" className="absolute top-4 left-4">{t(card.cat)}</Pill>
-                <Pill tone={LEVEL_TONE[card.level]} className="absolute top-4 right-14">{card.level}</Pill>
-                <span onClick={(e) => { e.stopPropagation(); toggleFav(card.fr); }} role="button" aria-label={t("Favori")} className={`absolute top-3.5 right-3.5 p-1.5 rounded-full ${favs.includes(card.fr) ? "text-rose-600" : c.faint} hover:text-rose-600`}>
-                  <Heart size={17} fill={favs.includes(card.fr) ? "currentColor" : "none"} />
+              <button onClick={tapCard} className={`fface absolute inset-0 rounded-3xl border ${c.border} ${c.card} p-10 flex flex-col items-center justify-center text-center card-lift`} aria-label={`${t("Voir la définition de")} ${card.fr}`}>
+                <Pill tone="slate" className="absolute top-5 left-5">{t(card.cat)}</Pill>
+                <Pill tone={LEVEL_TONE[card.level]} className="absolute top-5 right-16">{card.level}</Pill>
+                <span onClick={(e) => { e.stopPropagation(); toggleFav(card.fr); }} role="button" aria-label={t("Favori")} className={`absolute top-4 right-4 p-2 rounded-full ${favs.includes(card.fr) ? "text-rose-600" : c.faint} hover:text-rose-600`}>
+                  <Heart size={22} fill={favs.includes(card.fr) ? "currentColor" : "none"} />
                 </span>
-                <p className={`font-display font-bold text-2xl ${c.text}`}>{card.fr}</p>
-                <p className={`mt-3 text-xs ${c.faint}`}>{t("Cliquez pour voir la définition")}</p>
+                <p className={`font-display font-bold text-4xl md:text-5xl leading-tight ${c.text}`}>{card.fr}</p>
+                <p className={`mt-5 text-sm ${c.faint}`}>{t("Cliquez pour voir la définition")}</p>
               </button>
-              <button onClick={tapCard} className="fface fback absolute inset-0 rounded-3xl p-6 flex flex-col justify-center text-left text-white grad-brand shadow-xl" aria-label={t("Mot suivant")}>
-                <Pill tone="slate" className="absolute top-4 right-4 !bg-white/20 !text-white">{card.level}</Pill>
-                <p className="text-base font-semibold leading-relaxed">{card.def}</p>
-                <p className="mt-3 text-sm italic opacity-90">« {card.ex} »</p>
-                <p className="mt-5 text-xs opacity-75 flex items-center gap-1.5"><ArrowRight size={13} /> {t("Cliquez pour le mot suivant")}</p>
+              <button onClick={tapCard} className="fface fback absolute inset-0 rounded-3xl p-10 flex flex-col justify-center text-left text-white grad-brand shadow-xl" aria-label={t("Mot suivant")}>
+                <Pill tone="slate" className="absolute top-5 right-5 !bg-white/20 !text-white">{card.level}</Pill>
+                <p className="text-xl md:text-2xl font-semibold leading-relaxed">{card.def}</p>
+                <p className="mt-4 text-base md:text-lg italic opacity-90">« {card.ex} »</p>
+                <p className="mt-7 text-sm opacity-75 flex items-center gap-1.5"><ArrowRight size={15} /> {t("Cliquez pour le mot suivant")}</p>
               </button>
             </div>
           </div>
