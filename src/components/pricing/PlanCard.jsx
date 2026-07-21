@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { startCheckout } from "@/services/stripeService";
+import { startCheckout, promoLabel } from "@/services/stripeService";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
 // for the top VIP tier. `grad` drives the price text, the "popular" badge and
@@ -35,18 +35,44 @@ function beforePrice(price) {
   return price.replace(m[0], Number.isInteger(doubled) ? String(doubled) : doubled.toFixed(2));
 }
 
+// Applies a validated promo to the plan price so the page can preview what the
+// user will actually be charged, keeping the string's currency formatting
+// ("$4.99" → "$3.99"). percent_off is exact; amount_off is subtracted in whole
+// currency units (Stripe stores it in cents). Null when there's no discount.
+function discounted(price, promo) {
+  if (!promo) return null;
+  const m = String(price).match(/\d+([.,]\d+)?/);
+  if (!m) return null;
+  const n = parseFloat(m[0].replace(",", "."));
+  if (!n) return null;
+  let value;
+  if (promo.percentOff) value = n * (1 - promo.percentOff / 100);
+  else if (promo.amountOff) value = Math.max(0, n - promo.amountOff / 100);
+  else return null;
+  const rounded = Math.round(value * 100) / 100;
+  if (rounded === n) return null;
+  return price.replace(m[0], Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2));
+}
+
 export function PlanCard({ p, compact, promo, index = 0 }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.priceId;
   const oldPrice = paid ? beforePrice(p.price) : null;
+  // With a promo applied, preview the post-discount price: it becomes the big
+  // number, the (pre-promo) plan price is struck through, and the launch −50 %
+  // marketing badge is replaced by the promo's own discount label.
+  const promoPrice = paid ? discounted(p.price, promo) : null;
+  const mainPrice = promoPrice || p.price;
+  const struckPrice = promoPrice ? p.price : oldPrice;
+  const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? "−50 %" : null);
 
   const subscribe = async () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
     setBusy(true);
     try {
-      await startCheckout(p.priceId, promo);
+      await startCheckout(p.priceId, promo?.code);
     } catch (err) {
       notify(t(err?.message === "already-subscribed"
         ? "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil."
@@ -82,13 +108,13 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
           <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
-            <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{p.price}</span>
-            {oldPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{oldPrice}</span>}
+            <span key={mainPrice} className="metal-text font-display font-extrabold text-4xl rise" style={gradText}>{mainPrice}</span>
+            {struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
             <span className={`text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
           </p>
-          {oldPrice && (
+          {priceBadge && (
             <p className="mt-1.5">
-              <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">−50 %</span>
+              <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
             </p>
           )}
           <ul className="mt-6 space-y-3 flex-1">
