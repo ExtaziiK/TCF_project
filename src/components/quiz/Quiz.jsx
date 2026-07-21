@@ -365,6 +365,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
             <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <Pill tone="slate">Question {i + 1} / {questions.length}</Pill>
+                {q.points != null && <Pill tone="amber">{q.points} pt{q.points > 1 ? "s" : ""}</Pill>}
                 {q.level && <Pill tone="blue">Niveau {q.level}</Pill>}
               </div>
               {!autoAdvance && bookmarkBtn}
@@ -415,6 +416,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
           <div className="flex items-center gap-2 flex-wrap">
             <Pill tone="slate">Question {i + 1} / {questions.length}</Pill>
+            {q.points != null && <Pill tone="amber">{q.points} pt{q.points > 1 ? "s" : ""}</Pill>}
             <Pill tone={unanswered === 0 ? "green" : "blue"}>{answeredCount} / {questions.length} répondue{answeredCount > 1 ? "s" : ""}</Pill>
             {q.level && <Pill tone="blue">Niveau {q.level}</Pill>}
             {q.custom && <Pill tone="amber"><Upload size={11} /> Importée</Pill>}

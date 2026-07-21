@@ -109,6 +109,7 @@ function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
         exp: a.explanation || "",
         audio: aud.url,
         image: img.url,
+        ...(a.points != null ? { points: a.points } : {}),
         ...(sign ? { sign } : {}),
       };
     })
@@ -191,6 +192,7 @@ function fromSeriesFormat(data, { section, fileName, audioMap, imageMap }) {
         exp: q.explanation || "",
         audio: aud.url,
         image: img.url,
+        ...(q.points != null ? { points: q.points } : {}),
         ...(sign ? { sign } : {}),
       };
     })
