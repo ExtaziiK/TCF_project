@@ -775,8 +775,16 @@ export const EN = {
   "Aucun mot ne correspond à": "No word matches",
   "dans cette catégorie.": "in this category.",
   "Cliquez pour voir la définition": "Click to see the definition",
+  "Cliquez pour le mot suivant": "Click for the next word",
   "Retourner la carte": "Flip the card",
   "Favori": "Favorite",
+  "Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.":
+    "One card at a time, drawn at random from the bank. Click to reveal the definition, then move on to the next word.",
+  "Mode cartes": "Card mode",
+  "Mot suivant": "Next word",
+  "Voir la définition de": "See the definition of",
+  "Cacher": "Hide",
+  "Aucun mot dans cette catégorie.": "No words in this category.",
 
   // ── Mock exams ───────────────────────────────────────────────────────
   "Conditions d'examen": "Exam conditions",
