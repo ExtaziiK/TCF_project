@@ -92,7 +92,7 @@ export function Vocabulary() {
         <div className="flex gap-2 flex-wrap">
           {VOCAB_CATS.map((ct) => (
             <button key={ct} onClick={() => setCat(ct)} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === ct ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-              {t(ct)}{ct !== "Tous" && <span className="ml-1.5 opacity-60">{VOCAB.filter((v) => v.cat === ct).length}</span>}
+              {t(ct)}
             </button>
           ))}
         </div>

@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { ChevronLeft, BookOpen, PenLine, ArrowRight } from "lucide-react";
+import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { GrammarExercise } from "@/components/grammar/GrammarExercise";
+import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
 import { GRAMMAR_TOPICS } from "@/constants/grammar";
 
 export function Grammar() {
   const { c, t } = useApp();
   const [topicId, setTopicId] = useState(null);
+  const [mode, setMode] = useState("lessons");
   const topic = GRAMMAR_TOPICS.find((tp) => tp.id === topicId);
   if (topic) {
     return (
@@ -34,21 +36,33 @@ export function Grammar() {
   }
   return (
     <PageShell back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.")}>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {GRAMMAR_TOPICS.map((tp, i) => (
-          <button key={tp.id} onClick={() => setTopicId(tp.id)} className="text-left">
-            <Card lift className="p-6 h-full">
-              <div className="flex items-center justify-between">
-                <span className="w-10 h-10 rounded-2xl bg-blue-600/10 text-blue-600 font-mono2 font-bold flex items-center justify-center">{String(i + 1).padStart(2, "0")}</span>
-                <Pill tone="slate">{tp.qs.length} {t(tp.qs.length > 1 ? "exercices" : "exercice")}</Pill>
-              </div>
-              <h3 className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t(tp.t)}</h3>
-              <p className={`mt-1.5 text-sm ${c.sub}`}>{t(tp.d)}</p>
-              <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">{t("Ouvrir la leçon")} <ArrowRight size={14} /></p>
-            </Card>
-          </button>
-        ))}
+      <div className="flex justify-end mb-6">
+        <button onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+        </button>
       </div>
+      {mode === "quiz" ? (
+        <>
+          <p className={`text-center text-sm mb-6 ${c.sub}`}>{t("Toutes les leçons, un exercice à la fois. Chaque réponse est expliquée.")}</p>
+          <GrammarQuiz />
+        </>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {GRAMMAR_TOPICS.map((tp, i) => (
+            <button key={tp.id} onClick={() => setTopicId(tp.id)} className="text-left">
+              <Card lift className="p-6 h-full">
+                <div className="flex items-center justify-between">
+                  <span className="w-10 h-10 rounded-2xl bg-blue-600/10 text-blue-600 font-mono2 font-bold flex items-center justify-center">{String(i + 1).padStart(2, "0")}</span>
+                  <Pill tone="slate">{tp.qs.length} {t(tp.qs.length > 1 ? "exercices" : "exercice")}</Pill>
+                </div>
+                <h3 className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t(tp.t)}</h3>
+                <p className={`mt-1.5 text-sm ${c.sub}`}>{t(tp.d)}</p>
+                <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">{t("Ouvrir la leçon")} <ArrowRight size={14} /></p>
+              </Card>
+            </button>
+          ))}
+        </div>
+      )}
     </PageShell>
   );
 }

@@ -742,6 +742,10 @@ export const EN = {
   "À vous de jouer": "Your turn",
   "Bonne réponse !": "Correct!",
   "Pas tout à fait.": "Not quite.",
+  "Mode leçons": "Lesson mode",
+  "Recommencer": "Restart",
+  "Toutes les leçons, un exercice à la fois. Chaque réponse est expliquée.":
+    "Every lesson, one exercise at a time. Each answer is explained.",
   "Les articles": "Articles",
   "Définis, indéfinis et partitifs : le, la, un, du, des…": "Definite, indefinite and partitive: le, la, un, du, des…",
   "Les pronoms": "Pronouns",
