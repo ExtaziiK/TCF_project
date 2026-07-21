@@ -1,5 +1,5 @@
 import { listQuestions } from "@/services/questionsService";
-import { WRITING_TASKS } from "@/constants/writing";
+import { WRITING_TASKS, EE_COMBINATIONS } from "@/constants/writing";
 import { SPEAKING_TASKS } from "@/constants/speaking";
 
 // Practice sessions for Expression écrite / orale, driven by the Question
@@ -104,9 +104,25 @@ function toSpeakingTask(entry) {
 
 /* ----------------------------- session builder --------------------------- */
 
+// Expression écrite rotates by whole COMBINATION: each visit serves one
+// complete subject (its three tâches together) and rotates through the
+// combinations on every access (least-served first, random among equals — the
+// same fairness policy used per-prompt elsewhere). This mirrors the real exam,
+// where the three tâches belong to one subject, not three independent draws.
+function generateWritingCombinationSession(userId) {
+  const seen = readSeen(userId);
+  const combo = pickLeastSeen(EE_COMBINATIONS, seen) || EE_COMBINATIONS[0];
+  recordSeen(userId, [combo.id]);
+  return OFFICIAL_TASKS.map((task) => {
+    const tk = combo.tasks.find((x) => Number(x.task) === task);
+    return tk ? { task, ...tk } : { task, empty: true };
+  });
+}
+
 // One prompt per official tâche, locked for the session. Returns
 // [{ task: 1..3, ...workshopTaskShape } | { task, empty: true }].
 export async function generateExpressionSession(userId, section) {
+  if (section === "ee" && EE_COMBINATIONS.length) return generateWritingCombinationSession(userId);
   const { questions } = await listQuestions();
   const bank = questions.filter((q) => q.section === section && q.status === "active");
   const seen = readSeen(userId);
