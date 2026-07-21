@@ -1,833 +1,1433 @@
 {
-    "id": 40027,
-    "exam_id": 2,
-    "score": 0.0,
-    "score_percent": 0.0,
-    "cefr_level": "A1 Not Achieved",
-    "clb_level": "CLB/NCLC 1-3",
-    "completed_at": "2026-07-04T19:27:34.438366+00:00",
-    "time_spent": 84,
-    "section_breakdown": {
-        "Identification": {
-            "score": 0.0,
-            "weight": 0.25
+  "metadata": {
+    "serie_number": 2,
+    "total_time_seconds": 2100,
+    "total_time_display": "35:00",
+    "page_title": "TCF Canada - Série 2 - Compréhension Orale",
+    "canonical_url": null,
+    "total_questions": 39,
+    "total_points": 699,
+    "timer_display": "35:00"
+  },
+  "scoring": {
+    "nclc": [
+      {
+        "min_points": 549,
+        "level": "NCLC 10+"
+      },
+      {
+        "min_points": 523,
+        "level": "NCLC 9"
+      },
+      {
+        "min_points": 503,
+        "level": "NCLC 8"
+      },
+      {
+        "min_points": 458,
+        "level": "NCLC 7"
+      },
+      {
+        "min_points": 398,
+        "level": "NCLC 6"
+      },
+      {
+        "min_points": 369,
+        "level": "NCLC 5"
+      },
+      {
+        "min_points": 331,
+        "level": "NCLC 4"
+      },
+      {
+        "min_points": 0,
+        "level": "< NCLC 4"
+      },
+      {
+        "min_points": 0,
+        "level": "< NCLC 4 · < A1"
+      }
+    ],
+    "cecrl": [
+      {
+        "min_points": 600,
+        "level": "C2"
+      },
+      {
+        "min_points": 500,
+        "level": "C1"
+      },
+      {
+        "min_points": 400,
+        "level": "B2"
+      },
+      {
+        "min_points": 300,
+        "level": "B1"
+      },
+      {
+        "min_points": 200,
+        "level": "A2"
+      },
+      {
+        "min_points": 100,
+        "level": "A1"
+      },
+      {
+        "min_points": 0,
+        "level": "< A1"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "points": 3,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q1.mp3",
+      "image_url": "https://xxynrtfwesaulvezeveb.supabase.co/storage/v1/object/public/Image/CO_Serie_2_Q1.jpg",
+      "audio_filename": "Test-2–Q1.mp3",
+      "image_filename": "CO_Serie_2_Q1.jpg",
+      "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
+      "max_plays": 2,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
         },
-        "Compréhension": {
-            "score": 0.0,
-            "weight": 0.35
+        {
+          "id": "B",
+          "text": ""
         },
-        "Inférence": {
-            "score": 0.0,
-            "weight": 0.2
+        {
+          "id": "C",
+          "text": ""
         },
-        "Gestion du temps": {
-            "score": 0.0,
-            "weight": 0.2
+        {
+          "id": "D",
+          "text": ""
         }
+      ],
+      "correct": "C",
+      "correct_option_text": "",
+      "transcript": "A. J'aimerais ouvrir ce colis. C'est un cadeau. B. Je n'arrive pas à écrire le courrier pour le directeur. C. Je voudrais envoyer cette lettre, s'il vous plaît. D. Le facteur est passé. Tu vas chercher le courrier?",
+      "explanation": "La bonne réponse est C.",
+      "words": [],
+      "question_type": "image_audio_mcq"
     },
-    "detailed_answers": [
+    {
+      "id": 2,
+      "points": 3,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q2.mp3",
+      "image_url": "https://xxynrtfwesaulvezeveb.supabase.co/storage/v1/object/public/Image/CO_Serie_2_Q2.jpg",
+      "audio_filename": "Test-2–Q2.mp3",
+      "image_filename": "CO_Serie_2_Q2.jpg",
+      "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
+      "max_plays": 2,
+      "options": [
         {
-            "question_id": 40,
-            "question_text": "Compréhension orale – Quiz 2 – Question 1",
-            "question_type": "mcq",
-            "order": 1,
-            "user_answer": "D",
-            "user_selected_option_id": 13620,
-            "correct_answer": "C",
-            "correct_option_id": 13619,
-            "is_correct": false,
-            "is_answered": true,
-            "explanation": null,
-            "time_spent": 8,
-            "flagged": false,
-            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_2_question_1.mp3",
-            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_2_question_1.webp",
-            "all_options": [
-                {
-                    "id": 13617,
-                    "text": "A",
-                    "is_correct": false,
-                    "order": 1
-                },
-                {
-                    "id": 13618,
-                    "text": "B",
-                    "is_correct": false,
-                    "order": 2
-                },
-                {
-                    "id": 13619,
-                    "text": "C",
-                    "is_correct": true,
-                    "order": 3
-                },
-                {
-                    "id": 13620,
-                    "text": "D",
-                    "is_correct": false,
-                    "order": 4
-                }
-            ]
+          "id": "A",
+          "text": ""
         },
         {
-            "question_id": 41,
-            "question_text": "Compréhension orale – Quiz 2 – Question 2",
-            "question_type": "mcq",
-            "order": 2,
-            "user_answer": "D",
-            "user_selected_option_id": 13624,
-            "correct_answer": "C",
-            "correct_option_id": 13623,
-            "is_correct": false,
-            "is_answered": true,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_2_question_2.mp3",
-            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_2_question_2.webp",
-            "all_options": [
-                {
-                    "id": 13621,
-                    "text": "A",
-                    "is_correct": false,
-                    "order": 1
-                },
-                {
-                    "id": 13622,
-                    "text": "B",
-                    "is_correct": false,
-                    "order": 2
-                },
-                {
-                    "id": 13623,
-                    "text": "C",
-                    "is_correct": true,
-                    "order": 3
-                },
-                {
-                    "id": 13624,
-                    "text": "D",
-                    "is_correct": false,
-                    "order": 4
-                }
-            ]
+          "id": "B",
+          "text": ""
         },
         {
-            "question_id": 42,
-            "question_text": "Compréhension orale – Quiz 2 – Question 3",
-            "question_type": "mcq",
-            "order": 3,
-            "user_answer": "D",
-            "user_selected_option_id": 13628,
-            "correct_answer": "B",
-            "correct_option_id": 13626,
-            "is_correct": false,
-            "is_answered": true,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": "https://adilzino.com/media/questions/audio/Comprehension_Orale_quiz_2_question_3.mp3",
-            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Orale_quiz_2_question_3.webp",
-            "all_options": [
-                {
-                    "id": 13625,
-                    "text": "A",
-                    "is_correct": false,
-                    "order": 1
-                },
-                {
-                    "id": 13626,
-                    "text": "B",
-                    "is_correct": true,
-                    "order": 2
-                },
-                {
-                    "id": 13627,
-                    "text": "C",
-                    "is_correct": false,
-                    "order": 3
-                },
-                {
-                    "id": 13628,
-                    "text": "D",
-                    "is_correct": false,
-                    "order": 4
-                }
-            ]
+          "id": "C",
+          "text": ""
         },
         {
-            "question_id": 43,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 4,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 44,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 5,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 45,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 6,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 46,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 7,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 47,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 8,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 48,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 9,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 49,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 10,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 50,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 11,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 51,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 12,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 52,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 13,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 53,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 14,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 54,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 15,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 55,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 16,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 56,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 17,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 57,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 18,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 58,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 19,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 59,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 20,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 60,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 21,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 61,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 22,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 62,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 23,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 63,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 24,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 64,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 25,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 65,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 26,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 66,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 27,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 67,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 28,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 68,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 29,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 69,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 30,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 70,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 31,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 71,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 32,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 72,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 33,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 73,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 34,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 74,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 35,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 75,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 36,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 76,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 37,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 77,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 38,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
-        },
-        {
-            "question_id": 78,
-            "question_text": null,
-            "question_type": "mcq",
-            "order": 39,
-            "user_answer": null,
-            "user_selected_option_id": null,
-            "correct_answer": null,
-            "correct_option_id": null,
-            "is_correct": null,
-            "is_answered": false,
-            "explanation": null,
-            "time_spent": 0,
-            "flagged": false,
-            "audio_url": null,
-            "image_url": null,
-            "all_options": []
+          "id": "D",
+          "text": ""
         }
-    ],
-    "locked": false,
-    "percentile": 5,
-    "strengths": [
-        "Reconnaissance des mots simples et familiers",
-        "Compréhension de phrases très directes",
-        "Identification des nombres et informations évidentes",
-        "Réponse aux questions d'identification simple (nom, âge, lieu)"
-    ],
-    "improvements": [
-        "Compréhension globale du contexte",
-        "Gestion du vocabulaire au-delà des bases",
-        "Suivi d'une conversation continue",
-        "Distinction des différentes structures grammaticales"
-    ],
-    "recommendations": [
-        "Écouter 10-15 min/jour de français très lent (Easy French, Learn French by Ear)",
-        "Utiliser des vidéos YouTube avec sous-titres français",
-        "Apprendre les 100 mots les plus fréquents en français",
-        "Répéter après chaque phrase écoutée (shadowing)",
-        "Créer des fiches avec vocabulaire de base (salutations, nombres, jours)"
-    ],
-    "exam_title": "Compréhension orale – Quiz 2",
-    "max_score": 699,
-    "writing_evaluation": null,
-    "section_slug": "comprehension_orale",
-    "related_attempt_ids": null
+      ],
+      "correct": "C",
+      "correct_option_text": "",
+      "transcript": "A. Arrête de jouer avec le ballon. B. Fais attention avant de traverser. C. Mets ton bonnet tout de suite. D. Regarde les enfants.",
+      "explanation": "La bonne réponse est C.",
+      "words": [],
+      "question_type": "image_audio_mcq"
+    },
+    {
+      "id": 3,
+      "points": 3,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q3.mp3",
+      "image_url": "https://xxynrtfwesaulvezeveb.supabase.co/storage/v1/object/public/Image/CO_Serie_2_Q3.jpg",
+      "audio_filename": "Test-2–Q3.mp3",
+      "image_filename": "CO_Serie_2_Q3.jpg",
+      "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "",
+      "transcript": "Bravo au cuisinier, c'est délicieux. Je voudrais une table près de la fenêtre. Un autre café, s'il vous plaît. Vous pouvez garder la monnaie.",
+      "explanation": "La bonne réponse est B.",
+      "words": [],
+      "question_type": "image_audio_mcq"
+    },
+    {
+      "id": 4,
+      "points": 3,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q4.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q4.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "",
+      "transcript": "Allô, Anne, je suis libre demain. Nous déjeunons ensemble ? A. Avec plaisir. B. Ça va, merci. C. Je t'en prie. D. Pas de quoi.",
+      "explanation": "La réponse A, \"Avec plaisir\", est la bonne réponse car elle exprime un sentiment positif et une acceptation de l'invitation à déjeuner. L'expression \"Avec plaisir\" signifie que la personne est heureuse et enthousiaste à l'idée de passer du temps avec l'autre personne. C'est une réponse courante dans les situations sociales où l'on accepte une invitation avec enthousiasme.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 5,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q5.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q5.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "",
+      "transcript": "Avez-vous entendu quelque chose ? A. Merci, je ne veux rien. B. Non, c'est par là. C. Oui, je crois. D. Peut-être demain ?",
+      "explanation": "La bonne réponse est C parce que la question demande s'il a entendu quelque chose, ce qui implique qu'il est en train d'écouter ou qu'il a une perception aigüe. La réponse \"Oui, je crois\" (C) suggère qu'il a bien entendu quelque chose, même si c'est une perception vague ou incertaine. Les autres réponses ne répondent pas directement à la question ou sont des réponses inappropriées.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 6,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q6.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q6.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "",
+      "transcript": "J'ai trouvé un nouveau restaurant. On réserve une table pour deux à midi. Tu es d'accord ? A. Désolé, je mange avec mes collègues. B. Désolé, je ne peux pas t'aider. C. Désolé, je préfère le menu à 18 euros. D. Désolé, je te réponds dans la soirée. Merci.",
+      "explanation": "La bonne réponse est A car elle montre un accord avec la proposition de réserver une table pour deux à midi, mais avec une condition : le protagoniste a prévu de manger avec ses collègues. Cette réponse est appropriée car elle montre une compréhension de la situation et une manière de refuser la proposition tout en étant poli.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 7,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q7.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q7.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "",
+      "transcript": "Salut Charlie, je prends l'avion jeudi à 4h du matin. À cette heure-là, il n'y a pas de transport en commun. Tu pourrais m'emmener à l'aéroport en voiture ? A. Avec plaisir, j'adore les voyages. B. Bien sûr, je passe te prendre chez toi. C. D'accord, je te prêterai ma valise. D. Parfait, je viendrai te chercher à la gare.",
+      "explanation": "La bonne réponse est B car elle répond directement à la question posée par Charlie, qui demande à être emmené à l'aéroport en voiture. La réponse B \"Bien sûr, je passe te prendre chez toi\" montre que l'interlocuteur est prêt à aider Charlie et à l'emmener à l'aéroport, ce qui est exactement ce dont il a besoin.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 8,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q8.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q8.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "",
+      "transcript": "Dimanche, il fera beau. J'aimerais bien faire un peu de sport. Tu veux faire du vélo avec moi ? A. Attends, je prends mes lunettes de soleil. B. Bonne idée. On pourra aller en forêt. C. C'est d'accord. J'arrive tout de suite. D. Quel dommage ! Demain c'est fermé !",
+      "explanation": "La bonne réponse est B. En effet, la personne qui parle a proposé de faire du vélo, et la réponse B montre qu'elle est d'accord avec cette idée et propose d'aller en forêt, ce qui est une extension logique de l'activité proposée.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 9,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q9.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q9.mp3",
+      "image_filename": null,
+      "question": "Écoutez l'extrait sonore et les 4 propositions",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": ""
+        },
+        {
+          "id": "B",
+          "text": ""
+        },
+        {
+          "id": "C",
+          "text": ""
+        },
+        {
+          "id": "D",
+          "text": ""
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "",
+      "transcript": "Salut Yann, je fais une fête samedi, tu viens ? Oui, super, avec plaisir. Comment on fait pour aller chez toi ? A. Tu apportes quelque chose à boire. B. Tu arrives vers 20h30. C. Tu descends au dernier arrêt du bus 78. D. Tu peux venir avec ta sœur si tu veux. Sous-titrage Société Radio-Canada",
+      "explanation": "La bonne réponse est C car la question posée par Yann est \"Comment on fait pour aller chez toi ?\" et la réponse C \"Tu descends au dernier arrêt du bus 78\" fournit une information pratique sur la façon de se rendre à la maison de Yann.",
+      "words": [],
+      "question_type": "audio_mcq"
+    },
+    {
+      "id": 10,
+      "points": 9,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q10.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q10.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Écrire."
+        },
+        {
+          "id": "B",
+          "text": "Téléphoner."
+        },
+        {
+          "id": "C",
+          "text": "Lire."
+        },
+        {
+          "id": "D",
+          "text": "Écouter."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "Téléphoner.",
+      "transcript": "À 20h50 sur notre chaîne, participez à notre émission. Composez le 01 40 00 01 01 pour choisir la meilleure chanson francophone de l'année. Que doit-on faire pour participer ? Sous-titrage Société Radio-Canada",
+      "explanation": "Pour participer à l'émission, il faut composer le 01 40 00 01 01, ce qui est mentionné dans le message. Cette action permet de choisir la meilleure chanson francophone de l'année.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 11,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q11.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q11.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Il eut un accident sur la route."
+        },
+        {
+          "id": "B",
+          "text": "Il fait une chute à la montagne."
+        },
+        {
+          "id": "C",
+          "text": "Il est tombé dans son escalier."
+        },
+        {
+          "id": "D",
+          "text": "Il s'est battu avec un ami."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Il est tombé dans son escalier.",
+      "transcript": "Mais qu'est-ce qui t'est arrivé, Olivier ? Tu t'es blessé dans une bagarre ? Non, c'est une histoire idiote. Je suis allé skier avec des copains dans une station près de Montréal. On a passé la journée à descendre les pistes à toute allure. Et c'est comme ça que tu t'es cassé le bras ? Même pas. Je suis rentré chez moi en voiture et là j'ai manqué une marche en montant à l'étage. Comment Olivier s'est-il cassé le bras ? Sous-titrage Société Radio-Canada",
+      "explanation": "La bonne réponse est C car Olivier a expliqué qu'il s'est blessé en montant à l'étage de chez lui après être rentré en voiture, en manquant une marche. Cette explication contradictoire avec l'idée initiale de blessure causée par une bagarre ou une activité de ski montre que la bonne réponse est celle qui correspond à son récit.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 12,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q12.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q12.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De faire des rencontres."
+        },
+        {
+          "id": "B",
+          "text": "De manger gratuitement."
+        },
+        {
+          "id": "C",
+          "text": "De trouver un travail."
+        },
+        {
+          "id": "D",
+          "text": "De vivre chez quelqu'un."
+        }
+      ],
+      "correct": "D",
+      "correct_option_text": "De vivre chez quelqu'un.",
+      "transcript": "Bonjour monsieur, je suis étudiante, je cherche un logement. Bienvenue chez nous. Est-ce que vous savez comment fonctionne notre association ? Non, pas très bien. Eh bien, vous habitez chez une personne âgée et en échange vous lui rendez quelques petits services, faire les courses, préparer le repas et surtout lui tenir compagnie. Et combien ça coûte ? Ça dépend du temps passé auprès de la personne et de ce que vous faites. Vous payerez un petit loyer si vous assurez seulement une présence certains soirs. Que permet cette association ?",
+      "explanation": "L'association permet aux étudiants de trouver un logement en échange de services, tels que faire les courses, préparer les repas et tenir compagnie à des personnes âgées. En effet, la conversation décrit un système de logement partagé où les étudiants vivent chez des personnes âgées et reçoivent un petit loyer en échange de leur présence et de leurs services.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 13,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q13.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q13.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De l'actualité européenne."
+        },
+        {
+          "id": "B",
+          "text": "Du dernier film qu'elles ont vu."
+        },
+        {
+          "id": "C",
+          "text": "D'un trafic de documents."
+        },
+        {
+          "id": "D",
+          "text": "D'un vieil ami commun."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "Du dernier film qu'elles ont vu.",
+      "transcript": "Alors, tu as aimé ? Bof, je n'ai pas très bien compris la fin. Ah oui ? Mais enfin, le héros quitte secrètement la France. Et il part où ? Je ne sais pas, en Espagne, il est espagnol. Alors pourquoi le voit-on rentrer dans cette maison ? Pour aller chercher un faux passeport. Tu t'es endormi pendant la séance, toi, non ? De quoi parlent ces deux personnes ? Sous-titrage Société Radio-Canada",
+      "explanation": "Ces deux personnes discutent d'une histoire qu'elles ont regardée, mais elles ne l'ont pas bien comprise. Elles essaient de se rappeler les détails, notamment la fin, mais leurs explications sont fausses et absurdes, ce qui suggère qu'elles ne l'ont pas vraiment suivie. Le sous-titrage \"Société Radio-Canada\" indique que cette conversation est une parodie de discussion de critique de film.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 14,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q14.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q14.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Conseiller les parents en matière d'alimentation."
+        },
+        {
+          "id": "B",
+          "text": "Créer l'occasion de se retrouver en famille."
+        },
+        {
+          "id": "C",
+          "text": "Découvrir des recettes de grand-mère."
+        },
+        {
+          "id": "D",
+          "text": "Ressembler des enfants du monde entier."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "Créer l'occasion de se retrouver en famille.",
+      "transcript": "Cette fête de la gastronomie a l'occasion d'évoquer un plaisir que l'on peut partager très tôt en famille, le plaisir de cuisiner à quatre mains, parents et enfants, réunis autour d'une même recette. Cuisiner avec son enfant, c'est une activité à la fois ludique, créative, enrichissante pour un enfant, puisqu'elle fait appel à tous ses sens, et c'est bien entendu un bon moment à passer ensemble. Selon cette personne, que permet la fête de la gastronomie ? Sous-titrage Société Radio-Canada",
+      "explanation": "La bonne réponse est B car la fête de la gastronomie permet aux parents et aux enfants de cuisiner ensemble, ce qui est décrit comme une activité ludique, créative et enrichissante pour l'enfant. Cela correspond à l'idée selon laquelle la fête de la gastronomie offre l'occasion de partager un plaisir familial et de passer du temps ensemble.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 15,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q15.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q15.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Féliciter les acteurs dans leur loge."
+        },
+        {
+          "id": "B",
+          "text": "Remettre un vêtement du vestiaire."
+        },
+        {
+          "id": "C",
+          "text": "Retourner à la salle de spectacle."
+        },
+        {
+          "id": "D",
+          "text": "S'informer sur la programmation."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "Remettre un vêtement du vestiaire.",
+      "transcript": "Puis-je déposer mon manteau ? Certainement, madame. C'est à votre gauche. Cette année, c'est gratuit pour les abonnés au théâtre. Voilà une bonne nouvelle pour débuter la saison. Je vous souhaite une agréable soirée. Que souhaite faire la femme ?",
+      "explanation": "La femme demande où elle peut déposer son manteau, et l'employé lui indique la direction et précise que c'est gratuit pour les abonnés au théâtre. La femme a donc déjà fait ce qu'elle voulait faire, qui était de déposer son manteau.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 16,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q16.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q16.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "D'essayer un vêtement près du corps."
+        },
+        {
+          "id": "B",
+          "text": "De changer la taille de l'article choisi."
+        },
+        {
+          "id": "C",
+          "text": "De choisir une tenue multicolore."
+        },
+        {
+          "id": "D",
+          "text": "De compléter son achat avec un pull."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "D'essayer un vêtement près du corps.",
+      "transcript": "« Vous désirez ? » « Est-ce que cette veste existe en noir ? » « Je ne l'ai plus. Mais nous avons ce modèle-là, plus classique. Passez-la. » « Oh, elle est trop serrée. » « Non, je vous assure. C'est la tendance, cette année, de porter les vestes cintrées. » « Je ne pourrais pas mettre de gilet en dessous. » « Oh, vous n'en avez pas besoin. C'est de la pure laine. Ça tient chaud. » « Bon, je la prends. » Que propose la vendeuse à la cliente ?",
+      "explanation": "La vendeuse propose à la cliente un modèle de veste plus classique qui est disponible dans leur magasin. Elle essaie de convaincre la cliente en expliquant que la veste cintrée est tendance cette année et qu'elle est suffisamment chaude pour ne pas nécessiter un gilet en dessous.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 17,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q17.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q17.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "À un couturier."
+        },
+        {
+          "id": "B",
+          "text": "À un jardinier."
+        },
+        {
+          "id": "C",
+          "text": "À un traiteur."
+        },
+        {
+          "id": "D",
+          "text": "À un décorateur."
+        }
+      ],
+      "correct": "D",
+      "correct_option_text": "À un décorateur.",
+      "transcript": "Vous, en professionnel, qu'est-ce que vous me conseillez pour l'entrée? Pour l'entrée, Mme Martin, quelque chose de doux, de fleuri, dans les roses peut-être. Ah, ça c'est une bonne idée. Et pour la pièce principale? Là, au contraire, il faut de la lumière. Je pense que du jaune ou du saumon irait bien. À qui Mme Martin demande-t-elle des conseils? Sous-titrage Société Radio-Canada",
+      "explanation": "Mme Martin demande des conseils à un professionnel, qui lui propose une entrée douce et fleurie avec des roses, et une pièce principale plus lumineuse avec des couleurs comme le jaune ou le saumon. Cela suggère que le professionnel est un expert en cuisine, qui lui donne des conseils pour préparer un repas.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 18,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q18.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q18.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De déjeuner ensemble."
+        },
+        {
+          "id": "B",
+          "text": "De faire une soirée."
+        },
+        {
+          "id": "C",
+          "text": "De participer à un jeu."
+        },
+        {
+          "id": "D",
+          "text": "De rencontrer un invité."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "De déjeuner ensemble.",
+      "transcript": "Tout le monde rêve de faire de la proximité, d'être proche des auditeurs, alors quand on est une radio associative locale, on a plus de facilité. Vous, chaque vendredi, vous ouvrez le local à 13h, on peut venir avec son panier et on partage en commun le repas. Tout à fait, et là pour la fin de l'année, on a donc lancé une invitation à tous ceux qui voudraient pour venir manger avec nous et réaliser une émission collective de fin d'année, un petit peu festive. Que propose chaque semaine cette radio à ses auditeurs ?",
+      "explanation": "La bonne réponse est A car la radio associative locale propose à ses auditeurs de partager un repas collectif chaque vendredi, ce qui crée une proximité avec les auditeurs. Cela montre que la radio est en mesure de nouer des liens avec sa audience et de créer un sentiment de communauté. En effet, la radio invite les auditeurs à venir manger avec eux, ce qui renforce la relation entre les deux parties.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 19,
+      "points": 15,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q19.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q19.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Avoir de l'expérience dans la vente."
+        },
+        {
+          "id": "B",
+          "text": "Habiter près de Sainton-les-Tonges."
+        },
+        {
+          "id": "C",
+          "text": "Pratiquer régulièrement un sport."
+        },
+        {
+          "id": "D",
+          "text": "Savoir gérer un site internet."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Pratiquer régulièrement un sport.",
+      "transcript": "Et maintenant, les annonces de Radio Saint-Onge. Vous faites du sport dans un club et avez toujours rêvé de faire de votre passion votre métier ? Les magasins Sportez-vous bien recherchent des vendeurs qui soient en même temps des sportifs pour l'ouverture de leur nouvelle boutique à Saint-Onge-les-Tonges. Si vous êtes intéressé, veuillez déposer votre CV et votre lettre de motivation dans la boutique la plus proche de chez vous ou en ligne sur notre site Internet. Quelle est la condition pour répondre à cette annonce ?",
+      "explanation": "La bonne réponse est C. La condition pour répondre à cette annonce est que les candidats doivent être en même temps des sportifs, ce qui est mentionné dans l'annonce comme une exigence pour les vendeurs recherchés. En effet, l'annonce précise que les magasins Sportez-vous bien recherchent des vendeurs \"qui soient en même temps des sportifs\".",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 20,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q20.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q20.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "La circulation routière est coupée."
+        },
+        {
+          "id": "B",
+          "text": "La commande s'est perdue."
+        },
+        {
+          "id": "C",
+          "text": "Le transporteur est en grève."
+        },
+        {
+          "id": "D",
+          "text": "Les marchandises ont été volées."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "La circulation routière est coupée.",
+      "transcript": "Allô, bonjour. Je suis Madame Leroy. J'ai passé une commande de vêtements par téléphone il y a dix jours avec une livraison à domicile. Et pourtant, rien n'est arrivé pour l'instant. Donnez-moi votre numéro client Blanche Maison, s'il vous plaît. Je vais vérifier. En effet, la livraison n'a pas été faite. La neige a interrompu le trafic. Le transporteur ne pourra vous livrer que demain. Pourquoi y a-t-il un retard de livraison ?",
+      "explanation": "La réponse A est correcte car la cliente a été informée que la livraison n'a pas été faite en raison de la neige qui a interrompu le trafic, ce qui a empêché le transporteur de livrer les vêtements à temps. Le transporteur ne pourra livrer que le lendemain, ce qui justifie le retard de livraison.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 21,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q21.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q21.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Interviewer un réalisateur."
+        },
+        {
+          "id": "B",
+          "text": "Participer à un festival."
+        },
+        {
+          "id": "C",
+          "text": "Tourner un film."
+        },
+        {
+          "id": "D",
+          "text": "Visiter des studios de cinéma."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Tourner un film.",
+      "transcript": "Régis Solivérez, bonjour. Bonjour, bonjour Philippe. Régis, vous lancez une aventure, enfin vous lycéen, dans une aventure assez incroyable qui est de participer à la réalisation d'un film. Un film avec un réalisateur professionnel, avec des professionnels du cinéma. Il s'appelle François Chailloux. Oui, à l'occasion du festival de Luchon. Ah oui ? J'ai rencontré François, je lui ai dit que je voulais faire un film. Quel est le projet de Régis Oliverès et de ses élèves ?",
+      "explanation": "La bonne réponse est C car l'entretien mentionne que Régis Solivérez a rencontré François Chailloux et lui a dit qu'il voulait faire un film, ce qui suggère que le projet de Régis et de ses élèves est de réaliser un film. La mention du festival de Luchon et du réalisateur professionnel François Chailloux renforce cette idée, suggérant que le projet est une production cinématographique.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 22,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q22.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q22.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Visiter des studios de cinéma."
+        },
+        {
+          "id": "B",
+          "text": "Lui apporter un livre."
+        },
+        {
+          "id": "C",
+          "text": "Lui présenter son travail."
+        },
+        {
+          "id": "D",
+          "text": "Lui proposer une interview."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Lui présenter son travail.",
+      "transcript": "Quand j'étais adolescent, j'avais écrit un long poème à Georges Brassens. J'avais fini de le recopier, enfin c'était une espèce de chanson que j'avais fini de recopier dans le bistrot en face de l'impasse Florimont où il habitait. Et j'étais allé lui porter. Sauf qu'il n'habitait plus là depuis des années et que j'étais assez rassuré qu'il n'habite plus là parce que je ne sais pas ce que je lui aurais raconté. Mais je l'avais écrite. Et je me dis que si un jour j'avais reçu un petit mot de Brassens me disant, j'ai lu vos chansons et j'aimerais bien vous en parler, Ça m'aurait intéressé. Qu'aurait souhaité cette personne en allant chez Georges Brassens ?",
+      "explanation": "La bonne réponse est C. La personne en question aurait souhaité que Georges Brassens lui dise qu'il avait lu ses chansons et qu'il souhaitait en parler, ce qui est mentionné dans le texte comme un scénario souhaitable. Cette réponse correspond au désir exprimé par la personne d'avoir une réaction positive de la part de Georges Brassens.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 23,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q23.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q23.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Ils déplorent un manque d'information."
+        },
+        {
+          "id": "B",
+          "text": "Ils refusent de participer à la collecte."
+        },
+        {
+          "id": "C",
+          "text": "Ils s'inquiètent de la sécurité sanitaire."
+        },
+        {
+          "id": "D",
+          "text": "Ils souhaitent rencontrer des soignants."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "Ils déplorent un manque d'information.",
+      "transcript": "La question du jour, Valérie Cantier, pourquoi l'établissement français du sang en appelle-t-il aux étudiants ? Les jeunes donnent plus facilement leur sang, il faut le savoir, ils voient ça comme un premier acte de citoyenneté, un acte solidaire, disent-ils, un geste utile, c'est ce qui ressort des sondages. Un donneur sur cinq a entre 18 et 24 ans en France, mais souvent, ils déclarent ne pas donner parce qu'ils ne sont pas sollicités, pas assez en tout cas, ou bien parce qu'ils ne savent pas où aller. Et du coup, la semaine prochaine, l'établissement français du sang lance une campagne pour mobiliser les étudiants. Le slogan, on est plus qu'amis, on est donneurs de sang. Quelle est l'attitude des jeunes face au don du sang ?",
+      "explanation": "Les jeunes donnent plus facilement leur sang car ils voient cela comme un premier acte de citoyenneté, un acte solidaire et un geste utile, selon les sondages. En outre, les étudiants représentent un groupe important de donneurs, avec un taux de 20% d'entre eux qui donnent leur sang en France. C'est pourquoi l'établissement français du sang lance une campagne pour les mobiliser.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 24,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q24.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q24.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "La voiture est interdite en centre-ville."
+        },
+        {
+          "id": "B",
+          "text": "Le sens de la circulation été modifié."
+        },
+        {
+          "id": "C",
+          "text": "Le stationnement est devenu payant."
+        },
+        {
+          "id": "D",
+          "text": "Les embouteillages sont fréquents."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Le stationnement est devenu payant.",
+      "transcript": "Charlotte, tu as trouvé une place pour te garer ? Oui, mais j'ai mis au moins un quart d'heure. Entre les emplacements réservés et les arrêts minutes... Et tu t'es garé où ? Rue Colbert, après l'intersection avec la rue en sens interdit. Tu as pensé à prendre un ticket de stationnement ? Non, c'est gratuit dans ce quartier. Plus maintenant, la réglementation vient de changer. Bon, j'y retourne avant le passage des policiers municipaux. Quel est le problème soulevé ?",
+      "explanation": "Le problème soulevé est que le stationnement est désormais payant dans le quartier, contrairement à ce que pensait Charlotte. En effet, la réglementation a changé, ce qui signifie qu'elle doit désormais acheter un ticket pour se garer. Cette nouvelle réglementation menace Charlotte d'une amende si elle ne s'acquitte pas de la formalité.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 25,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q25.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q25.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "L'organisation d'ateliers vidéo."
+        },
+        {
+          "id": "B",
+          "text": "La présence de réalisateurs étrangers."
+        },
+        {
+          "id": "C",
+          "text": "La projection de documentaire."
+        },
+        {
+          "id": "D",
+          "text": "La variété de la programmation."
+        }
+      ],
+      "correct": "D",
+      "correct_option_text": "La variété de la programmation.",
+      "transcript": "Christelle Nolo, directrice d'une salle de cinéma, nous parle du festival Le Printemps du cinéma. Je décide moi-même des films que nous présentons. Le but est de proposer le maximum de diversité, qu'il y en ait pour tous les goûts. C'est l'occasion de mettre en avant des films qui ont bien marché, mais qui n'ont pas assez été exploités. Pour les amateurs de cinéma d'auteurs, il y a aussi une sélection de 15 films à réessai, déjà récompensés. Qu'est-ce qui est important pour Christelle Nolo ?",
+      "explanation": "Christelle Nolo met l'accent sur la diversité des films proposés, ce qui inclut des films qui ont bien marché mais pas assez été exploités, ainsi qu'une sélection de 15 films à réessai, déjà récompensés. Cela suggère que la variété et l'originalité sont des aspects importants pour elle. De plus, elle décide elle-même des films présentés, ce qui implique qu'elle donne la priorité à sa propre vision et à ses choix.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 26,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q26.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q26.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "La recherche d'un appartement est rapide."
+        },
+        {
+          "id": "B",
+          "text": "Le système de la colocation est encouragé."
+        },
+        {
+          "id": "C",
+          "text": "Les habitations proposées sont de qualité."
+        },
+        {
+          "id": "D",
+          "text": "Les logements sont bon marché en banlieue."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "La recherche d'un appartement est rapide.",
+      "transcript": "Camille, à ton arrivée à Québec, dans quel type de logement résidais-tu ? J'ai d'abord habité un appartement en colocation, dans le quartier de Montcalm. Au bout de six mois à peine, j'ai emménagé à deux pas du centre-ville. C'est très simple de trouver un logement ici. Ça se fait en quelques jours. Comment as-tu trouvé ton premier appartement ? Avant de quitter la France, sur un site internet regroupant les annonces de colocation. Mais je conseille de chercher sur place. Il y a tout ce qu'il faut pour trouver facilement. On peut découvrir le quartier, voir si les pièces sont spacieuses, lumineuses et surtout bien insonorisées. Ce n'était pas le cas de mon premier logement, malgré le nom du quartier. D'après Camille, quel est le point fort de l'immobilier à Québec ? Sous-titrage Société Radio-Canada",
+      "explanation": "Camille indique que trouver un logement à Québec est très simple et se fait en quelques jours, ce qui constitue un point fort de l'immobilier dans cette ville. Cette facilité de trouver un logement est soulignée par Camille comme un avantage de vivre à Québec.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 27,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q27.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q27.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Parce qu'elles étaient difficiles à mettre en œuvre."
+        },
+        {
+          "id": "B",
+          "text": "Parce qu'elles ignoraient la particularité des contextes."
+        },
+        {
+          "id": "C",
+          "text": "Parce qu'elles avaient lieu tôt dans l'année scolaire."
+        },
+        {
+          "id": "D",
+          "text": "Parce qu'elles proposaient des exercices complexes."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Parce qu'elles avaient lieu tôt dans l'année scolaire.",
+      "transcript": "Dans toutes les écoles primaires de France, 815 900 élèves du cours élémentaire vont passer des évaluations nationales en français et mathématiques. Alors ces évaluations nationales sont-elles utiles ? L'évaluation est un acte quotidien pour tous les enseignants. Là, c'est une évaluation institutionnelle que propose le ministère de l'Éducation nationale. Ça a déjà été effectué au mois de janvier pour les élèves du cours moyen et, à l'époque, on l'avait d'ailleurs fortement critiqué puisque c'était une évaluation qui intervenait au mois de janvier alors qu'une grande partie des programmes n'avaient pas été effectués. Pour quelles raisons ces évaluations ont-elles été critiquées ? Sous-titrage Société Radio-Canada",
+      "explanation": "Les évaluations nationales ont été critiquées parce que la plupart des programmes n'avaient pas été effectués au moment de leur administration, ce qui rendait difficile pour les élèves de se préparer et pour les enseignants de les évaluer de manière équitable. Cela a également créé un sentiment d'incohérence dans la mise en œuvre des programmes scolaires. Cette critique est particulièrement pertinente dans le contexte de l'évaluation de janvier pour les élèves du cours moyen.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 28,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q28.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q28.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "L'état actuel de la biodiversité."
+        },
+        {
+          "id": "B",
+          "text": "L'existence de plantes menaçantes."
+        },
+        {
+          "id": "C",
+          "text": "La découverte de nouvelles espèces menacées."
+        },
+        {
+          "id": "D",
+          "text": "Le rôle de l'ONU dans la préservation des espèces."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "L'état actuel de la biodiversité.",
+      "transcript": "S'il est normal que des espèces apparaissent et disparaissent au gré de l'évolution, il est par contre inédit qu'une seule espèce, la nôtre, mette en danger l'existence de l'ensemble du vivant. Les spécialistes sont en effet unanimes pour dire que la biodiversité est aujourd'hui menacée par les activités humaines. Une récente étude britannique estime ainsi qu'une plante sur cinq dans le monde est menacée. L'ONU affirme de son côté que le rythme annuel des disparitions d'espèces est désormais cent fois plus élevé que ce qu'il devrait être naturellement. Il y a donc urgence à réagir pour préserver la vie sur Terre et préserver l'existence de notre propre espèce. Quel est le sujet de cette émission ? Sous-titrage Société Radio-Canada",
+      "explanation": "Le sujet de cette émission est la perte de biodiversité due aux activités humaines. En effet, les spécialistes sont unanimes pour dire que la biodiversité est menacée, avec une estimation d'une plante sur cinq menacée dans le monde et un rythme annuel des disparitions d'espèces cent fois plus élevé que naturellement. Cette situation est considérée comme une urgence qui nécessite une action pour préserver la vie sur Terre et l'existence de notre propre espèce.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 29,
+      "points": 21,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q29.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q29.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "D'apprendre à élaborer des itinéraires de visites."
+        },
+        {
+          "id": "B",
+          "text": "D'expérimenter une manière différente de voyager."
+        },
+        {
+          "id": "C",
+          "text": "De découvrir des adresses d'hôpital à l'étranger."
+        },
+        {
+          "id": "D",
+          "text": "De participer à des actions de solidarité internationale."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "D'expérimenter une manière différente de voyager.",
+      "transcript": "Imagine pouvoir faire le tour du monde sans avoir à payer pour te loger. Imagine partager des cultures différentes, avec des guides personnalisés, totalement gratuits. Arrête d'imaginer, ça existe. Depuis l'an 2000, près de 300 000 personnes l'ont fait, à bon marché et hors des circuits touristiques programmés, grâce à l'hospitalité des membres d'un réseau social qui s'étend sur les cinq continents. Son fondateur, jeune étudiant allemand de 22 ans, assure que l'objectif final est de promouvoir la paix par l'échange interculturel. Que propose ce reportage ?",
+      "explanation": "Le reportage propose une description de la communauté de l'hospitalité mondiale, qui permet aux personnes de voyager gratuitement en logeant chez des membres du réseau. Il décrit également l'objectif de son fondateur, qui vise à promouvoir la paix par l'échange interculturel. Cela suggère que le reportage est un documentaire ou une émission de télévision qui présente cette communauté et son impact.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 30,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q30.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q30.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse.",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "À classer les établissements selon un taux de performance."
+        },
+        {
+          "id": "B",
+          "text": "À communiquer sur les progrès de l'élève dans chaque matière."
+        },
+        {
+          "id": "C",
+          "text": "À créer une échelle lisible de classification des élèves."
+        },
+        {
+          "id": "D",
+          "text": "À susciter chez l'élève l'envie de devenir le meilleur de la classe."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "À créer une échelle lisible de classification des élèves.",
+      "transcript": "L'effet sur l'apprentissage est faible, mais les notes ont d'autres fonctions. Elles servent à visibiliser les hiérarchies à l'intérieur de la classe, elles servent à savoir exactement à quel niveau se trouvent les élèves. Elles donnent une indication très claire. Ensuite, elles permettent de faire le tripe en termes de redoublement ou d'orientation. et elle permet aussi une objectification, une réification du jugement qu'on donne de l'élève. Par exemple, lorsqu'on communique les résultats aux parents, c'est numérique, c'est vrai, c'est objectif. Selon le locuteur, à quoi servent les notes à l'école ? Sous-titrage Société Radio-Canada",
+      "explanation": "Les notes servent à visibiliser les hiérarchies à l'intérieur de la classe, à évaluer le niveau des élèves et à prendre des décisions en matière de redoublement ou d'orientation. Elles permettent également d'objectiver les jugements des enseignants, ce qui facilite la communication avec les parents. Cela montre que les notes ont des fonctions plus larges que simplement évaluer l'apprentissage.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 31,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q31.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q31.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De la législation en vigueur."
+        },
+        {
+          "id": "B",
+          "text": "De la paye des employés."
+        },
+        {
+          "id": "C",
+          "text": "Du bon vouloir du client."
+        },
+        {
+          "id": "D",
+          "text": "Du type d'établissement."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Du bon vouloir du client.",
+      "transcript": "Bonjour. Alors, voilà ma question. Je voudrais savoir comment fonctionne le système des pourboires au Québec, car cela varie beaucoup d'un pays à l'autre. Est-ce obligatoire ou non? Eh bien, c'est une chose courante chez nous de laisser une somme d'argent à quelqu'un pour le remercier de ses bons services, car le service n'est pas inclus dans le salaire du personnel. Et comment calcule-t-on la somme d'argent qu'on doit laisser? En général, on doit laisser entre 15 et 20 % de la somme indiquée sur la facture. C'est une vraie gymnastique, alors, au moment de payer? Non, pas vraiment. Nous autres, Québécois, on est habitués à ce système. Ça se fait presque automatiquement. De quoi dépend le montant du pourboire au Québec? Sous-titrage Société Radio-Canada",
+      "explanation": "La bonne réponse est C car le montant du pourboire au Québec dépend de la facture, spécifiquement de la somme indiquée sur celle-ci. En effet, on est censé laisser entre 15 et 20 % de cette somme en pourboire. Cela signifie que le montant du pourboire est directement lié à la facture et non à d'autres facteurs.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 32,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q32.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q32.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Elle concerne de moins en moins d'articles."
+        },
+        {
+          "id": "B",
+          "text": "Elle est maîtrisée grâce aux contrôles."
+        },
+        {
+          "id": "C",
+          "text": "Elle met en danger le marché du travail."
+        },
+        {
+          "id": "D",
+          "text": "Elle se concentre sur des objets précieux."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "Elle met en danger le marché du travail.",
+      "transcript": "Longtemps, la copie illégale de produits ne concernait que le domaine du luxe. Aujourd'hui, tous les secteurs de l'économie sont atteints par ce phénomène. Pièces automobiles, prêts à porter, jouets ou encore médicaments. La douane française a saisi plus de 5 millions d'articles, soit deux fois plus que l'année dernière, et on estime que cette contrefaçon contribue à supprimer 30 000 emplois en France chaque année. Quel constat la journaliste fait-elle sur la contrefaçon ?",
+      "explanation": "La journaliste fait le constat que la contrefaçon est devenue un phénomène généralisé qui affecte tous les secteurs de l'économie, et non plus seulement le luxe. Cela se voit dans les exemples de produits qui sont mentionnés, tels que les pièces automobiles, les vêtements, les jouets et les médicaments. Cette généralisation est confirmée par les chiffres fournis, qui montrent une augmentation significative de la saisie de produits contrefaits par la douane française.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 33,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q33.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q33.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "La télévision touche des droits importants sur les compétitions."
+        },
+        {
+          "id": "B",
+          "text": "Les comportements machistes perdurent dans l'univers sportif."
+        },
+        {
+          "id": "C",
+          "text": "Les fédérations sont souvent impliquées dans des scandales."
+        },
+        {
+          "id": "D",
+          "text": "Les grandes équipes concentrent la majorité des financements."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "Les comportements machistes perdurent dans l'univers sportif.",
+      "transcript": "Le monde bouge partout trop lentement, certes, mais enfin il bouge, même quand on parle de sport féminin. Non que nous ne célébrions depuis longtemps nos championnes, une médaille d'or au GIO n'a pas de sexe, c'est une médaille d'or pour la France, un point c'est tout. Mais dès qu'il s'agit de s'intéresser à l'actualité des équipes féminines de sport collectif et de retransmettre leurs compétitions, les médias ont souvent tendance à détourner caméras et micros. Et quand on scrute d'un peu près les instances dirigeantes des clubs et des fédérations, là encore, beaucoup de testostérone et encore bien peu de parité. Que dénonce cette journaliste ?",
+      "explanation": "La journaliste dénonce la faible couverture médiatique des équipes féminines de sport collectif et l'absence de parité dans les instances dirigeantes des clubs et des fédérations. Elle souligne que les médias donnent souvent la priorité à d'autres sujets et que les dirigeants des clubs et fédérations sont majoritairement des hommes. Cette situation est perçue comme injuste et dévalorisante pour les athlètes féminines.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 34,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q34.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q34.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Un aménagement territorial en fonction des données météorologiques."
+        },
+        {
+          "id": "B",
+          "text": "Un programme de réduction des différentes sources de pollution."
+        },
+        {
+          "id": "C",
+          "text": "Une analyse comparative entre les modes de vie citadins et ruraux."
+        },
+        {
+          "id": "D",
+          "text": "Une proposition de prévention renforcée des grands cataclysmes."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "Un aménagement territorial en fonction des données météorologiques.",
+      "transcript": "Dans le cadre du CRAD, je coordonne un projet de recherche justement sur l'adaptation du milieu urbain au changement climatique. L'adaptation, ça veut dire non pas l'atténuation nécessairement des gaz à effet de serre, mais plutôt puisque le climat change, il faut s'y adapter, il faut voir à ce que la ville s'y adapte pour anticiper les changements plutôt qu'y réagir et avoir à payer pour tout ce que ça veut dire comme bris et catastrophe et désorganisation, déstructuration. Alors ce qu'on fait nous, c'est depuis trois ans, on mène une démarche participative pour savoir sur quoi se fonder pour justement planifier l'adaptation. Sur quoi porte le projet de recherche mentionné par l'intervenante ?",
+      "explanation": "L'intervenante coordonne un projet de recherche sur l'adaptation du milieu urbain au changement climatique, ce qui signifie qu'elle étudie comment les villes peuvent se préparer aux changements climatiques plutôt que de réagir après coup. Le projet vise à planifier l'adaptation, ce qui implique de trouver des solutions pour anticiper les changements et éviter les conséquences négatives. Cela correspond à la description du projet de recherche mentionné par l'intervenante.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 35,
+      "points": 26,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q35.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q35.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De l'absurdité qu'il y a valorisé leur manque de culture scientifique."
+        },
+        {
+          "id": "B",
+          "text": "De la nécessité de mieux défendre les acquis de la culture classique."
+        },
+        {
+          "id": "C",
+          "text": "Du besoin qu'ont les mathématiciens d'avoir une culture générale."
+        },
+        {
+          "id": "D",
+          "text": "Du refus des valeurs humanistes par les milieux scientifiques."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "De l'absurdité qu'il y a valorisé leur manque de culture scientifique.",
+      "transcript": "On l'a dit, la culture générale a tous sortes de défauts, mais en plus, c'est le défaut d'ignorer les sciences. Ça, c'est assez facile à faire comme constat. Oui, assez facile à faire comme constat, mais ce qui est déplorable, c'est que ce n'est pas incorporé cette idée-là, il me semble. C'est-à-dire qu'on peut très bien aujourd'hui se prétendre cultivés, et les gens qui parlent de culture générale sont très souvent, ou typiquement des humanistes qui ont une culture littéraire, être cultivés sans avoir de connaissances scientifiques. Et j'irais même jusqu'à dire pire en méprisant ou en trouvant que ça ne pose absolument pas problème de ne pas avoir de culture scientifique, ou pour prendre un exemple que j'aime beaucoup, en se vantant de rien connaître aux mathématiques. Et là, je pense que c'est une profonde erreur. Et puis le livre se veut une défense passionnée, j'aurais dit, de l'importance d'incorporer des notions de culture scientifique. Pour l'auteur, de quoi les gens cultivés doivent-ils se rendre compte ? Sous-titrage Société Radio-Canada",
+      "explanation": "L'auteur estime que la culture générale a des défauts, notamment l'ignorance des sciences, qui n'est pas prise en compte par les gens qui se prétendent cultivés. En effet, ces individus peuvent être des humanistes avec une culture littéraire mais sans connaissances scientifiques, ce qui est considéré comme une erreur. L'auteur défend l'importance d'incorporer des notions de culture scientifique pour être véritablement cultivé.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 36,
+      "points": 33,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q36.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q36.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "Ses créations sont très romantiques."
+        },
+        {
+          "id": "B",
+          "text": "Ses décors sont créés par des artistes américains."
+        },
+        {
+          "id": "C",
+          "text": "Ses membres sont d'origines variées."
+        },
+        {
+          "id": "D",
+          "text": "Ses spectacles sont donnés dans des sites insolites."
+        }
+      ],
+      "correct": "D",
+      "correct_option_text": "Ses spectacles sont donnés dans des sites insolites.",
+      "transcript": "Au milieu des années 70 à Grenoble, un étudiant des beaux-arts se convertit à la danse par amour pour une danseuse qui deviendra sa muse et sa compagne. Après avoir suivi pendant deux ans les cours de Mervs Cunningham à New York, il crée en 1979 le groupe Émile Dubois. Groupe, tribu, horde, un désordre qui investit des lieux de la ville où on ne s'attendait pas à voir de la danse Piscine vide, carrefour, parc, gymnase Les lieux ne sont pas attendus et cette danse-là encore moins Quelle est la particularité du groupe Émile Dubois ? Sous-titrage Société Radio-Canada",
+      "explanation": "La particularité du groupe Émile Dubois réside dans le fait qu'il crée un désordre dans des lieux inattendus de la ville, comme des piscines vides, des carrefours, des parcs et des gymnases, où on ne s'attendait pas à voir de la danse. Cette approche innovante et non conventionnelle est à l'origine de la particularité du groupe.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 37,
+      "points": 33,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q37.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q37.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De consulter un médecin psychothérapeute."
+        },
+        {
+          "id": "B",
+          "text": "D'attendre que le temps ait fait son œuvre."
+        },
+        {
+          "id": "C",
+          "text": "De prescrire un traitement médicamenteux."
+        },
+        {
+          "id": "D",
+          "text": "D'informer les utilisateurs sur leurs dangers."
+        }
+      ],
+      "correct": "B",
+      "correct_option_text": "D'attendre que le temps ait fait son œuvre.",
+      "transcript": "Voilà, la question principale c'est de savoir si on va médicaliser la crise d'adolescence ou pas, sachant qu'aujourd'hui le symptôme principal de la crise d'adolescence chez le garçon c'est le jeu vidéo excessif ou l'internet excessif. Donc si on dit addiction, on le médicalise et ça veut dire tôt ou tard, pas seulement des psychothérapies, mais des chimiothérapies pour tous les adolescents joueurs, alors qu'on sait encore une fois d'expérience que 99% arrêtent de jouer à 17 ou 18 ans parce qu'ils ont fini leur crise d'adolescence, qu'ils ne sont plus en révolte contre les parents, qu'ils sont soucieux de s'intégrer à la société et d'avoir une activité professionnelle. Donc l'adolescence, on l'accompagne, ne la pathologisons pas et je suis bien content que l'Académie de médecine ait pris cette position. Que préconise ce spécialiste face à l'engouement des jeunes pour les jeux vidéo ?",
+      "explanation": "Le spécialiste préconise de ne pas médicaliser la crise d'adolescence, car la plupart des adolescents arrêtent de jouer à des jeux vidéo à l'âge de 17 ou 18 ans, une fois leur crise passée. Il suggère plutôt d'accompagner l'adolescence sans la pathologiser. Cette approche est préférée par le spécialiste, comme le montre la position de l'Académie de médecine.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 38,
+      "points": 33,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q38.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q38.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "De la tranquillité et de l'intimité."
+        },
+        {
+          "id": "B",
+          "text": "Des facilités de réservation."
+        },
+        {
+          "id": "C",
+          "text": "Un contrat privilégié avec son hôte."
+        },
+        {
+          "id": "D",
+          "text": "Un tarif intéressant toute l'année."
+        }
+      ],
+      "correct": "A",
+      "correct_option_text": "De la tranquillité et de l'intimité.",
+      "transcript": "Ouvrir une chambre d'hôte, c'est d'abord opter pour un mode de vie bien particulier où vous partagez la vie de votre quotidien avec des gens de passage, soit toute l'année ou une partie de l'année. C'est une formule conviviale qui a du succès puisqu'on en compte plus de 110 000 en France. Est-ce qu'il y a moins de contraintes pour les gîtes ruraux ? Oui, tout à fait. Si vous êtes moins disponible, le gîte rural, pour cela, il vous suffit d'être là à l'arrivée, au départ des vacanciers. et en fait il suppose au contraire un logement qui est vraiment indépendamment du vôtre qui est généralement situé à proximité de celui du propriétaire mais où le vacancier va séjourner en toute autonomie pendant la semaine ou pour le week-end. Que peut offrir un propriétaire de gîte rural ? Sous-titrage Société Radio-Canada",
+      "explanation": "Un propriétaire de gîte rural peut offrir un logement indépendant situé à proximité de son propre logement, permettant aux vacanciers de séjourner en autonomie pendant la semaine ou le week-end. Cela signifie que le propriétaire n'a pas besoin d'être présent tout le temps, il peut simplement être disponible à l'arrivée et au départ des vacanciers. Cette flexibilité est un avantage pour les propriétaires qui ne sont pas toujours disponibles.",
+      "words": [],
+      "question_type": "text_mcq"
+    },
+    {
+      "id": 39,
+      "points": 33,
+      "audio_url": "https://tcfcanada.github.io/tcf-co/serie-2/Test-2–Q39.mp3",
+      "image_url": null,
+      "audio_filename": "Test-2–Q39.mp3",
+      "image_filename": null,
+      "question": "Écoutez le document sonore et la question. Choisissez la bonne réponse",
+      "max_plays": 1,
+      "options": [
+        {
+          "id": "A",
+          "text": "L'absence de temps morts."
+        },
+        {
+          "id": "B",
+          "text": "L'ennui des distractions."
+        },
+        {
+          "id": "C",
+          "text": "L'insuffisance de repos."
+        },
+        {
+          "id": "D",
+          "text": "Le manque d'action."
+        }
+      ],
+      "correct": "C",
+      "correct_option_text": "L'insuffisance de repos.",
+      "transcript": "On part du principe que nos vies contemporaines étant ce qu'elles sont, peu à peu, si on n'y prend pas garde, vont être expulsées de nos journées tous les temps d'attente, de non-action. On est sans arrêt soit en train de nous engager dans des actions, faire des choses avec nos mains ou avec notre cerveau, soit nous nous reposons dans des distractions. On regarde si on a des messages sur internet, on écoute de la musique, on se passe un film, mais à aucun moment notre cerveau n'entre sur un mode très simple qui est d'être là, conscient que je suis vivant, conscient que j'appartiens à un ordre naturel, et juste contempler et ressentir ce phénomène. Selon l'intervenant, qu'est-ce qui caractérise nos vies contemporaines ? Sous-titrage Société Radio-Canada",
+      "explanation": "Les vies contemporaines sont caractérisées par un manque de temps d'attente et de non-action, où l'on est constamment occupé à faire des choses ou à se reposer dans des distractions. Cela signifie que notre cerveau ne prend pas le temps de simplement être présent et conscient de notre existence. En effet, on passe trop de temps à s'engager dans des activités ou à se distraire, plutôt que de simplement contempler et ressentir le monde qui nous entoure.",
+      "words": [],
+      "question_type": "text_mcq"
+    }
+  ],
+  "stats": {
+    "total_questions": 39,
+    "total_points": 699,
+    "questions_with_image": 3,
+    "questions_with_text_options": 30,
+    "questions_with_transcript": 39,
+    "questions_with_word_timing": 0,
+    "max_plays_distribution": {
+      "2": 2,
+      "1": 37
+    },
+    "question_type_distribution": {
+      "image_audio_mcq": 3,
+      "audio_mcq": 6,
+      "text_mcq": 30
+    },
+    "correct_answer_distribution": {
+      "A": 11,
+      "B": 10,
+      "C": 14,
+      "D": 4
+    }
+  }
 }

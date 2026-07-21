@@ -109,6 +109,7 @@ export function mapSupabaseUser(session) {
     id: authUser.id,
     name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
+    country: authUser.user_metadata?.country || null,
     plan: authUser.app_metadata?.plan || "Découverte",
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
@@ -147,11 +148,11 @@ export async function updatePassword(password) {
   return supabase.auth.updateUser({ password });
 }
 
-export async function signUp({ name, username, email, password }) {
+export async function signUp({ name, username, email, password, country }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name, username }, emailRedirectTo: window.location.origin },
+    options: { data: { name, username, country }, emailRedirectTo: window.location.origin },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }

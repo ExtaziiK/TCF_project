@@ -1,6 +1,7 @@
 import { requirePremium } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage } from "./_lib/usage.js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
 // Text-to-text via Groq chat (openai/gpt-oss-20b). Returns structured
@@ -18,15 +19,18 @@ export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     const user = await requirePremium(req);
+    // Each call is a billable Groq request; cap the pace per account so a
+    // scripted client can't burn the AI budget (Premium gates access, not volume).
+    await enforceRateLimit(req, { name: "expr-ecrite", limit: 10, windowSeconds: 300, userId: user.id });
 
     const { prompt = "", response = "", taskLabel = "", targetWords = "", lang = "fr" } = req.body || {};
     const text = String(response).trim();
     if (!text) throw new HttpError(400, "The response is empty.");
 
     const userMsg = [
-      taskLabel && `Tâche : ${taskLabel}`,
-      prompt && `Consigne : ${prompt}`,
-      targetWords && `Nombre de mots attendu : ${targetWords}`,
+      taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
+      prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
+      targetWords && `Nombre de mots attendu : ${String(targetWords).slice(0, 20)}`,
       `Réponse du candidat :\n"""\n${text.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)

@@ -1,0 +1,1733 @@
+{
+    "id": 31340,
+    "exam_id": 76,
+    "score": 699,
+    "score_percent": 100,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10+",
+    "completed_at": "2026-07-20T12:00:00.000000+00:00",
+    "time_spent": 2100,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 40001,
+            "question_text": "Pourquoi est-ce que Laura écrit ?",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Pour raconter son séjour en Bretagne.",
+            "user_selected_option_id": 400012,
+            "correct_answer": "Pour raconter son séjour en Bretagne.",
+            "correct_option_id": 400012,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Laura décrit ses activités (camping, plage, crêpes, vélo) pendant son séjour en Bretagne. Elle fait donc un récit de vacances.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_1.webp",
+            "all_options": [
+                {
+                    "id": 400011,
+                    "text": "Pour proposer une promenade en bateau.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400012,
+                    "text": "Pour raconter son séjour en Bretagne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400013,
+                    "text": "Pour répondre à son cousin Benjamin.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400014,
+                    "text": "Pour réserver une place dans un camping.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40002,
+            "question_text": "Qu'est-ce que on peut faire sur ce site Internet ?",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Voir un docteur à distance.",
+            "user_selected_option_id": 400024,
+            "correct_answer": "Voir un docteur à distance.",
+            "correct_option_id": 400024,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le site permet de prendre rendez-vous avec un professionnel de santé et propose des consultations vidéo, c'est-à-dire une consultation à distance.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_2.webp",
+            "all_options": [
+                {
+                    "id": 400021,
+                    "text": "Commander des médicaments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400022,
+                    "text": "Demander un remboursement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400023,
+                    "text": "Lire des résultats d'analyse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400024,
+                    "text": "Voir un docteur à distance.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40003,
+            "question_text": "Qu’est-ce que Michèle demande à Thierry ?",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "De faire un achat.",
+            "user_selected_option_id": 400031,
+            "correct_answer": "De faire un achat.",
+            "correct_option_id": 400031,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Michèle lui demande de « prendre du pain » à la boulangerie. Il s'agit donc d'un achat.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_3.webp",
+            "all_options": [
+                {
+                    "id": 400031,
+                    "text": "De faire un achat.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400032,
+                    "text": "De préparer un repas.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400033,
+                    "text": "De réserver un restaurant.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400034,
+                    "text": "De trouver une recette.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40004,
+            "question_text": "Qu’est-ce qu’on recherche ?",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "De l’aide pour un événement.",
+            "user_selected_option_id": 400041,
+            "correct_answer": "De l’aide pour un événement.",
+            "correct_option_id": 400041,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’annonce recherche des bénévoles pour s’occuper de l’organisation d’un festival. Il s’agit donc d’aide pour un événement.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_4.webp",
+            "all_options": [
+                {
+                    "id": 400041,
+                    "text": "De l’aide pour un événement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400042,
+                    "text": "De l’argent pour un concours.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400043,
+                    "text": "Des artistes pour monter sur scène.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400044,
+                    "text": "Des guides pour des visites de la ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40005,
+            "question_text": "Que doit payer l’entreprise Jolifleur ?",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Un séjour à l’hôtel.",
+            "user_selected_option_id": 400052,
+            "correct_answer": "Un séjour à l’hôtel.",
+            "correct_option_id": 400052,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le document mentionne « Nuit + petit déjeuner (3 nuits) » pour la Résidence Bellevue. Il s’agit d’une facture d’hôtel.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_5.webp",
+            "all_options": [
+                {
+                    "id": 400051,
+                    "text": "Un repas au restaurant.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400052,
+                    "text": "Un séjour à l’hôtel.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400053,
+                    "text": "Une commande de matériel.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400054,
+                    "text": "Une location de voiture.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40006,
+            "question_text": "Qu'est-ce que cette association voudrait faire ?",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Donner un vélo à des élèves.",
+            "user_selected_option_id": 400062,
+            "correct_answer": "Donner un vélo à des élèves.",
+            "correct_option_id": 400062,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’association demande un don pour « offrir une bicyclette » à des enfants afin qu’ils aillent plus vite à l’école.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_6.webp",
+            "all_options": [
+                {
+                    "id": 400061,
+                    "text": "Aider des familles en difficulté.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400062,
+                    "text": "Donner un vélo à des élèves.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400063,
+                    "text": "Ouvrir de nouveaux collèges.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400064,
+                    "text": "Réparer de vieilles bicyclettes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40007,
+            "question_text": "Qu’est-ce que cette annonce propose ?",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "De faire de nouvelles rencontres.",
+            "user_selected_option_id": 400072,
+            "correct_answer": "De faire de nouvelles rencontres.",
+            "correct_option_id": 400072,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’annonce invite à un pique-nique international pour faire connaissance avec des étudiants du monde entier. Il s’agit donc de rencontres.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_7.webp",
+            "all_options": [
+                {
+                    "id": 400071,
+                    "text": "D’apprendre à cuisiner des plats.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400072,
+                    "text": "De faire de nouvelles rencontres.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400073,
+                    "text": "De faire une promenade dans un parc.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400074,
+                    "text": "De prendre des cours de langue.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40008,
+            "question_text": "Pourquoi Agathe écrit-elle ?",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Pour donner de ses nouvelles.",
+            "user_selected_option_id": 400082,
+            "correct_answer": "Pour donner de ses nouvelles.",
+            "correct_option_id": 400082,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Agathe décrit ses vacances (« plage, mer, soleil, calme ») et dit « J'espère que tu vas bien ». Elle donne donc de ses nouvelles.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_8.webp",
+            "all_options": [
+                {
+                    "id": 400081,
+                    "text": "Pour annoncer son déménagement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400082,
+                    "text": "Pour donner de ses nouvelles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400083,
+                    "text": "Pour inviter Lucie en vacances.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400084,
+                    "text": "Pour remercier son amie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40009,
+            "question_text": "Qu’est-ce que cette école de danse propose ?",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De tester des activités.",
+            "user_selected_option_id": 400093,
+            "correct_answer": "De tester des activités.",
+            "correct_option_id": 400093,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’école invite à « essayer nos cours gratuitement » toute la journée. Il s’agit de tester des activités.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_9.webp",
+            "all_options": [
+                {
+                    "id": 400091,
+                    "text": "De participer à un concours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400092,
+                    "text": "De s’inscrire à un stage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400093,
+                    "text": "De tester des activités.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400094,
+                    "text": "De voir un spectacle.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40010,
+            "question_text": "Quel est le but du concours Europan ?",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Inventer une ville facile à vivre pour tous.",
+            "user_selected_option_id": 400103,
+            "correct_answer": "Inventer une ville facile à vivre pour tous.",
+            "correct_option_id": 400103,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le concours demande de concevoir de nouveaux espaces publics et une meilleure cohabitation entre piétons, vélos et voitures. L’objectif est une ville plus agréable.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_10.webp",
+            "all_options": [
+                {
+                    "id": 400101,
+                    "text": "Dessiner des bâtiments publics originaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400102,
+                    "text": "Donner le goût du voyage aux habitants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400103,
+                    "text": "Inventer une ville facile à vivre pour tous.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400104,
+                    "text": "Prévoir de nouveaux moyens de transport.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40011,
+            "question_text": "Qu'est-ce que cette annonce propose ?",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "De dormir au milieu de la nature.",
+            "user_selected_option_id": 400111,
+            "correct_answer": "De dormir au milieu de la nature.",
+            "correct_option_id": 400111,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’annonce propose de réserver « une nuit dans l'une de nos maisons dans les arbres » pour vivre une expérience hors du commun au contact de la nature.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_11.webp",
+            "all_options": [
+                {
+                    "id": 400111,
+                    "text": "De dormir au milieu de la nature.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400112,
+                    "text": "De faire un parcours dans les arbres.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400113,
+                    "text": "De participer à une aventure sportive.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400114,
+                    "text": "De passer une nuit sous la tente.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40012,
+            "question_text": "Qu'est-ce que cette annonce propose ?",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "De participer à un jeu.",
+            "user_selected_option_id": 400121,
+            "correct_answer": "De participer à un jeu.",
+            "correct_option_id": 400121,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le site propose de « gagner des appareils de cuisine » en allant sur leur site. Il s’agit donc d’un jeu-concours.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_12.webp",
+            "all_options": [
+                {
+                    "id": 400121,
+                    "text": "De participer à un jeu.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400122,
+                    "text": "De préparer un repas.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400123,
+                    "text": "De recevoir de l'argent.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400124,
+                    "text": "De remplir un formulaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40013,
+            "question_text": "Dans ce message électronique, que demande-t-on aux employés ?",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "De poser leurs jours de vacances.",
+            "user_selected_option_id": 400132,
+            "correct_answer": "De poser leurs jours de vacances.",
+            "correct_option_id": 400132,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message demande de rendre sa « feuille de demande de congés » pour organiser l’été. Il s’agit donc de planifier les vacances.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_13.webp",
+            "all_options": [
+                {
+                    "id": 400131,
+                    "text": "De participer à la vie de l’entreprise.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400132,
+                    "text": "De poser leurs jours de vacances.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400133,
+                    "text": "De remplir un formulaire en ligne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400134,
+                    "text": "De respecter les règles de sécurité.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40014,
+            "question_text": "Quel est le but de ce message ?",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Demander de l'aide.",
+            "user_selected_option_id": 400141,
+            "correct_answer": "Demander de l'aide.",
+            "correct_option_id": 400141,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Les voisins demandent de l’aide pour préparer la soirée de départ du gardien (« décoration, cuisine... »).",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_14.webp",
+            "all_options": [
+                {
+                    "id": 400141,
+                    "text": "Demander de l'aide.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400142,
+                    "text": "Informer le gardien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400143,
+                    "text": "Inviter à une soirée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400144,
+                    "text": "Remercier les locataires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40015,
+            "question_text": "Quel service propose cette société ?",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Transporter des personnes.",
+            "user_selected_option_id": 400154,
+            "correct_answer": "Transporter des personnes.",
+            "correct_option_id": 400154,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La société propose un service de transport à l’aéroport (« vous amène à l’aéroport ») en ne payant que les kilomètres.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_15.webp",
+            "all_options": [
+                {
+                    "id": 400151,
+                    "text": "Acheter un billet d'avion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400152,
+                    "text": "Organiser des vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400153,
+                    "text": "Réserver un parking.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400154,
+                    "text": "Transporter des personnes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40016,
+            "question_text": "Quel est le point fort de cet hôtel ?",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Il est proche des lieux à visiter.",
+            "user_selected_option_id": 400162,
+            "correct_answer": "Il est proche des lieux à visiter.",
+            "correct_option_id": 400162,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’hôtel est « situé à 5 minutes seulement du centre » et permet d’explorer les sites touristiques à pied ou à vélo. Sa proximité est son atout.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_16.webp",
+            "all_options": [
+                {
+                    "id": 400161,
+                    "text": "Il dispose de chambres spacieuses.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400162,
+                    "text": "Il est proche des lieux à visiter.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400163,
+                    "text": "Il propose la location de bicyclettes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400164,
+                    "text": "Il se trouve en plein centre-ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40017,
+            "question_text": "Que permet cette application ?",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "De traiter seul des affections bénignes.",
+            "user_selected_option_id": 400174,
+            "correct_answer": "De traiter seul des affections bénignes.",
+            "correct_option_id": 400174,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’application aide à faire un pré-diagnostic et à distinguer les petits maux que l’on peut traiter soi-même des maladies nécessitant un médecin.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_17.webp",
+            "all_options": [
+                {
+                    "id": 400171,
+                    "text": "D'acheter des médicaments sans ordonnance.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400172,
+                    "text": "D'avoir le choix entre différents spécialistes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400173,
+                    "text": "De prendre rapidement rendez-vous.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400174,
+                    "text": "De traiter seul des affections bénignes.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40018,
+            "question_text": "Sur quel aspect du chantier de Guédelon Hajera Mohammad a-t-elle mis l’accent ?",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Les personnes qui y travaillent.",
+            "user_selected_option_id": 400184,
+            "correct_answer": "Les personnes qui y travaillent.",
+            "correct_option_id": 400184,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le reportage se concentre sur « les hommes et femmes qui le construisent », c’est-à-dire les artisans et bénévoles.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_18.webp",
+            "all_options": [
+                {
+                    "id": 400181,
+                    "text": "Le rôle joué par les historiens.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400182,
+                    "text": "Le rythme de son avancement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400183,
+                    "text": "Le succès auprès du public.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400184,
+                    "text": "Les personnes qui y travaillent.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40019,
+            "question_text": "Pourquoi ces touristes sont-ils arrivés à Rodez ?",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Les clients ont fait un mauvais choix lors de l'achat.",
+            "user_selected_option_id": 400193,
+            "correct_answer": "Les clients ont fait un mauvais choix lors de l'achat.",
+            "correct_option_id": 400193,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Les touristes ont confondu Rhodes (Grèce) et Rodez (France) en réservant leurs billets. C’est une erreur de leur part.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_19.webp",
+            "all_options": [
+                {
+                    "id": 400191,
+                    "text": "La compagnie aérienne a annulé le vol en Grèce.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400192,
+                    "text": "Les billets comportaient une faute d'orthographe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400193,
+                    "text": "Les clients ont fait un mauvais choix lors de l'achat.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400194,
+                    "text": "Un agent de l'aéroport a mal renseigné les touristes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40020,
+            "question_text": "Qu’est-il arrivé à Youenn ?",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Il a trouvé quelque chose dans son fromage.",
+            "user_selected_option_id": 400202,
+            "correct_answer": "Il a trouvé quelque chose dans son fromage.",
+            "correct_option_id": 400202,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’enfant a recraché « un bout de plastique » qui se trouvait dans son fromage. Il a donc trouvé un corps étranger.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_20.webp",
+            "all_options": [
+                {
+                    "id": 400201,
+                    "text": "Il a avalé un mauvais morceau de fromage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400202,
+                    "text": "Il a trouvé quelque chose dans son fromage.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400203,
+                    "text": "Il est tombé malade en mangeant du fromage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400204,
+                    "text": "Il s’est fait mal aux dents avec le fromage.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40021,
+            "question_text": "Que veulent les néo-ruraux ?",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Tenter une nouvelle aventure.",
+            "user_selected_option_id": 400214,
+            "correct_answer": "Tenter une nouvelle aventure.",
+            "correct_option_id": 400214,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte indique qu’ils « veulent avant tout vivre une expérience », ce qui correspond à tenter une nouvelle aventure.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_21.webp",
+            "all_options": [
+                {
+                    "id": 400211,
+                    "text": "Accéder à la propriété privée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400212,
+                    "text": "Avoir un mode de vie économique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400213,
+                    "text": "Participer à la vie associative.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400214,
+                    "text": "Tenter une nouvelle aventure.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40022,
+            "question_text": "Pourquoi les moustiques sont-ils plus grands que d’habitude ?",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Parce que les larves ont beaucoup mangé.",
+            "user_selected_option_id": 400223,
+            "correct_answer": "Parce que les larves ont beaucoup mangé.",
+            "correct_option_id": 400223,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’article explique que les larves, dans les eaux stagnantes, ont beaucoup à manger (« plus il fait chaud, plus elles mangent »), ce qui donne des moustiques plus gros.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_22.webp",
+            "all_options": [
+                {
+                    "id": 400221,
+                    "text": "Parce qu’il y a eu des pluies importantes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400222,
+                    "text": "Parce que les femelles ont moins pondu.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400223,
+                    "text": "Parce que les larves ont beaucoup mangé.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400224,
+                    "text": "Parce qu’ils ont hiberné plus longtemps.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40023,
+            "question_text": "Que suggère l’auteur pour attirer le jeune public au musée ?",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "D’analyser les moyens de séduire les jeunes.",
+            "user_selected_option_id": 400231,
+            "correct_answer": "D’analyser les moyens de séduire les jeunes.",
+            "correct_option_id": 400231,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’auteur conclut que « le temps est venu de réfléchir à de nouvelles méthodes adaptées ». Il faut donc analyser et trouver de nouveaux moyens.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_23.webp",
+            "all_options": [
+                {
+                    "id": 400231,
+                    "text": "D’analyser les moyens de séduire les jeunes.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400232,
+                    "text": "De moderniser le contenu des expositions.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400233,
+                    "text": "De s’inspirer des approches pédagogiques scolaires.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400234,
+                    "text": "De systématiser l’accès gratuit pour les adolescents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40024,
+            "question_text": "Que constate l’auteur de l’article à propos des télétravailleurs ?",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils jonglent entre vie privée et vie professionnelle.",
+            "user_selected_option_id": 400243,
+            "correct_answer": "Ils jonglent entre vie privée et vie professionnelle.",
+            "correct_option_id": 400243,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « la frontière entre domaine privé et univers professionnel » devient floue, et qu’il est difficile de déconnecter.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_24.webp",
+            "all_options": [
+                {
+                    "id": 400241,
+                    "text": "Ils doivent être attentifs aux risques de l’isolement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400242,
+                    "text": "Ils intensifient les échanges entre collaborateurs.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400243,
+                    "text": "Ils jonglent entre vie privée et vie professionnelle.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400244,
+                    "text": "Ils sont plus productifs que les collègues au bureau.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40025,
+            "question_text": "Quel est l’intérêt de ce label ?",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Développer une identité commune.",
+            "user_selected_option_id": 400251,
+            "correct_answer": "Développer une identité commune.",
+            "correct_option_id": 400251,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le Label du patrimoine européen vise à aider les citoyens à mieux comprendre les idéaux européens et à renforcer leur sentiment d’appartenance commune.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_25.webp",
+            "all_options": [
+                {
+                    "id": 400251,
+                    "text": "Développer une identité commune.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400252,
+                    "text": "Récompenser les plus beaux sites.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400253,
+                    "text": "Sauvegarder le patrimoine français.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400254,
+                    "text": "Valoriser la diversité des langues.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40026,
+            "question_text": "Quel phénomène associé à la crise économique décrit ce texte ?",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Le désir d’évolution durant la vie active.",
+            "user_selected_option_id": 400264,
+            "correct_answer": "Le désir d’évolution durant la vie active.",
+            "correct_option_id": 400264,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte parle de salariés qui « songent à se reconvertir » et de « réorientations professionnelles volontaires », c’est-à-dire un désir de changer de carrière.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_26.webp",
+            "all_options": [
+                {
+                    "id": 400261,
+                    "text": "La lutte pour le maintien du niveau des salaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400262,
+                    "text": "La volonté de déménager à l’âge adulte.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400263,
+                    "text": "L’attachement aux valeurs de l’entreprise.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400264,
+                    "text": "Le désir d’évolution durant la vie active.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40027,
+            "question_text": "De quoi est-il question dans cet article ?",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "De l’organisation d’une animation clandestine.",
+            "user_selected_option_id": 400274,
+            "correct_answer": "De l’organisation d’une animation clandestine.",
+            "correct_option_id": 400274,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’article raconte qu’une partie de cache-cache géant, organisée via les réseaux sociaux sans autorisation, a eu lieu dans un magasin.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_27.webp",
+            "all_options": [
+                {
+                    "id": 400271,
+                    "text": "D’un rassemblement de clients mécontents.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400272,
+                    "text": "D’une opération de vente promotionnelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400273,
+                    "text": "De l’inauguration d’un nouvel établissement.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400274,
+                    "text": "De l’organisation d’une animation clandestine.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40028,
+            "question_text": "Quelle tendance est dans l’air du temps ?",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Travailler sur soi-même.",
+            "user_selected_option_id": 400284,
+            "correct_answer": "Travailler sur soi-même.",
+            "correct_option_id": 400284,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque les livres de développement personnel, la méditation et le film qui encourage à « s’aimer ». C’est la tendance du travail sur soi.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_28.webp",
+            "all_options": [
+                {
+                    "id": 400281,
+                    "text": "Commencer une thérapie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400282,
+                    "text": "Multiplier les passe-temps.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400283,
+                    "text": "Rechercher l’âme sœur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400284,
+                    "text": "Travailler sur soi-même.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40029,
+            "question_text": "Qu’apprend-on sur le cerveau ?",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "À chaque activité correspond une région précise.",
+            "user_selected_option_id": 400292,
+            "correct_answer": "À chaque activité correspond une région précise.",
+            "correct_option_id": 400292,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’article explique que la dominance d’un hémisphère dépend du type d’activité (ex. : langage = hémisphère gauche). Chaque activité mobilise une zone spécifique.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_29.webp",
+            "all_options": [
+                {
+                    "id": 400291,
+                    "text": "Il est stimulé en phase d’apprentissage du langage.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400292,
+                    "text": "À chaque activité correspond une région précise.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400293,
+                    "text": "Les neurones sont concentrés dans quelques zones.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400294,
+                    "text": "Son développement est lié au caractère d’un individu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40030,
+            "question_text": "Quel problème évoque le journaliste ?",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "La population est insuffisamment formée aux médias.",
+            "user_selected_option_id": 400302,
+            "correct_answer": "La population est insuffisamment formée aux médias.",
+            "correct_option_id": 400302,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste souligne la nécessité de développer une « pédagogie visant à savoir choisir et interpréter les médias ». Le public manque donc de formation.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_30.webp",
+            "all_options": [
+                {
+                    "id": 400301,
+                    "text": "L’information est trop rarement contrôlée à sa source.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400302,
+                    "text": "La population est insuffisamment formée aux médias.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400303,
+                    "text": "Les fausses nouvelles sont facilement diffusées en ligne.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400304,
+                    "text": "Les images influencent en permanence les consommateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40031,
+            "question_text": "Que suggère l’auteur au sujet de la sieste ?",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Elle peine à se répandre en milieu professionnel.",
+            "user_selected_option_id": 400313,
+            "correct_answer": "Elle peine à se répandre en milieu professionnel.",
+            "correct_option_id": 400313,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’auteur constate que la sieste « reste inacceptable au travail » où prime la productivité, malgré ses bienfaits. Elle a donc du mal à s’imposer.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_31.webp",
+            "all_options": [
+                {
+                    "id": 400311,
+                    "text": "Elle devrait être réservée aux périodes de congés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400312,
+                    "text": "Elle est préconisée par la médecine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400313,
+                    "text": "Elle peine à se répandre en milieu professionnel.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400314,
+                    "text": "Elle serait néfaste pour le rendement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40032,
+            "question_text": "Selon Marcel Gauchet, quel va être le rôle de l’enseignant auprès des élèves ?",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Développer leur esprit critique.",
+            "user_selected_option_id": 400321,
+            "correct_answer": "Développer leur esprit critique.",
+            "correct_option_id": 400321,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Gauchet explique que l’enseignant doit aider les élèves à confronter différentes sources et à comprendre que savoir, c’est « composer avec l’incertitude ». C’est former l’esprit critique.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_32.webp",
+            "all_options": [
+                {
+                    "id": 400321,
+                    "text": "Développer leur esprit critique.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400322,
+                    "text": "Encourager les débats entre eux.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400323,
+                    "text": "Enrichir leur capacité mémorielle.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400324,
+                    "text": "Évaluer régulièrement leurs acquis.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40033,
+            "question_text": "Quelle est la position de l’auteur au sujet de cette étude ?",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il nuance les prévisions alarmistes.",
+            "user_selected_option_id": 400333,
+            "correct_answer": "Il nuance les prévisions alarmistes.",
+            "correct_option_id": 400333,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’auteur reconnaît les suppressions d’emplois dues au numérique, mais rappelle qu’il en crée aussi et que les prévisions sont incertaines. Il tempère donc l’alarme.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_33.webp",
+            "all_options": [
+                {
+                    "id": 400331,
+                    "text": "Il critique la méthodologie utilisée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400332,
+                    "text": "Il discute la pertinence des exemples.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400333,
+                    "text": "Il nuance les prévisions alarmistes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 400334,
+                    "text": "Il fait référence à une méthodologie spécifique.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40034,
+            "question_text": "Qu’explique ce journaliste sur les sorcières en littérature ?",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Elles bénéficient d’un effet de mode.",
+            "user_selected_option_id": 400341,
+            "correct_answer": "Elles bénéficient d’un effet de mode.",
+            "correct_option_id": 400341,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le journaliste indique que les sorcières sont « à la mode » en littérature, notamment dans les romans pour adultes. C’est donc un effet de mode.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_34.webp",
+            "all_options": [
+                {
+                    "id": 400341,
+                    "text": "Elles bénéficient d’un effet de mode.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400342,
+                    "text": "Elles inquiètent les jeunes enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400343,
+                    "text": "Elles relèvent d’un genre spécifique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400344,
+                    "text": "Elles symbolisent la peur de l’inconnu.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40035,
+            "question_text": "Pourquoi Joseph Many a-t-il tardé à revenir sur scène ?",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Il se sentait trop vieux pour les tournées.",
+            "user_selected_option_id": 400351,
+            "correct_answer": "Il se sentait trop vieux pour les tournées.",
+            "correct_option_id": 400351,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte indique qu'il a fallu du temps au chanteur pour « se convaincre que monter sur scène pour y pousser la chansonnette était encore de son âge », ce qui suggère une hésitation liée à son vieillissement.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_35.webp",
+            "all_options": [
+                {
+                    "id": 400351,
+                    "text": "Il se sentait trop vieux pour les tournées.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400352,
+                    "text": "Il voulait fuir son image d'idole des jeunes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400353,
+                    "text": "Le public préférait l'écrivain au chanteur.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400354,
+                    "text": "Ses chansons étaient passées de mode.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40036,
+            "question_text": "Que remet en cause cet article à propos des Gaulois ?",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Leur esprit belliqueux.",
+            "user_selected_option_id": 400362,
+            "correct_answer": "Leur esprit belliqueux.",
+            "correct_option_id": 400362,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’article présente les Gaulois comme des paysans et artisans pacifiques, et interroge leur réputation de « bagarreurs ». Il remet en cause leur image guerrière.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_36.webp",
+            "all_options": [
+                {
+                    "id": 400361,
+                    "text": "Leur capacité à négocier.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400362,
+                    "text": "Leur esprit belliqueux.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400363,
+                    "text": "Leur sens de l’esthétique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400364,
+                    "text": "Leur talent d’agriculteurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40037,
+            "question_text": "Que dénonce la personne interviewée à propos des moteurs de recherche Internet ?",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Ils étouffent le libre-arbitre.",
+            "user_selected_option_id": 400371,
+            "correct_answer": "Ils étouffent le libre-arbitre.",
+            "correct_option_id": 400371,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’interviewé critique le fait que les moteurs anticipent et orientent nos recherches selon des intérêts commerciaux, limitant ainsi notre curiosité et notre libre-arbitre.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_37.webp",
+            "all_options": [
+                {
+                    "id": 400371,
+                    "text": "Ils étouffent le libre-arbitre.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400372,
+                    "text": "Ils livrent des informations douteuses.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400373,
+                    "text": "Ils multiplient les résultats.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400374,
+                    "text": "Ils sont envahis d’annonces publicitaires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40038,
+            "question_text": "Que critique cet article ?",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les stratégies de communication.",
+            "user_selected_option_id": 400384,
+            "correct_answer": "Les stratégies de communication.",
+            "correct_option_id": 400384,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’article dénonce l’« écoblanchiment », c’est-à-dire l’utilisation trompeuse d’arguments écologiques dans la communication des entreprises pour améliorer leur image.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_38.webp",
+            "all_options": [
+                {
+                    "id": 400381,
+                    "text": "Les évolutions des régimes alimentaires.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400382,
+                    "text": "Les mesures contre le gaspillage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400383,
+                    "text": "Les normes imposées aux entreprises.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400384,
+                    "text": "Les stratégies de communication.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "question_id": 40039,
+            "question_text": "Que souligne Jacques Santamaria chez ce personnage ?",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "La finesse de ses raisonnements.",
+            "user_selected_option_id": 400392,
+            "correct_answer": "La finesse de ses raisonnements.",
+            "correct_option_id": 400392,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Santamaria décrit Maigret comme quelqu’un dont « l’esprit est une éponge » qui « analyse sans cesse ». Il souligne donc la finesse et la profondeur de ses raisonnements.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_40_question_39.webp",
+            "all_options": [
+                {
+                    "id": 400391,
+                    "text": "La diversité de ses enquêtes.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400392,
+                    "text": "La finesse de ses raisonnements.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400393,
+                    "text": "La longévité de sa carrière.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400394,
+                    "text": "La vivacité de ses mouvements.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ]
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture fluide de textes variés",
+        "Compréhension de l'implicite et des nuances"
+    ],
+    "improvements": [
+        "Maintenir la régularité de lecture",
+        "Varier les genres de textes lus",
+        "Approfondir le vocabulaire spécialisé",
+        "Continuer les lectures de niveau C1-C2"
+    ],
+    "recommendations": [
+        "Lire la presse francophone quotidiennement",
+        "Alterner articles courts et dossiers de fond",
+        "Noter le vocabulaire nouveau avec son contexte",
+        "Refaire les questions manquées après quelques jours",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 40",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

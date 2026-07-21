@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -6,27 +7,37 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // grants so the UI can show it before checkout. Promo codes are meant to be
 // shared, so exposing validity isn't a leak; the actual redemption (usage
 // caps, expiry, one-per-customer) is enforced by Stripe at checkout time.
+// Rate limited per IP: it's unauthenticated and each call hits the Stripe
+// API, so an abuser could otherwise enumerate codes / burn our Stripe quota.
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).end();
 
+  try {
+    await enforceRateLimit(req, { name: "promo-validate", limit: 20, windowSeconds: 60 });
+  } catch (err) {
+    return res.status(err.status || 429).json({ valid: false, error: err.message });
+  }
+
   const code = String(req.query.code || "").trim().toUpperCase();
-  if (!code) return res.status(400).json({ valid: false });
+  if (!code || code.length > 30) return res.status(400).json({ valid: false });
 
   try {
-    const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1 });
+    const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1, expand: ["data.promotion.coupon"] });
     const pc = data[0];
     const exhausted = pc?.max_redemptions && pc.times_redeemed >= pc.max_redemptions;
     const expired = pc?.expires_at && pc.expires_at * 1000 < Date.now();
     res.setHeader("Cache-Control", "no-store");
     if (!pc || exhausted || expired) return res.status(200).json({ valid: false });
+    // Since API 2025+, the coupon is nested under `promotion.coupon` (expanded above).
+    const coupon = typeof pc.promotion?.coupon === "object" ? pc.promotion.coupon : null;
     res.status(200).json({
       valid: true,
       code: pc.code,
-      percentOff: pc.coupon?.percent_off || null,
-      amountOff: pc.coupon?.amount_off || null,
-      currency: pc.coupon?.currency || null,
-      duration: pc.coupon?.duration || "once",
-      durationInMonths: pc.coupon?.duration_in_months || null,
+      percentOff: coupon?.percent_off || null,
+      amountOff: coupon?.amount_off || null,
+      currency: coupon?.currency || null,
+      duration: coupon?.duration || "once",
+      durationInMonths: coupon?.duration_in_months || null,
     });
   } catch {
     res.status(200).json({ valid: false });

@@ -2,7 +2,7 @@ import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
-import { DemoQuestionSecondary } from "@/components/home/DemoQuestionSecondary";
+import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -45,10 +45,14 @@ function Landing() {
             </div>
           </div>
 
-          {/* below: the two demo questions, side by side on the same line */}
+          {/* below: the CO and CE daily questions side by side — blue CO on
+              the left, rose CE on the right (same accent split the bonus
+              question used to provide). */}
+          {/* items-center: when answering extends one card (explanation shown),
+              the shorter one stays vertically centred beside it. */}
           <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-center">
             <div className="rise rise-2"><DemoQuestion /></div>
-            <div className="rise rise-3"><DemoQuestionSecondary /></div>
+            <div className="rise rise-3"><DemoQuestionCE /></div>
           </div>
         </div>
       </section>
@@ -63,12 +67,6 @@ function Landing() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* NCLC CALCULATOR */}
-      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
-        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
-        <div className="max-w-2xl mx-auto"><ScoreCalculator /></div>
       </section>
 
       {/* FEATURES */}
@@ -135,12 +133,18 @@ function Landing() {
         </div>
       </section>
 
+      {/* NCLC CALCULATOR */}
+      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
+        <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
+      </section>
+
       {/* PRICING PREVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
-          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Sans engagement. Annulable en deux clics. Garantie 30 jours sur l'abonnement annuel.")} />
-          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {plans.map((p) => <PlanCard key={p.name} p={p} compact />)}
+          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Des accès en dollars américains, sans engagement. Annulable en deux clics.")} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
+            {plans.map((p, i) => <PlanCard key={p.name} p={p} compact index={i} />)}
           </div>
         </div>
       </section>

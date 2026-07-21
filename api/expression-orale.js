@@ -1,5 +1,7 @@
 import { requirePremium } from "./_lib/auth.js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
+import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
 import { logAiUsage } from "./_lib/usage.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
@@ -44,6 +46,55 @@ Respond with ONLY a minified JSON object of this exact shape:
 {"level":"<CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
 "strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
 
+// A silent/near-silent recording gets up to this many spoken re-prompts
+// ("I didn't hear you, please answer") before the interview stops nagging.
+// These re-prompts are NOT follow-up questions — they don't count against
+// MAX_FOLLOW_UPS.
+export const MAX_EMPTY_REPROMPTS = 2;
+
+const EMPTY_REPROMPTS = [
+  "Je n'ai pas entendu votre réponse. Prenez votre temps, puis répondez à la question.",
+  "Je n'ai toujours rien entendu. Vérifiez votre micro et reprenez votre réponse, s'il vous plaît.",
+];
+
+// Whisper invents boilerplate captions when handed silence/noise — the most
+// common French ones are TV-subtitle and YouTube-outro credits. Normalize the
+// transcript (lowercase, strip accents/punctuation) and, if what remains after
+// removing these phrases is trivial, treat the whole thing as "nothing said".
+const WHISPER_HALLUCINATIONS = [
+  "sous titrage societe radio canada",
+  "sous titrage st 501",
+  "sous titres realises par la communaute d amara org",
+  "sous titres faits par la communaute d amara org",
+  "merci d avoir regarde cette video",
+  "merci d avoir regarde la video",
+  "merci a tous et a la prochaine",
+  "merci a tous et a bientot",
+  "abonnez vous",
+  "par soustitreur com",
+  "amara org",
+  "merci",
+].sort((a, b) => b.length - a.length); // strip longest phrases first
+
+function normalizeTranscript(s) {
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// True when the recording carries no real speech: empty, near-silent, or only
+// a Whisper hallucination (possibly repeated).
+function isSilent(transcript) {
+  if (!transcript || transcript.replace(/\s/g, "").length < 3) return true;
+  let norm = normalizeTranscript(transcript);
+  for (const phrase of WHISPER_HALLUCINATIONS) norm = norm.split(phrase).join(" ");
+  return norm.replace(/\s/g, "").length < 3;
+}
+
 // The client echoes the conversation back each turn; clamp it so a tampered
 // payload can't smuggle an arbitrary prompt volume into the billable call.
 function sanitizeHistory(raw) {
@@ -57,11 +108,21 @@ function sanitizeHistory(raw) {
     .filter((m) => m.text);
 }
 
-async function dialogueTurn(res, user, body) {
-  const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+// Belt-and-braces next to Vercel's own body cap: a base64 payload beyond this
+// is not a TCF speaking clip, so refuse it before decoding.
+const MAX_AUDIO_B64 = 6_000_000; // ≈ 4.5 MB decoded
+
+function decodeAudio(audio) {
   if (!audio) throw new HttpError(400, "No audio was received.");
+  if (typeof audio !== "string" || audio.length > MAX_AUDIO_B64) throw new HttpError(413, "The recording is too large.");
   const buffer = Buffer.from(audio, "base64");
   if (!buffer.length) throw new HttpError(400, "The audio was empty.");
+  return buffer;
+}
+
+async function dialogueTurn(res, user, body) {
+  const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+  const buffer = decodeAudio(audio);
 
   const transcribeStart = Date.now();
   const transcript = await groqTranscribe(buffer, {
@@ -71,24 +132,56 @@ async function dialogueTurn(res, user, body) {
   });
   logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
 
-  // Same near-silence guard as the one-shot mode: let the client re-prompt
-  // the user instead of feeding an empty answer to the examiner.
-  if (!transcript || transcript.replace(/\s/g, "").length < 3) {
-    return res.status(200).json({ transcript: transcript || "", empty: true });
+  const history = sanitizeHistory(body.history);
+
+  // Voices an examiner line via the TTS provider; null (no key / API failure)
+  // degrades to a text-only turn, spoken client-side if a voice exists there.
+  // Character count is metered as "tokens" — neural TTS bills per character.
+  const voiceLine = async (line) => {
+    const ttsStart = Date.now();
+    const tts = await synthesizeFrench(line);
+    if (!tts) return {};
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
+    return { audio: tts.audio, audioMime: "audio/mpeg" };
+  };
+
+  const buildUserMsg = (dialogue) =>
+    [
+      taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
+      prompt && `Consigne donnée au candidat : ${String(prompt).slice(0, 1000)}`,
+      `Dialogue :\n"""\n${dialogue}\n"""`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`).join("\n");
+
+  // Nothing intelligible was said (silence, or only a Whisper hallucination).
+  // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
+  // asking a new follow-up (these turns never enter `history`, so they don't
+  // count against MAX_FOLLOW_UPS). Once the cap is hit we stop nagging and end
+  // the interview: grade what was actually said, or, if nothing was, close out.
+  if (isSilent(transcript)) {
+    const emptyStreak = Math.max(0, Math.min(10, Number(body.emptyStreak) || 0));
+    if (emptyStreak < MAX_EMPTY_REPROMPTS) {
+      const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
+      return res.status(200).json({ empty: true, transcript: "", reprompt: line, ...(await voiceLine(line)) });
+    }
+    if (!history.some((m) => m.role === "candidate")) {
+      const line = "Je n'ai pas entendu de réponse. Nous allons nous arrêter ici ; vous pourrez reprendre l'entretien quand vous le souhaitez.";
+      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
+    }
+    const gradeStart = Date.now();
+    const { json: rawGrade, usage: gradeUsage } = await groqChatJSON([
+      { role: "system", content: finalSystem(lang) },
+      { role: "user", content: buildUserMsg(renderDialogue(history)) },
+    ]);
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
+    const closing = "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici. Voici mon évaluation.";
+    return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade), closing, ...(await voiceLine(closing)) });
   }
 
-  const history = sanitizeHistory(body.history);
   const followUpsAsked = history.filter((m) => m.role === "examiner").length;
-  const dialogue = [...history, { role: "candidate", text: transcript.slice(0, 4000) }]
-    .map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`)
-    .join("\n");
-  const userMsg = [
-    taskLabel && `Tâche : ${taskLabel}`,
-    prompt && `Consigne donnée au candidat : ${prompt}`,
-    `Dialogue :\n"""\n${dialogue}\n"""`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const userMsg = buildUserMsg(renderDialogue([...history, { role: "candidate", text: transcript.slice(0, 4000) }]));
 
   const chatStart = Date.now();
   if (followUpsAsked < MAX_FOLLOW_UPS) {
@@ -99,7 +192,7 @@ async function dialogueTurn(res, user, body) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
-    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false });
+    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false, ...(await voiceLine(reply)) });
   }
 
   const { json: raw, usage } = await groqChatJSON([
@@ -107,7 +200,10 @@ async function dialogueTurn(res, user, body) {
     { role: "user", content: userMsg },
   ]);
   logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
-  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), done: true });
+  // The closing line lives here (not client-side) so it comes out in the same
+  // examiner voice as the follow-ups.
+  const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
+  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), closing, done: true, ...(await voiceLine(closing)) });
 }
 
 /* ------------------------------- shared bits ------------------------------- */
@@ -126,14 +222,14 @@ export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     const user = await requirePremium(req);
+    // Transcription + evaluation are billable Groq/Azure calls; cap the pace
+    // per account. Generous enough for a real interview (one turn per ~30 s).
+    await enforceRateLimit(req, { name: "expr-orale", limit: 30, windowSeconds: 300, userId: user.id });
 
     if (req.body?.mode === "dialogue") return await dialogueTurn(res, user, req.body);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
-    if (!audio) throw new HttpError(400, "No audio was received.");
-
-    const buffer = Buffer.from(audio, "base64");
-    if (!buffer.length) throw new HttpError(400, "The audio was empty.");
+    const buffer = decodeAudio(audio);
 
     const transcribeStart = Date.now();
     const transcript = await groqTranscribe(buffer, {
@@ -150,8 +246,8 @@ export default async function handler(req, res) {
     }
 
     const userMsg = [
-      taskLabel && `Tâche : ${taskLabel}`,
-      prompt && `Consigne : ${prompt}`,
+      taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
+      prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
       `Transcription de la réponse orale :\n"""\n${transcript.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)

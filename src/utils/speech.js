@@ -17,36 +17,90 @@ if (canSpeak()) {
   window.speechSynthesis.addEventListener?.("voiceschanged", refreshVoices);
 }
 
+// Not all French voices are equal: browsers list legacy robotic voices (e.g.
+// Windows SAPI "Hortense") alongside neural ones (Edge's "... Natural",
+// Chrome's "Google français", Safari's "Enhanced"). Rank by quality first —
+// a natural fr-FR voice beats a robotic fr-CA one — with fr-CA only as a
+// tiebreak (TCF Canada oblige).
+function scoreVoice(v) {
+  const name = v.name.toLowerCase();
+  let s = 0;
+  if (/natural|neural/.test(name)) s += 8; // Edge neural voices
+  if (/premium|enhanced/.test(name)) s += 6; // Safari high-quality voices
+  if (/google/.test(name)) s += 5; // Chrome's "Google français"
+  if (!v.localService) s += 3; // network voices are usually neural
+  if (/^fr[-_]ca/i.test(v.lang)) s += 1;
+  return s;
+}
+
 function pickFrenchVoice() {
   if (!voices.length) refreshVoices();
-  const fr = voices.filter((v) => /^fr([-_]|$)/i.test(v.lang));
-  return (
-    fr.find((v) => /^fr[-_]CA/i.test(v.lang)) || // examen « Canada » oblige
-    fr.find((v) => v.default) ||
-    fr[0] ||
-    null
-  );
+  // Match by lang, with the name as fallback (some engines expose French
+  // voices with an empty or malformed lang).
+  const fr = voices.filter((v) => /^fr([-_]|$)/i.test(v.lang) || /fran[cç]ais|french/i.test(v.name));
+  if (!fr.length) return null;
+  return fr.reduce((best, v) => (scoreVoice(v) > scoreVoice(best) ? v : best));
+}
+
+// The model occasionally emits typographic characters that trip TTS engines
+// (non-breaking hyphens read as silence or "tiret", stray markdown emphasis).
+function cleanForSpeech(text) {
+  return text
+    .replace(/[‑‐]/g, "-") // non-breaking / typographic hyphens
+    .replace(/[\u00a0\u202f]/g, " ") // (narrow) no-break spaces
+    .replace(/[*_`#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Chrome fires voiceschanged late on first load; wait briefly for the list
+// rather than speaking with the engine's default (often an English voice
+// mangling the French text).
+function whenVoicesReady(cb) {
+  if (voices.length) { cb(); return; }
+  refreshVoices();
+  if (voices.length) { cb(); return; }
+  let done = false;
+  const go = () => {
+    if (done) return;
+    done = true;
+    window.speechSynthesis.removeEventListener?.("voiceschanged", go);
+    refreshVoices();
+    cb();
+  };
+  window.speechSynthesis.addEventListener?.("voiceschanged", go);
+  setTimeout(go, 1500);
 }
 
 // Speaks `text` in French and always calls `onEnd` exactly once — on normal
-// completion, on error, on cancel, or immediately when TTS is unavailable
-// (the caller uses it to advance the interview state machine).
+// completion, on error, on cancel, or immediately when speech is skipped
+// (the caller uses it to advance the interview state machine). `onEnd`
+// receives `spoken`: false means no audio was produced. When the browser has
+// NO French voice at all we deliberately stay silent — an English voice
+// mangling French sounds broken, and the question is on screen anyway.
 export function speak(text, onEnd) {
-  if (!canSpeak() || !text) { onEnd?.(); return; }
+  const cleaned = canSpeak() ? cleanForSpeech(text || "") : "";
+  if (!cleaned) { onEnd?.(false); return; }
   const synth = window.speechSynthesis;
   synth.cancel(); // never queue behind a previous utterance
 
-  const u = new window.SpeechSynthesisUtterance(text);
-  const voice = pickFrenchVoice();
-  if (voice) u.voice = voice;
-  u.lang = voice?.lang || "fr-FR";
-  u.rate = 0.95;
-
   let ended = false;
-  const finish = () => { if (!ended) { ended = true; onEnd?.(); } };
-  u.onend = finish;
-  u.onerror = finish;
-  try { synth.speak(u); } catch { finish(); }
+  const finish = (spoken) => { if (!ended) { ended = true; onEnd?.(spoken); } };
+
+  whenVoicesReady(() => {
+    if (ended) return;
+    const voice = pickFrenchVoice();
+    if (!voice) { finish(false); return; }
+    const u = new window.SpeechSynthesisUtterance(cleaned);
+    u.voice = voice;
+    u.lang = voice.lang || "fr-FR";
+    // Neural voices sound best at natural speed; robotic ones gain a lot of
+    // intelligibility from a slight slowdown.
+    u.rate = scoreVoice(voice) >= 5 ? 1 : 0.92;
+    u.onend = () => finish(true);
+    u.onerror = () => finish(false);
+    try { synth.speak(u); } catch { finish(false); }
+  });
 }
 
 export function stopSpeaking() {

@@ -3,28 +3,21 @@ import { createPortal } from "react-dom";
 import { CheckCircle2, ArrowRight, ChevronLeft, Headphones } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
-import { EXAM_MODES, COUNTRIES } from "@/constants/exam";
+import { EXAM_MODES } from "@/constants/exam";
 
 const COUNTDOWN_FROM = 5;
 
 // Shown once the candidate asks to start a TCF blanc: pick a mode (test vs
-// entraînement) and enter the identity shown on the exam screen (no e-mail
-// collected — results aren't sent by e-mail). Defaults the name from the
-// signed-in account so it's usually one click away.
+// entraînement) and start. No identity is collected — the exam is scored
+// automatically and nothing is e-mailed.
 export function ExamSetup({ onStart, onCancel, busy }) {
-  const { c, user, notify, t } = useApp();
+  const { c, t } = useApp();
   const [mode, setMode] = useState("test");
-  const [nom, setNom] = useState(user?.name || "");
-  const [pays, setPays] = useState("");
   const [countdown, setCountdown] = useState(null); // null = not counting down; 5..0 while the intro plays
-  const pendingRef = useRef(null); // validated payload, handed to onStart once the countdown ends
-
-  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const pendingRef = useRef(null); // payload handed to onStart once the countdown ends
 
   const submit = () => {
-    if (!nom.trim()) return notify(t("Entrez votre nom pour continuer."));
-    if (!pays) return notify(t("Sélectionnez votre pays pour continuer."));
-    const payload = { mode, nom: nom.trim(), pays };
+    const payload = { mode };
     window.scrollTo({ top: 0 }); // so the exam mounts already at the top, no leftover scroll offset
     // The countdown intro is a Mode Test ritual (real-exam pressure before the
     // first audio auto-plays). Mode Entraînement is a relaxed practice run, so
@@ -90,24 +83,7 @@ export function ExamSetup({ onStart, onCancel, busy }) {
           })}
         </div>
 
-        {/* Candidate info */}
-        <div className={`border-t ${c.border} mt-7 pt-6`}>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="ex-nom" className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>{t("Nom")}</label>
-              <input id="ex-nom" value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t("Votre nom")} className={inp} />
-            </div>
-            <div>
-              <label htmlFor="ex-pays" className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>{t("Pays")}</label>
-              <select id="ex-pays" value={pays} onChange={(e) => setPays(e.target.value)} className={inp}>
-                <option value="">{t("Sélectionnez votre pays")}</option>
-                {COUNTRIES.map((p) => <option key={p} value={p}>{p}</option>)}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <Btn variant="accent" className="w-full mt-6" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>{t(busy ? "Génération…" : "Commencer le test")}</Btn>
+        <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>{t(busy ? "Génération…" : "Commencer le test")}</Btn>
         <p className={`text-xs text-center mt-3 ${c.faint}`}>{t("Le chronomètre démarre dès la première question. Score calculé automatiquement.")}</p>
       </Card>
 

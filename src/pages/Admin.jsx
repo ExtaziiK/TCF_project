@@ -17,6 +17,11 @@ import {
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
 import { promoLabel } from "@/services/stripeService";
+import { PLANS } from "@/constants/pricing";
+import { ACCENTS } from "@/components/pricing/PlanCard";
+
+// The four paid pricing tiers, offered as one-click grants in the Users tab.
+const PAID_PLANS = PLANS.filter((p) => p.priceId);
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -62,13 +67,16 @@ function EmptyState({ icon: Icon, title, sub }) {
 
 /* --------------------------------- overview ------------------------------- */
 
-function StatCard({ icon: Icon, value, label, hint }) {
+// Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
+const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]" };
+
+function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
   const { c } = useApp();
   return (
     <Card className="p-5">
       <div className="flex items-start justify-between gap-3">
         <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
-        {Icon && <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Icon size={16} /></span>}
+        {Icon && <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${STAT_ACCENTS[accent] || STAT_ACCENTS.blue}`}><Icon size={16} /></span>}
       </div>
       <p className={`text-sm font-medium mt-1 ${c.text}`}>{label}</p>
       {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
@@ -115,7 +123,7 @@ function OverviewTab({ go }) {
     <div className="space-y-4">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
-        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} />
+        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold" />
         <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
         <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
         <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées" />
@@ -145,7 +153,7 @@ function OverviewTab({ go }) {
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
         </div>
-        {[["Premium (actif)", u.premium, "blue"], ["Découverte", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
+        {[["Premium (actif)", u.premium, "gold"], ["Découverte", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
           <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
             <Pill tone={tone}>{label}</Pill>
             <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
@@ -201,9 +209,19 @@ function UsersTab() {
   if (state === "error") return <UnavailableCard>Impossible de charger les comptes. Réessayez.</UnavailableCard>;
 
   const pages = data ? Math.max(1, Math.ceil(data.total / data.perPage)) : 1;
-  const planButton = (u, label, months) => (
-    <Btn small variant="ghost" disabled={busy} icon={Crown} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Premium", months }, `Premium accordé à ${u.email}.`)}>{label}</Btn>
-  );
+  // One grant button per paid pricing tier, coloured in that tier's accent, so
+  // the admin assigns the exact same plans (and access durations) offered on the
+  // Tarifs page. All four map to the single "Premium" role; only the access
+  // window and the display label differ.
+  const planButton = (u, plan) => {
+    const a = ACCENTS[plan.accent] || ACCENTS.blue;
+    return (
+      <Btn key={plan.name} small variant="ghost" style={{ color: a.solid, borderColor: a.solid + "66" }} disabled={busy} icon={Crown}
+        onClick={() => act({ action: "set-plan", userId: u.id, plan: "Premium", days: plan.days, label: plan.name }, `${plan.name} accordé à ${u.email} (${plan.days} j).`)}>
+        {plan.name}
+      </Btn>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -287,7 +305,7 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
           </div>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "blue" : "slate"}>{u.premiumActive ? "Premium" : "Découverte"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Découverte"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
         <td className="py-3.5 pr-4">{u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
@@ -301,9 +319,7 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
         <tr className={`border-t ${c.border}`}>
           <td colSpan={6} className="py-3">
             <div className="flex items-center gap-2 flex-wrap">
-              {planButton(u, "Premium 1 mois", 1)}
-              {planButton(u, "Premium 12 mois", 12)}
-              {planButton(u, "Premium illimité", null)}
+              {PAID_PLANS.map((p) => planButton(u, p))}
               {u.plan === "Premium" && (
                 <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Découverte" }, `${u.email} repassé en Découverte.`)}>Retirer Premium</Btn>
               )}
@@ -705,7 +721,7 @@ function MessagesTab({ onCount }) {
 /* --------------------------------- audit log ------------------------------ */
 
 const AUDIT_LABELS = {
-  "set-plan": ["Forfait modifié", "blue"],
+  "set-plan": ["Forfait modifié", "gold"],
   "set-role": ["Rôle modifié", "red"],
   "delete-user": ["Compte supprimé", "amber"],
   "create-promo": ["Code promo créé", "green"],
@@ -723,7 +739,12 @@ function AuditTab() {
   }
   const detailText = (e) => {
     if (!e.detail) return "";
-    if (e.action === "set-plan") return e.detail.plan === "Premium" ? `Premium ${e.detail.months ? `${e.detail.months} mois` : "illimité"}` : "Découverte";
+    if (e.action === "set-plan") {
+      if (e.detail.plan !== "Premium") return "Découverte";
+      const d = e.detail;
+      const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
+      return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;
+    }
     if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : "rôle retiré";
     return "";
   };

@@ -76,11 +76,11 @@ function resolveMedia(url, conventionKey, mediaMap, { imagesOnly, remote } = {})
 
 // Builds the optional `sign` descriptor from the per-kind resolution results:
 // the coordinates Quiz.jsx needs to batch-sign, or null when nothing remote
-// needs signing (flag off, or all media is bundled/local). Compréhension orale
-// is audio-only — its convention image URL is a phantom the UI hides on load
-// failure — so we never sign a CO "image" (it would 404 like today, just wastefully).
+// needs signing (flag off, or all media is bundled/local). Both sections' images
+// are signed when remote; the server maps CO images to their Serie_<n>_Q<order>.jpg
+// object and everything else to its HMAC name (see api/_lib/media.js#objectNameFor).
 function signDescriptor(section, qNum, order, img, aud) {
-  const image = img.needsSigning && section !== "co";
+  const image = img.needsSigning;
   const audio = aud.needsSigning;
   if (!image && !audio) return null;
   return { section, quiz: qNum, order, image, audio };
@@ -109,6 +109,7 @@ function fromDetailedAnswers(data, { section, fileName, audioMap, imageMap }) {
         exp: a.explanation || "",
         audio: aud.url,
         image: img.url,
+        ...(a.points != null ? { points: a.points } : {}),
         ...(sign ? { sign } : {}),
       };
     })
@@ -148,11 +149,64 @@ function fromPlainArray(data, { section, fileName, audioMap, imageMap }) {
   return { id: `${section}-${fileName}`, title, section, quizNumber: qNum, questions };
 }
 
-// Normalizes one bank JSON file (either supported format) into
+// Third supported shape: the "série" export ({ metadata, scoring, questions,
+// stats }) where each question has options as { id: "A", text } and a
+// letter-based `correct`. Option text is often empty for image/audio MCQs — the
+// answer is spoken in the audio — so it falls back to the letter id.
+//
+// Audio is served from OUR Supabase Storage via the naming convention
+// (Comprehension_Orale_quiz_<n>_question_<order>.mp3), NOT the file's own
+// audio_url — so it goes through the same signed-media path as the rest of the
+// bank in production. Images likewise come from our Supabase Image bucket
+// (Serie_<n>_Q<order>.jpg), not the file's original public image_url.
+function fromSeriesFormat(data, { section, fileName, audioMap, imageMap }) {
+  const qNum = data.metadata?.serie_number ?? quizNumber(fileName, data.metadata?.page_title || "");
+  const title = `${SECTION_LABELS[section]} – Quiz ${qNum ?? "?"}`;
+  const prefix = SECTION_PREFIX[section];
+  const questions = (data.questions || [])
+    .filter((q) => q && Array.isArray(q.options) && q.options.length >= 2)
+    .map((q, idx) => {
+      const order = q.id ?? idx + 1;
+      const opts = q.options.map((o) => (o.text && String(o.text).trim()) ? o.text : String(o.id ?? ""));
+      const conventionKey = qNum != null ? `${prefix}_quiz_${qNum}_question_${order}` : null;
+      const aud = section === "co"
+        ? resolveMedia(q.audio_url, conventionKey, audioMap, { remote: { section, qNum, order, bucket: "Audio", ext: "mp3" } })
+        : { url: null, needsSigning: false };
+      // CO listening images live in our private Image bucket (Serie_<n>_Q<order>.jpg)
+      // and are reached through the same signed-URL path as the audio. A bundled dev
+      // image wins; with signing off (local dev) we fall back to the file's original
+      // public URL so nothing regresses. Only questions that actually carry an image
+      // are signed.
+      const bundledImg = imageMap[baseName(q.image_url) || conventionKey];
+      const img = bundledImg
+        ? { url: bundledImg, needsSigning: false }
+        : SIGNED_MEDIA
+          ? { url: null, needsSigning: !!q.image_url }
+          : { url: q.image_url || null, needsSigning: false };
+      const sign = signDescriptor(section, qNum, order, img, aud);
+      return {
+        id: `bank-${section}-${fileName}-${order}`,
+        q: q.question,
+        opts,
+        a: q.options.findIndex((o) => String(o.id) === String(q.correct)),
+        exp: q.explanation || "",
+        audio: aud.url,
+        image: img.url,
+        ...(q.points != null ? { points: q.points } : {}),
+        ...(sign ? { sign } : {}),
+      };
+    })
+    .filter((q) => q.a >= 0);
+  if (!questions.length) return null;
+  return { id: `${section}-${fileName}`, title, section, quizNumber: qNum, questions };
+}
+
+// Normalizes one bank JSON file (any supported format) into
 // { id, title, section, quizNumber, questions: [{ q, opts, a, exp, audio, image }] }.
 export function adaptBankFile(raw, ctx) {
   const data = fixEncodingDeep(raw);
   if (data && Array.isArray(data.detailed_answers)) return fromDetailedAnswers(data, ctx);
+  if (data && Array.isArray(data.questions)) return fromSeriesFormat(data, ctx);
   if (Array.isArray(data)) return fromPlainArray(data, ctx);
   return null;
 }

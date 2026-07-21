@@ -1,5 +1,90 @@
+// Access passes, priced in USD. `accent` grades along the brand gradient from
+// blue up through red, then gold for the top VIP tier. `price` / `per` are
+// static fallbacks shown instantly; useLivePlans overlays the live Stripe
+// amount.
+// NOTE: the numeric quotas below (quiz counts, daily AI simulations, mock-exam
+// and device limits) are marketing copy — the checkout backend currently
+// grants a single "Premium" role and does not yet enforce them.
 export const PLANS = [
-  { name: "Découverte", price: "0 $", per: "pour toujours", cta: "Créer un compte", featured: false, priceId: null, feats: ["Le premier quiz de chaque épreuve offert", "Corrections détaillées et explications", "Cartes de vocabulaire de base", "Suivi de progression simple"] },
-  { name: "Premium Mensuel", price: "19 $", per: "CAD / mois", cta: "Commencer l'essai", featured: true, priceId: "price_1TqZ0LCFsAOkGQj0NbbB8rSl", feats: ["Questions et audios illimités", "TCF blancs complets chronométrés", "Analyse IA de l'écrit et de l'oral", "Plan d'étude personnalisé", "Statistiques détaillées par section"] },
-  { name: "Premium Annuel", price: "149 $", per: "CAD / an · 2 mois offerts", perSuffix: "· 2 mois offerts", cta: "Choisir l'annuel", featured: false, priceId: "price_1TqZ1OCFsAOkGQj06bdN4Mrl", feats: ["Tout le Premium Mensuel", "Correction par un enseignant (2 / mois)", "Ateliers d'oral en direct", "Garantie satisfait ou remboursé 30 jours"] },
+  {
+    name: "Sans papier",
+    price: "$0",
+    per: "pour toujours",
+    accent: "blue",
+    cta: "Créer un compte",
+    featured: false,
+    priceId: null,
+    feats: [
+      "Un quiz offert dans chaque épreuve",
+      "Corrections détaillées et explications",
+      "Cartes de vocabulaire pour démarrer",
+      "Suivi de progression",
+    ],
+  },
+  {
+    name: "Passeport",
+    price: "$4.99",
+    per: "5 jours d'accès",
+    days: 5,
+    accent: "violet",
+    cta: "Choisir Passeport",
+    featured: false,
+    priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
+    feats: [
+      "20 quiz de compréhension écrite",
+      "20 quiz de compréhension orale",
+      "2 simulations IA par jour (écrit + oral)",
+      "1 TCF blanc chronométré par jour",
+    ],
+  },
+  {
+    name: "Visa",
+    price: "$8.99",
+    per: "15 jours d'accès",
+    days: 15,
+    accent: "rose",
+    cta: "Choisir Visa",
+    featured: false,
+    priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
+    feats: [
+      "40 quiz de compréhension écrite",
+      "40 quiz de compréhension orale",
+      "6 simulations IA par jour (écrit + oral)",
+      "3 TCF blancs chronométrés par jour",
+    ],
+  },
+  {
+    name: "Première classe",
+    price: "$19.99",
+    per: "30 jours d'accès",
+    days: 30,
+    accent: "red",
+    cta: "Choisir Première classe",
+    featured: true,
+    priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
+    feats: [
+      "Tous les quiz de compréhension écrite (40)",
+      "Tous les quiz de compréhension orale (40)",
+      "Simulations IA illimitées",
+      "TCF blancs illimités",
+      "Accès sur 2 appareils",
+    ],
+  },
+  {
+    name: "VIP",
+    price: "$39.99",
+    per: "90 jours d'accès",
+    days: 90,
+    accent: "gold",
+    cta: "Choisir VIP",
+    featured: false,
+    priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
+    feats: [
+      "Tous les quiz de compréhension écrite (40)",
+      "Tous les quiz de compréhension orale (40)",
+      "Simulations IA illimitées",
+      "TCF blancs illimités",
+      "Accès sur 4 appareils",
+    ],
+  },
 ];

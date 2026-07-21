@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Password login with username-or-email support and a brute-force lockout.
 // Runs server-side because (a) resolving a username to its email needs the
@@ -21,10 +22,18 @@ const LOCK_SECONDS = 10 * 60;
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
+  // The per-account lockout below only slows attacks on ONE account; this
+  // per-IP cap also blunts password spraying across many accounts.
+  try {
+    await enforceRateLimit(req, { name: "login", limit: 20, windowSeconds: 60 });
+  } catch (err) {
+    return res.status(err.status || 429).json({ error: "locked", locked: true, retryAfter: 60 });
+  }
+
   const { identifier, password } = req.body || {};
   if (!identifier || !password) return res.status(400).json({ error: "missing", message: "Identifiant et mot de passe requis." });
 
-  const raw = String(identifier).trim();
+  const raw = String(identifier).trim().slice(0, 200);
 
   // Resolve username -> email (service role). Unknown usernames fall through
   // with the raw value so the sign-in simply fails, revealing nothing about

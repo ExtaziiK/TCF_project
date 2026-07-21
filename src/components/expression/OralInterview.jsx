@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle } from "lucide-react";
+import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
@@ -12,7 +12,7 @@ import { fmt } from "@/utils/format";
 // whole conversation is graded at the end.
 export function OralInterview({ task }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
+  const { phase, count, turns, feedback, ended, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
   const endRef = useRef(null);
 
   // Keep the latest exchange in view as the dialogue grows.
@@ -43,7 +43,7 @@ export function OralInterview({ task }) {
                 key={tn.id}
                 turn={tn}
                 speakingNow={phase === "speaking" && i === turns.length - 1}
-                onReplay={(phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn.text) : null}
+                onReplay={(phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn) : null}
               />
             ))}
             <div ref={endRef} />
@@ -56,16 +56,21 @@ export function OralInterview({ task }) {
           </p>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
+        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
 
         <p className={`mt-5 text-xs ${c.faint} flex items-center justify-center gap-1.5 text-center`}>
-          <Sparkles size={13} className="text-blue-600" /> {t("Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.")}
+          <Sparkles size={13} className="text-blue-600" /> {t("Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.")}
         </p>
       </Card>
 
       <div className="space-y-5">
         {feedback ? (
           <AiFeedback compact {...feedback} />
+        ) : ended ? (
+          <Card className="p-6 border-2 border-amber-500/40">
+            <h3 className={`font-display font-bold mb-2 flex items-center gap-2 ${c.text}`}><MicOff size={17} className="text-amber-600" /> {t("Entretien interrompu")}</h3>
+            <p className={`text-sm ${c.sub}`}>{t("Nous n'avons rien entendu à plusieurs reprises, alors l'entretien s'est arrêté. Vérifiez votre micro, puis relancez un entretien.")}</p>
+          </Card>
         ) : (
           <Card className="p-6">
             <h3 className={`font-display font-bold mb-3 flex items-center gap-2 ${c.text}`}><MessageCircle size={17} className="text-blue-600" /> {t("Comment ça marche")}</h3>
@@ -85,11 +90,13 @@ export function OralInterview({ task }) {
 function DialogueBubble({ turn, speakingNow, onReplay }) {
   const { c, t } = useApp();
   if (turn.role === "examiner") {
+    // Silent-answer re-prompts read as a softer aside, not a graded question.
+    const isReprompt = turn.reprompt;
     return (
       <div className="flex justify-start">
-        <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-md bg-blue-600/10 border border-blue-600/20">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-blue-600 mb-1 flex items-center gap-1.5">
-            {t("Examinateur")}
+        <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-md border ${isReprompt ? "bg-amber-500/10 border-amber-500/25" : "bg-blue-600/10 border-blue-600/20"}`}>
+          <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 flex items-center gap-1.5 ${isReprompt ? "text-amber-600" : "text-blue-600"}`}>
+            {isReprompt ? t("Examinateur · relance micro") : t("Examinateur")}
             {speakingNow && <Volume2 size={13} className="animate-pulse" />}
             {onReplay && (
               <button onClick={onReplay} aria-label={t("Réécouter la question")} className="hover:opacity-70 transition-opacity"><Volume2 size={13} /></button>
@@ -100,12 +107,12 @@ function DialogueBubble({ turn, speakingNow, onReplay }) {
       </div>
     );
   }
+  const muted = turn.failed || turn.emptyRec;
+  const label = turn.emptyRec ? t("Rien entendu") : turn.failed ? t("Tentative non prise en compte") : t("Vous");
   return (
     <div className="flex justify-end">
-      <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-br-md border ${turn.failed ? "border-rose-600/40" : c.border}`}>
-        <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 ${turn.failed ? "text-rose-600" : c.faint}`}>
-          {turn.failed ? t("Tentative non prise en compte") : t("Vous")}
-        </p>
+      <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-br-md border ${muted ? "border-amber-500/40" : c.border}`}>
+        <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 ${muted ? "text-amber-600" : c.faint}`}>{label}</p>
         {turn.text && <p className={`text-sm leading-relaxed ${c.sub}`}>{turn.text}</p>}
         {turn.url && <audio controls src={turn.url} className="w-full mt-2 h-9" />}
       </div>
@@ -114,7 +121,7 @@ function DialogueBubble({ turn, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answer, stop, restart }) {
   return (
     <div className="mt-auto flex flex-col items-center gap-3">
       {(phase === "review" || phase === "rec") && (
@@ -127,7 +134,7 @@ function InterviewControls({ c, t, phase, count, begin, skipReview, answer, stop
         {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'examinateur vous écoute…")}</span>)}
         {phase === "speaking" && (<span className="inline-flex items-center gap-2 text-blue-600"><Volume2 size={14} className="animate-pulse" /> {t("L'examinateur parle…")}</span>)}
         {phase === "ready" && t("À vous de répondre.")}
-        {phase === "done" && t("Entretien terminé — consultez votre évaluation.")}
+        {phase === "done" && (ended ? t("Entretien interrompu, faute de réponse audible.") : t("Entretien terminé — consultez votre évaluation."))}
       </p>
 
       {phase === "idle" && (

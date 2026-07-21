@@ -52,10 +52,15 @@ function QuestionImage({ src }) {
 // through a blank frame. The audio, which does need a fresh instance each
 // question, is keyed by its src here instead.
 export function BankQuestionMedia({ question, allowReplay = true, autoPlay = false, onAudioEnded }) {
-  if (!question.audio && !question.image) return null;
+  // `sign.audio` tells us the question has audio before its signed URL resolves,
+  // so the player shell can render instantly and swap in the src once it lands.
+  const hasAudio = !!(question.audio || question.sign?.audio);
+  if (!hasAudio && !question.image) return null;
   return (
     <div className="space-y-4">
-      {question.audio && <RealAudio key={question.audio} src={question.audio} allowReplay={allowReplay} autoPlay={autoPlay} onEnded={onAudioEnded} />}
+      {/* Keyed by question identity (stable across the null→URL swap) so the
+          audio element is fresh per question but never remounts mid-load. */}
+      {hasAudio && <RealAudio key={question.id ?? question.audio} src={question.audio} allowReplay={allowReplay} autoPlay={autoPlay} onEnded={onAudioEnded} />}
       {question.image && <QuestionImage src={question.image} />}
     </div>
   );

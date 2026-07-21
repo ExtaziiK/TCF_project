@@ -63,6 +63,21 @@ export const EN = {
   "Entrez vos 4 scores pour connaître vos niveaux NCLC et CECRL.":
     "Enter your 4 scores to see your NCLC and CEFR levels.",
   "Calculer mon résultat": "Calculate my result",
+  "Entrez vos scores TCF Canada": "Enter your TCF Canada scores",
+  "Déplacez les curseurs ou saisissez vos scores dans chaque compétence": "Drag the sliders or type your score in each skill",
+  "score": "score",
+  "curseur de score": "score slider",
+  "Votre profil linguistique": "Your language profile",
+  "Équivalence IRCC officielle": "Official IRCC equivalency",
+  "Niveau min.": "Min. level",
+  "Votre niveau le plus bas détermine votre éligibilité aux programmes d'immigration": "Your lowest level determines your eligibility for immigration programs",
+  "Partiellement éligible": "Partially eligible",
+  "NCLC 7+ recommandé pour maximiser vos points CRS": "NCLC 7+ recommended to maximize your CRS points",
+  "Éligible": "Eligible",
+  "Vos 4 épreuves atteignent le seuil NCLC 7.": "Your 4 skills reach the NCLC 7 threshold.",
+  "Atteignez le niveau CLB 9+ !": "Reach CLB 9+ !",
+  "Entraînez-vous avec nos simulations réalistes": "Practice with our realistic simulations",
+  "Accéder à mon espace": "Go to my dashboard",
   "Seuils atteints pour ce profil": "Thresholds met for this profile",
   "Seuils non atteints — continuez à progresser": "Thresholds not met — keep improving",
   "Score": "Score",
@@ -119,8 +134,8 @@ export const EN = {
   "Histoires de réussite": "Success stories",
   "Ils ont obtenu leur niveau. À vous maintenant.": "They reached their target level. Now it's your turn.",
   "Commencez gratuitement, progressez en Premium": "Start for free, progress with Premium",
-  "Sans engagement. Annulable en deux clics. Garantie 30 jours sur l'abonnement annuel.":
-    "No commitment. Cancel in two clicks. 30-day guarantee on the annual plan.",
+  "Des accès en dollars américains, sans engagement. Annulable en deux clics.":
+    "Access passes in US dollars, no commitment. Cancel in two clicks.",
   "Comparer les forfaits en détail": "Compare plans in detail",
   "Votre passerelle vers le Canada": "Your gateway to Canada",
   "commence aujourd'hui.": "starts today.",
@@ -183,6 +198,14 @@ export const EN = {
   // ── Demo question (home hero) ────────────────────────────────────────
   "Question du jour · CO": "Daily question · Listening",
   "Écoutez le document sonore, puis choisissez la bonne réponse.": "Listen to the recording, then choose the correct answer.",
+  "Question du jour · CE": "Daily question · Reading",
+  "Lisez le document, puis choisissez la bonne réponse.": "Read the document, then choose the correct answer.",
+  "Document à lire": "Document to read",
+  "Agrandir": "Enlarge",
+  "Réduire": "Shrink",
+  "Agrandir l'image": "Enlarge the image",
+  "Réduire l'image": "Shrink the image",
+  "C'est la seule proposition fidèle au document.": "It is the only option faithful to the document.",
   "Bonne réponse :": "Correct answer:",
   "C'est la seule proposition fidèle à ce qu'annonce l'enregistrement.": "It's the only option that matches what the recording actually says.",
   "Explication": "Explanation",
@@ -194,8 +217,8 @@ export const EN = {
   // ── Pricing page ─────────────────────────────────────────────────────
   "Abonnements": "Plans",
   "Un forfait pour chaque étape de votre préparation": "A plan for every stage of your preparation",
-  "Payez en dollars canadiens, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
-    "Pay in Canadian dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
+  "Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
+    "Pay in US dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
   "Vous avez un code promo ?": "Have a promo code?",
   "Ex. : BIENVENUE20": "E.g. BIENVENUE20",
   "Code promo": "Promo code",
@@ -208,35 +231,48 @@ export const EN = {
   "appliqué automatiquement au paiement.": "applied automatically at checkout.",
   "Ce code promo n'est plus valide. Retirez-le et réessayez.": "This promo code is no longer valid. Remove it and try again.",
   "Paiement chiffré Stripe": "Stripe-encrypted payment",
-  "Garantie 30 jours (annuel)": "30-day guarantee (annual)",
+  "Satisfait ou remboursé": "Satisfaction guaranteed",
   "Sans engagement": "No commitment",
 
   // ── Plans (constants/pricing.js PLANS) ───────────────────────────────
+  "Plan": "Plan",
   "Découverte": "Discovery",
-  "Premium Mensuel": "Premium Monthly",
-  "Premium Annuel": "Premium Annual",
-  "0 $": "$0",
-  "19 $": "$19",
-  "149 $": "$149",
+  "Premium": "Premium",
+  "Sans papier": "Undocumented",
+  "Passeport": "Passport",
+  "Visa": "Visa",
+  "Classe économie": "Economy class",
+  "Première classe": "First class",
+  "VIP": "VIP",
   "pour toujours": "forever",
-  "CAD / mois": "CAD / month",
-  "CAD / an · 2 mois offerts": "CAD / year · 2 months free",
+  "5 jours d'accès": "5-day access",
+  "15 jours d'accès": "15-day access",
+  "30 jours d'accès": "30-day access",
+  "90 jours d'accès": "90-day access",
   "Créer un compte": "Create an account",
-  "Commencer l'essai": "Start the trial",
-  "Choisir l'annuel": "Choose annual",
-  "Le premier quiz de chaque épreuve offert": "The first quiz of every test section included",
+  "Choisir Passeport": "Choose Passport",
+  "Choisir Visa": "Choose Visa",
+  "Choisir Classe économie": "Choose Economy class",
+  "Choisir Première classe": "Choose First class",
+  "Choisir VIP": "Choose VIP",
+  "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
-  "Cartes de vocabulaire de base": "Basic vocabulary flashcards",
-  "Suivi de progression simple": "Simple progress tracking",
-  "Questions et audios illimités": "Unlimited questions and audio",
-  "TCF blancs complets chronométrés": "Full timed mock exams",
-  "Analyse IA de l'écrit et de l'oral": "AI analysis of writing and speaking",
-  "Plan d'étude personnalisé": "Personalized study plan",
-  "Statistiques détaillées par section": "Detailed statistics per section",
-  "Tout le Premium Mensuel": "Everything in Premium Monthly",
-  "Correction par un enseignant (2 / mois)": "Teacher correction (2 / month)",
-  "Ateliers d'oral en direct": "Live speaking workshops",
-  "Garantie satisfait ou remboursé 30 jours": "30-day money-back guarantee",
+  "Cartes de vocabulaire pour démarrer": "Vocabulary flashcards to get started",
+  "Suivi de progression": "Progress tracking",
+  "20 quiz de compréhension écrite": "20 reading-comprehension quizzes",
+  "20 quiz de compréhension orale": "20 listening-comprehension quizzes",
+  "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
+  "40 quiz de compréhension orale": "40 listening-comprehension quizzes",
+  "Tous les quiz de compréhension écrite (40)": "All reading-comprehension quizzes (40)",
+  "Tous les quiz de compréhension orale (40)": "All listening-comprehension quizzes (40)",
+  "2 simulations IA par jour (écrit + oral)": "2 AI simulations per day (writing + speaking)",
+  "6 simulations IA par jour (écrit + oral)": "6 AI simulations per day (writing + speaking)",
+  "Simulations IA illimitées": "Unlimited AI simulations",
+  "1 TCF blanc chronométré par jour": "1 timed mock exam per day",
+  "3 TCF blancs chronométrés par jour": "3 timed mock exams per day",
+  "TCF blancs illimités": "Unlimited mock exams",
+  "Accès sur 2 appareils": "Access on 2 devices",
+  "Accès sur 4 appareils": "Access on 4 devices",
   "Le plus populaire": "Most popular",
   "Créez un compte gratuit pour vous abonner.": "Create a free account to subscribe.",
   "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil.":
@@ -612,9 +648,8 @@ export const EN = {
   "De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.": "New topics are added regularly — check back soon.",
 
   // ── Oral interview simulation (Expression orale) ─────────────────────
-  "Passez l'entretien avec l'examinateur IA": "Take the interview with the AI examiner",
-  "Découvrez le sujet, répondez à voix haute : l'examinateur IA vous relance trois fois — à l'écrit et à l'oral — puis évalue tout l'entretien.":
-    "Read the subject, answer out loud: the AI examiner follows up three times — in text and voice — then grades the whole interview.",
+  "Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un entretien avec l'examinateur IA, qui vous relance puis évalue tout l'échange.":
+    "Tasks 1 and 3: record your answer, the AI transcribes and evaluates it. Task 2: an interview with the AI examiner, who follows up then grades the whole exchange.",
   "Lecture du sujet :": "Subject review:",
   "Relances :": "Follow-ups:",
   "Examinateur": "Examiner",
@@ -631,10 +666,20 @@ export const EN = {
   "Répondre": "Answer",
   "Refaire un entretien": "Do another interview",
   "Aucune parole détectée dans l'enregistrement. Réessayez.": "No speech detected in the recording. Try again.",
+  "Je n'ai pas entendu votre réponse. Réessayez.": "I didn't hear your answer. Please try again.",
+  "Nous allons nous arrêter ici.": "We'll stop here.",
+  "Examinateur · relance micro": "Examiner · mic check",
+  "Rien entendu": "Nothing heard",
+  "Entretien interrompu": "Interview interrupted",
+  "Nous n'avons rien entendu à plusieurs reprises, alors l'entretien s'est arrêté. Vérifiez votre micro, puis relancez un entretien.":
+    "We couldn't hear anything several times, so the interview stopped. Check your microphone, then start a new interview.",
+  "Entretien interrompu, faute de réponse audible.": "Interview interrupted — no audible answer.",
   "Simulation indisponible ici (fonctions serverless non déployées).": "Simulation unavailable here (serverless functions not deployed).",
+  "Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système.":
+    "No French voice in this browser: questions are shown in writing only. Try Microsoft Edge or install a French voice on your system.",
   "L'analyse a échoué. Réessayez.": "The analysis failed. Try again.",
-  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de synthèse du navigateur.":
-    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, browser speech synthesis voice.",
+  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.":
+    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, AI examiner voice.",
   "Comment ça marche": "How it works",
   "Prenez connaissance du sujet pendant le temps de lecture.": "Review the subject during the reading time.",
   "Répondez à voix haute — votre réponse est transcrite.": "Answer out loud — your answer is transcribed.",
@@ -697,6 +742,10 @@ export const EN = {
   "À vous de jouer": "Your turn",
   "Bonne réponse !": "Correct!",
   "Pas tout à fait.": "Not quite.",
+  "Mode leçons": "Lesson mode",
+  "Recommencer": "Restart",
+  "Toutes les leçons, un exercice à la fois. Chaque réponse est expliquée.":
+    "Every lesson, one exercise at a time. Each answer is explained.",
   "Les articles": "Articles",
   "Définis, indéfinis et partitifs : le, la, un, du, des…": "Definite, indefinite and partitive: le, la, un, du, des…",
   "Les pronoms": "Pronouns",
@@ -730,8 +779,16 @@ export const EN = {
   "Aucun mot ne correspond à": "No word matches",
   "dans cette catégorie.": "in this category.",
   "Cliquez pour voir la définition": "Click to see the definition",
+  "Cliquez pour le mot suivant": "Click for the next word",
   "Retourner la carte": "Flip the card",
   "Favori": "Favorite",
+  "Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.":
+    "One card at a time, drawn at random from the bank. Click to reveal the definition, then move on to the next word.",
+  "Mode cartes": "Card mode",
+  "Mot suivant": "Next word",
+  "Voir la définition de": "See the definition of",
+  "Cacher": "Hide",
+  "Aucun mot dans cette catégorie.": "No words in this category.",
 
   // ── Mock exams ───────────────────────────────────────────────────────
   "Conditions d'examen": "Exam conditions",
@@ -763,6 +820,9 @@ export const EN = {
   "Vos TCF blancs terminés.": "Your completed mock exams.",
   "Terminé": "Completed",
   "bonnes réponses": "correct answers",
+  "bonnes réponses sur": "correct answers out of",
+  "Résultats": "Results",
+  "Refaire": "Retake",
   "niveau": "level",
   "Auto": "Auto",
   "Le déroulé, épreuve par épreuve": "The flow, section by section",
@@ -784,7 +844,7 @@ export const EN = {
   "Travaillez la tâche comme le jour J. Cette épreuve est auto-évaluée : elle n'entre pas dans le score à choix multiple.":
     "Work the task as on exam day. This section is self-assessed: it does not count toward the multiple-choice score.",
   "Quand vous avez terminé cette épreuve, passez à la suite de l'examen.": "When you have finished this section, move on with the exam.",
-  "J'ai terminé cette tâche": "I've finished this task",
+  "J'ai terminé cette épreuve": "I've finished this section",
   "Cet examen référence un quiz qui n'existe plus dans la banque.": "This exam references a quiz that no longer exists in the bank.",
   "questions · vos réponses sont enregistrées automatiquement.": "questions · your answers are saved automatically.",
 
@@ -919,6 +979,47 @@ export const EN = {
     "Second habit: they replay every missed audio with the transcript, then without. Third: they record themselves speaking at least three times a week.",
   "Quatrième : ils apprennent le vocabulaire en contexte, jamais en liste isolée. Cinquième : ils passent un TCF blanc complet toutes les deux semaines pour bâtir leur endurance.":
     "Fourth: they learn vocabulary in context, never as isolated lists. Fifth: they take a full mock exam every two weeks to build stamina.",
+  "TCF Canada ou TEF Canada : quel test de français choisir ?": "TCF Canada or TEF Canada: which French test should you choose?",
+  "Les deux tests sont reconnus par IRCC pour Entrée express et la résidence permanente. On compare le format, la difficulté et le contenu pour vous aider à choisir.":
+    "Both tests are recognized by IRCC for Express Entry and permanent residence. We compare the format, difficulty and content to help you choose.",
+  "Le TCF Canada et le TEF Canada sont les deux seuls tests de français reconnus par Immigration, Réfugiés et Citoyenneté Canada (IRCC) pour Entrée express, les programmes provinciaux et la citoyenneté. Le bon choix dépend surtout de votre profil et de votre aisance avec chaque format.":
+    "The TCF Canada and the TEF Canada are the only two French tests recognized by Immigration, Refugees and Citizenship Canada (IRCC) for Express Entry, provincial programs and citizenship. The right choice depends mostly on your profile and how comfortable you are with each format.",
+  "Les deux évaluent les quatre compétences : compréhension orale, compréhension écrite, expression orale et expression écrite. Le TCF Canada repose sur des questions à choix multiples pour les épreuves de compréhension, un format qui rassure les candidats stressés par la lecture chronométrée.":
+    "Both assess the four skills: listening, reading, speaking and writing. The TCF Canada relies on multiple-choice questions for the comprehension sections, a format that reassures candidates stressed by timed reading.",
+  "Côté résultats, les deux tests se convertissent en Niveaux de compétence linguistique canadiens (NCLC). Pour viser le NCLC 7, le seuil qui rapporte le plus de points en Entrée express, la préparation compte bien plus que le choix du test.":
+    "For results, both tests convert into Canadian Language Benchmarks (NCLC). To aim for NCLC 7 — the threshold that earns the most points in Express Entry — preparation matters far more than which test you pick.",
+  "Notre conseil : entraînez-vous d'abord sur des sujets au format officiel du test que vous visez. La familiarité avec le format fait gagner de précieuses minutes le jour de l'examen. Notre plateforme reproduit fidèlement le format du TCF Canada, épreuve par épreuve.":
+    "Our advice: practice first on topics in the official format of the test you are targeting. Familiarity with the format saves precious minutes on exam day. Our platform faithfully reproduces the TCF Canada format, section by section.",
+  "Vérifiez enfin les dates et les centres d'examen près de chez vous : la disponibilité varie selon les villes et peut peser autant que vos préférences de format dans votre décision finale.":
+    "Finally, check the exam dates and centers near you: availability varies by city and can weigh as much as your format preferences in your final decision.",
+  "Score TCF Canada et niveaux NCLC : le tableau de correspondance": "TCF Canada score and NCLC levels: the conversion table",
+  "Comment vos scores se traduisent en niveaux NCLC, et quel niveau viser pour maximiser vos points d'Entrée express.":
+    "How your scores translate into NCLC levels, and which level to aim for to maximize your Express Entry points.",
+  "Le TCF Canada note chaque épreuve sur une échelle de points, ensuite convertie en Niveaux de compétence linguistique canadiens (NCLC). Comprendre cette correspondance est indispensable pour fixer un objectif réaliste avant de réserver votre examen.":
+    "The TCF Canada scores each section on a points scale, then converts it into Canadian Language Benchmarks (NCLC). Understanding this correspondence is essential to set a realistic goal before booking your exam.",
+  "Pour l'immigration économique, le palier le plus rentable est le NCLC 7 dans les quatre compétences : il ouvre droit au maximum de points liés au français dans Entrée express. Passer au NCLC 9 rapporte encore quelques points, mais l'effort de préparation devient nettement plus important.":
+    "For economic immigration, the most rewarding tier is NCLC 7 in all four skills: it unlocks the maximum French-related points in Express Entry. Moving up to NCLC 9 earns a few more points, but the preparation effort becomes noticeably greater.",
+  "Chaque épreuve a ses propres seuils. En compréhension orale et écrite, atteindre le NCLC 7 suppose de réussir une majorité des questions les plus difficiles : entraînez-vous donc en priorité sur les items de niveau B2 et C1.":
+    "Each section has its own thresholds. In listening and reading, reaching NCLC 7 means getting most of the hardest questions right, so train first on B2 and C1 level items.",
+  "À l'expression écrite et orale, les examinateurs évaluent la cohérence, la richesse du vocabulaire et la correction grammaticale. Un discours clair et bien structuré compte souvent plus qu'un vocabulaire rare mais mal maîtrisé.":
+    "In writing and speaking, examiners assess coherence, vocabulary range and grammatical accuracy. Clear, well-structured discourse often counts more than rare but poorly mastered vocabulary.",
+  "Utilisez notre calculateur de score NCLC pour convertir vos résultats de TCF blanc et suivre votre progression vers votre objectif, compétence par compétence.":
+    "Use our NCLC score calculator to convert your mock-exam results and track your progress toward your goal, skill by skill.",
+  "Réussir l'expression écrite du TCF Canada : structure et exemples": "Acing TCF Canada writing: structure and examples",
+  "Les trois tâches d'expression écrite décryptées, avec une structure claire pour chacune et les critères que recherchent les correcteurs.":
+    "The three writing tasks decoded, with a clear structure for each and the criteria examiners look for.",
+  "L'épreuve d'expression écrite du TCF Canada comporte trois tâches de longueur et de difficulté croissantes. Bien répartir son temps entre elles est la première clé d'un bon score.":
+    "The TCF Canada writing section has three tasks of increasing length and difficulty. Managing your time well across them is the first key to a good score.",
+  "La tâche 1 demande un message court et concret, comme un courriel ou une note. Allez à l'essentiel : salutation, objet clair, demande ou information, formule de clôture. La précision prime sur la longueur.":
+    "Task 1 asks for a short, concrete message, such as an email or a note. Get to the point: greeting, clear subject, request or information, closing. Precision matters more than length.",
+  "La tâche 2 attend un texte plus développé, souvent un compte rendu ou un message argumenté. Adoptez un plan simple : introduction, deux idées appuyées par des exemples, conclusion. Les connecteurs logiques comme « d'abord », « cependant » et « par conséquent » fluidifient votre propos.":
+    "Task 2 expects a more developed text, often a report or an argued message. Use a simple plan: introduction, two ideas backed by examples, conclusion. Logical connectors such as first, however and therefore make your writing flow.",
+  "La tâche 3 est la plus exigeante : comparer deux points de vue puis donner le vôtre. Reformulez les deux positions sans les recopier, puis prenez clairement position avec des arguments personnels et des exemples.":
+    "Task 3 is the most demanding: compare two viewpoints, then give your own. Restate both positions without copying them, then take a clear stance with personal arguments and examples.",
+  "Les correcteurs valorisent la cohérence, la variété des structures et la correction grammaticale. Gardez deux minutes à la fin pour vous relire et corriger les accords et la ponctuation : ce sont des points faciles à récupérer.":
+    "Examiners value coherence, varied structures and grammatical accuracy. Keep two minutes at the end to reread yourself and fix agreement and punctuation — easy points to recover.",
+  "Entraînez-vous avec notre atelier d'expression écrite : rédigez sur des sujets au format officiel et recevez une analyse détaillée de votre texte, tâche par tâche.":
+    "Train with our writing workshop: compose on official-format topics and get a detailed analysis of your text, task by task.",
 
   // ── Admin panel ──────────────────────────────────────────────────────
   "Panneau d'administration": "Admin panel",

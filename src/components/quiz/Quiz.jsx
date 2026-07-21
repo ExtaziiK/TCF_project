@@ -30,7 +30,7 @@ const inferSection = (storageKey) => /^bank-(co|ce|ee|eo)-/.exec(storageKey || "
 // - hideReport: render nothing once finished (the caller owns the report)
 // Exam-runner extras (deferResults only):
 // - examLayout: 3-column exam view (palette | question | candidate + timer)
-// - candidate: { nom, pays, type, date } shown in the side panel
+// - candidate: { pays, type, date } shown in the side panel
 // - oneWay: test mode — no navigating back to earlier questions
 // - autoAdvance: real-exam CO test mode — audio auto-plays, then the question
 //   moves on by itself; no manual navigation and the palette is read-only
@@ -342,12 +342,12 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   // ---- exam layout: palette · question · candidate + big timer ----
   if (examLayout) {
     const low = left <= 60;
-    const row = (label, value) => (
+    const row = (label, value) => value ? (
       <div className="flex items-center justify-between gap-3">
         <span className={`text-xs shrink-0 ${c.faint}`}>{label}</span>
-        <span className={`text-sm font-semibold flex-1 min-w-0 truncate text-right ${c.text}`} title={value || undefined}>{value || "—"}</span>
+        <span className={`text-sm font-semibold flex-1 min-w-0 truncate text-right ${c.text}`} title={value}>{value}</span>
       </div>
-    );
+    ) : null;
     return (
       <div className="grid gap-5 lg:grid-cols-[190px_minmax(0,1fr)_248px] items-start">
         {/* palette */}
@@ -365,6 +365,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
             <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <Pill tone="slate">Question {i + 1} / {questions.length}</Pill>
+                {q.points != null && <Pill tone="amber">{q.points} pt{q.points > 1 ? "s" : ""}</Pill>}
                 {q.level && <Pill tone="blue">Niveau {q.level}</Pill>}
               </div>
               {!autoAdvance && bookmarkBtn}
@@ -391,7 +392,6 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
                 <span className="w-14 h-14 rounded-full bg-white/95 text-blue-600 flex items-center justify-center shadow-lg"><User size={26} /></span>
               </div>
               <div className="p-5 space-y-3">
-                {row("Nom", candidate.nom)}
                 {row("Pays", candidate.pays)}
                 {row("Type", candidate.type)}
                 {row("Date", candidate.date)}
@@ -416,6 +416,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
           <div className="flex items-center gap-2 flex-wrap">
             <Pill tone="slate">Question {i + 1} / {questions.length}</Pill>
+            {q.points != null && <Pill tone="amber">{q.points} pt{q.points > 1 ? "s" : ""}</Pill>}
             <Pill tone={unanswered === 0 ? "green" : "blue"}>{answeredCount} / {questions.length} répondue{answeredCount > 1 ? "s" : ""}</Pill>
             {q.level && <Pill tone="blue">Niveau {q.level}</Pill>}
             {q.custom && <Pill tone="amber"><Upload size={11} /> Importée</Pill>}

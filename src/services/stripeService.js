@@ -62,11 +62,11 @@ export async function openBillingPortal() {
   window.location.href = json.url;
 }
 
-const INTERVAL_LABELS = { month: "mois", year: "an" };
-
 function formatAmount(amountInCents, currency) {
   const isWhole = amountInCents % 100 === 0;
-  return new Intl.NumberFormat("fr-CA", {
+  // American formatting for USD ("$4.99"); fall back to fr-CA for CAD amounts.
+  const locale = currency.toLowerCase() === "usd" ? "en-US" : "fr-CA";
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: currency.toUpperCase(),
     minimumFractionDigits: isWhole ? 0 : 2,
@@ -74,10 +74,10 @@ function formatAmount(amountInCents, currency) {
   }).format(amountInCents / 100);
 }
 
-// Overlays live Stripe price/currency/interval onto the static PLANS config
-// (which keeps its hand-written price as a fallback if this fetch fails, so
-// the page never looks broken). perSuffix carries marketing copy Stripe
-// doesn't know about (e.g. "2 mois offerts"), appended after the live cadence.
+// Overlays the live Stripe amount onto the static PLANS config (which keeps its
+// hand-written price as a fallback if this fetch fails, so the page never looks
+// broken). The `per` line stays static: it describes each pass's access
+// duration (e.g. "accès 5 jours"), which the price object doesn't carry.
 export async function fetchLivePlans(plans) {
   const ids = plans.map((p) => p.priceId).filter(Boolean);
   if (!ids.length) return plans;
@@ -88,9 +88,7 @@ export async function fetchLivePlans(plans) {
     return plans.map((p) => {
       const live = p.priceId && byId[p.priceId];
       if (!live || live.amount == null) return p;
-      const interval = INTERVAL_LABELS[live.interval] || live.interval;
-      const per = `${live.currency.toUpperCase()} / ${interval}${p.perSuffix ? ` ${p.perSuffix}` : ""}`;
-      return { ...p, price: formatAmount(live.amount, live.currency), per };
+      return { ...p, price: formatAmount(live.amount, live.currency) };
     });
   } catch {
     return plans;

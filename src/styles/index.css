@@ -5,6 +5,16 @@
 @tailwind utilities;
 
 html{scroll-behavior:smooth}
+/* Page canvas: a soft brand-tinted wash (blue→lavender→rose, echoing the brand
+   gradient) instead of flat white, so the site's negative space carries the
+   palette. Kept very light so cards and text stay crisp on top. */
+.app-bg-light{background-color:#eef1fb;background-image:linear-gradient(160deg,#eef4fd 0%,#eaedfb 46%,#f7ebf1 100%)}
+.app-bg-dark{background-color:#020617;background-image:linear-gradient(160deg,#080d1c 0%,#0a0914 52%,#130810 100%)}
+/* Content protection (added on <body> in production by useContentProtection):
+   block text selection / the iOS long-press "copy" callout site-wide, while
+   letting users still select & edit inside their own form fields. */
+.no-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
+.no-select input,.no-select textarea,.no-select select,.no-select [contenteditable="true"],.no-select [contenteditable=""]{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-touch-callout:default}
 .font-display{font-family:'Bricolage Grotesque',ui-sans-serif,sans-serif;letter-spacing:-0.02em}
 .font-body{font-family:'Instrument Sans',ui-sans-serif,sans-serif}
 .font-mono2{font-family:'Spline Sans Mono',ui-monospace,monospace}
@@ -35,8 +45,32 @@ html{scroll-behavior:smooth}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (max-width:640px){.marquee-sep{margin:0 1.1rem}}
 .grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* Brand range slider (score calculator): filled portion is set inline per
+   value; the thumb is a white knob with a brand-blue ring. */
+input[type="range"].range-brand{-webkit-appearance:none;appearance:none;height:8px;border-radius:9999px;cursor:pointer;outline:none}
+input[type="range"].range-brand::-webkit-slider-runnable-track{-webkit-appearance:none;height:8px;border-radius:9999px;background:transparent}
+input[type="range"].range-brand::-moz-range-track{height:8px;border-radius:9999px;background:transparent}
+input[type="range"].range-brand::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:-5px;border-radius:50%;background:#fff;border:2px solid #2E6BE6;box-shadow:0 2px 5px rgba(15,42,82,.3)}
+input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:2px solid #2E6BE6;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(15,42,82,.3)}
 .card-lift{transition:transform .25s ease,box-shadow .25s ease}
 .card-lift:hover{transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(15,42,82,.22)}
+/* Pricing plan cards: hover lift with a tier-tinted glow, a diagonal sheen
+   sweep, and a gradient-text shimmer on the price. Colours come from inline
+   styles (--plan-glow / the price gradient); animations are killed under
+   prefers-reduced-motion by the global rule below. */
+.plan-card{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 36px 78px -16px var(--plan-glow,rgba(15,42,82,.22))}
+.plan-sheen{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:5}
+.plan-sheen:before{content:'';position:absolute;top:0;bottom:0;left:0;width:60%;transform:translateX(-180%) skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent)}
+.plan-card:hover .plan-sheen:before{transform:translateX(320%) skewX(-18deg);transition:transform .9s ease}
+/* Glossy top highlight (shine) on every card, plus a periodic auto-sweep on
+   the featured card so the popular plan keeps catching the light. */
+.plan-gloss{position:absolute;left:0;right:0;top:0;height:48%;border-radius:inherit;pointer-events:none;z-index:4;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0))}
+.plan-sheen.is-auto:before{animation:sheen-auto 5s ease-in-out 1.2s infinite}
+@keyframes sheen-auto{0%{transform:translateX(-180%) skewX(-18deg)}14%,100%{transform:translateX(320%) skewX(-18deg)}}
+.metal-text{background-size:220% auto;background-position:0 center}
+.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out}
+@keyframes metal-shimmer{to{background-position:220% center}}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Opens the Stripe billing portal so a subscriber can update their card,
 // view invoices, or cancel. The customer id was stored on the user's
@@ -17,6 +18,12 @@ export default async function handler(req, res) {
   const { data: userData, error: userError } = await admin.auth.getUser(token);
   if (userError || !userData?.user) return res.status(401).json({ error: "Invalid session" });
 
+  try {
+    await enforceRateLimit(req, { name: "portal", limit: 5, windowSeconds: 60, userId: userData.user.id });
+  } catch (err) {
+    return res.status(err.status || 429).json({ error: err.message });
+  }
+
   const customerId = userData.user.app_metadata?.stripe_customer_id;
   if (!customerId) return res.status(400).json({ error: "no-subscription" });
 
@@ -28,6 +35,7 @@ export default async function handler(req, res) {
     });
     res.status(200).json({ url: session.url });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("create-portal-session:", err.message);
+    res.status(500).json({ error: "Billing portal unavailable." });
   }
 }

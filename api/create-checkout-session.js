@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -18,8 +19,16 @@ export default async function handler(req, res) {
   if (userError || !userData?.user) return res.status(401).json({ error: "Invalid session" });
   const user = userData.user;
 
+  try {
+    await enforceRateLimit(req, { name: "checkout", limit: 5, windowSeconds: 60, userId: user.id });
+  } catch (err) {
+    return res.status(err.status || 429).json({ error: err.message });
+  }
+
   const { priceId, promoCode } = req.body || {};
-  if (!priceId) return res.status(400).json({ error: "Missing priceId" });
+  if (!priceId || typeof priceId !== "string" || !/^price_[A-Za-z0-9]{8,64}$/.test(priceId)) {
+    return res.status(400).json({ error: "Missing priceId" });
+  }
 
   // A user whose Premium is still active must manage/upgrade through the
   // billing portal — starting a second Checkout would create a second live
@@ -32,6 +41,15 @@ export default async function handler(req, res) {
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
   try {
+    // Only sell what the Pricing page sells: the price must exist, be active,
+    // and be a recurring subscription price. Without this check any price id
+    // in the Stripe account (legacy plans, one-off test prices) could be
+    // checked out by calling the endpoint directly.
+    const price = await stripe.prices.retrieve(priceId).catch(() => null);
+    if (!price || !price.active || price.type !== "recurring") {
+      return res.status(400).json({ error: "invalid-price" });
+    }
+
     // A code applied on the Pricing page is attached to the session directly;
     // otherwise Stripe's own promo-code field is enabled on the checkout page
     // (the two options are mutually exclusive in the Stripe API).
@@ -57,6 +75,7 @@ export default async function handler(req, res) {
     });
     res.status(200).json({ url: session.url });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("create-checkout-session:", err.message);
+    res.status(500).json({ error: "Checkout failed." });
   }
 }

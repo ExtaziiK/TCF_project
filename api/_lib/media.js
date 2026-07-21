@@ -34,6 +34,16 @@ export function mediaObjectName(section, quiz, order, kind) {
   return `${hash}.${extFor(kind)}`;
 }
 
+// Physical object name for one media item — the same opaque HMAC name for
+// everything, so no stored file name leaks the bank's structure. Compréhension-
+// orale listening images are the one exception on extension only: they're JPEGs,
+// so they keep .jpg instead of the .webp the image derivation defaults to (the
+// hash itself is identical). Buckets are private; names are reached via signed URLs.
+function objectNameFor({ section, quiz, order, kind }) {
+  if (kind === "image" && section === "co") return mediaObjectName(section, quiz, order, kind).replace(/\.webp$/, ".jpg");
+  return mediaObjectName(section, quiz, order, kind);
+}
+
 // Batch-signs media for a whole quiz in one shot (one Storage call per bucket),
 // so the client can preload everything up front. Returns a map keyed by
 // "<ref>:<kind>" -> signed URL; entries that fail to sign are simply omitted.
@@ -44,7 +54,7 @@ export async function signMediaBatch(items, expiresIn = 3600) {
   for (const it of items) {
     const bucket = bucketFor(it.kind);
     if (!byBucket.has(bucket)) byBucket.set(bucket, []);
-    byBucket.get(bucket).push({ it, name: mediaObjectName(it.section, it.quiz, it.order, it.kind) });
+    byBucket.get(bucket).push({ it, name: objectNameFor(it) });
   }
 
   const urls = {};

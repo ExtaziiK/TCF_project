@@ -68,7 +68,7 @@ export function pickLeastSeen(pool, seenCounts) {
 
 /* ------------------------------ task shaping ----------------------------- */
 // Adapts a picked prompt (bank question or seed) to the shape the workshop
-// pages already consume (useWritingTask / useOralInterview).
+// pages already consume (useWritingTask / useOralInterview / useSpeakingSession).
 
 const DEFAULT_LABELS = { 1: "Message court", 2: "Article de blogue", 3: "Texte argumenté" };
 const DEFAULT_LABELS_EO = { 1: "Entretien dirigé", 2: "Interaction", 3: "Point de vue" };
