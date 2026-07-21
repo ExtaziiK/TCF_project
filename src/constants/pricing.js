@@ -47,7 +47,7 @@ export const PLANS = [
     featured: false,
     priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
     feats: [
-      "39 quiz de compréhension écrite",
+      "40 quiz de compréhension écrite",
       "40 quiz de compréhension orale",
       "6 simulations IA par jour (écrit + oral)",
       "3 TCF blancs chronométrés par jour",
@@ -63,7 +63,7 @@ export const PLANS = [
     featured: true,
     priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
     feats: [
-      "Tous les quiz de compréhension écrite (39)",
+      "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",
       "Simulations IA illimitées",
       "TCF blancs illimités",
@@ -80,7 +80,7 @@ export const PLANS = [
     featured: false,
     priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
     feats: [
-      "Tous les quiz de compréhension écrite (39)",
+      "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",
       "Simulations IA illimitées",
       "TCF blancs illimités",
