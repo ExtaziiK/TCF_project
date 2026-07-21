@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -6,11 +7,19 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // grants so the UI can show it before checkout. Promo codes are meant to be
 // shared, so exposing validity isn't a leak; the actual redemption (usage
 // caps, expiry, one-per-customer) is enforced by Stripe at checkout time.
+// Rate limited per IP: it's unauthenticated and each call hits the Stripe
+// API, so an abuser could otherwise enumerate codes / burn our Stripe quota.
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).end();
 
+  try {
+    await enforceRateLimit(req, { name: "promo-validate", limit: 20, windowSeconds: 60 });
+  } catch (err) {
+    return res.status(err.status || 429).json({ valid: false, error: err.message });
+  }
+
   const code = String(req.query.code || "").trim().toUpperCase();
-  if (!code) return res.status(400).json({ valid: false });
+  if (!code || code.length > 30) return res.status(400).json({ valid: false });
 
   try {
     const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1, expand: ["data.promotion.coupon"] });

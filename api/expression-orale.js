@@ -1,4 +1,5 @@
 import { requirePremium } from "./_lib/auth.js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
 import { logAiUsage } from "./_lib/usage.js";
@@ -107,11 +108,21 @@ function sanitizeHistory(raw) {
     .filter((m) => m.text);
 }
 
-async function dialogueTurn(res, user, body) {
-  const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+// Belt-and-braces next to Vercel's own body cap: a base64 payload beyond this
+// is not a TCF speaking clip, so refuse it before decoding.
+const MAX_AUDIO_B64 = 6_000_000; // ≈ 4.5 MB decoded
+
+function decodeAudio(audio) {
   if (!audio) throw new HttpError(400, "No audio was received.");
+  if (typeof audio !== "string" || audio.length > MAX_AUDIO_B64) throw new HttpError(413, "The recording is too large.");
   const buffer = Buffer.from(audio, "base64");
   if (!buffer.length) throw new HttpError(400, "The audio was empty.");
+  return buffer;
+}
+
+async function dialogueTurn(res, user, body) {
+  const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+  const buffer = decodeAudio(audio);
 
   const transcribeStart = Date.now();
   const transcript = await groqTranscribe(buffer, {
@@ -136,8 +147,8 @@ async function dialogueTurn(res, user, body) {
 
   const buildUserMsg = (dialogue) =>
     [
-      taskLabel && `Tâche : ${taskLabel}`,
-      prompt && `Consigne donnée au candidat : ${prompt}`,
+      taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
+      prompt && `Consigne donnée au candidat : ${String(prompt).slice(0, 1000)}`,
       `Dialogue :\n"""\n${dialogue}\n"""`,
     ]
       .filter(Boolean)
@@ -211,14 +222,14 @@ export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     const user = await requirePremium(req);
+    // Transcription + evaluation are billable Groq/Azure calls; cap the pace
+    // per account. Generous enough for a real interview (one turn per ~30 s).
+    await enforceRateLimit(req, { name: "expr-orale", limit: 30, windowSeconds: 300, userId: user.id });
 
     if (req.body?.mode === "dialogue") return await dialogueTurn(res, user, req.body);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
-    if (!audio) throw new HttpError(400, "No audio was received.");
-
-    const buffer = Buffer.from(audio, "base64");
-    if (!buffer.length) throw new HttpError(400, "The audio was empty.");
+    const buffer = decodeAudio(audio);
 
     const transcribeStart = Date.now();
     const transcript = await groqTranscribe(buffer, {
@@ -235,8 +246,8 @@ export default async function handler(req, res) {
     }
 
     const userMsg = [
-      taskLabel && `Tâche : ${taskLabel}`,
-      prompt && `Consigne : ${prompt}`,
+      taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
+      prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
       `Transcription de la réponse orale :\n"""\n${transcript.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)
