@@ -10,7 +10,7 @@
 const DEFAULT_VOICE = "fr-CA-SylvieNeural";
 export const TTS_MODEL_NAME = "azure-neural-tts";
 
-function xmlEscape(s) {
+export function xmlEscape(s) {
   return s.replace(/[<>&'"]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[ch]));
 }
 
