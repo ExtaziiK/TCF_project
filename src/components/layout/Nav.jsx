@@ -6,7 +6,7 @@ import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
-import { ROLES } from "@/auth/rbac";
+import { ROLES, isStaff } from "@/auth/rbac";
 
 export function Nav({ barOffset = false }) {
   const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role } = useApp();
@@ -72,7 +72,7 @@ export function Nav({ barOffset = false }) {
             )}
           </nav>
           <div className="flex items-center gap-1.5">
-            {role === ROLES.ADMIN && (
+            {isStaff(role) && (
               <button onClick={() => setSearchOpen(true)} aria-label={t("Rechercher")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
             )}
             <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"} className={`p-2.5 rounded-full text-xs font-bold tracking-wide ${c.sub} ${c.hoverSoft}`}>{lang === "fr" ? "EN" : "FR"}</button>
@@ -121,14 +121,17 @@ export function Nav({ barOffset = false }) {
             )}
             {user ? (
               <div className="hidden md:flex items-center gap-2 ml-1">
-                {user.admin && (
+                {isStaff(role) && (
                   <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
                 <button onClick={() => go("profile")} aria-label={t("Mon profil")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
                     <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
-                    {role === ROLES.PREMIUM_USER && <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>}
+                    {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
+                      : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
+                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>
+                      : null}
                   </span>
                 </button>
                 <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
@@ -155,7 +158,7 @@ export function Nav({ barOffset = false }) {
           </div>
         )}
       </header>
-      {searchOpen && role === ROLES.ADMIN && <SearchOverlay close={() => setSearchOpen(false)} />}
+      {searchOpen && isStaff(role) && <SearchOverlay close={() => setSearchOpen(false)} />}
     </>
   );
 }

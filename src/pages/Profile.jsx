@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
-import { ROLES } from "@/auth/rbac";
+import { ROLES, isStaff } from "@/auth/rbac";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidUsername, isUsernameAvailable,
@@ -56,7 +56,7 @@ export function Profile() {
     });
   }, []);
 
-  const isPremium = role === ROLES.PREMIUM_USER || (role === ROLES.ADMIN && user.plan === "Premium");
+  const isPremium = role === ROLES.PREMIUM_USER || (isStaff(role) && user.plan === "Premium");
 
   const saveProfile = async () => {
     const nameChanged = name.trim() && name.trim() !== user.name;
@@ -113,8 +113,9 @@ export function Profile() {
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className={`font-display font-bold text-xl ${c.text}`}>{user.name}</h2>
+            {user.owner && <Pill tone="amber"><Shield size={12} /> Owner</Pill>}
             {user.admin && <Pill tone="blue"><Shield size={12} /> Admin</Pill>}
-            {isPremium ? <Pill tone="blue"><Crown size={12} /> {user.planLabel || "Premium"}</Pill> : <Pill tone="slate">{t("Découverte")}</Pill>}
+            {isPremium ? <Pill tone="blue"><Crown size={12} /> {user.planLabel || "Premium"}</Pill> : <Pill tone="slate">{t("Sans papier")}</Pill>}
           </div>
           {initialUsername && <p className={`text-sm ${c.sub}`}>@{initialUsername}</p>}
           <p className={`text-sm ${c.faint}`}>{user.email}</p>
@@ -167,7 +168,7 @@ export function Profile() {
         </ProfileSection>
 
         {/* subscription */}
-        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Découverte.")}>
+        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Sans papier.")}>
           {isPremium ? (
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>

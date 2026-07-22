@@ -516,7 +516,7 @@ export const EN = {
   "Mettre à jour le mot de passe": "Update password",
   "Abonnement": "Subscription",
   "Votre forfait Premium est actif.": "Your Premium plan is active.",
-  "Vous utilisez le forfait gratuit Découverte.": "You are on the free Discovery plan.",
+  "Vous utilisez le forfait gratuit Sans papier.": "You are on the free Sans papier plan.",
   "Renouvellement / échéance :": "Renewal / expiry:",
   "Ouverture…": "Opening…",
   "Gérer mon abonnement": "Manage my subscription",

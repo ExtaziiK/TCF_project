@@ -358,7 +358,7 @@ function OverviewTab({ go }) {
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
         </div>
-        {[["Premium (actif)", u.premium, "gold"], ["Découverte", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
+        {[["Premium (actif)", u.premium, "gold"], ["Sans papier", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
           <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
             <Pill tone={tone}>{label}</Pill>
             <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
@@ -468,6 +468,7 @@ function UsersTab() {
                   key={u.id}
                   u={u}
                   isSelf={u.id === me?.id}
+                  canManageAdmins={!!me?.owner}
                   open={openId === u.id}
                   confirming={confirmId === u.id}
                   busy={busy}
@@ -493,7 +494,7 @@ function UsersTab() {
   );
 }
 
-function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
+function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
   const { c } = useApp();
   return (
     <>
@@ -510,10 +511,10 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
           </div>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Découverte"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
-        <td className="py-3.5 pr-4">{u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
+        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
         <td className="py-3.5">
@@ -526,13 +527,17 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
             <div className="flex items-center gap-2 flex-wrap">
               {PAID_PLANS.map((p) => planButton(u, p))}
               {u.plan === "Premium" && (
-                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Découverte" }, `${u.email} repassé en Découverte.`)}>Retirer Premium</Btn>
+                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Sans papier" }, `${u.email} repassé en Sans papier.`)}>Retirer Premium</Btn>
               )}
-              <Btn small variant="ghost" disabled={busy || isSelf} icon={UserCog}
-                onClick={() => act({ action: "set-role", userId: u.id, role: u.admin ? null : "admin" }, u.admin ? `Rôle admin retiré à ${u.email}.` : `${u.email} est maintenant admin.`)}
-                title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : undefined}>
-                {u.admin ? "Retirer admin" : "Nommer admin"}
-              </Btn>
+              {/* Only an Owner can promote/demote admins; an Owner account is never
+                  demoted from here (owner assignment is service-role only). */}
+              {canManageAdmins && !u.owner && (
+                <Btn small variant="ghost" disabled={busy || isSelf} icon={UserCog}
+                  onClick={() => act({ action: "set-role", userId: u.id, role: u.admin ? null : "admin" }, u.admin ? `Rôle admin retiré à ${u.email}.` : `${u.email} est maintenant admin.`)}
+                  title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : undefined}>
+                  {u.admin ? "Retirer admin" : "Nommer admin"}
+                </Btn>
+              )}
               {confirming ? (
                 <span className="flex items-center gap-2">
                   <span className="text-xs font-semibold text-rose-600">Supprimer définitivement ce compte et toutes ses données ?</span>
@@ -945,7 +950,7 @@ function AuditTab() {
   const detailText = (e) => {
     if (!e.detail) return "";
     if (e.action === "set-plan") {
-      if (e.detail.plan !== "Premium") return "Découverte";
+      if (e.detail.plan !== "Premium") return "Sans papier";
       const d = e.detail;
       const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
       return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;

@@ -12,7 +12,16 @@ export const ROLES = {
   FREE_USER: "FREE_USER",
   PREMIUM_USER: "PREMIUM_USER",
   ADMIN: "ADMIN",
+  // Owner = super-admin: everything an admin can do, and the only role allowed
+  // to promote/demote admins. Derived from app_metadata.role === "owner".
+  OWNER: "OWNER",
 };
+
+// "Staff" = the back-office roles (admin + owner). Anywhere that used to check
+// `role === ROLES.ADMIN` for "can see the admin surface" should use this, so an
+// owner is never locked out of something an admin can reach.
+export const STAFF_ROLES = [ROLES.ADMIN, ROLES.OWNER];
+export const isStaff = (role) => STAFF_ROLES.includes(role);
 
 // A subscription is active when the plan is Premium and, if an expiry is
 // set (app_metadata.premium_until, ISO date), it is still in the future.
@@ -27,14 +36,15 @@ export function hasActiveSubscription(user) {
 
 export function deriveRole(user) {
   if (!user) return ROLES.VISITOR;
+  if (user.owner) return ROLES.OWNER;
   if (user.admin) return ROLES.ADMIN;
   if (hasActiveSubscription(user)) return ROLES.PREMIUM_USER;
   return ROLES.FREE_USER;
 }
 
-const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN];
-const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN];
-const ADMIN_ONLY = [ROLES.ADMIN];
+const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
+const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
+const ADMIN_ONLY = [ROLES.ADMIN, ROLES.OWNER];
 
 // Route policy. Routes not listed here are public. The route guard refuses
 // to render any route whose policy the current role does not satisfy, so

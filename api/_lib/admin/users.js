@@ -10,8 +10,8 @@ import { HttpError } from "../groq.js";
 //
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
-//     action: "set-plan"  { plan: "Premium"|"Découverte", days?|months?: number|null, label? }
-//             "set-role"  { role: "admin"|null }   (cannot change your own role)
+//     action: "set-plan"  { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
+//             "set-role"  { role: "admin"|null }   (owner only; not your own role)
 //             "delete"    {}                        (cannot delete yourself)
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -51,11 +51,12 @@ function toRow(u, usernames) {
     email: u.email,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
     username: usernames[u.id] || null,
-    plan: meta.plan || "Découverte",
+    plan: meta.plan || "Sans papier",
     planLabel: meta.plan_label || null,
     premiumUntil: meta.premium_until || null,
     premiumActive: premiumActive(meta),
     admin: meta.role === "admin",
+    owner: meta.role === "owner",
     createdAt: u.created_at,
     lastSignInAt: u.last_sign_in_at || null,
   };
@@ -114,7 +115,7 @@ async function handlePost(req, res, actor) {
 
   if (action === "set-plan") {
     const { plan, months, days } = req.body;
-    if (!["Premium", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
+    if (!["Premium", "Sans papier", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
     // Access window: `days` (pricing tiers: 5/15/30/90) takes precedence, else
     // `months` (legacy). Neither → no expiry (unlimited Premium).
     const durationMs = Number(days) > 0 ? Number(days) * 24 * 3600 * 1000
@@ -128,9 +129,17 @@ async function handlePost(req, res, actor) {
   }
 
   if (action === "set-role") {
+    // Only the owner may promote/demote admins. A regular admin calling this
+    // (e.g. by hand-crafting the request) is refused server-side, not just in
+    // the UI where the button is hidden.
+    if (actor.app_metadata?.role !== "owner") throw new HttpError(403, "Seul le propriétaire peut gérer les administrateurs.");
     // An admin can never edit their own role: demoting yourself locks you out,
     // and self-service promotion paths are how privilege bugs are born.
     if (userId === actor.id) throw new HttpError(400, "Vous ne pouvez pas modifier votre propre rôle.");
+    // This endpoint only toggles the admin role; an owner is created solely via
+    // the service role, so it must never be demoted through here by accident.
+    const { data: targetData } = await admin.auth.admin.getUserById(userId);
+    if (targetData?.user?.app_metadata?.role === "owner") throw new HttpError(400, "Le rôle propriétaire ne peut pas être modifié ici.");
     const role = req.body.role === "admin" ? "admin" : null;
     const user = await patchMetadata(userId, { role });
     await audit(actor, "set-role", user.email, { role });

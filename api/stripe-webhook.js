@@ -97,7 +97,7 @@ export default async function handler(req, res) {
         if (userId) {
           const active = ["active", "trialing"].includes(subscription.status);
           await setPremiumStatus(userId, {
-            plan: active ? "Premium" : "Découverte",
+            plan: active ? "Premium" : "Sans papier",
             plan_label: active ? await planLabelFor(subscription) : null,
             premium_until: active ? periodEndISO(subscription) : null,
           });
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
         const userId = subscription.metadata?.supabase_user_id;
-        if (userId) await setPremiumStatus(userId, { plan: "Découverte", plan_label: null, premium_until: null });
+        if (userId) await setPremiumStatus(userId, { plan: "Sans papier", plan_label: null, premium_until: null });
         break;
       }
       default:

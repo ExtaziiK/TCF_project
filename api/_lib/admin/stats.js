@@ -81,7 +81,7 @@ export default async function handler(req, res) {
       const m = u.app_metadata || {};
       return m.plan === "Premium" && (!m.premium_until || Date.parse(m.premium_until) > now);
     }).length;
-    const admins = users.filter((u) => u.app_metadata?.role === "admin").length;
+    const admins = users.filter((u) => ["admin", "owner"].includes(u.app_metadata?.role)).length;
     const new7d = users.filter((u) => now - Date.parse(u.created_at) < 7 * DAY).length;
 
     res.status(200).json({
