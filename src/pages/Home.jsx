@@ -24,9 +24,11 @@ function Landing() {
   const { c, nav, t } = useApp();
   const plans = useLivePlans();
   return (
-    <main className="pt-16 md:pt-[72px]">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+    <main>
+      {/* HERO — the nav-clearance padding lives on the section (not <main>) so
+          its background starts at the very top, right under the banner, with no
+          plain strip; the inner content stays below the fixed nav. */}
+      <section className="relative overflow-hidden pt-16 md:pt-[72px]">
         {/* Symmetric brand glows so the top tint spans the full width evenly
             (blue on the left, red on the right) instead of a lopsided corner. */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
