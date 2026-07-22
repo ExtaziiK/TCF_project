@@ -44,7 +44,7 @@ const TYPE_FILTERS = {
   owner: (meta) => meta.role === "owner",
 };
 
-const PER_PAGE = 25;
+const PER_PAGE = 5;
 // listUsers has no server-side search, so pages are fetched and filtered
 // here. The cap keeps one request bounded; beyond it, search still works on
 // the loaded window and the UI shows the true total.

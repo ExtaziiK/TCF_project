@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
-  ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
+  Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
   Radio, Clock,
 } from "lucide-react";
@@ -397,21 +397,30 @@ function UsersTab() {
   const [openId, setOpenId] = useState(null); // user id whose action panel is expanded
   const [confirmId, setConfirmId] = useState(null); // pending delete confirmation
   const [busy, setBusy] = useState(false);
+  const [moreBusy, setMoreBusy] = useState(false); // "Charger plus" in flight
 
-  const load = () => {
-    setState("loading");
-    listAdminUsers({ search, page, filter }).then((r) => {
-      if (r.ok) { setData(r.data); setState("ready"); }
-      else setState(r.unavailable ? "unavailable" : "error");
+  // "Load more" pagination: page 1 replaces the list, later pages append, so the
+  // view grows from 5 rows outward instead of paging back and forth.
+  const load = (pageToLoad = 1, mode = "replace") => {
+    if (mode === "append") setMoreBusy(true); else setState("loading");
+    listAdminUsers({ search, page: pageToLoad, filter }).then((r) => {
+      if (r.ok) {
+        setData((prev) => (mode === "append" && prev ? { ...r.data, users: [...prev.users, ...r.data.users] } : r.data));
+        setState("ready");
+      } else setState(r.unavailable ? "unavailable" : "error");
+      setMoreBusy(false);
     });
   };
-  useEffect(load, [search, page, filter]);
+  // Reload from the top whenever the search or the active filter changes.
+  useEffect(() => { setPage(1); load(1, "replace"); }, [search, filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Live search, debounced so a keystroke burst issues one request.
   useEffect(() => {
-    const id = setTimeout(() => { setPage(1); setSearch(query.trim()); }, 350);
+    const id = setTimeout(() => setSearch(query.trim()), 350);
     return () => clearTimeout(id);
   }, [query]);
+
+  const loadMore = () => { const next = page + 1; setPage(next); load(next, "append"); };
 
   const act = async (payload, done) => {
     setBusy(true);
@@ -421,7 +430,8 @@ function UsersTab() {
     notify(done);
     setOpenId(null);
     setConfirmId(null);
-    load();
+    setPage(1);
+    load(1, "replace");
   };
 
   if (state === "unavailable") {
@@ -429,7 +439,6 @@ function UsersTab() {
   }
   if (state === "error") return <UnavailableCard>Impossible de charger les comptes. Réessayez.</UnavailableCard>;
 
-  const pages = data ? Math.max(1, Math.ceil(data.total / data.perPage)) : 1;
   // One grant button per paid pricing tier, coloured in that tier's accent, so
   // the admin assigns the exact same plans (and access durations) offered on the
   // Tarifs page. All four map to the single "Premium" role; only the access
@@ -569,11 +578,16 @@ function UsersTab() {
             </tbody>
           </table>
         )}
-        {data && data.total > data.perPage && (
-          <div className="flex items-center justify-between mt-5">
-            <Btn small variant="ghost" icon={ChevronLeft} disabled={page <= 1} onClick={() => setPage(page - 1)}>Précédent</Btn>
-            <span className={`text-xs font-mono2 ${c.faint}`}>Page {page} / {pages} · {data.total} compte{data.total > 1 ? "s" : ""}</span>
-            <Btn small variant="ghost" icon={ChevronRight} disabled={page >= pages} onClick={() => setPage(page + 1)}>Suivant</Btn>
+        {data && data.users.length > 0 && (
+          <div className="flex flex-col items-center gap-2 mt-5">
+            {data.users.length < data.total ? (
+              <Btn small variant="ghost" icon={ChevronDown} disabled={moreBusy} onClick={loadMore}>
+                {moreBusy ? "Chargement…" : "Charger plus"}
+              </Btn>
+            ) : data.total > data.perPage ? (
+              <span className={`text-xs font-mono2 ${c.faint}`}>Tous les comptes sont affichés</span>
+            ) : null}
+            <span className={`text-xs font-mono2 ${c.faint}`}>{data.users.length} / {data.total} compte{data.total > 1 ? "s" : ""}</span>
           </div>
         )}
       </Card>
