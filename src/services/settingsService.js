@@ -9,15 +9,19 @@ import { supabase } from "@/services/supabaseClient";
 // `home_label` row's text value: { text, enabled, opacity, position }.
 
 const HOME_LABEL = "home_label";
-export const LABEL_POSITIONS = ["top", "float-top", "float-bottom"];
-const DEFAULT = { text: "", enabled: false, opacity: 1, position: "top" };
+// The four page corners the banner can be pinned to.
+export const LABEL_POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
+const DEFAULT = { text: "", enabled: false, opacity: 1, position: "bottom-right" };
 
 function normalize(cfg) {
+  // Migrate any legacy position value to a corner.
+  const legacy = { top: "top-left", "float-top": "top-right", "float-bottom": "bottom-right" };
+  const pos = legacy[cfg?.position] || cfg?.position;
   return {
     text: String(cfg?.text ?? "").slice(0, 1500),
     enabled: !!cfg?.enabled,
     opacity: Math.min(1, Math.max(0.3, Number(cfg?.opacity) || 1)),
-    position: LABEL_POSITIONS.includes(cfg?.position) ? cfg.position : "top",
+    position: LABEL_POSITIONS.includes(pos) ? pos : "bottom-right",
   };
 }
 

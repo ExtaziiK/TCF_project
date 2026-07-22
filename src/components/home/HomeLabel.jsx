@@ -3,10 +3,19 @@ import { Megaphone } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getHomeLabel } from "@/services/settingsService";
 
+// Which corner of the viewport the banner is pinned to. Top corners sit clear
+// of the fixed navbar (+ announcement bar).
+const CORNER = {
+  "top-left": "top-28 md:top-32 left-4 md:left-6",
+  "top-right": "top-28 md:top-32 right-4 md:right-6",
+  "bottom-left": "bottom-4 md:bottom-6 left-4 md:left-6",
+  "bottom-right": "bottom-4 md:bottom-6 right-4 md:right-6",
+};
+
 // Admin-editable announcement banner on the public landing page. Stays hidden
 // until an admin enables it with some text (Admin › Accueil). Read with the
-// anon key so logged-out visitors see it. The admin controls its opacity and
-// its position on the page (in-flow at the top, or floating at top/bottom).
+// anon key so logged-out visitors see it. The admin picks the page corner it
+// floats in and its opacity.
 export function HomeLabel() {
   const { c } = useApp();
   const [cfg, setCfg] = useState(null);
@@ -18,19 +27,12 @@ export function HomeLabel() {
 
   if (!cfg || !cfg.enabled || !cfg.text.trim()) return null;
 
-  const banner = (
-    <div style={{ opacity: cfg.opacity }} className="flex items-start gap-3 rounded-2xl border border-blue-600/25 bg-blue-600/10 backdrop-blur px-4 py-3 text-left shadow-md">
-      <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
-      <p className={`text-sm leading-relaxed whitespace-pre-wrap ${c.text}`}>{cfg.text}</p>
+  return (
+    <div className={`fixed z-30 w-[calc(100vw-2rem)] max-w-sm rise ${CORNER[cfg.position] || CORNER["bottom-right"]}`} style={{ opacity: cfg.opacity }}>
+      <div className={`flex items-start gap-3 rounded-2xl border-2 border-blue-600/30 ${c.card} px-4 py-3 text-left shadow-xl`}>
+        <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
+        <p className={`text-sm leading-relaxed whitespace-pre-wrap ${c.text}`}>{cfg.text}</p>
+      </div>
     </div>
   );
-
-  // Floating variants escape the hero flow (fixed); the wrapper ignores pointer
-  // events so it never blocks the page, while the banner itself stays clickable.
-  if (cfg.position === "float-top")
-    return <div className="fixed top-16 md:top-[72px] inset-x-0 z-30 px-4 pt-3 pointer-events-none"><div className="max-w-3xl mx-auto pointer-events-auto rise">{banner}</div></div>;
-  if (cfg.position === "float-bottom")
-    return <div className="fixed bottom-0 inset-x-0 z-30 px-4 pb-4 pointer-events-none"><div className="max-w-3xl mx-auto pointer-events-auto rise">{banner}</div></div>;
-  // in-flow, at the top of the hero
-  return <div className="max-w-3xl mx-auto mb-6 rise">{banner}</div>;
 }

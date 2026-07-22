@@ -88,7 +88,7 @@ function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
 /* ------------------------------ home label -------------------------------- */
 
 const PROMO_SUGGESTION = "🎉 Offre de lancement : profitez de -50 % sur tous nos forfaits Premium ! Tous les quiz, les TCF blancs chronométrés et les simulations IA à moitié prix, pour une durée limitée. Lancez votre préparation dès aujourd'hui !";
-const POSITION_LABELS = { top: "En haut (dans la page)", "float-top": "Flottant en haut", "float-bottom": "Flottant en bas" };
+const POSITION_LABELS = { "top-left": "En haut à gauche", "top-right": "En haut à droite", "bottom-left": "En bas à gauche", "bottom-right": "En bas à droite" };
 
 // Edits the public landing-page banner (site_settings.home_label, a small JSON
 // config). Reads/writes go straight to Supabase (admin-only by RLS), so this
