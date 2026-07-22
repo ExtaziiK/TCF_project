@@ -27,9 +27,11 @@ function Landing() {
     <main className="pt-16 md:pt-[72px]">
       {/* HERO */}
       <section className="relative overflow-hidden">
+        {/* Symmetric brand glows so the top tint spans the full width evenly
+            (blue on the left, red on the right) instead of a lopsided corner. */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
-          <div className="absolute -bottom-40 -right-24 w-[420px] h-[420px] rounded-full opacity-15" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
+          <div className="absolute -top-40 -left-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
+          <div className="absolute -top-40 -right-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
           {/* admin-editable announcement, shown to logged-out visitors */}
