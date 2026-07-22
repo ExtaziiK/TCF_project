@@ -3,10 +3,11 @@ import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS } from "@/services/settingsService";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
@@ -81,6 +82,87 @@ function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
       <p className={`text-sm font-medium mt-1 ${c.text}`}>{label}</p>
       {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
     </Card>
+  );
+}
+
+/* ------------------------------ home label -------------------------------- */
+
+const PROMO_SUGGESTION = "🎉 Offre de lancement : profitez de -50 % sur tous nos forfaits Premium ! Tous les quiz, les TCF blancs chronométrés et les simulations IA à moitié prix, pour une durée limitée. Lancez votre préparation dès aujourd'hui !";
+const POSITION_LABELS = { top: "En haut (dans la page)", "float-top": "Flottant en haut", "float-bottom": "Flottant en bas" };
+
+// Edits the public landing-page banner (site_settings.home_label, a small JSON
+// config). Reads/writes go straight to Supabase (admin-only by RLS), so this
+// works without the serverless admin API. Needs migration
+// 20260721_site_settings.sql applied.
+function HomeLabelTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const set = (k, v) => setCfg((p) => ({ ...p, [k]: v }));
+
+  // Pre-fill the 50%-off suggestion the first time (no saved text yet).
+  useEffect(() => { getHomeLabel().then((v) => setCfg(v.text ? v : { ...v, text: PROMO_SUGGESTION })); }, []);
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setHomeLabel(cfg);
+    setBusy(false);
+    notify(r.ok ? "Bannière d'accueil enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!cfg) return <SkeletonRows n={2} className="h-28" />;
+  const fillPct = ((cfg.opacity - 0.3) / 0.7) * 100;
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Bannière d'accueil</h3>
+          <button onClick={() => set("enabled", !cfg.enabled)} role="switch" aria-checked={cfg.enabled} aria-label="Activer la bannière"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Affichée sur la page d'accueil publique, visible par tous les visiteurs (même non connectés). Activez-la, ajustez sa transparence et sa position.</p>
+
+        <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Texte</label>
+        <textarea value={cfg.text} onChange={(e) => set("text", e.target.value)} rows={4} maxLength={1500} placeholder="Votre message…" aria-label="Texte de la bannière" className={inp} />
+        <div className="mt-1 flex items-center justify-between gap-3">
+          <span className={`text-xs font-mono2 ${c.faint}`}>{cfg.text.length} / 1500</span>
+          <button onClick={() => set("text", PROMO_SUGGESTION)} className="text-xs font-semibold text-blue-600 hover:underline">Insérer le message −50 %</button>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-5 mt-5">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Position sur la page</label>
+            <select value={cfg.position} onChange={(e) => set("position", e.target.value)} aria-label="Position" className={inp}>
+              {LABEL_POSITIONS.map((p) => <option key={p} value={p}>{POSITION_LABELS[p]}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Transparence · {Math.round(cfg.opacity * 100)} %</label>
+            <input type="range" min="0.3" max="1" step="0.05" value={cfg.opacity} onChange={(e) => set("opacity", Number(e.target.value))} aria-label="Transparence"
+              className="range-brand w-full mt-3" style={{ background: `linear-gradient(90deg,#2E6BE6 ${fillPct}%, #cbd5e1 ${fillPct}%)` }} />
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Aperçu {!cfg.enabled && "· (désactivée)"}</p>
+        {cfg.text.trim() ? (
+          <div style={{ opacity: cfg.opacity }} className="flex items-start gap-3 rounded-2xl border border-blue-600/25 bg-blue-600/10 px-4 py-3">
+            <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
+            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${c.text}`}>{cfg.text}</p>
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucune bannière ne sera affichée.</p>}
+        <p className={`mt-3 text-xs ${c.faint}`}>Position : {POSITION_LABELS[cfg.position]} · {cfg.enabled ? "Activée" : "Désactivée"}</p>
+      </Card>
+    </div>
   );
 }
 
@@ -825,6 +907,7 @@ export function Admin() {
 
   const tabs = [
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
+    { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
     { id: "questions", l: "Questions", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
@@ -860,6 +943,7 @@ export function Admin() {
         </nav>
         <div role="tabpanel" className="min-w-0">
       {tab === "overview" && <OverviewTab go={setTab} />}
+      {tab === "home" && <HomeLabelTab />}
       {tab === "users" && <UsersTab />}
       {tab === "questions" && <QuestionManager />}
       {tab === "import" && (

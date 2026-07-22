@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
+import { HomeLabel } from "@/components/home/HomeLabel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -31,6 +32,8 @@ function Landing() {
           <div className="absolute -bottom-40 -right-24 w-[420px] h-[420px] rounded-full opacity-15" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
+          {/* admin-editable announcement, shown to logged-out visitors */}
+          <HomeLabel />
           {/* top: hero pitch, full width and centered */}
           <div className="max-w-3xl mx-auto text-center">
             <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
