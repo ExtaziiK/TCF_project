@@ -28,6 +28,29 @@ function periodEndISO(subscription) {
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
+// The plan name shown to the user, derived from the subscription's recurring
+// price. First the known Pricing-page tiers (keep in sync with the priceIds in
+// src/constants/pricing.js); otherwise the price's own nickname or its product
+// name, so any plan still surfaces something real rather than a generic label.
+const PRICE_LABELS = {
+  price_1TuaWRCFsAOkGQj0WeMgaejo: "Passeport",
+  price_1TuaZYCFsAOkGQj0OCxA6IWA: "Visa",
+  price_1TuabOCFsAOkGQj0M6cOUnxr: "Première classe",
+  price_1TuadPCFsAOkGQj0QXGKdRGS: "VIP",
+};
+
+async function planLabelFor(subscription) {
+  const price = subscription.items?.data?.[0]?.price;
+  if (!price) return null;
+  if (PRICE_LABELS[price.id]) return PRICE_LABELS[price.id];
+  if (price.nickname) return price.nickname;
+  let product = price.product;
+  if (typeof product === "string") {
+    try { product = await stripe.products.retrieve(product); } catch { product = null; }
+  }
+  return product?.name || null;
+}
+
 // Merges (rather than replaces) app_metadata so unrelated fields - like an
 // admin's role - are never dropped by a subscription update.
 async function setPremiumStatus(userId, patch) {
@@ -60,6 +83,7 @@ export default async function handler(req, res) {
           const subscription = await stripe.subscriptions.retrieve(session.subscription);
           await setPremiumStatus(userId, {
             plan: "Premium",
+            plan_label: await planLabelFor(subscription),
             premium_until: periodEndISO(subscription),
             stripe_customer_id: session.customer,
             stripe_subscription_id: session.subscription,
@@ -74,6 +98,7 @@ export default async function handler(req, res) {
           const active = ["active", "trialing"].includes(subscription.status);
           await setPremiumStatus(userId, {
             plan: active ? "Premium" : "Découverte",
+            plan_label: active ? await planLabelFor(subscription) : null,
             premium_until: active ? periodEndISO(subscription) : null,
           });
         }
@@ -82,7 +107,7 @@ export default async function handler(req, res) {
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
         const userId = subscription.metadata?.supabase_user_id;
-        if (userId) await setPremiumStatus(userId, { plan: "Découverte", premium_until: null });
+        if (userId) await setPremiumStatus(userId, { plan: "Découverte", plan_label: null, premium_until: null });
         break;
       }
       default:
