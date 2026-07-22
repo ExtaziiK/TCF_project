@@ -47,3 +47,36 @@ export async function setHomeLabel(cfg) {
     .upsert({ key: HOME_LABEL, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
+
+/* ── Top announcement bar (marquee) ─────────────────────────────────────── */
+
+const ANNOUNCE_BAR = "announcement_bar";
+// Keep the JSON well under the 2000-char column limit.
+const MAX_MSGS = 12;
+const MAX_MSG_LEN = 120;
+
+// { enabled, messages }. `messages: null` means "use the built-in defaults"
+// (nothing has been customized yet) — read errors degrade to that too, so the
+// bar keeps showing its static list until an admin changes it.
+export async function getAnnouncementBar() {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", ANNOUNCE_BAR).maybeSingle();
+  if (error || !data?.value) return { enabled: true, messages: null };
+  try {
+    const p = JSON.parse(data.value);
+    const messages = Array.isArray(p?.messages) ? p.messages.filter((m) => typeof m === "string") : null;
+    return { enabled: p?.enabled !== false, messages: messages && messages.length ? messages : null };
+  } catch { return { enabled: true, messages: null }; }
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setAnnouncementBar(cfg) {
+  const clean = {
+    enabled: cfg?.enabled !== false,
+    messages: (Array.isArray(cfg?.messages) ? cfg.messages : []).map((m) => String(m).slice(0, MAX_MSG_LEN)).filter((m) => m.trim()).slice(0, MAX_MSGS),
+  };
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: ANNOUNCE_BAR, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}

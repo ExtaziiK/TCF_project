@@ -3,12 +3,13 @@ import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
+import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
@@ -193,6 +194,97 @@ function HomeLabelTab() {
         ) : <p className={`text-sm ${c.faint}`}>Aucune bannière ne sera affichée.</p>}
         <p className={`mt-3 text-xs ${c.faint}`}>Position : {POSITION_LABELS[cfg.position]} · {cfg.enabled ? "Activée" : "Désactivée"}</p>
       </Card>
+    </div>
+  );
+}
+
+// Editor for the top scrolling marquee (site_settings.announcement_bar). Starts
+// from the built-in defaults so the admin edits from the current content.
+function AnnouncementBarTab() {
+  const { c, notify } = useApp();
+  const [enabled, setEnabled] = useState(true);
+  const [messages, setMessages] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  useEffect(() => { getAnnouncementBar().then((cfg) => { setEnabled(cfg.enabled); setMessages(cfg.messages?.length ? cfg.messages : [...ANNOUNCEMENTS]); }); }, []);
+
+  const setMsg = (i, v) => setMessages((m) => m.map((x, j) => (j === i ? v : x)));
+  const add = () => setMessages((m) => [...m, ""]);
+  const remove = (i) => setMessages((m) => m.filter((_, j) => j !== i));
+  const move = (i, d) => setMessages((m) => { const a = [...m]; const j = i + d; if (j < 0 || j >= a.length) return a; [a[i], a[j]] = [a[j], a[i]]; return a; });
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setAnnouncementBar({ enabled, messages });
+    setBusy(false);
+    notify(r.ok ? "Barre d'annonces enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!messages) return <SkeletonRows n={4} className="h-10" />;
+  const preview = messages.filter((x) => x.trim());
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Barre d'annonces (haut du site)</h3>
+          <button onClick={() => setEnabled((v) => !v)} role="switch" aria-checked={enabled} aria-label="Afficher la barre"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Le bandeau défilant en haut de toutes les pages. Modifiez, réordonnez ou supprimez les messages (jusqu'à 12 messages, 120 caractères chacun).</p>
+
+        <div className="space-y-2">
+          {messages.map((m, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
+              <input value={m} onChange={(e) => setMsg(i, e.target.value)} maxLength={120} placeholder="Message…" aria-label={`Message ${i + 1}`} className={`flex-1 ${inp}`} />
+              <div className="flex items-center shrink-0">
+                <button onClick={() => move(i, -1)} disabled={i === 0} aria-label="Monter" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronUp size={15} /></button>
+                <button onClick={() => move(i, 1)} disabled={i === messages.length - 1} aria-label="Descendre" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronDown size={15} /></button>
+                <button onClick={() => remove(i)} aria-label="Supprimer" className={`p-1.5 rounded-lg ${c.hoverSoft} text-rose-600`}><Trash2 size={15} /></button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <Btn small variant="ghost" icon={Plus} disabled={messages.length >= 12} onClick={add}>Ajouter un message</Btn>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Aperçu {!enabled && "· (masquée)"}</p>
+        {preview.length ? (
+          <div className="rounded-xl grad-brand text-white overflow-hidden">
+            <div className="flex items-center gap-4 px-4 py-2 text-sm font-semibold whitespace-nowrap overflow-x-auto">
+              {preview.map((m, i) => (<span key={i} className="flex items-center gap-4 shrink-0">{m}<span className="opacity-60" aria-hidden="true">✦</span></span>))}
+            </div>
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucun message — la barre sera masquée.</p>}
+      </Card>
+    </div>
+  );
+}
+
+// The "Accueil" admin section: two sub-tabs — the corner banner and the top bar.
+function AccueilTab() {
+  const { c } = useApp();
+  const [sub, setSub] = useState("banner");
+  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"]];
+  return (
+    <div className="space-y-5">
+      <div className="flex gap-2 flex-wrap">
+        {subs.map(([id, l]) => (
+          <button key={id} onClick={() => setSub(id)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sub === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
+        ))}
+      </div>
+      {sub === "banner" && <HomeLabelTab />}
+      {sub === "marquee" && <AnnouncementBarTab />}
     </div>
   );
 }
@@ -974,7 +1066,7 @@ export function Admin() {
         </nav>
         <div role="tabpanel" className="min-w-0">
       {tab === "overview" && <OverviewTab go={setTab} />}
-      {tab === "home" && <HomeLabelTab />}
+      {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
       {tab === "questions" && <QuestionManager />}
       {tab === "import" && (
