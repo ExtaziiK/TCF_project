@@ -63,8 +63,11 @@ export default async function handler(req, res) {
 
     const since = new Date(Date.now() - DAYS_SHOWN * DAY).toISOString();
     const sevenDaysAgo = new Date(Date.now() - 7 * DAY).toISOString();
+    // "Online now" = pinged last_seen_at within the last few minutes (matches the
+    // window used by the Users view). Pre-migration (no column) counts as zero.
+    const onlineSince = new Date(Date.now() - 3 * 60 * 1000).toISOString();
 
-    const [users, quizTotal, quiz7d, quizRows, examsTotal, examsCompleted, attemptsTotal, messagesNew] =
+    const [users, quizTotal, quiz7d, quizRows, examsTotal, examsCompleted, attemptsTotal, messagesNew, online] =
       await Promise.all([
         listAllUsers(),
         countOf("quiz_results"),
@@ -74,6 +77,7 @@ export default async function handler(req, res) {
         countOf("exam_attempts", (q) => q.eq("status", "completed")),
         countOf("question_attempts"),
         countOf("contact_messages", (q) => q.eq("status", "new")),
+        countOf("profiles", (q) => q.gte("last_seen_at", onlineSince)),
       ]);
 
     const now = Date.now();
@@ -91,6 +95,7 @@ export default async function handler(req, res) {
         free: users.length - premium,
         admins,
         new7d,
+        online,
         signupsByDay: bucketByDay(users.map((u) => u.created_at)),
       },
       activity: {

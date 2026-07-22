@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -64,8 +64,13 @@ export function AppProvider({ children }) {
     if (!user?.id) return;
     const uid = user.id;
     let cancelled = false;
+    // Presence ping: mark this account "seen now" so the admin Users view can
+    // show live connections. Immediately, then on every heartbeat tick while the
+    // tab is visible (a hidden/closed tab stops pinging and drops off "online").
+    touchLastSeen();
     const check = async () => {
       if (document.hidden) return;
+      touchLastSeen();
       if (await isDeviceSessionActive(uid)) return;
       if (cancelled) return;
       await authSignOut();

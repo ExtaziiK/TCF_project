@@ -58,6 +58,15 @@ export async function isDeviceSessionActive(userId) {
   return data.active_session_id === local;
 }
 
+// Marks the current user as "seen right now" (profiles.last_seen_at). Called on
+// login and on a timer while the app is open, so the admin Users view can show
+// live connections. Goes through a security-definer RPC (clients can't write the
+// column directly). Fails open: a missing function (pre-migration) or a network
+// blip just means this ping is skipped, never an error the user sees.
+export async function touchLastSeen() {
+  try { await supabase.rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
+}
+
 // OAuth logins redirect away before we can claim, so we flag the intent and
 // claim on return. Timestamped and consumed on the next load so an abandoned
 // sign-in can't linger and trigger a spurious claim on a later reload.

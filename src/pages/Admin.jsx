@@ -4,6 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
+  Radio, Clock,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -25,6 +26,19 @@ import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
 const PAID_PLANS = PLANS.filter((p) => p.priceId);
+
+// Account-type chips for the Users tab. Keys match the server filter (users.js
+// TYPE_FILTERS); the whole set of account types the platform has.
+const USER_FILTERS = [
+  { key: "all", label: "Tous" },
+  { key: "sans-papier", label: "Sans papier" },
+  { key: "passeport", label: "Passeport" },
+  { key: "visa", label: "Visa" },
+  { key: "premiere-classe", label: "Première classe" },
+  { key: "vip", label: "VIP" },
+  { key: "admin", label: "Admin" },
+  { key: "owner", label: "Owner" },
+];
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -71,7 +85,7 @@ function EmptyState({ icon: Icon, title, sub }) {
 /* --------------------------------- overview ------------------------------- */
 
 // Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
-const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]" };
+const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]", emerald: "bg-emerald-500/10 text-emerald-600" };
 
 function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
   const { c } = useApp();
@@ -328,6 +342,7 @@ function OverviewTab({ go }) {
     <div className="space-y-4">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
+        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald" />
         <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold" />
         <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
         <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
@@ -375,6 +390,7 @@ function UsersTab() {
   const { c, user: me, notify } = useApp();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
   const [state, setState] = useState("loading");
@@ -384,12 +400,12 @@ function UsersTab() {
 
   const load = () => {
     setState("loading");
-    listAdminUsers({ search, page }).then((r) => {
+    listAdminUsers({ search, page, filter }).then((r) => {
       if (r.ok) { setData(r.data); setState("ready"); }
       else setState(r.unavailable ? "unavailable" : "error");
     });
   };
-  useEffect(load, [search, page]);
+  useEffect(load, [search, page, filter]);
 
   // Live search, debounced so a keystroke burst issues one request.
   useEffect(() => {
@@ -428,8 +444,65 @@ function UsersTab() {
     );
   };
 
+  const selectFilter = (key) => { setPage(1); setOpenId(null); setConfirmId(null); setFilter(key); };
+  const avatarChar = (x) => (x.name || x.username || x.email || "?").trim()[0]?.toUpperCase();
+
   return (
     <div className="space-y-4">
+      {/* Live connections + most recent logins — computed over all accounts. */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card className="p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <h3 className={`font-display font-bold ${c.text}`}>Connectés maintenant</h3>
+            <span className="ml-auto font-mono2 font-extrabold text-lg text-emerald-600">{data?.onlineCount ?? 0}</span>
+          </div>
+          {data?.onlineUsers?.length ? (
+            <div className="flex flex-wrap gap-2">
+              {data.onlineUsers.map((o) => (
+                <span key={o.id} className={`inline-flex items-center gap-1.5 pl-1 pr-2.5 py-1 rounded-full border ${c.border}`}>
+                  <span className="relative w-6 h-6 rounded-full grad-brand text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                    {avatarChar(o)}
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+                  </span>
+                  <span className={`text-xs font-medium ${c.text}`}>{o.name || o.username || o.email}</span>
+                </span>
+              ))}
+              {data.onlineCount > data.onlineUsers.length && (
+                <span className={`inline-flex items-center px-2.5 py-1.5 text-xs font-semibold ${c.faint}`}>+{data.onlineCount - data.onlineUsers.length}</span>
+              )}
+            </div>
+          ) : (
+            <p className={`text-sm ${c.faint}`}>Personne en ligne pour le moment.</p>
+          )}
+        </Card>
+        <Card className="p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <Clock size={16} className="text-blue-600" />
+            <h3 className={`font-display font-bold ${c.text}`}>Dernières connexions</h3>
+          </div>
+          {data?.recentLogins?.length ? (
+            <div className="space-y-1.5">
+              {data.recentLogins.slice(0, 6).map((r) => (
+                <div key={r.id} className="flex items-center gap-2.5">
+                  <span className="relative w-7 h-7 rounded-full grad-brand text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                    {avatarChar(r)}
+                    {r.online && <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />}
+                  </span>
+                  <span className={`text-sm font-medium truncate ${c.text}`}>{r.name || r.username || r.email}</span>
+                  <span className={`ml-auto text-xs font-mono2 shrink-0 ${c.faint}`}>{when(r.lastSignInAt)}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className={`text-sm ${c.faint}`}>Aucune connexion enregistrée.</p>
+          )}
+        </Card>
+      </div>
+
       <Card className="p-4 flex items-center gap-3">
         <Search size={16} className={c.faint} />
         <input
@@ -444,6 +517,20 @@ function UsersTab() {
           <button onClick={() => setQuery("")} aria-label="Effacer la recherche" className={`p-1.5 rounded-full ${c.hoverSoft} ${c.faint}`}><XCircle size={15} /></button>
         )}
       </Card>
+
+      {/* Account-type filter chips. */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {USER_FILTERS.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => selectFilter(f.key)}
+            aria-pressed={filter === f.key}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${filter === f.key ? "bg-blue-600 border-blue-600 text-white" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
 
       <Card className="p-6 overflow-x-auto">
         {state === "loading" || !data ? (
@@ -501,11 +588,12 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
       <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
         <td className="py-3.5 pr-4">
           <div className="flex items-center gap-3 min-w-0">
-            <span className="w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
+            <span className="relative w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
               {(u.name || u.username || u.email || "?").trim()[0]?.toUpperCase()}
+              {u.online && <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="En ligne" />}
             </span>
             <div className="min-w-0">
-              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}</p>
+              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
               <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
             </div>
           </div>

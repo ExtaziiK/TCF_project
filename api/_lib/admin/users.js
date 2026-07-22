@@ -24,6 +24,26 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 // metadata on the account.
 const PLAN_LABELS = ["Passeport", "Visa", "Première classe", "VIP"];
 
+// A connection counts as "online" when the app pinged last_seen_at within this
+// window (the client pings every 45s; three-plus missed pings = offline).
+const ONLINE_WINDOW_MS = 3 * 60 * 1000;
+const RECENT_LOGINS = 8;
+
+// Account-type filters for the Users view. Each maps a chip the admin clicks to
+// a predicate over the account's metadata (+ whether Premium is currently
+// active). Keys are the querystring values sent by the client.
+const TYPE_FILTERS = {
+  all: () => true,
+  "sans-papier": (meta, active) => !active && meta.role !== "admin" && meta.role !== "owner",
+  premium: (meta, active) => active,
+  passeport: (meta, active) => active && meta.plan_label === "Passeport",
+  visa: (meta, active) => active && meta.plan_label === "Visa",
+  "premiere-classe": (meta, active) => active && meta.plan_label === "Première classe",
+  vip: (meta, active) => active && meta.plan_label === "VIP",
+  admin: (meta) => meta.role === "admin",
+  owner: (meta) => meta.role === "owner",
+};
+
 const PER_PAGE = 25;
 // listUsers has no server-side search, so pages are fetched and filtered
 // here. The cap keeps one request bounded; beyond it, search still works on
@@ -44,13 +64,16 @@ async function listAllUsers() {
 const premiumActive = (meta) =>
   meta.plan === "Premium" && (!meta.premium_until || Date.parse(meta.premium_until) > Date.now());
 
-function toRow(u, usernames) {
+const isOnline = (lastSeenAt) => !!lastSeenAt && Date.now() - Date.parse(lastSeenAt) < ONLINE_WINDOW_MS;
+
+function toRow(u, profiles) {
   const meta = u.app_metadata || {};
+  const p = profiles[u.id] || {};
   return {
     id: u.id,
     email: u.email,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
-    username: usernames[u.id] || null,
+    username: p.username || null,
     plan: meta.plan || "Sans papier",
     planLabel: meta.plan_label || null,
     premiumUntil: meta.premium_until || null,
@@ -59,6 +82,8 @@ function toRow(u, usernames) {
     owner: meta.role === "owner",
     createdAt: u.created_at,
     lastSignInAt: u.last_sign_in_at || null,
+    lastSeenAt: p.last_seen_at || null,
+    online: isOnline(p.last_seen_at),
   };
 }
 
@@ -87,26 +112,52 @@ async function patchMetadata(userId, patch) {
 async function handleGet(req, res) {
   const search = String(req.query.search || "").trim().toLowerCase();
   const page = Math.max(1, Number(req.query.page) || 1);
+  const filterKey = TYPE_FILTERS[req.query.filter] ? req.query.filter : "all";
+  const matchesType = TYPE_FILTERS[filterKey];
 
   let users = await listAllUsers();
   users.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  // Usernames come from profiles; fetched for the full window so search can
-  // match them too (one indexed query, id list bounded by MAX_SCAN).
-  const { data: profileRows } = await admin.from("profiles").select("id, username").in("id", users.map((u) => u.id));
-  const usernames = Object.fromEntries((profileRows || []).map((p) => [p.id, p.username]));
+  // Usernames + presence come from profiles; fetched for the full window so
+  // search can match usernames and "online now" is computed over everyone
+  // (one indexed query, id list bounded by MAX_SCAN).
+  const { data: profileRows } = await admin.from("profiles").select("id, username, last_seen_at").in("id", users.map((u) => u.id));
+  const profiles = Object.fromEntries((profileRows || []).map((p) => [p.id, p]));
 
+  // Live connections + most recent logins are reported over ALL accounts,
+  // independent of the active search/type filter, so the header stays stable.
+  const onlineRows = users
+    .filter((u) => isOnline(profiles[u.id]?.last_seen_at))
+    .sort((a, b) => Date.parse(profiles[b.id]?.last_seen_at) - Date.parse(profiles[a.id]?.last_seen_at));
+  const onlineCount = onlineRows.length;
+  const onlineUsers = onlineRows.slice(0, 12).map((u) => toRow(u, profiles));
+  const recentLogins = [...users]
+    .filter((u) => u.last_sign_in_at)
+    .sort((a, b) => new Date(b.last_sign_in_at) - new Date(a.last_sign_in_at))
+    .slice(0, RECENT_LOGINS)
+    .map((u) => toRow(u, profiles));
+
+  if (filterKey !== "all") {
+    users = users.filter((u) => matchesType(u.app_metadata || {}, premiumActive(u.app_metadata || {})));
+  }
   if (search) {
     users = users.filter((u) =>
       (u.email || "").toLowerCase().includes(search) ||
       (u.user_metadata?.name || "").toLowerCase().includes(search) ||
-      (usernames[u.id] || "").toLowerCase().includes(search)
+      (profiles[u.id]?.username || "").toLowerCase().includes(search)
     );
   }
 
   const total = users.length;
   const slice = users.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-  res.status(200).json({ users: slice.map((u) => toRow(u, usernames)), total, page, perPage: PER_PAGE });
+  res.status(200).json({
+    users: slice.map((u) => toRow(u, profiles)),
+    total, page, perPage: PER_PAGE,
+    filter: filterKey,
+    onlineCount,
+    onlineUsers,
+    recentLogins,
+  });
 }
 
 async function handlePost(req, res, actor) {

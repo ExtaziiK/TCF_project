@@ -58,10 +58,11 @@ export function fetchAdminUsage() {
   return adminFetch("/api/admin/usage");
 }
 
-export function listAdminUsers({ search = "", page = 1 } = {}) {
+export function listAdminUsers({ search = "", page = 1, filter = "all" } = {}) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);
   if (page > 1) params.set("page", String(page));
+  if (filter && filter !== "all") params.set("filter", filter);
   const qs = params.toString();
   return adminFetch(`/api/admin/users${qs ? `?${qs}` : ""}`);
 }
