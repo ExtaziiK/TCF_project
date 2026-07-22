@@ -10,7 +10,15 @@ import { getDeviceSessionId } from "@/services/authService";
 //   audit log — no server hop needed, is_admin() gates the rows.
 
 async function authHeaders() {
-  const { data } = await supabase.auth.getSession();
+  let { data } = await supabase.auth.getSession();
+  // Proactively refresh a token that's expired or about to (within 60s), so we
+  // never send a stale one — the server rejects it as "Invalid or expired
+  // session" (e.g. after the tab has been idle a while).
+  const exp = data?.session?.expires_at; // unix seconds
+  if (data?.session && exp && exp * 1000 - Date.now() < 60_000) {
+    const r = await supabase.auth.refreshSession();
+    if (r.data?.session) data = r.data;
+  }
   const headers = { "Content-Type": "application/json" };
   const token = data?.session?.access_token;
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -20,9 +28,16 @@ async function authHeaders() {
 }
 
 async function adminFetch(path, options = {}) {
+  const send = async () => fetch(path, { ...options, headers: await authHeaders() });
   let res;
   try {
-    res = await fetch(path, { ...options, headers: await authHeaders() });
+    res = await send();
+    // A 401 mid-session almost always means the access token just expired.
+    // Force a refresh and retry once before surfacing the error.
+    if (res.status === 401) {
+      await supabase.auth.refreshSession().catch(() => {});
+      res = await send();
+    }
   } catch {
     return { ok: false, error: "Connexion au serveur impossible." };
   }
