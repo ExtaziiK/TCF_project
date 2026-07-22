@@ -3,11 +3,12 @@ import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { getHomeLabel, setHomeLabel, LABEL_POSITIONS } from "@/services/settingsService";
+import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
@@ -90,6 +91,36 @@ function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
 const PROMO_SUGGESTION = "🎉 Offre de lancement : profitez de -50 % sur tous nos forfaits Premium ! Tous les quiz, les TCF blancs chronométrés et les simulations IA à moitié prix, pour une durée limitée. Lancez votre préparation dès aujourd'hui !";
 const POSITION_LABELS = { "top-left": "En haut à gauche", "top-right": "En haut à droite", "bottom-left": "En bas à gauche", "bottom-right": "En bas à droite" };
 
+// Minimal rich-text field. contentEditable gives native Ctrl/Cmd+B · I · U for
+// free; the toolbar mirrors them. Controlled without fighting the cursor:
+// innerHTML is rewritten only when the value changes from outside (e.g. the
+// "Insérer" shortcut).
+function RichEditor({ html, onChange, ariaLabel }) {
+  const { c } = useApp();
+  const ref = useRef(null);
+  const last = useRef(html);
+  useEffect(() => {
+    if (ref.current && html !== last.current) { ref.current.innerHTML = html || ""; last.current = html; }
+  }, [html]);
+  const emit = () => { const v = ref.current.innerHTML; last.current = v; onChange(v); };
+  const cmd = (name) => { document.execCommand(name, false); ref.current.focus(); emit(); };
+  const Tool = ({ icon: Icon, name, title }) => (
+    <button type="button" onMouseDown={(e) => { e.preventDefault(); cmd(name); }} title={title} aria-label={title}
+      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${c.hoverSoft} ${c.sub}`}><Icon size={15} /></button>
+  );
+  return (
+    <div className={`rounded-2xl border overflow-hidden focus-within:border-blue-600 ${c.inputCls}`}>
+      <div className={`flex items-center gap-1 px-2 py-1.5 border-b ${c.border}`}>
+        <Tool icon={Bold} name="bold" title="Gras (Ctrl+B)" />
+        <Tool icon={Italic} name="italic" title="Italique (Ctrl+I)" />
+        <Tool icon={Underline} name="underline" title="Souligné (Ctrl+U)" />
+      </div>
+      <div ref={ref} contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={ariaLabel}
+        onInput={emit} className="px-4 py-3 text-sm min-h-[96px] leading-relaxed outline-none" />
+    </div>
+  );
+}
+
 // Edits the public landing-page banner (site_settings.home_label, a small JSON
 // config). Reads/writes go straight to Supabase (admin-only by RLS), so this
 // works without the serverless admin API. Needs migration
@@ -127,10 +158,10 @@ function HomeLabelTab() {
         <p className={`text-sm mb-5 ${c.sub}`}>Affichée sur la page d'accueil publique, visible par tous les visiteurs (même non connectés). Activez-la, ajustez sa transparence et sa position.</p>
 
         <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Texte</label>
-        <textarea value={cfg.text} onChange={(e) => set("text", e.target.value)} rows={4} maxLength={1500} placeholder="Votre message…" aria-label="Texte de la bannière" className={inp} />
-        <div className="mt-1 flex items-center justify-between gap-3">
-          <span className={`text-xs font-mono2 ${c.faint}`}>{cfg.text.length} / 1500</span>
-          <button onClick={() => set("text", PROMO_SUGGESTION)} className="text-xs font-semibold text-blue-600 hover:underline">Insérer le message −50 %</button>
+        <RichEditor html={cfg.text} onChange={(v) => set("text", v)} ariaLabel="Texte de la bannière" />
+        <div className="mt-1.5 flex items-center justify-between gap-3">
+          <span className={`text-xs ${c.faint}`}>Mettez en forme avec la barre d'outils ou Ctrl/Cmd + B · I · U.</span>
+          <button onClick={() => set("text", PROMO_SUGGESTION)} className="text-xs font-semibold text-blue-600 hover:underline shrink-0">Insérer le message −50 %</button>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-5 mt-5">
@@ -154,10 +185,10 @@ function HomeLabelTab() {
 
       <Card className="p-6">
         <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Aperçu {!cfg.enabled && "· (désactivée)"}</p>
-        {cfg.text.trim() ? (
-          <div style={{ opacity: cfg.opacity }} className="flex items-start gap-3 rounded-2xl border border-blue-600/25 bg-blue-600/10 px-4 py-3">
+        {richTextHasContent(cfg.text) ? (
+          <div style={{ opacity: cfg.opacity }} className={`flex items-start gap-3 rounded-2xl border-2 border-blue-600/30 ${c.card} px-4 py-3 max-w-sm shadow-md`}>
             <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
-            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${c.text}`}>{cfg.text}</p>
+            <p className={`text-sm leading-relaxed ${c.text}`} dangerouslySetInnerHTML={{ __html: sanitizeRichText(cfg.text) }} />
           </div>
         ) : <p className={`text-sm ${c.faint}`}>Aucune bannière ne sera affichée.</p>}
         <p className={`mt-3 text-xs ${c.faint}`}>Position : {POSITION_LABELS[cfg.position]} · {cfg.enabled ? "Activée" : "Désactivée"}</p>

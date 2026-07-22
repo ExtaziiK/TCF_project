@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Megaphone } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getHomeLabel } from "@/services/settingsService";
+import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 
 // Which corner of the viewport the banner is pinned to. Top corners sit clear
 // of the fixed navbar (+ announcement bar).
@@ -25,13 +26,13 @@ export function HomeLabel() {
     return () => { on = false; };
   }, []);
 
-  if (!cfg || !cfg.enabled || !cfg.text.trim()) return null;
+  if (!cfg || !cfg.enabled || !richTextHasContent(cfg.text)) return null;
 
   return (
     <div className={`fixed z-30 w-[calc(100vw-2rem)] max-w-sm rise ${CORNER[cfg.position] || CORNER["bottom-right"]}`} style={{ opacity: cfg.opacity }}>
       <div className={`flex items-start gap-3 rounded-2xl border-2 border-blue-600/30 ${c.card} px-4 py-3 text-left shadow-xl`}>
         <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
-        <p className={`text-sm leading-relaxed whitespace-pre-wrap ${c.text}`}>{cfg.text}</p>
+        <p className={`text-sm leading-relaxed ${c.text}`} dangerouslySetInnerHTML={{ __html: sanitizeRichText(cfg.text) }} />
       </div>
     </div>
   );
