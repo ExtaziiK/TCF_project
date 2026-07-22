@@ -111,6 +111,7 @@ export function mapSupabaseUser(session) {
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
     plan: authUser.app_metadata?.plan || "Découverte",
+    planLabel: authUser.app_metadata?.plan_label || null, // tier name (Passeport / Visa / …)
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
     createdAt: authUser.created_at || null,

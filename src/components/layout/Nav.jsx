@@ -128,7 +128,7 @@ export function Nav({ barOffset = false }) {
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
                     <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
-                    {role === ROLES.PREMIUM_USER && <span className="text-[10px] font-bold text-blue-600">Premium</span>}
+                    {role === ROLES.PREMIUM_USER && <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>}
                   </span>
                 </button>
                 <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>

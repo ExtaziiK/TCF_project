@@ -114,7 +114,7 @@ export function Profile() {
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className={`font-display font-bold text-xl ${c.text}`}>{user.name}</h2>
             {user.admin && <Pill tone="blue"><Shield size={12} /> Admin</Pill>}
-            {isPremium ? <Pill tone="blue"><Crown size={12} /> Premium</Pill> : <Pill tone="slate">{t("Découverte")}</Pill>}
+            {isPremium ? <Pill tone="blue"><Crown size={12} /> {user.planLabel || "Premium"}</Pill> : <Pill tone="slate">{t("Découverte")}</Pill>}
           </div>
           {initialUsername && <p className={`text-sm ${c.sub}`}>@{initialUsername}</p>}
           <p className={`text-sm ${c.faint}`}>{user.email}</p>
@@ -171,7 +171,7 @@ export function Profile() {
           {isPremium ? (
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>
-                <p className={`font-semibold ${c.text} flex items-center gap-2`}><Crown size={16} className="text-blue-600" /> Premium</p>
+                <p className={`font-semibold ${c.text} flex items-center gap-2`}><Crown size={16} className="text-blue-600" /> {user.planLabel || "Premium"}</p>
                 {user.premiumUntil && <p className={`text-sm mt-1 ${c.sub}`}>{t("Renouvellement / échéance :")} {t(fmtDate(user.premiumUntil))}</p>}
               </div>
               <Btn small variant="ghost" icon={CreditCard} disabled={busyPortal} onClick={manageSubscription}>{t(busyPortal ? "Ouverture…" : "Gérer mon abonnement")}</Btn>
