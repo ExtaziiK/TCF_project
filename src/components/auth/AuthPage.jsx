@@ -49,7 +49,7 @@ export function AuthPage({ mode }) {
         setLockMsg("");
         notify(t("Bon retour parmi nous !"));
         const firstLogin = consumeFirstLogin(r.user?.id);
-        nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+        nav(r.user?.admin || r.user?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
       } else if (view === "register") {
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
         if (!country) return notify(t("Sélectionnez votre pays pour continuer."));
@@ -60,7 +60,7 @@ export function AuthPage({ mode }) {
         else {
           const newUser = mapSupabaseUser(data.session);
           const firstLogin = consumeFirstLogin(newUser?.id);
-          nav(newUser?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+          nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
         }
       } else {
         const { error } = await resetPassword(email);
