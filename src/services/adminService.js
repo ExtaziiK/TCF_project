@@ -58,6 +58,13 @@ export function fetchAdminUsage() {
   return adminFetch("/api/admin/usage");
 }
 
+// Vercel Web Analytics (visitors, page views, top pages/referrers) for the
+// "Trafic" tab. Returns { configured: false } when the Vercel token/project
+// env vars aren't set, so the tab can show setup instructions instead of an error.
+export function fetchAdminVercel() {
+  return adminFetch("/api/admin/vercel");
+}
+
 export function listAdminUsers({ search = "", page = 1, filter = "all" } = {}) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);

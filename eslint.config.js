@@ -21,6 +21,7 @@ export default [
         setTimeout: "readonly",
         clearTimeout: "readonly",
         FileReader: "readonly",
+        DOMParser: "readonly",
         TextDecoder: "readonly",
         Uint8Array: "readonly",
         URLSearchParams: "readonly",
@@ -50,6 +51,7 @@ export default [
       globals: {
         process: "readonly", Buffer: "readonly", console: "readonly",
         fetch: "readonly", FormData: "readonly", Blob: "readonly",
+        URLSearchParams: "readonly",
       },
     },
   },

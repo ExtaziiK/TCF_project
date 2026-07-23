@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -16,7 +16,7 @@ import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
 import { DayBars } from "@/components/dashboard/charts";
 import {
-  fetchAdminStats, fetchAdminUsage, listAdminUsers, updateAdminUser,
+  fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
@@ -954,6 +954,129 @@ function UsageTab() {
   );
 }
 
+/* ---------------------------------- trafic -------------------------------- */
+
+const fmtNum = (n) => (n == null ? "—" : Number(n).toLocaleString("fr-CA"));
+
+// One ranked breakdown (top pages / referrers / countries / devices). Each row
+// carries a page-views bar relative to the leader, so the shape reads at a
+// glance without a separate chart.
+function RankList({ icon: Icon, title, rows, emptyLabel, format = (l) => l }) {
+  const { c } = useApp();
+  const max = Math.max(1, ...rows.map((r) => r.pageviews));
+  return (
+    <Card className="p-6">
+      <div className="flex items-center gap-2.5 mb-4">
+        <span className="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Icon size={15} /></span>
+        <h3 className={`font-display font-bold ${c.text}`}>{title}</h3>
+      </div>
+      {rows.length === 0 ? (
+        <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée sur la période.</p>
+      ) : (
+        <div className="space-y-2.5">
+          {rows.map((r, i) => (
+            <div key={`${r.label ?? "—"}-${i}`}>
+              <div className="flex items-center justify-between gap-3 text-sm mb-1">
+                <span className={`truncate ${r.label ? c.text : c.faint}`}>{r.label ? format(r.label) : emptyLabel}</span>
+                <span className={`font-mono2 text-xs shrink-0 ${c.sub}`}>{fmtNum(r.pageviews)} vue{r.pageviews > 1 ? "s" : ""} · {fmtNum(r.visitors)} visiteur{r.visitors > 1 ? "s" : ""}</span>
+              </div>
+              <ProgressBar pct={Math.round((r.pageviews / max) * 100)} tone="grad" />
+            </div>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function TrafficTab() {
+  const { c } = useApp();
+  const [data, setData] = useState(null);
+  const [state, setState] = useState("loading");
+
+  useEffect(() => {
+    fetchAdminVercel().then((r) => {
+      if (r.ok) { setData(r.data); setState("ready"); }
+      else setState(r.unavailable ? "unavailable" : "error");
+    });
+  }, []);
+
+  if (state === "loading") {
+    return (
+      <div className="space-y-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="p-5"><Skeleton className="h-9 w-20" /><Skeleton className="h-4 w-28 mt-3" /></Card>
+          ))}
+        </div>
+        <Card className="p-6"><Skeleton className="h-5 w-56 mb-4" /><Skeleton className="h-24" /></Card>
+      </div>
+    );
+  }
+  if (state === "unavailable") {
+    return <UnavailableCard>Le trafic passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>. Déployez sur Vercel ou lancez <span className="font-mono2">vercel dev</span>.</UnavailableCard>;
+  }
+  if (state === "error") return <UnavailableCard>Impossible de charger le trafic. Vérifiez le jeton Vercel (<span className="font-mono2">VERCEL_ANALYTICS_TOKEN</span>) et que Web Analytics est activé sur le projet.</UnavailableCard>;
+
+  // Env not set yet — walk the owner through the one-time setup.
+  if (!data.configured) {
+    return (
+      <Card className="p-6">
+        <div className="flex items-center gap-2.5 mb-3">
+          <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Globe size={17} /></span>
+          <h3 className={`font-display font-bold ${c.text}`}>Connecter Vercel Web Analytics</h3>
+        </div>
+        <p className={`text-sm mb-4 ${c.sub}`}>Affichez ici les visiteurs, les pages vues et les principales sources de trafic mesurés par Vercel. Configuration en une fois :</p>
+        <ol className={`text-sm space-y-2.5 ${c.sub}`}>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">1.</span><span>Activez <span className="font-semibold">Web Analytics</span> sur le projet (tableau de bord Vercel → onglet <span className="font-mono2">Analytics</span>).</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">2.</span><span>Créez un jeton d'accès sur <a href="https://vercel.com/account/tokens" target="_blank" rel="noreferrer" className="text-blue-600 font-semibold hover:underline">vercel.com/account/tokens <ExternalLink size={11} className="inline" /></a>.</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">3.</span><span>Dans les variables d'environnement du projet Vercel, ajoutez <span className="font-mono2">VERCEL_ANALYTICS_TOKEN</span> et <span className="font-mono2">VERCEL_PROJECT_ID</span> (dans Project → Settings). Ajoutez <span className="font-mono2">VERCEL_TEAM_ID</span> seulement si le projet appartient à une équipe.</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">4.</span><span>Redéployez — les chiffres apparaîtront ici automatiquement.</span></li>
+        </ol>
+      </Card>
+    );
+  }
+
+  const t = data.totals;
+  return (
+    <div className="space-y-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard icon={Eye} value={fmtNum(t.pageviews30d)} label="Pages vues (30 j)" hint={t.pageviews7d > 0 ? `${fmtNum(t.pageviews7d)} ces 7 derniers jours` : null} />
+        <StatCard icon={Users} value={fmtNum(t.visitors30d)} label="Visiteurs (30 j)" hint={t.visitors7d > 0 ? `${fmtNum(t.visitors7d)} ces 7 derniers jours` : null} accent="emerald" />
+        <StatCard icon={Eye} value={fmtNum(t.lifetimePageviews)} label="Pages vues (total)" accent="gold" />
+        <StatCard icon={Users} value={fmtNum(t.lifetimeVisitors)} label="Visiteurs (total)" accent="gold" />
+      </div>
+
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Fréquentation — 14 derniers jours</h3>
+          <a href="https://vercel.com/dashboard/analytics" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+            Détail complet sur vercel.com <ExternalLink size={12} />
+          </a>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré par Vercel Web Analytics. Les visiteurs par jour comptent chaque visiteur unique une fois par journée ; le total sur 30 jours en est la somme (approximation) — le lien ci-dessus donne le chiffre unique exact.</p>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Pages vues par jour</p>
+            <DayBars days={data.byDay} label="Pages vues par jour sur 14 jours" />
+          </div>
+          <div>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Visiteurs par jour</p>
+            <DayBars days={data.byDay.map((d) => ({ ...d, count: d.visitors }))} label="Visiteurs par jour sur 14 jours" />
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid lg:grid-cols-2 gap-4">
+        <RankList icon={FileText} title="Pages les plus visitées" rows={data.topPages} emptyLabel="—" />
+        <RankList icon={Link2} title="Sources de trafic" rows={data.topReferrers} emptyLabel="Direct / sans référent" />
+        <RankList icon={MapPin} title="Pays" rows={data.topCountries} emptyLabel="Inconnu" />
+        <RankList icon={Monitor} title="Appareils" rows={data.devices} emptyLabel="Inconnu" format={(l) => ({ desktop: "Ordinateur", mobile: "Mobile", tablet: "Tablette" }[l] || l)} />
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------- messages ------------------------------- */
 
 const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived", "Archivés"], ["all", "Tous"]];
@@ -1143,6 +1266,7 @@ export function Admin() {
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
     { id: "promos", l: "Promos", icon: Ticket },
+    { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
   ];
@@ -1219,6 +1343,7 @@ export function Admin() {
       )}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
       {tab === "promos" && <PromosTab />}
+      {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
         </div>

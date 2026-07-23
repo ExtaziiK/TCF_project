@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/context/AppProvider";
 import { useApp } from "@/context/AppContext";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
@@ -29,6 +30,9 @@ function AppShell() {
       <div key={route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
       <Toast />
+      {/* Vercel Web Analytics — auto-tracks route changes via the History API;
+          the numbers surface in the admin dashboard's "Trafic" tab. */}
+      <Analytics />
     </div>
   );
 }
