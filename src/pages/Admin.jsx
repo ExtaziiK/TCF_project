@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -307,13 +307,26 @@ function OverviewTab({ go }) {
   const { c } = useApp();
   const [stats, setStats] = useState(null);
   const [state, setState] = useState("loading");
+  const [refreshing, setRefreshing] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState(null);
 
-  useEffect(() => {
-    fetchAdminStats().then((r) => {
-      if (r.ok) { setStats(r.data); setState("ready"); }
-      else setState(r.unavailable ? "unavailable" : "error");
-    });
+  const load = useCallback(async (manual = false) => {
+    if (manual) setRefreshing(true);
+    const r = await fetchAdminStats();
+    if (r.ok) { setStats(r.data); setState("ready"); setUpdatedAt(Date.now()); }
+    // On a background/refresh failure, keep the last good data on screen; only
+    // fall into the empty error/unavailable state on the very first load.
+    else setState((s) => (s === "loading" ? (r.unavailable ? "unavailable" : "error") : s));
+    setRefreshing(false);
   }, []);
+
+  // Initial load, then auto-refresh every minute so the live figures
+  // ("connectés maintenant", today's counts) stay current without a reload.
+  useEffect(() => {
+    load();
+    const id = setInterval(() => load(), 60_000);
+    return () => clearInterval(id);
+  }, [load]);
 
   if (state === "loading") {
     return (
@@ -340,6 +353,21 @@ function OverviewTab({ go }) {
   const conversion = u.total ? Math.round((u.premium / u.total) * 100) : 0;
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-end gap-3 flex-wrap">
+        {updatedAt && (
+          <span className={`text-xs flex items-center gap-1.5 ${c.faint}`}>
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+            </span>
+            Actualisé à {new Date(updatedAt).toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit", second: "2-digit" })} · auto chaque minute
+          </span>
+        )}
+        <Btn small variant="ghost" disabled={refreshing} onClick={() => load(true)}>
+          <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} aria-hidden="true" />
+          {refreshing ? "Actualisation…" : "Actualiser"}
+        </Btn>
+      </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
         <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald" />
