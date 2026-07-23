@@ -64,8 +64,11 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 .plan-sheen.is-auto:before{animation:sheen-auto 5s ease-in-out 1.2s infinite}
 @keyframes sheen-auto{0%{transform:translateX(-180%) skewX(-18deg)}14%,100%{transform:translateX(320%) skewX(-18deg)}}
 .metal-text{background-size:220% auto;background-position:0 center}
-.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out}
-@keyframes metal-shimmer{to{background-position:220% center}}
+/* Shimmer sweeps in on hover and ENDS at the resting position (fill: both), so
+   mouse-out never yanks the animation mid-run and snaps the gradient back — the
+   old cause of a "flick" appearing only when the cursor left. */
+.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out both}
+@keyframes metal-shimmer{from{background-position:220% center}to{background-position:0 center}}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}
