@@ -36,8 +36,16 @@ export function AppProvider({ children }) {
       const mapped = mapSupabaseUser(session);
       if (mapped) {
         if (wasOAuth) {
-          // Fresh Google login just redirected back — claim this device.
-          await claimDeviceSession(mapped.id);
+          // Fresh Google login just redirected back — claim this device. If the
+          // plan's device slots are all taken, refuse and sign back out.
+          const claim = await claimDeviceSession(mapped.id);
+          if (claim.limitReached) {
+            await authSignOut();
+            setUser(null);
+            setAuthReady(true);
+            notify("Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.");
+            return;
+          }
         } else if (!(await isDeviceSessionActive(mapped.id))) {
           // The account was claimed by another device while this one was away.
           await authSignOut();

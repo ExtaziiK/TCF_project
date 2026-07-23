@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -668,6 +668,11 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                   {u.admin ? "Retirer admin" : "Nommer admin"}
                 </Btn>
               )}
+              <Btn small variant="ghost" disabled={busy} icon={Smartphone}
+                onClick={() => act({ action: "reset-sessions", userId: u.id }, `Appareils réinitialisés pour ${u.email}.`)}
+                title="Libère tous les créneaux d'appareils (débloque un compte verrouillé hors de ses appareils)">
+                Réinitialiser les appareils
+              </Btn>
               {confirming ? (
                 <span className="flex items-center gap-2">
                   <span className="text-xs font-semibold text-rose-600">Supprimer définitivement ce compte et toutes ses données ?</span>
@@ -1186,6 +1191,7 @@ function MessagesTab({ onCount }) {
 const AUDIT_LABELS = {
   "set-plan": ["Forfait modifié", "gold"],
   "set-role": ["Rôle modifié", "red"],
+  "reset-sessions": ["Appareils réinitialisés", "slate"],
   "delete-user": ["Compte supprimé", "amber"],
   "create-promo": ["Code promo créé", "green"],
   "toggle-promo": ["Code promo modifié", "slate"],

@@ -16,17 +16,17 @@ export async function requireUser(req) {
   if (error || !data?.user) throw new HttpError(401, "Invalid or expired session.");
   const user = data.user;
 
-  // Single active session ("last login wins"): once the account has claimed a
-  // device session, the caller must present the matching id. A superseded
-  // device — whose id was overwritten by a newer login — is refused here even
-  // though its JWT hasn't expired yet, so it can't keep driving the billable
-  // endpoint. Accounts with no claim on record (null, e.g. pre-migration) are
-  // left unaffected. Errors reading the column fail open for the same reason.
-  const { data: profile } = await admin.from("profiles").select("active_session_id").eq("id", user.id).maybeSingle();
-  const active = profile?.active_session_id || null;
-  if (active) {
+  // Multi-device sessions: the profile holds up to N active session ids (N from
+  // the plan tier). The caller must present one of them. A device that rolled
+  // off the set — because the user signed it out, or an admin reset the account
+  // — is refused here even though its JWT hasn't expired yet, so it can't keep
+  // driving the billable endpoint. Accounts with no set on record (null, e.g.
+  // pre-migration) are left unaffected. Errors reading the column fail open.
+  const { data: profile } = await admin.from("profiles").select("active_session_ids").eq("id", user.id).maybeSingle();
+  const active = profile?.active_session_ids || null;
+  if (Array.isArray(active) && active.length) {
     const presented = String(req.headers["x-device-session"] || "").trim();
-    if (presented !== active) throw new HttpError(401, "Session ouverte sur un autre appareil.");
+    if (!active.includes(presented)) throw new HttpError(401, "Session ouverte sur un autre appareil.");
   }
   return user;
 }

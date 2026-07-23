@@ -1,14 +1,18 @@
 import { supabase } from "@/services/supabaseClient";
 
-// ── Single active session ("last login wins") ──────────────────────────────
-// Each login claims a fresh random id, stored both locally and in
-// profiles.active_session_id. Any device whose local id no longer matches the
-// row was superseded by a newer login and signs itself out (see AppProvider's
-// validation + heartbeat). The whole mechanism is inert until the migration
-// adding the column is applied: the write/read below fail open, so pre-migration
-// or offline states never wrongly boot a logged-in user.
+// ── Active device sessions (up to the plan's device limit) ──────────────────
+// Each login claims a fresh random id, stored locally and added to
+// profiles.active_session_ids (capped server-side at the plan's limit —
+// Première classe 2, VIP 4, everyone else 1). A device whose local id is no
+// longer in the set was signed out (by the user elsewhere, or an admin reset)
+// and signs itself out here too (see AppProvider's validation + heartbeat). The
+// policy is REJECT, not eviction: when the set is full a new login is refused
+// (claimDeviceSession → { limitReached: true }) until a slot is freed. Inert
+// until the migration adding the column is applied: the read/write below fail
+// open, so pre-migration or offline states never wrongly boot a logged-in user.
 const DEVICE_SESSION_KEY = "tcf_device_session";
 const OAUTH_PENDING_KEY = "tcf_oauth_pending_at";
+export const DEVICE_LIMIT_MSG = "Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.";
 
 export function getDeviceSessionId() {
   try { return localStorage.getItem(DEVICE_SESSION_KEY) || null; } catch { return null; }
@@ -25,21 +29,27 @@ function setDeviceSessionId(id) {
 // is in the middle of logging in.
 let claiming = false;
 
-// Claims this browser as the account's single active session via the
-// claim_device_session RPC (security definer): the id is generated
-// SERVER-SIDE, so a client can never write an arbitrary value — or null —
-// into active_session_id to defeat the mechanism (direct column updates are
-// revoked by the 20260714 migration). Swallows errors so a missing function
-// (pre-migration) or a network blip leaves the feature inert rather than
-// breaking login.
-export async function claimDeviceSession(userId) {
-  if (!userId) return null;
+// Claims this browser as one of the account's active sessions via the
+// claim_device_session RPC (security definer): the id is generated SERVER-SIDE,
+// so a client can never write an arbitrary value — or null — into the set to
+// defeat the mechanism (direct column updates are revoked by the 20260714
+// migration). The current local id is passed so a re-login on this same browser
+// reuses its slot instead of consuming a new one. Returns:
+//   { ok: true, sid }        — claimed (id stored locally)
+//   { ok: false, limitReached: true } — plan's device limit is full
+//   { ok: false }            — RPC missing / offline: mechanism stays inert
+export async function claimDeviceSession(userId, { current } = {}) {
+  if (!userId) return { ok: false };
   claiming = true;
   try {
-    const { data, error } = await supabase.rpc("claim_device_session");
-    if (error || !data) return null; // RPC missing or offline — mechanism stays inert
+    const { data, error } = await supabase.rpc("claim_device_session", { p_current: current ?? getDeviceSessionId() ?? null });
+    if (error) {
+      if (String(error.message || "").includes("device_limit_reached")) return { ok: false, limitReached: true };
+      return { ok: false }; // RPC missing or offline — mechanism stays inert
+    }
+    if (!data) return { ok: false };
     setDeviceSessionId(data);
-    return data;
+    return { ok: true, sid: data };
   } finally {
     claiming = false;
   }
@@ -53,9 +63,10 @@ export async function isDeviceSessionActive(userId) {
   if (claiming) return true;
   const local = getDeviceSessionId();
   if (!userId || !local) return true;
-  const { data, error } = await supabase.from("profiles").select("active_session_id").eq("id", userId).maybeSingle();
-  if (error || !data || data.active_session_id == null) return true;
-  return data.active_session_id === local;
+  const { data, error } = await supabase.from("profiles").select("active_session_ids").eq("id", userId).maybeSingle();
+  const list = data?.active_session_ids;
+  if (error || !data || list == null || !Array.isArray(list) || list.length === 0) return true;
+  return list.includes(local);
 }
 
 // Marks the current user as "seen right now" (profiles.last_seen_at). Called on
@@ -189,7 +200,8 @@ export async function signIn({ identifier, password }) {
     res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier, password }),
+      // Send the current device id so re-login on this browser reuses its slot.
+      body: JSON.stringify({ identifier, password, deviceSession: getDeviceSessionId() }),
     });
   } catch {
     return { ok: false, message: "Connexion au serveur impossible. Réessayez." };
@@ -204,11 +216,15 @@ export async function signIn({ identifier, password }) {
     const { data, error } = await supabase.auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
     const user = mapSupabaseUser(data.session);
-    await claimDeviceSession(user?.id);
+    const claim = await claimDeviceSession(user?.id);
+    if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
     return { ok: true, user };
   }
 
   const json = await res.json().catch(() => ({}));
+
+  // Authenticated, but every device slot for the plan is already taken.
+  if (json.deviceLimitReached) return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG };
 
   if (json.session) {
     const { data, error } = await supabase.auth.setSession(json.session);
@@ -217,7 +233,10 @@ export async function signIn({ identifier, password }) {
     // api/login already claimed the device session server-side; just store the
     // id it handed back. Fall back to the RPC claim for a pre-migration server.
     if (json.deviceSession) setDeviceSessionId(json.deviceSession);
-    else await claimDeviceSession(user?.id);
+    else {
+      const claim = await claimDeviceSession(user?.id);
+      if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
+    }
     return { ok: true, user };
   }
   if (json.locked) {
@@ -245,6 +264,11 @@ export async function signInWithGoogle() {
 }
 
 export async function signOut() {
+  // Free this device's slot server-side (while the JWT is still valid) so the
+  // account can be signed into on another device — the reject policy has no
+  // silent eviction, so an explicit sign-out is how a slot is released.
+  const sid = getDeviceSessionId();
+  if (sid) { try { await supabase.rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
   setDeviceSessionId(null); // next login re-claims cleanly
   return supabase.auth.signOut();
 }

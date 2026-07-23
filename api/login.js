@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 
@@ -30,7 +29,7 @@ export default async function handler(req, res) {
     return res.status(err.status || 429).json({ error: "locked", locked: true, retryAfter: 60 });
   }
 
-  const { identifier, password } = req.body || {};
+  const { identifier, password, deviceSession: currentDevice } = req.body || {};
   if (!identifier || !password) return res.status(400).json({ error: "missing", message: "Identifiant et mot de passe requis." });
 
   const raw = String(identifier).trim().slice(0, 200);
@@ -83,17 +82,34 @@ export default async function handler(req, res) {
     });
   }
 
-  // Success: clear the counter, claim this device as the account's single
-  // active session (the id is generated HERE, with the service role — clients
-  // can no longer write active_session_id directly, see the 20260714
-  // migration), and hand both to the client.
+  // Success: clear the counter, then claim this device as one of the account's
+  // active sessions — up to the plan's device limit (Première classe 2, VIP 4,
+  // otherwise 1). Done through the security-definer claim_device_session RPC,
+  // called AS the just-authenticated user so auth.uid() resolves inside it: the
+  // session id is generated server-side (a client can neither choose nor clear
+  // it) and the per-plan limit lives in one place (the migration). When every
+  // slot is already held by OTHER devices the RPC refuses; we relay that as
+  // deviceLimitReached and withhold the session, so the login is blocked at the
+  // device gate rather than silently evicting one of the user's devices.
   await admin.from("login_attempts").delete().eq("identifier", key);
-  let deviceSession = randomUUID();
-  const { error: claimErr } = await admin
-    .from("profiles")
-    .update({ active_session_id: deviceSession })
-    .eq("id", data.user.id);
-  if (claimErr) deviceSession = null; // column missing (pre-migration): feature stays inert
+
+  let deviceSession = null;
+  try {
+    const authed = createClient(url, process.env.VITE_SUPABASE_ANON_KEY, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${data.session.access_token}` } },
+    });
+    const { data: sid, error: claimErr } = await authed.rpc("claim_device_session", { p_current: currentDevice || null });
+    if (claimErr) {
+      if (String(claimErr.message || "").includes("device_limit_reached")) {
+        return res.status(200).json({ deviceLimitReached: true });
+      }
+      // Any other RPC error (e.g. pre-migration DB): leave the mechanism inert.
+    } else {
+      deviceSession = sid;
+    }
+  } catch { /* offline / RPC missing — mechanism stays inert */ }
+
   return res.status(200).json({
     session: { access_token: data.session.access_token, refresh_token: data.session.refresh_token },
     deviceSession,

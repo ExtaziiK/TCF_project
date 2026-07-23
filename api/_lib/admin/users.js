@@ -10,9 +10,10 @@ import { HttpError } from "../groq.js";
 //
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
-//     action: "set-plan"  { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
-//             "set-role"  { role: "admin"|null }   (owner only; not your own role)
-//             "delete"    {}                        (cannot delete yourself)
+//     action: "set-plan"        { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
+//             "set-role"        { role: "admin"|null }   (owner only; not your own role)
+//             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
+//             "delete"          {}                        (cannot delete yourself)
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
@@ -194,6 +195,19 @@ async function handlePost(req, res, actor) {
     const role = req.body.role === "admin" ? "admin" : null;
     const user = await patchMetadata(userId, { role });
     await audit(actor, "set-role", user.email, { role });
+    return res.status(200).json({ ok: true });
+  }
+
+  if (action === "reset-sessions") {
+    // Clear the account's device slots so a user who lost access to their
+    // devices (cleared storage, lost phone) can sign in again — the reject
+    // policy otherwise leaves those slots stuck. Service-role update: the
+    // client-side revoke (20260714) doesn't apply to this key.
+    const { data } = await admin.auth.admin.getUserById(userId);
+    const email = data?.user?.email || userId;
+    const { error } = await admin.from("profiles").update({ active_session_ids: null, active_session_id: null }).eq("id", userId);
+    if (error) throw new HttpError(502, `Réinitialisation des appareils refusée : ${error.message}`);
+    await audit(actor, "reset-sessions", email);
     return res.status(200).json({ ok: true });
   }
 

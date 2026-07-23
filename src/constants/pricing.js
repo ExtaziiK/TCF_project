@@ -2,9 +2,11 @@
 // blue up through red, then gold for the top VIP tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
-// NOTE: the numeric quotas below (quiz counts, daily AI simulations, mock-exam
-// and device limits) are marketing copy — the checkout backend currently
-// grants a single "Premium" role and does not yet enforce them.
+// NOTE: the per-day AI-simulation, quiz-count and mock-exam quotas below are
+// still marketing copy — checkout grants a single "Premium" role and does not
+// yet enforce them. The DEVICE limits, however, ARE enforced via the active-
+// session mechanism (profiles.active_session_ids + claim_device_session):
+// Première classe → 2 simultaneous devices, VIP → 4, other plans → 1.
 export const PLANS = [
   {
     name: "Sans papier",

@@ -30,10 +30,11 @@ export function AuthPage({ mode }) {
   const [verify, setVerify] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lockMsg, setLockMsg] = useState("");
+  const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
   useEffect(() => setView(mode), [mode]);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
-  const goView = (v) => { setView(v); setLockMsg(""); };
+  const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
 
   const submit = async (e) => {
     e?.preventDefault();
@@ -42,11 +43,12 @@ export function AuthPage({ mode }) {
       if (view === "login") {
         const r = await signIn({ identifier, password });
         if (!r.ok) {
-          if (r.locked) setLockMsg(r.message);
-          else { setLockMsg(""); notify(r.message); }
+          if (r.locked) { setNotice(""); setLockMsg(r.message); }
+          else if (r.deviceLimitReached) { setLockMsg(""); setNotice(r.message); }
+          else { setLockMsg(""); setNotice(""); notify(r.message); }
           return;
         }
-        setLockMsg("");
+        setLockMsg(""); setNotice("");
         notify(t("Bon retour parmi nous !"));
         const firstLogin = consumeFirstLogin(r.user?.id);
         nav(r.user?.admin || r.user?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
@@ -140,7 +142,7 @@ export function AuthPage({ mode }) {
             {view === "login" ? (
               <div className="relative">
                 <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); }} className={inp} />
+                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
               </div>
             ) : (
               <div className="relative">
@@ -164,6 +166,11 @@ export function AuthPage({ mode }) {
               <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
                 <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>
                 <button type="button" onClick={() => goView("reset")} className="mt-2 ml-6 text-sm font-semibold text-blue-600 hover:underline">{t("Réinitialiser le mot de passe")}</button>
+              </div>
+            )}
+            {notice && (
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 rise">
+                <p className="text-sm text-amber-700 dark:text-amber-400 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{t(notice)}</p>
               </div>
             )}
             <Btn type="submit" className="w-full" variant="accent" disabled={busy}>
