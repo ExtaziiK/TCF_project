@@ -63,6 +63,8 @@ export const PAGE_ACCESS = {
   grammar: PREMIUM,
   mocks: PREMIUM,
   bank: ADMIN_ONLY,
+  // DZD manual checkout: needs a signed-in account to attach the request to.
+  "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,
   profile: AUTHENTICATED,
   admin: ADMIN_ONLY,

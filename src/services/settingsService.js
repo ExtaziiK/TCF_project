@@ -80,3 +80,55 @@ export async function setAnnouncementBar(cfg) {
     .upsert({ key: ANNOUNCE_BAR, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
+
+/* ── DZD (Algeria) manual-payment config ────────────────────────────────────
+ * Bank-transfer account details + per-plan DZD prices, edited by the owner in
+ * the admin "Tarifs" tab and read publicly by the DZD checkout page. Prices are
+ * kept as strings (e.g. "2600") keyed by plan display name; an empty string
+ * means "no override — fall back to the auto-converted amount". */
+
+const PAYMENT_DZ = "payment_dz";
+const s = (v, max = 200) => String(v ?? "").trim().slice(0, max);
+
+const DEFAULT_PAYMENT_DZ = {
+  ccp: { number: "", key: "", holder: "" },
+  baridimob: { rip: "", holder: "" },
+  whatsappGroupUrl: "",
+  prices: {}, // { [planName]: "2600" }
+};
+
+function normalizePaymentDz(cfg) {
+  const c = cfg && typeof cfg === "object" ? cfg : {};
+  const prices = {};
+  if (c.prices && typeof c.prices === "object") {
+    for (const [k, v] of Object.entries(c.prices)) prices[s(k, 60)] = s(v, 20);
+  }
+  return {
+    ccp: { number: s(c.ccp?.number), key: s(c.ccp?.key, 40), holder: s(c.ccp?.holder) },
+    baridimob: { rip: s(c.baridimob?.rip, 40), holder: s(c.baridimob?.holder) },
+    whatsappGroupUrl: s(c.whatsappGroupUrl, 400),
+    prices,
+  };
+}
+
+// Publicly readable so the checkout page can show the account details. Degrades
+// to empty defaults if the migration isn't applied or the row is blank.
+export async function getPaymentDz() {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", PAYMENT_DZ).maybeSingle();
+  if (error || !data?.value) return { ...DEFAULT_PAYMENT_DZ };
+  try {
+    return normalizePaymentDz(JSON.parse(data.value));
+  } catch {
+    return { ...DEFAULT_PAYMENT_DZ };
+  }
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setPaymentDz(cfg) {
+  const clean = normalizePaymentDz(cfg);
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: PAYMENT_DZ, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}

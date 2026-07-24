@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -14,6 +14,8 @@ import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
+import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
@@ -1262,15 +1264,17 @@ export function Admin() {
   const { c, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
+  const [newRequests, setNewRequests] = useState(0);
   const [importText, setImportText] = useState("");
   const [importError, setImportError] = useState("");
   const fileInputRef = useRef(null);
 
-  // Sidebar badge: loaded once here (client-direct through the admin RLS
-  // policy, so it works even without the serverless routes), then kept in
-  // sync by MessagesTab whenever the inbox (re)loads.
+  // Sidebar badges: loaded once here (client-direct through the admin RLS
+  // policies, so they work even without the serverless routes), then kept in
+  // sync by each inbox tab whenever it (re)loads.
   useEffect(() => {
     listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
+    listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
   }, []);
 
   const handleImportFile = (e) => {
@@ -1296,9 +1300,11 @@ export function Admin() {
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
+    { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Questions", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "requests", l: "Demandes", icon: Inbox },
     { id: "promos", l: "Promos", icon: Ticket },
     { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
@@ -1320,11 +1326,14 @@ export function Admin() {
                 ${active ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
                 <t.icon size={16} className="shrink-0" />
                 <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
-                {t.id === "messages" && newMessages > 0 && (
-                  <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
-                    {newMessages > 9 ? "9+" : newMessages}
-                  </span>
-                )}
+                {(() => {
+                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : 0;
+                  return badge > 0 ? (
+                    <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
+                      {badge > 9 ? "9+" : badge}
+                    </span>
+                  ) : null;
+                })()}
               </button>
             );
           })}
@@ -1333,6 +1342,7 @@ export function Admin() {
       {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
+      {tab === "pricing" && <PaymentSettingsTab />}
       {tab === "questions" && <QuestionManager />}
       {tab === "import" && (
         <div className="grid lg:grid-cols-2 gap-5">
@@ -1376,6 +1386,7 @@ export function Admin() {
         </div>
       )}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "promos" && <PromosTab />}
       {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}

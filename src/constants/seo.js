@@ -99,6 +99,7 @@ export const ROUTE_META = {
 
   // ── Gated routes: reachable URLs, but noindex (crawlers only see a gate) ──
   login: { path: "/connexion", title: "Connexion", noindex: true },
+  "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
   exams: { path: "/mes-examens", title: "Mes examens", noindex: true },
   mocks: { path: "/tcf-blanc", title: "TCF blanc — examen complet chronométré", noindex: true },

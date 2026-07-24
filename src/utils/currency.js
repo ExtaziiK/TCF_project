@@ -31,3 +31,16 @@ export function convertPrice(usdPrice, currency) {
   if (Number.isNaN(usd)) return usdPrice;
   return currency.format(usd * currency.rate);
 }
+
+export const DZD = CURRENCIES.find((x) => x.code === "DZD");
+
+// The DZD amount to charge for a plan on the manual checkout. Prefers the
+// owner's per-plan override (a bare number the admin typed, e.g. "2600" →
+// "2600 DA"); otherwise falls back to the auto-converted amount from the plan's
+// USD price. `overrides` is the site_settings payment_dz.prices map.
+export function planDzdAmount(plan, overrides = {}) {
+  const raw = overrides?.[plan?.name];
+  const num = raw != null && String(raw).trim() !== "" ? String(raw).match(/\d+([.,]\d+)?/) : null;
+  if (num) return DZD.format(parseFloat(num[0].replace(",", ".")));
+  return convertPrice(plan?.price ?? "$0", DZD);
+}

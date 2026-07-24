@@ -45,7 +45,7 @@ export function Pricing() {
   return (
     <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
-      <div className="flex justify-center">
+      <div className={`flex justify-center ${currency.code === "EUR" ? "mb-8" : ""}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
           {CURRENCIES.map((cur) => {
             const active = cur.code === currency.code;
@@ -64,14 +64,17 @@ export function Pricing() {
           })}
         </div>
       </div>
-      <p className={`text-center text-xs mt-3 mb-8 ${c.faint}`}>
-        {currency.code === "USD"
-          ? t("Tous les paiements sont effectués en dollars US (USD).")
-          : t("Montants indicatifs — le paiement est effectué en dollars US (USD).")}
-      </p>
+      {currency.code !== "EUR" && (
+        <p className={`text-center text-xs mt-3 mb-8 ${c.faint}`}>
+          {currency.code === "USD"
+            ? t("Tous les paiements sont effectués en dollars US (USD).")
+            : t("Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.")}
+        </p>
+      )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={applied} index={i} />)}
+        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={currency.code === "DZD" ? null : applied} index={i} currency={currency} />)}
       </div>
+      {currency.code !== "DZD" && (
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
         <div className="flex gap-2">
@@ -85,8 +88,9 @@ export function Pricing() {
         )}
         {couponError && <p className="mt-3 text-sm text-rose-600 flex items-center gap-1.5"><XCircle size={15} /> {couponError}</p>}
       </Card>
+      )}
       <div className={`mt-12 max-w-3xl mx-auto grid sm:grid-cols-3 gap-4 text-center`}>
-        {[{ icon: Shield, t: "Paiement chiffré Stripe" }, { icon: RotateCcw, t: "Satisfait ou remboursé" }, { icon: CreditCard, t: "Sans engagement" }].map((b) => (
+        {[{ icon: Shield, t: currency.code === "DZD" ? "Paiement local sécurisé" : "Paiement chiffré Stripe" }, { icon: RotateCcw, t: "Satisfait ou remboursé" }, { icon: CreditCard, t: "Sans engagement" }].map((b) => (
           <div key={b.t} className={`p-4 rounded-2xl border ${c.border} ${c.card} flex flex-col items-center gap-2`}>
             <b.icon size={20} className="text-blue-600" /><p className={`text-sm font-medium ${c.sub}`}>{t(b.t)}</p>
           </div>

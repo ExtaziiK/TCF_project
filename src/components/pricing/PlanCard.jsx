@@ -3,6 +3,7 @@ import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
+import { setDzCheckoutPlan } from "@/utils/dzCheckout";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
 // for the top VIP tier. `grad` drives the price text, the "popular" badge and
@@ -54,9 +55,11 @@ function discounted(price, promo) {
   return price.replace(m[0], Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2));
 }
 
-export function PlanCard({ p, compact, promo, index = 0 }) {
+export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
+  // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
+  const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.priceId;
   const oldPrice = paid ? beforePrice(p.price) : null;
@@ -70,6 +73,8 @@ export function PlanCard({ p, compact, promo, index = 0 }) {
 
   const subscribe = async () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
+    // Algerian dinar: hand off to the on-site manual-payment page instead of Stripe.
+    if (isDzd) { setDzCheckoutPlan(p.name); return nav("checkout-dz"); }
     setBusy(true);
     try {
       await startCheckout(p.priceId, promo?.code);
