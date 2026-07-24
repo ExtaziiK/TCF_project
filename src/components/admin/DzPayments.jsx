@@ -30,7 +30,26 @@ function Unavailable({ children }) {
   );
 }
 
-/* ------------------------- Tarifs (payment settings) ---------------------- */
+/* --------------------------------- Tarifs --------------------------------- */
+
+// The "Tarifs" admin section. Sub-tabbed so more payment regions/methods can be
+// added later; for now it holds the "DZD" (Algeria) settings.
+export function TarifsTab() {
+  const { c } = useApp();
+  const [sub, setSub] = useState("dzd");
+  const subs = [["dzd", "DZD"]];
+  return (
+    <div className="space-y-5">
+      <div className="flex gap-2 flex-wrap">
+        {subs.map(([id, l]) => (
+          <button key={id} onClick={() => setSub(id)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sub === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
+        ))}
+      </div>
+      {sub === "dzd" && <PaymentSettingsTab />}
+    </div>
+  );
+}
 
 // Owner-editable DZD payment config: the CCP / BaridiMob account details shown
 // on the manual checkout, the WhatsApp group link, and a per-plan DZD price

@@ -14,7 +14,7 @@ import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { QuestionManager } from "@/components/admin/QuestionManager";
-import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
@@ -1342,7 +1342,7 @@ export function Admin() {
       {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
-      {tab === "pricing" && <PaymentSettingsTab />}
+      {tab === "pricing" && <TarifsTab />}
       {tab === "questions" && <QuestionManager />}
       {tab === "import" && (
         <div className="grid lg:grid-cols-2 gap-5">

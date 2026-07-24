@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Gift, CheckCircle2, Shield, RotateCcw, CreditCard, XCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode, promoLabel } from "@/services/stripeService";
-import { CURRENCIES, convertPrice } from "@/utils/currency";
+import { CURRENCIES, convertPrice, planDzdAmount } from "@/utils/currency";
+import { getPaymentDz } from "@/services/settingsService";
 
 export function Pricing() {
   const { c, t } = useApp();
@@ -14,14 +15,23 @@ export function Pricing() {
   const [checking, setChecking] = useState(false);
   const [couponError, setCouponError] = useState("");
   const [currency, setCurrency] = useState(CURRENCIES[0]); // USD = the currency actually charged
+  const [dzPrices, setDzPrices] = useState({}); // owner's per-plan DZD overrides
   const plans = useLivePlans();
 
+  // The DZD prices set by the owner in Admin → Tarifs. Loaded once so the cards
+  // match exactly what the manual checkout will charge.
+  useEffect(() => { getPaymentDz().then((cfg) => setDzPrices(cfg.prices || {})); }, []);
+
   // Prices are stored/charged in USD; this rewrites the displayed figure into
-  // the visitor's currency (indicative only). PlanCard's −50 % and promo math
-  // still run on the converted string, so struck/discounted prices follow suit.
+  // the visitor's currency. For DZD, the owner's explicit price wins (falling
+  // back to the auto-converted amount); other currencies are indicative
+  // conversions. PlanCard's −50 % and promo math still run on the string.
   const displayPlans = useMemo(
-    () => plans.map((p) => ({ ...p, price: convertPrice(p.price, currency) })),
-    [plans, currency]
+    () => plans.map((p) => ({
+      ...p,
+      price: currency.code === "DZD" ? planDzdAmount(p, dzPrices) : convertPrice(p.price, currency),
+    })),
+    [plans, currency, dzPrices]
   );
 
   // Real validation against Stripe (api/promo-validate); the applied code is
