@@ -77,13 +77,13 @@ function StreakCard({ streaks }) {
           {cal.days.map((d) => {
             const isToday = d.day === today;
             const cls = d.active
-              ? "grad-brand text-white"
+              ? "bg-rose-500/15 text-rose-600"
               : d.future
                 ? `${c.faint} opacity-30`
                 : `border ${c.border} ${isToday ? "text-blue-600" : c.faint}`;
             return (
               <span key={d.day} title={`${t("Jour")} ${d.day}${d.active ? ` · ${t("pratiqué")}` : isToday ? ` · ${t("aujourd'hui")}` : ""}`}
-                className={`aspect-square rounded-md text-[9px] font-mono2 font-bold flex items-center justify-center ${cls} ${isToday ? "ring-2 ring-blue-500" : ""}`}>
+                className={`aspect-square rounded-md text-[11px] font-mono2 font-extrabold flex items-center justify-center ${cls} ${isToday ? "ring-2 ring-blue-500" : ""}`}>
                 {d.day}
               </span>
             );
@@ -91,7 +91,7 @@ function StreakCard({ streaks }) {
         </div>
         {/* Colour legend so the calendar is self-explanatory. */}
         <div className={`flex flex-wrap gap-x-4 gap-y-1.5 mt-3 text-[10px] ${c.faint}`}>
-          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded grad-brand inline-block" aria-hidden="true" /> {t("Pratiqué")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-rose-500/15 inline-block" aria-hidden="true" /> {t("Pratiqué")}</span>
           <span className="flex items-center gap-1.5"><span className={`w-3 h-3 rounded border ${c.border} inline-block`} aria-hidden="true" /> {t("Non pratiqué")}</span>
           <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded ring-2 ring-blue-500 inline-block" aria-hidden="true" /> {t("Aujourd'hui")}</span>
           <span className="flex items-center gap-1.5"><span className={`w-3 h-3 rounded border ${c.border} opacity-30 inline-block`} aria-hidden="true" /> {t("À venir")}</span>
