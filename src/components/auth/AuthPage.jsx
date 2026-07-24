@@ -17,7 +17,7 @@ function GoogleIcon(props) {
 }
 
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t } = useApp();
+  const { c, nav, notify, t, user } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -32,6 +32,14 @@ export function AuthPage({ mode }) {
   const [lockMsg, setLockMsg] = useState("");
   const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
   useEffect(() => setView(mode), [mode]);
+  // Already signed in? The login/register pages don't apply — bounce to the
+  // landing page (admins/owners to the panel, everyone else to their
+  // dashboard). Runs once on arrival, so a fresh login on this page — which
+  // navigates on its own via submit() — isn't double-redirected.
+  useEffect(() => {
+    if (user) nav(user.admin || user.owner ? "admin" : "dashboard", { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
@@ -80,6 +88,10 @@ export function AuthPage({ mode }) {
     if (error) { notify(error.message); setBusy(false); }
     // on success the browser redirects to Google, so no further state change here
   };
+
+  // Signed in already: render nothing while the effect above redirects, so the
+  // login form never flashes.
+  if (user) return null;
 
   return (
     <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
