@@ -121,19 +121,6 @@ export function isNewlyCreatedUser(authUser) {
   return !Number.isFinite(lastSignIn) || Math.abs(lastSignIn - created) < 10_000; // 10s
 }
 
-// Deletes the just-created OAuth account server-side (service role) — used when
-// a NEW Google identity signed in from the LOGIN page, where the app refuses to
-// auto-create accounts. Best-effort: on failure (offline, local dev without the
-// route) the orphan simply remains and the user is still signed out client-side.
-export async function rejectOAuthAccount() {
-  const { data } = await supabase.auth.getSession();
-  const token = data?.session?.access_token;
-  if (!token) return;
-  try {
-    await fetch("/api/oauth-reject", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
-  } catch { /* best effort */ }
-}
-
 // Finishes creating a Google-registered account: sets the country (into
 // user_metadata, like email signup) and the chosen username (profiles). Called
 // from the onboarding step that gates new Google registrations.

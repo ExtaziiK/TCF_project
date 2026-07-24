@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, rejectOAuthAccount, touchLastSeen } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -25,11 +25,8 @@ export function AppProvider({ children }) {
   const [pendingOnboarding, setPendingOnboarding] = useState(false);
   // True from the first render of an OAuth return until the session is resolved,
   // so the app shows a "signing in…" splash instead of flashing signed-in UI
-  // (e.g. the dashboard) while the reject/claim network calls run.
+  // (e.g. the dashboard) while the device-claim network call runs.
   const [resolvingOAuth, setResolvingOAuth] = useState(peekOAuthPending);
-  // A message to surface on the auth page after a rejected sign-in (e.g. a
-  // Google address with no account). Consumed and cleared by AuthPage.
-  const [authNotice, setAuthNotice] = useState("");
   const [bookmarks, toggleBookmark] = useToggleSet([]);
   const [favs, toggleFav] = useToggleSet([]);
 
@@ -47,22 +44,10 @@ export function AppProvider({ children }) {
       try {
         if (mapped) {
           if (oauth.pending) {
+            // A Google sign-in from either the login or the register button —
+            // claim this device, then, if the identity is brand new, hold it in
+            // onboarding to finish creating the account (username + country).
             const isNew = isNewlyCreatedUser(session.user);
-            // A NEW Google identity may only become an account from the Register
-            // button. From the Login button we refuse it and delete the row that
-            // Supabase auto-created, then send the person to register properly.
-            if (isNew && oauth.intent !== "register") {
-              const email = session.user?.email || "cette adresse";
-              await rejectOAuthAccount();
-              await authSignOut();
-              setUser(null);
-              setAuthNotice(`Aucun compte n'est associé à ${email}. Créez d'abord un compte pour continuer.`);
-              setRoute("register");
-              setAuthReady(true);
-              return;
-            }
-            // Allowed sign-in (existing account, or a new one from Register) —
-            // claim this device. If the plan's slots are all taken, sign back out.
             const claim = await claimDeviceSession(mapped.id);
             if (claim.limitReached) {
               await authSignOut();
@@ -238,7 +223,7 @@ export function AppProvider({ children }) {
     route, nav, back,
     user, setUser, authReady, signOut, role,
     pendingOnboarding, completeOnboarding,
-    resolvingOAuth, authNotice, setAuthNotice,
+    resolvingOAuth,
     c,
     toast, notify,
     bookmarks, toggleBookmark,

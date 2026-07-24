@@ -17,7 +17,7 @@ function GoogleIcon(props) {
 }
 
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t, user, authNotice, setAuthNotice } = useApp();
+  const { c, nav, notify, t, user } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -38,12 +38,6 @@ export function AuthPage({ mode }) {
   // navigates on its own via submit() — isn't double-redirected.
   useEffect(() => {
     if (user) nav(user.admin || user.owner ? "admin" : "dashboard", { replace: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // A message handed over by the auth flow (e.g. a Google address with no
-  // account) — show it once, then clear it so it doesn't reappear later.
-  useEffect(() => {
-    if (authNotice) { setNotice(authNotice); setAuthNotice(""); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
@@ -90,10 +84,10 @@ export function AuthPage({ mode }) {
 
   const google = async () => {
     setBusy(true);
-    // Carry the intent so the OAuth return knows this was the login or the
-    // register button: a new Google identity is only allowed to create an
-    // account from "register"; from "login" it's refused (see AppProvider).
-    const { error } = await signInWithGoogle(view === "register" ? "register" : "login");
+    // Both the login and register buttons use the same flow: a new Google
+    // identity is routed to onboarding to finish creating its account (see
+    // AppProvider), an existing one just signs in.
+    const { error } = await signInWithGoogle();
     if (error) { notify(error.message); setBusy(false); }
     // on success the browser redirects to Google, so no further state change here
   };
