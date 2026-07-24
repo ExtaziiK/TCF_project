@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, isNewlyCreatedUser, rejectOAuthAccount, touchLastSeen } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, rejectOAuthAccount, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -23,6 +23,13 @@ export function AppProvider({ children }) {
   // True while a freshly-registered Google user must finish creating their
   // account (choose username + country) before entering the app.
   const [pendingOnboarding, setPendingOnboarding] = useState(false);
+  // True from the first render of an OAuth return until the session is resolved,
+  // so the app shows a "signing in…" splash instead of flashing signed-in UI
+  // (e.g. the dashboard) while the reject/claim network calls run.
+  const [resolvingOAuth, setResolvingOAuth] = useState(peekOAuthPending);
+  // A message to surface on the auth page after a rejected sign-in (e.g. a
+  // Google address with no account). Consumed and cleared by AuthPage.
+  const [authNotice, setAuthNotice] = useState("");
   const [bookmarks, toggleBookmark] = useToggleSet([]);
   const [favs, toggleFav] = useToggleSet([]);
 
@@ -37,46 +44,57 @@ export function AppProvider({ children }) {
       // set and act on a later reload.
       const oauth = consumeOAuthPending();
       const mapped = mapSupabaseUser(session);
-      if (mapped) {
-        if (oauth.pending) {
-          const isNew = isNewlyCreatedUser(session.user);
-          // A NEW Google identity may only become an account from the Register
-          // button. From the Login button we refuse it and delete the row that
-          // Supabase auto-created, then send the person to register properly.
-          if (isNew && oauth.intent !== "register") {
-            await rejectOAuthAccount();
+      try {
+        if (mapped) {
+          if (oauth.pending) {
+            const isNew = isNewlyCreatedUser(session.user);
+            // A NEW Google identity may only become an account from the Register
+            // button. From the Login button we refuse it and delete the row that
+            // Supabase auto-created, then send the person to register properly.
+            if (isNew && oauth.intent !== "register") {
+              const email = session.user?.email || "cette adresse";
+              await rejectOAuthAccount();
+              await authSignOut();
+              setUser(null);
+              setAuthNotice(`Aucun compte n'est associé à ${email}. Créez d'abord un compte pour continuer.`);
+              setRoute("register");
+              setAuthReady(true);
+              return;
+            }
+            // Allowed sign-in (existing account, or a new one from Register) —
+            // claim this device. If the plan's slots are all taken, sign back out.
+            const claim = await claimDeviceSession(mapped.id);
+            if (claim.limitReached) {
+              await authSignOut();
+              setUser(null);
+              setAuthReady(true);
+              notify("Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.");
+              return;
+            }
+            setUser(mapped);
+            // A brand-new Google registration must finish creating the account.
+            if (isNew) setPendingOnboarding(true);
+            setAuthReady(true);
+            return;
+          } else if (!(await isDeviceSessionActive(mapped.id))) {
+            // The account was claimed by another device while this one was away.
             await authSignOut();
             setUser(null);
             setAuthReady(true);
-            notify("Aucun compte n'est associé à cette adresse Google. Créez d'abord un compte.");
-            setRoute("register");
+            notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
             return;
           }
-          // Allowed sign-in (existing account, or a new one from Register) —
-          // claim this device. If the plan's slots are all taken, sign back out.
-          const claim = await claimDeviceSession(mapped.id);
-          if (claim.limitReached) {
-            await authSignOut();
-            setUser(null);
-            setAuthReady(true);
-            notify("Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.");
-            return;
-          }
-          setUser(mapped);
-          // A brand-new Google registration must finish creating the account.
-          if (isNew) setPendingOnboarding(true);
-          setAuthReady(true);
-          return;
-        } else if (!(await isDeviceSessionActive(mapped.id))) {
-          // The account was claimed by another device while this one was away.
-          await authSignOut();
-          setUser(null);
-          setAuthReady(true);
-          notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
-          return;
         }
+        setUser(mapped);
+        setAuthReady(true);
+      } finally {
+        // Always drop the OAuth splash once the session is resolved, on every
+        // path (including the early returns above).
+        setResolvingOAuth(false);
       }
-      setUser(mapped);
+    }).catch(() => {
+      // getSession itself failed — don't strand the user on the splash.
+      setResolvingOAuth(false);
       setAuthReady(true);
     });
     const subscription = onAuthStateChange((session) => setUser(mapSupabaseUser(session)));
@@ -220,6 +238,7 @@ export function AppProvider({ children }) {
     route, nav, back,
     user, setUser, authReady, signOut, role,
     pendingOnboarding, completeOnboarding,
+    resolvingOAuth, authNotice, setAuthNotice,
     c,
     toast, notify,
     bookmarks, toggleBookmark,

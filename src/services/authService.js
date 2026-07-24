@@ -96,6 +96,19 @@ export function consumeOAuthPending() {
   } catch { return { pending: false, intent: "login" }; }
 }
 
+// Read the OAuth-pending flag WITHOUT clearing it, so the app can show a
+// "signing in…" splash from the very first render of an OAuth return (before
+// the async session resolves), instead of flashing signed-in UI.
+export function peekOAuthPending() {
+  try {
+    const raw = localStorage.getItem(OAUTH_PENDING_KEY);
+    if (!raw) return false;
+    let obj;
+    try { obj = JSON.parse(raw); } catch { obj = { at: Number(raw) }; }
+    return !!obj.at && Date.now() - obj.at < 5 * 60 * 1000;
+  } catch { return false; }
+}
+
 // True when the Supabase user was created during THIS very sign-in (first-ever
 // login): a brand-new account has created_at and last_sign_in_at coinciding,
 // while a returning user's last_sign_in_at is far newer than created_at. Used on
