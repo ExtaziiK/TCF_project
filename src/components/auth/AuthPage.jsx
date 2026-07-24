@@ -84,7 +84,10 @@ export function AuthPage({ mode }) {
 
   const google = async () => {
     setBusy(true);
-    const { error } = await signInWithGoogle();
+    // Carry the intent so the OAuth return knows this was the login or the
+    // register button: a new Google identity is only allowed to create an
+    // account from "register"; from "login" it's refused (see AppProvider).
+    const { error } = await signInWithGoogle(view === "register" ? "register" : "login");
     if (error) { notify(error.message); setBusy(false); }
     // on success the browser redirects to Google, so no further state change here
   };

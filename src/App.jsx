@@ -5,12 +5,23 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { RouteGuard } from "@/components/auth/RouteGuard";
+import { Onboarding } from "@/components/auth/Onboarding";
 import { Toast } from "@/components/common";
 import { ROLES } from "@/auth/rbac";
 import { PAGES } from "@/pages";
 
 function AppShell() {
-  const { route, role, c, authReady } = useApp();
+  const { route, role, c, authReady, user, pendingOnboarding } = useApp();
+  // A brand-new Google registration must finish creating its account before it
+  // can reach any page — render the completion step as a full-screen gate.
+  if (pendingOnboarding && user) {
+    return (
+      <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
+        <Onboarding />
+        <Toast />
+      </div>
+    );
+  }
   // Sub-routes like "blog/<slug>" (individual articles) resolve to their base
   // page ("blog"); the page reads the full route to pick the article.
   const Page = PAGES[route] || PAGES[route.split("/")[0]] || PAGES.home;

@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, touchLastSeen } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, isNewlyCreatedUser, rejectOAuthAccount, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -20,6 +20,9 @@ export function AppProvider({ children }) {
   const [route, setRoute] = useState(() => routeFromPath(window.location.pathname));
   const [user, setUser] = useState(null);
   const [authReady, setAuthReady] = useState(false);
+  // True while a freshly-registered Google user must finish creating their
+  // account (choose username + country) before entering the app.
+  const [pendingOnboarding, setPendingOnboarding] = useState(false);
   const [bookmarks, toggleBookmark] = useToggleSet([]);
   const [favs, toggleFav] = useToggleSet([]);
 
@@ -31,13 +34,26 @@ export function AppProvider({ children }) {
   useEffect(() => {
     getSession().then(async (session) => {
       // Consumed unconditionally so an abandoned OAuth flow can't leave the flag
-      // set and trigger a spurious claim on a later reload.
-      const wasOAuth = consumeOAuthPending();
+      // set and act on a later reload.
+      const oauth = consumeOAuthPending();
       const mapped = mapSupabaseUser(session);
       if (mapped) {
-        if (wasOAuth) {
-          // Fresh Google login just redirected back — claim this device. If the
-          // plan's device slots are all taken, refuse and sign back out.
+        if (oauth.pending) {
+          const isNew = isNewlyCreatedUser(session.user);
+          // A NEW Google identity may only become an account from the Register
+          // button. From the Login button we refuse it and delete the row that
+          // Supabase auto-created, then send the person to register properly.
+          if (isNew && oauth.intent !== "register") {
+            await rejectOAuthAccount();
+            await authSignOut();
+            setUser(null);
+            setAuthReady(true);
+            notify("Aucun compte n'est associé à cette adresse Google. Créez d'abord un compte.");
+            setRoute("register");
+            return;
+          }
+          // Allowed sign-in (existing account, or a new one from Register) —
+          // claim this device. If the plan's slots are all taken, sign back out.
           const claim = await claimDeviceSession(mapped.id);
           if (claim.limitReached) {
             await authSignOut();
@@ -46,6 +62,11 @@ export function AppProvider({ children }) {
             notify("Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.");
             return;
           }
+          setUser(mapped);
+          // A brand-new Google registration must finish creating the account.
+          if (isNew) setPendingOnboarding(true);
+          setAuthReady(true);
+          return;
         } else if (!(await isDeviceSessionActive(mapped.id))) {
           // The account was claimed by another device while this one was away.
           await authSignOut();
@@ -182,7 +203,12 @@ export function AppProvider({ children }) {
   const signOut = async () => {
     await authSignOut();
     setUser(null);
+    setPendingOnboarding(false);
   };
+
+  // Finish a brand-new Google registration (username + country saved) and enter
+  // the app at the first-login landing page.
+  const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); };
 
   // Derived on every render so a premium_until expiry takes effect
   // immediately, without waiting for an auth event.
@@ -193,6 +219,7 @@ export function AppProvider({ children }) {
     lang, setLang, t,
     route, nav, back,
     user, setUser, authReady, signOut, role,
+    pendingOnboarding, completeOnboarding,
     c,
     toast, notify,
     bookmarks, toggleBookmark,

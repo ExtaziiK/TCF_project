@@ -78,18 +78,69 @@ export async function touchLastSeen() {
   try { await supabase.rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
 }
 
-// OAuth logins redirect away before we can claim, so we flag the intent and
-// claim on return. Timestamped and consumed on the next load so an abandoned
-// sign-in can't linger and trigger a spurious claim on a later reload.
-export function markOAuthPending() {
-  try { localStorage.setItem(OAUTH_PENDING_KEY, String(Date.now())); } catch { /* ignore */ }
+// OAuth logins redirect away before we can act, so we flag the intent (which
+// button was clicked — "login" or "register") and read it back on return.
+// Timestamped and consumed on the next load so an abandoned sign-in can't linger
+// and trigger a spurious claim on a later reload.
+export function markOAuthPending(intent = "login") {
+  try { localStorage.setItem(OAUTH_PENDING_KEY, JSON.stringify({ at: Date.now(), intent })); } catch { /* ignore */ }
 }
 export function consumeOAuthPending() {
   try {
     const raw = localStorage.getItem(OAUTH_PENDING_KEY);
     localStorage.removeItem(OAUTH_PENDING_KEY);
-    return !!raw && Date.now() - Number(raw) < 5 * 60 * 1000;
-  } catch { return false; }
+    if (!raw) return { pending: false, intent: "login" };
+    let obj;
+    try { obj = JSON.parse(raw); } catch { obj = { at: Number(raw), intent: "login" }; } // legacy value
+    return { pending: !!obj.at && Date.now() - obj.at < 5 * 60 * 1000, intent: obj.intent || "login" };
+  } catch { return { pending: false, intent: "login" }; }
+}
+
+// True when the Supabase user was created during THIS very sign-in (first-ever
+// login): a brand-new account has created_at and last_sign_in_at coinciding,
+// while a returning user's last_sign_in_at is far newer than created_at. Used on
+// the OAuth return to tell a new Google identity apart from an existing one.
+export function isNewlyCreatedUser(authUser) {
+  if (!authUser) return false;
+  const created = Date.parse(authUser.created_at || "");
+  if (!Number.isFinite(created)) return false;
+  const lastSignIn = Date.parse(authUser.last_sign_in_at || authUser.created_at || "");
+  return !Number.isFinite(lastSignIn) || Math.abs(lastSignIn - created) < 10_000; // 10s
+}
+
+// Deletes the just-created OAuth account server-side (service role) — used when
+// a NEW Google identity signed in from the LOGIN page, where the app refuses to
+// auto-create accounts. Best-effort: on failure (offline, local dev without the
+// route) the orphan simply remains and the user is still signed out client-side.
+export async function rejectOAuthAccount() {
+  const { data } = await supabase.auth.getSession();
+  const token = data?.session?.access_token;
+  if (!token) return;
+  try {
+    await fetch("/api/oauth-reject", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+  } catch { /* best effort */ }
+}
+
+// Finishes creating a Google-registered account: sets the country (into
+// user_metadata, like email signup) and the chosen username (profiles). Called
+// from the onboarding step that gates new Google registrations.
+export async function completeGoogleProfile({ username, country }) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
+  if (country) {
+    const meta = user.user_metadata || {};
+    if (country !== meta.country) {
+      const { error } = await supabase.auth.updateUser({ data: { ...meta, country } });
+      if (error) return { error };
+    }
+  }
+  if (username) {
+    const clean = String(username).trim().toLowerCase();
+    const { error } = await supabase.from("profiles").update({ username: clean }).eq("id", user.id);
+    if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
+    if (error) return { error };
+  }
+  return { error: null };
 }
 
 const FIRST_LOGIN_KEY = "tcf_first_login_seen";
@@ -255,8 +306,8 @@ export async function signIn({ identifier, password }) {
   };
 }
 
-export async function signInWithGoogle() {
-  markOAuthPending(); // claimed on return (see AppProvider), since the redirect leaves this page
+export async function signInWithGoogle(intent = "login") {
+  markOAuthPending(intent); // read back on return (see AppProvider), since the redirect leaves this page
   return supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: window.location.origin },
