@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Gift, CheckCircle2, Shield, RotateCcw, CreditCard, XCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode, promoLabel } from "@/services/stripeService";
+import { CURRENCIES, convertPrice } from "@/utils/currency";
 
 export function Pricing() {
   const { c, t } = useApp();
@@ -12,7 +13,16 @@ export function Pricing() {
   const [applied, setApplied] = useState(null); // validated promo ({ code, percentOff | amountOff… })
   const [checking, setChecking] = useState(false);
   const [couponError, setCouponError] = useState("");
+  const [currency, setCurrency] = useState(CURRENCIES[0]); // USD = the currency actually charged
   const plans = useLivePlans();
+
+  // Prices are stored/charged in USD; this rewrites the displayed figure into
+  // the visitor's currency (indicative only). PlanCard's −50 % and promo math
+  // still run on the converted string, so struck/discounted prices follow suit.
+  const displayPlans = useMemo(
+    () => plans.map((p) => ({ ...p, price: convertPrice(p.price, currency) })),
+    [plans, currency]
+  );
 
   // Real validation against Stripe (api/promo-validate); the applied code is
   // then attached to the Checkout session, so the discount the user sees here
@@ -34,8 +44,33 @@ export function Pricing() {
 
   return (
     <PageShell back wide eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")} sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
+      {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
+      <div className="flex justify-center">
+        <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
+          {CURRENCIES.map((cur) => {
+            const active = cur.code === currency.code;
+            return (
+              <button
+                key={cur.code}
+                type="button"
+                onClick={() => setCurrency(cur)}
+                aria-pressed={active}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition ${active ? "text-white shadow" : `text-blue-600 ${c.hoverSoft}`}`}
+                style={active ? { background: "linear-gradient(135deg,#2E6BE6,#5f93f2)" } : undefined}
+              >
+                {t(cur.label)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <p className={`text-center text-xs mt-3 mb-8 ${c.faint}`}>
+        {currency.code === "USD"
+          ? t("Tous les paiements sont effectués en dollars US (USD).")
+          : t("Montants indicatifs — le paiement est effectué en dollars US (USD).")}
+      </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {plans.map((p, i) => <PlanCard key={p.name} p={p} promo={applied} index={i} />)}
+        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={applied} index={i} />)}
       </div>
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
