@@ -214,7 +214,7 @@ function GuidePanel({ section, onClose }) {
       </div>
       <div className="overflow-y-auto p-5">
         <p className={`text-sm mb-6 ${c.sub}`}>{t(guide.sub)}</p>
-        <ComprehensionGuideBody d={guide} />
+        <ComprehensionGuideBody d={guide} compact />
       </div>
     </div>
   );
