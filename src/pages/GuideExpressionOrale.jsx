@@ -4,25 +4,38 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { EO_INTRO, EO_TASKS, EO_SCORING, EO_LEVELS, EO_TIPS_INTRO, EO_TIPS, EO_KNOW } from "@/constants/guideEO";
 
-// Section header, matching the exam-guide rhythm.
-function Section({ title, sub, children }) {
+// Section header, matching the exam-guide rhythm. `compact` shrinks the heading
+// and the block's bottom margin for the narrow quiz-page side panel.
+function Section({ title, sub, children, compact }) {
   const { c, t } = useApp();
   return (
-    <section className="mb-10">
-      <h3 className={`font-display font-bold text-xl ${c.text}`}>{t(title)}</h3>
+    <section className={compact ? "mb-6" : "mb-10"}>
+      <h3 className={`font-display font-bold ${compact ? "text-base" : "text-xl"} ${c.text}`}>{t(title)}</h3>
       {sub && <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{t(sub)}</p>}
-      <div className="mt-5">{children}</div>
+      <div className={compact ? "mt-4" : "mt-5"}>{children}</div>
     </section>
   );
 }
 
-export function GuideExpressionOrale() {
+// Header meta + body wired up for the quiz-page side panel and the full page.
+export const EO_GUIDE_PANEL = {
+  eyebrow: "Guide · Expression orale",
+  title: "Expression orale : la méthode, tâche par tâche",
+  sub: "Douze minutes d'entretien avec un examinateur, en trois exercices. Voici le déroulé, la notation et comment vous entraîner.",
+  Body: ExpressionOraleGuideBody,
+};
+
+// The guide's inner content, without the PageShell wrapper — reused by the full
+// page and by the compact side panel on the quiz page. `compact` tightens the
+// padding/headings; the `.guide-compact` wrapper folds its grids to one column.
+export function ExpressionOraleGuideBody({ compact = false }) {
   const { c, t } = useApp();
   const [active, setActive] = useState(0);
   const task = EO_TASKS[active];
+  const cardPad = compact ? "p-4" : "p-6 md:p-7";
   return (
-    <PageShell back eyebrow={t("Guide · Expression orale")} title={t("Expression orale : la méthode, tâche par tâche")} sub={t("Douze minutes d'entretien avec un examinateur, en trois exercices. Voici le déroulé, la notation et comment vous entraîner.")}>
-      <div className="flex flex-wrap gap-2 mb-8">
+    <>
+      <div className={`flex flex-wrap gap-2 ${compact ? "mb-5" : "mb-8"}`}>
         <Pill tone="blue"><Clock size={12} /> {t("Durée : 12 min")}</Pill>
         <Pill tone="slate"><Mic size={12} /> {t("3 tâches")}</Pill>
         <Pill tone="green">{t("Note sur 20")}</Pill>
@@ -30,7 +43,7 @@ export function GuideExpressionOrale() {
       </div>
 
       {/* The three tasks, as tabs */}
-      <Section title="Le déroulé de l'épreuve" sub={EO_INTRO}>
+      <Section title="Le déroulé de l'épreuve" sub={EO_INTRO} compact={compact}>
         <div role="tablist" aria-label={t("Les trois tâches")} className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
           {EO_TASKS.map((tk, i) => {
             const on = i === active;
@@ -58,9 +71,9 @@ export function GuideExpressionOrale() {
           })}
         </div>
 
-        <Card key={active} role="tabpanel" className="p-6 md:p-7 rise">
+        <Card key={active} role="tabpanel" className={`${cardPad} rise`}>
           <div className="flex items-center gap-3 mb-3 flex-wrap">
-            <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Tâche")} {task.n} · {t(task.title)}</h3>
+            <h3 className={`font-display font-bold ${compact ? "text-base" : "text-lg"} ${c.text}`}>{t("Tâche")} {task.n} · {t(task.title)}</h3>
             <Pill tone="blue"><Clock size={12} /> {task.time}</Pill>
             <Pill tone={task.prep === "Avec préparation" ? "amber" : "slate"}>{t(task.prep)}</Pill>
           </div>
@@ -80,8 +93,8 @@ export function GuideExpressionOrale() {
       </Section>
 
       {/* Scoring + CECRL capability grid */}
-      <Section title="Comment vous êtes noté" sub={EO_SCORING}>
-        <Card className="p-6 md:p-7">
+      <Section title="Comment vous êtes noté" sub={EO_SCORING} compact={compact}>
+        <Card className={cardPad}>
           {EO_LEVELS.map((l, i) => (
             <div key={l.lvl} className={`flex items-start gap-4 py-3 ${i ? `border-t ${c.border}` : ""}`}>
               <span className="shrink-0"><Pill tone="blue">{l.lvl}</Pill></span>
@@ -92,9 +105,9 @@ export function GuideExpressionOrale() {
       </Section>
 
       {/* Tips */}
-      <Section title="Conseils pour réussir" sub={EO_TIPS_INTRO}>
-        <Card className="p-6 md:p-7">
-          <div className="flex items-center gap-2 mb-4"><Lightbulb size={18} className="text-amber-500" /><p className={`font-display font-bold ${c.text}`}>{t("Entraînez-vous au quotidien")}</p></div>
+      <Section title="Conseils pour réussir" sub={EO_TIPS_INTRO} compact={compact}>
+        <Card className={cardPad}>
+          <div className="flex items-center gap-2 mb-4"><Lightbulb size={18} className="text-amber-500 shrink-0" /><p className={`font-display font-bold ${compact ? "text-sm" : ""} ${c.text}`}>{t("Entraînez-vous au quotidien")}</p></div>
           <ul className="space-y-2.5">
             {EO_TIPS.map((x) => (<li key={x} className={`flex gap-2.5 text-sm ${c.sub}`}><CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />{t(x)}</li>))}
           </ul>
@@ -102,13 +115,22 @@ export function GuideExpressionOrale() {
       </Section>
 
       {/* Good to know */}
-      <Section title="Bon à savoir">
-        <Card className="p-6 md:p-7 border-2 border-blue-600/30">
+      <Section title="Bon à savoir" compact={compact}>
+        <Card className={`${cardPad} border-2 border-blue-600/30`}>
           <ul className="space-y-2.5">
             {EO_KNOW.map((x) => (<li key={x} className={`flex gap-2.5 text-sm ${c.sub}`}><Info size={16} className="text-blue-600 shrink-0 mt-0.5" />{t(x)}</li>))}
           </ul>
         </Card>
       </Section>
+    </>
+  );
+}
+
+export function GuideExpressionOrale() {
+  const { t } = useApp();
+  return (
+    <PageShell back eyebrow={t(EO_GUIDE_PANEL.eyebrow)} title={t(EO_GUIDE_PANEL.title)} sub={t(EO_GUIDE_PANEL.sub)}>
+      <ExpressionOraleGuideBody />
     </PageShell>
   );
 }

@@ -100,23 +100,37 @@ function PhraseBank({ data }) {
   );
 }
 
-export function GuideExpressionEcrite() {
+// Header meta + body wired up for the quiz-page side panel and the full page.
+export const EE_GUIDE_PANEL = {
+  eyebrow: "Guide · Expression écrite",
+  title: "Expression écrite : la méthode, tâche par tâche",
+  sub: "Trois tâches à rédiger en une heure. Voici ce qui est évalué et comment structurer chaque production.",
+  Body: ExpressionEcriteGuideBody,
+};
+
+// The guide's inner content, without the PageShell wrapper — reused by the full
+// page and by the compact side panel on the quiz page. `compact` tightens the
+// top-level padding/headings; the narrow panel's multi-column grids are folded
+// to a single column by the `.guide-compact` CSS rule around it.
+export function ExpressionEcriteGuideBody({ compact = false }) {
   const { c, t } = useApp();
   const [active, setActive] = useState(0);
   const task = EE_METHOD[active];
+  const cardPad = compact ? "p-4" : "p-6 md:p-7";
+  const blockGap = compact ? "mb-6" : "mb-10";
   return (
-    <PageShell back eyebrow={t("Guide · Expression écrite")} title={t("Expression écrite : la méthode, tâche par tâche")} sub={t("Trois tâches à rédiger en une heure. Voici ce qui est évalué et comment structurer chaque production.")}>
-      <div className="flex flex-wrap gap-2 mb-8">
+    <>
+      <div className={`flex flex-wrap gap-2 ${compact ? "mb-5" : "mb-8"}`}>
         <Pill tone="blue"><Clock size={12} /> {t("Durée : 1 h")}</Pill>
         <Pill tone="slate"><PenLine size={12} /> {t("3 tâches")}</Pill>
         <Pill tone="green">{t("Note sur 20")}</Pill>
       </div>
 
       {/* Assessment criteria */}
-      <Card className="p-6 md:p-7 mb-10">
+      <Card className={`${cardPad} ${blockGap}`}>
         <div className="flex items-center gap-2 mb-4">
-          <ListChecks size={18} className="text-blue-600" />
-          <h3 className={`font-display font-bold ${c.text}`}>{t("Vous êtes évalué sur votre capacité à")}</h3>
+          <ListChecks size={18} className="text-blue-600 shrink-0" />
+          <h3 className={`font-display font-bold ${compact ? "text-sm" : ""} ${c.text}`}>{t("Vous êtes évalué sur votre capacité à")}</h3>
         </div>
         <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
           {EE_CRITERIA.map((x) => (
@@ -126,7 +140,7 @@ export function GuideExpressionEcrite() {
       </Card>
 
       {/* The three tasks, as tabs */}
-      <div role="tablist" aria-label={t("Les trois tâches")} className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+      <div role="tablist" aria-label={t("Les trois tâches")} className={`grid grid-cols-1 sm:grid-cols-3 gap-3 ${compact ? "mb-5" : "mb-6"}`}>
         {EE_METHOD.map((tk, i) => {
           const on = i === active;
           return (
@@ -155,9 +169,9 @@ export function GuideExpressionEcrite() {
       </div>
 
       {/* Active task content — re-keyed so it animates in on tab switch */}
-      <Card key={active} role="tabpanel" className="p-6 md:p-7 rise">
+      <Card key={active} role="tabpanel" className={`${cardPad} rise`}>
         <div className="flex items-center gap-3 mb-3 flex-wrap">
-          <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Tâche")} {task.n} · {t(task.title)}</h3>
+          <h3 className={`font-display font-bold ${compact ? "text-base" : "text-lg"} ${c.text}`}>{t("Tâche")} {task.n} · {t(task.title)}</h3>
           <Pill tone="blue">{t(task.words)}</Pill>
         </div>
         <p className={`text-sm leading-relaxed ${c.sub}`}>{t(task.brief)}</p>
@@ -198,6 +212,15 @@ export function GuideExpressionEcrite() {
 
         {task.phraseBank && <PhraseBank data={task.phraseBank} />}
       </Card>
+    </>
+  );
+}
+
+export function GuideExpressionEcrite() {
+  const { t } = useApp();
+  return (
+    <PageShell back eyebrow={t(EE_GUIDE_PANEL.eyebrow)} title={t(EE_GUIDE_PANEL.title)} sub={t(EE_GUIDE_PANEL.sub)}>
+      <ExpressionEcriteGuideBody />
     </PageShell>
   );
 }

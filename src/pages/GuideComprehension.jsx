@@ -3,9 +3,11 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { CO_GUIDE, CE_GUIDE } from "@/constants/guideComprehension";
 
-// Section → guide config, so surfaces outside this file (e.g. the quiz page's
-// "Guide de l'épreuve" popup) can pull the right data by épreuve code.
-export const COMPREHENSION_GUIDE_BY_SECTION = { co: CO_GUIDE, ce: CE_GUIDE };
+// Panel descriptors (header meta + a compact-aware Body) so the quiz page's
+// "Guide de l'épreuve" side panel can render the right guide by épreuve code,
+// alongside the EE/EO panels. Body is a thin wrapper binding the section's data.
+export const CO_GUIDE_PANEL = { eyebrow: CO_GUIDE.eyebrow, title: CO_GUIDE.title, sub: CO_GUIDE.sub, Body: (props) => <ComprehensionGuideBody d={CO_GUIDE} {...props} /> };
+export const CE_GUIDE_PANEL = { eyebrow: CE_GUIDE.eyebrow, title: CE_GUIDE.title, sub: CE_GUIDE.sub, Body: (props) => <ComprehensionGuideBody d={CE_GUIDE} {...props} /> };
 
 // The guide's inner content, without the PageShell wrapper — reused both by the
 // full guide page below and by the side panel shown on the quiz page. In the
