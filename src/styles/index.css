@@ -85,6 +85,14 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
    panel, so on desktop they'd render multi-column and look cramped. Force every
    grid inside a compact guide to a single column regardless of breakpoint. */
 .guide-compact [class*="grid-cols-"]{grid-template-columns:minmax(0,1fr)!important}
+/* Drill-in / drill-out transition for the layered subjects archive
+   (Année → Mois → Sujets): the incoming panel slides in and fades, from the
+   right when going deeper and from the left when going back. Disabled by the
+   global reduced-motion rule below. */
+@keyframes panel-in-right{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes panel-in-left{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.panel-in-right{animation:panel-in-right .34s cubic-bezier(.22,.61,.36,1) both}
+.panel-in-left{animation:panel-in-left .34s cubic-bezier(.22,.61,.36,1) both}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}

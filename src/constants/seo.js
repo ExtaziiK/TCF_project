@@ -92,9 +92,9 @@ export const ROUTE_META = {
   },
   "sujets-ee": {
     path: "/sujets-expression-ecrite",
-    title: "Sujets d'expression écrite du mois",
+    title: "Sujets d'expression écrite — archive par mois",
     description:
-      "Les combinaisons de sujets d'expression écrite qui circulent ce mois-ci au TCF Canada : les trois tâches de chaque sujet, dans leur formulation réelle, pour vous entraîner.",
+      "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
   },
   register: {
     path: "/inscription",
