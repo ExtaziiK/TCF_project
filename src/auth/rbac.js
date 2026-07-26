@@ -42,9 +42,15 @@ export function deriveRole(user) {
   return ROLES.FREE_USER;
 }
 
-const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
-const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
-const ADMIN_ONLY = [ROLES.ADMIN, ROLES.OWNER];
+// Exported so the navigation (src/constants/navigation.js) gates its entries on
+// the very same lists the route guard enforces below. They used to be declared
+// twice, and the copies drifted: the nav's "premium" list forgot OWNER, so an
+// owner lost the whole "Pratique" menu (and, on mobile, the account links) for
+// pages they were in fact allowed to open. Gate on these — never on a locally
+// rebuilt array, and never on `role === ROLES.ADMIN` (see isStaff above).
+export const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
+export const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
+export const ADMIN_ONLY = [ROLES.ADMIN, ROLES.OWNER];
 
 // Route policy. Routes not listed here are public. The route guard refuses
 // to render any route whose policy the current role does not satisfy, so
