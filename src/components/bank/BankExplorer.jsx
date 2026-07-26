@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
+import { ComprehensionGuideBody, COMPREHENSION_GUIDE_BY_SECTION } from "@/pages/GuideComprehension";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
@@ -187,6 +188,37 @@ function PromptList({ quiz, onBack }) {
   );
 }
 
+// Popup that lets the candidate re-read the épreuve's guide (skills tested,
+// question types, a worked example, tips) right before starting the quiz,
+// without leaving the exam page. Rendered only for sections that have a guide
+// (compréhension orale / écrite).
+function GuideModal({ section, onClose }) {
+  const { c, t } = useApp();
+  const guide = COMPREHENSION_GUIDE_BY_SECTION[section];
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  if (!guide) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-14 overflow-y-auto" role="dialog" aria-modal="true" aria-label={t(guide.title)}>
+      <div className="absolute inset-0 bg-slate-950/60" onClick={onClose} />
+      <Card className="relative w-full max-w-3xl p-6 md:p-8 rise max-h-[85vh] overflow-y-auto">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-blue-600">{t(guide.eyebrow)}</p>
+            <h3 className={`font-display font-bold text-xl mt-1 ${c.text}`}>{t(guide.title)}</h3>
+            <p className={`text-sm mt-1 ${c.sub}`}>{t(guide.sub)}</p>
+          </div>
+          <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={18} /></button>
+        </div>
+        <ComprehensionGuideBody d={guide} />
+      </Card>
+    </div>
+  );
+}
+
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
@@ -196,6 +228,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
   const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
+  const [guideOpen, setGuideOpen] = useState(false); // épreuve guide popup on the open-quiz view
   const [bestScores, setBestScores] = useState({});
   const [reviewableAttempts, setReviewableAttempts] = useState({});
 
@@ -217,7 +250,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   // Jump to the top when a quiz opens or closes — this swaps the whole panel
   // in place (no route change), so without this the user stays scrolled to
   // wherever the quiz grid card was.
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [quiz, review]);
+  useEffect(() => { window.scrollTo({ top: 0 }); setGuideOpen(false); }, [quiz, review]);
 
   if (review) {
     return (
@@ -233,9 +266,16 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   if (quiz && isPrompt(quiz)) return <PromptList quiz={quiz} onBack={closeQuiz} />;
 
   if (quiz) {
+    const hasGuide = !!COMPREHENSION_GUIDE_BY_SECTION[quiz.section];
     return (
       <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={`${quiz.questions.length} ${t("questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.")}`}>
-        <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-8">
+          <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
+          {hasGuide && (
+            <Btn small variant="ghost" icon={BookOpen} onClick={() => setGuideOpen(true)}>{t("Guide de l'épreuve")}</Btn>
+          )}
+        </div>
+        {guideOpen && <GuideModal section={quiz.section} onClose={() => setGuideOpen(false)} />}
         <Quiz
           key={quiz.id}
           questions={quiz.questions}

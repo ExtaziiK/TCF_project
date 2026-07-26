@@ -3,12 +3,17 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { CO_GUIDE, CE_GUIDE } from "@/constants/guideComprehension";
 
-// Config-driven guide shared by the two comprehension épreuves (CO / CE).
-function ComprehensionGuide({ d }) {
+// Section → guide config, so surfaces outside this file (e.g. the quiz page's
+// "Guide de l'épreuve" popup) can pull the right data by épreuve code.
+export const COMPREHENSION_GUIDE_BY_SECTION = { co: CO_GUIDE, ce: CE_GUIDE };
+
+// The guide's inner content, without the PageShell wrapper — reused both by the
+// full guide page below and by the modal shown on the quiz page.
+export function ComprehensionGuideBody({ d }) {
   const { c, t } = useApp();
   const ex = d.example;
   return (
-    <PageShell back eyebrow={t(d.eyebrow)} title={t(d.title)} sub={t(d.sub)}>
+    <>
       <div className="flex flex-wrap gap-2 mb-8">
         <Pill tone="blue"><Clock size={12} /> {t(d.durationLabel)}</Pill>
         <Pill tone="slate">{t("39 questions")}</Pill>
@@ -72,6 +77,16 @@ function ComprehensionGuide({ d }) {
           {d.tips.map((x) => (<li key={x} className={`flex gap-2.5 text-sm ${c.sub}`}><CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />{t(x)}</li>))}
         </ul>
       </Card>
+    </>
+  );
+}
+
+// Config-driven guide shared by the two comprehension épreuves (CO / CE).
+function ComprehensionGuide({ d }) {
+  const { t } = useApp();
+  return (
+    <PageShell back eyebrow={t(d.eyebrow)} title={t(d.title)} sub={t(d.sub)}>
+      <ComprehensionGuideBody d={d} />
     </PageShell>
   );
 }
