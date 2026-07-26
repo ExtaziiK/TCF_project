@@ -18,9 +18,11 @@ export async function requireUser(req) {
 
   // Multi-device sessions: the profile holds up to N active session ids (N from
   // the plan tier). The caller must present one of them. A device that rolled
-  // off the set — because the user signed it out, or an admin reset the account
-  // — is refused here even though its JWT hasn't expired yet, so it can't keep
-  // driving the billable endpoint. Accounts with no set on record (null, e.g.
+  // off the set — evicted as the oldest when a newer device logged in, signed
+  // out by the user, or reset by an admin — is refused here even though its JWT
+  // hasn't expired yet, so it can't keep driving the billable endpoint. That
+  // bite is immediate, ahead of the client's own heartbeat noticing.
+  // Accounts with no set on record (null, e.g.
   // pre-migration) are left unaffected. Errors reading the column fail open.
   const { data: profile } = await admin.from("profiles").select("active_session_ids").eq("id", user.id).maybeSingle();
   const active = profile?.active_session_ids || null;

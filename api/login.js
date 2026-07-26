@@ -88,9 +88,9 @@ export default async function handler(req, res) {
   // called AS the just-authenticated user so auth.uid() resolves inside it: the
   // session id is generated server-side (a client can neither choose nor clear
   // it) and the per-plan limit lives in one place (the migration). When every
-  // slot is already held by OTHER devices the RPC refuses; we relay that as
-  // deviceLimitReached and withhold the session, so the login is blocked at the
-  // device gate rather than silently evicting one of the user's devices.
+  // slot is already taken the RPC evicts the account's OLDEST device to make
+  // room (20260726), so this login always proceeds; the evicted device notices
+  // its id is gone and signs itself out on its next heartbeat.
   await admin.from("login_attempts").delete().eq("identifier", key);
 
   let deviceSession = null;
@@ -101,6 +101,9 @@ export default async function handler(req, res) {
     });
     const { data: sid, error: claimErr } = await authed.rpc("claim_device_session", { p_current: currentDevice || null });
     if (claimErr) {
+      // Only a DB still on the 20260724 reject policy raises this (app deployed
+      // ahead of the evict-oldest migration): relay it so that window degrades
+      // to the old refusal rather than handing out an unclaimed session.
       if (String(claimErr.message || "").includes("device_limit_reached")) {
         return res.status(200).json({ deviceLimitReached: true });
       }

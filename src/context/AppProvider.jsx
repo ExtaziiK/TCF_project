@@ -49,6 +49,8 @@ export function AppProvider({ children }) {
             // onboarding to finish creating the account (username + country).
             const isNew = isNewlyCreatedUser(session.user);
             const claim = await claimDeviceSession(mapped.id);
+            // Only a DB still on the 20260724 reject policy gets here; the
+            // evict-oldest version always grants the claim (see authService).
             if (claim.limitReached) {
               await authSignOut();
               setUser(null);
@@ -62,7 +64,8 @@ export function AppProvider({ children }) {
             setAuthReady(true);
             return;
           } else if (!(await isDeviceSessionActive(mapped.id))) {
-            // The account was claimed by another device while this one was away.
+            // This device's slot is gone — evicted by a newer login while it was
+            // away, signed out elsewhere, or reset by an admin.
             await authSignOut();
             setUser(null);
             setAuthReady(true);
@@ -87,9 +90,11 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Single-active-session heartbeat: while signed in, re-check periodically and
-  // whenever the tab regains focus that this device still holds the account's
-  // session; sign out with a notice if a newer login elsewhere superseded it.
+  // Device-session heartbeat: while signed in, re-check periodically and
+  // whenever the tab regains focus that this device still holds one of the
+  // account's slots; sign out with a notice once it doesn't. This is how an
+  // EVICTED device (a newer login pushed out the oldest one — see the 20260726
+  // migration) finds out: within a tick, or instantly when the tab is focused.
   // No immediate check on mount — the just-completed login's claim may still be
   // in flight, and reloads are already validated by the effect above.
   useEffect(() => {

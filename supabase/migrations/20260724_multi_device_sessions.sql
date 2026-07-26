@@ -3,11 +3,13 @@
 -- in on up to N devices at once, where N comes from the plan —
 --   Première classe → 2,  VIP → 4,  admins/owners → 4,  everyone else → 1.
 --
--- Policy is REJECT (not silent eviction): when every slot is held by another
--- device, a new login is refused (claim_device_session raises
--- 'device_limit_reached'); the user frees a slot by signing out on one of their
--- devices (release_device_session). An admin can clear a locked-out account's
--- slots from the Users panel (service-role update of the column below).
+-- Policy here is REJECT: when every slot is held by another device, a new login
+-- is refused (claim_device_session raises 'device_limit_reached'). SUPERSEDED —
+-- 20260726 replaces claim_device_session with an evict-oldest policy, so the
+-- raise below no longer happens once that migration is applied. The column,
+-- device_limit_for and release_device_session are still current.
+-- An admin can clear an account's slots from the Users panel (service-role
+-- update of the column below).
 --
 -- Run in the Supabase dashboard (SQL Editor) or via `supabase db push`.
 -- Safe to re-run. Inert until applied: the app's read/write of the column fail

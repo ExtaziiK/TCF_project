@@ -4,14 +4,18 @@ import { supabase } from "@/services/supabaseClient";
 // Each login claims a fresh random id, stored locally and added to
 // profiles.active_session_ids (capped server-side at the plan's limit —
 // Première classe 2, VIP 4, everyone else 1). A device whose local id is no
-// longer in the set was signed out (by the user elsewhere, or an admin reset)
-// and signs itself out here too (see AppProvider's validation + heartbeat). The
-// policy is REJECT, not eviction: when the set is full a new login is refused
-// (claimDeviceSession → { limitReached: true }) until a slot is freed. Inert
-// until the migration adding the column is applied: the read/write below fail
-// open, so pre-migration or offline states never wrongly boot a logged-in user.
+// longer in the set was signed out (evicted by a newer login, signed out by the
+// user elsewhere, or reset by an admin) and signs itself out here too (see
+// AppProvider's validation + heartbeat). The policy is EVICT-OLDEST
+// (20260726): a new login always succeeds and pushes out the account's oldest
+// device, so the user is never locked out of their own account. Inert until the
+// migration adding the column is applied: the read/write below fail open, so
+// pre-migration or offline states never wrongly boot a logged-in user.
 const DEVICE_SESSION_KEY = "tcf_device_session";
 const OAUTH_PENDING_KEY = "tcf_oauth_pending_at";
+// Only reachable against a DB still on the 20260724 reject policy (i.e. the app
+// deployed before the evict-oldest migration was applied). Kept so that window
+// degrades to the old, understandable refusal instead of a silent no-op.
 export const DEVICE_LIMIT_MSG = "Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.";
 
 export function getDeviceSessionId() {
@@ -36,7 +40,8 @@ let claiming = false;
 // migration). The current local id is passed so a re-login on this same browser
 // reuses its slot instead of consuming a new one. Returns:
 //   { ok: true, sid }        — claimed (id stored locally)
-//   { ok: false, limitReached: true } — plan's device limit is full
+//   { ok: false, limitReached: true } — pre-migration DB still on the reject
+//                              policy; the evict-oldest version never raises
 //   { ok: false }            — RPC missing / offline: mechanism stays inert
 export async function claimDeviceSession(userId, { current } = {}) {
   if (!userId) return { ok: false };
@@ -316,8 +321,8 @@ export async function signInWithGoogle(intent = "login") {
 
 export async function signOut() {
   // Free this device's slot server-side (while the JWT is still valid) so the
-  // account can be signed into on another device — the reject policy has no
-  // silent eviction, so an explicit sign-out is how a slot is released.
+  // next login takes the empty slot instead of evicting the account's oldest
+  // device. Signing out properly is what keeps other devices connected.
   const sid = getDeviceSessionId();
   if (sid) { try { await supabase.rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
   setDeviceSessionId(null); // next login re-claims cleanly

@@ -6,7 +6,9 @@
 // still marketing copy — checkout grants a single "Premium" role and does not
 // yet enforce them. The DEVICE limits, however, ARE enforced via the active-
 // session mechanism (profiles.active_session_ids + claim_device_session):
-// Première classe → 2 simultaneous devices, VIP → 4, other plans → 1.
+// Première classe → 2 simultaneous devices, VIP → 4, other plans → 1. Over the
+// limit, the newest login wins and the oldest device is signed out — a login is
+// never refused for this reason.
 export const PLANS = [
   {
     name: "Sans papier",
