@@ -90,6 +90,12 @@ export const ROUTE_META = {
     description:
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
+  "sujets-ee": {
+    path: "/sujets-expression-ecrite",
+    title: "Sujets d'expression écrite du mois",
+    description:
+      "Les combinaisons de sujets d'expression écrite qui circulent ce mois-ci au TCF Canada : les trois tâches de chaque sujet, dans leur formulation réelle, pour vous entraîner.",
+  },
   register: {
     path: "/inscription",
     title: "Créer un compte gratuit",
