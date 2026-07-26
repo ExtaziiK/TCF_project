@@ -5,12 +5,20 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
+
+// Why this device was signed out, in the user's words. "revoked" is an admin
+// disconnect from the Users panel; anything else is the device-limit eviction
+// (a newer login took the slot) — see authService.checkDeviceSession.
+const deviceSessionNotice = (reason) =>
+  reason === "revoked"
+    ? "Vous avez été déconnecté par un administrateur."
+    : "Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.";
 
 export function AppProvider({ children }) {
   const [dark, setDark] = useState(loadDark);
@@ -63,14 +71,18 @@ export function AppProvider({ children }) {
             if (isNew) setPendingOnboarding(true);
             setAuthReady(true);
             return;
-          } else if (!(await isDeviceSessionActive(mapped.id))) {
-            // This device's slot is gone — evicted by a newer login while it was
-            // away, signed out elsewhere, or reset by an admin.
-            await authSignOut();
-            setUser(null);
-            setAuthReady(true);
-            notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
-            return;
+          } else {
+            // Either this device's slot is gone — evicted by a newer login while
+            // it was away, or signed out elsewhere — or an admin disconnected
+            // the account.
+            const check = await checkDeviceSession(mapped.id);
+            if (!check.ok) {
+              await authSignOut();
+              setUser(null);
+              setAuthReady(true);
+              notify(deviceSessionNotice(check.reason));
+              return;
+            }
           }
         }
         setUser(mapped);
@@ -95,6 +107,7 @@ export function AppProvider({ children }) {
   // account's slots; sign out with a notice once it doesn't. This is how an
   // EVICTED device (a newer login pushed out the oldest one — see the 20260726
   // migration) finds out: within a tick, or instantly when the tab is focused.
+  // It is also how an admin DISCONNECT (20260727) reaches the device.
   // No immediate check on mount — the just-completed login's claim may still be
   // in flight, and reloads are already validated by the effect above.
   useEffect(() => {
@@ -108,11 +121,12 @@ export function AppProvider({ children }) {
     const check = async () => {
       if (document.hidden) return;
       touchLastSeen();
-      if (await isDeviceSessionActive(uid)) return;
+      const check = await checkDeviceSession(uid);
+      if (check.ok) return;
       if (cancelled) return;
       await authSignOut();
       setUser(null);
-      notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
+      notify(deviceSessionNotice(check.reason));
     };
     const interval = setInterval(check, 45000);
     window.addEventListener("focus", check);

@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -675,6 +675,13 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                 title="Libère tous les créneaux d'appareils (débloque un compte verrouillé hors de ses appareils)">
                 Réinitialiser les appareils
               </Btn>
+              {/* Ends the account's live sessions. Disabled on your own row: it
+                  would sign you out of this panel mid-action. */}
+              <Btn small variant="ghost" disabled={busy || isSelf} icon={LogOut}
+                onClick={() => act({ action: "disconnect", userId: u.id }, `${u.email} déconnecté de tous ses appareils.`)}
+                title={isSelf ? "Vous ne pouvez pas vous déconnecter depuis ce panneau" : "Ferme la session sur tous ses appareils (sous 45 s ; il peut se reconnecter ensuite)"}>
+                Déconnecter
+              </Btn>
               {confirming ? (
                 <span className="flex items-center gap-2">
                   <span className="text-xs font-semibold text-rose-600">Supprimer définitivement ce compte et toutes ses données ?</span>
@@ -1194,6 +1201,7 @@ const AUDIT_LABELS = {
   "set-plan": ["Forfait modifié", "gold"],
   "set-role": ["Rôle modifié", "red"],
   "reset-sessions": ["Appareils réinitialisés", "slate"],
+  "disconnect-user": ["Utilisateur déconnecté", "amber"],
   "delete-user": ["Compte supprimé", "amber"],
   "create-promo": ["Code promo créé", "green"],
   "toggle-promo": ["Code promo modifié", "slate"],

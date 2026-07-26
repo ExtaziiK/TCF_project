@@ -12,6 +12,13 @@ import { supabase } from "@/services/supabaseClient";
 // migration adding the column is applied: the read/write below fail open, so
 // pre-migration or offline states never wrongly boot a logged-in user.
 const DEVICE_SESSION_KEY = "tcf_device_session";
+// When this browser claimed its slot. Compared against
+// profiles.sessions_revoked_at so an admin "disconnect" (20260727) can end
+// sessions that are already running: a revocation stamped after the claim means
+// this session was ended on purpose. Stored separately from the id above so a
+// browser that claimed under an older build (id only, no timestamp) keeps its
+// session — see checkDeviceSession for how that case is treated.
+const DEVICE_SESSION_AT_KEY = "tcf_device_session_at";
 const OAUTH_PENDING_KEY = "tcf_oauth_pending_at";
 // Only reachable against a DB still on the 20260724 reject policy (i.e. the app
 // deployed before the evict-oldest migration was applied). Kept so that window
@@ -21,10 +28,21 @@ export const DEVICE_LIMIT_MSG = "Limite d'appareils atteinte pour votre forfait.
 export function getDeviceSessionId() {
   try { return localStorage.getItem(DEVICE_SESSION_KEY) || null; } catch { return null; }
 }
+function getDeviceSessionClaimedAt() {
+  try {
+    const raw = Number(localStorage.getItem(DEVICE_SESSION_AT_KEY));
+    return Number.isFinite(raw) && raw > 0 ? raw : null;
+  } catch { return null; }
+}
 function setDeviceSessionId(id) {
   try {
-    if (id) localStorage.setItem(DEVICE_SESSION_KEY, id);
-    else localStorage.removeItem(DEVICE_SESSION_KEY);
+    if (id) {
+      localStorage.setItem(DEVICE_SESSION_KEY, id);
+      localStorage.setItem(DEVICE_SESSION_AT_KEY, String(Date.now()));
+    } else {
+      localStorage.removeItem(DEVICE_SESSION_KEY);
+      localStorage.removeItem(DEVICE_SESSION_AT_KEY);
+    }
   } catch { /* storage unavailable */ }
 }
 
@@ -60,18 +78,44 @@ export async function claimDeviceSession(userId, { current } = {}) {
   }
 }
 
-// True while this browser still holds the account's active session. False once
-// another device has logged in and claimed it. Fails open on any uncertainty
-// (a claim in flight, no local id yet, missing column, network error, null in
-// DB) so a legitimate session is never booted by a transient condition.
-export async function isDeviceSessionActive(userId) {
-  if (claiming) return true;
+// Whether this browser may keep the account's session, and if not, why —
+// the caller shows a different notice for each cause:
+//   { ok: true }
+//   { ok: false, reason: "evicted" } — the slot is gone: a newer login pushed
+//         this device out, or it was signed out elsewhere.
+//   { ok: false, reason: "revoked" } — an admin disconnected the account from
+//         the Users panel (profiles.sessions_revoked_at, 20260727).
+// Fails open on any uncertainty (a claim in flight, no local id yet, missing
+// column, network error, null in DB) so a legitimate session is never booted by
+// a transient condition.
+export async function checkDeviceSession(userId) {
+  if (claiming) return { ok: true };
   const local = getDeviceSessionId();
-  if (!userId || !local) return true;
-  const { data, error } = await supabase.from("profiles").select("active_session_ids").eq("id", userId).maybeSingle();
-  const list = data?.active_session_ids;
-  if (error || !data || list == null || !Array.isArray(list) || list.length === 0) return true;
-  return list.includes(local);
+  if (!userId || !local) return { ok: true };
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("active_session_ids, sessions_revoked_at")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error || !data) return { ok: true };
+
+  // Revocation is checked FIRST: the admin action clears active_session_ids as
+  // well (so the account's slots are free for an immediate re-login), and an
+  // empty set fails open — the marker is the only thing left saying "ended".
+  const revokedAt = data.sessions_revoked_at ? Date.parse(data.sessions_revoked_at) : NaN;
+  if (Number.isFinite(revokedAt)) {
+    const claimedAt = getDeviceSessionClaimedAt();
+    // No local claim timestamp means this browser claimed under a build that
+    // predates the timestamp (it only stored the id). Treat the revocation as
+    // applying: the marker is per-account and only set by a deliberate admin
+    // action, so honouring it is the intent — and the next login writes a
+    // timestamp, so this only ever happens once per device.
+    if (claimedAt == null || revokedAt > claimedAt) return { ok: false, reason: "revoked" };
+  }
+
+  const list = data.active_session_ids;
+  if (list == null || !Array.isArray(list) || list.length === 0) return { ok: true };
+  return list.includes(local) ? { ok: true } : { ok: false, reason: "evicted" };
 }
 
 // Marks the current user as "seen right now" (profiles.last_seen_at). Called on

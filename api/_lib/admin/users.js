@@ -13,6 +13,7 @@ import { HttpError } from "../groq.js";
 //     action: "set-plan"        { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
+//             "disconnect"      {}    signs the account out on every device, now
 //             "delete"          {}                        (cannot delete yourself)
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -208,6 +209,26 @@ async function handlePost(req, res, actor) {
     const { error } = await admin.from("profiles").update({ active_session_ids: null, active_session_id: null }).eq("id", userId);
     if (error) throw new HttpError(502, `Réinitialisation des appareils refusée : ${error.message}`);
     await audit(actor, "reset-sessions", email);
+    return res.status(200).json({ ok: true });
+  }
+
+  if (action === "disconnect") {
+    // Sign the account out everywhere. Stamping sessions_revoked_at is what
+    // actually kicks the devices: each one compares it against the timestamp it
+    // stored when claiming its slot, and signs itself out on the next heartbeat
+    // tick (or immediately on tab focus). Clearing active_session_ids alone
+    // would NOT do it — a null set fails open by design (see the 20260727
+    // migration) — but it is cleared as well so the disconnect doesn't leave the
+    // slots occupied and the user can sign straight back in.
+    const { data } = await admin.auth.admin.getUserById(userId);
+    const email = data?.user?.email || userId;
+    const at = new Date().toISOString();
+    const { error } = await admin
+      .from("profiles")
+      .update({ sessions_revoked_at: at, active_session_ids: null, active_session_id: null })
+      .eq("id", userId);
+    if (error) throw new HttpError(502, `Déconnexion refusée : ${error.message}`);
+    await audit(actor, "disconnect-user", email, { at });
     return res.status(200).json({ ok: true });
   }
 
