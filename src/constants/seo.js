@@ -96,6 +96,12 @@ export const ROUTE_META = {
     description:
       "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
   },
+  "sujets-eo": {
+    path: "/sujets-expression-orale",
+    title: "Sujets d'expression orale — archive par mois",
+    description:
+      "L'archive des sujets d'expression orale du TCF Canada, classés par année et par mois : les sujets de la Tâche 2 (interaction) et de la Tâche 3 (point de vue), par partie.",
+  },
   register: {
     path: "/inscription",
     title: "Créer un compte gratuit",

@@ -13,7 +13,7 @@ import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
-import { QuestionManager } from "@/components/admin/QuestionManager";
+import { SujetsManager } from "@/components/admin/SujetsManager";
 import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
@@ -383,7 +383,7 @@ function OverviewTab({ go }) {
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
         <Btn small variant="ghost" icon={Ticket} onClick={() => go("promos")}>Créer un code promo</Btn>
-        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les questions</Btn>
+        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les sujets (EE·EO)</Btn>
         <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
       </Card>
       <div className="grid lg:grid-cols-2 gap-4">
@@ -1309,7 +1309,7 @@ export function Admin() {
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
     { id: "pricing", l: "Tarifs", icon: Coins },
-    { id: "questions", l: "Questions", icon: FileText },
+    { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
     { id: "requests", l: "Demandes", icon: Inbox },
@@ -1351,7 +1351,7 @@ export function Admin() {
       {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
       {tab === "pricing" && <TarifsTab />}
-      {tab === "questions" && <QuestionManager />}
+      {tab === "questions" && <SujetsManager />}
       {tab === "import" && (
         <div className="grid lg:grid-cols-2 gap-5">
           <Card className="p-6">
