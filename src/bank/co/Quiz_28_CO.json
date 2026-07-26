@@ -523,7 +523,7 @@
       "image_url": null,
       "audio_filename": "Q3.mp3",
       "image_filename": null,
-      "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
+      "question": "Écoutez l'extrait sonore et les 4 propositions, choisissez la bonne réponse",
       "max_plays": 2,
       "options": [
         {
@@ -793,7 +793,7 @@
       "image_url": null,
       "audio_filename": "Q4.mp3",
       "image_filename": null,
-      "question": "Écoutez les 4 propositions, choisissez celle qui correspond à l'image",
+      "question": "Écoutez l'extrait sonore et les 4 propositions, choisissez la bonne réponse",
       "max_plays": 1,
       "options": [
         {
