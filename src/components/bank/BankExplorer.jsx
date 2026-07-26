@@ -188,11 +188,13 @@ function PromptList({ quiz, onBack }) {
   );
 }
 
-// Popup that lets the candidate re-read the épreuve's guide (skills tested,
-// question types, a worked example, tips) right before starting the quiz,
+// Side panel that lets the candidate re-read the épreuve's guide (skills
+// tested, question types, a worked example, tips) right beside the question,
 // without leaving the exam page. Rendered only for sections that have a guide
-// (compréhension orale / écrite).
-function GuideModal({ section, onClose }) {
+// (compréhension orale / écrite). It sticks below the nav while the quiz on the
+// left scrolls, and stays a fixed inner width so its content never reflows
+// while the wrapping <aside> animates its width open/closed.
+function GuidePanel({ section, onClose }) {
   const { c, t } = useApp();
   const guide = COMPREHENSION_GUIDE_BY_SECTION[section];
   useEffect(() => {
@@ -202,22 +204,17 @@ function GuideModal({ section, onClose }) {
   }, [onClose]);
   if (!guide) return null;
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col ${c.bg}`} role="dialog" aria-modal="true" aria-label={t(guide.title)}>
-      {/* Sticky header stays put while the guide scrolls under it. */}
-      <div className={`shrink-0 border-b ${c.border} ${c.bg}`}>
-        <div className="max-w-3xl mx-auto w-full px-4 md:px-6 py-4 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wide text-blue-600">{t(guide.eyebrow)}</p>
-            <h3 className={`font-display font-bold text-lg md:text-xl mt-1 ${c.text}`}>{t(guide.title)}</h3>
-            <p className={`text-sm mt-1 ${c.sub}`}>{t(guide.sub)}</p>
-          </div>
-          <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={20} /></button>
+    <div className={`sticky top-24 flex flex-col max-h-[calc(100vh-7rem)] rounded-3xl border ${c.border} ${c.card} shadow-xl overflow-hidden`} role="dialog" aria-label={t(guide.title)}>
+      <div className={`shrink-0 flex items-start justify-between gap-3 p-5 border-b ${c.border}`}>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wide text-blue-600">{t(guide.eyebrow)}</p>
+          <h3 className={`font-display font-bold text-lg mt-1 ${c.text}`}>{t(guide.title)}</h3>
         </div>
+        <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={18} /></button>
       </div>
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-3xl mx-auto w-full px-4 md:px-6 py-8">
-          <ComprehensionGuideBody d={guide} />
-        </div>
+      <div className="overflow-y-auto p-5">
+        <p className={`text-sm mb-6 ${c.sub}`}>{t(guide.sub)}</p>
+        <ComprehensionGuideBody d={guide} />
       </div>
     </div>
   );
@@ -272,23 +269,41 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   if (quiz) {
     const hasGuide = !!COMPREHENSION_GUIDE_BY_SECTION[quiz.section];
     return (
-      <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={`${quiz.questions.length} ${t("questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.")}`}>
+      <PageShell wide eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={`${quiz.questions.length} ${t("questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.")}`}>
         <div className="flex items-center justify-between gap-3 flex-wrap mb-8">
           <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
           {hasGuide && (
-            <Btn small variant="ghost" icon={BookOpen} onClick={() => setGuideOpen(true)}>{t("Guide de l'épreuve")}</Btn>
+            <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
           )}
         </div>
-        {guideOpen && <GuideModal section={quiz.section} onClose={() => setGuideOpen(false)} />}
-        <Quiz
-          key={quiz.id}
-          questions={quiz.questions}
-          duration={quiz.questions.length * 55}
-          storageKey={`bank-${quiz.id}`}
-          deferResults
-          renderAbove={(q) => <BankQuestionMedia question={q} />}
-          doneExtra={<Btn variant="ghost" onClick={closeQuiz}>{t("Choisir un autre quiz")}</Btn>}
-        />
+        {/* Opening the guide animates the <aside> width from 0; the quiz column
+            (flex-1) reflows in sync each frame, so the question slides left as
+            the panel slides in — no separate transition needed on the quiz. */}
+        <div className="flex items-start gap-6">
+          <div className="flex-1 min-w-0">
+            <div className="max-w-3xl mx-auto">
+              <Quiz
+                key={quiz.id}
+                questions={quiz.questions}
+                duration={quiz.questions.length * 55}
+                storageKey={`bank-${quiz.id}`}
+                deferResults
+                renderAbove={(q) => <BankQuestionMedia question={q} />}
+                doneExtra={<Btn variant="ghost" onClick={closeQuiz}>{t("Choisir un autre quiz")}</Btn>}
+              />
+            </div>
+          </div>
+          {hasGuide && (
+            <aside
+              aria-hidden={!guideOpen}
+              className={`shrink-0 overflow-hidden transition-[width,opacity] duration-500 ease-in-out ${guideOpen ? "w-[min(440px,85vw)] opacity-100" : "w-0 opacity-0"}`}
+            >
+              <div className="w-[min(440px,85vw)]">
+                <GuidePanel section={quiz.section} onClose={() => setGuideOpen(false)} />
+              </div>
+            </aside>
+          )}
+        </div>
       </PageShell>
     );
   }
