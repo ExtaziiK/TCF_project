@@ -69,6 +69,14 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
    old cause of a "flick" appearing only when the cursor left. */
 .plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out both}
 @keyframes metal-shimmer{from{background-position:220% center}to{background-position:0 center}}
+/* Loading skeleton for quiz illustrations: a muted base (bg set per theme via
+   the c.track token) with a sheen that sweeps across, so a labelled "an image is
+   loading here" placeholder holds the space before the picture decodes. The
+   sheen alpha reads on both light and dark bases; the global reduced-motion rule
+   below stops the sweep, leaving a static muted block. */
+.img-skeleton{position:relative;overflow:hidden}
+.img-skeleton:after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(148,163,184,.22),transparent);animation:img-shimmer 1.4s ease-in-out infinite}
+@keyframes img-shimmer{100%{transform:translateX(100%)}}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}
