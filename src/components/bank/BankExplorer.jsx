@@ -202,19 +202,23 @@ function GuideModal({ section, onClose }) {
   }, [onClose]);
   if (!guide) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-14 overflow-y-auto" role="dialog" aria-modal="true" aria-label={t(guide.title)}>
-      <div className="absolute inset-0 bg-slate-950/60" onClick={onClose} />
-      <Card className="relative w-full max-w-3xl p-6 md:p-8 rise max-h-[85vh] overflow-y-auto">
-        <div className="flex items-start justify-between gap-4 mb-6">
+    <div className={`fixed inset-0 z-50 flex flex-col ${c.bg}`} role="dialog" aria-modal="true" aria-label={t(guide.title)}>
+      {/* Sticky header stays put while the guide scrolls under it. */}
+      <div className={`shrink-0 border-b ${c.border} ${c.bg}`}>
+        <div className="max-w-3xl mx-auto w-full px-4 md:px-6 py-4 flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-blue-600">{t(guide.eyebrow)}</p>
-            <h3 className={`font-display font-bold text-xl mt-1 ${c.text}`}>{t(guide.title)}</h3>
+            <h3 className={`font-display font-bold text-lg md:text-xl mt-1 ${c.text}`}>{t(guide.title)}</h3>
             <p className={`text-sm mt-1 ${c.sub}`}>{t(guide.sub)}</p>
           </div>
-          <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={18} /></button>
+          <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={20} /></button>
         </div>
-        <ComprehensionGuideBody d={guide} />
-      </Card>
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-3xl mx-auto w-full px-4 md:px-6 py-8">
+          <ComprehensionGuideBody d={guide} />
+        </div>
+      </div>
     </div>
   );
 }
