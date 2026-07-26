@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { PenLine, Clock, ListChecks, CheckCircle2, Quote, Sparkles, ArrowRight, FileText } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { EE_CRITERIA, EE_METHOD } from "@/constants/guideEE";
+import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
 // Numbered structure step (used by every task's "structure" list).
 function Step({ i, label, desc }) {
@@ -114,7 +114,10 @@ export const EE_GUIDE_PANEL = {
 // to a single column by the `.guide-compact` CSS rule around it.
 export function ExpressionEcriteGuideBody({ compact = false }) {
   const { c, t } = useApp();
-  const [active, setActive] = useState(0);
+  // Tracked by task NUMBER so it stays in sync with the workshop's selector;
+  // mapped back to the index into EE_METHOD for rendering.
+  const [activeTask, setActiveTask] = useExpressionTask(EE_METHOD[0].n);
+  const active = Math.max(0, EE_METHOD.findIndex((tk) => tk.n === activeTask));
   const task = EE_METHOD[active];
   const cardPad = compact ? "p-4" : "p-6 md:p-7";
   const blockGap = compact ? "mb-6" : "mb-10";
@@ -148,7 +151,7 @@ export function ExpressionEcriteGuideBody({ compact = false }) {
               key={tk.n}
               role="tab"
               aria-selected={on}
-              onClick={() => setActive(i)}
+              onClick={() => setActiveTask(tk.n)}
               className={`group relative overflow-hidden text-left rounded-2xl border p-4 flex items-center gap-3 transition-all duration-300
                 ${on
                   ? "border-blue-600/50 shadow-xl shadow-blue-600/15 -translate-y-0.5"

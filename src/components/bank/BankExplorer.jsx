@@ -10,6 +10,7 @@ import { EE_GUIDE_PANEL } from "@/pages/GuideExpressionEcrite";
 import { EO_GUIDE_PANEL } from "@/pages/GuideExpressionOrale";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES } from "@/auth/rbac";
@@ -351,7 +352,9 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       )}
       {showWorkshop ? (
         freeTier ? <PremiumSectionGate /> : (
-          <>
+          // Provider shares the selected tâche between the workshop and the
+          // guide panel, so switching task on either side updates the other.
+          <ExpressionTaskProvider>
             {GUIDE_PANELS[section] && (
               <div className="flex justify-end mb-4">
                 <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
@@ -361,7 +364,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
               <div className="flex-1 min-w-0">{workshop}</div>
               {GUIDE_PANELS[section] && <GuideAside section={section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
             </div>
-          </>
+          </ExpressionTaskProvider>
         )
       ) : quizzes.length === 0 ? (
         <Card className="p-10 text-center">

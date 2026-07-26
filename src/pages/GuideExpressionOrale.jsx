@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { Mic, Clock, MessageCircle, CheckCircle2, Lightbulb, Info } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { EO_INTRO, EO_TASKS, EO_SCORING, EO_LEVELS, EO_TIPS_INTRO, EO_TIPS, EO_KNOW } from "@/constants/guideEO";
+import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
 // Section header, matching the exam-guide rhythm. `compact` shrinks the heading
 // and the block's bottom margin for the narrow quiz-page side panel.
@@ -30,7 +30,10 @@ export const EO_GUIDE_PANEL = {
 // padding/headings; the `.guide-compact` wrapper folds its grids to one column.
 export function ExpressionOraleGuideBody({ compact = false }) {
   const { c, t } = useApp();
-  const [active, setActive] = useState(0);
+  // Tracked by task NUMBER so it stays in sync with the workshop's selector;
+  // mapped back to the index into EO_TASKS for rendering.
+  const [activeTask, setActiveTask] = useExpressionTask(EO_TASKS[0].n);
+  const active = Math.max(0, EO_TASKS.findIndex((tk) => tk.n === activeTask));
   const task = EO_TASKS[active];
   const cardPad = compact ? "p-4" : "p-6 md:p-7";
   return (
@@ -52,7 +55,7 @@ export function ExpressionOraleGuideBody({ compact = false }) {
                 key={tk.n}
                 role="tab"
                 aria-selected={on}
-                onClick={() => setActive(i)}
+                onClick={() => setActiveTask(tk.n)}
                 className={`group relative overflow-hidden text-left rounded-2xl border p-4 flex items-center gap-3 transition-all duration-300
                   ${on
                     ? "border-blue-600/50 shadow-xl shadow-blue-600/15 -translate-y-0.5"
