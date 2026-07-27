@@ -34,7 +34,9 @@ const inferSection = (storageKey) => /^bank-(co|ce|ee|eo)-/.exec(storageKey || "
 // - oneWay: test mode — no navigating back to earlier questions
 // - autoAdvance: real-exam CO test mode — audio auto-plays, then the question
 //   moves on by itself; no manual navigation and the palette is read-only
-export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults, initialPicks, initialIndex, onProgress, onComplete, hideReport, examLayout, candidate, oneWay, autoAdvance }) {
+// - untimed: training mode — no countdown, no time pressure and no auto-submit;
+//   the timer UI is hidden and elapsed time is tracked only for stats.
+export function Quiz({ questions, duration, storageKey, above, renderAbove, doneExtra, deferResults, initialPicks, initialIndex, onProgress, onComplete, hideReport, examLayout, candidate, oneWay, autoAdvance, untimed }) {
   const { c, user, bookmarks, toggleBookmark, notify } = useApp();
   const [i, setI] = useState(initialIndex || 0);
   const [sel, setSel] = useState(null); // instant mode: current selection (locks the question)
@@ -92,6 +94,8 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
 
   const finishWith = (finalAnswers) => {
     const ok = finalAnswers.filter((a) => a.ok).length;
+    // Time spent: counted down from `duration` when timed, counted up otherwise.
+    const spent = untimed ? elapsed : Math.max(0, duration - left);
     if (!storageKey?.startsWith("mock-")) {
       recordQuizResult(user?.id, {
         quizKey: storageKey,
@@ -99,7 +103,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         ok,
         total: questions.length,
         answered: finalAnswers.length, // questions with a selected answer (skips excluded)
-        durationSec: Math.max(0, duration - left),
+        durationSec: spent,
         answers: finalAnswers, // per-question detail, so this attempt can be reviewed later
       });
     }
@@ -108,7 +112,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     // per-question share of the time spent — an honest approximation, since
     // the engine times the whole quiz, not each question.
     if (!storageKey?.startsWith("preview-")) {
-      const answeredMs = finalAnswers.length ? Math.round(((duration - left) * 1000) / finalAnswers.length) : null;
+      const answeredMs = finalAnswers.length ? Math.round((spent * 1000) / finalAnswers.length) : null;
       const byIndex = new Map(finalAnswers.map((a) => [a.i, a]));
       recordAttempts(
         user?.id,
@@ -126,10 +130,20 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     onComplete?.({ answers: finalAnswers, ok, total: questions.length, answered: finalAnswers.length });
   };
 
-  const [left, setLeft] = useCountdown(duration, !finished, () =>
+  // Untimed (training) mode runs no countdown, so there is no time pressure and
+  // nothing auto-submits when the clock would have hit zero.
+  const [left, setLeft] = useCountdown(duration, !finished && !untimed, () =>
     finishWith(deferResults ? buildExamAnswers(picksRef.current) : answersRef.current)
   );
   leftRef.current = left;
+
+  // Elapsed time still tracked in untimed mode, purely for stats.
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    if (!untimed || finished) return;
+    const id = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [untimed, finished]);
 
   // Autosave heartbeat (embedded exam sessions only): picks/index already
   // persist on every answer or navigation, but the ticking timer otherwise
@@ -145,7 +159,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     return () => clearInterval(id);
   }, [deferResults, finished]);
 
-  const restart = () => { setI(0); setSel(null); setPicks({}); setAnswers([]); setLeft(duration); setFinished(false); setConfirmFinish(false); };
+  const restart = () => { setI(0); setSel(null); setPicks({}); setAnswers([]); setLeft(duration); setElapsed(0); setFinished(false); setConfirmFinish(false); };
 
   // ---- autoAdvance (real-exam CO test mode): audio ends → question moves on ----
   const ANSWER_WINDOW = 5; // seconds to lock in the answer after the audio ends
@@ -187,8 +201,8 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         // (audio replay, illustrations) renders from these fields
         questions={questions.map(withMedia)}
         answers={answers}
-        duration={duration}
-        left={left}
+        duration={untimed ? null : duration}
+        left={untimed ? null : left}
         onRestart={restart}
         doneExtra={doneExtra}
         renderAbove={renderAbove}
@@ -398,11 +412,13 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
               </div>
             </Card>
           )}
-          <Card className="p-5 text-center">
-            <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${low ? "text-rose-600" : "text-blue-600"}`}>Temps restant</p>
-            <p className={`font-display font-extrabold text-4xl font-mono2 ${low ? "text-rose-600" : "grad-text"}`}>{fmt(Math.max(0, left))}</p>
-            <div className="mt-3"><ProgressBar pct={(left / duration) * 100} tone="grad" /></div>
-          </Card>
+          {!untimed && (
+            <Card className="p-5 text-center">
+              <p className={`text-xs font-bold uppercase tracking-widest mb-2 ${low ? "text-rose-600" : "text-blue-600"}`}>Temps restant</p>
+              <p className={`font-display font-extrabold text-4xl font-mono2 ${low ? "text-rose-600" : "grad-text"}`}>{fmt(Math.max(0, left))}</p>
+              <div className="mt-3"><ProgressBar pct={(left / duration) * 100} tone="grad" /></div>
+            </Card>
+          )}
         </div>
       </div>
     );
@@ -422,7 +438,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
             {q.custom && <Pill tone="amber"><Upload size={11} /> Importée</Pill>}
           </div>
           <div className="flex items-center gap-2">
-            <TimerChip left={left} total={duration} />
+            {!untimed && <TimerChip left={left} total={duration} />}
             {bookmarkBtn}
           </div>
         </div>

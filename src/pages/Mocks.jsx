@@ -260,6 +260,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         examLayout
         candidate={candidatePanel}
         oneWay={mode === "test"}
+        untimed={mode !== "test"}
         autoAdvance={autoAdvance}
         initialPicks={savedPicks}
         initialIndex={savedIndex}
