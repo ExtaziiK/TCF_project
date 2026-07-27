@@ -120,14 +120,14 @@ export function Nav({ barOffset = false }) {
               </div>
             )}
             {user ? (
-              <div className="hidden md:flex items-center gap-2 ml-1">
+              <div className="hidden md:flex items-center gap-2 ml-1 shrink-0">
                 {isStaff(role) && (
-                  <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
+                  <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full shrink-0 ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
-                <button onClick={() => go("profile")} aria-label={t("Mon profil")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border ${c.border} ${c.hoverSoft}`}>
-                  <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center">{user.name[0]}</span>
+                <button onClick={() => go("profile")} aria-label={t("Mon profil")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border shrink-0 ${c.border} ${c.hoverSoft}`}>
+                  <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{user.name[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
-                    <span className={`text-sm font-semibold ${c.text}`}>{user.name}</span>
+                    <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{user.name}</span>
                     {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
                       : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
                       : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>
