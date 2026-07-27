@@ -46,7 +46,12 @@ export function Onboarding() {
     <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
       <Card className="max-w-md mx-auto p-8 shadow-2xl shadow-blue-600/10 rise">
         <div className="text-center mb-7">
-          <img src="/logo-mark.png" alt="" width="48" height="48" className="block mx-auto w-12 h-12 object-contain" />
+          <div className="relative inline-block group">
+            <img src="/logo-mark.png" alt="" width="48" height="48" className="block w-12 h-12 object-contain transition-transform duration-200 group-hover:scale-150" />
+            <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 whitespace-nowrap rounded-full bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              {t("Vous êtes au bon endroit ! 🍁")}
+            </span>
+          </div>
           <h1 className={`font-display font-bold text-2xl mt-4 ${c.text}`}>{t("Finalisez votre compte")}</h1>
           <p className={`text-sm mt-1.5 ${c.sub}`}>
             {t("Bienvenue")}{user?.name ? `, ${user.name}` : ""} ! {t("Choisissez un nom d'utilisateur et votre pays pour terminer.")}

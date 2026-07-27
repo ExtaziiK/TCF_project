@@ -39,6 +39,7 @@ export const EN = {
   "Mode clair": "Light mode",
   "Mode sombre": "Dark mode",
   "Se déconnecter": "Log out",
+  "Vous êtes au bon endroit ! 🍁": "You're in the right place! 🍁",
   "Vous êtes déconnecté·e. À bientôt !": "You have been logged out. See you soon!",
   "Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.": "You've been logged out: your account was used on another device.",
   "Reconnexion nécessaire": "Reconnection required",
