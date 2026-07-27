@@ -50,7 +50,7 @@ export function Contact() {
           )}
         </Card>
         <div className="md:col-span-2 space-y-4">
-          {[{ icon: Mail, t: "Courriel", d: "bonjour@passerelle.ca" }, { icon: MessageCircle, t: "Clavardage en direct", d: "Lun.–ven., 9 h à 17 h (HE)" }, { icon: Users, t: "Communauté", d: "Groupe d'étude hebdomadaire en ligne" }].map((k) => (
+          {[{ icon: Mail, t: "Courriel", d: "contact@tcfpasserelle.com" }, { icon: MessageCircle, t: "Clavardage en direct", d: "Lun.–ven., 9 h à 17 h (HE)" }, { icon: Users, t: "Communauté", d: "Groupe d'étude hebdomadaire en ligne" }].map((k) => (
             <Card key={k.t} className="p-5 flex items-center gap-4">
               <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><k.icon size={19} /></span>
               <div><p className={`font-semibold text-sm ${c.text}`}>{t(k.t)}</p><p className={`text-sm ${c.sub}`}>{t(k.d)}</p></div>

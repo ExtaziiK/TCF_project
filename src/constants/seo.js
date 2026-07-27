@@ -117,6 +117,9 @@ export const ROUTE_META = {
 
   // ── Gated routes: reachable URLs, but noindex (crawlers only see a gate) ──
   login: { path: "/connexion", title: "Connexion", noindex: true },
+  // Landing page for the reset email's link. noindex: it is only ever reached
+  // with a one-time token in the query string, and has nothing to crawl.
+  "reset-password": { path: "/nouveau-mot-de-passe", title: "Nouveau mot de passe", noindex: true },
   "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
   exams: { path: "/mes-examens", title: "Mes examens", noindex: true },

@@ -270,6 +270,22 @@ export async function updatePassword(password) {
   return supabase.auth.updateUser({ password });
 }
 
+// Redeems the token_hash carried by a password-reset link and opens the short
+// recovery session that lets updatePassword() run.
+//
+// The reset email deliberately does NOT link to Supabase's /auth/v1/verify
+// endpoint. Recovery tokens are single-use, and mail providers (Gmail above
+// all) fetch every link in an incoming message to scan it — that GET redeems
+// the token, so the human's click arrives to an already-spent link and gets
+// "otp_expired". Linking to this app instead means a scanner only fetches
+// static HTML: the token is spent here, in JavaScript, which scanners do not
+// run. See docs/email-templates/README.md.
+export async function verifyRecoveryToken(tokenHash) {
+  if (!tokenHash) return { error: { message: "Lien incomplet." } };
+  const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
+  return { session: data?.session || null, error };
+}
+
 export async function signUp({ name, username, email, password, country }) {
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -371,6 +387,35 @@ export async function signOut() {
   if (sid) { try { await supabase.rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
   setDeviceSessionId(null); // next login re-claims cleanly
   return supabase.auth.signOut();
+}
+
+// A Supabase auth error turned into something worth showing a user.
+//
+// supabase-js does not always produce a usable `.message`: when GoTrue answers
+// with a body it can't map (the 500 it returns when the project's SMTP server
+// refuses the mail is one), the message ends up as the literal "{}" — which is
+// what the reset screen was putting on screen instead of an explanation. Junk
+// like that is replaced by `fallback`, and the few failures a user can actually
+// act on get their own wording.
+export function authErrorMessage(error, fallback = "Une erreur est survenue. Réessayez dans un instant.") {
+  const raw = typeof error === "string" ? error : error?.message;
+  const text = typeof raw === "string" ? raw.trim() : "";
+  const code = error?.code || error?.error_code || "";
+
+  // Carries no information — never show it.
+  const useless = !text || text === "{}" || text === "[]" || text === "null"
+    || text === "undefined" || text === "[object Object]";
+
+  // The mail could not be handed to the SMTP server. Nothing the user can fix,
+  // so say so plainly rather than blaming their address.
+  if (code === "unexpected_failure" || /error sending/i.test(text)) {
+    return "L'envoi du courriel a échoué. Ce n'est pas lié à votre compte — réessayez dans quelques minutes ou contactez-nous.";
+  }
+  // Supabase throttles repeat sends; the raw text is English and mentions seconds.
+  if (/rate limit|only request this after|too many requests/i.test(text) || code === "over_email_send_rate_limit") {
+    return "Trop de demandes en peu de temps. Patientez une minute avant de réessayer.";
+  }
+  return useless ? fallback : text;
 }
 
 export async function resetPassword(email) {

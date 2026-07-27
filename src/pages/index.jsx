@@ -25,6 +25,7 @@ import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
 import { Dashboard } from "@/pages/Dashboard";
 import { Profile } from "@/pages/Profile";
+import { ResetPassword } from "@/pages/ResetPassword";
 import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
 
@@ -47,6 +48,7 @@ export const PAGES = {
   exams: Exams,
   login: Login,
   register: Register,
+  "reset-password": ResetPassword,
   listening: Listening,
   reading: Reading,
   writing: Writing,
