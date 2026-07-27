@@ -13,13 +13,16 @@ const pick = (pool, exclude) => {
   return x;
 };
 
-// Grammar quiz: one exercise at a time, drawn at random from every lesson's
-// bank, with the correct answer explained and a running score.
-export function GrammarQuiz() {
+// Grammar quiz: one exercise at a time, drawn at random with the correct answer
+// explained and a running score. Scoped to a single lesson when `topic` is
+// given (practise that subject), otherwise drawn from every lesson's bank.
+export function GrammarQuiz({ topic }) {
   const { c, t } = useApp();
   const pool = useMemo(
-    () => GRAMMAR_TOPICS.flatMap((tp) => tp.qs.map((q) => ({ ...q, topic: tp.t }))),
-    [],
+    () => (topic
+      ? topic.qs.map((q) => ({ ...q, topic: topic.t }))
+      : GRAMMAR_TOPICS.flatMap((tp) => tp.qs.map((q) => ({ ...q, topic: tp.t })))),
+    [topic],
   );
   const [item, setItem] = useState(() => pick(pool));
   const [sel, setSel] = useState(null);

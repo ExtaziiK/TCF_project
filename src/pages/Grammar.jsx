@@ -6,12 +6,18 @@ import { GrammarExercise } from "@/components/grammar/GrammarExercise";
 import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
 import { GRAMMAR_TOPICS } from "@/constants/grammar";
 
+// How many warm-up exercises to show before offering the full practice quiz.
+const PREVIEW_EXERCISES = 3;
+
 export function Grammar() {
   const { c, t } = useApp();
   const [topicId, setTopicId] = useState(null);
   const [mode, setMode] = useState("lessons");
+  const [topicMode, setTopicMode] = useState("practice"); // per-topic: "practice" | "quiz"
   const topic = GRAMMAR_TOPICS.find((tp) => tp.id === topicId);
+  const openTopic = (id) => { setTopicId(id); setTopicMode("practice"); };
   if (topic) {
+    const inQuiz = topicMode === "quiz";
     return (
       <PageShell eyebrow={t("Grammaire")} title={t(topic.t)} sub={t(topic.d)}>
         <button onClick={() => setTopicId(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les sujets")}</button>
@@ -27,8 +33,24 @@ export function Grammar() {
             </ul>
           </Card>
           <div className="space-y-4">
-            <h3 className={`font-display font-bold flex items-center gap-2 ${c.text}`}><PenLine size={18} className="text-rose-600" /> {t("À vous de jouer")}</h3>
-            {topic.qs.map((q) => <GrammarExercise key={q.q} q={q} />)}
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className={`font-display font-bold flex items-center gap-2 ${c.text}`}>
+                {inQuiz ? <><Zap size={18} className="text-rose-600" /> {t("Quiz du sujet")}</> : <><PenLine size={18} className="text-rose-600" /> {t("À vous de jouer")}</>}
+              </h3>
+              <button onClick={() => setTopicMode(inQuiz ? "practice" : "quiz")} className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}>
+                {inQuiz ? <><PenLine size={14} /> {t("Exercices")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+              </button>
+            </div>
+            {inQuiz ? (
+              <GrammarQuiz topic={topic} />
+            ) : (
+              <>
+                {topic.qs.slice(0, PREVIEW_EXERCISES).map((q) => <GrammarExercise key={q.q} q={q} />)}
+                <button onClick={() => setTopicMode("quiz")} className={`w-full p-4 rounded-2xl border border-dashed text-sm font-semibold text-rose-600 flex items-center justify-center gap-2 ${c.border} ${c.hoverSoft}`}>
+                  <Zap size={15} /> {t("S'entraîner sur ce sujet en mode quiz")} <ArrowRight size={14} />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </PageShell>
@@ -49,7 +71,7 @@ export function Grammar() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {GRAMMAR_TOPICS.map((tp, i) => (
-            <button key={tp.id} onClick={() => setTopicId(tp.id)} className="text-left">
+            <button key={tp.id} onClick={() => openTopic(tp.id)} className="text-left">
               <Card lift className="p-6 h-full">
                 <div className="flex items-center justify-between">
                   <span className="w-10 h-10 rounded-2xl bg-blue-600/10 text-blue-600 font-mono2 font-bold flex items-center justify-center">{String(i + 1).padStart(2, "0")}</span>
