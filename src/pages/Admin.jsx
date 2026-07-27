@@ -335,7 +335,7 @@ function PromotionTab() {
     const o = n / (1 - cfg.percent / 100);
     return price.replace(m[0], Number.isInteger(o) ? String(o) : o.toFixed(2));
   };
-  const previewPlans = PLANS.filter((p) => p.priceId).slice(0, 3);
+  const previewPlans = PLANS.filter((p) => p.priceId); // all paid plans (Passeport → VIP)
 
   return (
     <div className="space-y-4">
@@ -383,7 +383,7 @@ function PromotionTab() {
 
       <Card className="p-6">
         <p className={`text-xs font-bold uppercase tracking-wider mb-4 ${c.faint}`}>Aperçu {!active && "· (promotion désactivée)"}</p>
-        <div className="grid sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {previewPlans.map((p) => (
             <div key={p.name} className={`rounded-2xl border ${c.border} p-4`}>
               <p className={`text-sm font-semibold ${c.text}`}>{p.name}</p>
@@ -1378,10 +1378,10 @@ export function Admin() {
   }, []);
 
   const tabs = [
+    { id: "promotion", l: "Promotion", icon: Percent },
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
-    { id: "promotion", l: "Promotion", icon: Percent },
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
