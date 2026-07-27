@@ -29,6 +29,7 @@ Taken from the app, not invented — keep them in sync if the site's change.
 | Text / muted | `#0f172a` / `#475569` / `#64748b` | `getTheme()` light palette |
 | Logo | `https://www.tcfpasserelle.com/logo-full.png` | [public/logo-full.png](../../public/logo-full.png) |
 | Language | French | app default, [src/i18n/index.js](../../src/i18n/index.js) |
+| Contact address | `contact@tcfpasserelle.com` | the mailbox the auth SMTP sender authenticates as |
 
 The "valide 30 minutes" wording matches what the app already tells the user on
 the reset screen (`AuthPage.jsx`), so the two can't contradict each other. If
@@ -38,11 +39,46 @@ you change the OTP expiry in Supabase, change both.
 
 Supabase substitutes these server-side (Go template syntax):
 
-- `{{ .ConfirmationURL }}` — the one-time reset link. **Required.**
+- `{{ .TokenHash }}` + `{{ .SiteURL }}` — combined into the link the button
+  points at. **Required.**
 - `{{ .Email }}` — the recipient's address, shown so they can tell which account
   the request was for.
-- Also available if ever needed: `{{ .Token }}` (6-digit code), `{{ .TokenHash }}`,
-  `{{ .SiteURL }}`, `{{ .RedirectTo }}`.
+- Also available if ever needed: `{{ .Token }}` (6-digit code),
+  `{{ .ConfirmationURL }}`, `{{ .RedirectTo }}`.
+
+## Why the link is not `{{ .ConfirmationURL }}`
+
+This is the important part — do not "simplify" it back.
+
+`{{ .ConfirmationURL }}` points at Supabase's `/auth/v1/verify`, which redeems
+the token on a plain **GET**. Recovery tokens are single-use, and mail providers
+(Gmail above all) fetch every link in an incoming message to scan it for
+malware. That scan spends the token, so the human's click lands on an
+already-used link and gets bounced to the site with:
+
+```
+#error=access_denied&error_code=otp_expired
+&error_description=Email+link+is+invalid+or+has+expired
+```
+
+Confirmed against this project: hitting a freshly minted link once returns a
+session, hitting the very same link a second time returns exactly that error.
+
+The template therefore links to the app instead:
+
+```
+{{ .SiteURL }}/nouveau-mot-de-passe?token_hash={{ .TokenHash }}&type=recovery
+```
+
+A scanner fetching that URL only receives static HTML. The token is redeemed by
+`supabase.auth.verifyOtp()` in JavaScript — which scanners do not run — so it
+survives until the user actually clicks. The page lives at
+[src/pages/ResetPassword.jsx](../../src/pages/ResetPassword.jsx); if that route
+ever moves, this link has to move with it.
+
+`{{ .SiteURL }}` is whatever is set under Authentication → URL Configuration →
+Site URL, so it needs no editing per environment. The apex redirects to `www`
+and query strings survive the hop.
 
 ## Editing rules
 

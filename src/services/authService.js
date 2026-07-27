@@ -270,6 +270,22 @@ export async function updatePassword(password) {
   return supabase.auth.updateUser({ password });
 }
 
+// Redeems the token_hash carried by a password-reset link and opens the short
+// recovery session that lets updatePassword() run.
+//
+// The reset email deliberately does NOT link to Supabase's /auth/v1/verify
+// endpoint. Recovery tokens are single-use, and mail providers (Gmail above
+// all) fetch every link in an incoming message to scan it — that GET redeems
+// the token, so the human's click arrives to an already-spent link and gets
+// "otp_expired". Linking to this app instead means a scanner only fetches
+// static HTML: the token is spent here, in JavaScript, which scanners do not
+// run. See docs/email-templates/README.md.
+export async function verifyRecoveryToken(tokenHash) {
+  if (!tokenHash) return { error: { message: "Lien incomplet." } };
+  const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
+  return { session: data?.session || null, error };
+}
+
 export async function signUp({ name, username, email, password, country }) {
   const { data, error } = await supabase.auth.signUp({
     email,
