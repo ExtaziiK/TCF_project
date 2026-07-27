@@ -1,32 +1,33 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Notifies the owner on WhatsApp when a new DZD subscription request lands.
+// Notifies the owner on Telegram when a new DZD subscription request lands.
 // Triggered by a Supabase Database Webhook on INSERT into subscription_requests
 // (see the setup guide). The request itself still goes to the admin "Demandes"
 // inbox for approval — this only pings you so you don't have to keep checking.
 //
-// Delivery is via CallMeBot's free WhatsApp API, which is TEXT ONLY: the receipt
-// is included as a tap-to-view signed link (valid 7 days), alongside the payment
-// details. The message text transits CallMeBot's relay, so treat it as you would
-// any third-party notifier.
+// Telegram delivers the actual receipt: images go as a photo, PDFs (and other
+// types) as a document, with the payment details as the caption. Telegram
+// fetches the file server-side from a short-lived signed URL, so the private
+// receipts bucket stays private.
 //
 // Required env (Vercel project):
 //   SUBSCRIPTION_WEBHOOK_SECRET  shared secret; must match the webhook header
-//   OWNER_WHATSAPP_PHONE         your number in intl format, e.g. 213xxxxxxxxx
-//   CALLMEBOT_APIKEY             the key CallMeBot gives you
+//   TELEGRAM_BOT_TOKEN           from @BotFather
+//   TELEGRAM_CHAT_ID             your chat id (see guide)
 //   VITE_SUPABASE_URL            (already set) — to sign the receipt URL
 //   SUPABASE_SERVICE_ROLE_KEY    (already set) — server-only
 //   SITE_URL                     (optional) — for the admin deep link
 
-const RECEIPT_TTL = 7 * 24 * 60 * 60; // 7 days
+const RECEIPT_TTL = 60 * 60; // 1 h — Telegram downloads the file at send time
+const CAPTION_MAX = 1000; // Telegram caption limit is 1024; keep margin
 const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://tcfpasserelle.com").replace(/\/$/, "");
 
 const admin = () =>
   createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 
-function buildMessage(r, receiptUrl) {
+function buildMessage(r) {
   const method = r.method === "baridimob" ? "BaridiMob" : "CCP";
-  const lines = [
+  return [
     "🔔 Nouvelle demande d'abonnement",
     `👤 ${r.name || r.email || "Utilisateur"}`,
     r.email ? `📧 ${r.email}` : null,
@@ -34,10 +35,17 @@ function buildMessage(r, receiptUrl) {
     `💳 ${method}${r.amount_dzd ? ` · ${r.amount_dzd} DZD` : ""}`,
     r.reference ? `🔖 Réf : ${r.reference}` : null,
     r.notes ? `📝 ${r.notes}` : null,
-    receiptUrl ? `🧾 Reçu : ${receiptUrl}` : "🧾 Reçu : (aucun fichier joint)",
     `👉 À valider : ${SITE}/administration (onglet Demandes)`,
-  ];
-  return lines.filter(Boolean).join("\n");
+  ].filter(Boolean).join("\n");
+}
+
+async function tg(method, payload) {
+  const resp = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, ...payload }),
+  });
+  return { ok: resp.ok, body: await resp.json().catch(() => ({})) };
 }
 
 export default async function handler(req, res) {
@@ -54,27 +62,32 @@ export default async function handler(req, res) {
   const r = body.record;
   if (body.type !== "INSERT" || !r) return res.status(200).json({ skipped: "not an insert" });
 
-  const phone = process.env.OWNER_WHATSAPP_PHONE;
-  const apikey = process.env.CALLMEBOT_APIKEY;
-  if (!phone || !apikey) return res.status(200).json({ skipped: "whatsapp not configured" });
+  if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.TELEGRAM_CHAT_ID) {
+    return res.status(200).json({ skipped: "telegram not configured" });
+  }
 
-  // Long-lived signed URL for the receipt so the link still works when you open
-  // WhatsApp later. No-op when the user submitted without a file.
-  let receiptUrl = null;
+  const text = buildMessage(r);
+
+  // Sign the receipt so Telegram can fetch it, then send it as a photo (images)
+  // or a document (PDF / webp / anything else). No file → plain text message.
+  let sent;
   if (r.receipt_path) {
     const { data } = await admin().storage.from("receipts").createSignedUrl(r.receipt_path, RECEIPT_TTL);
-    receiptUrl = data?.signedUrl || null;
+    const url = data?.signedUrl;
+    const ext = (r.receipt_path.split(".").pop() || "").toLowerCase();
+    const isPhoto = ["jpg", "jpeg", "png"].includes(ext);
+    if (url && isPhoto) {
+      sent = await tg("sendPhoto", { photo: url, caption: text.slice(0, CAPTION_MAX) });
+      if (!sent.ok) sent = await tg("sendDocument", { document: url, caption: text.slice(0, CAPTION_MAX) });
+    } else if (url) {
+      sent = await tg("sendDocument", { document: url, caption: text.slice(0, CAPTION_MAX) });
+    }
+    // If signing failed, still send the details as text below.
+    if (!url) sent = await tg("sendMessage", { text });
+  } else {
+    sent = await tg("sendMessage", { text: `${text}\n🧾 Reçu : aucun fichier joint` });
   }
 
-  const text = buildMessage(r, receiptUrl);
-  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(apikey)}`;
-
-  try {
-    const wa = await fetch(url);
-    const out = await wa.text();
-    if (!wa.ok) return res.status(502).json({ error: "CallMeBot send failed", status: wa.status, out: out.slice(0, 300) });
-    return res.status(200).json({ ok: true });
-  } catch (e) {
-    return res.status(502).json({ error: e.message });
-  }
+  if (!sent?.ok) return res.status(502).json({ error: "Telegram send failed", detail: sent?.body });
+  return res.status(200).json({ ok: true });
 }
