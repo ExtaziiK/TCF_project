@@ -6,7 +6,7 @@ import { PlanCard } from "@/components/pricing/PlanCard";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode, promoLabel } from "@/services/stripeService";
 import { CURRENCIES, convertPrice, planDzdAmount } from "@/utils/currency";
-import { getPaymentDz } from "@/services/settingsService";
+import { getPaymentDz, getPricingPromo, promoActive, DEFAULT_PROMO } from "@/services/settingsService";
 
 export function Pricing() {
   const { c, t } = useApp();
@@ -16,11 +16,14 @@ export function Pricing() {
   const [couponError, setCouponError] = useState("");
   const [currency, setCurrency] = useState(CURRENCIES[0]); // USD = the currency actually charged
   const [dzPrices, setDzPrices] = useState({}); // owner's per-plan DZD overrides
+  const [launch, setLaunch] = useState(DEFAULT_PROMO); // owner's launch promotion
   const plans = useLivePlans();
 
   // The DZD prices set by the owner in Admin → Tarifs. Loaded once so the cards
   // match exactly what the manual checkout will charge.
   useEffect(() => { getPaymentDz().then((cfg) => setDzPrices(cfg.prices || {})); }, []);
+  // The launch promotion set by the owner in Admin → Promotion.
+  useEffect(() => { getPricingPromo().then(setLaunch); }, []);
 
   // Prices are stored/charged in USD; this rewrites the displayed figure into
   // the visitor's currency. For DZD, the owner's explicit price wins (falling
@@ -81,8 +84,13 @@ export function Pricing() {
             : t("Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.")}
         </p>
       )}
+      {promoActive(launch) && launch.headline && (
+        <div className="max-w-3xl mx-auto mb-8 rounded-2xl grad-brand text-white px-5 py-3 text-center text-sm font-semibold shadow-lg shadow-blue-600/25">
+          {launch.headline}
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={currency.code === "DZD" ? null : applied} index={i} currency={currency} />)}
+        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={currency.code === "DZD" ? null : applied} index={i} currency={currency} launch={launch} />)}
       </div>
       {currency.code !== "DZD" && (
       <Card className="mt-10 max-w-xl mx-auto p-6">

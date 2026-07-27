@@ -4,11 +4,11 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Percent,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getPricingPromo, setPricingPromo, promoActive } from "@/services/settingsService";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
@@ -299,6 +299,103 @@ function AccueilTab() {
       </div>
       {sub === "banner" && <HomeLabelTab />}
       {sub === "marquee" && <AnnouncementBarTab />}
+    </div>
+  );
+}
+
+// Owner control for the site-wide launch promotion shown on the Tarifs page:
+// enable/disable, discount %, badge label, an optional headline banner and an
+// optional auto-expiry date. It's a DISPLAY promo — the amount charged is the
+// plan's Stripe price; the % only drives the crossed-out "before" figure and
+// the badge. Base prices themselves are set in Stripe, not here.
+function PromotionTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const set = (k, v) => setCfg((p) => ({ ...p, [k]: v }));
+
+  useEffect(() => { getPricingPromo().then(setCfg); }, []);
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setPricingPromo(cfg);
+    setBusy(false);
+    notify(r.ok ? "Promotion enregistrée." : (r.error || "Enregistrement refusé. Vérifiez la migration site_settings."));
+  };
+
+  if (!cfg) return <SkeletonRows n={2} className="h-28" />;
+  const active = promoActive(cfg);
+  const fillPct = (cfg.percent / 90) * 100;
+  // Sample "before" price for the preview, from a real plan price.
+  const before = (price) => {
+    const m = String(price).match(/\d+([.,]\d+)?/);
+    if (!m || !(cfg.percent > 0) || cfg.percent >= 100) return null;
+    const n = parseFloat(m[0].replace(",", "."));
+    const o = n / (1 - cfg.percent / 100);
+    return price.replace(m[0], Number.isInteger(o) ? String(o) : o.toFixed(2));
+  };
+  const previewPlans = PLANS.filter((p) => p.priceId).slice(0, 3);
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Promotion sur les tarifs</h3>
+          <button onClick={() => set("enabled", !cfg.enabled)} role="switch" aria-checked={cfg.enabled} aria-label="Activer la promotion"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Affiche sur la page Tarifs un prix barré et un badge « −N % » sur chaque forfait payant. C'est une promotion d'affichage : le montant réellement débité reste le prix Stripe du forfait — le pourcentage ne change que le prix barré et le badge.</p>
+
+        <div className="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Remise · {cfg.percent} %</label>
+            <div className="flex items-center gap-3">
+              <input type="range" min="0" max="90" step="5" value={cfg.percent} onChange={(e) => set("percent", Number(e.target.value))} aria-label="Pourcentage de remise"
+                className="range-brand flex-1" style={{ background: `linear-gradient(90deg,#2E6BE6 ${fillPct}%, #cbd5e1 ${fillPct}%)` }} />
+              <input type="number" min="0" max="90" value={cfg.percent} onChange={(e) => set("percent", Math.min(90, Math.max(0, Number(e.target.value) || 0)))} aria-label="Pourcentage" className={`w-20 ${inp}`} />
+            </div>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Texte du badge <span className="normal-case font-medium">(optionnel)</span></label>
+            <input value={cfg.badge} onChange={(e) => set("badge", e.target.value)} placeholder={`−${cfg.percent} %`} className={inp} />
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Bandeau d'annonce sur la page Tarifs <span className="normal-case font-medium">(optionnel)</span></label>
+          <input value={cfg.headline} onChange={(e) => set("headline", e.target.value)} placeholder="🎉 Offre de lancement : −50 % sur tous les forfaits, pour une durée limitée !" className={inp} />
+        </div>
+
+        <div className="mt-5 sm:max-w-xs">
+          <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Fin de la promotion <span className="normal-case font-medium">(optionnel)</span></label>
+          <input type="date" value={cfg.endsAt ? cfg.endsAt.slice(0, 10) : ""} onChange={(e) => set("endsAt", e.target.value ? `${e.target.value}T23:59:59` : "")} className={inp} />
+          <p className={`text-xs mt-1.5 ${c.faint}`}>La promotion s'arrête automatiquement à cette date. Laissez vide pour qu'elle reste active.</p>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+          <Pill tone={active ? "green" : "slate"}>{active ? "Promotion active" : "Promotion désactivée"}</Pill>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-4 ${c.faint}`}>Aperçu {!active && "· (promotion désactivée)"}</p>
+        <div className="grid sm:grid-cols-3 gap-3">
+          {previewPlans.map((p) => (
+            <div key={p.name} className={`rounded-2xl border ${c.border} p-4`}>
+              <p className={`text-sm font-semibold ${c.text}`}>{p.name}</p>
+              <div className="flex items-end gap-2 mt-1">
+                <span className="font-display font-extrabold text-2xl grad-text">{p.price}</span>
+                {active && before(p.price) && <span className={`text-sm font-semibold line-through ${c.faint}`}>{before(p.price)}</span>}
+              </div>
+              {active && <span className="inline-flex items-center mt-2 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{cfg.badge || `−${cfg.percent} %`}</span>}
+            </div>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }
@@ -1284,6 +1381,7 @@ export function Admin() {
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
+    { id: "promotion", l: "Promotion", icon: Percent },
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
@@ -1325,6 +1423,7 @@ export function Admin() {
       {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
+      {tab === "promotion" && <PromotionTab />}
       {tab === "pricing" && <TarifsTab />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
