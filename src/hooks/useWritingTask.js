@@ -48,7 +48,9 @@ export function useWritingTask(task, notify) {
       "Structurez avec un connecteur d'ouverture (« Tout d'abord ») et de clôture (« En conclusion »).",
       "Relisez-vous : accords, négations complètes, accents.",
     ],
+    targetLevel: "",
     corrected: "",
+    changes: [],
   });
 
   const analyze = async () => {
