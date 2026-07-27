@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { FileText, Mic, CalendarDays, Sparkles, ArrowRight, MessageCircle, PenLine } from "lucide-react";
+import { FileText, Mic, CalendarDays, Sparkles, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
-import { EECombinaison, EOTacheBlock, countEOSujets } from "@/components/sujets/renderers";
+import { EECombinaison, EOTacheBlock } from "@/components/sujets/renderers";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
-
-const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
 
 // Ressources · Sujets d'actualité: the latest month's subjects for the épreuve
 // the student picks (EE or EO) — the trending set to prepare right now. Older
@@ -48,9 +46,6 @@ export function SujetsActualite() {
             <div className="flex flex-wrap gap-2">
               <Pill tone="green"><Sparkles size={12} /> {t("Sujets du mois")}</Pill>
               <Pill tone="blue"><CalendarDays size={12} /> {latest.month} {year}</Pill>
-              {section === "ee"
-                ? <Pill tone="slate"><PenLine size={12} /> {plural(latest.data.length, t("combinaison"), t("combinaisons"))}</Pill>
-                : <Pill tone="slate"><MessageCircle size={12} /> {plural(countEOSujets(latest.data), t("sujet"), t("sujets"))}</Pill>}
             </div>
             <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav(section === "ee" ? "sujets-ee" : "sujets-eo")}>
               {t("Voir les anciens sujets")}
