@@ -7,7 +7,7 @@ import { saveMonth, deleteMonth, monthLabel, MONTH_LABELS, SECTION_LABEL } from 
 
 const YEAR_NOW = new Date().getFullYear();
 const YEAR_CHOICES = Array.from({ length: 8 }, (_, i) => YEAR_NOW + 1 - i); // next year → 6 years back
-const countEO = (data) => data.reduce((a, t) => a + t.parties.reduce((b, p) => b + p.sujets.length, 0), 0);
+const countEO = (data) => (data || []).reduce((a, t) => a + (t.parties || []).reduce((b, p) => b + (p.sujets || []).length, 0), 0);
 
 // Admin manager for the monthly subjects archive (Expression écrite / orale),
 // backed by sujets_archive (DB). No in-place editing by request — only add,
@@ -196,7 +196,7 @@ function EOEditor({ month, q, onAdd, onRemove, busy, c, inp }) {
         <div key={t.tache}>
           <p className={`font-display font-bold mb-2 ${c.text}`}>Tâche {t.tache}</p>
           <div className="space-y-3">
-            {t.parties.map((p) => {
+            {(t.parties || []).map((p) => {
               const items = p.sujets.map((s, si) => ({ s, si })).filter(({ s }) => !ql || s.toLowerCase().includes(ql));
               if (!items.length) return null;
               return (
