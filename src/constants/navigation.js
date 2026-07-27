@@ -24,6 +24,8 @@ export const NAV_LINKS = [
   { l: "TCF blanc", r: "mocks", grad: true },
   // Free tool, visible to everyone: TCF Canada score → NCLC calculator.
   { l: "Calculateur", r: "calculator" },
+  // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc".
+  { l: "Sujets d'actualité", r: "sujets-actualite", grad: true },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
@@ -61,6 +63,9 @@ export const SEARCH_INDEX = [
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
   { l: "TCF blancs TCF Canada", r: "mocks", c: "Examens" },
+  { l: "Sujets d'actualité · EE et EO", r: "sujets-actualite", c: "Ressources" },
+  { l: "Anciens sujets · Expression écrite", r: "sujets-ee", c: "Ressources" },
+  { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
   { l: "Foire aux questions", r: "faq", c: "Page" },

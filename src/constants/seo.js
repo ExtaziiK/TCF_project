@@ -90,15 +90,21 @@ export const ROUTE_META = {
     description:
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
+  "sujets-actualite": {
+    path: "/sujets-actualite",
+    title: "Sujets d'actualité — TCF Canada",
+    description:
+      "Les derniers sujets d'expression écrite et orale qui circulent ce mois-ci au TCF Canada, à préparer en priorité. Choisissez l'épreuve pour découvrir les sujets du mois.",
+  },
   "sujets-ee": {
-    path: "/sujets-expression-ecrite",
-    title: "Sujets d'expression écrite — archive par mois",
+    path: "/anciens-sujets-expression-ecrite",
+    title: "Anciens sujets d'expression écrite — archive par mois",
     description:
       "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
   },
   "sujets-eo": {
-    path: "/sujets-expression-orale",
-    title: "Sujets d'expression orale — archive par mois",
+    path: "/anciens-sujets-expression-orale",
+    title: "Anciens sujets d'expression orale — archive par mois",
     description:
       "L'archive des sujets d'expression orale du TCF Canada, classés par année et par mois : les sujets de la Tâche 2 (interaction) et de la Tâche 3 (point de vue), par partie.",
   },

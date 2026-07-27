@@ -7,7 +7,7 @@ export function Footer() {
   const { c, t } = useApp();
   const cols = [
     { h: "Pratique", links: [["Compréhension orale", "listening"], ["Compréhension écrite", "reading"], ["Expression écrite", "writing"], ["Expression orale", "speaking"], ["TCF blanc", "mocks"]] },
-    { h: "Ressources", links: [["Guide de l'examen", "guide"], ["Sujets d'expression écrite", "sujets-ee"], ["Sujets d'expression orale", "sujets-eo"], ["Vocabulaire", "vocabulary"], ["Grammaire", "grammar"], ["Blogue", "blog"], ["FAQ", "faq"]] },
+    { h: "Ressources", links: [["Guide de l'examen", "guide"], ["Sujets d'actualité", "sujets-actualite"], ["Anciens sujets · EE", "sujets-ee"], ["Anciens sujets · EO", "sujets-eo"], ["Vocabulaire", "vocabulary"], ["Grammaire", "grammar"], ["Blogue", "blog"], ["FAQ", "faq"]] },
     { h: "Passerelle", links: [["À propos", "about"], ["Tarifs", "pricing"], ["Contact", "contact"]] },
   ];
   return (

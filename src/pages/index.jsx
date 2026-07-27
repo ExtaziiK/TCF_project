@@ -19,6 +19,7 @@ import { GuideExpressionOrale } from "@/pages/GuideExpressionOrale";
 import { GuideComprehensionOrale, GuideComprehensionEcrite } from "@/pages/GuideComprehension";
 import { SujetsExpressionEcrite } from "@/pages/SujetsExpressionEcrite";
 import { SujetsExpressionOrale } from "@/pages/SujetsExpressionOrale";
+import { SujetsActualite } from "@/pages/SujetsActualite";
 import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
@@ -61,6 +62,7 @@ export const PAGES = {
   "guide-ce": GuideComprehensionEcrite,
   "sujets-ee": SujetsExpressionEcrite,
   "sujets-eo": SujetsExpressionOrale,
+  "sujets-actualite": SujetsActualite,
   contact: Contact,
   faq: FAQ,
   blog: Blog,
