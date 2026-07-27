@@ -57,7 +57,10 @@ export default async function handler(req, res) {
   // the TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env vars for the real launch.
   // (Token is split so GitHub secret-scanning won't flag/block the push.)
   const token = process.env.TELEGRAM_BOT_TOKEN || ["8991329744", "AAFmkgMHiwrc9vzaa1SD6Y4NBxWrszWTST0"].join(":");
-  const chat = process.env.TELEGRAM_CHAT_ID || "8487288131";
+  // One or more recipients: TELEGRAM_CHAT_ID may be a single id or a
+  // comma-separated list (each person must have pressed Start on the bot; or use
+  // a group's chat id to reach everyone in it at once).
+  const chats = (process.env.TELEGRAM_CHAT_ID || "8487288131").split(",").map((s) => s.trim()).filter(Boolean);
 
   const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
   const db = admin();
@@ -84,26 +87,29 @@ export default async function handler(req, res) {
 
   const text = buildMessage(r);
 
-  // Sign the receipt so Telegram can fetch it; send as photo (images) or
-  // document (PDF / webp / other). No file → plain text.
-  let sent;
+  // Decide how to deliver once: a receipt image → photo, a PDF/other → document,
+  // no file → plain text. Then send the same thing to every recipient.
+  let method = "sendMessage";
+  let payload = { text: `${text}\n🧾 Reçu : aucun fichier joint` };
   if (r.receipt_path) {
     const { data } = await db.storage.from("receipts").createSignedUrl(r.receipt_path, RECEIPT_TTL);
     const url = data?.signedUrl;
     const ext = (r.receipt_path.split(".").pop() || "").toLowerCase();
-    const isPhoto = ["jpg", "jpeg", "png"].includes(ext);
-    if (url && isPhoto) {
-      sent = await tg(token, chat, "sendPhoto", { photo: url, caption: text.slice(0, CAPTION_MAX) });
-      if (!sent.ok) sent = await tg(token, chat, "sendDocument", { document: url, caption: text.slice(0, CAPTION_MAX) });
-    } else if (url) {
-      sent = await tg(token, chat, "sendDocument", { document: url, caption: text.slice(0, CAPTION_MAX) });
-    } else {
-      sent = await tg(token, chat, "sendMessage", { text });
-    }
-  } else {
-    sent = await tg(token, chat, "sendMessage", { text: `${text}\n🧾 Reçu : aucun fichier joint` });
+    const caption = text.slice(0, CAPTION_MAX);
+    if (url && ["jpg", "jpeg", "png"].includes(ext)) { method = "sendPhoto"; payload = { photo: url, caption }; }
+    else if (url) { method = "sendDocument"; payload = { document: url, caption }; }
+    else { method = "sendMessage"; payload = { text }; }
   }
 
-  if (!sent?.ok) return res.status(502).json({ error: "Telegram send failed", detail: sent?.body });
-  return res.status(200).json({ ok: true });
+  const results = [];
+  for (const chat of chats) {
+    let sent = await tg(token, chat, method, payload);
+    // A webp/unsupported photo can be rejected — retry as a document.
+    if (!sent.ok && method === "sendPhoto") sent = await tg(token, chat, "sendDocument", { document: payload.photo, caption: payload.caption });
+    results.push({ chat, ok: sent.ok, detail: sent.ok ? undefined : sent.body });
+  }
+
+  const anyOk = results.some((x) => x.ok);
+  if (!anyOk) return res.status(502).json({ error: "Telegram send failed", results });
+  return res.status(200).json({ ok: true, results });
 }
