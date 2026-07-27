@@ -8,11 +8,12 @@
 -- link, per-plan DZD prices) reuse the existing site_settings table under the
 -- key 'payment_dz' (seeded empty below). Idempotent — safe to re-run.
 
--- is_admin() ships with earlier migrations; redeclared here (identical) so this
--- migration stands alone.
+-- is_admin() ships with earlier migrations; redeclared here (owner-inclusive,
+-- matching 20260722_owner_role.sql) so this migration stands alone without
+-- narrowing the gate back to admin-only.
 create or replace function public.is_admin()
 returns boolean language sql stable as $$
-  select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false);
+  select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') in ('admin', 'owner'), false);
 $$;
 
 /* --------------------------- subscription requests ------------------------ */
