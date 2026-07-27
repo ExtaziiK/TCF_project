@@ -3,7 +3,6 @@ import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
-import { promoActive } from "@/services/settingsService";
 import { setDzCheckoutPlan } from "@/utils/dzCheckout";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
@@ -25,17 +24,16 @@ function boldNumbers(text, cls) {
   return text.split(NUM).map((part, i) => (/^\d/.test(part) ? <strong key={i} className={cls}>{part}</strong> : part || null));
 }
 
-// The shown price is a launch offer at `percent`% off; the crossed-out "before"
-// price is what it would cost without the promo (shown / (1 − percent/100)),
-// keeping whatever currency formatting the string already carries
-// ("$4.99" @50% → "$9.98"). Null for free/$0 or an out-of-range percentage.
-function beforePrice(price, percent = 50) {
+// The shown price is a launch offer at 50% off; the crossed-out "before" price
+// is simply double it. Doubles the numeric part while keeping whatever currency
+// formatting the string already carries ("$4.99" → "$9.98"). Null for free/$0.
+function beforePrice(price) {
   const m = String(price).match(/\d+([.,]\d+)?/);
   if (!m) return null;
   const n = parseFloat(m[0].replace(",", "."));
-  if (!n || !(percent > 0) || percent >= 100) return null;
-  const original = n / (1 - percent / 100);
-  return price.replace(m[0], Number.isInteger(original) ? String(original) : original.toFixed(2));
+  if (!n) return null;
+  const doubled = n * 2;
+  return price.replace(m[0], Number.isInteger(doubled) ? String(doubled) : doubled.toFixed(2));
 }
 
 // Applies a validated promo to the plan price so the page can preview what the
@@ -57,24 +55,21 @@ function discounted(price, promo) {
   return price.replace(m[0], Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2));
 }
 
-export function PlanCard({ p, compact, promo, index = 0, currency, launch }) {
+export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
   // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
   const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.priceId;
-  // Owner-controlled launch promotion (Admin → Promotion). When active, paid
-  // plans show a struck-through "before" price and a "−N %" badge.
-  const launchOn = paid && promoActive(launch);
-  const oldPrice = launchOn ? beforePrice(p.price, launch.percent) : null;
-  // With a user promo code applied, preview the post-discount price: it becomes
-  // the big number, the plan price is struck through, and the launch badge is
-  // replaced by the code's own discount label.
+  const oldPrice = paid ? beforePrice(p.price) : null;
+  // With a promo applied, preview the post-discount price: it becomes the big
+  // number, the (pre-promo) plan price is struck through, and the launch −50 %
+  // marketing badge is replaced by the promo's own discount label.
   const promoPrice = paid ? discounted(p.price, promo) : null;
   const mainPrice = promoPrice || p.price;
   const struckPrice = promoPrice ? p.price : oldPrice;
-  const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? (launch.badge || `−${launch.percent} %`) : null);
+  const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? "−50 %" : null);
 
   const subscribe = async () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
