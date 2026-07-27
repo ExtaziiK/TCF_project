@@ -14,7 +14,7 @@ export const ACCEPTED_RECEIPT_TYPES = ["image/jpeg", "image/png", "image/webp", 
 // Uploads the receipt (into the caller's own uid folder, per storage RLS) then
 // inserts the request row. Returns { ok, error? }. Receipt is optional — a user
 // may instead send it via the WhatsApp group and submit the request as a record.
-export async function submitSubscriptionRequest({ plan, planDays, method, amountDzd, reference, notes, receiptFile }) {
+export async function submitSubscriptionRequest({ plan, planDays, method, amountDzd, phone, reference, notes, receiptFile }) {
   const { data: auth } = await supabase.auth.getUser();
   const u = auth?.user;
   if (!u) return { ok: false, error: "not-authenticated" };
@@ -40,6 +40,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     plan_days: planDays || null,
     method: method === "baridimob" ? "baridimob" : "ccp",
     amount_dzd: amountDzd ? String(amountDzd).slice(0, 20) : null,
+    phone: phone ? String(phone).trim().slice(0, 40) : null,
     reference: reference ? String(reference).trim().slice(0, 200) : null,
     notes: notes ? String(notes).trim().slice(0, 2000) : null,
     receipt_path: receiptPath,

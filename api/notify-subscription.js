@@ -32,6 +32,7 @@ function buildMessage(r) {
     "🔔 Nouvelle demande d'abonnement",
     `👤 ${r.name || r.email || "Utilisateur"}`,
     r.email ? `📧 ${r.email}` : null,
+    r.phone ? `📱 ${r.phone}` : null,
     `📦 ${r.plan}${r.plan_days ? ` (${r.plan_days} j)` : ""}`,
     `💳 ${method}${r.amount_dzd ? ` · ${r.amount_dzd} DZD` : ""}`,
     r.reference ? `🔖 Réf : ${r.reference}` : null,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Landmark, Smartphone, MessageCircle, Save, CloudOff, Inbox, Check, XCircle,
-  Trash2, FileText, ExternalLink, Crown, RotateCcw, Coins,
+  Trash2, FileText, ExternalLink, Crown, RotateCcw, Coins, Phone,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
@@ -217,6 +217,7 @@ export function SubscriptionRequestsTab({ onCount }) {
                   <span className={`text-xs ${c.faint}`}>{METHOD_LABELS[r.method] || r.method} · {when(r.created_at)}</span>
                 </div>
                 <p className={`text-sm ${c.text}`}>{r.name || "—"} <span className={c.faint}>· {r.email || "compte supprimé"}</span></p>
+                {r.phone && <p className={`text-sm mt-1 ${c.sub} flex items-center gap-1.5`}><Phone size={13} className="text-blue-600" /> <a href={`tel:${r.phone}`} className="font-mono2 hover:text-blue-600">{r.phone}</a></p>}
                 {r.reference && <p className={`text-xs mt-1 ${c.sub}`}>Réf. : <span className="font-mono2">{r.reference}</span></p>}
                 {r.notes && <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{r.notes}</p>}
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
