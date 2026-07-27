@@ -87,11 +87,11 @@ export function CheckoutDz() {
     setBusy(true);
     const r = await submitSubscriptionRequest({
       plan: plan.name, planDays: plan.days, method, amountDzd: amount,
-      phone, reference, notes, receiptFile: file,
+      reference, notes, receiptFile: file,
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));
-    notifyNewRequest(r.id); // ping the owner on Telegram (best-effort)
+    notifyNewRequest(r.id, phone); // ping the owner on Telegram with the phone (best-effort; phone isn't stored)
     setSent(true);
     window.scrollTo({ top: 0 });
   };

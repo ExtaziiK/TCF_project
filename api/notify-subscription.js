@@ -86,6 +86,10 @@ export default async function handler(req, res) {
     return res.status(200).json({ skipped: "stale" });
   }
 
+  // The buyer's phone is passed through here (not stored on the request); merge
+  // it in so it shows in the message, like a note.
+  if (typeof body.phone === "string" && body.phone.trim()) r.phone = body.phone.trim().slice(0, 40);
+
   const text = buildMessage(r);
 
   // Decide how to deliver once: a receipt image → photo, a PDF/other → document,
