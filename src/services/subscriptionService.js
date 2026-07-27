@@ -51,13 +51,15 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
 // request is already saved and visible in the admin "Demandes" inbox, so a
 // failed notification never blocks the user — we just swallow errors. In local
 // `vite` there is no /api route, so this simply no-ops there.
-export async function notifyNewRequest(id) {
+// `phone` rides along here only (it isn't stored on the request) so the owner
+// gets it in the Telegram message, like a note.
+export async function notifyNewRequest(id, phone) {
   if (!id) return;
   try {
     await fetch("/api/notify-subscription", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id, phone }),
     });
   } catch { /* best-effort */ }
 }

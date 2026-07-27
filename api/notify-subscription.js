@@ -32,6 +32,7 @@ function buildMessage(r) {
     "🔔 Nouvelle demande d'abonnement",
     `👤 ${r.name || r.email || "Utilisateur"}`,
     r.email ? `📧 ${r.email}` : null,
+    r.phone ? `📱 ${r.phone}` : null,
     `📦 ${r.plan}${r.plan_days ? ` (${r.plan_days} j)` : ""}`,
     `💳 ${method}${r.amount_dzd ? ` · ${r.amount_dzd} DZD` : ""}`,
     r.reference ? `🔖 Réf : ${r.reference}` : null,
@@ -84,6 +85,10 @@ export default async function handler(req, res) {
   if (r.created_at && Date.now() - new Date(r.created_at).getTime() > RECENT_MS) {
     return res.status(200).json({ skipped: "stale" });
   }
+
+  // The buyer's phone is passed through here (not stored on the request); merge
+  // it in so it shows in the message, like a note.
+  if (typeof body.phone === "string" && body.phone.trim()) r.phone = body.phone.trim().slice(0, 40);
 
   const text = buildMessage(r);
 

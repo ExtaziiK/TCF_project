@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Receipt, Landmark, Smartphone, Copy, Check, ShieldCheck, UploadCloud,
-  Send, MessageCircle, Hash, StickyNote, CheckCircle2, FileText, Zap, X,
+  Send, MessageCircle, Hash, StickyNote, CheckCircle2, FileText, Zap, X, Phone,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
@@ -50,6 +50,7 @@ export function CheckoutDz() {
   const [cfg, setCfg] = useState(null);
   const [method, setMethod] = useState("ccp");
   const [file, setFile] = useState(null);
+  const [phone, setPhone] = useState("");
   const [reference, setReference] = useState("");
   const [notes, setNotes] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -80,6 +81,8 @@ export function CheckoutDz() {
   };
 
   const submit = async () => {
+    // Phone is required so the owner can reach the buyer about their payment.
+    if (phone.replace(/\D/g, "").length < 9) return notify(t("Entrez un numéro de téléphone valide pour vous joindre."));
     if (!file) return notify(t("Ajoutez d'abord une capture ou une photo de votre reçu de paiement."));
     setBusy(true);
     const r = await submitSubscriptionRequest({
@@ -88,7 +91,7 @@ export function CheckoutDz() {
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));
-    notifyNewRequest(r.id); // ping the owner on Telegram (best-effort)
+    notifyNewRequest(r.id, phone); // ping the owner on Telegram with the phone (best-effort; phone isn't stored)
     setSent(true);
     window.scrollTo({ top: 0 });
   };
@@ -219,6 +222,11 @@ export function CheckoutDz() {
             )}
 
             <div className="mt-5 space-y-4">
+              <div>
+                <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><Phone size={13} /> {t("Numéro de téléphone")} <span className="normal-case font-medium text-rose-600">({t("requis")})</span></label>
+                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" required placeholder={t("Ex. : 05 55 12 34 56")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+                <p className={`mt-1.5 text-xs ${c.faint}`}>{t("Pour vous joindre au sujet de votre paiement si besoin.")}</p>
+              </div>
               <div>
                 <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><Hash size={13} /> {t("Référence de paiement")} <span className="normal-case font-medium">({t("optionnel")})</span></label>
                 <input value={reference} onChange={(e) => setReference(e.target.value)} placeholder={t("Numéro de transaction, référence CCP, etc.")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
