@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
-  TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
+  LayoutDashboard, Users, FileText, MessageCircle, ScrollText,
+  TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Percent,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getPricingPromo, setPricingPromo, promoActive } from "@/services/settingsService";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
-import { IMPORT_SAMPLE } from "@/constants/listeningImport";
-import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
@@ -301,6 +299,103 @@ function AccueilTab() {
       </div>
       {sub === "banner" && <HomeLabelTab />}
       {sub === "marquee" && <AnnouncementBarTab />}
+    </div>
+  );
+}
+
+// Owner control for the site-wide launch promotion shown on the Tarifs page:
+// enable/disable, discount %, badge label, an optional headline banner and an
+// optional auto-expiry date. It's a DISPLAY promo — the amount charged is the
+// plan's Stripe price; the % only drives the crossed-out "before" figure and
+// the badge. Base prices themselves are set in Stripe, not here.
+function PromotionTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const set = (k, v) => setCfg((p) => ({ ...p, [k]: v }));
+
+  useEffect(() => { getPricingPromo().then(setCfg); }, []);
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setPricingPromo(cfg);
+    setBusy(false);
+    notify(r.ok ? "Promotion enregistrée." : (r.error || "Enregistrement refusé. Vérifiez la migration site_settings."));
+  };
+
+  if (!cfg) return <SkeletonRows n={2} className="h-28" />;
+  const active = promoActive(cfg);
+  const fillPct = (cfg.percent / 90) * 100;
+  // Sample "before" price for the preview, from a real plan price.
+  const before = (price) => {
+    const m = String(price).match(/\d+([.,]\d+)?/);
+    if (!m || !(cfg.percent > 0) || cfg.percent >= 100) return null;
+    const n = parseFloat(m[0].replace(",", "."));
+    const o = n / (1 - cfg.percent / 100);
+    return price.replace(m[0], Number.isInteger(o) ? String(o) : o.toFixed(2));
+  };
+  const previewPlans = PLANS.filter((p) => p.priceId).slice(0, 3);
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Promotion sur les tarifs</h3>
+          <button onClick={() => set("enabled", !cfg.enabled)} role="switch" aria-checked={cfg.enabled} aria-label="Activer la promotion"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Affiche sur la page Tarifs un prix barré et un badge « −N % » sur chaque forfait payant. C'est une promotion d'affichage : le montant réellement débité reste le prix Stripe du forfait — le pourcentage ne change que le prix barré et le badge.</p>
+
+        <div className="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Remise · {cfg.percent} %</label>
+            <div className="flex items-center gap-3">
+              <input type="range" min="0" max="90" step="5" value={cfg.percent} onChange={(e) => set("percent", Number(e.target.value))} aria-label="Pourcentage de remise"
+                className="range-brand flex-1" style={{ background: `linear-gradient(90deg,#2E6BE6 ${fillPct}%, #cbd5e1 ${fillPct}%)` }} />
+              <input type="number" min="0" max="90" value={cfg.percent} onChange={(e) => set("percent", Math.min(90, Math.max(0, Number(e.target.value) || 0)))} aria-label="Pourcentage" className={`w-20 ${inp}`} />
+            </div>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Texte du badge <span className="normal-case font-medium">(optionnel)</span></label>
+            <input value={cfg.badge} onChange={(e) => set("badge", e.target.value)} placeholder={`−${cfg.percent} %`} className={inp} />
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Bandeau d'annonce sur la page Tarifs <span className="normal-case font-medium">(optionnel)</span></label>
+          <input value={cfg.headline} onChange={(e) => set("headline", e.target.value)} placeholder="🎉 Offre de lancement : −50 % sur tous les forfaits, pour une durée limitée !" className={inp} />
+        </div>
+
+        <div className="mt-5 sm:max-w-xs">
+          <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Fin de la promotion <span className="normal-case font-medium">(optionnel)</span></label>
+          <input type="date" value={cfg.endsAt ? cfg.endsAt.slice(0, 10) : ""} onChange={(e) => set("endsAt", e.target.value ? `${e.target.value}T23:59:59` : "")} className={inp} />
+          <p className={`text-xs mt-1.5 ${c.faint}`}>La promotion s'arrête automatiquement à cette date. Laissez vide pour qu'elle reste active.</p>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+          <Pill tone={active ? "green" : "slate"}>{active ? "Promotion active" : "Promotion désactivée"}</Pill>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-4 ${c.faint}`}>Aperçu {!active && "· (promotion désactivée)"}</p>
+        <div className="grid sm:grid-cols-3 gap-3">
+          {previewPlans.map((p) => (
+            <div key={p.name} className={`rounded-2xl border ${c.border} p-4`}>
+              <p className={`text-sm font-semibold ${c.text}`}>{p.name}</p>
+              <div className="flex items-end gap-2 mt-1">
+                <span className="font-display font-extrabold text-2xl grad-text">{p.price}</span>
+                {active && before(p.price) && <span className={`text-sm font-semibold line-through ${c.faint}`}>{before(p.price)}</span>}
+              </div>
+              {active && <span className="inline-flex items-center mt-2 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{cfg.badge || `−${cfg.percent} %`}</span>}
+            </div>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }
@@ -1269,13 +1364,10 @@ function AuditTab() {
 /* ---------------------------------- page ---------------------------------- */
 
 export function Admin() {
-  const { c, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
+  const { c } = useApp();
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
   const [newRequests, setNewRequests] = useState(0);
-  const [importText, setImportText] = useState("");
-  const [importError, setImportError] = useState("");
-  const fileInputRef = useRef(null);
 
   // Sidebar badges: loaded once here (client-direct through the admin RLS
   // policies, so they work even without the serverless routes), then kept in
@@ -1285,32 +1377,13 @@ export function Admin() {
     listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
   }, []);
 
-  const handleImportFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImportText(String(reader.result));
-    reader.readAsText(file);
-  };
-  const runImport = () => {
-    setImportError("");
-    try {
-      const parsed = JSON.parse(importText);
-      const normalized = normalizeImportedQuestions(parsed);
-      addListeningQuestions(normalized);
-      setImportText("");
-    } catch (err) {
-      setImportError(err.message || "JSON invalide.");
-    }
-  };
-
   const tabs = [
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
+    { id: "promotion", l: "Promotion", icon: Percent },
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
-    { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
     { id: "requests", l: "Demandes", icon: Inbox },
     { id: "promos", l: "Promos", icon: Ticket },
@@ -1350,49 +1423,9 @@ export function Admin() {
       {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
+      {tab === "promotion" && <PromotionTab />}
       {tab === "pricing" && <TarifsTab />}
       {tab === "questions" && <SujetsManager />}
-      {tab === "import" && (
-        <div className="grid lg:grid-cols-2 gap-5">
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Importer des questions de compréhension orale</h3>
-            <p className={`text-sm mb-4 ${c.sub}`}>Collez un tableau JSON de questions, ou téléversez un fichier .json. Chaque question doit avoir un énoncé et une liste d'alternatives ; l'audio et l'explication sont optionnels.</p>
-            <div className="space-y-3">
-              <div className="flex gap-2 flex-wrap">
-                <Btn small variant="ghost" icon={Upload} onClick={() => fileInputRef.current?.click()}>Choisir un fichier .json</Btn>
-                <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={handleImportFile} className="hidden" aria-label="Téléverser un fichier JSON" />
-                <Btn small variant="ghost" icon={FileText} onClick={() => setImportText(IMPORT_SAMPLE)}>Charger un exemple</Btn>
-              </div>
-              <textarea value={importText} onChange={(e) => { setImportText(e.target.value); setImportError(""); }} rows={12} placeholder='[{ "audio": "https://…mp3", "question": "…", "alternatives": ["…","…","…","…"], "answer_index": 0, "explanation": "…", "level": "B1" }]' aria-label="JSON des questions" className={`w-full px-4 py-3 rounded-2xl border font-mono2 text-xs outline-none focus:border-blue-600 ${c.inputCls}`} />
-              {importError && <p className="text-sm text-rose-600 flex items-start gap-2"><XCircle size={15} className="shrink-0 mt-0.5" />{importError}</p>}
-              <Btn small icon={Upload} onClick={runImport} disabled={!importText.trim()}>Importer ces questions</Btn>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className={`font-display font-bold ${c.text}`}>Questions importées ({customListen.length})</h3>
-              {customListen.length > 0 && <button onClick={clearListeningQuestions} className="text-xs font-semibold text-rose-600 hover:underline">Tout effacer</button>}
-            </div>
-            {customListen.length === 0 ? (
-              <p className={`text-sm py-6 text-center ${c.faint}`}>Aucune question importée pour l'instant. Elles apparaîtront automatiquement sur la page « Compréhension orale ».</p>
-            ) : (
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {customListen.map((q) => (
-                  <div key={q.id} className={`flex items-start gap-3 p-3.5 rounded-2xl border ${c.border}`}>
-                    <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Headphones size={15} /></span>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${c.text}`}>{q.q}</p>
-                      <p className={`text-xs font-mono2 ${c.faint}`}>{q.audio ? "Audio lié" : "Sans audio"} · niveau {q.level} · {q.opts.length} choix</p>
-                    </div>
-                    <button aria-label="Supprimer cette question" onClick={() => removeListeningQuestion(q.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600 shrink-0`}><Trash2 size={15} /></button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className={`mt-4 text-xs ${c.faint} flex items-start gap-1.5`}><Shield size={13} className="mt-0.5 shrink-0" /> Pour la banque officielle (avec versionnage et analytique), utilisez plutôt l'onglet « Questions ».</p>
-          </Card>
-        </div>
-      )}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "promos" && <PromosTab />}
