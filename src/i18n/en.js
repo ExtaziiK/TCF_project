@@ -39,6 +39,7 @@ export const EN = {
   "Mode clair": "Light mode",
   "Mode sombre": "Dark mode",
   "Se déconnecter": "Log out",
+  "Vous êtes au bon endroit ! 🍁": "You're in the right place! 🍁",
   "Vous êtes déconnecté·e. À bientôt !": "You have been logged out. See you soon!",
   "Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.": "You've been logged out: your account was used on another device.",
   "Reconnexion nécessaire": "Reconnection required",
@@ -277,7 +278,30 @@ export const EN = {
   "TCF blancs illimités": "Unlimited mock exams",
   "Accès sur 2 appareils": "Access on 2 devices",
   "Accès sur 4 appareils": "Access on 4 devices",
+  "Sujets d'actualité du mois (EE + EO)": "This month's trending subjects (writing + speaking)",
   "Le plus populaire": "Most popular",
+  // Pricing page — "everything included" overview section
+  "Tout pour réussir le TCF Canada, au même endroit": "Everything you need to pass the TCF Canada, in one place",
+  "Passerelle couvre les quatre épreuves officielles et vous entraîne en conditions réelles, avec une correction par IA et des sujets remis à jour chaque mois.":
+    "Passerelle covers all four official test sections and trains you under real exam conditions, with AI feedback and subjects refreshed every month.",
+  "Les 4 épreuves officielles": "All 4 official test sections",
+  "Compréhension orale et écrite, expression orale et écrite : des quiz réalistes calqués sur le vrai TCF Canada.":
+    "Listening and reading, speaking and writing — realistic quizzes modeled on the real TCF Canada.",
+  "Correction par intelligence artificielle": "AI-powered feedback",
+  "Vos expressions écrite et orale évaluées en quelques secondes : niveau CECR estimé, points forts, pistes d'amélioration et version réécrite de votre texte.":
+    "Your writing and speaking assessed in seconds: estimated CEFR level, strengths, areas to improve, and a rewritten, higher-level version of your text.",
+  "Sujets d'actualité du mois": "This month's trending subjects",
+  "Les sujets d'expression écrite et orale les plus fréquents du moment, actualisés chaque mois pour coller aux sessions récentes.":
+    "The most common writing and speaking topics right now, updated every month to match recent exam sessions.",
+  "TCF blancs chronométrés": "Timed mock exams",
+  "L'examen complet en conditions réelles, minuté épreuve par épreuve, pour vous entraîner comme le jour J.":
+    "The full exam under real conditions, timed section by section, to train just like exam day.",
+  "Vocabulaire et grammaire": "Vocabulary and grammar",
+  "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases.":
+    "Themed flashcards and targeted grammar lessons to strengthen your foundations.",
+  "Suivi et score estimé": "Progress tracking and score estimate",
+  "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment.":
+    "Your progress saved, plus a TCF / NCLC score calculator to gauge your level anytime.",
   "Créez un compte gratuit pour vous abonner.": "Create a free account to subscribe.",
   "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil.":
     "Your Premium subscription is already active. Manage it from your profile.",
