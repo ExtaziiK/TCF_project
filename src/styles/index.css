@@ -5,11 +5,6 @@
 @tailwind utilities;
 
 html{scroll-behavior:smooth}
-/* Page canvas: a soft brand-tinted wash (blue→lavender→rose, echoing the brand
-   gradient) instead of flat white, so the site's negative space carries the
-   palette. Kept very light so cards and text stay crisp on top. */
-.app-bg-light{background-color:#eef1fb;background-image:linear-gradient(160deg,#eef4fd 0%,#eaedfb 46%,#f7ebf1 100%)}
-.app-bg-dark{background-color:#020617;background-image:linear-gradient(160deg,#080d1c 0%,#0a0914 52%,#130810 100%)}
 /* Content protection (added on <body> in production by useContentProtection):
    block text selection / the iOS long-press "copy" callout site-wide, while
    letting users still select & edit inside their own form fields. */
@@ -69,11 +64,35 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 .plan-sheen.is-auto:before{animation:sheen-auto 5s ease-in-out 1.2s infinite}
 @keyframes sheen-auto{0%{transform:translateX(-180%) skewX(-18deg)}14%,100%{transform:translateX(320%) skewX(-18deg)}}
 .metal-text{background-size:220% auto;background-position:0 center}
-.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out}
-@keyframes metal-shimmer{to{background-position:220% center}}
+/* Shimmer sweeps in on hover and ENDS at the resting position (fill: both), so
+   mouse-out never yanks the animation mid-run and snaps the gradient back — the
+   old cause of a "flick" appearing only when the cursor left. */
+.plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out both}
+@keyframes metal-shimmer{from{background-position:220% center}to{background-position:0 center}}
+/* Loading skeleton for quiz illustrations: a muted base (bg set per theme via
+   the c.track token) with a sheen that sweeps across, so a labelled "an image is
+   loading here" placeholder holds the space before the picture decodes. The
+   sheen alpha reads on both light and dark bases; the global reduced-motion rule
+   below stops the sweep, leaving a static muted block. */
+.img-skeleton{position:relative;overflow:hidden}
+.img-skeleton:after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(148,163,184,.22),transparent);animation:img-shimmer 1.4s ease-in-out infinite}
+@keyframes img-shimmer{100%{transform:translateX(100%)}}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}
+/* Épreuve guide rendered inside the narrow quiz-page side panel (~440px): its
+   grids use Tailwind sm:/md: prefixes, which react to the VIEWPORT, not the
+   panel, so on desktop they'd render multi-column and look cramped. Force every
+   grid inside a compact guide to a single column regardless of breakpoint. */
+.guide-compact [class*="grid-cols-"]{grid-template-columns:minmax(0,1fr)!important}
+/* Drill-in / drill-out transition for the layered subjects archive
+   (Année → Mois → Sujets): the incoming panel slides in and fades, from the
+   right when going deeper and from the left when going back. Disabled by the
+   global reduced-motion rule below. */
+@keyframes panel-in-right{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes panel-in-left{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.panel-in-right{animation:panel-in-right .34s cubic-bezier(.22,.61,.36,1) both}
+.panel-in-left{animation:panel-in-left .34s cubic-bezier(.22,.61,.36,1) both}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}

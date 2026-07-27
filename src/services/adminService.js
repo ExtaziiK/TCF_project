@@ -10,7 +10,15 @@ import { getDeviceSessionId } from "@/services/authService";
 //   audit log — no server hop needed, is_admin() gates the rows.
 
 async function authHeaders() {
-  const { data } = await supabase.auth.getSession();
+  let { data } = await supabase.auth.getSession();
+  // Proactively refresh a token that's expired or about to (within 60s), so we
+  // never send a stale one — the server rejects it as "Invalid or expired
+  // session" (e.g. after the tab has been idle a while).
+  const exp = data?.session?.expires_at; // unix seconds
+  if (data?.session && exp && exp * 1000 - Date.now() < 60_000) {
+    const r = await supabase.auth.refreshSession();
+    if (r.data?.session) data = r.data;
+  }
   const headers = { "Content-Type": "application/json" };
   const token = data?.session?.access_token;
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -20,9 +28,16 @@ async function authHeaders() {
 }
 
 async function adminFetch(path, options = {}) {
+  const send = async () => fetch(path, { ...options, headers: await authHeaders() });
   let res;
   try {
-    res = await fetch(path, { ...options, headers: await authHeaders() });
+    res = await send();
+    // A 401 mid-session almost always means the access token just expired.
+    // Force a refresh and retry once before surfacing the error.
+    if (res.status === 401) {
+      await supabase.auth.refreshSession().catch(() => {});
+      res = await send();
+    }
   } catch {
     return { ok: false, error: "Connexion au serveur impossible." };
   }
@@ -43,10 +58,18 @@ export function fetchAdminUsage() {
   return adminFetch("/api/admin/usage");
 }
 
-export function listAdminUsers({ search = "", page = 1 } = {}) {
+// Vercel Web Analytics (visitors, page views, top pages/referrers) for the
+// "Trafic" tab. Returns { configured: false } when the Vercel token/project
+// env vars aren't set, so the tab can show setup instructions instead of an error.
+export function fetchAdminVercel() {
+  return adminFetch("/api/admin/vercel");
+}
+
+export function listAdminUsers({ search = "", page = 1, filter = "all" } = {}) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);
   if (page > 1) params.set("page", String(page));
+  if (filter && filter !== "all") params.set("filter", filter);
   const qs = params.toString();
   return adminFetch(`/api/admin/users${qs ? `?${qs}` : ""}`);
 }

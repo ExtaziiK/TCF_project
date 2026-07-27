@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { PageShell } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
@@ -8,6 +7,7 @@ import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopSta
 import { OralInterview } from "@/components/expression/OralInterview";
 import { SpeakingRecorder } from "@/components/expression/SpeakingRecorder";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
+import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
 // Only the Tâche 2 (Interaction) runs as a live back-and-forth with the AI
 // examiner; Tâches 1 and 3 are one-shot recordings reviewed by the AI.
@@ -46,7 +46,9 @@ function SpeakingStudio() {
 export function SpeakingStudioBody() {
   const { c, t } = useApp();
   const { loading, tasks } = useExpressionSession("eo");
-  const [active, setActive] = useState(OFFICIAL_TASKS[0]);
+  // Shared with the guide side panel when both are on screen (Exams hub); local
+  // state otherwise (standalone page / mock runner).
+  const [active, setActive] = useExpressionTask(OFFICIAL_TASKS[0]);
 
   if (loading) return <WorkshopSkeleton />;
   const task = tasks.find((t) => t.task === active) || tasks[0];

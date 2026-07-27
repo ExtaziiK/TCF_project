@@ -1,13 +1,19 @@
-import { ROLES } from "@/auth/rbac";
-
-const { FREE_USER, PREMIUM_USER, ADMIN } = ROLES;
-const PREMIUM = [PREMIUM_USER, ADMIN];
+// Role lists come from rbac.js rather than being rebuilt here: this file used
+// to declare its own `PREMIUM` that omitted OWNER, so an owner saw no "Pratique"
+// menu (and no account links on mobile) for pages the guard happily let them
+// open. One definition, no drift.
+import { AUTHENTICATED, PREMIUM, ADMIN_ONLY } from "@/auth/rbac";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
 // array; entries without one are visible to everyone (including visitors).
 // Visibility is resolved by navLinksForRole() — no component should filter
 // the menu on its own. Note this only controls what the menu *shows*;
-// actual access is enforced by the route guard (src/auth/rbac.js).
+// actual access is enforced by the route guard (src/auth/rbac.js). When an
+// entry DOES carry `roles`, keep it identical to that route's PAGE_ACCESS list
+// (reuse the same imported constant) — a narrower one hides a page the user can
+// actually open, which is how OWNER lost "Pratique". Leaving `roles` off a
+// restricted route is the deliberate opposite: "TCF blanc" and "Mes examens"
+// stay visible to everyone so the guard can pitch register/upgrade instead.
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
@@ -16,8 +22,8 @@ export const NAV_LINKS = [
   { l: "Mes examens", r: "exams" },
   // Mock exams get their own top-level entry, next to "Mes examens".
   { l: "TCF blanc", r: "mocks", grad: true },
-  // Free tool, visible to everyone: TCF Canada score → NCLC calculator.
-  { l: "Calculateur", r: "calculator" },
+  // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc".
+  { l: "Sujets d'actualité", r: "sujets-actualite", grad: true },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
@@ -29,9 +35,9 @@ export const NAV_LINKS = [
 
 // Extra entries that only exist in the mobile menu for signed-in users.
 export const ACCOUNT_LINKS = [
-  { l: "Tableau de bord", r: "dashboard", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
-  { l: "Mon profil", r: "profile", roles: [FREE_USER, PREMIUM_USER, ADMIN] },
-  { l: "Administration", r: "admin", roles: [ADMIN] },
+  { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED },
+  { l: "Mon profil", r: "profile", roles: AUTHENTICATED },
+  { l: "Administration", r: "admin", roles: ADMIN_ONLY },
 ];
 
 const visible = (item, role) => !item.roles || item.roles.includes(role);
@@ -55,6 +61,9 @@ export const SEARCH_INDEX = [
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
   { l: "TCF blancs TCF Canada", r: "mocks", c: "Examens" },
+  { l: "Sujets d'actualité · EE et EO", r: "sujets-actualite", c: "Ressources" },
+  { l: "Anciens sujets · Expression écrite", r: "sujets-ee", c: "Ressources" },
+  { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
   { l: "Foire aux questions", r: "faq", c: "Page" },

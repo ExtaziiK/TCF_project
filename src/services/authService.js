@@ -1,22 +1,48 @@
 import { supabase } from "@/services/supabaseClient";
 
-// ── Single active session ("last login wins") ──────────────────────────────
-// Each login claims a fresh random id, stored both locally and in
-// profiles.active_session_id. Any device whose local id no longer matches the
-// row was superseded by a newer login and signs itself out (see AppProvider's
-// validation + heartbeat). The whole mechanism is inert until the migration
-// adding the column is applied: the write/read below fail open, so pre-migration
-// or offline states never wrongly boot a logged-in user.
+// ── Active device sessions (up to the plan's device limit) ──────────────────
+// Each login claims a fresh random id, stored locally and added to
+// profiles.active_session_ids (capped server-side at the plan's limit —
+// Première classe 2, VIP 4, everyone else 1). A device whose local id is no
+// longer in the set was signed out (evicted by a newer login, signed out by the
+// user elsewhere, or reset by an admin) and signs itself out here too (see
+// AppProvider's validation + heartbeat). The policy is EVICT-OLDEST
+// (20260726): a new login always succeeds and pushes out the account's oldest
+// device, so the user is never locked out of their own account. Inert until the
+// migration adding the column is applied: the read/write below fail open, so
+// pre-migration or offline states never wrongly boot a logged-in user.
 const DEVICE_SESSION_KEY = "tcf_device_session";
+// When this browser claimed its slot. Compared against
+// profiles.sessions_revoked_at so an admin "disconnect" (20260727) can end
+// sessions that are already running: a revocation stamped after the claim means
+// this session was ended on purpose. Stored separately from the id above so a
+// browser that claimed under an older build (id only, no timestamp) keeps its
+// session — see checkDeviceSession for how that case is treated.
+const DEVICE_SESSION_AT_KEY = "tcf_device_session_at";
 const OAUTH_PENDING_KEY = "tcf_oauth_pending_at";
+// Only reachable against a DB still on the 20260724 reject policy (i.e. the app
+// deployed before the evict-oldest migration was applied). Kept so that window
+// degrades to the old, understandable refusal instead of a silent no-op.
+export const DEVICE_LIMIT_MSG = "Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.";
 
 export function getDeviceSessionId() {
   try { return localStorage.getItem(DEVICE_SESSION_KEY) || null; } catch { return null; }
 }
+function getDeviceSessionClaimedAt() {
+  try {
+    const raw = Number(localStorage.getItem(DEVICE_SESSION_AT_KEY));
+    return Number.isFinite(raw) && raw > 0 ? raw : null;
+  } catch { return null; }
+}
 function setDeviceSessionId(id) {
   try {
-    if (id) localStorage.setItem(DEVICE_SESSION_KEY, id);
-    else localStorage.removeItem(DEVICE_SESSION_KEY);
+    if (id) {
+      localStorage.setItem(DEVICE_SESSION_KEY, id);
+      localStorage.setItem(DEVICE_SESSION_AT_KEY, String(Date.now()));
+    } else {
+      localStorage.removeItem(DEVICE_SESSION_KEY);
+      localStorage.removeItem(DEVICE_SESSION_AT_KEY);
+    }
   } catch { /* storage unavailable */ }
 }
 
@@ -25,51 +51,145 @@ function setDeviceSessionId(id) {
 // is in the middle of logging in.
 let claiming = false;
 
-// Claims this browser as the account's single active session via the
-// claim_device_session RPC (security definer): the id is generated
-// SERVER-SIDE, so a client can never write an arbitrary value — or null —
-// into active_session_id to defeat the mechanism (direct column updates are
-// revoked by the 20260714 migration). Swallows errors so a missing function
-// (pre-migration) or a network blip leaves the feature inert rather than
-// breaking login.
-export async function claimDeviceSession(userId) {
-  if (!userId) return null;
+// Claims this browser as one of the account's active sessions via the
+// claim_device_session RPC (security definer): the id is generated SERVER-SIDE,
+// so a client can never write an arbitrary value — or null — into the set to
+// defeat the mechanism (direct column updates are revoked by the 20260714
+// migration). The current local id is passed so a re-login on this same browser
+// reuses its slot instead of consuming a new one. Returns:
+//   { ok: true, sid }        — claimed (id stored locally)
+//   { ok: false, limitReached: true } — pre-migration DB still on the reject
+//                              policy; the evict-oldest version never raises
+//   { ok: false }            — RPC missing / offline: mechanism stays inert
+export async function claimDeviceSession(userId, { current } = {}) {
+  if (!userId) return { ok: false };
   claiming = true;
   try {
-    const { data, error } = await supabase.rpc("claim_device_session");
-    if (error || !data) return null; // RPC missing or offline — mechanism stays inert
+    const { data, error } = await supabase.rpc("claim_device_session", { p_current: current ?? getDeviceSessionId() ?? null });
+    if (error) {
+      if (String(error.message || "").includes("device_limit_reached")) return { ok: false, limitReached: true };
+      return { ok: false }; // RPC missing or offline — mechanism stays inert
+    }
+    if (!data) return { ok: false };
     setDeviceSessionId(data);
-    return data;
+    return { ok: true, sid: data };
   } finally {
     claiming = false;
   }
 }
 
-// True while this browser still holds the account's active session. False once
-// another device has logged in and claimed it. Fails open on any uncertainty
-// (a claim in flight, no local id yet, missing column, network error, null in
-// DB) so a legitimate session is never booted by a transient condition.
-export async function isDeviceSessionActive(userId) {
-  if (claiming) return true;
+// Whether this browser may keep the account's session, and if not, why —
+// the caller shows a different notice for each cause:
+//   { ok: true }
+//   { ok: false, reason: "evicted" } — the slot is gone: a newer login pushed
+//         this device out, or it was signed out elsewhere.
+//   { ok: false, reason: "revoked" } — an admin disconnected the account from
+//         the Users panel (profiles.sessions_revoked_at, 20260727).
+// Fails open on any uncertainty (a claim in flight, no local id yet, missing
+// column, network error, null in DB) so a legitimate session is never booted by
+// a transient condition.
+export async function checkDeviceSession(userId) {
+  if (claiming) return { ok: true };
   const local = getDeviceSessionId();
-  if (!userId || !local) return true;
-  const { data, error } = await supabase.from("profiles").select("active_session_id").eq("id", userId).maybeSingle();
-  if (error || !data || data.active_session_id == null) return true;
-  return data.active_session_id === local;
+  if (!userId || !local) return { ok: true };
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("active_session_ids, sessions_revoked_at")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error || !data) return { ok: true };
+
+  // Revocation is checked FIRST: the admin action clears active_session_ids as
+  // well (so the account's slots are free for an immediate re-login), and an
+  // empty set fails open — the marker is the only thing left saying "ended".
+  const revokedAt = data.sessions_revoked_at ? Date.parse(data.sessions_revoked_at) : NaN;
+  if (Number.isFinite(revokedAt)) {
+    const claimedAt = getDeviceSessionClaimedAt();
+    // No local claim timestamp means this browser claimed under a build that
+    // predates the timestamp (it only stored the id). Treat the revocation as
+    // applying: the marker is per-account and only set by a deliberate admin
+    // action, so honouring it is the intent — and the next login writes a
+    // timestamp, so this only ever happens once per device.
+    if (claimedAt == null || revokedAt > claimedAt) return { ok: false, reason: "revoked" };
+  }
+
+  const list = data.active_session_ids;
+  if (list == null || !Array.isArray(list) || list.length === 0) return { ok: true };
+  return list.includes(local) ? { ok: true } : { ok: false, reason: "evicted" };
 }
 
-// OAuth logins redirect away before we can claim, so we flag the intent and
-// claim on return. Timestamped and consumed on the next load so an abandoned
-// sign-in can't linger and trigger a spurious claim on a later reload.
-export function markOAuthPending() {
-  try { localStorage.setItem(OAUTH_PENDING_KEY, String(Date.now())); } catch { /* ignore */ }
+// Marks the current user as "seen right now" (profiles.last_seen_at). Called on
+// login and on a timer while the app is open, so the admin Users view can show
+// live connections. Goes through a security-definer RPC (clients can't write the
+// column directly). Fails open: a missing function (pre-migration) or a network
+// blip just means this ping is skipped, never an error the user sees.
+export async function touchLastSeen() {
+  try { await supabase.rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
+}
+
+// OAuth logins redirect away before we can act, so we flag the intent (which
+// button was clicked — "login" or "register") and read it back on return.
+// Timestamped and consumed on the next load so an abandoned sign-in can't linger
+// and trigger a spurious claim on a later reload.
+export function markOAuthPending(intent = "login") {
+  try { localStorage.setItem(OAUTH_PENDING_KEY, JSON.stringify({ at: Date.now(), intent })); } catch { /* ignore */ }
 }
 export function consumeOAuthPending() {
   try {
     const raw = localStorage.getItem(OAUTH_PENDING_KEY);
     localStorage.removeItem(OAUTH_PENDING_KEY);
-    return !!raw && Date.now() - Number(raw) < 5 * 60 * 1000;
+    if (!raw) return { pending: false, intent: "login" };
+    let obj;
+    try { obj = JSON.parse(raw); } catch { obj = { at: Number(raw), intent: "login" }; } // legacy value
+    return { pending: !!obj.at && Date.now() - obj.at < 5 * 60 * 1000, intent: obj.intent || "login" };
+  } catch { return { pending: false, intent: "login" }; }
+}
+
+// Read the OAuth-pending flag WITHOUT clearing it, so the app can show a
+// "signing in…" splash from the very first render of an OAuth return (before
+// the async session resolves), instead of flashing signed-in UI.
+export function peekOAuthPending() {
+  try {
+    const raw = localStorage.getItem(OAUTH_PENDING_KEY);
+    if (!raw) return false;
+    let obj;
+    try { obj = JSON.parse(raw); } catch { obj = { at: Number(raw) }; }
+    return !!obj.at && Date.now() - obj.at < 5 * 60 * 1000;
   } catch { return false; }
+}
+
+// True when the Supabase user was created during THIS very sign-in (first-ever
+// login): a brand-new account has created_at and last_sign_in_at coinciding,
+// while a returning user's last_sign_in_at is far newer than created_at. Used on
+// the OAuth return to tell a new Google identity apart from an existing one.
+export function isNewlyCreatedUser(authUser) {
+  if (!authUser) return false;
+  const created = Date.parse(authUser.created_at || "");
+  if (!Number.isFinite(created)) return false;
+  const lastSignIn = Date.parse(authUser.last_sign_in_at || authUser.created_at || "");
+  return !Number.isFinite(lastSignIn) || Math.abs(lastSignIn - created) < 10_000; // 10s
+}
+
+// Finishes creating a Google-registered account: sets the country (into
+// user_metadata, like email signup) and the chosen username (profiles). Called
+// from the onboarding step that gates new Google registrations.
+export async function completeGoogleProfile({ username, country }) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
+  if (country) {
+    const meta = user.user_metadata || {};
+    if (country !== meta.country) {
+      const { error } = await supabase.auth.updateUser({ data: { ...meta, country } });
+      if (error) return { error };
+    }
+  }
+  if (username) {
+    const clean = String(username).trim().toLowerCase();
+    const { error } = await supabase.from("profiles").update({ username: clean }).eq("id", user.id);
+    if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
+    if (error) return { error };
+  }
+  return { error: null };
 }
 
 const FIRST_LOGIN_KEY = "tcf_first_login_seen";
@@ -110,9 +230,11 @@ export function mapSupabaseUser(session) {
     name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
-    plan: authUser.app_metadata?.plan || "Découverte",
+    plan: authUser.app_metadata?.plan || "Sans papier",
+    planLabel: authUser.app_metadata?.plan_label || null, // tier name (Passeport / Visa / …)
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
+    owner: authUser.app_metadata?.role === "owner",
     createdAt: authUser.created_at || null,
   };
 }
@@ -178,7 +300,8 @@ export async function signIn({ identifier, password }) {
     res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier, password }),
+      // Send the current device id so re-login on this browser reuses its slot.
+      body: JSON.stringify({ identifier, password, deviceSession: getDeviceSessionId() }),
     });
   } catch {
     return { ok: false, message: "Connexion au serveur impossible. Réessayez." };
@@ -193,11 +316,15 @@ export async function signIn({ identifier, password }) {
     const { data, error } = await supabase.auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
     const user = mapSupabaseUser(data.session);
-    await claimDeviceSession(user?.id);
+    const claim = await claimDeviceSession(user?.id);
+    if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
     return { ok: true, user };
   }
 
   const json = await res.json().catch(() => ({}));
+
+  // Authenticated, but every device slot for the plan is already taken.
+  if (json.deviceLimitReached) return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG };
 
   if (json.session) {
     const { data, error } = await supabase.auth.setSession(json.session);
@@ -206,7 +333,10 @@ export async function signIn({ identifier, password }) {
     // api/login already claimed the device session server-side; just store the
     // id it handed back. Fall back to the RPC claim for a pre-migration server.
     if (json.deviceSession) setDeviceSessionId(json.deviceSession);
-    else await claimDeviceSession(user?.id);
+    else {
+      const claim = await claimDeviceSession(user?.id);
+      if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
+    }
     return { ok: true, user };
   }
   if (json.locked) {
@@ -225,8 +355,8 @@ export async function signIn({ identifier, password }) {
   };
 }
 
-export async function signInWithGoogle() {
-  markOAuthPending(); // claimed on return (see AppProvider), since the redirect leaves this page
+export async function signInWithGoogle(intent = "login") {
+  markOAuthPending(intent); // read back on return (see AppProvider), since the redirect leaves this page
   return supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: window.location.origin },
@@ -234,6 +364,11 @@ export async function signInWithGoogle() {
 }
 
 export async function signOut() {
+  // Free this device's slot server-side (while the JWT is still valid) so the
+  // next login takes the empty slot instead of evicting the account's oldest
+  // device. Signing out properly is what keeps other devices connected.
+  const sid = getDeviceSessionId();
+  if (sid) { try { await supabase.rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
   setDeviceSessionId(null); // next login re-claims cleanly
   return supabase.auth.signOut();
 }

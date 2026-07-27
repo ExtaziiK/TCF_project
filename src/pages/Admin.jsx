@@ -1,18 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
-  ChevronLeft, ChevronRight, Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3,
+  Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
+import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
+import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { IMPORT_SAMPLE } from "@/constants/listeningImport";
 import { normalizeImportedQuestions } from "@/utils/questionImport";
-import { QuestionManager } from "@/components/admin/QuestionManager";
+import { SujetsManager } from "@/components/admin/SujetsManager";
+import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
-  fetchAdminStats, fetchAdminUsage, listAdminUsers, updateAdminUser,
+  fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
@@ -22,6 +28,19 @@ import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
 const PAID_PLANS = PLANS.filter((p) => p.priceId);
+
+// Account-type chips for the Users tab. Keys match the server filter (users.js
+// TYPE_FILTERS); the whole set of account types the platform has.
+const USER_FILTERS = [
+  { key: "all", label: "Tous" },
+  { key: "sans-papier", label: "Sans papier" },
+  { key: "passeport", label: "Passeport" },
+  { key: "visa", label: "Visa" },
+  { key: "premiere-classe", label: "Première classe" },
+  { key: "vip", label: "VIP" },
+  { key: "admin", label: "Admin" },
+  { key: "owner", label: "Owner" },
+];
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -68,7 +87,7 @@ function EmptyState({ icon: Icon, title, sub }) {
 /* --------------------------------- overview ------------------------------- */
 
 // Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
-const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]" };
+const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]", emerald: "bg-emerald-500/10 text-emerald-600" };
 
 function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
   const { c } = useApp();
@@ -84,17 +103,232 @@ function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
   );
 }
 
+/* ------------------------------ home label -------------------------------- */
+
+const PROMO_SUGGESTION = "🎉 Offre de lancement : profitez de -50 % sur tous nos forfaits Premium ! Tous les quiz, les TCF blancs chronométrés et les simulations IA à moitié prix, pour une durée limitée. Lancez votre préparation dès aujourd'hui !";
+const POSITION_LABELS = { "top-left": "En haut à gauche", "top-right": "En haut à droite", "bottom-left": "En bas à gauche", "bottom-right": "En bas à droite" };
+
+// Minimal rich-text field. contentEditable gives native Ctrl/Cmd+B · I · U for
+// free; the toolbar mirrors them. Controlled without fighting the cursor:
+// innerHTML is rewritten only when the value changes from outside (e.g. the
+// "Insérer" shortcut).
+function RichEditor({ html, onChange, ariaLabel }) {
+  const { c } = useApp();
+  const ref = useRef(null);
+  const last = useRef(html);
+  useEffect(() => {
+    if (ref.current && html !== last.current) { ref.current.innerHTML = html || ""; last.current = html; }
+  }, [html]);
+  const emit = () => { const v = ref.current.innerHTML; last.current = v; onChange(v); };
+  const cmd = (name) => { document.execCommand(name, false); ref.current.focus(); emit(); };
+  const Tool = ({ icon: Icon, name, title }) => (
+    <button type="button" onMouseDown={(e) => { e.preventDefault(); cmd(name); }} title={title} aria-label={title}
+      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${c.hoverSoft} ${c.sub}`}><Icon size={15} /></button>
+  );
+  return (
+    <div className={`rounded-2xl border overflow-hidden focus-within:border-blue-600 ${c.inputCls}`}>
+      <div className={`flex items-center gap-1 px-2 py-1.5 border-b ${c.border}`}>
+        <Tool icon={Bold} name="bold" title="Gras (Ctrl+B)" />
+        <Tool icon={Italic} name="italic" title="Italique (Ctrl+I)" />
+        <Tool icon={Underline} name="underline" title="Souligné (Ctrl+U)" />
+      </div>
+      <div ref={ref} contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={ariaLabel}
+        onInput={emit} className="px-4 py-3 text-sm min-h-[96px] leading-relaxed outline-none" />
+    </div>
+  );
+}
+
+// Edits the public landing-page banner (site_settings.home_label, a small JSON
+// config). Reads/writes go straight to Supabase (admin-only by RLS), so this
+// works without the serverless admin API. Needs migration
+// 20260721_site_settings.sql applied.
+function HomeLabelTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const set = (k, v) => setCfg((p) => ({ ...p, [k]: v }));
+
+  // Pre-fill the 50%-off suggestion the first time (no saved text yet).
+  useEffect(() => { getHomeLabel().then((v) => setCfg(v.text ? v : { ...v, text: PROMO_SUGGESTION })); }, []);
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setHomeLabel(cfg);
+    setBusy(false);
+    notify(r.ok ? "Bannière d'accueil enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!cfg) return <SkeletonRows n={2} className="h-28" />;
+  const fillPct = ((cfg.opacity - 0.3) / 0.7) * 100;
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Bannière d'accueil</h3>
+          <button onClick={() => set("enabled", !cfg.enabled)} role="switch" aria-checked={cfg.enabled} aria-label="Activer la bannière"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Affichée sur la page d'accueil publique, visible par tous les visiteurs (même non connectés). Activez-la, ajustez sa transparence et sa position.</p>
+
+        <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Texte</label>
+        <RichEditor html={cfg.text} onChange={(v) => set("text", v)} ariaLabel="Texte de la bannière" />
+        <div className="mt-1.5 flex items-center justify-between gap-3">
+          <span className={`text-xs ${c.faint}`}>Mettez en forme avec la barre d'outils ou Ctrl/Cmd + B · I · U.</span>
+          <button onClick={() => set("text", PROMO_SUGGESTION)} className="text-xs font-semibold text-blue-600 hover:underline shrink-0">Insérer le message −50 %</button>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-5 mt-5">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Position sur la page</label>
+            <select value={cfg.position} onChange={(e) => set("position", e.target.value)} aria-label="Position" className={inp}>
+              {LABEL_POSITIONS.map((p) => <option key={p} value={p}>{POSITION_LABELS[p]}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}>Transparence · {Math.round(cfg.opacity * 100)} %</label>
+            <input type="range" min="0.3" max="1" step="0.05" value={cfg.opacity} onChange={(e) => set("opacity", Number(e.target.value))} aria-label="Transparence"
+              className="range-brand w-full mt-3" style={{ background: `linear-gradient(90deg,#2E6BE6 ${fillPct}%, #cbd5e1 ${fillPct}%)` }} />
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Aperçu {!cfg.enabled && "· (désactivée)"}</p>
+        {richTextHasContent(cfg.text) ? (
+          <div style={{ opacity: cfg.opacity }} className={`flex items-start gap-3 rounded-2xl border-2 border-blue-600/30 ${c.card} px-4 py-3 max-w-sm shadow-md`}>
+            <Megaphone size={18} className="text-blue-600 shrink-0 mt-0.5" />
+            <p className={`text-sm leading-relaxed ${c.text}`} dangerouslySetInnerHTML={{ __html: sanitizeRichText(cfg.text) }} />
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucune bannière ne sera affichée.</p>}
+        <p className={`mt-3 text-xs ${c.faint}`}>Position : {POSITION_LABELS[cfg.position]} · {cfg.enabled ? "Activée" : "Désactivée"}</p>
+      </Card>
+    </div>
+  );
+}
+
+// Editor for the top scrolling marquee (site_settings.announcement_bar). Starts
+// from the built-in defaults so the admin edits from the current content.
+function AnnouncementBarTab() {
+  const { c, notify } = useApp();
+  const [enabled, setEnabled] = useState(true);
+  const [messages, setMessages] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  useEffect(() => { getAnnouncementBar().then((cfg) => { setEnabled(cfg.enabled); setMessages(cfg.messages?.length ? cfg.messages : [...ANNOUNCEMENTS]); }); }, []);
+
+  const setMsg = (i, v) => setMessages((m) => m.map((x, j) => (j === i ? v : x)));
+  const add = () => setMessages((m) => [...m, ""]);
+  const remove = (i) => setMessages((m) => m.filter((_, j) => j !== i));
+  const move = (i, d) => setMessages((m) => { const a = [...m]; const j = i + d; if (j < 0 || j >= a.length) return a; [a[i], a[j]] = [a[j], a[i]]; return a; });
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setAnnouncementBar({ enabled, messages });
+    setBusy(false);
+    notify(r.ok ? "Barre d'annonces enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!messages) return <SkeletonRows n={4} className="h-10" />;
+  const preview = messages.filter((x) => x.trim());
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Barre d'annonces (haut du site)</h3>
+          <button onClick={() => setEnabled((v) => !v)} role="switch" aria-checked={enabled} aria-label="Afficher la barre"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Le bandeau défilant en haut de toutes les pages. Modifiez, réordonnez ou supprimez les messages (jusqu'à 12 messages, 120 caractères chacun).</p>
+
+        <div className="space-y-2">
+          {messages.map((m, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
+              <input value={m} onChange={(e) => setMsg(i, e.target.value)} maxLength={120} placeholder="Message…" aria-label={`Message ${i + 1}`} className={`flex-1 ${inp}`} />
+              <div className="flex items-center shrink-0">
+                <button onClick={() => move(i, -1)} disabled={i === 0} aria-label="Monter" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronUp size={15} /></button>
+                <button onClick={() => move(i, 1)} disabled={i === messages.length - 1} aria-label="Descendre" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronDown size={15} /></button>
+                <button onClick={() => remove(i)} aria-label="Supprimer" className={`p-1.5 rounded-lg ${c.hoverSoft} text-rose-600`}><Trash2 size={15} /></button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <Btn small variant="ghost" icon={Plus} disabled={messages.length >= 12} onClick={add}>Ajouter un message</Btn>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Aperçu {!enabled && "· (masquée)"}</p>
+        {preview.length ? (
+          <div className="rounded-xl grad-brand text-white overflow-hidden">
+            <div className="flex items-center gap-4 px-4 py-2 text-sm font-semibold whitespace-nowrap overflow-x-auto">
+              {preview.map((m, i) => (<span key={i} className="flex items-center gap-4 shrink-0">{m}<span className="opacity-60" aria-hidden="true">✦</span></span>))}
+            </div>
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucun message — la barre sera masquée.</p>}
+      </Card>
+    </div>
+  );
+}
+
+// The "Accueil" admin section: two sub-tabs — the corner banner and the top bar.
+function AccueilTab() {
+  const { c } = useApp();
+  const [sub, setSub] = useState("banner");
+  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"]];
+  return (
+    <div className="space-y-5">
+      <div className="flex gap-2 flex-wrap">
+        {subs.map(([id, l]) => (
+          <button key={id} onClick={() => setSub(id)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sub === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
+        ))}
+      </div>
+      {sub === "banner" && <HomeLabelTab />}
+      {sub === "marquee" && <AnnouncementBarTab />}
+    </div>
+  );
+}
+
 function OverviewTab({ go }) {
   const { c } = useApp();
   const [stats, setStats] = useState(null);
   const [state, setState] = useState("loading");
+  const [refreshing, setRefreshing] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState(null);
 
-  useEffect(() => {
-    fetchAdminStats().then((r) => {
-      if (r.ok) { setStats(r.data); setState("ready"); }
-      else setState(r.unavailable ? "unavailable" : "error");
-    });
+  const load = useCallback(async (manual = false) => {
+    if (manual) setRefreshing(true);
+    const r = await fetchAdminStats();
+    if (r.ok) { setStats(r.data); setState("ready"); setUpdatedAt(Date.now()); }
+    // On a background/refresh failure, keep the last good data on screen; only
+    // fall into the empty error/unavailable state on the very first load.
+    else setState((s) => (s === "loading" ? (r.unavailable ? "unavailable" : "error") : s));
+    setRefreshing(false);
   }, []);
+
+  // Initial load, then auto-refresh every minute so the live figures
+  // ("connectés maintenant", today's counts) stay current without a reload.
+  useEffect(() => {
+    load();
+    const id = setInterval(() => load(), 60_000);
+    return () => clearInterval(id);
+  }, [load]);
 
   if (state === "loading") {
     return (
@@ -121,8 +355,24 @@ function OverviewTab({ go }) {
   const conversion = u.total ? Math.round((u.premium / u.total) * 100) : 0;
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-end gap-3 flex-wrap">
+        {updatedAt && (
+          <span className={`text-xs flex items-center gap-1.5 ${c.faint}`}>
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+            </span>
+            Actualisé à {new Date(updatedAt).toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit", second: "2-digit" })} · auto chaque minute
+          </span>
+        )}
+        <Btn small variant="ghost" disabled={refreshing} onClick={() => load(true)}>
+          <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} aria-hidden="true" />
+          {refreshing ? "Actualisation…" : "Actualiser"}
+        </Btn>
+      </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
+        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald" />
         <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold" />
         <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
         <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
@@ -133,7 +383,7 @@ function OverviewTab({ go }) {
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
         <Btn small variant="ghost" icon={Ticket} onClick={() => go("promos")}>Créer un code promo</Btn>
-        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les questions</Btn>
+        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les sujets (EE·EO)</Btn>
         <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
       </Card>
       <div className="grid lg:grid-cols-2 gap-4">
@@ -153,7 +403,7 @@ function OverviewTab({ go }) {
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
         </div>
-        {[["Premium (actif)", u.premium, "gold"], ["Découverte", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
+        {[["Premium (actif)", u.premium, "gold"], ["Sans papier", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
           <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
             <Pill tone={tone}>{label}</Pill>
             <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
@@ -170,27 +420,37 @@ function UsersTab() {
   const { c, user: me, notify } = useApp();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
   const [state, setState] = useState("loading");
   const [openId, setOpenId] = useState(null); // user id whose action panel is expanded
   const [confirmId, setConfirmId] = useState(null); // pending delete confirmation
   const [busy, setBusy] = useState(false);
+  const [moreBusy, setMoreBusy] = useState(false); // "Charger plus" in flight
 
-  const load = () => {
-    setState("loading");
-    listAdminUsers({ search, page }).then((r) => {
-      if (r.ok) { setData(r.data); setState("ready"); }
-      else setState(r.unavailable ? "unavailable" : "error");
+  // "Load more" pagination: page 1 replaces the list, later pages append, so the
+  // view grows from 5 rows outward instead of paging back and forth.
+  const load = (pageToLoad = 1, mode = "replace") => {
+    if (mode === "append") setMoreBusy(true); else setState("loading");
+    listAdminUsers({ search, page: pageToLoad, filter }).then((r) => {
+      if (r.ok) {
+        setData((prev) => (mode === "append" && prev ? { ...r.data, users: [...prev.users, ...r.data.users] } : r.data));
+        setState("ready");
+      } else setState(r.unavailable ? "unavailable" : "error");
+      setMoreBusy(false);
     });
   };
-  useEffect(load, [search, page]);
+  // Reload from the top whenever the search or the active filter changes.
+  useEffect(() => { setPage(1); load(1, "replace"); }, [search, filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Live search, debounced so a keystroke burst issues one request.
   useEffect(() => {
-    const id = setTimeout(() => { setPage(1); setSearch(query.trim()); }, 350);
+    const id = setTimeout(() => setSearch(query.trim()), 350);
     return () => clearTimeout(id);
   }, [query]);
+
+  const loadMore = () => { const next = page + 1; setPage(next); load(next, "append"); };
 
   const act = async (payload, done) => {
     setBusy(true);
@@ -200,7 +460,8 @@ function UsersTab() {
     notify(done);
     setOpenId(null);
     setConfirmId(null);
-    load();
+    setPage(1);
+    load(1, "replace");
   };
 
   if (state === "unavailable") {
@@ -208,7 +469,6 @@ function UsersTab() {
   }
   if (state === "error") return <UnavailableCard>Impossible de charger les comptes. Réessayez.</UnavailableCard>;
 
-  const pages = data ? Math.max(1, Math.ceil(data.total / data.perPage)) : 1;
   // One grant button per paid pricing tier, coloured in that tier's accent, so
   // the admin assigns the exact same plans (and access durations) offered on the
   // Tarifs page. All four map to the single "Premium" role; only the access
@@ -223,8 +483,65 @@ function UsersTab() {
     );
   };
 
+  const selectFilter = (key) => { setPage(1); setOpenId(null); setConfirmId(null); setFilter(key); };
+  const avatarChar = (x) => (x.name || x.username || x.email || "?").trim()[0]?.toUpperCase();
+
   return (
     <div className="space-y-4">
+      {/* Live connections + most recent logins — computed over all accounts. */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card className="p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <h3 className={`font-display font-bold ${c.text}`}>Connectés maintenant</h3>
+            <span className="ml-auto font-mono2 font-extrabold text-lg text-emerald-600">{data?.onlineCount ?? 0}</span>
+          </div>
+          {data?.onlineUsers?.length ? (
+            <div className="flex flex-wrap gap-2">
+              {data.onlineUsers.map((o) => (
+                <span key={o.id} className={`inline-flex items-center gap-1.5 pl-1 pr-2.5 py-1 rounded-full border ${c.border}`}>
+                  <span className="relative w-6 h-6 rounded-full grad-brand text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                    {avatarChar(o)}
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
+                  </span>
+                  <span className={`text-xs font-medium ${c.text}`}>{o.name || o.username || o.email}</span>
+                </span>
+              ))}
+              {data.onlineCount > data.onlineUsers.length && (
+                <span className={`inline-flex items-center px-2.5 py-1.5 text-xs font-semibold ${c.faint}`}>+{data.onlineCount - data.onlineUsers.length}</span>
+              )}
+            </div>
+          ) : (
+            <p className={`text-sm ${c.faint}`}>Personne en ligne pour le moment.</p>
+          )}
+        </Card>
+        <Card className="p-5">
+          <div className="flex items-center gap-2.5 mb-3">
+            <Clock size={16} className="text-blue-600" />
+            <h3 className={`font-display font-bold ${c.text}`}>Dernières connexions</h3>
+          </div>
+          {data?.recentLogins?.length ? (
+            <div className="space-y-1.5">
+              {data.recentLogins.slice(0, 6).map((r) => (
+                <div key={r.id} className="flex items-center gap-2.5">
+                  <span className="relative w-7 h-7 rounded-full grad-brand text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                    {avatarChar(r)}
+                    {r.online && <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />}
+                  </span>
+                  <span className={`text-sm font-medium truncate ${c.text}`}>{r.name || r.username || r.email}</span>
+                  <span className={`ml-auto text-xs font-mono2 shrink-0 ${c.faint}`}>{when(r.lastSignInAt)}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className={`text-sm ${c.faint}`}>Aucune connexion enregistrée.</p>
+          )}
+        </Card>
+      </div>
+
       <Card className="p-4 flex items-center gap-3">
         <Search size={16} className={c.faint} />
         <input
@@ -239,6 +556,20 @@ function UsersTab() {
           <button onClick={() => setQuery("")} aria-label="Effacer la recherche" className={`p-1.5 rounded-full ${c.hoverSoft} ${c.faint}`}><XCircle size={15} /></button>
         )}
       </Card>
+
+      {/* Account-type filter chips. */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {USER_FILTERS.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => selectFilter(f.key)}
+            aria-pressed={filter === f.key}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${filter === f.key ? "bg-blue-600 border-blue-600 text-white" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
 
       <Card className="p-6 overflow-x-auto">
         {state === "loading" || !data ? (
@@ -263,6 +594,7 @@ function UsersTab() {
                   key={u.id}
                   u={u}
                   isSelf={u.id === me?.id}
+                  canManageAdmins={!!me?.owner}
                   open={openId === u.id}
                   confirming={confirmId === u.id}
                   busy={busy}
@@ -276,11 +608,16 @@ function UsersTab() {
             </tbody>
           </table>
         )}
-        {data && data.total > data.perPage && (
-          <div className="flex items-center justify-between mt-5">
-            <Btn small variant="ghost" icon={ChevronLeft} disabled={page <= 1} onClick={() => setPage(page - 1)}>Précédent</Btn>
-            <span className={`text-xs font-mono2 ${c.faint}`}>Page {page} / {pages} · {data.total} compte{data.total > 1 ? "s" : ""}</span>
-            <Btn small variant="ghost" icon={ChevronRight} disabled={page >= pages} onClick={() => setPage(page + 1)}>Suivant</Btn>
+        {data && data.users.length > 0 && (
+          <div className="flex flex-col items-center gap-2 mt-5">
+            {data.users.length < data.total ? (
+              <Btn small variant="ghost" icon={ChevronDown} disabled={moreBusy} onClick={loadMore}>
+                {moreBusy ? "Chargement…" : "Charger plus"}
+              </Btn>
+            ) : data.total > data.perPage ? (
+              <span className={`text-xs font-mono2 ${c.faint}`}>Tous les comptes sont affichés</span>
+            ) : null}
+            <span className={`text-xs font-mono2 ${c.faint}`}>{data.users.length} / {data.total} compte{data.total > 1 ? "s" : ""}</span>
           </div>
         )}
       </Card>
@@ -288,27 +625,28 @@ function UsersTab() {
   );
 }
 
-function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
+function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
   const { c } = useApp();
   return (
     <>
       <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
         <td className="py-3.5 pr-4">
           <div className="flex items-center gap-3 min-w-0">
-            <span className="w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
+            <span className="relative w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
               {(u.name || u.username || u.email || "?").trim()[0]?.toUpperCase()}
+              {u.online && <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="En ligne" />}
             </span>
             <div className="min-w-0">
-              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}</p>
+              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
               <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
             </div>
           </div>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Découverte"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
-        <td className="py-3.5 pr-4">{u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
+        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
         <td className="py-3.5">
@@ -321,12 +659,28 @@ function UserRow({ u, isSelf, open, confirming, busy, onToggle, onConfirmDelete,
             <div className="flex items-center gap-2 flex-wrap">
               {PAID_PLANS.map((p) => planButton(u, p))}
               {u.plan === "Premium" && (
-                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Découverte" }, `${u.email} repassé en Découverte.`)}>Retirer Premium</Btn>
+                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Sans papier" }, `${u.email} repassé en Sans papier.`)}>Retirer Premium</Btn>
               )}
-              <Btn small variant="ghost" disabled={busy || isSelf} icon={UserCog}
-                onClick={() => act({ action: "set-role", userId: u.id, role: u.admin ? null : "admin" }, u.admin ? `Rôle admin retiré à ${u.email}.` : `${u.email} est maintenant admin.`)}
-                title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : undefined}>
-                {u.admin ? "Retirer admin" : "Nommer admin"}
+              {/* Only an Owner can promote/demote admins; an Owner account is never
+                  demoted from here (owner assignment is service-role only). */}
+              {canManageAdmins && !u.owner && (
+                <Btn small variant="ghost" disabled={busy || isSelf} icon={UserCog}
+                  onClick={() => act({ action: "set-role", userId: u.id, role: u.admin ? null : "admin" }, u.admin ? `Rôle admin retiré à ${u.email}.` : `${u.email} est maintenant admin.`)}
+                  title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : undefined}>
+                  {u.admin ? "Retirer admin" : "Nommer admin"}
+                </Btn>
+              )}
+              <Btn small variant="ghost" disabled={busy} icon={Smartphone}
+                onClick={() => act({ action: "reset-sessions", userId: u.id }, `Appareils réinitialisés pour ${u.email}.`)}
+                title="Libère tous les créneaux d'appareils (débloque un compte verrouillé hors de ses appareils)">
+                Réinitialiser les appareils
+              </Btn>
+              {/* Ends the account's live sessions. Disabled on your own row: it
+                  would sign you out of this panel mid-action. */}
+              <Btn small variant="ghost" disabled={busy || isSelf} icon={LogOut}
+                onClick={() => act({ action: "disconnect", userId: u.id }, `${u.email} déconnecté de tous ses appareils.`)}
+                title={isSelf ? "Vous ne pouvez pas vous déconnecter depuis ce panneau" : "Ferme la session sur tous ses appareils (sous 45 s ; il peut se reconnecter ensuite)"}>
+                Déconnecter
               </Btn>
               {confirming ? (
                 <span className="flex items-center gap-2">
@@ -642,6 +996,129 @@ function UsageTab() {
   );
 }
 
+/* ---------------------------------- trafic -------------------------------- */
+
+const fmtNum = (n) => (n == null ? "—" : Number(n).toLocaleString("fr-CA"));
+
+// One ranked breakdown (top pages / referrers / countries / devices). Each row
+// carries a page-views bar relative to the leader, so the shape reads at a
+// glance without a separate chart.
+function RankList({ icon: Icon, title, rows, emptyLabel, format = (l) => l }) {
+  const { c } = useApp();
+  const max = Math.max(1, ...rows.map((r) => r.pageviews));
+  return (
+    <Card className="p-6">
+      <div className="flex items-center gap-2.5 mb-4">
+        <span className="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Icon size={15} /></span>
+        <h3 className={`font-display font-bold ${c.text}`}>{title}</h3>
+      </div>
+      {rows.length === 0 ? (
+        <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée sur la période.</p>
+      ) : (
+        <div className="space-y-2.5">
+          {rows.map((r, i) => (
+            <div key={`${r.label ?? "—"}-${i}`}>
+              <div className="flex items-center justify-between gap-3 text-sm mb-1">
+                <span className={`truncate ${r.label ? c.text : c.faint}`}>{r.label ? format(r.label) : emptyLabel}</span>
+                <span className={`font-mono2 text-xs shrink-0 ${c.sub}`}>{fmtNum(r.pageviews)} vue{r.pageviews > 1 ? "s" : ""} · {fmtNum(r.visitors)} visiteur{r.visitors > 1 ? "s" : ""}</span>
+              </div>
+              <ProgressBar pct={Math.round((r.pageviews / max) * 100)} tone="grad" />
+            </div>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function TrafficTab() {
+  const { c } = useApp();
+  const [data, setData] = useState(null);
+  const [state, setState] = useState("loading");
+
+  useEffect(() => {
+    fetchAdminVercel().then((r) => {
+      if (r.ok) { setData(r.data); setState("ready"); }
+      else setState(r.unavailable ? "unavailable" : "error");
+    });
+  }, []);
+
+  if (state === "loading") {
+    return (
+      <div className="space-y-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="p-5"><Skeleton className="h-9 w-20" /><Skeleton className="h-4 w-28 mt-3" /></Card>
+          ))}
+        </div>
+        <Card className="p-6"><Skeleton className="h-5 w-56 mb-4" /><Skeleton className="h-24" /></Card>
+      </div>
+    );
+  }
+  if (state === "unavailable") {
+    return <UnavailableCard>Le trafic passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>. Déployez sur Vercel ou lancez <span className="font-mono2">vercel dev</span>.</UnavailableCard>;
+  }
+  if (state === "error") return <UnavailableCard>Impossible de charger le trafic. Vérifiez le jeton Vercel (<span className="font-mono2">VERCEL_ANALYTICS_TOKEN</span>) et que Web Analytics est activé sur le projet.</UnavailableCard>;
+
+  // Env not set yet — walk the owner through the one-time setup.
+  if (!data.configured) {
+    return (
+      <Card className="p-6">
+        <div className="flex items-center gap-2.5 mb-3">
+          <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Globe size={17} /></span>
+          <h3 className={`font-display font-bold ${c.text}`}>Connecter Vercel Web Analytics</h3>
+        </div>
+        <p className={`text-sm mb-4 ${c.sub}`}>Affichez ici les visiteurs, les pages vues et les principales sources de trafic mesurés par Vercel. Configuration en une fois :</p>
+        <ol className={`text-sm space-y-2.5 ${c.sub}`}>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">1.</span><span>Activez <span className="font-semibold">Web Analytics</span> sur le projet (tableau de bord Vercel → onglet <span className="font-mono2">Analytics</span>).</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">2.</span><span>Créez un jeton d'accès sur <a href="https://vercel.com/account/tokens" target="_blank" rel="noreferrer" className="text-blue-600 font-semibold hover:underline">vercel.com/account/tokens <ExternalLink size={11} className="inline" /></a>.</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">3.</span><span>Dans les variables d'environnement du projet Vercel, ajoutez <span className="font-mono2">VERCEL_ANALYTICS_TOKEN</span> et <span className="font-mono2">VERCEL_PROJECT_ID</span> (dans Project → Settings). Ajoutez <span className="font-mono2">VERCEL_TEAM_ID</span> seulement si le projet appartient à une équipe.</span></li>
+          <li className="flex gap-2.5"><span className="font-mono2 font-bold text-blue-600">4.</span><span>Redéployez — les chiffres apparaîtront ici automatiquement.</span></li>
+        </ol>
+      </Card>
+    );
+  }
+
+  const t = data.totals;
+  return (
+    <div className="space-y-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard icon={Eye} value={fmtNum(t.pageviews30d)} label="Pages vues (30 j)" hint={t.pageviews7d > 0 ? `${fmtNum(t.pageviews7d)} ces 7 derniers jours` : null} />
+        <StatCard icon={Users} value={fmtNum(t.visitors30d)} label="Visiteurs (30 j)" hint={t.visitors7d > 0 ? `${fmtNum(t.visitors7d)} ces 7 derniers jours` : null} accent="emerald" />
+        <StatCard icon={Eye} value={fmtNum(t.lifetimePageviews)} label="Pages vues (total)" accent="gold" />
+        <StatCard icon={Users} value={fmtNum(t.lifetimeVisitors)} label="Visiteurs (total)" accent="gold" />
+      </div>
+
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Fréquentation — 14 derniers jours</h3>
+          <a href="https://vercel.com/dashboard/analytics" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+            Détail complet sur vercel.com <ExternalLink size={12} />
+          </a>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré par Vercel Web Analytics. Les visiteurs par jour comptent chaque visiteur unique une fois par journée ; le total sur 30 jours en est la somme (approximation) — le lien ci-dessus donne le chiffre unique exact.</p>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Pages vues par jour</p>
+            <DayBars days={data.byDay} label="Pages vues par jour sur 14 jours" />
+          </div>
+          <div>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Visiteurs par jour</p>
+            <DayBars days={data.byDay.map((d) => ({ ...d, count: d.visitors }))} label="Visiteurs par jour sur 14 jours" />
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid lg:grid-cols-2 gap-4">
+        <RankList icon={FileText} title="Pages les plus visitées" rows={data.topPages} emptyLabel="—" />
+        <RankList icon={Link2} title="Sources de trafic" rows={data.topReferrers} emptyLabel="Direct / sans référent" />
+        <RankList icon={MapPin} title="Pays" rows={data.topCountries} emptyLabel="Inconnu" />
+        <RankList icon={Monitor} title="Appareils" rows={data.devices} emptyLabel="Inconnu" format={(l) => ({ desktop: "Ordinateur", mobile: "Mobile", tablet: "Tablette" }[l] || l)} />
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------- messages ------------------------------- */
 
 const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived", "Archivés"], ["all", "Tous"]];
@@ -723,6 +1200,8 @@ function MessagesTab({ onCount }) {
 const AUDIT_LABELS = {
   "set-plan": ["Forfait modifié", "gold"],
   "set-role": ["Rôle modifié", "red"],
+  "reset-sessions": ["Appareils réinitialisés", "slate"],
+  "disconnect-user": ["Utilisateur déconnecté", "amber"],
   "delete-user": ["Compte supprimé", "amber"],
   "create-promo": ["Code promo créé", "green"],
   "toggle-promo": ["Code promo modifié", "slate"],
@@ -740,7 +1219,7 @@ function AuditTab() {
   const detailText = (e) => {
     if (!e.detail) return "";
     if (e.action === "set-plan") {
-      if (e.detail.plan !== "Premium") return "Découverte";
+      if (e.detail.plan !== "Premium") return "Sans papier";
       const d = e.detail;
       const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
       return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;
@@ -793,15 +1272,17 @@ export function Admin() {
   const { c, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
+  const [newRequests, setNewRequests] = useState(0);
   const [importText, setImportText] = useState("");
   const [importError, setImportError] = useState("");
   const fileInputRef = useRef(null);
 
-  // Sidebar badge: loaded once here (client-direct through the admin RLS
-  // policy, so it works even without the serverless routes), then kept in
-  // sync by MessagesTab whenever the inbox (re)loads.
+  // Sidebar badges: loaded once here (client-direct through the admin RLS
+  // policies, so they work even without the serverless routes), then kept in
+  // sync by each inbox tab whenever it (re)loads.
   useEffect(() => {
     listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
+    listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
   }, []);
 
   const handleImportFile = (e) => {
@@ -825,11 +1306,15 @@ export function Admin() {
 
   const tabs = [
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
+    { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
-    { id: "questions", l: "Questions", icon: FileText },
+    { id: "pricing", l: "Tarifs", icon: Coins },
+    { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "requests", l: "Demandes", icon: Inbox },
     { id: "promos", l: "Promos", icon: Ticket },
+    { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
   ];
@@ -849,19 +1334,24 @@ export function Admin() {
                 ${active ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
                 <t.icon size={16} className="shrink-0" />
                 <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
-                {t.id === "messages" && newMessages > 0 && (
-                  <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
-                    {newMessages > 9 ? "9+" : newMessages}
-                  </span>
-                )}
+                {(() => {
+                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : 0;
+                  return badge > 0 ? (
+                    <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
+                      {badge > 9 ? "9+" : badge}
+                    </span>
+                  ) : null;
+                })()}
               </button>
             );
           })}
         </nav>
         <div role="tabpanel" className="min-w-0">
       {tab === "overview" && <OverviewTab go={setTab} />}
+      {tab === "home" && <AccueilTab />}
       {tab === "users" && <UsersTab />}
-      {tab === "questions" && <QuestionManager />}
+      {tab === "pricing" && <TarifsTab />}
+      {tab === "questions" && <SujetsManager />}
       {tab === "import" && (
         <div className="grid lg:grid-cols-2 gap-5">
           <Card className="p-6">
@@ -904,7 +1394,9 @@ export function Admin() {
         </div>
       )}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "promos" && <PromosTab />}
+      {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
         </div>

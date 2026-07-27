@@ -28,7 +28,7 @@ export const ROUTE_META = {
     path: "/tarifs",
     title: "Tarifs et abonnements",
     description:
-      "Forfait Découverte gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé en dollars canadiens via Stripe.",
+      "Forfait Sans papier gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé en dollars canadiens via Stripe.",
   },
   calculator: {
     path: "/calculateur-tcf-nclc",
@@ -90,6 +90,24 @@ export const ROUTE_META = {
     description:
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
+  "sujets-actualite": {
+    path: "/sujets-actualite",
+    title: "Sujets d'actualité — TCF Canada",
+    description:
+      "Les derniers sujets d'expression écrite et orale qui circulent ce mois-ci au TCF Canada, à préparer en priorité. Choisissez l'épreuve pour découvrir les sujets du mois.",
+  },
+  "sujets-ee": {
+    path: "/anciens-sujets-expression-ecrite",
+    title: "Anciens sujets d'expression écrite — archive par mois",
+    description:
+      "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
+  },
+  "sujets-eo": {
+    path: "/anciens-sujets-expression-orale",
+    title: "Anciens sujets d'expression orale — archive par mois",
+    description:
+      "L'archive des sujets d'expression orale du TCF Canada, classés par année et par mois : les sujets de la Tâche 2 (interaction) et de la Tâche 3 (point de vue), par partie.",
+  },
   register: {
     path: "/inscription",
     title: "Créer un compte gratuit",
@@ -99,6 +117,7 @@ export const ROUTE_META = {
 
   // ── Gated routes: reachable URLs, but noindex (crawlers only see a gate) ──
   login: { path: "/connexion", title: "Connexion", noindex: true },
+  "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
   exams: { path: "/mes-examens", title: "Mes examens", noindex: true },
   mocks: { path: "/tcf-blanc", title: "TCF blanc — examen complet chronométré", noindex: true },

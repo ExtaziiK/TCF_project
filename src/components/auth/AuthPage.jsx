@@ -17,7 +17,7 @@ function GoogleIcon(props) {
 }
 
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t } = useApp();
+  const { c, nav, notify, t, user } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -30,10 +30,19 @@ export function AuthPage({ mode }) {
   const [verify, setVerify] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lockMsg, setLockMsg] = useState("");
+  const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
   useEffect(() => setView(mode), [mode]);
+  // Already signed in? The login/register pages don't apply — bounce to the
+  // landing page (admins/owners to the panel, everyone else to their
+  // dashboard). Runs once on arrival, so a fresh login on this page — which
+  // navigates on its own via submit() — isn't double-redirected.
+  useEffect(() => {
+    if (user) nav(user.admin || user.owner ? "admin" : "dashboard", { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
-  const goView = (v) => { setView(v); setLockMsg(""); };
+  const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
 
   const submit = async (e) => {
     e?.preventDefault();
@@ -42,14 +51,15 @@ export function AuthPage({ mode }) {
       if (view === "login") {
         const r = await signIn({ identifier, password });
         if (!r.ok) {
-          if (r.locked) setLockMsg(r.message);
-          else { setLockMsg(""); notify(r.message); }
+          if (r.locked) { setNotice(""); setLockMsg(r.message); }
+          else if (r.deviceLimitReached) { setLockMsg(""); setNotice(r.message); }
+          else { setLockMsg(""); setNotice(""); notify(r.message); }
           return;
         }
-        setLockMsg("");
+        setLockMsg(""); setNotice("");
         notify(t("Bon retour parmi nous !"));
         const firstLogin = consumeFirstLogin(r.user?.id);
-        nav(r.user?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+        nav(r.user?.admin || r.user?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
       } else if (view === "register") {
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
         if (!country) return notify(t("Sélectionnez votre pays pour continuer."));
@@ -60,7 +70,7 @@ export function AuthPage({ mode }) {
         else {
           const newUser = mapSupabaseUser(data.session);
           const firstLogin = consumeFirstLogin(newUser?.id);
-          nav(newUser?.admin ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+          nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
         }
       } else {
         const { error } = await resetPassword(email);
@@ -74,10 +84,17 @@ export function AuthPage({ mode }) {
 
   const google = async () => {
     setBusy(true);
+    // Both the login and register buttons use the same flow: a new Google
+    // identity is routed to onboarding to finish creating its account (see
+    // AppProvider), an existing one just signs in.
     const { error } = await signInWithGoogle();
     if (error) { notify(error.message); setBusy(false); }
     // on success the browser redirects to Google, so no further state change here
   };
+
+  // Signed in already: render nothing while the effect above redirects, so the
+  // login form never flashes.
+  if (user) return null;
 
   return (
     <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
@@ -140,7 +157,7 @@ export function AuthPage({ mode }) {
             {view === "login" ? (
               <div className="relative">
                 <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); }} className={inp} />
+                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
               </div>
             ) : (
               <div className="relative">
@@ -164,6 +181,11 @@ export function AuthPage({ mode }) {
               <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
                 <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>
                 <button type="button" onClick={() => goView("reset")} className="mt-2 ml-6 text-sm font-semibold text-blue-600 hover:underline">{t("Réinitialiser le mot de passe")}</button>
+              </div>
+            )}
+            {notice && (
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 rise">
+                <p className="text-sm text-amber-700 dark:text-amber-400 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{t(notice)}</p>
               </div>
             )}
             <Btn type="submit" className="w-full" variant="accent" disabled={busy}>

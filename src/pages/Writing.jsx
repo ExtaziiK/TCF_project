@@ -9,6 +9,7 @@ import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
+import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
 // Accented letters and punctuation a French exam station offers on-screen, for
 // candidates whose physical keyboard can't type them. Base = lowercase; the
@@ -49,7 +50,9 @@ function WritingWorkshop() {
 export function WritingWorkshopBody() {
   const { c, t } = useApp();
   const { loading, tasks } = useExpressionSession("ee");
-  const [active, setActive] = useState(OFFICIAL_TASKS[0]);
+  // Shared with the guide side panel when both are on screen (Exams hub); local
+  // state otherwise (standalone page / mock runner).
+  const [active, setActive] = useExpressionTask(OFFICIAL_TASKS[0]);
 
   if (loading) return <WorkshopSkeleton />;
   const task = tasks.find((t) => t.task === active) || tasks[0];
@@ -110,7 +113,7 @@ function WritingTaskPane({ task }) {
               {!running && left > 0 && <Btn small variant="ghost" icon={Play} onClick={() => setRunning(true)}>{t("Lancer le chrono")}</Btn>}
             </div>
           </div>
-          <p className={`font-medium leading-relaxed ${c.text}`}>{task.prompt}</p>
+          <p className={`font-medium leading-relaxed whitespace-pre-line ${c.text}`}>{task.prompt}</p>
         </Card>
         <Card className="p-2">
           {/* Top toolbar: the on-screen French accents (for candidates without

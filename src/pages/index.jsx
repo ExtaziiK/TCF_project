@@ -1,6 +1,7 @@
 import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { Pricing } from "@/pages/Pricing";
+import { CheckoutDz } from "@/pages/CheckoutDz";
 import { Practice } from "@/pages/Practice";
 import { Exams } from "@/pages/Exams";
 import { AuthPage } from "@/components/auth/AuthPage";
@@ -16,6 +17,9 @@ import { Guide } from "@/pages/Guide";
 import { GuideExpressionEcrite } from "@/pages/GuideExpressionEcrite";
 import { GuideExpressionOrale } from "@/pages/GuideExpressionOrale";
 import { GuideComprehensionOrale, GuideComprehensionEcrite } from "@/pages/GuideComprehension";
+import { SujetsExpressionEcrite } from "@/pages/SujetsExpressionEcrite";
+import { SujetsExpressionOrale } from "@/pages/SujetsExpressionOrale";
+import { SujetsActualite } from "@/pages/SujetsActualite";
 import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
@@ -38,6 +42,7 @@ export const PAGES = {
   home: Home,
   about: About,
   pricing: Pricing,
+  "checkout-dz": CheckoutDz,
   practice: Practice,
   exams: Exams,
   login: Login,
@@ -55,6 +60,9 @@ export const PAGES = {
   "guide-eo": GuideExpressionOrale,
   "guide-co": GuideComprehensionOrale,
   "guide-ce": GuideComprehensionEcrite,
+  "sujets-ee": SujetsExpressionEcrite,
+  "sujets-eo": SujetsExpressionOrale,
+  "sujets-actualite": SujetsActualite,
   contact: Contact,
   faq: FAQ,
   blog: Blog,

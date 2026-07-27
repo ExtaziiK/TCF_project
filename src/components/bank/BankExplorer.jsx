@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
+import { CO_GUIDE_PANEL, CE_GUIDE_PANEL } from "@/pages/GuideComprehension";
+import { EE_GUIDE_PANEL } from "@/pages/GuideExpressionEcrite";
+import { EO_GUIDE_PANEL } from "@/pages/GuideExpressionOrale";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES } from "@/auth/rbac";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
+
+// Every épreuve's guide, keyed by section, for the "Guide de l'épreuve" side
+// panel. Each descriptor carries its header meta and a compact-aware Body.
+const GUIDE_PANELS = { co: CO_GUIDE_PANEL, ce: CE_GUIDE_PANEL, ee: EE_GUIDE_PANEL, eo: EO_GUIDE_PANEL };
 
 // Compact quiz tile for the épreuves grid. The section is already shown by the
 // tabs above the grid and the page header, so it's dropped here to keep the
@@ -187,6 +195,56 @@ function PromptList({ quiz, onBack }) {
   );
 }
 
+// Side panel that lets the candidate re-read the épreuve's guide (skills
+// tested, question types, a worked example, tips) right beside the question,
+// without leaving the exam page. Rendered only for sections that have a guide
+// (compréhension orale / écrite). It sticks below the nav while the quiz on the
+// left scrolls, and stays a fixed inner width so its content never reflows
+// while the wrapping <aside> animates its width open/closed.
+function GuidePanel({ section, onClose }) {
+  const { c, t } = useApp();
+  const guide = GUIDE_PANELS[section];
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  if (!guide) return null;
+  const Body = guide.Body;
+  return (
+    <div className={`sticky top-24 flex flex-col max-h-[calc(100vh-7rem)] rounded-3xl border ${c.border} ${c.card} shadow-xl overflow-hidden`} role="dialog" aria-label={t(guide.title)}>
+      <div className={`shrink-0 flex items-start justify-between gap-3 p-5 border-b ${c.border}`}>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wide text-blue-600">{t(guide.eyebrow)}</p>
+          <h3 className={`font-display font-bold text-lg mt-1 ${c.text}`}>{t(guide.title)}</h3>
+        </div>
+        <button onClick={onClose} aria-label={t("Fermer")} className={`p-2 rounded-full shrink-0 ${c.hoverSoft} ${c.faint}`}><X size={18} /></button>
+      </div>
+      {/* .guide-compact folds the guide's viewport-based grids to one column. */}
+      <div className="guide-compact overflow-y-auto p-5">
+        <p className={`text-sm mb-6 ${c.sub}`}>{t(guide.sub)}</p>
+        <Body compact />
+      </div>
+    </div>
+  );
+}
+
+// The animating shell around GuidePanel: opening it widens the <aside> from 0,
+// and the sibling content (flex-1) reflows in sync so the question/workshop
+// slides left as the guide slides in. Shared by the quiz and workshop views.
+function GuideAside({ section, open, onClose }) {
+  return (
+    <aside
+      aria-hidden={!open}
+      className={`shrink-0 overflow-hidden transition-[width,opacity] duration-500 ease-in-out ${open ? "w-[min(440px,85vw)] opacity-100" : "w-0 opacity-0"}`}
+    >
+      <div className="w-[min(440px,85vw)]">
+        <GuidePanel section={section} onClose={onClose} />
+      </div>
+    </aside>
+  );
+}
+
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
@@ -196,6 +254,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
   const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
+  const [guideOpen, setGuideOpen] = useState(false); // épreuve guide popup on the open-quiz view
   const [bestScores, setBestScores] = useState({});
   const [reviewableAttempts, setReviewableAttempts] = useState({});
 
@@ -217,7 +276,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   // Jump to the top when a quiz opens or closes — this swaps the whole panel
   // in place (no route change), so without this the user stays scrolled to
   // wherever the quiz grid card was.
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [quiz, review]);
+  useEffect(() => { window.scrollTo({ top: 0 }); setGuideOpen(false); }, [quiz, review]);
 
   if (review) {
     return (
@@ -233,18 +292,34 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   if (quiz && isPrompt(quiz)) return <PromptList quiz={quiz} onBack={closeQuiz} />;
 
   if (quiz) {
+    const hasGuide = !!GUIDE_PANELS[quiz.section];
     return (
-      <PageShell eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={`${quiz.questions.length} ${t("questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.")}`}>
-        <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
-        <Quiz
-          key={quiz.id}
-          questions={quiz.questions}
-          duration={quiz.questions.length * 55}
-          storageKey={`bank-${quiz.id}`}
-          deferResults
-          renderAbove={(q) => <BankQuestionMedia question={q} />}
-          doneExtra={<Btn variant="ghost" onClick={closeQuiz}>{t("Choisir un autre quiz")}</Btn>}
-        />
+      <PageShell wide eyebrow={t(SECTION_LABELS[quiz.section])} title={t(quiz.title)} sub={`${quiz.questions.length} ${t("questions · conditions d'examen : la correction complète est révélée à la fin, avec votre score.")}`}>
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-8">
+          <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
+          {hasGuide && (
+            <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
+          )}
+        </div>
+        {/* Opening the guide animates the <aside> width from 0; the quiz column
+            (flex-1) reflows in sync each frame, so the question slides left as
+            the panel slides in — no separate transition needed on the quiz. */}
+        <div className="flex items-start gap-6">
+          <div className="flex-1 min-w-0">
+            <div className="max-w-3xl mx-auto">
+              <Quiz
+                key={quiz.id}
+                questions={quiz.questions}
+                duration={quiz.questions.length * 55}
+                storageKey={`bank-${quiz.id}`}
+                deferResults
+                renderAbove={(q) => <BankQuestionMedia question={q} />}
+                doneExtra={<Btn variant="ghost" onClick={closeQuiz}>{t("Choisir un autre quiz")}</Btn>}
+              />
+            </div>
+          </div>
+          {hasGuide && <GuideAside section={quiz.section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
+        </div>
       </PageShell>
     );
   }
@@ -261,7 +336,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       {sections.length > 1 && (
         <div className="flex gap-2 flex-wrap mb-8">
           {sections.map((s) => (
-            <button key={s} onClick={() => setSection(s)} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            <button key={s} onClick={() => { setSection(s); setGuideOpen(false); }} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
               {t(SECTION_LABELS[s])}
               <span className={`text-xs font-mono2 ${section === s ? "opacity-80" : c.faint}`}>{workshops?.[s] ? "" : bank[s].length}</span>
             </button>
@@ -276,7 +351,21 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         </Card>
       )}
       {showWorkshop ? (
-        freeTier ? <PremiumSectionGate /> : workshop
+        freeTier ? <PremiumSectionGate /> : (
+          // Provider shares the selected tâche between the workshop and the
+          // guide panel, so switching task on either side updates the other.
+          <ExpressionTaskProvider>
+            {GUIDE_PANELS[section] && (
+              <div className="flex justify-end mb-4">
+                <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
+              </div>
+            )}
+            <div className="flex items-start gap-6">
+              <div className="flex-1 min-w-0">{workshop}</div>
+              {GUIDE_PANELS[section] && <GuideAside section={section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
+            </div>
+          </ExpressionTaskProvider>
+        )
       ) : quizzes.length === 0 ? (
         <Card className="p-10 text-center">
           <FolderOpen size={32} className="text-blue-600 mx-auto mb-4" />

@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
+import { getAnnouncementBar } from "@/services/settingsService";
 
 // Full-width infinite marquee pinned at the very top of the site, above the
 // nav. The message list is rendered twice inside one track; the CSS animation
@@ -15,13 +17,23 @@ import { ANNOUNCEMENTS } from "@/constants/announcements";
 //   ANNOUNCEMENTS config array.
 export function AnnouncementBar({ durationSec = 40 }) {
   const { t } = useApp();
-  if (!ANNOUNCEMENTS.length) return null;
+  // Admin-editable (Admin › Accueil › Barre d'annonces). Starts from the static
+  // defaults so the bar looks identical before the DB read resolves; a saved
+  // config then overrides content/visibility. Read errors keep the defaults.
+  const [cfg, setCfg] = useState({ enabled: true, messages: ANNOUNCEMENTS });
+  useEffect(() => {
+    let on = true;
+    getAnnouncementBar().then((c) => { if (on) setCfg({ enabled: c.enabled, messages: c.messages?.length ? c.messages : ANNOUNCEMENTS }); });
+    return () => { on = false; };
+  }, []);
+
+  if (!cfg.enabled || !cfg.messages.length) return null;
 
   // One full pass of the messages. Rendered twice below; the duplicate is
   // hidden from assistive tech so screen readers announce each message once.
   const group = (duplicate) => (
     <ul className="marquee-group list-none" aria-hidden={duplicate || undefined}>
-      {ANNOUNCEMENTS.map((msg, i) => (
+      {cfg.messages.map((msg, i) => (
         <li key={i} className="marquee-item text-xs sm:text-sm font-semibold tracking-wide">
           <span>{t(msg)}</span>
           <span className="marquee-sep" aria-hidden="true">✦</span>

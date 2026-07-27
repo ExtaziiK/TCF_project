@@ -16,17 +16,19 @@ export async function requireUser(req) {
   if (error || !data?.user) throw new HttpError(401, "Invalid or expired session.");
   const user = data.user;
 
-  // Single active session ("last login wins"): once the account has claimed a
-  // device session, the caller must present the matching id. A superseded
-  // device — whose id was overwritten by a newer login — is refused here even
-  // though its JWT hasn't expired yet, so it can't keep driving the billable
-  // endpoint. Accounts with no claim on record (null, e.g. pre-migration) are
-  // left unaffected. Errors reading the column fail open for the same reason.
-  const { data: profile } = await admin.from("profiles").select("active_session_id").eq("id", user.id).maybeSingle();
-  const active = profile?.active_session_id || null;
-  if (active) {
+  // Multi-device sessions: the profile holds up to N active session ids (N from
+  // the plan tier). The caller must present one of them. A device that rolled
+  // off the set — evicted as the oldest when a newer device logged in, signed
+  // out by the user, or reset by an admin — is refused here even though its JWT
+  // hasn't expired yet, so it can't keep driving the billable endpoint. That
+  // bite is immediate, ahead of the client's own heartbeat noticing.
+  // Accounts with no set on record (null, e.g.
+  // pre-migration) are left unaffected. Errors reading the column fail open.
+  const { data: profile } = await admin.from("profiles").select("active_session_ids").eq("id", user.id).maybeSingle();
+  const active = profile?.active_session_ids || null;
+  if (Array.isArray(active) && active.length) {
     const presented = String(req.headers["x-device-session"] || "").trim();
-    if (presented !== active) throw new HttpError(401, "Session ouverte sur un autre appareil.");
+    if (!active.includes(presented)) throw new HttpError(401, "Session ouverte sur un autre appareil.");
   }
   return user;
 }
@@ -36,7 +38,7 @@ export async function requireUser(req) {
 // app_metadata, which clients cannot self-edit.
 export function isPremiumUser(user) {
   const meta = user?.app_metadata || {};
-  if (meta.role === "admin") return true;
+  if (meta.role === "admin" || meta.role === "owner") return true;
   if (meta.plan !== "Premium") return false;
   if (!meta.premium_until) return true;
   const until = Date.parse(meta.premium_until);
@@ -52,10 +54,20 @@ export async function requirePremium(req) {
   return user;
 }
 
-// requireUser + the admin role (app_metadata, server-controlled). Gates the
-// service-role admin API (api/admin/*): user management and platform stats.
+// requireUser + a back-office role (admin or owner; app_metadata,
+// server-controlled). Gates the service-role admin API (api/admin/*): user
+// management and platform stats. An owner has every admin capability.
 export async function requireAdmin(req) {
   const user = await requireUser(req);
-  if (user.app_metadata?.role !== "admin") throw new HttpError(403, "Réservé à l'administration.");
+  const role = user.app_metadata?.role;
+  if (role !== "admin" && role !== "owner") throw new HttpError(403, "Réservé à l'administration.");
+  return user;
+}
+
+// requireUser + the owner role. The owner is the only account allowed to
+// assign or revoke admins, so admin-management actions gate on this.
+export async function requireOwner(req) {
+  const user = await requireUser(req);
+  if (user.app_metadata?.role !== "owner") throw new HttpError(403, "Réservé au propriétaire.");
   return user;
 }

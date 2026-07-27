@@ -5,12 +5,20 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, isDeviceSessionActive, consumeOAuthPending } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
+
+// Why this device was signed out, in the user's words. "revoked" is an admin
+// disconnect from the Users panel; anything else is the device-limit eviction
+// (a newer login took the slot) — see authService.checkDeviceSession.
+const deviceSessionNotice = (reason) =>
+  reason === "revoked"
+    ? "Vous avez été déconnecté par un administrateur."
+    : "Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.";
 
 export function AppProvider({ children }) {
   const [dark, setDark] = useState(loadDark);
@@ -20,6 +28,13 @@ export function AppProvider({ children }) {
   const [route, setRoute] = useState(() => routeFromPath(window.location.pathname));
   const [user, setUser] = useState(null);
   const [authReady, setAuthReady] = useState(false);
+  // True while a freshly-registered Google user must finish creating their
+  // account (choose username + country) before entering the app.
+  const [pendingOnboarding, setPendingOnboarding] = useState(false);
+  // True from the first render of an OAuth return until the session is resolved,
+  // so the app shows a "signing in…" splash instead of flashing signed-in UI
+  // (e.g. the dashboard) while the device-claim network call runs.
+  const [resolvingOAuth, setResolvingOAuth] = useState(peekOAuthPending);
   const [bookmarks, toggleBookmark] = useToggleSet([]);
   const [favs, toggleFav] = useToggleSet([]);
 
@@ -31,23 +46,55 @@ export function AppProvider({ children }) {
   useEffect(() => {
     getSession().then(async (session) => {
       // Consumed unconditionally so an abandoned OAuth flow can't leave the flag
-      // set and trigger a spurious claim on a later reload.
-      const wasOAuth = consumeOAuthPending();
+      // set and act on a later reload.
+      const oauth = consumeOAuthPending();
       const mapped = mapSupabaseUser(session);
-      if (mapped) {
-        if (wasOAuth) {
-          // Fresh Google login just redirected back — claim this device.
-          await claimDeviceSession(mapped.id);
-        } else if (!(await isDeviceSessionActive(mapped.id))) {
-          // The account was claimed by another device while this one was away.
-          await authSignOut();
-          setUser(null);
-          setAuthReady(true);
-          notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
-          return;
+      try {
+        if (mapped) {
+          if (oauth.pending) {
+            // A Google sign-in from either the login or the register button —
+            // claim this device, then, if the identity is brand new, hold it in
+            // onboarding to finish creating the account (username + country).
+            const isNew = isNewlyCreatedUser(session.user);
+            const claim = await claimDeviceSession(mapped.id);
+            // Only a DB still on the 20260724 reject policy gets here; the
+            // evict-oldest version always grants the claim (see authService).
+            if (claim.limitReached) {
+              await authSignOut();
+              setUser(null);
+              setAuthReady(true);
+              notify("Limite d'appareils atteinte pour votre forfait. Déconnectez-vous sur un autre de vos appareils, puis réessayez.");
+              return;
+            }
+            setUser(mapped);
+            // A brand-new Google registration must finish creating the account.
+            if (isNew) setPendingOnboarding(true);
+            setAuthReady(true);
+            return;
+          } else {
+            // Either this device's slot is gone — evicted by a newer login while
+            // it was away, or signed out elsewhere — or an admin disconnected
+            // the account.
+            const check = await checkDeviceSession(mapped.id);
+            if (!check.ok) {
+              await authSignOut();
+              setUser(null);
+              setAuthReady(true);
+              notify(deviceSessionNotice(check.reason));
+              return;
+            }
+          }
         }
+        setUser(mapped);
+        setAuthReady(true);
+      } finally {
+        // Always drop the OAuth splash once the session is resolved, on every
+        // path (including the early returns above).
+        setResolvingOAuth(false);
       }
-      setUser(mapped);
+    }).catch(() => {
+      // getSession itself failed — don't strand the user on the splash.
+      setResolvingOAuth(false);
       setAuthReady(true);
     });
     const subscription = onAuthStateChange((session) => setUser(mapSupabaseUser(session)));
@@ -55,22 +102,31 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Single-active-session heartbeat: while signed in, re-check periodically and
-  // whenever the tab regains focus that this device still holds the account's
-  // session; sign out with a notice if a newer login elsewhere superseded it.
+  // Device-session heartbeat: while signed in, re-check periodically and
+  // whenever the tab regains focus that this device still holds one of the
+  // account's slots; sign out with a notice once it doesn't. This is how an
+  // EVICTED device (a newer login pushed out the oldest one — see the 20260726
+  // migration) finds out: within a tick, or instantly when the tab is focused.
+  // It is also how an admin DISCONNECT (20260727) reaches the device.
   // No immediate check on mount — the just-completed login's claim may still be
   // in flight, and reloads are already validated by the effect above.
   useEffect(() => {
     if (!user?.id) return;
     const uid = user.id;
     let cancelled = false;
+    // Presence ping: mark this account "seen now" so the admin Users view can
+    // show live connections. Immediately, then on every heartbeat tick while the
+    // tab is visible (a hidden/closed tab stops pinging and drops off "online").
+    touchLastSeen();
     const check = async () => {
       if (document.hidden) return;
-      if (await isDeviceSessionActive(uid)) return;
+      touchLastSeen();
+      const check = await checkDeviceSession(uid);
+      if (check.ok) return;
       if (cancelled) return;
       await authSignOut();
       setUser(null);
-      notify("Vous avez été déconnecté : votre compte a été utilisé sur un autre appareil.");
+      notify(deviceSessionNotice(check.reason));
     };
     const interval = setInterval(check, 45000);
     window.addEventListener("focus", check);
@@ -169,7 +225,12 @@ export function AppProvider({ children }) {
   const signOut = async () => {
     await authSignOut();
     setUser(null);
+    setPendingOnboarding(false);
   };
+
+  // Finish a brand-new Google registration (username + country saved) and enter
+  // the app at the first-login landing page.
+  const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); };
 
   // Derived on every render so a premium_until expiry takes effect
   // immediately, without waiting for an auth event.
@@ -180,6 +241,8 @@ export function AppProvider({ children }) {
     lang, setLang, t,
     route, nav, back,
     user, setUser, authReady, signOut, role,
+    pendingOnboarding, completeOnboarding,
+    resolvingOAuth,
     c,
     toast, notify,
     bookmarks, toggleBookmark,
