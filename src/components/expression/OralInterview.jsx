@@ -28,7 +28,7 @@ export function OralInterview({ task }) {
             <Pill tone="blue">{t("Lecture du sujet :")} {fmt(reviewSecs)}</Pill>
             <Pill tone="red">{t("Parole :")} {fmt(task.dur)}</Pill>
           </div>
-          <Pill tone="slate">{t("Relances :")} {Math.min(followUpsAsked, MAX_FOLLOW_UPS)}/{MAX_FOLLOW_UPS}</Pill>
+          <Pill tone="slate">{t("Échanges :")} {Math.min(followUpsAsked, MAX_FOLLOW_UPS)}/{MAX_FOLLOW_UPS}</Pill>
         </div>
 
         <div className={`p-4 rounded-2xl border-2 border-blue-600/30 mb-5 ${phase === "review" ? "ring-2 ring-blue-600/20" : ""}`}>
@@ -59,7 +59,7 @@ export function OralInterview({ task }) {
         <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
 
         <p className={`mt-5 text-xs ${c.faint} flex items-center justify-center gap-1.5 text-center`}>
-          <Sparkles size={13} className="text-blue-600" /> {t("Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.")}
+          <Sparkles size={13} className="text-blue-600" /> {t("Échange simulé par l'IA : transcription Whisper, réponses et évaluation générées, voix de l'interlocuteur par IA.")}
         </p>
       </Card>
 
@@ -77,7 +77,7 @@ export function OralInterview({ task }) {
             <ol className={`space-y-2.5 text-sm ${c.sub} list-decimal list-inside`}>
               <li>{t("Prenez connaissance du sujet pendant le temps de lecture.")}</li>
               <li>{t("Répondez à voix haute — votre réponse est transcrite.")}</li>
-              <li>{t("L'examinateur IA vous relance 3 fois, à l'écrit et à l'oral.")}</li>
+              <li>{t("L'interlocuteur IA vous répond, à l'écrit et à l'oral.")}</li>
               <li>{t("À la fin, l'IA évalue l'ensemble de l'entretien.")}</li>
             </ol>
           </Card>
@@ -96,7 +96,7 @@ function DialogueBubble({ turn, speakingNow, onReplay }) {
       <div className="flex justify-start">
         <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-md border ${isReprompt ? "bg-amber-500/10 border-amber-500/25" : "bg-blue-600/10 border-blue-600/20"}`}>
           <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 flex items-center gap-1.5 ${isReprompt ? "text-amber-600" : "text-blue-600"}`}>
-            {isReprompt ? t("Examinateur · relance micro") : t("Examinateur")}
+            {isReprompt ? t("Interlocuteur · relance micro") : t("Interlocuteur")}
             {speakingNow && <Volume2 size={13} className="animate-pulse" />}
             {onReplay && (
               <button onClick={onReplay} aria-label={t("Réécouter la question")} className="hover:opacity-70 transition-opacity"><Volume2 size={13} /></button>
@@ -131,8 +131,8 @@ function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answe
         {phase === "idle" && t("Prêt·e quand vous l'êtes.")}
         {phase === "review" && t("Lisez le sujet et préparez vos idées… l'enregistrement démarrera automatiquement.")}
         {phase === "rec" && (<span className="inline-flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-rose-600 rec-dot" /> {t("Enregistrement en cours")}</span>)}
-        {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'examinateur vous écoute…")}</span>)}
-        {phase === "speaking" && (<span className="inline-flex items-center gap-2 text-blue-600"><Volume2 size={14} className="animate-pulse" /> {t("L'examinateur parle…")}</span>)}
+        {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'interlocuteur vous écoute…")}</span>)}
+        {phase === "speaking" && (<span className="inline-flex items-center gap-2 text-blue-600"><Volume2 size={14} className="animate-pulse" /> {t("L'interlocuteur parle…")}</span>)}
         {phase === "ready" && t("À vous de répondre.")}
         {phase === "done" && (ended ? t("Entretien interrompu, faute de réponse audible.") : t("Entretien terminé — consultez votre évaluation."))}
       </p>
