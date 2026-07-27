@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
-import { MapleLeaf } from "@/components/common/MapleLeaf";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable, consumeFirstLogin } from "@/services/authService";
@@ -101,7 +100,7 @@ export function AuthPage({ mode }) {
     <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
       <Card className="max-w-md mx-auto p-8 shadow-2xl shadow-blue-600/10 rise">
         <div className="text-center mb-7">
-          <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><MapleLeaf size={22} /></span>
+          <img src="/logo-mark.png" alt="" width="48" height="48" className="block mx-auto w-12 h-12 object-contain" />
           <h1 className={`font-display font-bold text-2xl mt-4 ${c.text}`}>
             {view === "login" ? t("Bon retour !") : view === "register" ? t("Créer votre compte") : t("Réinitialiser le mot de passe")}
           </h1>
