@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  LayoutDashboard, Users, FileText, Upload, MessageCircle, ScrollText,
-  TrendingUp, Trash2, Check, XCircle, Shield, Headphones, Search, Crown, UserCog,
+  LayoutDashboard, Users, FileText, MessageCircle, ScrollText,
+  TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
   Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
@@ -11,8 +11,6 @@ import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
-import { IMPORT_SAMPLE } from "@/constants/listeningImport";
-import { normalizeImportedQuestions } from "@/utils/questionImport";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
@@ -1269,13 +1267,10 @@ function AuditTab() {
 /* ---------------------------------- page ---------------------------------- */
 
 export function Admin() {
-  const { c, customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useApp();
+  const { c } = useApp();
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
   const [newRequests, setNewRequests] = useState(0);
-  const [importText, setImportText] = useState("");
-  const [importError, setImportError] = useState("");
-  const fileInputRef = useRef(null);
 
   // Sidebar badges: loaded once here (client-direct through the admin RLS
   // policies, so they work even without the serverless routes), then kept in
@@ -1285,32 +1280,12 @@ export function Admin() {
     listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
   }, []);
 
-  const handleImportFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImportText(String(reader.result));
-    reader.readAsText(file);
-  };
-  const runImport = () => {
-    setImportError("");
-    try {
-      const parsed = JSON.parse(importText);
-      const normalized = normalizeImportedQuestions(parsed);
-      addListeningQuestions(normalized);
-      setImportText("");
-    } catch (err) {
-      setImportError(err.message || "JSON invalide.");
-    }
-  };
-
   const tabs = [
     { id: "overview", l: "Aperçu", icon: LayoutDashboard },
     { id: "home", l: "Accueil", icon: Megaphone },
     { id: "users", l: "Utilisateurs", icon: Users },
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
-    { id: "import", l: "Importer (CO)", icon: Upload },
     { id: "messages", l: "Messages", icon: MessageCircle },
     { id: "requests", l: "Demandes", icon: Inbox },
     { id: "promos", l: "Promos", icon: Ticket },
@@ -1352,47 +1327,6 @@ export function Admin() {
       {tab === "users" && <UsersTab />}
       {tab === "pricing" && <TarifsTab />}
       {tab === "questions" && <SujetsManager />}
-      {tab === "import" && (
-        <div className="grid lg:grid-cols-2 gap-5">
-          <Card className="p-6">
-            <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Importer des questions de compréhension orale</h3>
-            <p className={`text-sm mb-4 ${c.sub}`}>Collez un tableau JSON de questions, ou téléversez un fichier .json. Chaque question doit avoir un énoncé et une liste d'alternatives ; l'audio et l'explication sont optionnels.</p>
-            <div className="space-y-3">
-              <div className="flex gap-2 flex-wrap">
-                <Btn small variant="ghost" icon={Upload} onClick={() => fileInputRef.current?.click()}>Choisir un fichier .json</Btn>
-                <input ref={fileInputRef} type="file" accept=".json,application/json" onChange={handleImportFile} className="hidden" aria-label="Téléverser un fichier JSON" />
-                <Btn small variant="ghost" icon={FileText} onClick={() => setImportText(IMPORT_SAMPLE)}>Charger un exemple</Btn>
-              </div>
-              <textarea value={importText} onChange={(e) => { setImportText(e.target.value); setImportError(""); }} rows={12} placeholder='[{ "audio": "https://…mp3", "question": "…", "alternatives": ["…","…","…","…"], "answer_index": 0, "explanation": "…", "level": "B1" }]' aria-label="JSON des questions" className={`w-full px-4 py-3 rounded-2xl border font-mono2 text-xs outline-none focus:border-blue-600 ${c.inputCls}`} />
-              {importError && <p className="text-sm text-rose-600 flex items-start gap-2"><XCircle size={15} className="shrink-0 mt-0.5" />{importError}</p>}
-              <Btn small icon={Upload} onClick={runImport} disabled={!importText.trim()}>Importer ces questions</Btn>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className={`font-display font-bold ${c.text}`}>Questions importées ({customListen.length})</h3>
-              {customListen.length > 0 && <button onClick={clearListeningQuestions} className="text-xs font-semibold text-rose-600 hover:underline">Tout effacer</button>}
-            </div>
-            {customListen.length === 0 ? (
-              <p className={`text-sm py-6 text-center ${c.faint}`}>Aucune question importée pour l'instant. Elles apparaîtront automatiquement sur la page « Compréhension orale ».</p>
-            ) : (
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {customListen.map((q) => (
-                  <div key={q.id} className={`flex items-start gap-3 p-3.5 rounded-2xl border ${c.border}`}>
-                    <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Headphones size={15} /></span>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${c.text}`}>{q.q}</p>
-                      <p className={`text-xs font-mono2 ${c.faint}`}>{q.audio ? "Audio lié" : "Sans audio"} · niveau {q.level} · {q.opts.length} choix</p>
-                    </div>
-                    <button aria-label="Supprimer cette question" onClick={() => removeListeningQuestion(q.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600 shrink-0`}><Trash2 size={15} /></button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className={`mt-4 text-xs ${c.faint} flex items-start gap-1.5`}><Shield size={13} className="mt-0.5 shrink-0" /> Pour la banque officielle (avec versionnage et analytique), utilisez plutôt l'onglet « Questions ».</p>
-          </Card>
-        </div>
-      )}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "promos" && <PromosTab />}
