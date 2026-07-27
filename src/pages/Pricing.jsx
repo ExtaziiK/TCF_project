@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Gift, CheckCircle2, Shield, RotateCcw, CreditCard, XCircle } from "lucide-react";
+import { Gift, CheckCircle2, Shield, RotateCcw, CreditCard, XCircle, Clock } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -7,6 +7,39 @@ import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode, promoLabel } from "@/services/stripeService";
 import { CURRENCIES, convertPrice, planDzdAmount } from "@/utils/currency";
 import { getPaymentDz, getPricingPromo, promoActive, DEFAULT_PROMO } from "@/services/settingsService";
+
+// Live countdown to the promotion's end date. Ticks each second; calls
+// onExpire once when time runs out so the page can drop the promo.
+function Countdown({ endsAt, onExpire }) {
+  const { t } = useApp();
+  const target = useMemo(() => Date.parse(endsAt), [endsAt]);
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const diff = target - now;
+  const expired = !Number.isFinite(target) || diff <= 0;
+  useEffect(() => { if (expired) onExpire?.(); }, [expired]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (expired) return null;
+  const s = Math.floor(diff / 1000);
+  const units = [
+    [Math.floor(s / 86400), "j"],
+    [Math.floor((s % 86400) / 3600), "h"],
+    [Math.floor((s % 3600) / 60), "min"],
+    [s % 60, "s"],
+  ].filter(([n], i) => n > 0 || i > 0); // drop leading days when 0
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      {units.map(([n, l]) => (
+        <span key={l} className="inline-flex flex-col items-center px-1.5 py-0.5 rounded-lg bg-white/20 min-w-[2.2rem]">
+          <span className="font-mono2 font-extrabold text-sm leading-none tabular-nums">{String(n).padStart(2, "0")}</span>
+          <span className="text-[9px] uppercase tracking-wide opacity-90">{t(l)}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 export function Pricing() {
   const { c, t } = useApp();
@@ -84,9 +117,15 @@ export function Pricing() {
             : t("Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.")}
         </p>
       )}
-      {promoActive(launch) && launch.headline && (
-        <div className="max-w-3xl mx-auto mb-8 rounded-2xl grad-brand text-white px-5 py-3 text-center text-sm font-semibold shadow-lg shadow-blue-600/25">
-          {launch.headline}
+      {promoActive(launch) && (launch.headline || launch.endsAt) && (
+        <div className="max-w-3xl mx-auto mb-8 rounded-2xl grad-brand text-white px-5 py-3 shadow-lg shadow-blue-600/25 flex flex-col sm:flex-row items-center justify-center gap-x-5 gap-y-2 text-center">
+          {launch.headline && <span className="text-sm font-semibold">{launch.headline}</span>}
+          {launch.endsAt && (
+            <span className="inline-flex items-center gap-2 text-sm font-semibold shrink-0">
+              <Clock size={15} className="opacity-90" /> {t("Se termine dans")}
+              <Countdown endsAt={launch.endsAt} onExpire={() => setLaunch((p) => ({ ...p, enabled: false }))} />
+            </span>
+          )}
         </div>
       )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
