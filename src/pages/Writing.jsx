@@ -113,7 +113,7 @@ function WritingTaskPane({ task }) {
               {!running && left > 0 && <Btn small variant="ghost" icon={Play} onClick={() => setRunning(true)}>{t("Lancer le chrono")}</Btn>}
             </div>
           </div>
-          <p className={`font-medium leading-relaxed ${c.text}`}>{task.prompt}</p>
+          <p className={`font-medium leading-relaxed whitespace-pre-line ${c.text}`}>{task.prompt}</p>
         </Card>
         <Card className="p-2">
           {/* Top toolbar: the on-screen French accents (for candidates without

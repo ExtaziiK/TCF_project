@@ -1,53 +1,38 @@
-import { listQuestions } from "@/services/questionsService";
-import { WRITING_TASKS, EE_COMBINATIONS } from "@/constants/writing";
+import { EE_COMBINATIONS } from "@/constants/writing";
 import { SPEAKING_TASKS } from "@/constants/speaking";
+import { loadArchive } from "@/services/sujetsArchiveService";
 
-// Practice sessions for Expression écrite / orale, driven by the Question
-// Bank. A session is one prompt per official tâche (1..3), picked by a
-// smart random strategy:
-//   - pool = active bank questions for that section+task, plus the seed
-//     prompt shipped with the app (seeds are ordinary pool members, so
-//     admin content dilutes them naturally — nothing is hardcoded in the UI)
-//   - selection prefers the prompts this user has been served least
-//     (per-user counts persisted locally), breaking ties at random; once
-//     everything has been seen equally, the pool reshuffles by itself
-//   - the three picks are locked for the lifetime of the session object;
-//     a new page visit generates a new set
-//
-// The strategy hook (pickLeastSeen) is deliberately isolated so future
-// policies (difficulty-aware, AI-recommended, premium pools…) can replace
-// it without touching the UI or the session flow.
+// Practice sessions for Expression écrite / orale, drawn from the monthly
+// subjects archive (the same data as the Ressources pages: shipped base +
+// admin additions). A session locks one prompt per official tâche:
+//   - EE rotates a whole combinaison (its three tâches together, like the exam)
+//   - EO draws Tâche 2 & 3 from the archive; Tâche 1 stays the generic entretien
+// Selection is least-served-first (fair rotation), persisted per-user locally;
+// once everything is seen equally the pool reshuffles itself. Falls back to the
+// built-in seeds if the archive is ever empty/unreachable.
 
 export const OFFICIAL_TASKS = [1, 2, 3];
 
-/* ------------------------------ seed prompts ----------------------------- */
-// The original built-in tasks, normalized to the same shape as bank prompts.
-
-const SEEDS = {
-  ee: WRITING_TASKS.map((t, i) => ({
-    id: `seed-ee-${i + 1}`,
-    task: i + 1,
-    payload: { prompt: t.prompt, sample: t.sample, minWords: null, maxWords: null },
-    seed: t, // keep original labels/timings
-  })),
-  eo: SPEAKING_TASKS.map((t, i) => ({
-    id: `seed-eo-${i + 1}`,
-    task: i + 1,
-    payload: { prompt: t.prompt, prepTime: t.prep, speakTime: t.dur },
-    seed: t,
-  })),
+// Per-tâche metadata (labels, word counts / timings) reused for every archived
+// subject — only the prompt text comes from the archive.
+const EE_META = {
+  1: { t: "Tâche 1 · Message court", words: "60 à 120 mots", min: 15 },
+  2: { t: "Tâche 2 · Message développé", words: "120 à 150 mots", min: 20 },
+  3: { t: "Tâche 3 · Texte argumenté", words: "120 à 180 mots", min: 25 },
+};
+const EO_META = {
+  1: { t: "Tâche 1 · Entretien dirigé", prep: 0, dur: 120 },
+  2: { t: "Tâche 2 · Interaction", prep: 120, dur: 330 },
+  3: { t: "Tâche 3 · Point de vue", prep: 0, dur: 270 },
 };
 
 /* -------------------------- seen-count tracking -------------------------- */
-// How often each prompt was served to this user. Local for now; moving it
-// to a Supabase table later only changes these two functions.
-
+// How often each prompt was served to this user. Local for now; moving it to a
+// Supabase table later only changes these two functions.
 const SEEN_KEY = (userId) => `passerelle-expression-seen-${userId || "anon"}`;
-
 function readSeen(userId) {
   try { return JSON.parse(localStorage.getItem(SEEN_KEY(userId))) || {}; } catch { return {}; }
 }
-
 function recordSeen(userId, ids) {
   try {
     const seen = readSeen(userId);
@@ -57,7 +42,6 @@ function recordSeen(userId, ids) {
 }
 
 /* --------------------------- selection strategy -------------------------- */
-
 // Least-served first, random among equals. Exported for tests and reuse.
 export function pickLeastSeen(pool, seenCounts) {
   if (pool.length === 0) return null;
@@ -66,49 +50,51 @@ export function pickLeastSeen(pool, seenCounts) {
   return fresh[Math.floor(Math.random() * fresh.length)];
 }
 
-/* ------------------------------ task shaping ----------------------------- */
-// Adapts a picked prompt (bank question or seed) to the shape the workshop
-// pages already consume (useWritingTask / useOralInterview / useSpeakingSession).
-
-const DEFAULT_LABELS = { 1: "Message court", 2: "Article de blogue", 3: "Texte argumenté" };
-const DEFAULT_LABELS_EO = { 1: "Entretien dirigé", 2: "Interaction", 3: "Point de vue" };
-
-function toWritingTask(entry) {
-  if (entry.seed) return { ...entry.seed, id: entry.id, task: entry.task };
-  const p = entry.payload;
-  const lo = Number(p.minWords) || 60;
-  const hi = Number(p.maxWords) || 120;
-  return {
-    id: entry.id,
-    task: entry.task,
-    t: `Tâche ${entry.task} · ${DEFAULT_LABELS[entry.task] || "Rédaction"}`,
-    words: `${lo} à ${hi} mots`,
-    min: Math.max(10, Math.round(hi / 8)), // minutes on the clock, scaled to length
-    prompt: [p.prompt, p.instructions].filter(Boolean).join(" "),
-    sample: p.sample || "",
-  };
+/* ------------------------------ archive pools ---------------------------- */
+// EE Tâche 3 ships a theme + two short documents; present them as one argued
+// prompt (kept multi-line — the workshop renders the prompt with line breaks).
+function composeT3(t3) {
+  const parts = [];
+  if (t3?.theme) parts.push(`« ${t3.theme} »`);
+  if (t3?.doc1) parts.push(`Document 1 : ${t3.doc1}`);
+  if (t3?.doc2) parts.push(`Document 2 : ${t3.doc2}`);
+  parts.push("Deux points de vue s'opposent sur cette question. Rédigez un texte argumenté dans lequel vous exposez votre opinion, à l'aide d'arguments et d'exemples.");
+  return parts.join("\n\n");
 }
 
-function toSpeakingTask(entry) {
-  if (entry.seed) return { ...entry.seed, id: entry.id, task: entry.task };
-  const p = entry.payload;
-  return {
-    id: entry.id,
-    task: entry.task,
-    t: `Tâche ${entry.task} · ${DEFAULT_LABELS_EO[entry.task] || "Expression"}`,
-    prep: Number(p.prepTime) || 0,
-    dur: Number(p.speakTime) || 120,
-    prompt: p.prompt,
-  };
+// Flattens the EE archive into a pool of combinaisons (one subject = 3 tâches).
+async function buildEECombos() {
+  const { years } = await loadArchive("ee");
+  const combos = [];
+  for (const y of years) for (const m of y.months) (m.data || []).forEach((s, i) => {
+    if (s.t1 || s.t2 || s.t3) combos.push({ id: `ee-${m.key}-${s.n ?? i + 1}`, s });
+  });
+  return combos;
+}
+
+function eeTasksFromCombo({ id, s }) {
+  return OFFICIAL_TASKS.map((task) => {
+    if (task === 1) return s.t1 ? { task, id: `${id}-t1`, ...EE_META[1], sample: "", prompt: s.t1 } : { task, empty: true };
+    if (task === 2) return s.t2 ? { task, id: `${id}-t2`, ...EE_META[2], sample: "", prompt: s.t2 } : { task, empty: true };
+    return s.t3 ? { task, id: `${id}-t3`, ...EE_META[3], sample: "", prompt: composeT3(s.t3) } : { task, empty: true };
+  });
+}
+
+// Flattens the EO archive into per-tâche pools (Tâche 2 & 3 only).
+async function buildEOPools() {
+  const { years } = await loadArchive("eo");
+  const pools = { 2: [], 3: [] };
+  for (const y of years) for (const m of y.months) for (const tache of (m.data || [])) {
+    if (!pools[tache.tache]) continue;
+    for (const p of tache.parties || []) (p.sujets || []).forEach((txt, i) => {
+      pools[tache.tache].push({ id: `eo-${m.key}-t${tache.tache}-p${p.partie}-${i}`, prompt: txt });
+    });
+  }
+  return pools;
 }
 
 /* ----------------------------- session builder --------------------------- */
-
-// Expression écrite rotates by whole COMBINATION: each visit serves one
-// complete subject (its three tâches together) and rotates through the
-// combinations on every access (least-served first, random among equals — the
-// same fairness policy used per-prompt elsewhere). This mirrors the real exam,
-// where the three tâches belong to one subject, not three independent draws.
+// EE fallback when the archive is empty: rotate the built-in combinations.
 function generateWritingCombinationSession(userId) {
   const seen = readSeen(userId);
   const combo = pickLeastSeen(EE_COMBINATIONS, seen) || EE_COMBINATIONS[0];
@@ -122,25 +108,23 @@ function generateWritingCombinationSession(userId) {
 // One prompt per official tâche, locked for the session. Returns
 // [{ task: 1..3, ...workshopTaskShape } | { task, empty: true }].
 export async function generateExpressionSession(userId, section) {
-  if (section === "ee" && EE_COMBINATIONS.length) return generateWritingCombinationSession(userId);
-  const { questions } = await listQuestions();
-  const bank = questions.filter((q) => q.section === section && q.status === "active");
   const seen = readSeen(userId);
-  const shape = section === "ee" ? toWritingTask : toSpeakingTask;
-
+  if (section === "ee") {
+    const combos = await buildEECombos();
+    if (!combos.length) return generateWritingCombinationSession(userId);
+    const combo = pickLeastSeen(combos, seen) || combos[0];
+    recordSeen(userId, [combo.id]);
+    return eeTasksFromCombo(combo);
+  }
+  // Expression orale.
+  const pools = await buildEOPools();
   const picks = OFFICIAL_TASKS.map((task) => {
-    const fromBank = bank
-      .filter((q) => Number(q.task) === task)
-      .map((q) => ({ id: q.id, task, payload: q.payload }));
-    const seed = SEEDS[section]?.find((s) => s.task === task);
-    // dedupe: an admin prompt identical to the seed replaces it
-    const pool = seed && !fromBank.some((q) => q.payload.prompt === seed.payload.prompt)
-      ? [...fromBank, seed]
-      : fromBank;
+    if (task === 1) return { task, ...SPEAKING_TASKS[0], id: "seed-eo-1" }; // entretien dirigé
+    const pool = pools[task] || [];
+    if (!pool.length) { const seed = SPEAKING_TASKS[task - 1]; return seed ? { task, ...seed, id: `seed-eo-${task}` } : { task, empty: true }; }
     const chosen = pickLeastSeen(pool, seen);
-    return chosen ? { task, ...shape(chosen) } : { task, empty: true };
+    return { task, id: chosen.id, ...EO_META[task], prompt: chosen.prompt };
   });
-
   recordSeen(userId, picks.filter((p) => !p.empty).map((p) => p.id));
   return picks;
 }
