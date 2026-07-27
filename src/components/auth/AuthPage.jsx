@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable, consumeFirstLogin } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage } from "@/services/authService";
 import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
@@ -53,7 +53,7 @@ export function AuthPage({ mode }) {
         if (!r.ok) {
           if (r.locked) { setNotice(""); setLockMsg(r.message); }
           else if (r.deviceLimitReached) { setLockMsg(""); setNotice(r.message); }
-          else { setLockMsg(""); setNotice(""); notify(r.message); }
+          else { setLockMsg(""); setNotice(""); notify(r.message, "error"); }
           return;
         }
         setLockMsg(""); setNotice("");
@@ -61,11 +61,11 @@ export function AuthPage({ mode }) {
         const firstLogin = consumeFirstLogin(r.user?.id);
         nav(r.user?.admin || r.user?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
       } else if (view === "register") {
-        if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
-        if (!country) return notify(t("Sélectionnez votre pays pour continuer."));
-        if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."));
+        if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."), "error");
+        if (!country) return notify(t("Sélectionnez votre pays pour continuer."), "error");
+        if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country });
-        if (error) return notify(error.message);
+        if (error) return notify(authErrorMessage(error), "error");
         if (needsEmailConfirmation) setVerify(true);
         else {
           const newUser = mapSupabaseUser(data.session);
@@ -74,7 +74,7 @@ export function AuthPage({ mode }) {
         }
       } else {
         const { error } = await resetPassword(email);
-        if (error) return notify(error.message);
+        if (error) return notify(authErrorMessage(error), "error");
         setResetSent(true);
       }
     } finally {
@@ -88,7 +88,7 @@ export function AuthPage({ mode }) {
     // identity is routed to onboarding to finish creating its account (see
     // AppProvider), an existing one just signs in.
     const { error } = await signInWithGoogle();
-    if (error) { notify(error.message); setBusy(false); }
+    if (error) { notify(authErrorMessage(error), "error"); setBusy(false); }
     // on success the browser redirects to Google, so no further state change here
   };
 

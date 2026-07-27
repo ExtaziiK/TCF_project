@@ -373,6 +373,35 @@ export async function signOut() {
   return supabase.auth.signOut();
 }
 
+// A Supabase auth error turned into something worth showing a user.
+//
+// supabase-js does not always produce a usable `.message`: when GoTrue answers
+// with a body it can't map (the 500 it returns when the project's SMTP server
+// refuses the mail is one), the message ends up as the literal "{}" — which is
+// what the reset screen was putting on screen instead of an explanation. Junk
+// like that is replaced by `fallback`, and the few failures a user can actually
+// act on get their own wording.
+export function authErrorMessage(error, fallback = "Une erreur est survenue. Réessayez dans un instant.") {
+  const raw = typeof error === "string" ? error : error?.message;
+  const text = typeof raw === "string" ? raw.trim() : "";
+  const code = error?.code || error?.error_code || "";
+
+  // Carries no information — never show it.
+  const useless = !text || text === "{}" || text === "[]" || text === "null"
+    || text === "undefined" || text === "[object Object]";
+
+  // The mail could not be handed to the SMTP server. Nothing the user can fix,
+  // so say so plainly rather than blaming their address.
+  if (code === "unexpected_failure" || /error sending/i.test(text)) {
+    return "L'envoi du courriel a échoué. Ce n'est pas lié à votre compte — réessayez dans quelques minutes ou contactez-nous.";
+  }
+  // Supabase throttles repeat sends; the raw text is English and mentions seconds.
+  if (/rate limit|only request this after|too many requests/i.test(text) || code === "over_email_send_rate_limit") {
+    return "Trop de demandes en peu de temps. Patientez une minute avant de réessayer.";
+  }
+  return useless ? fallback : text;
+}
+
 export async function resetPassword(email) {
   return supabase.auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin,
