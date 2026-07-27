@@ -43,11 +43,11 @@ export function Nav({ barOffset = false }) {
       <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 backdrop-blur-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onNavigate={closeAll} />
-          <nav className="hidden lg:flex items-center gap-1" aria-label={t("Navigation principale")}>
+          <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
             {navLinks.map((n) =>
               n.menu ? (
                 <div key={n.l} className="relative" onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
-                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 ${c.sub} ${c.hoverSoft}`} aria-expanded={openMenu === n.l}>
+                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${c.sub} ${c.hoverSoft}`} aria-expanded={openMenu === n.l}>
                     {t(n.l)} <ChevronDown size={14} className={`transition-transform ${openMenu === n.l ? "rotate-180" : ""}`} />
                   </button>
                   {openMenu === n.l && (
@@ -63,11 +63,11 @@ export function Nav({ barOffset = false }) {
                   )}
                 </div>
               ) : n.grad ? (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold whitespace-nowrap shrink-0 ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
                   <span className="grad-text">{t(n.l)}</span>
                 </RouteLink>
               ) : (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
               )
             )}
           </nav>
@@ -142,11 +142,11 @@ export function Nav({ barOffset = false }) {
                 <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
               </div>
             )}
-            <button onClick={() => setOpen(!open)} aria-label="Menu" className={`lg:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
+            <button onClick={() => setOpen(!open)} aria-label="Menu" className={`xl:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
           </div>
         </div>
         {open && (
-          <div className={`lg:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
+          <div className={`xl:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
             {mobileLinks.map((m) => (
               <RouteLink key={m.l} r={m.r} onNavigate={closeAll} className={`block w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${m.grad ? "font-bold" : c.text} ${c.hoverSoft}`}>
                 {m.grad ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
