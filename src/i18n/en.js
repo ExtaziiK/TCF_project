@@ -568,8 +568,8 @@ export const EN = {
   "Gratuit": "Free",
   "Essayer maintenant": "Try now",
   "Envie de tout débloquer ?": "Want to unlock everything?",
-  "Questions illimitées, TCF blancs complets et analyse IA dès 19 $ / mois.":
-    "Unlimited questions, full mock exams and AI analysis from $19 / month.",
+  "Plus de quiz, TCF blancs complets et analyse IA de vos productions, dès 4,99 $ l'accès.":
+    "More quizzes, full mock exams and AI feedback on your work, from $4.99 per access pass.",
   "Voir les forfaits": "See plans",
 
   // ── Listening / Reading modules ──────────────────────────────────────
@@ -962,8 +962,8 @@ export const EN = {
   "Contenu Premium": "Premium content",
   "Ce module fait partie de l'abonnement Premium": "This module is part of the Premium subscription",
   "Débloquez tout Passerelle": "Unlock all of Passerelle",
-  "Questions illimitées, les quatre épreuves, TCF blancs et suivi CECR dès 19 $ / mois.":
-    "Unlimited questions, all four sections, mock exams and CEFR tracking from $19 / month.",
+  "Les quatre épreuves, plus de quiz, TCF blancs complets et analyse IA, dès 4,99 $ l'accès.":
+    "All four test sections, more quizzes, full mock exams and AI feedback, from $4.99 per access pass.",
   "Continuer en gratuit": "Continue for free",
   "Accès refusé": "Access denied",
   "Cette page est réservée à l'administration": "This page is restricted to administrators",
