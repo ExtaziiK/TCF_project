@@ -41,19 +41,18 @@ export async function fetchShipped(section) {
   }
 }
 
-// Reads the whole archive for a section. Prefers the DB; degrades to the shipped
-// JSON when the table is empty or unreachable. Returns { source, years }.
+// Reads the whole archive for a section. The shipped JSON is always the base
+// (every imported subject is kept, no seeding step); rows in the DB are admin
+// additions/edits that override the same month on top of that base. So a fresh
+// database shows the full built-in set, and admin changes layer over it.
 export async function loadArchive(section) {
-  const { data, error } = await supabase
-    .from("sujets_archive")
-    .select("year, month_num, data")
-    .eq("section", section)
-    .order("year", { ascending: false })
-    .order("month_num", { ascending: false });
-  if (!error && data && data.length) {
-    return { source: "db", years: toYears(data.map((r) => ({ year: r.year, monthNum: r.month_num, data: r.data }))) };
+  const map = new Map();
+  for (const r of await fetchShipped(section)) map.set(`${r.year}-${r.monthNum}`, r);
+  const { data, error } = await supabase.from("sujets_archive").select("year, month_num, data").eq("section", section);
+  if (!error && data) {
+    for (const r of data) map.set(`${r.year}-${r.month_num}`, { year: r.year, monthNum: r.month_num, data: r.data });
   }
-  return { source: "shipped", years: toYears(await fetchShipped(section)) };
+  return { years: toYears([...map.values()]) };
 }
 
 async function currentUserId() {
@@ -70,27 +69,9 @@ export async function saveMonth(section, year, monthNum, data) {
   return { ok: !error, error: error?.message };
 }
 
-// Admin-only (RLS). Removes a whole month.
+// Admin-only (RLS). Removes a month's admin override. If the month also exists
+// in the shipped base, it reverts to that base on the next load.
 export async function deleteMonth(section, year, monthNum) {
   const { error } = await supabase.from("sujets_archive").delete().eq("section", section).eq("year", year).eq("month_num", monthNum);
   return { ok: !error, error: error?.message };
-}
-
-// Admin-only. Seeds the table from the shipped JSON (one upsert per month).
-// Skips months that already exist so it never clobbers admin edits.
-export async function seedFromShipped(section, { overwrite = false } = {}) {
-  const shipped = await fetchShipped(section);
-  if (!shipped.length) return { ok: false, error: "Données par défaut introuvables." };
-  let existing = new Set();
-  if (!overwrite) {
-    const { data } = await supabase.from("sujets_archive").select("year, month_num").eq("section", section);
-    existing = new Set((data || []).map((r) => `${r.year}-${r.month_num}`));
-  }
-  const uid = await currentUserId();
-  const rows = shipped
-    .filter((r) => overwrite || !existing.has(`${r.year}-${r.monthNum}`))
-    .map((r) => ({ section, year: r.year, month_num: r.monthNum, data: r.data, updated_at: new Date().toISOString(), updated_by: uid }));
-  if (!rows.length) return { ok: true, count: 0 };
-  const { error } = await supabase.from("sujets_archive").upsert(rows, { onConflict: "section,year,month_num" });
-  return { ok: !error, error: error?.message, count: rows.length };
 }

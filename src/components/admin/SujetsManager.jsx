@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { Plus, Trash2, Search, XCircle, DownloadCloud, CalendarPlus, FileText, Mic, CloudOff, RefreshCw } from "lucide-react";
+import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Btn, Pill } from "@/components/common";
+import { Card, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
-import { saveMonth, deleteMonth, seedFromShipped, monthLabel, MONTH_LABELS, SECTION_LABEL } from "@/services/sujetsArchiveService";
+import { saveMonth, deleteMonth, monthLabel, MONTH_LABELS, SECTION_LABEL } from "@/services/sujetsArchiveService";
 
 const YEAR_NOW = new Date().getFullYear();
 const YEAR_CHOICES = Array.from({ length: 8 }, (_, i) => YEAR_NOW + 1 - i); // next year → 6 years back
@@ -16,7 +16,7 @@ const countEO = (data) => data.reduce((a, t) => a + t.parties.reduce((b, p) => b
 export function SujetsManager() {
   const { c, notify } = useApp();
   const [section, setSection] = useState("ee");
-  const { loading, years, source, reload } = useSujetsArchive(section);
+  const { loading, years, reload } = useSujetsArchive(section);
   const [year, setYear] = useState(null);
   const [mkey, setMkey] = useState(null);
   const [q, setQ] = useState("");
@@ -35,8 +35,6 @@ export function SujetsManager() {
     reload();
     return r;
   };
-
-  const seed = () => run(() => seedFromShipped(section), null).then((r) => r?.ok && notify(r.count ? `${r.count} mois importés depuis les données par défaut.` : "Tout est déjà présent — rien à importer."));
 
   const addMonth = (y, mn) => run(() => saveMonth(section, y, mn, []), `${monthLabel(mn)} ${y} ajouté.`).then(() => { setYear(y); setMkey(`${y}-${String(mn).padStart(2, "0")}`); });
   const removeMonth = (m) => run(() => deleteMonth(section, yearObj.year, m.monthNum), `${m.month} ${yearObj.year} supprimé.`);
@@ -78,19 +76,7 @@ export function SujetsManager() {
             {s === "ee" ? <FileText size={15} /> : <Mic size={15} />} {SECTION_LABEL[s]}
           </button>
         ))}
-        <span className="ml-auto flex items-center gap-2">
-          {!loading && <Pill tone={source === "db" ? "green" : "amber"}>{source === "db" ? "Base de données" : "Données par défaut (non enregistrées)"}</Pill>}
-          <Btn small variant="ghost" icon={RefreshCw} disabled={busy || loading} onClick={reload}>Actualiser</Btn>
-        </span>
       </div>
-
-      {source !== "db" && !loading && (
-        <Card className="p-4 flex items-center gap-3 border-amber-500/40">
-          <CloudOff size={18} className="text-amber-500 shrink-0" />
-          <p className={`text-sm ${c.sub}`}>Ces sujets proviennent des données livrées avec le site, pas encore de la base. Importez-les pour pouvoir ajouter / supprimer et les partager avec tous les utilisateurs.</p>
-          <Btn small icon={DownloadCloud} disabled={busy} className="ml-auto shrink-0" onClick={seed}>Importer les sujets par défaut</Btn>
-        </Card>
-      )}
 
       {/* Filters + add month */}
       <Card className="p-4 flex flex-wrap items-center gap-3">
