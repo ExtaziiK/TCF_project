@@ -165,8 +165,12 @@ export function SubscriptionRequestsTab({ onCount }) {
     const g = await updateAdminUser({ action: "set-plan", userId: req.user_id, plan: "Premium", days: req.plan_days, label: req.plan });
     if (!g.ok) { setBusyId(null); return notify(g.error || (g.unavailable ? "Activation indisponible en local (fonctions serverless absentes)." : "Activation refusée.")); }
     await setRequestStatus(req.id, "approved");
+    // The user's current session still carries their old (non-Premium) claims —
+    // app_metadata is baked into the JWT at login. Sign them out everywhere so
+    // they pick up the new plan the moment they log back in. Best-effort.
+    if (req.user_id) await updateAdminUser({ action: "disconnect", userId: req.user_id });
     setBusyId(null);
-    notify(`${req.plan} activé pour ${req.email || "le client"}.`);
+    notify(`${req.plan} activé pour ${req.email || "le client"} — il devra se reconnecter pour y accéder.`);
     load();
   };
   const reject = async (req) => {

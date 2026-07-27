@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { LogOut } from "lucide-react";
 import { AppContext } from "@/context/AppContext";
 import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
@@ -37,6 +39,12 @@ export function AppProvider({ children }) {
   const [resolvingOAuth, setResolvingOAuth] = useState(peekOAuthPending);
   const [bookmarks, toggleBookmark] = useToggleSet([]);
   const [favs, toggleFav] = useToggleSet([]);
+  // When set, a short "you're about to be signed out" popup is shown before the
+  // device is actually logged out (admin disconnect / subscription approval),
+  // so the user isn't kicked abruptly. The ref guards against re-triggering it
+  // on the next heartbeat/focus tick while the popup is already counting down.
+  const [forcedLogout, setForcedLogout] = useState(false);
+  const forcingOut = useRef(false);
 
   const { toast, notify } = useToast();
   const { customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useCustomListening(notify);
@@ -77,6 +85,15 @@ export function AppProvider({ children }) {
             // the account.
             const check = await checkDeviceSession(mapped.id);
             if (!check.ok) {
+              // An admin disconnect / subscription approval (reason "revoked")
+              // gets the grace popup, then signs out; a device-limit eviction
+              // signs out immediately with a toast.
+              if (check.reason === "revoked") {
+                setUser(mapped);
+                setAuthReady(true);
+                triggerForcedLogout();
+                return;
+              }
               await authSignOut();
               setUser(null);
               setAuthReady(true);
@@ -124,6 +141,8 @@ export function AppProvider({ children }) {
       const check = await checkDeviceSession(uid);
       if (check.ok) return;
       if (cancelled) return;
+      // Admin disconnect / approval: warn with the grace popup, then sign out.
+      if (check.reason === "revoked") { triggerForcedLogout(); return; }
       await authSignOut();
       setUser(null);
       notify(deviceSessionNotice(check.reason));
@@ -228,6 +247,21 @@ export function AppProvider({ children }) {
     setPendingOnboarding(false);
   };
 
+  // Show the grace popup once; the modal signs the device out when its 5s
+  // countdown ends (or the user clicks through sooner).
+  const triggerForcedLogout = () => {
+    if (forcingOut.current) return;
+    forcingOut.current = true;
+    setForcedLogout(true);
+  };
+  const finishForcedLogout = async () => {
+    await authSignOut();
+    setUser(null);
+    setPendingOnboarding(false);
+    setForcedLogout(false);
+    forcingOut.current = false;
+  };
+
   // Finish a brand-new Google registration (username + country saved) and enter
   // the app at the first-login landing page.
   const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); };
@@ -250,5 +284,35 @@ export function AppProvider({ children }) {
     customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions,
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={value}>
+      {children}
+      {forcedLogout && <ForcedLogoutModal onDone={finishForcedLogout} t={t} c={c} />}
+    </AppContext.Provider>
+  );
+}
+
+// A short countdown popup shown before a forced sign-out (admin disconnect /
+// subscription approval). Auto-signs-out when it reaches 0; the user can click
+// through sooner. `onDone` performs the actual sign-out.
+function ForcedLogoutModal({ onDone, t, c }) {
+  const [left, setLeft] = useState(5);
+  useEffect(() => {
+    const iv = setInterval(() => setLeft((n) => Math.max(0, n - 1)), 1000);
+    const to = setTimeout(onDone, 5000);
+    return () => { clearInterval(iv); clearTimeout(to); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return createPortal(
+    <div role="alertdialog" aria-modal="true" aria-live="assertive" className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className={`w-full max-w-sm rounded-3xl border ${c.border} ${c.card} p-7 text-center shadow-2xl rise`}>
+        <span className="w-14 h-14 rounded-full bg-blue-600/10 text-blue-600 flex items-center justify-center mx-auto"><LogOut size={26} /></span>
+        <h3 className={`mt-4 font-display font-bold text-lg ${c.text}`}>{t("Reconnexion nécessaire")}</h3>
+        <p className={`mt-2 text-sm ${c.sub}`}>{t("Votre accès a été mis à jour. Reconnectez-vous pour l'activer.")}</p>
+        <p className={`mt-3 text-xs ${c.faint}`}>{t("Déconnexion automatique dans")} {left}s</p>
+        <button onClick={onDone} className="mt-5 w-full px-5 py-3 rounded-full grad-brand text-white font-semibold shadow-lg shadow-blue-600/30">{t("Se reconnecter")}</button>
+      </div>
+    </div>,
+    document.body,
+  );
 }
