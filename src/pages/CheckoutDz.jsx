@@ -9,7 +9,7 @@ import { PLANS } from "@/constants/pricing";
 import { planDzdAmount } from "@/utils/currency";
 import { getDzCheckoutPlan } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
-import { submitSubscriptionRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
+import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
 
 // The two manual methods offered to Algerian users (Stripe is never used for
 // DZD). Each reveals the account details to transfer to, then a receipt upload.
@@ -88,6 +88,7 @@ export function CheckoutDz() {
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));
+    notifyNewRequest(r.id); // ping the owner on Telegram (best-effort)
     setSent(true);
     window.scrollTo({ top: 0 });
   };

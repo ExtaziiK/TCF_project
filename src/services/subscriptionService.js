@@ -32,7 +32,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     receiptPath = path;
   }
 
-  const { error } = await supabase.from("subscription_requests").insert({
+  const { data, error } = await supabase.from("subscription_requests").insert({
     user_id: u.id,
     email: u.email || null,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
@@ -43,8 +43,23 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     reference: reference ? String(reference).trim().slice(0, 200) : null,
     notes: notes ? String(notes).trim().slice(0, 2000) : null,
     receipt_path: receiptPath,
-  });
-  return { ok: !error, error: error?.message };
+  }).select("id").single();
+  return { ok: !error, error: error?.message, id: data?.id };
+}
+
+// Fire-and-forget: pings the owner (Telegram) that a new request arrived. The
+// request is already saved and visible in the admin "Demandes" inbox, so a
+// failed notification never blocks the user — we just swallow errors. In local
+// `vite` there is no /api route, so this simply no-ops there.
+export async function notifyNewRequest(id) {
+  if (!id) return;
+  try {
+    await fetch("/api/notify-subscription", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+  } catch { /* best-effort */ }
 }
 
 /* --------------------------------- admin ---------------------------------- */
