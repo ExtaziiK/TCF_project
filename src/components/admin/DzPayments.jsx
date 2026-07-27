@@ -137,6 +137,12 @@ const REQ_FILTERS = [["new", "À traiter"], ["approved", "Approuvées"], ["rejec
 const REQ_TONES = { new: "amber", approved: "green", rejected: "slate" };
 const REQ_LABELS = { new: "À traiter", approved: "Approuvée", rejected: "Refusée" };
 const METHOD_LABELS = { ccp: "CCP", baridimob: "BaridiMob" };
+// Confirmation prompt shown before a consequential action runs.
+const CONFIRM_PROMPT = {
+  approve: "Approuver et activer cet abonnement ?",
+  reject: "Refuser cette demande ?",
+  remove: "Supprimer définitivement cette demande ?",
+};
 
 export function SubscriptionRequestsTab({ onCount }) {
   const { c, notify } = useApp();
@@ -144,6 +150,7 @@ export function SubscriptionRequestsTab({ onCount }) {
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("new");
   const [busyId, setBusyId] = useState(null);
+  const [confirm, setConfirm] = useState(null); // { id, action } awaiting a second click
 
   const load = () => listSubscriptionRequests().then((r) => {
     setRequests(r.requests);
@@ -181,6 +188,12 @@ export function SubscriptionRequestsTab({ onCount }) {
     if (url) window.open(url, "_blank", "noopener");
     else notify("Reçu indisponible.");
   };
+  // Runs the action the confirmation bar just approved.
+  const runAction = (action, req) => {
+    if (action === "approve") return approve(req);
+    if (action === "reject") return reject(req);
+    if (action === "remove") return remove(req);
+  };
 
   if (unavailable) {
     return <Unavailable>La boîte de réception des demandes nécessite la table <span className="font-mono2">subscription_requests</span> — appliquez la migration <span className="font-mono2">20260725_dz_payments.sql</span>.</Unavailable>;
@@ -192,7 +205,7 @@ export function SubscriptionRequestsTab({ onCount }) {
     <div className="space-y-4">
       <div className="flex gap-2 flex-wrap">
         {REQ_FILTERS.map(([id, l]) => (
-          <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+          <button key={id} onClick={() => { setConfirm(null); setFilter(id); }} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
             {l}{id !== "all" && requests ? ` · ${requests.filter((r) => r.status === id).length}` : ""}
           </button>
         ))}
@@ -220,13 +233,23 @@ export function SubscriptionRequestsTab({ onCount }) {
                 {r.reference && <p className={`text-xs mt-1 ${c.sub}`}>Réf. : <span className="font-mono2">{r.reference}</span></p>}
                 {r.notes && <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{r.notes}</p>}
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                  {r.receipt_path
-                    ? <Btn small variant="ghost" icon={ExternalLink} onClick={() => openReceipt(r)}>Voir le reçu</Btn>
-                    : <span className={`text-xs px-2 py-1 rounded-lg ${c.hoverSoft} ${c.faint} flex items-center gap-1`}><FileText size={13} /> Reçu via WhatsApp</span>}
-                  {r.status !== "approved" && <Btn small variant="ghost" className="text-emerald-600" icon={Check} disabled={busyId === r.id || !r.user_id} onClick={() => approve(r)}>Approuver &amp; activer</Btn>}
-                  {r.status !== "rejected" && <Btn small variant="ghost" className="text-amber-600" icon={XCircle} disabled={busyId === r.id} onClick={() => reject(r)}>Refuser</Btn>}
-                  {r.status === "rejected" && <Btn small variant="ghost" icon={RotateCcw} disabled={busyId === r.id} onClick={() => setRequestStatus(r.id, "new").then(load)}>Remettre en file</Btn>}
-                  <Btn small variant="ghost" className="text-rose-600" icon={Trash2} disabled={busyId === r.id} onClick={() => remove(r)}>Supprimer</Btn>
+                  {confirm?.id === r.id ? (
+                    <>
+                      <span className={`text-sm font-semibold ${c.text}`}>{CONFIRM_PROMPT[confirm.action]}</span>
+                      <Btn small variant="accent" icon={Check} disabled={busyId === r.id} onClick={() => { const a = confirm.action; setConfirm(null); runAction(a, r); }}>Confirmer</Btn>
+                      <Btn small variant="ghost" onClick={() => setConfirm(null)}>Annuler</Btn>
+                    </>
+                  ) : (
+                    <>
+                      {r.receipt_path
+                        ? <Btn small variant="ghost" icon={ExternalLink} onClick={() => openReceipt(r)}>Voir le reçu</Btn>
+                        : <span className={`text-xs px-2 py-1 rounded-lg ${c.hoverSoft} ${c.faint} flex items-center gap-1`}><FileText size={13} /> Reçu via WhatsApp</span>}
+                      {r.status !== "approved" && <Btn small variant="ghost" className="text-emerald-600" icon={Check} disabled={busyId === r.id || !r.user_id} onClick={() => setConfirm({ id: r.id, action: "approve" })}>Approuver &amp; activer</Btn>}
+                      {r.status !== "rejected" && <Btn small variant="ghost" className="text-amber-600" icon={XCircle} disabled={busyId === r.id} onClick={() => setConfirm({ id: r.id, action: "reject" })}>Refuser</Btn>}
+                      {r.status === "rejected" && <Btn small variant="ghost" icon={RotateCcw} disabled={busyId === r.id} onClick={() => setRequestStatus(r.id, "new").then(load)}>Remettre en file</Btn>}
+                      <Btn small variant="ghost" className="text-rose-600" icon={Trash2} disabled={busyId === r.id} onClick={() => setConfirm({ id: r.id, action: "remove" })}>Supprimer</Btn>
+                    </>
+                  )}
                 </div>
               </div>
             ))}
