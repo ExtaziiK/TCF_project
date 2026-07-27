@@ -13,11 +13,11 @@ import { logAiUsage } from "./_lib/usage.js";
 // Two modes share this function (one endpoint keeps us inside Vercel Hobby's
 // 12-function cap, same reason api/admin is consolidated):
 //   - default: one-shot transcript + evaluation (legacy flow)
-//   - mode "dialogue": one turn of the interview simulation — transcribe the
-//     candidate's answer, then either ask the next follow-up question or,
-//     after MAX_FOLLOW_UPS follow-ups have been answered, grade the whole
-//     conversation. The client keeps the dialogue state and sends it back as
-//     `history`; the function stays stateless.
+//   - mode "dialogue": one turn of the Tâche 2 (Interaction) simulation —
+//     transcribe the candidate's answer, then either reply in character as the
+//     candidate's interlocutor (never as a helper) or, after MAX_FOLLOW_UPS
+//     interlocutor replies, grade the whole exchange. The client keeps the
+//     dialogue state and sends it back as `history`; the function stays stateless.
 
 const system = (lang) => `You are a certified TCF Canada examiner grading the Expression orale (spoken expression) section from a TRANSCRIPT of the candidate's speech.
 Assess: relevance to the task, task coverage, vocabulary range, grammar, and fluency/coherence. You only have the transcript, so DO NOT judge pronunciation or accent.
@@ -31,15 +31,26 @@ Respond with ONLY a minified JSON object of this exact shape:
 
 export const MAX_FOLLOW_UPS = 3;
 
-// The interview itself is always in French (it's a French exam); only the
+// The exchange itself is always in French (it's a French exam); only the
 // final feedback follows the user's UI language, like the one-shot mode.
-export const followUpSystem = `Tu es un examinateur du TCF Canada qui fait passer l'épreuve d'Expression orale sous forme d'entretien.
-On te donne la consigne de la tâche et le dialogue déjà échangé avec le candidat. Ses répliques sont des transcriptions automatiques (Whisper) : ignore les petites fautes de transcription et ne juge jamais la prononciation.
-Réagis à sa dernière réponse en UNE courte phrase naturelle, puis pose UNE question de relance qui l'amène à développer (précisions, exemples, justification, point de vue opposé). Reste strictement dans le sujet de la tâche, adopte un registre oral avec vouvoiement, et ne dépasse pas 2 phrases au total. Ne répète pas une question déjà posée.
-Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réaction + ta question de relance, en français>"}`;
+// The AI plays the CANDIDATE'S INTERLOCUTOR (the person they're talking to),
+// NOT an examiner: it reacts briefly and realistically and never helps,
+// mirroring how Tâche 2 (Interaction) actually runs.
+export const followUpSystem = `Tu es l'interlocuteur de la tâche 2 de l'épreuve d'Expression orale du TCF Canada. Tu joues uniquement le rôle de la personne avec laquelle le candidat échange. Tu ne l'aides jamais, tu ne corriges jamais ses erreurs, tu ne donnes ni idées, ni suggestions, ni vocabulaire. Tu réponds uniquement à la dernière intervention du candidat par UNE phrase courte, naturelle et réaliste, comme le ferait une personne dans une conversation. Ne pose jamais de question, sauf si la consigne de la tâche l'exige explicitement. Tes réponses doivent rester neutres, parfois peu développées, et ne doivent pas relancer la conversation de manière artificielle. Ne sors jamais du contexte de la tâche et n'ajoute aucune explication ou commentaire.
+Règles supplémentaires :
+- Réponds en une seule phrase complète.
+- Maximum 10 à 15 mots.
+- Ton naturel, poli et neutre.
+- Ne reformule pas les propos du candidat.
+- Ne donne aucun conseil, aucune correction et aucun indice.
+- Ne fais pas avancer la conversation plus que nécessaire.
+- Ne pose aucune question.
+- Réagis uniquement à ce que le candidat vient de dire.
+Les répliques du candidat sont des transcriptions automatiques (Whisper) : ignore les petites fautes de transcription et ne juge jamais la prononciation.
+Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réponse, en français>"}`;
 
-export const finalSystem = (lang) => `You are a certified TCF Canada examiner. You just conducted the Expression orale section as a short interview: the candidate answered the task prompt, then ${MAX_FOLLOW_UPS} follow-up questions. You are given the full dialogue; the candidate's lines are Whisper transcripts, so ignore minor transcription noise and DO NOT judge pronunciation or accent.
-Evaluate ONLY the candidate's contributions: relevance to the task, how well they developed and defended their answers under the follow-up questions, vocabulary range, grammar, and fluency/coherence.
+export const finalSystem = (lang) => `You are a certified TCF Canada examiner grading the Expression orale — Tâche 2 (Interaction). In this task the candidate carries out a real-life exchange (asking for information, making a request, arranging something, etc.) with an interlocutor whose role was played by an assistant; that interlocutor only reacted briefly and never helped. You are given the full dialogue; the candidate's lines are Whisper transcripts, so ignore minor transcription noise and DO NOT judge pronunciation or accent.
+Evaluate ONLY the candidate's contributions: relevance to the task, how well they carried out the interaction (asking clear and appropriate questions, reacting to the interlocutor, and sustaining the exchange), vocabulary range, grammar, and fluency/coherence.
 Be encouraging but honest and concrete. Estimate a CEFR level (A1, A2, B1, B2, C1 or C2).
 Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
@@ -153,7 +164,7 @@ async function dialogueTurn(res, user, body) {
     ]
       .filter(Boolean)
       .join("\n");
-  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Examinateur" : "Candidat"} : ${m.text}`).join("\n");
+  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Interlocuteur" : "Candidat"} : ${m.text}`).join("\n");
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT

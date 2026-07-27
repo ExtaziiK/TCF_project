@@ -9,8 +9,9 @@ import { SpeakingRecorder } from "@/components/expression/SpeakingRecorder";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
-// Only the Tâche 2 (Interaction) runs as a live back-and-forth with the AI
-// examiner; Tâches 1 and 3 are one-shot recordings reviewed by the AI.
+// Only the Tâche 2 (Interaction) runs as a live back-and-forth: the AI plays
+// the candidate's interlocutor (reacting briefly, never helping) and grades the
+// exchange at the end. Tâches 1 and 3 are one-shot recordings reviewed by the AI.
 const INTERVIEW_TASK = 2;
 
 // Premium module backed by the question bank (section "eo") once quizzes
@@ -33,7 +34,7 @@ export function Speaking() {
 function SpeakingStudio() {
   const { t } = useApp();
   return (
-    <PageShell back eyebrow={t("Expression orale")} title={t("Parlez comme le jour de l'examen")} sub={t("Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un entretien avec l'examinateur IA, qui vous relance puis évalue tout l'échange.")}>
+    <PageShell back eyebrow={t("Expression orale")} title={t("Parlez comme le jour de l'examen")} sub={t("Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un échange avec l'interlocuteur IA, qui vous répond puis évalue tout l'échange.")}>
       <SpeakingStudioBody />
     </PageShell>
   );

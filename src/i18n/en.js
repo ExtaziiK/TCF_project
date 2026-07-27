@@ -648,17 +648,17 @@ export const EN = {
   "De nouveaux sujets sont ajoutés régulièrement — revenez bientôt.": "New topics are added regularly — check back soon.",
 
   // ── Oral interview simulation (Expression orale) ─────────────────────
-  "Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un entretien avec l'examinateur IA, qui vous relance puis évalue tout l'échange.":
-    "Tasks 1 and 3: record your answer, the AI transcribes and evaluates it. Task 2: an interview with the AI examiner, who follows up then grades the whole exchange.",
+  "Tâches 1 et 3 : enregistrez votre réponse, l'IA la transcrit et l'évalue. Tâche 2 : un échange avec l'interlocuteur IA, qui vous répond puis évalue tout l'échange.":
+    "Tasks 1 and 3: record your answer, the AI transcribes and evaluates it. Task 2: a conversation with the AI interlocutor, who responds then grades the whole exchange.",
   "Lecture du sujet :": "Subject review:",
-  "Relances :": "Follow-ups:",
-  "Examinateur": "Examiner",
+  "Échanges :": "Exchanges:",
+  "Interlocuteur": "Interlocutor",
   "Vous": "You",
   "Tentative non prise en compte": "Attempt not counted",
   "Réécouter la question": "Replay the question",
   "Lisez le sujet et préparez vos idées… l'enregistrement démarrera automatiquement.": "Read the subject and prepare your ideas… recording will start automatically.",
-  "L'examinateur vous écoute…": "The examiner is listening…",
-  "L'examinateur parle…": "The examiner is speaking…",
+  "L'interlocuteur vous écoute…": "The interlocutor is listening…",
+  "L'interlocuteur parle…": "The interlocutor is speaking…",
   "À vous de répondre.": "Your turn to answer.",
   "Entretien terminé — consultez votre évaluation.": "Interview over — see your evaluation.",
   "Commencer l'entretien": "Start the interview",
@@ -668,7 +668,7 @@ export const EN = {
   "Aucune parole détectée dans l'enregistrement. Réessayez.": "No speech detected in the recording. Try again.",
   "Je n'ai pas entendu votre réponse. Réessayez.": "I didn't hear your answer. Please try again.",
   "Nous allons nous arrêter ici.": "We'll stop here.",
-  "Examinateur · relance micro": "Examiner · mic check",
+  "Interlocuteur · relance micro": "Interlocutor · mic check",
   "Rien entendu": "Nothing heard",
   "Entretien interrompu": "Interview interrupted",
   "Nous n'avons rien entendu à plusieurs reprises, alors l'entretien s'est arrêté. Vérifiez votre micro, puis relancez un entretien.":
@@ -678,12 +678,12 @@ export const EN = {
   "Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système.":
     "No French voice in this browser: questions are shown in writing only. Try Microsoft Edge or install a French voice on your system.",
   "L'analyse a échoué. Réessayez.": "The analysis failed. Try again.",
-  "Entretien simulé par l'IA : transcription Whisper, relances et évaluation générées, voix de l'examinateur par IA.":
-    "AI-simulated interview: Whisper transcription, generated follow-ups and evaluation, AI examiner voice.",
+  "Échange simulé par l'IA : transcription Whisper, réponses et évaluation générées, voix de l'interlocuteur par IA.":
+    "AI-simulated exchange: Whisper transcription, generated replies and evaluation, AI interlocutor voice.",
   "Comment ça marche": "How it works",
   "Prenez connaissance du sujet pendant le temps de lecture.": "Review the subject during the reading time.",
   "Répondez à voix haute — votre réponse est transcrite.": "Answer out loud — your answer is transcribed.",
-  "L'examinateur IA vous relance 3 fois, à l'écrit et à l'oral.": "The AI examiner follows up 3 times, in text and voice.",
+  "L'interlocuteur IA vous répond, à l'écrit et à l'oral.": "The AI interlocutor replies to you, in text and voice.",
   "À la fin, l'IA évalue l'ensemble de l'entretien.": "At the end, the AI evaluates the whole interview.",
 
   // ── AI evaluation (Expression écrite / orale) ────────────────────────
