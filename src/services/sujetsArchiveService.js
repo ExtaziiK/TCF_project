@@ -13,15 +13,21 @@ export const monthKey = (year, monthNum) => `${year}-${String(monthNum).padStart
 export const SECTION_LABEL = { ee: "Expression écrite", eo: "Expression orale" };
 
 // Groups a flat list of { year, monthNum, data } into the year→month tree the
-// pages render, newest first.
+// pages render, newest year first. Months in the CURRENT year are shown newest
+// first (the latest month leads); months in past years read chronologically,
+// starting from January.
 function toYears(rows) {
+  const currentYear = new Date().getFullYear();
   const byYear = new Map();
   for (const r of rows) {
     if (!byYear.has(r.year)) byYear.set(r.year, []);
     byYear.get(r.year).push({ key: monthKey(r.year, r.monthNum), month: monthLabel(r.monthNum), monthNum: r.monthNum, data: r.data || [] });
   }
   return [...byYear.entries()].sort((a, b) => b[0] - a[0])
-    .map(([year, months]) => ({ year, months: months.sort((a, b) => b.monthNum - a.monthNum) }));
+    .map(([year, months]) => ({
+      year,
+      months: months.sort((a, b) => (year === currentYear ? b.monthNum - a.monthNum : a.monthNum - b.monthNum)),
+    }));
 }
 
 // Shipped fallback: /data/sujets-<section>.json ships EE months with `sujets`
