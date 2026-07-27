@@ -295,11 +295,12 @@ export function AppProvider({ children }) {
 // A short countdown popup shown before a forced sign-out (admin disconnect /
 // subscription approval). Auto-signs-out when it reaches 0; the user can click
 // through sooner. `onDone` performs the actual sign-out.
+const FORCED_LOGOUT_SECS = 15;
 function ForcedLogoutModal({ onDone, t, c }) {
-  const [left, setLeft] = useState(5);
+  const [left, setLeft] = useState(FORCED_LOGOUT_SECS);
   useEffect(() => {
     const iv = setInterval(() => setLeft((n) => Math.max(0, n - 1)), 1000);
-    const to = setTimeout(onDone, 5000);
+    const to = setTimeout(onDone, FORCED_LOGOUT_SECS * 1000);
     return () => { clearInterval(iv); clearTimeout(to); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
