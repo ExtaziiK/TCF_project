@@ -68,6 +68,9 @@ export const PAGE_ACCESS = {
   vocabulary: PREMIUM,
   grammar: PREMIUM,
   mocks: PREMIUM,
+  // Monthly EE/EO trending subjects: signed-in only (free or paid), not public.
+  // A visitor is sent to the register gate (see deniedReason).
+  "sujets-actualite": AUTHENTICATED,
   bank: ADMIN_ONLY,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,

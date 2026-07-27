@@ -22,8 +22,10 @@ export const NAV_LINKS = [
   { l: "Mes examens", r: "exams" },
   // Mock exams get their own top-level entry, next to "Mes examens".
   { l: "TCF blanc", r: "mocks", grad: true },
-  // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc".
-  { l: "Sujets d'actualité", r: "sujets-actualite", grad: true },
+  // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
+  // but signed-in only (free or paid), so it's hidden from visitors (roles must
+  // match sujets-actualite's PAGE_ACCESS list in rbac.js).
+  { l: "Sujets d'actualité", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
