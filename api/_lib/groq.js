@@ -80,14 +80,18 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
 // stray/extra fields and capping list lengths so a chatty model can't blow up
 // the layout.
 export function normalizeFeedback(raw = {}) {
-  const list = (v) =>
-    Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, 4) : [];
+  const list = (v, max = 4) =>
+    Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, max) : [];
   const str = (v) => (typeof v === "string" ? v.trim() : "");
   return {
     level: str(raw.level).slice(0, 8),
     summary: str(raw.summary),
     strengths: list(raw.strengths),
     improvements: list(raw.improvements),
+    // Expression écrite only: the higher level the rewrite targets, the rewrite
+    // itself, and the concrete edits that raise the level. Empty for oral.
+    targetLevel: str(raw.targetLevel).slice(0, 8),
     corrected: str(raw.corrected),
+    changes: list(raw.changes, 5),
   };
 }

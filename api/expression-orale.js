@@ -15,9 +15,12 @@ import { logAiUsage } from "./_lib/usage.js";
 //   - default: one-shot transcript + evaluation (legacy flow)
 //   - mode "dialogue": one turn of the Tâche 2 (Interaction) simulation —
 //     transcribe the candidate's answer, then either reply in character as the
-//     candidate's interlocutor (never as a helper) or, after MAX_FOLLOW_UPS
-//     interlocutor replies, grade the whole exchange. The client keeps the
-//     dialogue state and sends it back as `history`; the function stays stateless.
+//     candidate's interlocutor (never as a helper) or grade the whole exchange.
+//     The interview is TIME-BOXED like the real exam: the client runs down the
+//     task's speaking budget and sends `final: true` on the turn where the time
+//     runs out, which is what triggers grading (MAX_EXCHANGES is only a runaway
+//     safety net). The client keeps the dialogue state and sends it back as
+//     `history`; the function stays stateless.
 
 const system = (lang) => `You are a certified TCF Canada examiner grading the Expression orale (spoken expression) section from a TRANSCRIPT of the candidate's speech.
 Assess: relevance to the task, task coverage, vocabulary range, grammar, and fluency/coherence. You only have the transcript, so DO NOT judge pronunciation or accent.
@@ -29,7 +32,11 @@ Respond with ONLY a minified JSON object of this exact shape:
 
 /* ------------------------- dialogue (interview) mode ------------------------ */
 
-export const MAX_FOLLOW_UPS = 3;
+// The interview ends on TIME (the client sends `final: true` when the task's
+// speaking budget runs out), not on a fixed number of exchanges. This is only a
+// safety ceiling so a broken/tampered client can't loop forever: at this many
+// interlocutor replies the server grades regardless of what the client asked.
+export const MAX_EXCHANGES = 12;
 
 // The exchange itself is always in French (it's a French exam); only the
 // final feedback follows the user's UI language, like the one-shot mode.
@@ -59,8 +66,7 @@ Respond with ONLY a minified JSON object of this exact shape:
 
 // A silent/near-silent recording gets up to this many spoken re-prompts
 // ("I didn't hear you, please answer") before the interview stops nagging.
-// These re-prompts are NOT follow-up questions — they don't count against
-// MAX_FOLLOW_UPS.
+// These re-prompts are NOT exchanges and never enter the dialogue history.
 export const MAX_EMPTY_REPROMPTS = 2;
 
 const EMPTY_REPROMPTS = [
@@ -111,7 +117,7 @@ function isSilent(transcript) {
 function sanitizeHistory(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
-    .slice(0, 2 + MAX_FOLLOW_UPS * 2)
+    .slice(0, 2 + MAX_EXCHANGES * 2)
     .map((m) => ({
       role: m?.role === "examiner" ? "examiner" : "candidate",
       text: String(m?.text || "").trim().slice(0, 2000),
@@ -133,6 +139,9 @@ function decodeAudio(audio) {
 
 async function dialogueTurn(res, user, body) {
   const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
+  // The client sets this when the task's speaking time has run out: grade now
+  // instead of asking for another exchange.
+  const timeUp = body.final === true || body.final === "true";
   const buffer = decodeAudio(audio);
 
   const transcribeStart = Date.now();
@@ -168,12 +177,13 @@ async function dialogueTurn(res, user, body) {
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
-  // asking a new follow-up (these turns never enter `history`, so they don't
-  // count against MAX_FOLLOW_UPS). Once the cap is hit we stop nagging and end
-  // the interview: grade what was actually said, or, if nothing was, close out.
+  // asking a new follow-up (these turns never enter `history`). But if the task
+  // time is already up, don't re-prompt: close out and grade what was said.
+  // Once the cap is hit we also stop nagging and end the interview: grade what
+  // was actually said, or, if nothing was, close out.
   if (isSilent(transcript)) {
     const emptyStreak = Math.max(0, Math.min(10, Number(body.emptyStreak) || 0));
-    if (emptyStreak < MAX_EMPTY_REPROMPTS) {
+    if (!timeUp && emptyStreak < MAX_EMPTY_REPROMPTS) {
       const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
       return res.status(200).json({ empty: true, transcript: "", reprompt: line, ...(await voiceLine(line)) });
     }
@@ -191,11 +201,13 @@ async function dialogueTurn(res, user, body) {
     return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade), closing, ...(await voiceLine(closing)) });
   }
 
-  const followUpsAsked = history.filter((m) => m.role === "examiner").length;
+  const exchangesSoFar = history.filter((m) => m.role === "examiner").length;
   const userMsg = buildUserMsg(renderDialogue([...history, { role: "candidate", text: transcript.slice(0, 4000) }]));
 
+  // Keep going (another interlocutor reply) while there is time left and we're
+  // under the safety ceiling; otherwise fall through and grade the exchange.
   const chatStart = Date.now();
-  if (followUpsAsked < MAX_FOLLOW_UPS) {
+  if (!timeUp && exchangesSoFar < MAX_EXCHANGES) {
     const { json: raw, usage } = await groqChatJSON([
       { role: "system", content: followUpSystem },
       { role: "user", content: userMsg },
@@ -203,7 +215,7 @@ async function dialogueTurn(res, user, body) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
-    return res.status(200).json({ transcript, reply, followUp: followUpsAsked + 1, done: false, ...(await voiceLine(reply)) });
+    return res.status(200).json({ transcript, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(reply)) });
   }
 
   const { json: raw, usage } = await groqChatJSON([

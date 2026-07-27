@@ -11,20 +11,27 @@ const pickMime = () =>
     ? MIME_CANDIDATES.find((m) => MediaRecorder.isTypeSupported?.(m))
     : undefined;
 
-export const MAX_FOLLOW_UPS = 3; // keep in sync with api/expression-orale.js
 export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most this many times
-const FOLLOW_UP_ANSWER_SECS = 90; // answers to follow-ups are shorter than the main answer
+// The interview is time-boxed like the real Tâche 2: the whole exchange lasts
+// the task's speaking time (task.dur), split across as many turns as fit. Each
+// turn is capped so the dialogue keeps its back-and-forth rhythm; the candidate
+// can stop sooner to leave time for more exchanges. It ends when the shared
+// budget runs out — not after a fixed number of questions.
+const FIRST_ANSWER_SECS = 120; // the opening turn can run a little longer
+const FOLLOW_UP_ANSWER_SECS = 90; // each later turn
+const MIN_TURN_SECS = 15; // with less than this left, grade instead of starting another turn
 const DEFAULT_REVIEW_SECS = 60; // tasks without official prep still get review time
 
 // Drives the oral-interview simulation for one speaking task:
 //
 //   idle -> review -> rec -> processing -> speaking -> ready -> rec -> ...
-//                                       \-> done (after MAX_FOLLOW_UPS answers)
+//                                       \-> done (when the task's time is up)
 //
 // The user reviews the subject, records an answer, the server transcribes it
-// and the AI examiner replies with a follow-up question (spoken aloud via
-// browser TTS while its text appears in the dialogue). After the last
-// follow-up is answered the server grades the whole conversation.
+// and the AI interlocutor replies (spoken aloud via browser TTS while its text
+// appears in the dialogue). The exchange continues until the task's speaking
+// budget runs out, at which point the client sends `final: true` and the server
+// grades the whole conversation.
 // The mic stream is acquired once at begin() (so the permission prompt
 // happens before the review clock) and held until the interview ends.
 export function useOralInterview(task, notify) {
@@ -35,7 +42,9 @@ export function useOralInterview(task, notify) {
   const [feedback, setFeedback] = useState(null);
   const [ended, setEnded] = useState(false); // interview stopped after too many silent answers, no grade
   const [error, setError] = useState("");
+  const [remaining, setRemaining] = useState(task.dur); // shared speaking budget left (whole exchange)
   const nextId = useRef(1);
+  const remainingRef = useRef(task.dur);
   const emptyStreak = useRef(0); // consecutive silent answers at the current question
   const ttsHintShown = useRef(false);
   const playerRef = useRef(null); // examiner audio currently playing
@@ -49,9 +58,9 @@ export function useOralInterview(task, notify) {
   taskRef.current = task;
 
   const reviewSecs = task.prep > 0 ? task.prep : DEFAULT_REVIEW_SECS;
-  // Only real follow-up questions count; silent-answer re-prompts and the
-  // closing line don't.
-  const followUpsAsked = turns.filter((tn) => tn.role === "examiner" && !tn.closing && !tn.reprompt).length;
+  const interviewSecs = task.dur; // total speaking budget for the whole exchange
+
+  const setBudget = (secs) => { remainingRef.current = secs; setRemaining(secs); };
 
   const releaseStream = () => {
     streamRef.current?.getTracks().forEach((tr) => tr.stop());
@@ -121,6 +130,10 @@ export function useOralInterview(task, notify) {
     setCount(0);
     setError("");
 
+    // The shared budget ticked down live while the candidate spoke; when too
+    // little is left, tell the server to grade instead of continuing the exchange.
+    const timeUp = remainingRef.current < MIN_TURN_SECS;
+
     const fail = (msg) => {
       if (url) addTurn({ role: "candidate", url, failed: true });
       setError(msg);
@@ -146,6 +159,7 @@ export function useOralInterview(task, notify) {
         history,
         emptyStreak: emptyStreak.current,
         lang,
+        final: timeUp,
       });
 
       const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
@@ -234,10 +248,12 @@ export function useOralInterview(task, notify) {
     recorder.start();
     setError("");
     setPhase("rec");
-    // First answer gets the task's official speaking time; follow-up answers
-    // are shorter, like the real examiner's relances.
+    // Each turn is capped (the opening one a little longer), but never beyond the
+    // speaking budget still left for the whole exchange. The candidate can stop
+    // sooner to keep time for more back-and-forth.
     const firstAnswer = !turnsRef.current.some((tn) => tn.role === "candidate" && !tn.failed && !tn.emptyRec);
-    setCount(firstAnswer ? taskRef.current.dur : Math.min(taskRef.current.dur, FOLLOW_UP_ANSWER_SECS));
+    const cap = firstAnswer ? FIRST_ANSWER_SECS : FOLLOW_UP_ANSWER_SECS;
+    setCount(Math.max(1, Math.min(cap, remainingRef.current)));
   };
 
   const finishRecording = () => {
@@ -264,6 +280,7 @@ export function useOralInterview(task, notify) {
     emptyStreak.current = 0;
     setPhase("idle");
     setCount(0);
+    setBudget(taskRef.current.dur);
     setTurns([]);
     setFeedback(null);
     setEnded(false);
@@ -281,10 +298,14 @@ export function useOralInterview(task, notify) {
     objectUrlsRef.current = [];
   }, []);
 
-  // Countdown ticks during review / rec.
+  // Countdown ticks during review / rec. While recording, the shared speaking
+  // budget runs down in lockstep (only the candidate's speech spends the budget).
   useEffect(() => {
     if (phase !== "review" && phase !== "rec") return;
-    const iv = setInterval(() => setCount((x) => x - 1), 1000);
+    const iv = setInterval(() => {
+      setCount((x) => x - 1);
+      if (phase === "rec") setBudget(Math.max(0, remainingRef.current - 1));
+    }, 1000);
     return () => clearInterval(iv);
   }, [phase]);
 
@@ -311,6 +332,7 @@ export function useOralInterview(task, notify) {
       return;
     }
     streamRef.current = stream;
+    setBudget(taskRef.current.dur);
     setPhase("review");
     setCount(reviewSecs);
   };
@@ -322,5 +344,5 @@ export function useOralInterview(task, notify) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }

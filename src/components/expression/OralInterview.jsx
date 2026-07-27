@@ -3,7 +3,7 @@ import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, Rot
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
-import { useOralInterview, MAX_FOLLOW_UPS } from "@/hooks/useOralInterview";
+import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
 
 // The oral-exam interview simulation for one task: the subject with review
@@ -12,7 +12,7 @@ import { fmt } from "@/utils/format";
 // whole conversation is graded at the end.
 export function OralInterview({ task }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, followUpsAsked, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
+  const { phase, count, turns, feedback, ended, error, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
   const endRef = useRef(null);
 
   // Keep the latest exchange in view as the dialogue grows.
@@ -26,9 +26,9 @@ export function OralInterview({ task }) {
         <div className="flex items-center justify-between gap-2 flex-wrap mb-4">
           <div className="flex gap-2 flex-wrap">
             <Pill tone="blue">{t("Lecture du sujet :")} {fmt(reviewSecs)}</Pill>
-            <Pill tone="red">{t("Parole :")} {fmt(task.dur)}</Pill>
+            <Pill tone="red">{t("Temps de l'épreuve :")} {fmt(interviewSecs)}</Pill>
           </div>
-          <Pill tone="slate">{t("Échanges :")} {Math.min(followUpsAsked, MAX_FOLLOW_UPS)}/{MAX_FOLLOW_UPS}</Pill>
+          <Pill tone={remaining <= 30 ? "amber" : "slate"}>{t("Temps restant :")} {fmt(remaining)}</Pill>
         </div>
 
         <div className={`p-4 rounded-2xl border-2 border-blue-600/30 mb-5 ${phase === "review" ? "ring-2 ring-blue-600/20" : ""}`}>

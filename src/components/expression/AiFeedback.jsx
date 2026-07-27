@@ -5,7 +5,7 @@ import { Card, Pill } from "@/components/common";
 // Renders one AI evaluation (shared by Expression écrite & orale). The dynamic
 // text (summary, bullets, corrected version) is already localized by the model
 // via the `lang` we send; only the static labels go through t().
-export function AiFeedback({ level, summary, strengths = [], improvements = [], corrected, compact }) {
+export function AiFeedback({ level, summary, strengths = [], improvements = [], corrected, targetLevel, changes = [], compact }) {
   const { c, t } = useApp();
   return (
     <Card className={`${compact ? "p-4" : "p-6"} border-2 border-blue-600/40 rise`}>
@@ -38,10 +38,23 @@ export function AiFeedback({ level, summary, strengths = [], improvements = [], 
       )}
 
       {corrected && (
-        <details className="mt-4">
-          <summary className="text-sm font-semibold text-blue-600 cursor-pointer select-none">{t("Voir une version améliorée")}</summary>
-          <p className={`mt-2 text-sm leading-relaxed whitespace-pre-line ${c.sub}`}>{corrected}</p>
-        </details>
+        <div className="mt-5 pt-4 border-t border-blue-600/20">
+          <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+            <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5"><ArrowUpRight size={14} /> {t("Version améliorée")}</p>
+            {targetLevel && <Pill tone="blue">{t("Niveau visé :")} {targetLevel}</Pill>}
+          </div>
+          {changes.length > 0 && (
+            <ul className="space-y-2 mb-3">
+              {changes.map((ch, i) => (
+                <li key={i} className={`flex gap-2.5 text-sm ${c.sub}`}><Sparkles size={15} className="text-blue-500 shrink-0 mt-0.5" />{ch}</li>
+              ))}
+            </ul>
+          )}
+          <details>
+            <summary className="text-sm font-semibold text-blue-600 cursor-pointer select-none">{t("Lire le texte réécrit")}</summary>
+            <p className={`mt-2 text-sm leading-relaxed whitespace-pre-line ${c.sub}`}>{corrected}</p>
+          </details>
+        </div>
       )}
     </Card>
   );
