@@ -1,4 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
+import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
 
 // Admin-editable, publicly-readable site settings (site_settings table + RLS,
 // see supabase/migrations/20260721_site_settings.sql). Reads use the anon key
@@ -78,6 +79,50 @@ export async function setAnnouncementBar(cfg) {
   const { error } = await supabase
     .from("site_settings")
     .upsert({ key: ANNOUNCE_BAR, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}
+
+/* ── Home "Statistique" band ────────────────────────────────────────────────
+ * { enabled, items: [{ src, n, l }] }. Toggling `enabled` off removes the whole
+ * band from the public landing page. A missing/blank row means "nothing saved
+ * yet" and degrades to HOME_STATS_DEFAULT, so the band keeps showing the real
+ * content counts until an admin customises it. */
+
+const HOME_STATS = "home_stats";
+const MAX_STATS = 6;
+
+function normalizeHomeStats(cfg) {
+  const items = (Array.isArray(cfg?.items) ? cfg.items : [])
+    .map((it) => ({
+      src: STAT_SOURCES.includes(it?.src) ? it.src : "manual",
+      n: String(it?.n ?? "").slice(0, 24),
+      l: String(it?.l ?? "").slice(0, 60),
+    }))
+    .filter((it) => it.l.trim())
+    .slice(0, MAX_STATS);
+  return { enabled: cfg?.enabled !== false, items };
+}
+
+export async function getHomeStats() {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", HOME_STATS).maybeSingle();
+  if (error || !data?.value) return { ...HOME_STATS_DEFAULT, items: [...HOME_STATS_DEFAULT.items] };
+  try {
+    const clean = normalizeHomeStats(JSON.parse(data.value));
+    // An admin who deleted every row gets the defaults back rather than an
+    // empty band that silently renders as a bare strip.
+    return clean.items.length ? clean : { ...clean, items: [...HOME_STATS_DEFAULT.items] };
+  } catch {
+    return { ...HOME_STATS_DEFAULT, items: [...HOME_STATS_DEFAULT.items] };
+  }
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setHomeStats(cfg) {
+  const clean = normalizeHomeStats(cfg);
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: HOME_STATS, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
 

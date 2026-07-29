@@ -4,15 +4,18 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats } from "@/services/settingsService";
+import { STAT_SOURCES, STAT_SOURCE_LABELS } from "@/constants/home";
+import { SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
-import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
@@ -20,6 +23,9 @@ import {
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
+import {
+  listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
+} from "@/services/testimonialsService";
 import { promoLabel } from "@/services/stripeService";
 import { PLANS } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
@@ -67,6 +73,30 @@ function SkeletonRows({ n = 6, className = "h-12" }) {
   return (
     <div className="space-y-3 py-2">
       {Array.from({ length: n }).map((_, i) => <Skeleton key={i} className={className} />)}
+    </div>
+  );
+}
+
+// Pill row for the sections that group several panels (Accueil, Tarifs).
+// `badge` is optional and renders the same counter as the sidebar rail.
+function SubTabs({ tabs, active, onSelect }) {
+  const { c } = useApp();
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {tabs.map(({ id, label, badge = 0 }) => {
+        const on = active === id;
+        return (
+          <button key={id} onClick={() => onSelect(id)}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${on ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            {label}
+            {badge > 0 && (
+              <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${on ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
+                {badge > 9 ? "9+" : badge}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -284,21 +314,164 @@ function AnnouncementBarTab() {
   );
 }
 
-// The "Accueil" admin section: two sub-tabs — the corner banner and the top bar.
-function AccueilTab() {
-  const { c } = useApp();
-  const [sub, setSub] = useState("banner");
-  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"]];
+/* ------------------------------ home stats -------------------------------- */
+
+// Editor for the "Statistique" band on the public landing page
+// (site_settings.home_stats). Values are never invented here: a row either
+// counts the shipped content live, or holds a figure pulled from the live
+// database with "Actualiser depuis le site", or is typed by hand.
+function HomeStatsTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [live, setLive] = useState(null); // /api/admin/stats payload, once fetched
+  const [pulling, setPulling] = useState(false);
+  const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  useEffect(() => { getHomeStats().then(setCfg); }, []);
+
+  const setItem = (i, k, v) => setCfg((p) => ({ ...p, items: p.items.map((x, j) => (j === i ? { ...x, [k]: v } : x)) }));
+  const add = () => setCfg((p) => ({ ...p, items: [...p.items, { src: "manual", n: "", l: "" }] }));
+  const remove = (i) => setCfg((p) => ({ ...p, items: p.items.filter((_, j) => j !== i) }));
+  const move = (i, d) => setCfg((p) => {
+    const a = [...p.items];
+    const j = i + d;
+    if (j < 0 || j >= a.length) return p;
+    [a[i], a[j]] = [a[j], a[i]];
+    return { ...p, items: a };
+  });
+
+  // Copies the current database figures into every row bound to a site source,
+  // so going live is one click rather than four manual edits.
+  const pull = async () => {
+    setPulling(true);
+    const r = await fetchAdminStats();
+    setPulling(false);
+    if (!r.ok) return notify(r.unavailable ? "Chiffres du site indisponibles en dev local (fonctions serverless absentes)." : "Lecture des chiffres du site impossible.");
+    setLive(r.data);
+    setCfg((p) => ({
+      ...p,
+      items: p.items.map((it) => (SNAPSHOT_SOURCES[it.src] ? { ...it, n: String(SNAPSHOT_SOURCES[it.src](r.data) ?? 0) } : it)),
+    }));
+    notify("Chiffres du site copiés. Enregistrez pour les publier.");
+  };
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setHomeStats(cfg);
+    setBusy(false);
+    notify(r.ok ? "Statistique enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!cfg) return <SkeletonRows n={4} className="h-12" />;
+  const preview = cfg.items.filter((it) => it.l.trim());
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Statistique (accueil)</h3>
+          <button onClick={() => setCfg((p) => ({ ...p, enabled: !p.enabled }))} role="switch" aria-checked={cfg.enabled} aria-label="Afficher la statistique"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>
+          La bande de statistiques sur la page d'accueil publique. Désactivez-la pour la faire disparaître entièrement.
+          Les sources « Auto » se comptent toutes seules à partir du contenu du site ; les sources « Site » se remplissent avec
+          « Actualiser depuis le site » et restent figées jusqu'à la prochaine actualisation.
+        </p>
+
+        <div className="space-y-2">
+          {cfg.items.map((it, i) => {
+            const auto = ["questions", "series", "exercises"].includes(it.src);
+            return (
+              <div key={i} className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
+                <select value={it.src} onChange={(e) => setItem(i, "src", e.target.value)} aria-label={`Source du chiffre ${i + 1}`} className={`${inp} sm:w-64 shrink-0`}>
+                  {STAT_SOURCES.map((s) => <option key={s} value={s}>{STAT_SOURCE_LABELS[s]}</option>)}
+                </select>
+                <input value={auto ? resolveStatValue(it) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
+                  placeholder="Valeur" aria-label={`Valeur du chiffre ${i + 1}`} className={`${inp} sm:w-28 shrink-0 disabled:opacity-60`} />
+                <input value={it.l} onChange={(e) => setItem(i, "l", e.target.value)} maxLength={60} placeholder="Libellé (ex. étudiants inscrits)"
+                  aria-label={`Libellé du chiffre ${i + 1}`} className={`flex-1 min-w-[12rem] ${inp}`} />
+                <div className="flex items-center shrink-0">
+                  <button onClick={() => move(i, -1)} disabled={i === 0} aria-label="Monter" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronUp size={15} /></button>
+                  <button onClick={() => move(i, 1)} disabled={i === cfg.items.length - 1} aria-label="Descendre" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronDown size={15} /></button>
+                  <button onClick={() => remove(i)} aria-label="Supprimer" className={`p-1.5 rounded-lg ${c.hoverSoft} text-rose-600`}><Trash2 size={15} /></button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Btn small variant="ghost" icon={Plus} disabled={cfg.items.length >= 6} onClick={add}>Ajouter un chiffre</Btn>
+            <Btn small variant="ghost" disabled={pulling} onClick={pull}>
+              <RefreshCw size={16} className={pulling ? "animate-spin" : ""} aria-hidden="true" />
+              {pulling ? "Lecture…" : "Actualiser depuis le site"}
+            </Btn>
+          </div>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+
+        {live && (
+          <p className={`mt-3 text-xs ${c.faint}`}>
+            Données réelles lues à l'instant — {live.users.total} inscrits · {live.activity.quizzesTotal} quiz complétés · {live.activity.examsCompleted} TCF blancs terminés.
+          </p>
+        )}
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-4 ${c.faint}`}>Aperçu {!cfg.enabled && "· (masquée)"}</p>
+        {preview.length ? (
+          <div className={`rounded-2xl border ${c.border} ${c.tint} px-4 py-8 grid grid-cols-2 gap-6 ${preview.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+            {preview.map((it, i) => (
+              <div key={i} className="text-center">
+                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it)}</p>
+                <p className={`mt-1.5 text-sm ${c.sub}`}>{it.l}</p>
+              </div>
+            ))}
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucun chiffre — la bande sera masquée.</p>}
+      </Card>
+    </div>
+  );
+}
+
+// The "Accueil" admin section — everything that shapes the public landing page,
+// in the order it appears there: the top marquee, the corner banner, the
+// statistics band, then the testimonials grid.
+function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
+  const [sub, setSub] = useState("marquee");
+  const subs = [
+    { id: "marquee", label: "Barre d'annonces" },
+    { id: "banner", label: "Bannière" },
+    { id: "stats", label: "Statistique" },
+    { id: "testimonials", label: "Témoignages", badge: pendingTestimonials },
+  ];
   return (
     <div className="space-y-5">
-      <div className="flex gap-2 flex-wrap">
-        {subs.map(([id, l]) => (
-          <button key={id} onClick={() => setSub(id)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sub === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
-        ))}
-      </div>
-      {sub === "banner" && <HomeLabelTab />}
+      <SubTabs tabs={subs} active={sub} onSelect={setSub} />
       {sub === "marquee" && <AnnouncementBarTab />}
+      {sub === "banner" && <HomeLabelTab />}
+      {sub === "stats" && <HomeStatsTab />}
+      {sub === "testimonials" && <TestimonialsTab onCount={onTestimonialCount} />}
+    </div>
+  );
+}
+
+// The "Tarifs" admin section: promo codes first, then the DZD (Algeria)
+// manual-payment settings.
+function TarifsSection() {
+  const [sub, setSub] = useState("promos");
+  const subs = [{ id: "promos", label: "Promos" }, { id: "dzd", label: "DZD" }];
+  return (
+    <div className="space-y-5">
+      <SubTabs tabs={subs} active={sub} onSelect={setSub} />
+      {sub === "promos" && <PromosTab />}
+      {sub === "dzd" && <PaymentSettingsTab />}
     </div>
   );
 }
@@ -380,7 +553,7 @@ function OverviewTab({ go }) {
       <Card className="p-4 flex items-center gap-2 flex-wrap">
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
-        <Btn small variant="ghost" icon={Ticket} onClick={() => go("promos")}>Créer un code promo</Btn>
+        <Btn small variant="ghost" icon={Ticket} onClick={() => go("pricing")}>Créer un code promo</Btn>
         <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les sujets (EE·EO)</Btn>
         <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
       </Card>
@@ -1264,6 +1437,92 @@ function AuditTab() {
   );
 }
 
+/* ------------------------------- testimonials ------------------------------ */
+
+const TM_FILTERS = [["pending", "En attente"], ["approved", "Publiés"], ["rejected", "Refusés"], ["all", "Tous"]];
+const TM_TONES = { pending: "amber", approved: "green", rejected: "red" };
+const TM_LABELS = { pending: "En attente", approved: "Publié", rejected: "Refusé" };
+
+// Moderation queue for member-written success stories. Nothing here reaches the
+// landing page until it is approved: members can only ever insert `pending`
+// rows (enforced by RLS), and this tab is the only path to `approved`.
+function TestimonialsTab({ onCount }) {
+  const { c, notify } = useApp();
+  const [items, setItems] = useState(null);
+  const [unavailable, setUnavailable] = useState(false);
+  const [filter, setFilter] = useState("pending");
+
+  const load = () => listAllTestimonials().then((r) => {
+    setItems(r.items);
+    setUnavailable(!r.ok);
+    onCount?.(r.items.filter((x) => x.status === "pending").length); // keep the sidebar badge in sync
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, []);
+
+  const patch = async (id, status, msg) => {
+    const r = await setTestimonialStatus(id, status);
+    notify(r.ok ? msg : (r.error || "Action refusée."));
+    load();
+  };
+  const feature = async (tm) => {
+    const r = await setTestimonialFeatured(tm.id, !tm.featured);
+    notify(r.ok ? (tm.featured ? "Retiré des témoignages mis en avant." : "Mis en avant sur l'accueil.") : "Action refusée.");
+    load();
+  };
+  const remove = async (id) => {
+    const r = await deleteTestimonial(id);
+    notify(r.ok ? "Témoignage supprimé." : "Suppression refusée.");
+    load();
+  };
+
+  if (unavailable) {
+    return <UnavailableCard>Les témoignages nécessitent la table <span className="font-mono2">testimonials</span> — appliquez la migration <span className="font-mono2">20260729_testimonials.sql</span>.</UnavailableCard>;
+  }
+  const list = (items || []).filter((x) => filter === "all" || x.status === filter);
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 flex-wrap">
+        {TM_FILTERS.map(([id, l]) => (
+          <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            {l}{id !== "all" && items ? ` · ${items.filter((x) => x.status === id).length}` : ""}
+          </button>
+        ))}
+      </div>
+      <Card className="p-6">
+        {items === null ? (
+          <SkeletonRows n={3} className="h-28" />
+        ) : list.length === 0 ? (
+          <EmptyState icon={Quote}
+            title={filter === "pending" ? "Aucun témoignage à valider." : "Aucun témoignage dans cette catégorie."}
+            sub={filter === "pending" ? "Les récits envoyés par les membres depuis leur profil arrivent ici." : null} />
+        ) : (
+          <div className="space-y-2">
+            {list.map((tm) => (
+              <div key={tm.id} className={`p-4 rounded-2xl border ${tm.status === "pending" ? "border-amber-500/40 bg-amber-500/5" : c.border}`}>
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <Pill tone={TM_TONES[tm.status]}>{TM_LABELS[tm.status]}</Pill>
+                  {tm.featured && <Pill tone="gold">Mis en avant</Pill>}
+                  <span className={`text-sm font-semibold ${c.text}`}>{tm.name}</span>
+                  <span className={`text-xs ${c.faint}`}>{tm.origin || "—"} · {tm.level || "niveau non précisé"} · {when(tm.createdAt)}</span>
+                </div>
+                <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>« {tm.body} »</p>
+                <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+                  {tm.status !== "approved" && <button onClick={() => patch(tm.id, "approved", "Témoignage publié sur l'accueil.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Publier" title="Publier sur l'accueil"><Check size={16} /></button>}
+                  {tm.status !== "rejected" && <button onClick={() => patch(tm.id, "rejected", "Témoignage refusé.")} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Refuser" title="Refuser"><XCircle size={15} /></button>}
+                  {tm.status !== "pending" && <button onClick={() => patch(tm.id, "pending", "Témoignage remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
+                  {tm.status === "approved" && <button onClick={() => feature(tm)} className={`p-2 rounded-xl ${c.hoverSoft} ${tm.featured ? "text-[#b8860b]" : c.sub}`} aria-label="Mettre en avant" title={tm.featured ? "Retirer la mise en avant" : "Mettre en avant"}><Trophy size={15} /></button>}
+                  <button onClick={() => remove(tm.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Supprimer" title="Supprimer"><Trash2 size={15} /></button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* ---------------------------------- page ---------------------------------- */
 
 export function Admin() {
@@ -1271,6 +1530,7 @@ export function Admin() {
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
   const [newRequests, setNewRequests] = useState(0);
+  const [newTestimonials, setNewTestimonials] = useState(0);
 
   // Sidebar badges: loaded once here (client-direct through the admin RLS
   // policies, so they work even without the serverless routes), then kept in
@@ -1278,6 +1538,7 @@ export function Admin() {
   useEffect(() => {
     listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
     listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
+    listAllTestimonials().then((r) => setNewTestimonials(r.items.filter((x) => x.status === "pending").length));
   }, []);
 
   const tabs = [
@@ -1287,8 +1548,8 @@ export function Admin() {
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "emails", l: "Emails", icon: Mail },
     { id: "requests", l: "Demandes", icon: Inbox },
-    { id: "promos", l: "Promos", icon: Ticket },
     { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
@@ -1310,7 +1571,9 @@ export function Admin() {
                 <t.icon size={16} className="shrink-0" />
                 <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
                 {(() => {
-                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : 0;
+                  // Accueil carries the testimonial queue, which now lives in
+                  // one of its sub-tabs.
+                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : t.id === "home" ? newTestimonials : 0;
                   return badge > 0 ? (
                     <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
                       {badge > 9 ? "9+" : badge}
@@ -1323,13 +1586,13 @@ export function Admin() {
         </nav>
         <div role="tabpanel" className="min-w-0">
       {tab === "overview" && <OverviewTab go={setTab} />}
-      {tab === "home" && <AccueilTab />}
+      {tab === "home" && <AccueilTab pendingTestimonials={newTestimonials} onTestimonialCount={setNewTestimonials} />}
       {tab === "users" && <UsersTab />}
-      {tab === "pricing" && <TarifsTab />}
+      {tab === "pricing" && <TarifsSection />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "emails" && <EmailTemplatesTab />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
-      {tab === "promos" && <PromosTab />}
       {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}

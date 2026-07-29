@@ -60,13 +60,20 @@ const wrap = (inner) => `
   </div>
 </div>`;
 
-const button = (href, label) =>
-  `<a href="${href}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;font-size:15px;">${label}</a>`;
+const button = (href, label, color = "#2563eb") =>
+  `<a href="${href}" style="display:inline-block;background:${color};color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;font-size:15px;">${label}</a>`;
 
 function greeting(user) {
   const name = user.user_metadata?.name || user.user_metadata?.full_name || "";
   return name ? `Bonjour ${name},` : "Bonjour,";
 }
+
+// The renew CTA points at /tarifs — the real path of the pricing page (see
+// src/constants/seo.js). It used to say /pricing, which is not a route: every
+// renewal link landed on the homepage, and would now hit the 404 page.
+const renewUrl = (site) => `${site}/tarifs`;
+// The testimonial form lives on the member's profile page.
+const feedbackUrl = (site) => `${site}/profil`;
 
 // 3-days-before reminder.
 export function expiringSoonEmail(user, daysLeft, site) {
@@ -80,13 +87,15 @@ export function expiringSoonEmail(user, daysLeft, site) {
       arrive à échéance dans <strong>${d} ${dayWord}</strong>.</p>
     <p style="margin:0 0 20px;">Pour continuer sans interruption vos quiz, simulations IA et TCF blancs,
       renouvelez dès maintenant&nbsp;:</p>
-    <p style="margin:0 0 22px;">${button(`${site}/pricing`, "Renouveler mon accès")}</p>
+    <p style="margin:0 0 22px;">${button(renewUrl(site), "Renouveler mon accès")}</p>
     <p style="margin:0;color:#6b7280;font-size:13px;">Si vous avez déjà renouvelé, ignorez ce message&nbsp;— merci&nbsp;!</p>
   `);
   return { subject, html };
 }
 
-// Sent once, just after expiry.
+// Sent once, just after expiry. Asks for a testimonial before inviting a
+// renewal: the story is worth more while the exam is still fresh, and the
+// submission form (Profil) moderates everything before it reaches the site.
 export function expiredEmail(user, site) {
   const plan = user.app_metadata?.plan_label || "Premium";
   const subject = `Votre accès ${plan} a expiré`;
@@ -94,8 +103,11 @@ export function expiredEmail(user, site) {
     <p style="margin:0 0 14px;">${greeting(user)}</p>
     <p style="margin:0 0 14px;">Votre abonnement <strong>${plan}</strong> vient d'expirer.
       Votre compte est toujours là&nbsp;: votre progression et votre historique sont conservés.</p>
+    <p style="margin:0 0 20px;">Comment s'est passée votre préparation&nbsp;? Votre témoignage aide les
+      prochains candidats — après validation, il apparaîtra sur notre page d'accueil.</p>
+    <p style="margin:0 0 22px;">${button(feedbackUrl(site), "Partager mon témoignage", "#7c3aed")}</p>
     <p style="margin:0 0 20px;">Envie de reprendre votre préparation au TCF&nbsp;? Réactivez votre accès en un clic&nbsp;:</p>
-    <p style="margin:0 0 22px;">${button(`${site}/pricing`, "Renouveler mon accès")}</p>
+    <p style="margin:0 0 22px;">${button(renewUrl(site), "Renouveler mon accès")}</p>
     <p style="margin:0;color:#6b7280;font-size:13px;">Merci d'avoir préparé votre TCF avec nous. À très bientôt&nbsp;!</p>
   `);
   return { subject, html };

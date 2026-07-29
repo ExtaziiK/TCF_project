@@ -176,9 +176,12 @@ export function AppProvider({ children }) {
   // Seed the initial history entry with its canonical path (normalizing e.g.
   // a trailing slash; the query string and hash are preserved — Supabase's
   // OAuth return and the Stripe ?checkout flag both ride on them), and restore
-  // the route whenever the user navigates the history.
+  // the route whenever the user navigates the history. An unknown path resolves
+  // to the 404 route, whose pathForRoute() is null — the requested URL is then
+  // left untouched, so the visitor keeps seeing the address that failed.
   useEffect(() => {
-    window.history.replaceState({ route }, "", pathForRoute(route) + window.location.search + window.location.hash);
+    const path = pathForRoute(route);
+    window.history.replaceState({ route }, "", path === null ? null : path + window.location.search + window.location.hash);
     const onPop = (e) => {
       setRoute(e.state?.route || routeFromPath(window.location.pathname));
       window.scrollTo({ top: 0 });

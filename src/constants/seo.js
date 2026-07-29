@@ -134,6 +134,21 @@ export const ROUTE_META = {
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
+
+  // ── 404 ──────────────────────────────────────────────────────────────────
+  // Rendered for any URL matching no route. It deliberately has no path of its
+  // own: the requested (wrong) URL stays in the address bar instead of being
+  // rewritten to "/", so a broken link is visible to the visitor rather than
+  // silently turning into the homepage. The hosting rewrite (vercel.json) sends
+  // index.html for every path, so the HTTP status is still 200 — `noindex` plus
+  // the "introuvable" copy is what tells a crawler this is an error page and
+  // not thin duplicate content.
+  notfound: {
+    path: null,
+    title: "Page introuvable",
+    description: "Cette page n'existe pas ou a été déplacée.",
+    noindex: true,
+  },
 };
 
 // Each blog post is its own indexable route (`blog/<slug>` -> `/blogue/<slug>`)
@@ -144,17 +159,26 @@ for (const post of POSTS) {
   ROUTE_META[`blog/${post.slug}`] = { path: `/blogue/${post.slug}`, title: post.t, description: post.excerpt, post };
 }
 
-const PATH_TO_ROUTE = Object.fromEntries(Object.entries(ROUTE_META).map(([route, m]) => [m.path, route]));
+// Pathless routes (the 404) are skipped: there is no URL to map back from.
+const PATH_TO_ROUTE = Object.fromEntries(
+  Object.entries(ROUTE_META).filter(([, m]) => m.path).map(([route, m]) => [m.path, route]),
+);
 
 export function pathForRoute(route) {
+  // The 404 has no path of its own (see ROUTE_META.notfound). `null` is the
+  // right answer for every caller: history.pushState/replaceState read a null
+  // URL as "leave the current one", and <a href={null}> renders no href.
+  if (route === "notfound") return null;
   return ROUTE_META[route]?.path || "/";
 }
 
-// Trailing slashes are tolerated ("/tarifs/" -> pricing); anything unknown
-// falls back to home, mirroring the old unknown-route behaviour.
+// Trailing slashes are tolerated ("/tarifs/" -> pricing); anything unknown is
+// the 404 route, so a wrong URL says so instead of quietly serving the
+// homepage (a soft 404: 200 + homepage content at an address that doesn't
+// exist, which wastes crawl budget and hides broken links).
 export function routeFromPath(pathname) {
   const clean = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-  return PATH_TO_ROUTE[clean] || "home";
+  return PATH_TO_ROUTE[clean] || "notfound";
 }
 
 /* ----------------------------- head management ---------------------------- */
@@ -178,7 +202,10 @@ export function applyRouteMeta(route) {
   const meta = ROUTE_META[route] || ROUTE_META.home;
   const title = route === "home" || !ROUTE_META[route] ? DEFAULT_TITLE : `${meta.title} · ${SITE_NAME}`;
   const description = meta.description || ROUTE_META.home.description;
-  const url = window.location.origin + meta.path;
+  // The 404 has no path of its own, so canonical/og:url stay self-referential
+  // on whatever URL was requested. Pointing them at "/" would contradict the
+  // noindex and invite Google to fold the error page into the homepage.
+  const url = window.location.origin + (meta.path || window.location.pathname);
 
   document.title = title;
   upsertMeta("name", "description", description);

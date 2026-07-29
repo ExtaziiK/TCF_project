@@ -8,9 +8,10 @@ import vercel from "../_lib/admin/vercel.js";
 // file under api/ as one function, and the Hobby plan caps a deployment at
 // 12 — a dynamic segment keeps /api/admin/users, /api/admin/stats,
 // /api/admin/usage, /api/admin/promo and /api/admin/vercel as one function
-// instead of five. The real handlers live in api/_lib/admin/ (underscore-
-// prefixed paths are not deployed as functions); each still does its own
-// requireAdmin check.
+// instead of five. The deployment sits exactly at the cap, so any new admin
+// route belongs here rather than in a new file. The real handlers live in
+// api/_lib/admin/ (underscore-prefixed paths are not deployed as functions);
+// each still does its own requireAdmin check.
 const handlers = { users, stats, usage, promo, vercel };
 
 export default async function handler(req, res) {

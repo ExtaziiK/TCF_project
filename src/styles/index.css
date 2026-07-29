@@ -66,7 +66,10 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 .metal-text{background-size:220% auto;background-position:0 center}
 /* Shimmer sweeps in on hover and ENDS at the resting position (fill: both), so
    mouse-out never yanks the animation mid-run and snaps the gradient back — the
-   old cause of a "flick" appearing only when the cursor left. */
+   old cause of a "flick" appearing only when the cursor left.
+   Keep `.metal-text` free of any other `animation` rule: two rules setting the
+   shorthand on one element make mouse-out restart whichever one loses on hover
+   (see the paired spans in PlanCard). */
 .plan-card:hover .metal-text{animation:metal-shimmer 1.2s ease-in-out both}
 @keyframes metal-shimmer{from{background-position:220% center}to{background-position:0 center}}
 /* Loading skeleton for quiz illustrations: a muted base (bg set per theme via

@@ -36,8 +36,9 @@ function AppShell() {
     );
   }
   // Sub-routes like "blog/<slug>" (individual articles) resolve to their base
-  // page ("blog"); the page reads the full route to pick the article.
-  const Page = PAGES[route] || PAGES[route.split("/")[0]] || PAGES.home;
+  // page ("blog"); the page reads the full route to pick the article. Anything
+  // with no page at all falls to the 404 rather than to the homepage.
+  const Page = PAGES[route] || PAGES[route.split("/")[0]] || PAGES.notfound;
   // The announcement bar is shown on every page to everyone who isn't a
   // paying/admin user — i.e. logged-out visitors and free accounts (Premium
   // and admin users don't need the promo). Gated on authReady so a Premium

@@ -8,6 +8,8 @@ import { sendMail, expiringSoonEmail, expiredEmail } from "../_lib/mailer.js";
 //   • "expired"        when -3 <= daysLeft <= 0  (only recently expired, so old
 //                      accounts aren't spammed the first time this ever runs)
 //
+// The wording of both lives in api/_lib/mailer.js.
+//
 // De-duplication lives on the account itself: reminder_expiring_at /
 // reminder_expired_at store the premium_until value they were sent for. A
 // renewal changes premium_until, which re-arms both reminders automatically —

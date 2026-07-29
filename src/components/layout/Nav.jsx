@@ -14,6 +14,7 @@ export function Nav({ barOffset = false }) {
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id, route);
   const notifRef = useRef(null);
   const closeAll = () => { setOpen(false); setOpenMenu(null); setNotifOpen(false); };
@@ -28,6 +29,15 @@ export function Nav({ barOffset = false }) {
     document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
   }, [notifOpen]);
+  // Past the top of the page the bar sits over cards and photos, where a blur
+  // alone leaves the muted link colour short of contrast — fade a translucent
+  // fill in behind it. The state only flips at the threshold, not every frame.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const navLinks = navLinksForRole(NAV_LINKS, role);
   const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
   const mobileLinks = [
@@ -37,10 +47,12 @@ export function Nav({ barOffset = false }) {
   ];
   return (
     <>
-      {/* Transparent bar: no background fill so the page shows through and the
-          links/buttons read as free-floating; a blur keeps them legible over
-          scrolling content. */}
-      <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 backdrop-blur-md`}>
+      {/* At the top of the page the bar is fully transparent so the hero shows
+          through and the links/buttons read as free-floating. Once the page
+          scrolls (or the mobile menu opens) a translucent fill and hairline
+          border fade in to keep them legible over content. The border is always
+          present but transparent, so fading it in costs no layout shift. */}
+      <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 backdrop-blur-md border-b transition-colors duration-300 ${scrolled || open ? `${c.nav} ${c.navBorder}` : "bg-transparent border-transparent"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onNavigate={closeAll} />
           <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
