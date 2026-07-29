@@ -22,21 +22,44 @@ export function TermsConsent({ accepted, onChange }) {
         onClose={() => setOpen(false)}
         onAccept={() => { setRead(true); onChange(true); setOpen(false); }}
       />
-      <div className={`p-4 rounded-2xl border ${read ? c.border : "border-blue-600/40 bg-blue-600/5"}`}>
-        <label className={`flex items-start gap-3 text-sm ${read ? "cursor-pointer" : "cursor-not-allowed opacity-70"}`}>
-          <input type="checkbox" checked={accepted} disabled={!read}
-            onChange={(e) => onChange(e.target.checked)}
-            className="mt-0.5 w-4 h-4 shrink-0 accent-blue-600 disabled:cursor-not-allowed" />
-          <span className={c.sub}>
-            {t("J'ai lu et j'accepte les")}{" "}
-            <button type="button" onClick={() => setOpen(true)} className="font-semibold text-blue-600 hover:underline">
-              {t("conditions générales d'utilisation")}
-            </button>
-            {"."}
+      {/* Before reading, the WHOLE block is one button that opens the
+          conditions — the link alone was a small target for the only action
+          available at that point. Afterwards it becomes an ordinary label +
+          checkbox, with the link still there to re-open the text. */}
+      {read ? (
+        <div className={`p-4 rounded-2xl border ${c.border}`}>
+          <label className="flex items-start gap-3 text-sm cursor-pointer">
+            <input type="checkbox" checked={accepted} onChange={(e) => onChange(e.target.checked)}
+              className="mt-0.5 w-4 h-4 shrink-0 accent-blue-600 cursor-pointer" />
+            <span className={c.sub}>
+              {t("J'ai lu et j'accepte les")}{" "}
+              {/* preventDefault: without it, a click inside the label would
+                  ALSO toggle the checkbox on the way to opening the dialog. */}
+              <button type="button" onClick={(e) => { e.preventDefault(); setOpen(true); }}
+                className="font-semibold text-blue-600 hover:underline">
+                {t("conditions générales d'utilisation")}
+              </button>
+              {"."}
+            </span>
+          </label>
+        </div>
+      ) : (
+        <button type="button" onClick={() => setOpen(true)}
+          aria-label={t("Ouvrir et lire les conditions générales d'utilisation")}
+          className="w-full text-left p-4 rounded-2xl border border-blue-600/40 bg-blue-600/5 hover:bg-blue-600/10 transition-colors">
+          <span className="flex items-start gap-3 text-sm">
+            {/* Looks like the checkbox it is about to become, so the block
+                still reads as "there is a box here to tick". */}
+            <span className={`mt-0.5 w-4 h-4 shrink-0 rounded border-2 border-blue-600/50 ${c.card}`} aria-hidden="true" />
+            <span className={c.sub}>
+              {t("J'ai lu et j'accepte les")}{" "}
+              <span className="font-semibold text-blue-600 underline">{t("conditions générales d'utilisation")}</span>
+              {"."}
+            </span>
           </span>
-        </label>
-        {!read && <p className={`mt-2 ml-7 text-xs ${c.faint}`}>{t("Ouvrez les conditions pour pouvoir cocher cette case.")}</p>}
-      </div>
+          <span className={`mt-2 ml-7 block text-xs ${c.faint}`}>{t("Cliquez ici pour les ouvrir et les lire.")}</span>
+        </button>
+      )}
     </>
   );
 }
