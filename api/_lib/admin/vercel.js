@@ -22,16 +22,19 @@ const DAYS_SHOWN = 14; // matches the overview DayBars density
 const WINDOW_DAYS = 30; // Hobby reporting window; Pro/Enterprise keep more
 const TOP_LIMIT = "8";
 
-// How to group the "most visited pages" breakdown. Vercel's dashboard splits
-// "Pages" (the pathname the browser reported) from "Routes" (the server route
-// that served it) — and this app rewrites every non-API path to /index.html
-// (vercel.json), so grouping by `route` collapses the whole site into a single
-// unlabeled row. Pages must be grouped by pathname instead.
+// The `by` values this API accepts, recorded here because Vercel doesn't
+// document them anywhere (read out of a 400 response on 2026-07-29):
+//   hour, day, week, month, year, country, deviceType, environment,
+//   requestPath, referrerHostname, osName, browserName, route, utmSource,
+//   utmMedium, utmCampaign, utmContent, utmTerm, flags
+// (plus JSON dimension keys of the form "flags/<name>"). Anything else is a 400.
 //
-// The API is undocumented, so the pathname dimension's exact name isn't
-// guaranteed: try the plausible spellings in order and keep the first response
-// that actually comes back with labels.
-const PAGE_DIMENSIONS = ["path", "pathname", "page"];
+// `requestPath` is the pathname the browser reported — the dimension behind the
+// Vercel dashboard's "Pages" tab, and the one this breakdown needs. Do NOT use
+// `route`: vercel.json rewrites every non-API path to /index.html, so `route`
+// comes back as a single row with an empty label holding the whole site's
+// traffic (verified: one row, route "", 956 pageviews).
+const PAGES_BY = "requestPath";
 
 const dayKey = (d) => new Date(d).toISOString().slice(0, 10);
 
@@ -70,80 +73,16 @@ function fillSeries(rows) {
   return series;
 }
 
-// A grouped-dimension response → ranked rows the tab renders directly. `keys`
-// are the dimension field names Vercel may echo back (country, deviceType, …);
-// the first one present on the row wins, which lets a caller pass several
-// candidate spellings for the same dimension. Unlabeled rows (e.g. direct
-// traffic has no referrer) keep a null label for the UI.
-function rank(resp, ...keys) {
+// A grouped-dimension response → ranked rows the tab renders directly. `key` is
+// the dimension field name Vercel echoes back (requestPath, country, …). Rows
+// with no label — the API returns "" for direct traffic, which has no referrer —
+// keep a null label so the UI can name them itself.
+function rank(resp, key) {
   return (resp.data || []).map((r) => ({
-    label: keys.map((k) => r[k]).find((v) => v) ?? null,
+    label: r[key] || null,
     pageviews: r.pageviews || 0,
     visitors: r.visitors || 0,
   }));
-}
-
-// Top pages by pathname, probing PAGE_DIMENSIONS until one yields labeled rows.
-// A rejected request (unknown dimension → non-2xx) is just the wrong guess, so
-// it moves to the next candidate rather than failing the whole tab.
-async function topPages(c, range) {
-  for (const by of PAGE_DIMENSIONS) {
-    const resp = await query("visits/aggregate", c, { ...range, by, limit: TOP_LIMIT }).catch(() => null);
-    if (!resp) continue;
-    const rows = rank(resp, ...PAGE_DIMENSIONS);
-    if (rows.some((r) => r.label)) return rows;
-  }
-  return [];
-}
-
-/* ------------------------------- diagnostics ------------------------------ */
-
-// Dimension names to try when the pages breakdown comes back empty. Wider than
-// PAGE_DIMENSIONS on purpose: it includes the three that are known to work
-// (referrerHostname, country, deviceType) as a control, so the output shows
-// whether a blank result means "bad dimension name" or "no data at all".
-const PROBE_DIMENSIONS = [
-  "path", "pathname", "page", "pagePath", "pageUrl", "url", "route",
-  "hostname", "referrerHostname", "country", "deviceType",
-];
-
-// Reports, per candidate dimension, the HTTP status plus either the error body
-// or the shape of what came back (row count, the row's own field names, and a
-// small sample). Vercel's Web Analytics API is undocumented, and the token is
-// stored Sensitive so it can't be pulled locally to test — this makes the
-// deployed function itself answer which dimension name is correct.
-// Read-only, admin-gated, and it never throws: a failed candidate is data.
-async function probeDimensions(c, range) {
-  const out = {};
-  for (const by of PROBE_DIMENSIONS) {
-    const qs = new URLSearchParams({
-      projectId: c.projectId,
-      ...(c.teamId ? { teamId: c.teamId } : {}),
-      ...range,
-      by,
-      limit: "3",
-    });
-    try {
-      const res = await fetch(`${API}/visits/aggregate?${qs}`, { headers: { Authorization: `Bearer ${c.token}` } });
-      const text = await res.text();
-      if (!res.ok) {
-        // The error body often names the accepted values — the most useful
-        // output here, so keep more of it than the normal 200-char clip.
-        out[by] = { status: res.status, error: text.slice(0, 500) };
-        continue;
-      }
-      const rows = (JSON.parse(text).data) || [];
-      out[by] = {
-        status: res.status,
-        rows: rows.length,
-        keys: rows[0] ? Object.keys(rows[0]) : [],
-        sample: rows.slice(0, 2),
-      };
-    } catch (err) {
-      out[by] = { error: String(err?.message || err).slice(0, 200) };
-    }
-  }
-  return out;
 }
 
 export default async function handler(req, res) {
@@ -157,18 +96,11 @@ export default async function handler(req, res) {
     const since = dayKey(new Date(Date.now() - WINDOW_DAYS * DAY));
     const until = dayKey(new Date());
     const range = { since, until };
-
-    // ?probe=1 — dimension diagnostic, surfaced by the tab when the pages
-    // breakdown is empty. Returns raw API shapes instead of the normal payload.
-    if (req.query.probe) {
-      return res.status(200).json({ configured: true, probe: await probeDimensions(c, range), window: { since, until } });
-    }
-
     const top = (by) => query("visits/aggregate", c, { ...range, by, limit: TOP_LIMIT });
 
     const [daily, pages, referrers, countries, devices, lifetime] = await Promise.all([
       query("visits/aggregate", c, { ...range, by: "day" }),
-      topPages(c, range),
+      top(PAGES_BY),
       top("referrerHostname"),
       top("country"),
       top("deviceType"),
@@ -194,7 +126,7 @@ export default async function handler(req, res) {
         lifetimeVisitors: lifetime?.data?.visitors ?? null,
       },
       byDay: fillSeries(rows),
-      topPages: pages,
+      topPages: rank(pages, PAGES_BY),
       topReferrers: rank(referrers, "referrerHostname"),
       topCountries: rank(countries, "country"),
       devices: rank(devices, "deviceType"),

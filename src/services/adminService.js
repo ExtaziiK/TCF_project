@@ -65,13 +65,6 @@ export function fetchAdminVercel() {
   return adminFetch("/api/admin/vercel");
 }
 
-// Dimension diagnostic for the "Trafic" tab, offered when the pages breakdown
-// comes back empty. Vercel's Web Analytics API is undocumented, so this asks the
-// deployed function which grouping names it actually accepts.
-export function fetchAdminVercelProbe() {
-  return adminFetch("/api/admin/vercel?probe=1");
-}
-
 export function listAdminUsers({ search = "", page = 1, filter = "all" } = {}) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);
