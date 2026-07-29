@@ -76,6 +76,14 @@ export default async function handler(req, res) {
     res.status(200).json({ url: session.url });
   } catch (err) {
     console.error("create-checkout-session:", err.message);
+    // A discount Stripe won't accept — most often a fixed-amount coupon whose
+    // currency doesn't match the price — is the customer's problem to solve
+    // (remove the code), not a server outage. Surfacing it as invalid-promo
+    // gets them the actionable message instead of "réessayez", which would
+    // never succeed.
+    if (promoCode && /coupon|promotion|currency|discount/i.test(err.message || "")) {
+      return res.status(400).json({ error: "invalid-promo" });
+    }
     res.status(500).json({ error: "Checkout failed." });
   }
 }

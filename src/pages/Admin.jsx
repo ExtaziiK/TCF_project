@@ -899,7 +899,7 @@ function PromosTab() {
 
   const create = async () => {
     if (!form.code.trim()) return setFormError("Indiquez le code (ex. : BIENVENUE20).");
-    if (!(Number(form.value) > 0)) return setFormError(form.type === "percent" ? "Indiquez le pourcentage de rabais." : "Indiquez le montant du rabais en dollars.");
+    if (!(Number(form.value) > 0)) return setFormError(form.type === "percent" ? "Indiquez le pourcentage de rabais." : "Indiquez le montant du rabais en dollars US.");
     setBusy(true);
     const r = await createPromoCode({
       code: form.code.trim().toUpperCase(),
@@ -946,7 +946,7 @@ function PromosTab() {
               <input id="promo-value" type="number" min="1" value={form.value} onChange={set("value")} placeholder={form.type === "percent" ? "20" : "5"} className={`w-full ${inp}`} />
               <select value={form.type} onChange={set("type")} aria-label="Type de rabais" className={inp}>
                 <option value="percent">%</option>
-                <option value="amount">$ CAD</option>
+                <option value="amount">$ USD</option>
               </select>
             </div>
           </div>

@@ -48,7 +48,12 @@ function discounted(price, promo) {
   if (!n) return null;
   let value;
   if (promo.percentOff) value = n * (1 - promo.percentOff / 100);
-  else if (promo.amountOff) value = Math.max(0, n - promo.amountOff / 100);
+  // A fixed amount only means anything against a price in the same currency.
+  // Stripe won't apply a mismatched coupon at all, so previewing the subtraction
+  // would advertise a discount the customer can never get — worse, subtracting
+  // a whole coupon from a small plan renders "$0". Show the undiscounted price
+  // instead and let checkout report the code as invalid.
+  else if (promo.amountOff && (promo.currency || "usd").toLowerCase() === "usd") value = Math.max(0, n - promo.amountOff / 100);
   else return null;
   const rounded = Math.round(value * 100) / 100;
   if (rounded === n) return null;

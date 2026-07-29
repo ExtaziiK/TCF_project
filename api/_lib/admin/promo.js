@@ -19,6 +19,14 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 
 const CODE_RE = /^[A-Z0-9_-]{3,30}$/;
 
+// Fixed-amount coupons carry a currency, and Stripe refuses to apply one whose
+// currency differs from the price being bought — the checkout session errors
+// outright. Our Stripe prices are all USD, so this must stay USD: change it
+// only alongside the prices themselves. Percentage coupons carry no currency
+// and are unaffected. NOTE: a coupon's currency is immutable once created, so
+// codes made before this was corrected must be recreated, not edited.
+const COUPON_CURRENCY = "usd";
+
 // Since the 2025+ API, a promotion code's coupon lives under `promotion.coupon`
 // (was a top-level `coupon`). It's only the full object when expanded; otherwise
 // it's just an id string. Callers below expand it.
@@ -69,7 +77,7 @@ async function handleCreate(req, res, actor) {
     name: code,
     duration,
     ...(duration === "repeating" ? { duration_in_months: months } : {}),
-    ...(pct ? { percent_off: pct } : { amount_off: Math.round(amt * 100), currency: "cad" }),
+    ...(pct ? { percent_off: pct } : { amount_off: Math.round(amt * 100), currency: COUPON_CURRENCY }),
   });
 
   let promo;
