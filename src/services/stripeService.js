@@ -37,12 +37,12 @@ export async function validatePromoCode(code) {
   }
 }
 
-// Human label for a promo discount ("−20 %", "−5 $ CAD").
+// Human label for a promo discount ("−20 %", "−$5").
 export function promoLabel(promo) {
   if (!promo) return "";
   return promo.percentOff
     ? `−${promo.percentOff} %`
-    : `−${formatAmount(promo.amountOff || 0, promo.currency || "cad")}`;
+    : `−${formatAmount(promo.amountOff || 0, promo.currency || "usd")}`;
 }
 
 // Redirects a subscriber to the Stripe billing portal (manage card, invoices,
@@ -64,7 +64,8 @@ export async function openBillingPortal() {
 
 function formatAmount(amountInCents, currency) {
   const isWhole = amountInCents % 100 === 0;
-  // American formatting for USD ("$4.99"); fall back to fr-CA for CAD amounts.
+  // American formatting for USD ("$4.99") — everything we charge. Any other
+  // currency can only come from a legacy coupon, so fr-CA is a safe fallback.
   const locale = currency.toLowerCase() === "usd" ? "en-US" : "fr-CA";
   return new Intl.NumberFormat(locale, {
     style: "currency",

@@ -252,7 +252,7 @@ export async function getProfile() {
 // Updates the display name (user_metadata.name), preserving other metadata.
 export async function updateDisplayName(name) {
   const { data: { user } } = await supabase.auth.getUser();
-  return supabase.auth.updateUser({ data: { ...(user?.user_metadata || {}), name: name.trim() } });
+  return supabase.auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name) } });
 }
 
 // Renames the username in the profiles table. Stored lowercased; the unique
@@ -290,10 +290,19 @@ export async function signUp({ name, username, email, password, country }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name, username, country }, emailRedirectTo: window.location.origin },
+    options: { data: { name: normalizeName(name), username, country }, emailRedirectTo: window.location.origin },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }
+
+// Display name ("Prénom"). Deliberately permissive: the audience writes accents,
+// hyphens and apostrophes (Élodie, Jean-Luc, D'Amico), so only the shape is
+// enforced — starts with a letter, no digits or punctuation soup, short enough
+// to fit the profile header and the avatar initial.
+const NAME_RE = /^\p{L}[\p{L}\p{M}'’ .-]{1,39}$/u;
+// Collapses inner runs of whitespace so "Jean   Luc" is stored as "Jean Luc".
+export const normalizeName = (n) => String(n || "").trim().replace(/\s+/g, " ");
+export const isValidName = (n) => NAME_RE.test(normalizeName(n));
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]{3,30}$/;
 export const isValidUsername = (u) => USERNAME_RE.test(String(u || "").trim());

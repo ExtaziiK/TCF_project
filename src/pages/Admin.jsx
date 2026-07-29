@@ -21,7 +21,7 @@ import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
-  listPromoCodes, createPromoCode, togglePromoCode,
+  listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
 } from "@/services/adminService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
@@ -886,6 +886,8 @@ function PromosTab() {
   const [form, setForm] = useState(EMPTY_PROMO_FORM);
   const [formError, setFormError] = useState("");
   const [busy, setBusy] = useState(false);
+  // Id of the row awaiting a delete confirmation; only ever one at a time.
+  const [confirmingId, setConfirmingId] = useState(null);
   const set = (k) => (e) => { setForm({ ...form, [k]: e.target.value }); setFormError(""); };
   const inp = `px-3.5 py-2.5 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
@@ -899,7 +901,7 @@ function PromosTab() {
 
   const create = async () => {
     if (!form.code.trim()) return setFormError("Indiquez le code (ex. : BIENVENUE20).");
-    if (!(Number(form.value) > 0)) return setFormError(form.type === "percent" ? "Indiquez le pourcentage de rabais." : "Indiquez le montant du rabais en dollars.");
+    if (!(Number(form.value) > 0)) return setFormError(form.type === "percent" ? "Indiquez le pourcentage de rabais." : "Indiquez le montant du rabais en dollars US.");
     setBusy(true);
     const r = await createPromoCode({
       code: form.code.trim().toUpperCase(),
@@ -925,6 +927,16 @@ function PromosTab() {
     load();
   };
 
+  const remove = async (p) => {
+    setBusy(true);
+    const r = await deletePromoCode(p.id);
+    setBusy(false);
+    setConfirmingId(null);
+    if (!r.ok) return notify(r.error || "Suppression refusée.");
+    notify(`Code ${p.code} supprimé.`);
+    load();
+  };
+
   if (state === "unavailable") {
     return <UnavailableCard>La gestion des codes promo passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
   }
@@ -946,7 +958,7 @@ function PromosTab() {
               <input id="promo-value" type="number" min="1" value={form.value} onChange={set("value")} placeholder={form.type === "percent" ? "20" : "5"} className={`w-full ${inp}`} />
               <select value={form.type} onChange={set("type")} aria-label="Type de rabais" className={inp}>
                 <option value="percent">%</option>
-                <option value="amount">$ CAD</option>
+                <option value="amount">$ USD</option>
               </select>
             </div>
           </div>
@@ -985,7 +997,7 @@ function PromosTab() {
         ) : codes.length === 0 ? (
           <EmptyState icon={Ticket} title="Aucun code promo pour l'instant" sub="Créez-en un ci-dessus — il sera utilisable immédiatement sur la page Tarifs." />
         ) : (
-          <table className="w-full text-sm min-w-[680px]">
+          <table className="w-full text-sm min-w-[820px]">
             <thead>
               <tr className={`text-left text-xs uppercase tracking-wider ${c.faint}`}>
                 <th className="pb-3 pr-4 font-semibold">Code</th>
@@ -1007,9 +1019,25 @@ function PromosTab() {
                   <td className={`py-3 pr-4 text-xs ${c.sub}`}>{p.expiresAt ? dateOnly(p.expiresAt) : "—"}</td>
                   <td className="py-3 pr-4"><Pill tone={p.active ? "green" : "slate"}>{p.active ? "Actif" : "Inactif"}</Pill></td>
                   <td className="py-3">
-                    <Btn small variant="ghost" disabled={busy} className={p.active ? "text-rose-600" : ""} onClick={() => toggle(p)}>
-                      {p.active ? "Désactiver" : "Réactiver"}
-                    </Btn>
+                    {confirmingId === p.id ? (
+                      <span className="flex items-center gap-2">
+                        {/* Deleting drops the code's Stripe coupon: it can never be
+                            reissued under the same history, so say so plainly. */}
+                        <span className="text-xs font-semibold text-rose-600">Supprimer définitivement ce code ?</span>
+                        <Btn small variant="ghost" className="text-rose-600" disabled={busy} icon={Trash2} onClick={() => remove(p)}>Confirmer</Btn>
+                        <Btn small variant="ghost" disabled={busy} onClick={() => setConfirmingId(null)}>Annuler</Btn>
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <Btn small variant="ghost" disabled={busy} className={p.active ? "text-rose-600" : ""} onClick={() => toggle(p)}>
+                          {p.active ? "Désactiver" : "Réactiver"}
+                        </Btn>
+                        <Btn small variant="ghost" className="text-rose-600" disabled={busy} icon={Trash2} onClick={() => setConfirmingId(p.id)}
+                          title="Suppression définitive — pour une pause réversible, utilisez Désactiver">
+                          Supprimer
+                        </Btn>
+                      </span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -1376,6 +1404,7 @@ const AUDIT_LABELS = {
   "delete-user": ["Compte supprimé", "amber"],
   "create-promo": ["Code promo créé", "green"],
   "toggle-promo": ["Code promo modifié", "slate"],
+  "delete-promo": ["Code promo supprimé", "amber"],
 };
 
 function AuditTab() {

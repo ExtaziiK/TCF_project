@@ -94,6 +94,12 @@ export function togglePromoCode(id, active) {
   return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "toggle", id, active }) });
 }
 
+// Irreversible: deletes the code's Stripe coupon, which retires the code for
+// good. Use togglePromoCode(id, false) to merely pause one.
+export function deletePromoCode(id) {
+  return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "delete", id }) });
+}
+
 /* ---------------------------- contact messages ---------------------------- */
 
 // Public form submission (Contact page) — RLS allows anyone to insert.

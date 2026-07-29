@@ -11,6 +11,7 @@ import { HttpError } from "../groq.js";
 //   POST /api/admin/promo { action: "create", code, percentOff|amountOff,
 //                           duration, durationInMonths?, maxRedemptions?, expiresAt? }
 //   POST /api/admin/promo { action: "toggle", id, active }
+//   POST /api/admin/promo { action: "delete", id }
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -19,10 +20,27 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 
 const CODE_RE = /^[A-Z0-9_-]{3,30}$/;
 
+// Fixed-amount coupons carry a currency, and Stripe refuses to apply one whose
+// currency differs from the price being bought — the checkout session errors
+// outright. Our Stripe prices are all USD, so this must stay USD: change it
+// only alongside the prices themselves. Percentage coupons carry no currency
+// and are unaffected. NOTE: a coupon's currency is immutable once created, so
+// codes made before this was corrected must be recreated, not edited.
+const COUPON_CURRENCY = "usd";
+
 // Since the 2025+ API, a promotion code's coupon lives under `promotion.coupon`
 // (was a top-level `coupon`). It's only the full object when expanded; otherwise
 // it's just an id string. Callers below expand it.
 const couponOf = (pc) => (pc?.promotion?.coupon && typeof pc.promotion.coupon === "object" ? pc.promotion.coupon : null);
+
+// A promotion code whose coupon is gone is one we retired (see the delete
+// action): Stripe keeps the promotion-code object forever, so this is what
+// makes a deleted code disappear from the panel. Stripe returns a deleted
+// object as a `{ id, deleted: true }` stub when expanded.
+const isLive = (pc) => {
+  const coupon = couponOf(pc);
+  return !!coupon && !coupon.deleted;
+};
 
 async function audit(actor, action, target, detail) {
   await admin.from("admin_audit_log").insert({
@@ -69,7 +87,7 @@ async function handleCreate(req, res, actor) {
     name: code,
     duration,
     ...(duration === "repeating" ? { duration_in_months: months } : {}),
-    ...(pct ? { percent_off: pct } : { amount_off: Math.round(amt * 100), currency: "cad" }),
+    ...(pct ? { percent_off: pct } : { amount_off: Math.round(amt * 100), currency: COUPON_CURRENCY }),
   });
 
   let promo;
@@ -106,7 +124,7 @@ export default async function handler(req, res) {
 
     if (req.method === "GET") {
       const { data } = await stripe.promotionCodes.list({ limit: 100, expand: ["data.promotion.coupon"] });
-      return res.status(200).json({ codes: data.map(toRow) });
+      return res.status(200).json({ codes: data.filter(isLive).map(toRow) });
     }
 
     if (req.method === "POST") {
@@ -118,6 +136,27 @@ export default async function handler(req, res) {
         const promo = await stripe.promotionCodes.update(id, { active: !!active, expand: ["promotion.coupon"] });
         await audit(actor, "toggle-promo", promo.code, { active: !!active });
         return res.status(200).json({ code: toRow(promo) });
+      }
+      // Stripe has no delete endpoint for promotion codes — only coupons can be
+      // deleted. Every code we create owns its coupon one-to-one (handleCreate),
+      // so dropping the coupon retires the code for good: it can never be
+      // redeemed again, and isLive() hides it from the listing. Deactivating
+      // first means the code is already unusable even if the coupon delete
+      // fails, rather than the reverse. Subscriptions that already redeemed it
+      // keep their discount — Stripe applies it from the subscription, not the
+      // coupon. Use "toggle" instead to pause a code you may want back.
+      if (action === "delete") {
+        const { id } = req.body;
+        if (!id) throw new HttpError(400, "id requis.");
+        const promo = await stripe.promotionCodes.retrieve(id, { expand: ["promotion.coupon"] });
+        const coupon = couponOf(promo);
+        if (promo.active) await stripe.promotionCodes.update(id, { active: false });
+        if (coupon && !coupon.deleted) await stripe.coupons.del(coupon.id);
+        await audit(actor, "delete-promo", promo.code, {
+          coupon_id: coupon?.id || null,
+          times_redeemed: promo.times_redeemed || 0,
+        });
+        return res.status(200).json({ deleted: true, id });
       }
       throw new HttpError(400, "Action inconnue.");
     }
