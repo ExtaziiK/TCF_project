@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { sendMail, expiringSoonEmail, expiredEmail } from "../_lib/mailer.js";
+import { sendMail, loadTemplates, recipientVars } from "../_lib/mailer.js";
+import { renderTemplate, withDefaults } from "../_lib/emailTemplates.js";
 
 // Daily cron (see vercel.json → crons). Scans every account's Premium expiry
 // (app_metadata.premium_until, the same field the admin API and rbac read) and
@@ -7,6 +8,10 @@ import { sendMail, expiringSoonEmail, expiredEmail } from "../_lib/mailer.js";
 //   • "expiring soon"  when 0 < daysLeft <= 3
 //   • "expired"        when -3 <= daysLeft <= 0  (only recently expired, so old
 //                      accounts aren't spammed the first time this ever runs)
+//
+// The wording of both is admin-editable (Admin › Emails → public.email_templates);
+// api/_lib/emailTemplates.js holds the shipped defaults used whenever a template
+// has never been saved, so this job never depends on a row existing.
 //
 // De-duplication lives on the account itself: reminder_expiring_at /
 // reminder_expired_at store the premium_until value they were sent for. A
@@ -49,9 +54,28 @@ export default async function handler(req, res) {
   }
 
   const now = Date.now();
-  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, errors: 0 };
+  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, skipped: 0, errors: 0 };
 
   try {
+    // The admin's saved copy for each email, merged over the shipped defaults.
+    // Read once for the whole run — this is the same handful of rows for every
+    // account. A template switched off in the admin panel is skipped entirely;
+    // its reminder stays un-armed, so switching it back on resumes without a
+    // gap for accounts that expired meanwhile.
+    const saved = await loadTemplates(admin);
+    const templates = {
+      expiring_soon: withDefaults("expiring_soon", saved.expiring_soon),
+      expired: withDefaults("expired", saved.expired),
+    };
+
+    const send = async (key, user, vars) => {
+      const template = templates[key];
+      if (!template.enabled) return false;
+      const { subject, html } = renderTemplate(template, { ...vars, promo_code: template.promoCode });
+      await sendMail({ to: user.email, subject, html });
+      return true;
+    };
+
     const users = await listAllUsers();
     for (const user of users) {
       const meta = user.app_metadata || {};
@@ -64,19 +88,21 @@ export default async function handler(req, res) {
       const daysLeft = (until - now) / DAY_MS;
 
       try {
+        const vars = recipientVars(user, { daysLeft, until, site: SITE });
+
         // Expiring within 3 days (and not yet expired), once per premium_until.
         if (daysLeft > 0 && daysLeft <= 3 && meta.reminder_expiring_at !== meta.premium_until) {
-          const { subject, html } = expiringSoonEmail(user, daysLeft, SITE);
-          await sendMail({ to: user.email, subject, html });
-          await patchMetadata(user, { reminder_expiring_at: meta.premium_until });
-          summary.expiringSent++;
+          if (await send("expiring_soon", user, vars)) {
+            await patchMetadata(user, { reminder_expiring_at: meta.premium_until });
+            summary.expiringSent++;
+          } else summary.skipped++;
         }
         // Recently expired, once per premium_until.
         else if (daysLeft <= 0 && daysLeft >= -3 && meta.reminder_expired_at !== meta.premium_until) {
-          const { subject, html } = expiredEmail(user, SITE);
-          await sendMail({ to: user.email, subject, html });
-          await patchMetadata(user, { reminder_expired_at: meta.premium_until });
-          summary.expiredSent++;
+          if (await send("expired", user, vars)) {
+            await patchMetadata(user, { reminder_expired_at: meta.premium_until });
+            summary.expiredSent++;
+          } else summary.skipped++;
         }
       } catch (err) {
         summary.errors++;

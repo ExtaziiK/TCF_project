@@ -15,6 +15,7 @@ import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
@@ -1547,6 +1548,7 @@ export function Admin() {
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "emails", l: "Emails", icon: Mail },
     { id: "requests", l: "Demandes", icon: Inbox },
     { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
@@ -1589,6 +1591,7 @@ export function Admin() {
       {tab === "pricing" && <TarifsSection />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "emails" && <EmailTemplatesTab />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
