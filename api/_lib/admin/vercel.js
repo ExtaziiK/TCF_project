@@ -20,7 +20,18 @@ const API = "https://api.vercel.com/v1/query/web-analytics";
 const DAY = 24 * 3600 * 1000;
 const DAYS_SHOWN = 14; // matches the overview DayBars density
 const WINDOW_DAYS = 30; // Hobby reporting window; Pro/Enterprise keep more
-const TOP_LIMIT = "6";
+const TOP_LIMIT = "8";
+
+// How to group the "most visited pages" breakdown. Vercel's dashboard splits
+// "Pages" (the pathname the browser reported) from "Routes" (the server route
+// that served it) — and this app rewrites every non-API path to /index.html
+// (vercel.json), so grouping by `route` collapses the whole site into a single
+// unlabeled row. Pages must be grouped by pathname instead.
+//
+// The API is undocumented, so the pathname dimension's exact name isn't
+// guaranteed: try the plausible spellings in order and keep the first response
+// that actually comes back with labels.
+const PAGE_DIMENSIONS = ["path", "pathname", "page"];
 
 const dayKey = (d) => new Date(d).toISOString().slice(0, 10);
 
@@ -59,15 +70,30 @@ function fillSeries(rows) {
   return series;
 }
 
-// A grouped-dimension response → ranked rows the tab renders directly. `key` is
-// the dimension field name Vercel echoes back (route, country, …). Unlabeled
-// rows (e.g. direct traffic has no referrer) keep a null label for the UI.
-function rank(resp, key) {
+// A grouped-dimension response → ranked rows the tab renders directly. `keys`
+// are the dimension field names Vercel may echo back (country, deviceType, …);
+// the first one present on the row wins, which lets a caller pass several
+// candidate spellings for the same dimension. Unlabeled rows (e.g. direct
+// traffic has no referrer) keep a null label for the UI.
+function rank(resp, ...keys) {
   return (resp.data || []).map((r) => ({
-    label: r[key] || null,
+    label: keys.map((k) => r[k]).find((v) => v) ?? null,
     pageviews: r.pageviews || 0,
     visitors: r.visitors || 0,
   }));
+}
+
+// Top pages by pathname, probing PAGE_DIMENSIONS until one yields labeled rows.
+// A rejected request (unknown dimension → non-2xx) is just the wrong guess, so
+// it moves to the next candidate rather than failing the whole tab.
+async function topPages(c, range) {
+  for (const by of PAGE_DIMENSIONS) {
+    const resp = await query("visits/aggregate", c, { ...range, by, limit: TOP_LIMIT }).catch(() => null);
+    if (!resp) continue;
+    const rows = rank(resp, ...PAGE_DIMENSIONS);
+    if (rows.some((r) => r.label)) return rows;
+  }
+  return [];
 }
 
 export default async function handler(req, res) {
@@ -83,9 +109,9 @@ export default async function handler(req, res) {
     const range = { since, until };
     const top = (by) => query("visits/aggregate", c, { ...range, by, limit: TOP_LIMIT });
 
-    const [daily, routes, referrers, countries, devices, lifetime] = await Promise.all([
+    const [daily, pages, referrers, countries, devices, lifetime] = await Promise.all([
       query("visits/aggregate", c, { ...range, by: "day" }),
-      top("route"),
+      topPages(c, range),
       top("referrerHostname"),
       top("country"),
       top("deviceType"),
@@ -111,7 +137,7 @@ export default async function handler(req, res) {
         lifetimeVisitors: lifetime?.data?.visitors ?? null,
       },
       byDay: fillSeries(rows),
-      topPages: rank(routes, "route"),
+      topPages: pages,
       topReferrers: rank(referrers, "referrerHostname"),
       topCountries: rank(countries, "country"),
       devices: rank(devices, "deviceType"),
