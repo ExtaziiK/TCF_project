@@ -28,6 +28,7 @@ import { Profile } from "@/pages/Profile";
 import { ResetPassword } from "@/pages/ResetPassword";
 import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
+import { NotFound } from "@/pages/NotFound";
 
 function Login() {
   return <AuthPage mode="login" />;
@@ -72,4 +73,5 @@ export const PAGES = {
   profile: Profile,
   admin: Admin,
   bank: QuestionBank,
+  notfound: NotFound,
 };
