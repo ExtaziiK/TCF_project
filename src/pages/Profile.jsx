@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   User, AtSign, Mail, Lock, Eye, EyeOff, Crown, CreditCard, Moon, Sun,
-  CalendarDays, LogOut, Check, Shield,
+  CalendarDays, LogOut, Check, Shield, Quote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
@@ -11,6 +11,9 @@ import {
   isValidUsername, isUsernameAvailable,
 } from "@/services/authService";
 import { openBillingPortal } from "@/services/stripeService";
+import {
+  listMyTestimonials, submitTestimonial, deleteTestimonial, MIN_BODY, MAX_BODY,
+} from "@/services/testimonialsService";
 
 const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" }) : "—");
 
@@ -204,7 +207,115 @@ export function Profile() {
             </div>
           </div>
         </ProfileSection>
+
+        {/* success story — submitted here, published on the landing page only
+            once an admin approves it */}
+        <div className="lg:col-span-2"><TestimonialSection /></div>
       </div>
     </PageShell>
+  );
+}
+
+const STATUS_PILL = {
+  pending: { tone: "amber", label: "En attente de validation" },
+  approved: { tone: "green", label: "Publié sur l'accueil" },
+  rejected: { tone: "red", label: "Non retenu" },
+};
+
+const LEVELS = ["", "A2 obtenu", "B1 obtenu", "B2 obtenu", "C1 obtenu", "C2 obtenu"];
+
+// Lets a member write one success story and follow its moderation status. The
+// story is never published directly: it lands as `pending` (enforced by RLS,
+// not just by this form) and an admin decides.
+function TestimonialSection() {
+  const { c, user, notify, t } = useApp();
+  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  const [mine, setMine] = useState(null); // null = loading, [] = none yet
+  const [body, setBody] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [level, setLevel] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const load = () => listMyTestimonials().then((r) => setMine(r.items));
+  useEffect(() => { load(); }, []);
+
+  const submit = async () => {
+    setBusy(true);
+    const r = await submitTestimonial({ name: user.name, origin, level, body });
+    setBusy(false);
+    if (!r.ok) return notify(t(r.error || "Envoi impossible pour le moment."));
+    setBody(""); setOrigin(""); setLevel("");
+    notify(t("Merci ! Votre témoignage sera publié après validation."));
+    load();
+  };
+
+  const withdraw = async (id) => {
+    const r = await deleteTestimonial(id);
+    notify(t(r.ok ? "Témoignage retiré." : "Suppression refusée."));
+    load();
+  };
+
+  const remaining = MAX_BODY - body.trim().length;
+  const tooShort = body.trim().length > 0 && body.trim().length < MIN_BODY;
+
+  return (
+    <ProfileSection icon={Quote} title={t("Mon témoignage")} desc={t("Racontez votre parcours. Après validation par notre équipe, il apparaîtra sur la page d'accueil.")}>
+      {mine === null ? (
+        <div className={`h-24 rounded-2xl animate-pulse ${c.track}`} aria-hidden="true" />
+      ) : (
+        <div className="space-y-4">
+          {mine.map((tm) => {
+            const st = STATUS_PILL[tm.status] || STATUS_PILL.pending;
+            return (
+              <div key={tm.id} className={`p-4 rounded-2xl border ${c.border}`}>
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <Pill tone={st.tone}>{t(st.label)}</Pill>
+                  {tm.level && <Pill tone="slate">{tm.level}</Pill>}
+                  <span className={`text-xs ${c.faint}`}>{fmtDate(tm.createdAt)}</span>
+                </div>
+                <p className={`text-sm leading-relaxed ${c.sub}`}>« {tm.body} »</p>
+                <button onClick={() => withdraw(tm.id)} className="mt-3 text-xs font-semibold text-rose-600 hover:underline">{t("Retirer")}</button>
+              </div>
+            );
+          })}
+
+          {/* One story at a time keeps the moderation queue honest; withdrawing
+              the current one frees the form again. */}
+          {mine.length === 0 ? (
+            <>
+              <div>
+                <label className={`text-xs font-semibold ${c.sub}`}>{t("Votre témoignage")}</label>
+                <textarea value={body} onChange={(e) => setBody(e.target.value.slice(0, MAX_BODY))} rows={4}
+                  placeholder={t("Ex. : en 8 semaines, je suis passé·e de B1 à C1 en compréhension orale…")}
+                  aria-label={t("Votre témoignage")} className={`${inp} mt-1.5 resize-y`} />
+                <p className={`mt-1 text-xs ${tooShort ? "text-amber-600" : c.faint}`}>
+                  {tooShort ? t(`Encore ${MIN_BODY - body.trim().length} caractères minimum.`) : t(`${remaining} caractères restants.`)}
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label className={`text-xs font-semibold ${c.sub}`}>{t("Votre parcours")}</label>
+                  <input value={origin} onChange={(e) => setOrigin(e.target.value)} maxLength={80} placeholder={t("Ex. : Casablanca → Montréal")}
+                    aria-label={t("Votre parcours")} className={`${inp} mt-1.5`} />
+                </div>
+                <div>
+                  <label className={`text-xs font-semibold ${c.sub}`}>{t("Résultat obtenu")}</label>
+                  <select value={level} onChange={(e) => setLevel(e.target.value)} aria-label={t("Résultat obtenu")} className={`${inp} mt-1.5`}>
+                    {LEVELS.map((l) => <option key={l} value={l}>{l || t("Ne pas préciser")}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 flex-wrap">
+                <Btn small icon={Check} disabled={busy || body.trim().length < MIN_BODY} onClick={submit}>{t(busy ? "Envoi…" : "Envoyer pour validation")}</Btn>
+                <span className={`text-xs ${c.faint}`}>{t("Publié sous le nom")} « {user.name} »</span>
+              </div>
+            </>
+          ) : (
+            <p className={`text-xs ${c.faint}`}>{t("Retirez votre témoignage actuel pour en écrire un nouveau.")}</p>
+          )}
+        </div>
+      )}
+    </ProfileSection>
   );
 }

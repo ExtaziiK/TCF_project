@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut,
+  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -22,6 +22,9 @@ import {
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode,
 } from "@/services/adminService";
+import {
+  listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
+} from "@/services/testimonialsService";
 import { promoLabel } from "@/services/stripeService";
 import { PLANS } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
@@ -1393,6 +1396,92 @@ function AuditTab() {
   );
 }
 
+/* ------------------------------- testimonials ------------------------------ */
+
+const TM_FILTERS = [["pending", "En attente"], ["approved", "Publiés"], ["rejected", "Refusés"], ["all", "Tous"]];
+const TM_TONES = { pending: "amber", approved: "green", rejected: "red" };
+const TM_LABELS = { pending: "En attente", approved: "Publié", rejected: "Refusé" };
+
+// Moderation queue for member-written success stories. Nothing here reaches the
+// landing page until it is approved: members can only ever insert `pending`
+// rows (enforced by RLS), and this tab is the only path to `approved`.
+function TestimonialsTab({ onCount }) {
+  const { c, notify } = useApp();
+  const [items, setItems] = useState(null);
+  const [unavailable, setUnavailable] = useState(false);
+  const [filter, setFilter] = useState("pending");
+
+  const load = () => listAllTestimonials().then((r) => {
+    setItems(r.items);
+    setUnavailable(!r.ok);
+    onCount?.(r.items.filter((x) => x.status === "pending").length); // keep the sidebar badge in sync
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, []);
+
+  const patch = async (id, status, msg) => {
+    const r = await setTestimonialStatus(id, status);
+    notify(r.ok ? msg : (r.error || "Action refusée."));
+    load();
+  };
+  const feature = async (tm) => {
+    const r = await setTestimonialFeatured(tm.id, !tm.featured);
+    notify(r.ok ? (tm.featured ? "Retiré des témoignages mis en avant." : "Mis en avant sur l'accueil.") : "Action refusée.");
+    load();
+  };
+  const remove = async (id) => {
+    const r = await deleteTestimonial(id);
+    notify(r.ok ? "Témoignage supprimé." : "Suppression refusée.");
+    load();
+  };
+
+  if (unavailable) {
+    return <UnavailableCard>Les témoignages nécessitent la table <span className="font-mono2">testimonials</span> — appliquez la migration <span className="font-mono2">20260729_testimonials.sql</span>.</UnavailableCard>;
+  }
+  const list = (items || []).filter((x) => filter === "all" || x.status === filter);
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 flex-wrap">
+        {TM_FILTERS.map(([id, l]) => (
+          <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            {l}{id !== "all" && items ? ` · ${items.filter((x) => x.status === id).length}` : ""}
+          </button>
+        ))}
+      </div>
+      <Card className="p-6">
+        {items === null ? (
+          <SkeletonRows n={3} className="h-28" />
+        ) : list.length === 0 ? (
+          <EmptyState icon={Quote}
+            title={filter === "pending" ? "Aucun témoignage à valider." : "Aucun témoignage dans cette catégorie."}
+            sub={filter === "pending" ? "Les récits envoyés par les membres depuis leur profil arrivent ici." : null} />
+        ) : (
+          <div className="space-y-2">
+            {list.map((tm) => (
+              <div key={tm.id} className={`p-4 rounded-2xl border ${tm.status === "pending" ? "border-amber-500/40 bg-amber-500/5" : c.border}`}>
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <Pill tone={TM_TONES[tm.status]}>{TM_LABELS[tm.status]}</Pill>
+                  {tm.featured && <Pill tone="gold">Mis en avant</Pill>}
+                  <span className={`text-sm font-semibold ${c.text}`}>{tm.name}</span>
+                  <span className={`text-xs ${c.faint}`}>{tm.origin || "—"} · {tm.level || "niveau non précisé"} · {when(tm.createdAt)}</span>
+                </div>
+                <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>« {tm.body} »</p>
+                <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+                  {tm.status !== "approved" && <button onClick={() => patch(tm.id, "approved", "Témoignage publié sur l'accueil.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Publier" title="Publier sur l'accueil"><Check size={16} /></button>}
+                  {tm.status !== "rejected" && <button onClick={() => patch(tm.id, "rejected", "Témoignage refusé.")} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Refuser" title="Refuser"><XCircle size={15} /></button>}
+                  {tm.status !== "pending" && <button onClick={() => patch(tm.id, "pending", "Témoignage remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
+                  {tm.status === "approved" && <button onClick={() => feature(tm)} className={`p-2 rounded-xl ${c.hoverSoft} ${tm.featured ? "text-[#b8860b]" : c.sub}`} aria-label="Mettre en avant" title={tm.featured ? "Retirer la mise en avant" : "Mettre en avant"}><Trophy size={15} /></button>}
+                  <button onClick={() => remove(tm.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Supprimer" title="Supprimer"><Trash2 size={15} /></button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* ---------------------------------- page ---------------------------------- */
 
 export function Admin() {
@@ -1400,6 +1489,7 @@ export function Admin() {
   const [tab, setTab] = useState("overview");
   const [newMessages, setNewMessages] = useState(0);
   const [newRequests, setNewRequests] = useState(0);
+  const [newTestimonials, setNewTestimonials] = useState(0);
 
   // Sidebar badges: loaded once here (client-direct through the admin RLS
   // policies, so they work even without the serverless routes), then kept in
@@ -1407,6 +1497,7 @@ export function Admin() {
   useEffect(() => {
     listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
     listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
+    listAllTestimonials().then((r) => setNewTestimonials(r.items.filter((x) => x.status === "pending").length));
   }, []);
 
   const tabs = [
@@ -1416,6 +1507,7 @@ export function Admin() {
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
+    { id: "testimonials", l: "Témoignages", icon: Quote },
     { id: "requests", l: "Demandes", icon: Inbox },
     { id: "promos", l: "Promos", icon: Ticket },
     { id: "traffic", l: "Trafic", icon: Globe },
@@ -1439,7 +1531,7 @@ export function Admin() {
                 <t.icon size={16} className="shrink-0" />
                 <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
                 {(() => {
-                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : 0;
+                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : t.id === "testimonials" ? newTestimonials : 0;
                   return badge > 0 ? (
                     <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
                       {badge > 9 ? "9+" : badge}
@@ -1457,6 +1549,7 @@ export function Admin() {
       {tab === "pricing" && <TarifsTab />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "testimonials" && <TestimonialsTab onCount={setNewTestimonials} />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "promos" && <PromosTab />}
       {tab === "traffic" && <TrafficTab />}

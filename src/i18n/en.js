@@ -186,15 +186,47 @@ export const EN = {
   "Explications rédigées par des enseignants de FLE certifiés, pas seulement une bonne réponse.":
     "Explanations written by certified French teachers, not just the right answer.",
 
-  // ── Testimonials (constants/home.js TESTIMONIALS) ────────────────────
+  // ── Testimonials ─────────────────────────────────────────────────────
+  // Member-written stories are shown as typed (a lookup miss returns the
+  // original); the three seed stories below predate accounts and are
+  // translated. The level chips come from a fixed list, so all are covered.
+  "A2 obtenu": "Achieved A2",
+  "B1 obtenu": "Achieved B1",
   "C1 obtenu": "Achieved C1",
   "B2 obtenu": "Achieved B2",
+  "C2 obtenu": "Achieved C2",
+  "Vous avez passé le TCF avec Passerelle ?": "Took the TCF with Passerelle?",
+  "Partagez votre histoire": "Share your story",
   "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les TCF blancs m'ont enlevé tout le stress le jour J.":
     "In 8 weeks I went from B1 to C1 in listening. The mock exams took away all the stress on test day.",
   "Le suivi de progression m'a montré exactement où je perdais des points. J'ai obtenu les 50 points d'Entrée express qu'il me fallait.":
     "The progress tracking showed me exactly where I was losing points. I earned the 50 Express Entry points I needed.",
   "Les cartes de vocabulaire quotidiennes et la série de jours d'étude m'ont gardée motivée jusqu'à l'examen.":
     "The daily vocabulary cards and the study-day streak kept me motivated all the way to the exam.",
+
+  // ── Profile › Mon témoignage ─────────────────────────────────────────
+  "Mon témoignage": "My story",
+  "Racontez votre parcours. Après validation par notre équipe, il apparaîtra sur la page d'accueil.":
+    "Tell us about your journey. Once our team approves it, it appears on the home page.",
+  "Votre témoignage": "Your story",
+  "Ex. : en 8 semaines, je suis passé·e de B1 à C1 en compréhension orale…":
+    "e.g. in 8 weeks I went from B1 to C1 in listening…",
+  "Votre parcours": "Your journey",
+  "Ex. : Casablanca → Montréal": "e.g. Casablanca → Montréal",
+  "Résultat obtenu": "Result achieved",
+  "Ne pas préciser": "Prefer not to say",
+  "Envoyer pour validation": "Submit for review",
+  "Envoi…": "Sending…",
+  "Publié sous le nom": "Published as",
+  "En attente de validation": "Awaiting review",
+  "Publié sur l'accueil": "Live on the home page",
+  "Non retenu": "Not selected",
+  "Retirer": "Withdraw",
+  "Retirez votre témoignage actuel pour en écrire un nouveau.": "Withdraw your current story to write a new one.",
+  "Merci ! Votre témoignage sera publié après validation.": "Thank you! Your story will go live once reviewed.",
+  "Témoignage retiré.": "Story withdrawn.",
+  "Envoi impossible pour le moment.": "Could not send right now.",
+  "Connectez-vous pour partager votre témoignage.": "Sign in to share your story.",
 
   // ── Exam sections (constants/mocks.js MOCK_SECTIONS) ─────────────────
   "3 tâches · 60 min": "3 tasks · 60 min",
