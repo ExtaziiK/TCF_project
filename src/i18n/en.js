@@ -147,14 +147,14 @@ export const EN = {
   "Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.": "One full free quiz in every test section. No credit card required.",
   "Créer mon compte gratuit": "Create my free account",
 
-  // ── Home stats (constants/home.js STATS) ─────────────────────────────
-  "12 400+": "12,400+",
-  "étudiants accompagnés": "students supported",
-  "94 %": "94%",
-  "atteignent leur niveau cible": "reach their target level",
-  "3 200+": "3,200+",
+  // ── Home stats (constants/home.js HOME_STATS_DEFAULT) ────────────────
+  // Only the labels are translated — the figures are numbers rendered as-is.
+  // An admin can add their own labels in Admin › Accueil › Chiffres clés;
+  // anything without an entry here falls back to the French text.
   "questions type TCF": "TCF-style questions",
-  "de progression moyenne": "average score gain",
+  "séries d'entraînement": "full practice sets",
+  "exercices grammaire & vocabulaire": "grammar & vocabulary drills",
+  "étudiants inscrits": "registered students",
 
   // ── Home features (constants/home.js FEATURES) ───────────────────────
   "Des centaines d'audios avec accents québécois et français, corrigés instantanément.":

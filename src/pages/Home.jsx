@@ -7,8 +7,9 @@ import { HomeLabel } from "@/components/home/HomeLabel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
-import { STATS, FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
+import { FEATURES, WHY, TESTIMONIALS } from "@/constants/home";
 import { useLivePlans } from "@/hooks/useLivePlans";
+import { useHomeStats } from "@/hooks/useHomeStats";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 
 // Logged-in users land on their personal dashboard; the marketing landing
@@ -23,6 +24,7 @@ export function Home() {
 function Landing() {
   const { c, nav, t } = useApp();
   const plans = useLivePlans();
+  const stats = useHomeStats();
   return (
     <main>
       {/* HERO — the nav-clearance padding lives on the section (not <main>) so
@@ -64,17 +66,21 @@ function Landing() {
         </div>
       </section>
 
-      {/* STATS */}
-      <section className={`border-y ${c.border} ${c.tint}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {STATS.map((s) => (
-            <div key={s.l} className="text-center">
-              <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{t(s.n)}</p>
-              <p className={`mt-1.5 text-sm ${c.sub}`}>{t(s.l)}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* STATS — admin-toggleable (Admin › Accueil › Chiffres clés). Numbers are
+          real: content counts are computed from the shipped bank, site counts
+          are the last figures an admin published from the live database. */}
+      {stats?.enabled && stats.items.length > 0 && (
+        <section className={`border-y ${c.border} ${c.tint}`}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+            {stats.items.map((s) => (
+              <div key={s.key} className="text-center">
+                <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
+                <p className={`mt-1.5 text-sm ${c.sub}`}>{t(s.label)}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* FEATURES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">

@@ -8,7 +8,9 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats } from "@/services/settingsService";
+import { STAT_SOURCES, STAT_SOURCE_LABELS } from "@/constants/home";
+import { SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
@@ -284,11 +286,137 @@ function AnnouncementBarTab() {
   );
 }
 
-// The "Accueil" admin section: two sub-tabs — the corner banner and the top bar.
+/* ------------------------------ home stats -------------------------------- */
+
+// Editor for the "chiffres clés" band on the public landing page
+// (site_settings.home_stats). Values are never invented here: a row either
+// counts the shipped content live, or holds a figure pulled from the live
+// database with "Actualiser depuis le site", or is typed by hand.
+function HomeStatsTab() {
+  const { c, notify } = useApp();
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [live, setLive] = useState(null); // /api/admin/stats payload, once fetched
+  const [pulling, setPulling] = useState(false);
+  const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  useEffect(() => { getHomeStats().then(setCfg); }, []);
+
+  const setItem = (i, k, v) => setCfg((p) => ({ ...p, items: p.items.map((x, j) => (j === i ? { ...x, [k]: v } : x)) }));
+  const add = () => setCfg((p) => ({ ...p, items: [...p.items, { src: "manual", n: "", l: "" }] }));
+  const remove = (i) => setCfg((p) => ({ ...p, items: p.items.filter((_, j) => j !== i) }));
+  const move = (i, d) => setCfg((p) => {
+    const a = [...p.items];
+    const j = i + d;
+    if (j < 0 || j >= a.length) return p;
+    [a[i], a[j]] = [a[j], a[i]];
+    return { ...p, items: a };
+  });
+
+  // Copies the current database figures into every row bound to a site source,
+  // so going live is one click rather than four manual edits.
+  const pull = async () => {
+    setPulling(true);
+    const r = await fetchAdminStats();
+    setPulling(false);
+    if (!r.ok) return notify(r.unavailable ? "Chiffres du site indisponibles en dev local (fonctions serverless absentes)." : "Lecture des chiffres du site impossible.");
+    setLive(r.data);
+    setCfg((p) => ({
+      ...p,
+      items: p.items.map((it) => (SNAPSHOT_SOURCES[it.src] ? { ...it, n: String(SNAPSHOT_SOURCES[it.src](r.data) ?? 0) } : it)),
+    }));
+    notify("Chiffres du site copiés. Enregistrez pour les publier.");
+  };
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setHomeStats(cfg);
+    setBusy(false);
+    notify(r.ok ? "Chiffres clés enregistrés." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!cfg) return <SkeletonRows n={4} className="h-12" />;
+  const preview = cfg.items.filter((it) => it.l.trim());
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Chiffres clés (accueil)</h3>
+          <button onClick={() => setCfg((p) => ({ ...p, enabled: !p.enabled }))} role="switch" aria-checked={cfg.enabled} aria-label="Afficher les chiffres clés"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>
+          La bande de statistiques sur la page d'accueil publique. Désactivez-la pour la faire disparaître entièrement.
+          Les sources « Auto » se comptent toutes seules à partir du contenu du site ; les sources « Site » se remplissent avec
+          « Actualiser depuis le site » et restent figées jusqu'à la prochaine actualisation.
+        </p>
+
+        <div className="space-y-2">
+          {cfg.items.map((it, i) => {
+            const auto = ["questions", "series", "exercises"].includes(it.src);
+            return (
+              <div key={i} className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
+                <select value={it.src} onChange={(e) => setItem(i, "src", e.target.value)} aria-label={`Source du chiffre ${i + 1}`} className={`${inp} sm:w-64 shrink-0`}>
+                  {STAT_SOURCES.map((s) => <option key={s} value={s}>{STAT_SOURCE_LABELS[s]}</option>)}
+                </select>
+                <input value={auto ? resolveStatValue(it) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
+                  placeholder="Valeur" aria-label={`Valeur du chiffre ${i + 1}`} className={`${inp} sm:w-28 shrink-0 disabled:opacity-60`} />
+                <input value={it.l} onChange={(e) => setItem(i, "l", e.target.value)} maxLength={60} placeholder="Libellé (ex. étudiants inscrits)"
+                  aria-label={`Libellé du chiffre ${i + 1}`} className={`flex-1 min-w-[12rem] ${inp}`} />
+                <div className="flex items-center shrink-0">
+                  <button onClick={() => move(i, -1)} disabled={i === 0} aria-label="Monter" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronUp size={15} /></button>
+                  <button onClick={() => move(i, 1)} disabled={i === cfg.items.length - 1} aria-label="Descendre" className={`p-1.5 rounded-lg ${c.hoverSoft} ${c.faint} disabled:opacity-30`}><ChevronDown size={15} /></button>
+                  <button onClick={() => remove(i)} aria-label="Supprimer" className={`p-1.5 rounded-lg ${c.hoverSoft} text-rose-600`}><Trash2 size={15} /></button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Btn small variant="ghost" icon={Plus} disabled={cfg.items.length >= 6} onClick={add}>Ajouter un chiffre</Btn>
+            <Btn small variant="ghost" disabled={pulling} onClick={pull}>
+              <RefreshCw size={16} className={pulling ? "animate-spin" : ""} aria-hidden="true" />
+              {pulling ? "Lecture…" : "Actualiser depuis le site"}
+            </Btn>
+          </div>
+          <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
+        </div>
+
+        {live && (
+          <p className={`mt-3 text-xs ${c.faint}`}>
+            Données réelles lues à l'instant — {live.users.total} inscrits · {live.activity.quizzesTotal} quiz complétés · {live.activity.examsCompleted} TCF blancs terminés.
+          </p>
+        )}
+      </Card>
+
+      <Card className="p-6">
+        <p className={`text-xs font-bold uppercase tracking-wider mb-4 ${c.faint}`}>Aperçu {!cfg.enabled && "· (masquée)"}</p>
+        {preview.length ? (
+          <div className={`rounded-2xl border ${c.border} ${c.tint} px-4 py-8 grid grid-cols-2 gap-6 ${preview.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+            {preview.map((it, i) => (
+              <div key={i} className="text-center">
+                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it)}</p>
+                <p className={`mt-1.5 text-sm ${c.sub}`}>{it.l}</p>
+              </div>
+            ))}
+          </div>
+        ) : <p className={`text-sm ${c.faint}`}>Aucun chiffre — la bande sera masquée.</p>}
+      </Card>
+    </div>
+  );
+}
+
+// The "Accueil" admin section: the corner banner, the top bar and the stats band.
 function AccueilTab() {
   const { c } = useApp();
   const [sub, setSub] = useState("banner");
-  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"]];
+  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"], ["stats", "Chiffres clés"]];
   return (
     <div className="space-y-5">
       <div className="flex gap-2 flex-wrap">
@@ -299,6 +427,7 @@ function AccueilTab() {
       </div>
       {sub === "banner" && <HomeLabelTab />}
       {sub === "marquee" && <AnnouncementBarTab />}
+      {sub === "stats" && <HomeStatsTab />}
     </div>
   );
 }

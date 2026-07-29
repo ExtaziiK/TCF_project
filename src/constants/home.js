@@ -3,12 +3,39 @@ import {
   Target, TrendingUp, Leaf, Shield,
 } from "lucide-react";
 
-export const STATS = [
-  { n: "12 400+", l: "étudiants accompagnés" },
-  { n: "94 %", l: "atteignent leur niveau cible" },
-  { n: "3 200+", l: "questions type TCF" },
-  { n: "+68 pts", l: "de progression moyenne" },
-];
+// Where a home stat draws its number from. `questions`, `series` and
+// `exercises` are counted live from the shipped content; `users`, `quizzes` and
+// `exams` are snapshots the admin publishes from the live Supabase figures (a
+// logged-out visitor cannot read those tables); `manual` is free text.
+// Declared here rather than in contentStats.js so settingsService can validate
+// a saved config without pulling the whole quiz bank into its bundle.
+export const STAT_SOURCES = ["questions", "series", "exercises", "users", "quizzes", "exams", "manual"];
+
+export const STAT_SOURCE_LABELS = {
+  questions: "Auto · questions du banc",
+  series: "Auto · séries d'entraînement",
+  exercises: "Auto · exercices grammaire & vocabulaire",
+  users: "Site · étudiants inscrits",
+  quizzes: "Site · quiz complétés",
+  exams: "Site · TCF blancs terminés",
+  manual: "Valeur libre",
+};
+
+// The "chiffres clés" band on the landing page. Admin-editable and toggleable
+// (Admin › Accueil › Chiffres clés, stored in site_settings.home_stats); this is
+// the shape used until an admin saves their own — every figure is real, none is
+// invented. `src` picks where the number comes from (see contentStats.js):
+// content counts resolve live, site counts start at 0 and grow as the admin
+// republishes them from the live Supabase figures.
+export const HOME_STATS_DEFAULT = {
+  enabled: true,
+  items: [
+    { src: "questions", n: "", l: "questions type TCF" },
+    { src: "series", n: "", l: "séries d'entraînement" },
+    { src: "exercises", n: "", l: "exercices grammaire & vocabulaire" },
+    { src: "users", n: "0", l: "étudiants inscrits" },
+  ],
+};
 
 export const FEATURES = [
   { icon: Headphones, t: "Compréhension orale", d: "Des centaines d'audios avec accents québécois et français, corrigés instantanément.", route: "listening" },
