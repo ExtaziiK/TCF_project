@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
+    "check:seo": "node scripts/check-seo-urls.mjs",
     "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {

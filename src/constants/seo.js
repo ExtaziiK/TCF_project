@@ -91,11 +91,16 @@ export const ROUTE_META = {
     description:
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
+  // Route-guarded (AUTHENTICATED in rbac.js), so a crawler only ever reaches
+  // the register gate here — noindex, per the policy at the top of this file.
+  // The public archives below (sujets-ee / sujets-eo) carry the same subjects
+  // and are the pages that should rank.
   "sujets-actualite": {
     path: "/sujets-actualite",
     title: "Sujets d'actualité — TCF Canada",
     description:
       "Les derniers sujets d'expression écrite et orale qui circulent ce mois-ci au TCF Canada, à préparer en priorité. Choisissez l'épreuve pour découvrir les sujets du mois.",
+    noindex: true,
   },
   "sujets-ee": {
     path: "/anciens-sujets-expression-ecrite",
