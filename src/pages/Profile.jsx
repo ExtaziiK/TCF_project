@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import {
   User, AtSign, Mail, Lock, Eye, EyeOff, Crown, CreditCard, Moon, Sun,
-  CalendarDays, LogOut, Check, Shield, Quote,
+  CalendarDays, LogOut, Check, Shield, Quote, X,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { ROLES, isStaff } from "@/auth/rbac";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
-  isValidName, isValidUsername, isUsernameAvailable, normalizeName,
+  isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
 } from "@/services/authService";
+import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { openBillingPortal } from "@/services/stripeService";
 import {
   listMyTestimonials, submitTestimonial, deleteTestimonial, MIN_BODY, MAX_BODY,
@@ -88,7 +89,8 @@ export function Profile() {
   };
 
   const changePassword = async () => {
-    if (pw.length < 6) return notify(t("Le mot de passe doit contenir au moins 6 caractères."));
+    const check = validatePassword(pw);
+    if (!check.ok) return notify(t(check.error));
     if (pw !== pw2) return notify(t("Les deux mots de passe ne correspondent pas."));
     setSavingPw(true);
     try {
@@ -160,14 +162,24 @@ export function Profile() {
         {/* security */}
         <ProfileSection icon={Lock} title={t("Sécurité")} desc={t("Changez votre mot de passe à tout moment.")}>
           <div className="space-y-3">
-            <div className="relative">
-              <Lock size={16} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${c.faint}`} />
-              <input type={showPw ? "text" : "password"} value={pw} onChange={(e) => setPw(e.target.value)} placeholder={t("Nouveau mot de passe")} aria-label={t("Nouveau mot de passe")} autoComplete="new-password" className={`${inp} pl-10 pr-10`} />
-              <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+            {/* The meter sits OUTSIDE the relative wrapper: inside it, the
+                taller box would re-centre the `top-1/2` icons onto the bar. */}
+            <div>
+              <div className="relative">
+                <Lock size={16} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${c.faint}`} />
+                <input type={showPw ? "text" : "password"} value={pw} onChange={(e) => setPw(e.target.value)} placeholder={t("Nouveau mot de passe")} aria-label={t("Nouveau mot de passe")} autoComplete="new-password" className={`${inp} pl-10 pr-10`} />
+                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+              </div>
+              <PasswordMeter password={pw} email={user.email} username={initialUsername} />
             </div>
             <div className="relative">
               <Lock size={16} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${c.faint}`} />
-              <input type={showPw ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} placeholder={t("Confirmer le mot de passe")} aria-label={t("Confirmer le mot de passe")} autoComplete="new-password" className={`${inp} pl-10`} />
+              <input type={showPw ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} placeholder={t("Confirmer le mot de passe")} aria-label={t("Confirmer le mot de passe")} autoComplete="new-password" className={`${inp} pl-10 pr-10`} />
+              {pw2 && (
+                <span className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${pw === pw2 ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
+                  {pw === pw2 ? <Check size={16} /> : <X size={16} />}
+                </span>
+              )}
             </div>
             <Btn small variant="ghost" disabled={savingPw || !pw} onClick={changePassword}>{savingPw ? "…" : t("Mettre à jour le mot de passe")}</Btn>
           </div>

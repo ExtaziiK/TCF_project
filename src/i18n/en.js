@@ -565,6 +565,23 @@ export const EN = {
   "Profil mis à jour.": "Profile updated.",
   "Le mot de passe doit contenir au moins 6 caractères.": "The password must be at least 6 characters long.",
   "Les deux mots de passe ne correspondent pas.": "The two passwords do not match.",
+
+  // ── Password strength meter (components/auth/PasswordMeter.jsx) ───────
+  // The bar is guidance only — the sole hard rule is the length above, which
+  // matches the Supabase project minimum.
+  "Force du mot de passe": "Password strength",
+  "Trop court": "Too short",
+  "Faible": "Weak",
+  "Moyen": "Fair",
+  "Fort": "Strong",
+  "Excellent": "Excellent",
+  "Minimum 6 caractères.": "At least 6 characters.",
+  "Choisissez un mot de passe d'au moins 6 caractères.": "Choose a password of at least 6 characters.",
+  "La longueur compte plus que les caractères spéciaux.": "Length matters more than special characters.",
+  "Ce mot de passe est trop courant.": "This password is too common.",
+  "Évitez de reprendre votre courriel ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
+  "Allongez-le : la longueur protège plus que les caractères spéciaux.":
+    "Make it longer — length protects better than special characters.",
   "Mot de passe mis à jour.": "Password updated.",
   "Gestion de l'abonnement indisponible pour le moment.": "Subscription management is unavailable right now.",
   "Informations personnelles": "Personal information",

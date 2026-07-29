@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword } from "@/services/authService";
+import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
@@ -26,6 +27,7 @@ export function AuthPage({ mode }) {
   const [identifier, setIdentifier] = useState(""); // login: username or email
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState(""); // register only
   const [resetSent, setResetSent] = useState(false);
   const [verify, setVerify] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -64,6 +66,9 @@ export function AuthPage({ mode }) {
         if (!isValidName(name)) return notify(t("Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés)."), "error");
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."), "error");
         if (!country) return notify(t("Sélectionnez votre pays pour continuer."), "error");
+        const pwCheck = validatePassword(password);
+        if (!pwCheck.ok) return notify(t(pwCheck.error), "error");
+        if (password !== confirm) return notify(t("Les deux mots de passe ne correspondent pas."), "error");
         if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country });
         if (error) return notify(authErrorMessage(error), "error");
@@ -172,10 +177,26 @@ export function AuthPage({ mode }) {
               </div>
             )}
             {view !== "reset" && (
+              <div>
+                <div className="relative">
+                  <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
+                  <input placeholder={t("Mot de passe")} aria-label={t("Mot de passe")} type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
+                  <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+                </div>
+                {/* Only while choosing a password — scoring the one being typed
+                    at login would leak how strong the stored password is. */}
+                {view === "register" && <PasswordMeter password={password} email={email} username={username} />}
+              </div>
+            )}
+            {view === "register" && (
               <div className="relative">
                 <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input placeholder={t("Mot de passe")} aria-label={t("Mot de passe")} type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
-                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+                <input placeholder={t("Confirmer le mot de passe")} aria-label={t("Confirmer le mot de passe")} type={showPw ? "text" : "password"} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inp} />
+                {confirm && (
+                  <span className={`absolute right-4 top-1/2 -translate-y-1/2 ${password === confirm ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
+                    {password === confirm ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
+                  </span>
+                )}
               </div>
             )}
             {view === "login" && (

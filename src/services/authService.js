@@ -307,6 +307,82 @@ export const isValidName = (n) => NAME_RE.test(normalizeName(n));
 const USERNAME_RE = /^[a-zA-Z0-9_.-]{3,30}$/;
 export const isValidUsername = (u) => USERNAME_RE.test(String(u || "").trim());
 
+/* ── password policy ─────────────────────────────────────────────────────────
+ * One rule, used by all three screens that set a password (signup, Profil ›
+ * Sécurité, the reset link). They each carried their own number before — 6, 6
+ * and 8 — so a user faced a stricter rule changing a password than creating
+ * one. Keeping a single exported constant is what stops that drifting again.
+ *
+ * The value MATCHES the Supabase project's own minimum on purpose. These checks
+ * run in the browser and signUp() is called straight from the client, so the
+ * server rule is the one that actually holds; a stricter number here would only
+ * describe a policy the backend does not enforce. Raise both together.
+ *
+ * Length only — no uppercase/digit/symbol requirement. NIST SP 800-63B advises
+ * against composition rules: they reliably produce "Passw0rd!" and push people
+ * toward reuse. Strength is communicated by the meter instead of mandated.
+ */
+export const MIN_PASSWORD = 6;
+
+// Not a security control — these are long enough to clear the length rule, so
+// they only steer the meter toward "Faible" and a hint. Blocking them outright
+// would be a stricter policy than the backend enforces.
+const WEAK_PASSWORDS = [
+  "password", "motdepasse", "azerty", "qwerty", "123456", "1234567", "12345678", "123456789",
+  "abc123", "iloveyou", "admin", "welcome", "bonjour", "soleil", "passerelle", "tcfcanada",
+];
+
+// Hard requirement. Returns { ok, error } with a ready-to-show French message.
+export function validatePassword(password) {
+  const pw = String(password || "");
+  if (pw.length < MIN_PASSWORD) return { ok: false, error: `Le mot de passe doit contenir au moins ${MIN_PASSWORD} caractères.` };
+  return { ok: true };
+}
+
+// 0–4, for the meter only: it never blocks a submit. Length carries most of the
+// weight (it is what actually resists guessing); mixing character classes adds
+// one step. A password that is obviously guessable — a common choice, or the
+// user's own email/username — is pinned to 1 however long it is.
+export function passwordStrength(password, { email, username } = {}) {
+  const pw = String(password || "");
+  if (!pw) return 0;
+
+  const lower = pw.toLowerCase();
+  const local = String(email || "").split("@")[0].toLowerCase();
+  const uname = String(username || "").toLowerCase();
+  const guessable =
+    WEAK_PASSWORDS.some((w) => lower === w || lower.startsWith(w)) ||
+    (local.length >= 3 && lower.includes(local)) ||
+    (uname.length >= 3 && lower.includes(uname)) ||
+    /^(.)\1+$/.test(pw); // "aaaaaa"
+
+  if (pw.length < MIN_PASSWORD) return 0;
+  if (guessable) return 1;
+
+  let score = 1;
+  if (pw.length >= 10) score++;
+  if (pw.length >= 14) score++;
+  const variety = [/[a-z]/, /[A-Z]/, /\d/, /[^a-zA-Z0-9]/].filter((re) => re.test(pw)).length;
+  if (variety >= 3) score++;
+  return Math.min(score, 4);
+}
+
+// Why a password scored low, so the meter can say something useful rather than
+// just "Faible". Null when there is nothing specific to flag.
+export function passwordHint(password, { email, username } = {}) {
+  const pw = String(password || "");
+  if (pw.length < MIN_PASSWORD) return null; // the length error already says it
+  const lower = pw.toLowerCase();
+  const local = String(email || "").split("@")[0].toLowerCase();
+  const uname = String(username || "").toLowerCase();
+  if (WEAK_PASSWORDS.some((w) => lower === w || lower.startsWith(w))) return "Ce mot de passe est trop courant.";
+  if ((local.length >= 3 && lower.includes(local)) || (uname.length >= 3 && lower.includes(uname))) {
+    return "Évitez de reprendre votre courriel ou votre nom d'utilisateur.";
+  }
+  if (pw.length < 10) return "Allongez-le : la longueur protège plus que les caractères spéciaux.";
+  return null;
+}
+
 // Best-effort availability check for the registration form. Fails open: the
 // signup trigger dedupes server-side anyway, so a check outage never blocks.
 export async function isUsernameAvailable(username) {
