@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Check, ExternalLink } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
@@ -48,10 +49,17 @@ export function TermsDialog({ open, onClose, onAccept }) {
 
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4"
+  // Rendered into <body> rather than in place. Both callers sit inside a card
+  // carrying `.rise`, whose animation ends on `transform: translateY(0)` — and
+  // any transform other than `none` makes that element the containing block for
+  // `position: fixed` children. Without the portal, `inset-0` covered the card
+  // instead of the viewport and the sheet appeared inline, half off-screen.
+  return createPortal(
+    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose} role="dialog" aria-modal="true" aria-label={t("Conditions générales d'utilisation")}>
-      <div className={`w-full max-w-2xl max-h-[85vh] flex flex-col rounded-3xl border ${c.border} ${c.card} shadow-2xl overflow-hidden rise`}
+      {/* No `rise` here: it would re-create the very containing block the
+          portal exists to escape, for anything fixed inside the sheet. */}
+      <div className={`w-full max-w-2xl max-h-[85dvh] flex flex-col rounded-3xl border ${c.border} ${c.card} shadow-2xl overflow-hidden`}
         onClick={(e) => e.stopPropagation()}>
         <div className={`flex items-center gap-3 px-6 py-4 border-b ${c.border} shrink-0`}>
           <h2 className={`font-display font-bold flex-1 ${c.text}`}>{t("Conditions générales d'utilisation")}</h2>
@@ -64,13 +72,14 @@ export function TermsDialog({ open, onClose, onAccept }) {
           <TermsBody compact />
         </div>
 
-        <div className={`px-6 py-4 border-t ${c.border} shrink-0 flex items-center justify-between gap-4 flex-wrap`}>
-          <p className={`text-xs ${c.faint}`}>
+        <div className={`px-6 py-4 border-t ${c.border} shrink-0 flex items-center justify-between gap-3 flex-wrap`}>
+          <p className={`text-xs flex-1 min-w-[10rem] ${c.faint}`}>
             {atEnd ? t("Vous pouvez maintenant confirmer votre lecture.") : t("Faites défiler jusqu'au bas du texte pour continuer.")}
           </p>
-          <Btn small icon={Check} disabled={!atEnd} onClick={onAccept}>{t("J'ai lu les conditions")}</Btn>
+          <Btn small icon={Check} disabled={!atEnd} onClick={onAccept} className="shrink-0">{t("J'ai lu les conditions")}</Btn>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
