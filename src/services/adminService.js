@@ -94,38 +94,6 @@ export function togglePromoCode(id, active) {
   return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "toggle", id, active }) });
 }
 
-/* ----------------------------- email templates ---------------------------- */
-
-// The copy of the renewal reminders (Admin › Emails). Everything goes through
-// the serverless route: the templates table is admin-only by RLS *and* holds
-// the promo code, and the test send needs the server's SMTP credentials.
-
-export function fetchEmailTemplates() {
-  return adminFetch("/api/admin/emails");
-}
-
-// { key, subject, body, enabled, promoCode }
-export function saveEmailTemplate(payload) {
-  return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "save", ...payload }) });
-}
-
-// Drops the saved row so the shipped default takes over again.
-export function resetEmailTemplate(key) {
-  return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "reset", key }) });
-}
-
-// Renders the copy currently in the editor. Server-side on purpose: the
-// preview then comes out of the same renderer as a real send, so there is no
-// second implementation in the browser to drift out of step with it.
-export function previewEmailTemplate(payload) {
-  return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "preview", ...payload }) });
-}
-
-// Sends the copy currently in the editor (unsaved included) to the admin.
-export function sendTestEmail(payload) {
-  return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "test", ...payload }) });
-}
-
 /* ---------------------------- contact messages ---------------------------- */
 
 // Public form submission (Contact page) — RLS allows anyone to insert.
