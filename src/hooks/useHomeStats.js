@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getHomeStats } from "@/services/settingsService";
 import { resolveStatValue } from "@/constants/contentStats";
 
-// The landing page's "chiffres clés" band. Returns null until the saved config
+// The landing page's "Statistique" band. Returns null until the saved config
 // lands, so a band the admin turned off never flashes on screen first; once
 // loaded, `items` carry their resolved display value (live content counts are
 // recomputed here, published site counts come from the stored snapshot).

@@ -1,6 +1,6 @@
 // Counts the practice content actually shipped in src/, and checks it against
 // the figures hard-coded in src/constants/contentStats.js — the numbers the
-// landing page's "chiffres clés" band shows for grammar/vocabulary/EE/EO.
+// landing page's "Statistique" band shows for grammar/vocabulary/EE/EO.
 //
 // The quiz bank is counted at runtime by the app (it is already loaded on the
 // landing page), so it is reported here for information only. The other totals

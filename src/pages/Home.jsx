@@ -66,7 +66,7 @@ function Landing() {
         </div>
       </section>
 
-      {/* STATS — admin-toggleable (Admin › Accueil › Chiffres clés). Numbers are
+      {/* STATS — admin-toggleable (Admin › Accueil › Statistique). Numbers are
           real: content counts are computed from the shipped bank, site counts
           are the last figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (

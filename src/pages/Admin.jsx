@@ -288,7 +288,7 @@ function AnnouncementBarTab() {
 
 /* ------------------------------ home stats -------------------------------- */
 
-// Editor for the "chiffres clés" band on the public landing page
+// Editor for the "Statistique" band on the public landing page
 // (site_settings.home_stats). Values are never invented here: a row either
 // counts the shipped content live, or holds a figure pulled from the live
 // database with "Actualiser depuis le site", or is typed by hand.
@@ -332,7 +332,7 @@ function HomeStatsTab() {
     setBusy(true);
     const r = await setHomeStats(cfg);
     setBusy(false);
-    notify(r.ok ? "Chiffres clés enregistrés." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+    notify(r.ok ? "Statistique enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
   };
 
   if (!cfg) return <SkeletonRows n={4} className="h-12" />;
@@ -342,8 +342,8 @@ function HomeStatsTab() {
     <div className="space-y-4">
       <Card className="p-6">
         <div className="flex items-center justify-between gap-3 mb-1.5">
-          <h3 className={`font-display font-bold ${c.text}`}>Chiffres clés (accueil)</h3>
-          <button onClick={() => setCfg((p) => ({ ...p, enabled: !p.enabled }))} role="switch" aria-checked={cfg.enabled} aria-label="Afficher les chiffres clés"
+          <h3 className={`font-display font-bold ${c.text}`}>Statistique (accueil)</h3>
+          <button onClick={() => setCfg((p) => ({ ...p, enabled: !p.enabled }))} role="switch" aria-checked={cfg.enabled} aria-label="Afficher la statistique"
             className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${cfg.enabled ? "bg-blue-600" : c.track}`}>
             <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${cfg.enabled ? "translate-x-5" : ""}`} />
           </button>
@@ -412,11 +412,11 @@ function HomeStatsTab() {
   );
 }
 
-// The "Accueil" admin section: the corner banner, the top bar and the stats band.
+// The "Accueil" admin section: the corner banner, the top bar and the statistics band.
 function AccueilTab() {
   const { c } = useApp();
   const [sub, setSub] = useState("banner");
-  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"], ["stats", "Chiffres clés"]];
+  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"], ["stats", "Statistique"]];
   return (
     <div className="space-y-5">
       <div className="flex gap-2 flex-wrap">

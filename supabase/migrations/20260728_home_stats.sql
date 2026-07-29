@@ -1,4 +1,4 @@
--- Home "chiffres clés" band: the admin-editable statistics strip on the public
+-- Home "Statistique" band: the admin-editable statistics strip on the public
 -- landing page, stored as one JSON row in the existing site_settings key/value
 -- store (see 20260721_site_settings.sql for the table, grants and RLS — public
 -- read, admin write). Run in the Supabase dashboard (SQL Editor) or via
@@ -11,7 +11,7 @@
 --
 -- `src` values: questions | series | exercises (counted live in the browser),
 -- users | quizzes | exams (snapshots published from the live database via
--- Admin › Accueil › Chiffres clés › « Actualiser depuis le site »), manual.
+-- Admin › Accueil › Statistique › « Actualiser depuis le site »), manual.
 
 insert into public.site_settings (key, value) values ('home_stats', '')
   on conflict (key) do nothing;

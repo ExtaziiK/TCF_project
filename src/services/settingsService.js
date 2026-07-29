@@ -82,7 +82,7 @@ export async function setAnnouncementBar(cfg) {
   return { ok: !error, error: error?.message };
 }
 
-/* ── Home "chiffres clés" band ──────────────────────────────────────────────
+/* ── Home "Statistique" band ────────────────────────────────────────────────
  * { enabled, items: [{ src, n, l }] }. Toggling `enabled` off removes the whole
  * band from the public landing page. A missing/blank row means "nothing saved
  * yet" and degrades to HOME_STATS_DEFAULT, so the band keeps showing the real

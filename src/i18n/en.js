@@ -149,7 +149,7 @@ export const EN = {
 
   // ── Home stats (constants/home.js HOME_STATS_DEFAULT) ────────────────
   // Only the labels are translated — the figures are numbers rendered as-is.
-  // An admin can add their own labels in Admin › Accueil › Chiffres clés;
+  // An admin can add their own labels in Admin › Accueil › Statistique;
   // anything without an entry here falls back to the French text.
   "questions type TCF": "TCF-style questions",
   "séries d'entraînement": "full practice sets",

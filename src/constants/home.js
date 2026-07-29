@@ -21,8 +21,8 @@ export const STAT_SOURCE_LABELS = {
   manual: "Valeur libre",
 };
 
-// The "chiffres clés" band on the landing page. Admin-editable and toggleable
-// (Admin › Accueil › Chiffres clés, stored in site_settings.home_stats); this is
+// The statistics band on the landing page. Admin-editable and toggleable
+// (Admin › Accueil › Statistique, stored in site_settings.home_stats); this is
 // the shape used until an admin saves their own — every figure is real, none is
 // invented. `src` picks where the number comes from (see contentStats.js):
 // content counts resolve live, site counts start at 0 and grow as the admin
