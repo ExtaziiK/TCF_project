@@ -8,7 +8,7 @@ import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { ROLES, isStaff } from "@/auth/rbac";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
-  isValidUsername, isUsernameAvailable,
+  isValidName, isValidUsername, isUsernameAvailable, normalizeName,
 } from "@/services/authService";
 import { openBillingPortal } from "@/services/stripeService";
 import {
@@ -62,9 +62,12 @@ export function Profile() {
   const isPremium = role === ROLES.PREMIUM_USER || (isStaff(role) && user.plan === "Premium");
 
   const saveProfile = async () => {
-    const nameChanged = name.trim() && name.trim() !== user.name;
+    // Compared normalized so re-saving "Jean  Luc" over the stored "Jean Luc"
+    // counts as no change rather than a pointless write.
+    const nameChanged = normalizeName(name) !== normalizeName(user.name);
     const uChanged = username.trim().toLowerCase() !== initialUsername;
     if (!nameChanged && !uChanged) return notify(t("Aucune modification à enregistrer."));
+    if (nameChanged && !isValidName(name)) return notify(t("Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés)."));
     setSavingProfile(true);
     try {
       if (uChanged) {

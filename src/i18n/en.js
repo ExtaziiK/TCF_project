@@ -400,6 +400,8 @@ export const EN = {
   "Gratuit, sans carte bancaire. Prêt en 30 secondes.": "Free, no credit card. Ready in 30 seconds.",
   "Entrez votre courriel : nous vous enverrons un lien sécurisé.": "Enter your email: we will send you a secure link.",
   "Bon retour parmi nous !": "Great to see you again!",
+  "Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés).":
+    "First name: 2 to 40 characters, letters only (accents, - and ' allowed).",
   "Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -).": "Username: 3 to 30 characters (letters, numbers, . _ -).",
   "Ce nom d'utilisateur est déjà pris.": "This username is already taken.",
   "Vérifiez votre boîte de réception": "Check your inbox",
@@ -1111,7 +1113,6 @@ export const EN = {
   "Abonnés Premium": "Premium subscribers",
   "+4,1 % ce mois": "+4.1% this month",
   "38 204 $": "$38,204",
-  "Revenus mensuels (CAD)": "Monthly revenue (CAD)",
   "+9,3 % ce mois": "+9.3% this month",
   "4,8 / 5": "4.8 / 5",
   "Satisfaction moyenne": "Average satisfaction",
