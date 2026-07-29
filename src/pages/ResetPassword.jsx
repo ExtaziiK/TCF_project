@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { verifyRecoveryToken, updatePassword, authErrorMessage } from "@/services/authService";
+import { verifyRecoveryToken, updatePassword, authErrorMessage, validatePassword, MIN_PASSWORD } from "@/services/authService";
+import { PasswordMeter } from "@/components/auth/PasswordMeter";
 
 // Landing page for the "choose a new password" link in the reset email.
 //
@@ -15,8 +16,6 @@ import { verifyRecoveryToken, updatePassword, authErrorMessage } from "@/service
 //
 // Three states: verifying the token, the password form, done. A dead link ends
 // on an explanation plus a way to request a fresh one — never a blank redirect.
-
-const MIN_PASSWORD = 8;
 
 export function ResetPassword() {
   const { c, nav, notify, t } = useApp();
@@ -60,7 +59,8 @@ export function ResetPassword() {
 
   const submit = async (e) => {
     e?.preventDefault();
-    if (password.length < MIN_PASSWORD) return notify(t(`Le mot de passe doit faire au moins ${MIN_PASSWORD} caractères.`), "error");
+    const check = validatePassword(password);
+    if (!check.ok) return notify(t(check.error), "error");
     if (password !== confirm) return notify(t("Les deux mots de passe ne correspondent pas."), "error");
     setBusy(true);
     const { error } = await updatePassword(password);
@@ -107,18 +107,28 @@ export function ResetPassword() {
 
         {state === "ready" && (
           <form className="space-y-4" onSubmit={submit}>
-            <p className={`text-sm text-center ${c.sub}`}>{t("Choisissez un mot de passe d'au moins 8 caractères.")}</p>
-            <div className="relative">
-              <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-              <input placeholder={t("Nouveau mot de passe")} aria-label={t("Nouveau mot de passe")} type={showPw ? "text" : "password"}
-                autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
-              <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")}
-                className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+            <p className={`text-sm text-center ${c.sub}`}>{t(`Choisissez un mot de passe d'au moins ${MIN_PASSWORD} caractères.`)}</p>
+            {/* Meter outside the relative wrapper, so the taller box doesn't
+                re-centre the `top-1/2` icons onto the bar. */}
+            <div>
+              <div className="relative">
+                <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
+                <input placeholder={t("Nouveau mot de passe")} aria-label={t("Nouveau mot de passe")} type={showPw ? "text" : "password"}
+                  autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
+                <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")}
+                  className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
+              </div>
+              <PasswordMeter password={password} />
             </div>
             <div className="relative">
               <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
               <input placeholder={t("Confirmer le mot de passe")} aria-label={t("Confirmer le mot de passe")} type={showPw ? "text" : "password"}
                 autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inp} />
+              {confirm && (
+                <span className={`absolute right-4 top-1/2 -translate-y-1/2 ${password === confirm ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
+                  {password === confirm ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
+                </span>
+              )}
             </div>
             <Btn type="submit" className="w-full" variant="accent" disabled={busy}>{t("Enregistrer le mot de passe")}</Btn>
           </form>

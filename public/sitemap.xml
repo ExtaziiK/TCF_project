@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public, indexable routes only (gated routes carry a noindex meta tag).
-     Paths must stay in sync with src/constants/seo.js.
-     TODO: replace the placeholder domain with the real production domain. -->
+     Hand-maintained: paths must stay in sync with src/constants/seo.js, and the
+     host must be the canonical https://www.tcfpasserelle.com (the apex answers
+     308 -> www, so listing it would point crawlers at a redirect).
+     `npm run check:seo` enforces both — run it after adding a route or a post. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://passerelle-tcf.vercel.app/</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/tarifs</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/calculateur-tcf-nclc</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/comprehension-orale</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/comprehension-ecrite</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/expression-ecrite</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/guide-tcf-canada/expression-orale</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue</loc><lastmod>2026-07-16</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/tcf-canada-ou-tef-canada</loc><lastmod>2026-07-16</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/score-tcf-canada-niveaux-nclc</loc><lastmod>2026-07-09</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/expression-ecrite-tcf-canada</loc><lastmod>2026-07-02</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/tcf-canada-2026-changements</loc><lastmod>2026-06-12</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/entree-express-points-francais</loc><lastmod>2026-05-28</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/blogue/5-habitudes-etude-niveau-c1</loc><lastmod>2026-05-09</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/faq</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/a-propos</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/contact</loc><lastmod>2026-07-14</lastmod></url>
-  <url><loc>https://passerelle-tcf.vercel.app/inscription</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/tarifs</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/calculateur-tcf-nclc</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/guide-tcf-canada</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/guide-tcf-canada/comprehension-orale</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/guide-tcf-canada/comprehension-ecrite</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/guide-tcf-canada/expression-ecrite</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/guide-tcf-canada/expression-orale</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/anciens-sujets-expression-ecrite</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/anciens-sujets-expression-orale</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue</loc><lastmod>2026-07-16</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/tcf-canada-ou-tef-canada</loc><lastmod>2026-07-16</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/score-tcf-canada-niveaux-nclc</loc><lastmod>2026-07-09</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/expression-ecrite-tcf-canada</loc><lastmod>2026-07-02</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/tcf-canada-2026-changements</loc><lastmod>2026-06-12</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/entree-express-points-francais</loc><lastmod>2026-05-28</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/blogue/5-habitudes-etude-niveau-c1</loc><lastmod>2026-05-09</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/faq</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/a-propos</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/contact</loc><lastmod>2026-07-14</lastmod></url>
+  <url><loc>https://www.tcfpasserelle.com/inscription</loc><lastmod>2026-07-14</lastmod></url>
 </urlset>

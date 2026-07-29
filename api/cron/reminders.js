@@ -25,7 +25,7 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 });
 
 const DAY_MS = 24 * 60 * 60 * 1000;
-const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://tcfpasserelle.com").replace(/\/$/, "");
+const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://www.tcfpasserelle.com").replace(/\/$/, "");
 
 async function listAllUsers() {
   const users = [];

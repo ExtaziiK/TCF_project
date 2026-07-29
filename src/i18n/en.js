@@ -565,6 +565,43 @@ export const EN = {
   "Profil mis à jour.": "Profile updated.",
   "Le mot de passe doit contenir au moins 6 caractères.": "The password must be at least 6 characters long.",
   "Les deux mots de passe ne correspondent pas.": "The two passwords do not match.",
+
+  // ── Terms & conditions (constants/terms.js, pages/Terms.jsx) ─────────
+  // The section text itself is placeholder French pending the real legal
+  // wording; only the surrounding UI is translated for now.
+  "Mentions légales": "Legal",
+  "Conditions générales d'utilisation": "Terms and conditions",
+  "conditions générales d'utilisation": "terms and conditions",
+  "Les règles d'utilisation de Passerelle, à lire avant de créer un compte.":
+    "The rules for using Passerelle — please read before creating an account.",
+  "Dernière mise à jour :": "Last updated:",
+  "J'ai lu et j'accepte les": "I have read and accept the",
+  "Cliquez ici pour les ouvrir et les lire.": "Click here to open and read them.",
+  "Ouvrir et lire les conditions générales d'utilisation": "Open and read the terms and conditions",
+  "Faites défiler jusqu'au bas du texte pour continuer.": "Scroll to the end of the text to continue.",
+  "Vous pouvez maintenant confirmer votre lecture.": "You can now confirm you have read it.",
+  "J'ai lu les conditions": "I have read the terms",
+  "Ouvrir dans un nouvel onglet": "Open in a new tab",
+  "Vous devez lire et accepter les conditions générales pour créer un compte.":
+    "You must read and accept the terms and conditions to create an account.",
+  // ("Conditions" — the footer label — is already translated further up.)
+
+  // ── Password strength meter (components/auth/PasswordMeter.jsx) ───────
+  // The bar is guidance only — the sole hard rule is the length above, which
+  // matches the Supabase project minimum.
+  "Force du mot de passe": "Password strength",
+  "Trop court": "Too short",
+  "Faible": "Weak",
+  "Moyen": "Fair",
+  "Fort": "Strong",
+  "Excellent": "Excellent",
+  "Minimum 6 caractères.": "At least 6 characters.",
+  "Choisissez un mot de passe d'au moins 6 caractères.": "Choose a password of at least 6 characters.",
+  "La longueur compte plus que les caractères spéciaux.": "Length matters more than special characters.",
+  "Ce mot de passe est trop courant.": "This password is too common.",
+  "Évitez de reprendre votre courriel ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
+  "Allongez-le : la longueur protège plus que les caractères spéciaux.":
+    "Make it longer — length protects better than special characters.",
   "Mot de passe mis à jour.": "Password updated.",
   "Gestion de l'abonnement indisponible pour le moment.": "Subscription management is unavailable right now.",
   "Informations personnelles": "Personal information",

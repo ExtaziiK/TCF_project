@@ -21,7 +21,7 @@ import { createClient } from "@supabase/supabase-js";
 const RECEIPT_TTL = 60 * 60;          // 1 h — Telegram downloads at send time
 const RECENT_MS = 20 * 60 * 1000;     // only notify for requests < 20 min old
 const CAPTION_MAX = 1000;             // Telegram caption limit is 1024
-const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://tcfpasserelle.com").replace(/\/$/, "");
+const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://www.tcfpasserelle.com").replace(/\/$/, "");
 
 const admin = () =>
   createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
