@@ -19,7 +19,7 @@ import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
-  fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
+  fetchAdminStats, fetchAdminUsage, fetchAdminVercel, fetchAdminVercelProbe, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
 } from "@/services/adminService";
@@ -1230,6 +1230,50 @@ function RankList({ icon: Icon, title, rows, emptyLabel, format = (l) => l }) {
   );
 }
 
+// Shown only when the pages breakdown comes back empty. Vercel's Web Analytics
+// API is undocumented and this app rewrites every path to /index.html, so the
+// name of the "group by pathname" dimension had to be guessed; this asks the
+// deployed function which groupings the API actually accepts. The output is
+// meant to be copied into a bug report.
+function PagesDiagnostic() {
+  const { c, notify } = useApp();
+  const [out, setOut] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  const run = async () => {
+    setBusy(true);
+    const r = await fetchAdminVercelProbe();
+    setBusy(false);
+    setOut(r.ok ? JSON.stringify(r.data.probe, null, 2) : `Erreur : ${r.error || "requête impossible"}`);
+  };
+
+  const copy = () => {
+    navigator.clipboard?.writeText(out).then(
+      () => notify("Diagnostic copié."),
+      () => notify("Copie impossible — sélectionnez le texte manuellement."),
+    );
+  };
+
+  return (
+    <Card className="p-6">
+      <div className="flex items-center gap-2.5 mb-3">
+        <span className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0"><Gauge size={15} /></span>
+        <h3 className={`font-display font-bold ${c.text}`}>Diagnostic — pages les plus visitées</h3>
+      </div>
+      <p className={`text-sm mb-4 ${c.sub}`}>
+        Aucune page n&apos;est remontée. L&apos;API Web Analytics de Vercel n&apos;est pas documentée : ce test lui demande quels regroupements elle accepte, afin de brancher le bon.
+      </p>
+      <div className="flex items-center gap-2 flex-wrap">
+        <Btn small onClick={run} disabled={busy}>{busy ? "Test en cours…" : "Lancer le diagnostic"}</Btn>
+        {out && <Btn small variant="ghost" onClick={copy}>Copier</Btn>}
+      </div>
+      {out && (
+        <pre className={`mt-4 p-3 rounded-xl text-[11px] leading-relaxed overflow-auto max-h-96 font-mono2 ${c.tint} ${c.text}`}>{out}</pre>
+      )}
+    </Card>
+  );
+}
+
 function TrafficTab() {
   const { c } = useApp();
   const [data, setData] = useState(null);
@@ -1314,6 +1358,8 @@ function TrafficTab() {
         <RankList icon={MapPin} title="Pays" rows={data.topCountries} emptyLabel="Inconnu" />
         <RankList icon={Monitor} title="Appareils" rows={data.devices} emptyLabel="Inconnu" format={(l) => ({ desktop: "Ordinateur", mobile: "Mobile", tablet: "Tablette" }[l] || l)} />
       </div>
+
+      {data.topPages.length === 0 && <PagesDiagnostic />}
     </div>
   );
 }

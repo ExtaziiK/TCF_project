@@ -96,6 +96,56 @@ async function topPages(c, range) {
   return [];
 }
 
+/* ------------------------------- diagnostics ------------------------------ */
+
+// Dimension names to try when the pages breakdown comes back empty. Wider than
+// PAGE_DIMENSIONS on purpose: it includes the three that are known to work
+// (referrerHostname, country, deviceType) as a control, so the output shows
+// whether a blank result means "bad dimension name" or "no data at all".
+const PROBE_DIMENSIONS = [
+  "path", "pathname", "page", "pagePath", "pageUrl", "url", "route",
+  "hostname", "referrerHostname", "country", "deviceType",
+];
+
+// Reports, per candidate dimension, the HTTP status plus either the error body
+// or the shape of what came back (row count, the row's own field names, and a
+// small sample). Vercel's Web Analytics API is undocumented, and the token is
+// stored Sensitive so it can't be pulled locally to test — this makes the
+// deployed function itself answer which dimension name is correct.
+// Read-only, admin-gated, and it never throws: a failed candidate is data.
+async function probeDimensions(c, range) {
+  const out = {};
+  for (const by of PROBE_DIMENSIONS) {
+    const qs = new URLSearchParams({
+      projectId: c.projectId,
+      ...(c.teamId ? { teamId: c.teamId } : {}),
+      ...range,
+      by,
+      limit: "3",
+    });
+    try {
+      const res = await fetch(`${API}/visits/aggregate?${qs}`, { headers: { Authorization: `Bearer ${c.token}` } });
+      const text = await res.text();
+      if (!res.ok) {
+        // The error body often names the accepted values — the most useful
+        // output here, so keep more of it than the normal 200-char clip.
+        out[by] = { status: res.status, error: text.slice(0, 500) };
+        continue;
+      }
+      const rows = (JSON.parse(text).data) || [];
+      out[by] = {
+        status: res.status,
+        rows: rows.length,
+        keys: rows[0] ? Object.keys(rows[0]) : [],
+        sample: rows.slice(0, 2),
+      };
+    } catch (err) {
+      out[by] = { error: String(err?.message || err).slice(0, 200) };
+    }
+  }
+  return out;
+}
+
 export default async function handler(req, res) {
   try {
     if (req.method !== "GET") throw new HttpError(405, "Method not allowed");
@@ -107,6 +157,13 @@ export default async function handler(req, res) {
     const since = dayKey(new Date(Date.now() - WINDOW_DAYS * DAY));
     const until = dayKey(new Date());
     const range = { since, until };
+
+    // ?probe=1 — dimension diagnostic, surfaced by the tab when the pages
+    // breakdown is empty. Returns raw API shapes instead of the normal payload.
+    if (req.query.probe) {
+      return res.status(200).json({ configured: true, probe: await probeDimensions(c, range), window: { since, until } });
+    }
+
     const top = (by) => query("visits/aggregate", c, { ...range, by, limit: TOP_LIMIT });
 
     const [daily, pages, referrers, countries, devices, lifetime] = await Promise.all([
