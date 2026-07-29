@@ -13,6 +13,7 @@
 // that would compete with the real landing pages).
 
 import { POSTS } from "@/constants/blog";
+import { TERMS_DRAFT } from "@/constants/terms";
 
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
@@ -134,6 +135,21 @@ export const ROUTE_META = {
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
+
+  // Public and stable — a visitor accepts these before creating an account, so
+  // the text must stay readable at a fixed URL (the signup dialog links out to
+  // it, and it is the reference for what a given user agreed to).
+  // `noindex` while the wording is a placeholder: a thin, half-written legal
+  // page is not something to put in front of a crawler. It clears itself the
+  // moment TERMS_DRAFT is set to false — at which point add the path to
+  // public/sitemap.xml too.
+  terms: {
+    path: "/conditions-generales",
+    title: "Conditions générales d'utilisation",
+    description:
+      "Les conditions générales d'utilisation de Passerelle : objet du service, compte, abonnements, contenu et données personnelles.",
+    noindex: TERMS_DRAFT,
+  },
 
   // ── 404 ──────────────────────────────────────────────────────────────────
   // Rendered for any URL matching no route. It deliberately has no path of its

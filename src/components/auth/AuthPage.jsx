@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
+import { TermsConsent } from "@/components/auth/TermsConsent";
 import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
@@ -28,6 +29,7 @@ export function AuthPage({ mode }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState(""); // register only
+  const [accepted, setAccepted] = useState(false); // terms gate, register only
   const [resetSent, setResetSent] = useState(false);
   const [verify, setVerify] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -69,8 +71,9 @@ export function AuthPage({ mode }) {
         const pwCheck = validatePassword(password);
         if (!pwCheck.ok) return notify(t(pwCheck.error), "error");
         if (password !== confirm) return notify(t("Les deux mots de passe ne correspondent pas."), "error");
+        if (!accepted) return notify(t("Vous devez lire et accepter les conditions générales pour créer un compte."), "error");
         if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
-        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country });
+        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country, acceptedTerms: true });
         if (error) return notify(authErrorMessage(error), "error");
         if (needsEmailConfirmation) setVerify(true);
         else {
@@ -204,6 +207,7 @@ export function AuthPage({ mode }) {
                 <button type="button" onClick={() => goView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">{t("Mot de passe oublié ?")}</button>
               </div>
             )}
+            {view === "register" && <TermsConsent accepted={accepted} onChange={setAccepted} />}
             {lockMsg && (
               <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
                 <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>

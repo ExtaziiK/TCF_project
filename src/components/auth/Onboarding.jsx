@@ -3,6 +3,7 @@ import { AtSign, Globe, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { getProfile, isValidUsername, isUsernameAvailable, completeGoogleProfile } from "@/services/authService";
+import { TermsConsent } from "@/components/auth/TermsConsent";
 import { COUNTRIES } from "@/constants/exam";
 
 // Shown once, right after a NEW account registers with Google: the OAuth flow
@@ -15,6 +16,7 @@ export function Onboarding() {
   const [country, setCountry] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false); // terms gate
   const inp = `w-full pl-11 pr-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   // Prefill with the username the signup trigger auto-generated from the email,
@@ -26,6 +28,7 @@ export function Onboarding() {
     setError("");
     if (!isValidUsername(username)) return setError(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."));
     if (!country) return setError(t("Sélectionnez votre pays pour continuer."));
+    if (!accepted) return setError(t("Vous devez lire et accepter les conditions générales pour créer un compte."));
     setBusy(true);
     try {
       // Only check availability if it differs from the reserved auto-username.
@@ -33,7 +36,7 @@ export function Onboarding() {
       if (username.trim().toLowerCase() !== current && !(await isUsernameAvailable(username))) {
         return setError(t("Ce nom d'utilisateur est déjà pris."));
       }
-      const { error: err } = await completeGoogleProfile({ username, country });
+      const { error: err } = await completeGoogleProfile({ username, country, acceptedTerms: true });
       if (err) return setError(err.message || t("Enregistrement refusé. Réessayez."));
       notify(t("Bienvenue ! Votre compte est prêt."));
       completeOnboarding();
@@ -69,6 +72,7 @@ export function Onboarding() {
               {COUNTRIES.map((p) => <option key={p} value={p}>{p}</option>)}
             </select>
           </div>
+          <TermsConsent accepted={accepted} onChange={(v) => { setAccepted(v); setError(""); }} />
           {error && (
             <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
               <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{error}</p>

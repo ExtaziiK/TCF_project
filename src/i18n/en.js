@@ -566,6 +566,25 @@ export const EN = {
   "Le mot de passe doit contenir au moins 6 caractères.": "The password must be at least 6 characters long.",
   "Les deux mots de passe ne correspondent pas.": "The two passwords do not match.",
 
+  // ── Terms & conditions (constants/terms.js, pages/Terms.jsx) ─────────
+  // The section text itself is placeholder French pending the real legal
+  // wording; only the surrounding UI is translated for now.
+  "Mentions légales": "Legal",
+  "Conditions générales d'utilisation": "Terms and conditions",
+  "conditions générales d'utilisation": "terms and conditions",
+  "Les règles d'utilisation de Passerelle, à lire avant de créer un compte.":
+    "The rules for using Passerelle — please read before creating an account.",
+  "Dernière mise à jour :": "Last updated:",
+  "J'ai lu et j'accepte les": "I have read and accept the",
+  "Ouvrez les conditions pour pouvoir cocher cette case.": "Open the terms to enable this checkbox.",
+  "Faites défiler jusqu'au bas du texte pour continuer.": "Scroll to the end of the text to continue.",
+  "Vous pouvez maintenant confirmer votre lecture.": "You can now confirm you have read it.",
+  "J'ai lu les conditions": "I have read the terms",
+  "Ouvrir dans un nouvel onglet": "Open in a new tab",
+  "Vous devez lire et accepter les conditions générales pour créer un compte.":
+    "You must read and accept the terms and conditions to create an account.",
+  // ("Conditions" — the footer label — is already translated further up.)
+
   // ── Password strength meter (components/auth/PasswordMeter.jsx) ───────
   // The bar is guidance only — the sole hard rule is the length above, which
   // matches the Supabase project minimum.

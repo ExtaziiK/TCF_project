@@ -1,4 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
+import { TERMS_VERSION } from "@/constants/terms";
 
 // ── Active device sessions (up to the plan's device limit) ──────────────────
 // Each login claims a fresh random id, stored locally and added to
@@ -173,15 +174,16 @@ export function isNewlyCreatedUser(authUser) {
 // Finishes creating a Google-registered account: sets the country (into
 // user_metadata, like email signup) and the chosen username (profiles). Called
 // from the onboarding step that gates new Google registrations.
-export async function completeGoogleProfile({ username, country }) {
+export async function completeGoogleProfile({ username, country, acceptedTerms }) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
-  if (country) {
-    const meta = user.user_metadata || {};
-    if (country !== meta.country) {
-      const { error } = await supabase.auth.updateUser({ data: { ...meta, country } });
-      if (error) return { error };
-    }
+  const meta = user.user_metadata || {};
+  // Country and terms consent are both user_metadata: written together so the
+  // OAuth path records the same acceptance the email form does, in one call.
+  const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
+  if ((country && country !== meta.country) || acceptedTerms) {
+    const { error } = await supabase.auth.updateUser({ data: { ...meta, ...(country ? { country } : {}), ...consent } });
+    if (error) return { error };
   }
   if (username) {
     const clean = String(username).trim().toLowerCase();
@@ -286,11 +288,23 @@ export async function verifyRecoveryToken(tokenHash) {
   return { session: data?.session || null, error };
 }
 
-export async function signUp({ name, username, email, password, country }) {
+// `acceptedTerms` records the consent collected by the registration form (see
+// AuthPage): which version of the conditions was shown, and when. Stored on the
+// user so a later change to the text can be compared against what they actually
+// agreed to — bump TERMS_VERSION when the wording changes.
+export async function signUp({ name, username, email, password, country, acceptedTerms }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name: normalizeName(name), username, country }, emailRedirectTo: window.location.origin },
+    options: {
+      data: {
+        name: normalizeName(name),
+        username,
+        country,
+        ...(acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {}),
+      },
+      emailRedirectTo: window.location.origin,
+    },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }
