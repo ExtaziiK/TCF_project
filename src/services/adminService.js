@@ -114,6 +114,13 @@ export function resetEmailTemplate(key) {
   return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "reset", key }) });
 }
 
+// Renders the copy currently in the editor. Server-side on purpose: the
+// preview then comes out of the same renderer as a real send, so there is no
+// second implementation in the browser to drift out of step with it.
+export function previewEmailTemplate(payload) {
+  return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "preview", ...payload }) });
+}
+
 // Sends the copy currently in the editor (unsaved included) to the admin.
 export function sendTestEmail(payload) {
   return adminFetch("/api/admin/emails", { method: "POST", body: JSON.stringify({ action: "test", ...payload }) });

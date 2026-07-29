@@ -3,18 +3,21 @@ import { requireAdmin } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { sendMail } from "../mailer.js";
 import {
-  DEFAULTS, TEMPLATE_META, TEMPLATE_VARS, withDefaults, renderTemplate, sampleVars, shell,
+  DEFAULTS, TEMPLATE_META, TEMPLATE_VARS, TEMPLATE_BLOCKS, BUTTONS,
+  withDefaults, renderTemplate, sampleVars,
 } from "../emailTemplates.js";
 
 // Email template management (admin only). The copy of each transactional email
 // lives in public.email_templates; api/_lib/emailTemplates.js holds the shipped
 // defaults, used for any template the admin has never saved.
 //
-//   GET  /api/admin/emails                       → { templates, meta, vars, shell }
+//   GET  /api/admin/emails                       → { templates, vars, blocks }
 //   POST /api/admin/emails { action: "save", key, subject, body, enabled, promoCode }
 //   POST /api/admin/emails { action: "reset", key }        → back to the default
+//   POST /api/admin/emails { action: "preview", key, subject, body, promoCode }
+//                            → { subject, html } rendered with sample values
 //   POST /api/admin/emails { action: "test", key, subject, body, promoCode }
-//                            → renders with sample values, sends to the admin
+//                            → same render, sent to the admin's own address
 //
 // Writes go through the service role (same client as the rest of api/admin),
 // and every change is written to admin_audit_log like promo codes are.
@@ -40,15 +43,21 @@ async function audit(actor, action, target, detail) {
 // so plainly instead of surfacing a raw Postgres error.
 const MISSING_TABLE = "Table email_templates absente : appliquez la migration 20260730_email_templates.sql.";
 
+const deaccent = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 function validate({ subject, body }) {
   const s = String(subject || "").trim();
   const b = String(body || "").trim();
   if (s.length < 1 || s.length > 200) throw new HttpError(400, "L'objet doit faire entre 1 et 200 caractères.");
   if (b.length < 1 || b.length > 8000) throw new HttpError(400, "Le contenu doit faire entre 1 et 8000 caractères.");
-  // Catches a section left half-open ({{#promo_code}} with no {{/promo_code}}),
-  // which would otherwise print the raw tag in a real customer's inbox.
-  for (const [, key] of b.matchAll(/\{\{#(\w+)\}\}/g)) {
-    if (!b.includes(`{{/${key}}}`)) throw new HttpError(400, `Section {{#${key}}} non fermée : ajoutez {{/${key}}}.`);
+  // A mistyped button name renders as nothing at all, which is easy to miss in
+  // a preview and impossible to notice once it has been sent. Refuse it here,
+  // naming the ones that exist.
+  const known = Object.keys(BUTTONS);
+  for (const [, name] of b.matchAll(/\[bouton\s+([^\]:]+?)(?::[\s\S]*?)?\]/gi)) {
+    if (!known.includes(deaccent(name.trim()).toLowerCase())) {
+      throw new HttpError(400, `Bouton « ${name.trim()} » inconnu. Disponibles : ${known.join(", ")}.`);
+    }
   }
   return { subject: s, body: b };
 }
@@ -58,13 +67,10 @@ async function handleGet(res) {
   const rows = Object.fromEntries((data || []).map((row) => [row.key, row]));
   return res.status(200).json({
     templates: TEMPLATE_META.map((m) => ({ ...m, ...withDefaults(m.key, rows[m.key]) })),
-    defaults: DEFAULTS,
+    // The chips offered under the editor: personalisation values and the
+    // graphical blocks. Sent from here so the admin panel never hardcodes them.
     vars: TEMPLATE_VARS,
-    // Ready-to-substitute demo values (links and buttons included) so the
-    // admin panel can preview a template without rebuilding them client-side.
-    sample: sampleVars(SITE),
-    // The branded wrapper, so the admin panel previews exactly what is sent.
-    shell: shell("{{content}}"),
+    blocks: TEMPLATE_BLOCKS,
     unavailable: !!error,
   });
 }
@@ -105,6 +111,15 @@ export default async function handler(req, res) {
         if (error) throw new HttpError(400, error.message);
         await audit(actor, "reset-email-template", key, null);
         return res.status(200).json({ template: withDefaults(key, null) });
+      }
+
+      // Renders the copy currently in the editor, unsaved included. The preview
+      // goes through the very same renderer as a real send, so what the admin
+      // approves on screen is exactly the markup that reaches an inbox — no
+      // second implementation on the client to drift out of step.
+      if (action === "preview") {
+        const vars = { ...sampleVars(SITE), promo_code: String(req.body.promoCode || "").trim().toUpperCase() };
+        return res.status(200).json(renderTemplate({ subject: req.body.subject, body: req.body.body }, vars));
       }
 
       // Sends the copy currently in the editor — unsaved included — to the

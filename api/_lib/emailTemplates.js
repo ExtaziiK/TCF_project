@@ -1,24 +1,18 @@
 // Transactional email templates, editable from Admin › Emails.
 //
-// The branded shell (header, footer, button styling) stays in code so every
-// message keeps the same identity; an admin edits the *copy* — the subject and
-// the body fragment that sits inside the shell. Saved rows live in
-// public.email_templates (admin-only RLS; the cron reads them with the service
-// role). DEFAULTS below is what ships, what "Réinitialiser" restores, and the
-// fallback whenever the table is missing, empty or unreachable — so an absent
-// or broken row can never stop a reminder going out.
+// The wording is written as plain text — a blank line between paragraphs,
+// **gras** for emphasis, and a few [blocs] for the graphical pieces — and is
+// converted to the branded HTML here, at send time. That split is deliberate:
+// whoever edits the copy is editing words, not markup, so a stray tag can
+// never reach a customer's inbox, and the design stays consistent because it
+// lives in this file rather than in the text.
 //
-// Placeholders are {{name}}-style, and {{#promo_code}}…{{/promo_code}} marks a
-// section that renders only when that variable is non-empty. That is how the
-// discount paragraph disappears by itself when no code is attached, instead of
-// leaving a dangling "utilisez le code" sentence.
+// Rows live in public.email_templates (admin-only RLS; the cron reads them with
+// the service role). DEFAULTS below is what ships, what "Réinitialiser"
+// restores, and the fallback whenever the table is missing, empty or
+// unreachable — so an absent or broken row can never stop a reminder going out.
 
 const BRAND = "Passerelle TCF";
-
-// Values that are pre-built markup rather than text, so they are inserted raw.
-// Everything else is HTML-escaped: `name` comes from user metadata and would
-// otherwise let a signup name inject markup into the message.
-const HTML_VARS = new Set(["renew_button", "feedback_button"]);
 
 export const shell = (inner) => `
 <div style="margin:0;padding:24px;background:#0b1020;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
@@ -36,53 +30,136 @@ export const shell = (inner) => `
   </div>
 </div>`;
 
-const button = (href, label, color = "#2563eb") =>
-  `<a href="${href}" style="display:inline-block;background:${color};color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;font-size:15px;">${label}</a>`;
-
-/* ------------------------------- rendering -------------------------------- */
-
 const escapeHtml = (s) =>
   String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 
-// Conditional sections first, then the placeholders left inside them.
-function sections(text, vars) {
-  return text.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, key, inner) => (vars[key] ? inner : ""));
+const button = (href, label, color) =>
+  `<a href="${escapeHtml(href)}" style="display:inline-block;background:${color};color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;font-size:15px;">${label}</a>`;
+
+const promoBox = (intro, code) => `<div style="margin:0 0 22px;padding:14px 18px;border:1px dashed #2563eb;border-radius:12px;background:#f5f8ff;">
+    <p style="margin:0 0 4px;font-size:14px;">${intro}</p>
+    <p style="margin:0;font-size:20px;font-weight:700;letter-spacing:1px;color:#2563eb;">${code}</p>
+    <p style="margin:6px 0 0;font-size:12px;color:#6b7280;">À saisir au moment du paiement.</p>
+  </div>`;
+
+/* ------------------------- the [blocs] an admin can use ------------------- */
+
+// Accents are optional in the tag ([bouton témoignage] == [bouton temoignage]),
+// because asking someone to remember which spelling the parser wants is exactly
+// the kind of trap this format exists to avoid.
+const deaccent = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+export const BUTTONS = {
+  renouveler: { label: "Renouveler mon accès", url: "renew_url", color: "#2563eb" },
+  temoignage: { label: "Partager mon témoignage", url: "feedback_url", color: "#7c3aed" },
+};
+
+/* -------------------------------- rendering ------------------------------- */
+
+// Inline formatting for one paragraph. The admin's text is escaped first, so a
+// typed "<" shows as "<"; variable values are escaped as they go in (a signup
+// name could otherwise inject markup); **gras** is applied last, on text that
+// is already safe.
+function inline(text, vars) {
+  return escapeHtml(text)
+    .replace(/\{\{(\w+)\}\}/g, (_, key) => escapeHtml(vars[key] ?? ""))
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br/>");
 }
 
-function fill(text, vars, { html }) {
-  return sections(String(text || ""), vars).replace(/\{\{(\w+)\}\}/g, (_, key) => {
+function blockToHtml(block, vars) {
+  // [promo] / [promo: phrase d'introduction] — renders nothing at all when no
+  // code is attached, so removing the code never leaves a dangling sentence.
+  const promo = block.match(/^\[promo(?::\s*([\s\S]*?))?\]$/i);
+  if (promo) {
+    if (!vars.promo_code) return "";
+    return promoBox(inline(promo[1] || "Voici votre code de réduction :", vars), escapeHtml(vars.promo_code));
+  }
+
+  // [bouton renouveler] / [bouton renouveler: Texte personnalisé]
+  const btn = block.match(/^\[bouton\s+([^\]:]+?)(?::\s*([\s\S]*?))?\]$/i);
+  if (btn) {
+    const spec = BUTTONS[deaccent(btn[1].trim()).toLowerCase()];
+    if (!spec) return ""; // unknown name; refused at save time by validate()
+    return `<p style="margin:0 0 22px;">${button(vars[spec.url], btn[2] ? inline(btn[2], vars) : spec.label, spec.color)}</p>`;
+  }
+
+  // [note] … — the small grey line (disclaimers, "ignorez ce message", thanks).
+  const note = block.match(/^\[note\]\s*([\s\S]*)$/i);
+  if (note) return `<p style="margin:0 0 16px;color:#6b7280;font-size:13px;">${inline(note[1], vars)}</p>`;
+
+  return `<p style="margin:0 0 16px;">${inline(block, vars)}</p>`;
+}
+
+// Plain-text body → the HTML that goes inside the shell. Blocks are separated
+// by blank lines; a single newline inside one is a line break.
+export function textToHtml(text, vars) {
+  const blocks = String(text || "")
+    .replace(/\r\n/g, "\n")
+    .split(/\n[ \t]*\n/)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map((b) => blockToHtml(b, vars))
+    .filter(Boolean);
+  // The last visible block sits flush against the padding — no trailing gap.
+  if (blocks.length) blocks[blocks.length - 1] = blocks[blocks.length - 1].replace(/margin:0 0 \d+px;/, "margin:0;");
+  return blocks.join("\n  ");
+}
+
+// Subjects are plain text end to end: no escaping (an "&" must stay an "&" in
+// an inbox), no markup.
+function fillSubject(text, vars) {
+  return String(text || "").replace(/\{\{(\w+)\}\}/g, (_, key) => String(vars[key] ?? ""));
+}
+
+// Templates saved before the plain-text editor stored a raw HTML fragment.
+// They keep rendering the old way — {{var}} substitution plus {{#section}}…
+// — so a customer never receives a message with tags printed as text.
+const LEGACY_HTML_VARS = new Set(["renew_button", "feedback_button"]);
+const looksLikeHtml = (body) => /<\s*(p|div|a|strong|br|span|table)\b/i.test(body);
+
+function fillLegacyHtml(text, vars) {
+  const withSections = String(text || "").replace(
+    /\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g,
+    (_, key, inner) => (vars[key] ? inner : ""),
+  );
+  return withSections.replace(/\{\{(\w+)\}\}/g, (_, key) => {
     const value = vars[key];
     if (value == null) return "";
-    return html && !HTML_VARS.has(key) ? escapeHtml(value) : String(value);
+    return LEGACY_HTML_VARS.has(key) ? String(value) : escapeHtml(value);
   });
 }
 
-// A stored (or default) template + the variables for one recipient → the exact
-// subject and full HTML document handed to the mailer.
+// A stored (or default) template + one recipient's values → the exact subject
+// and full HTML document handed to the mailer.
 export function renderTemplate(template, vars) {
+  const body = String(template.body || "");
   return {
-    subject: fill(template.subject, vars, { html: false }),
-    html: shell(fill(template.body, vars, { html: true })),
+    subject: fillSubject(template.subject, vars),
+    html: shell(looksLikeHtml(body) ? fillLegacyHtml(body, vars) : textToHtml(body, vars)),
   };
 }
 
 /* ------------------------------- variables -------------------------------- */
 
-// Everything a template may reference. `sample` drives the admin preview and
-// the test send, so the editor sees a realistic message without touching a real
-// account. Exposed through the API so the admin UI never hardcodes this list.
+// What a template may reference, with the label the admin panel shows on each
+// chip. `sample` drives the preview and the test send, so the editor sees a
+// realistic message without touching a real account.
 export const TEMPLATE_VARS = [
-  { name: "name", label: "Prénom du client (vide si inconnu)", sample: "Amira" },
+  { name: "salutation", label: "Salutation complète — « Bonjour Amira, », ou « Bonjour, » si le prénom est inconnu", sample: "Bonjour Amira," },
+  { name: "name", label: "Prénom du client seul (vide s'il est inconnu)", sample: "Amira" },
   { name: "plan", label: "Nom du forfait", sample: "Premium" },
-  { name: "days_left", label: "Jours restants avant expiration", sample: "3" },
-  { name: "days_word", label: "« jour » ou « jours » selon le nombre", sample: "jours" },
-  { name: "expiry_date", label: "Date de fin d'abonnement", sample: "12 août 2026" },
-  { name: "promo_code", label: "Code de réduction attaché au modèle", sample: "RETOUR20" },
-  { name: "renew_button", label: "Bouton « Renouveler mon accès »", sample: "" },
-  { name: "feedback_button", label: "Bouton « Partager mon témoignage »", sample: "" },
-  { name: "renew_url", label: "Lien vers la page Tarifs", sample: "" },
-  { name: "feedback_url", label: "Lien vers le formulaire de témoignage", sample: "" },
-  { name: "site_url", label: "Adresse du site", sample: "" },
+  { name: "days_left", label: "Temps restant, accordé — « 3 jours », « 1 jour »", sample: "3 jours" },
+  { name: "expiry_date", label: "Date de fin de l'abonnement", sample: "12 août 2026" },
+  { name: "promo_code", label: "Le code de réduction choisi plus bas", sample: "" },
+];
+
+// The graphical blocks, offered as one-click inserts next to the variables.
+export const TEMPLATE_BLOCKS = [
+  { insert: "[bouton renouveler]", label: "Bouton bleu « Renouveler mon accès » (vers la page Tarifs)" },
+  { insert: "[bouton temoignage]", label: "Bouton violet « Partager mon témoignage » (vers le profil)" },
+  { insert: "[promo: Voici votre code :]", label: "Encadré du code de réduction — disparaît si aucun code n'est choisi" },
+  { insert: "[note] ", label: "Ligne en petits caractères gris" },
 ];
 
 // The links every template gets. The renew CTA points at /tarifs — the real
@@ -96,7 +173,8 @@ export function linkVars(site) {
     site_url: site,
     renew_url: renewUrl,
     feedback_url: feedbackUrl,
-    renew_button: button(renewUrl, "Renouveler mon accès"),
+    // Only legacy HTML templates reference these directly.
+    renew_button: button(renewUrl, "Renouveler mon accès", "#2563eb"),
     feedback_button: button(feedbackUrl, "Partager mon témoignage", "#7c3aed"),
   };
 }
@@ -109,38 +187,36 @@ export function sampleVars(site) {
 
 /* -------------------------------- defaults -------------------------------- */
 
-const PROMO_BLOCK = (intro) => `
-  {{#promo_code}}<div style="margin:0 0 22px;padding:14px 18px;border:1px dashed #2563eb;border-radius:12px;background:#f5f8ff;">
-    <p style="margin:0 0 4px;font-size:14px;">${intro}</p>
-    <p style="margin:0;font-size:20px;font-weight:700;letter-spacing:1px;color:#2563eb;">{{promo_code}}</p>
-    <p style="margin:6px 0 0;font-size:12px;color:#6b7280;">À saisir au moment du paiement.</p>
-  </div>{{/promo_code}}`;
-
 export const DEFAULTS = {
   expiring_soon: {
-    subject: "Votre accès {{plan}} expire dans {{days_left}} {{days_word}}",
-    body: `
-  <p style="margin:0 0 14px;">Bonjour{{#name}} {{name}}{{/name}},</p>
-  <p style="margin:0 0 14px;">Petit rappel amical&nbsp;: votre abonnement <strong>{{plan}}</strong>
-    arrive à échéance dans <strong>{{days_left}} {{days_word}}</strong>, le {{expiry_date}}.</p>
-  <p style="margin:0 0 20px;">Pour continuer sans interruption vos quiz, simulations IA et TCF blancs,
-    renouvelez dès maintenant&nbsp;:</p>
-  <p style="margin:0 0 22px;">{{renew_button}}</p>
-${PROMO_BLOCK("Pour vous remercier de votre fidélité, voici votre code&nbsp;:")}
-  <p style="margin:0;color:#6b7280;font-size:13px;">Si vous avez déjà renouvelé, ignorez ce message&nbsp;— merci&nbsp;!</p>`,
+    subject: "Votre accès {{plan}} expire dans {{days_left}}",
+    body: `{{salutation}}
+
+Petit rappel amical : votre abonnement **{{plan}}** arrive à échéance dans **{{days_left}}**, le {{expiry_date}}.
+
+Pour continuer sans interruption vos quiz, simulations IA et TCF blancs, renouvelez dès maintenant :
+
+[bouton renouveler]
+
+[promo: Pour vous remercier de votre fidélité, voici votre code :]
+
+[note] Si vous avez déjà renouvelé, ignorez ce message — merci !`,
   },
   expired: {
     subject: "Votre accès {{plan}} a expiré",
-    body: `
-  <p style="margin:0 0 14px;">Bonjour{{#name}} {{name}}{{/name}},</p>
-  <p style="margin:0 0 14px;">Votre abonnement <strong>{{plan}}</strong> a pris fin le {{expiry_date}}.
-    Votre compte reste ouvert&nbsp;: votre progression et votre historique sont conservés.</p>
-  <p style="margin:0 0 20px;">Comment s'est passée votre préparation&nbsp;? Votre témoignage aide les
-    prochains candidats — après validation, il apparaîtra sur notre page d'accueil.</p>
-  <p style="margin:0 0 22px;">{{feedback_button}}</p>
-${PROMO_BLOCK("Envie de reprendre&nbsp;? Ce code vous est réservé&nbsp;:")}
-  <p style="margin:0 0 22px;">{{renew_button}}</p>
-  <p style="margin:0;color:#6b7280;font-size:13px;">Merci d'avoir préparé votre TCF avec nous. À très bientôt&nbsp;!</p>`,
+    body: `{{salutation}}
+
+Votre abonnement **{{plan}}** a pris fin le {{expiry_date}}. Votre compte reste ouvert : votre progression et votre historique sont conservés.
+
+Comment s'est passée votre préparation ? Votre témoignage aide les prochains candidats — après validation, il apparaîtra sur notre page d'accueil.
+
+[bouton temoignage]
+
+[promo: Envie de reprendre ? Ce code vous est réservé :]
+
+[bouton renouveler]
+
+[note] Merci d'avoir préparé votre TCF avec nous. À très bientôt !`,
   },
 };
 

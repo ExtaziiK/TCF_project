@@ -66,16 +66,20 @@ export async function loadTemplates(admin) {
   }
 }
 
-// The per-recipient values behind {{name}}, {{plan}}, {{days_left}}… The user's
-// display name is escaped at render time, not here.
+// The per-recipient values behind {{salutation}}, {{plan}}, {{days_left}}…
+// Everything here is plain text; escaping happens at render time.
 export function recipientVars(user, { daysLeft, until, site, promoCode }) {
   const days = Math.max(1, Math.round(Math.abs(daysLeft)));
+  const name = user.user_metadata?.name || user.user_metadata?.full_name || "";
   return {
     ...linkVars(site),
-    name: user.user_metadata?.name || user.user_metadata?.full_name || "",
+    name,
+    // Ready-made so a template never has to handle the "no name on file" case
+    // itself and end up sending "Bonjour ,".
+    salutation: name ? `Bonjour ${name},` : "Bonjour,",
     plan: user.app_metadata?.plan_label || "Premium",
-    days_left: String(days),
-    days_word: days === 1 ? "jour" : "jours",
+    // Already accorded ("1 jour" / "3 jours"), so the copy stays readable.
+    days_left: `${days} ${days === 1 ? "jour" : "jours"}`,
     expiry_date: until
       ? new Date(until).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" })
       : "",
