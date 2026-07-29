@@ -14,7 +14,7 @@ import { SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
-import { TarifsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
@@ -72,6 +72,30 @@ function SkeletonRows({ n = 6, className = "h-12" }) {
   return (
     <div className="space-y-3 py-2">
       {Array.from({ length: n }).map((_, i) => <Skeleton key={i} className={className} />)}
+    </div>
+  );
+}
+
+// Pill row for the sections that group several panels (Accueil, Tarifs).
+// `badge` is optional and renders the same counter as the sidebar rail.
+function SubTabs({ tabs, active, onSelect }) {
+  const { c } = useApp();
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {tabs.map(({ id, label, badge = 0 }) => {
+        const on = active === id;
+        return (
+          <button key={id} onClick={() => onSelect(id)}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${on ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            {label}
+            {badge > 0 && (
+              <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${on ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
+                {badge > 9 ? "9+" : badge}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -415,22 +439,38 @@ function HomeStatsTab() {
   );
 }
 
-// The "Accueil" admin section: the corner banner, the top bar and the statistics band.
-function AccueilTab() {
-  const { c } = useApp();
-  const [sub, setSub] = useState("banner");
-  const subs = [["banner", "Bannière (coin)"], ["marquee", "Barre d'annonces (haut)"], ["stats", "Statistique"]];
+// The "Accueil" admin section — everything that shapes the public landing page,
+// in the order it appears there: the top marquee, the corner banner, the
+// statistics band, then the testimonials grid.
+function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
+  const [sub, setSub] = useState("marquee");
+  const subs = [
+    { id: "marquee", label: "Barre d'annonces" },
+    { id: "banner", label: "Bannière" },
+    { id: "stats", label: "Statistique" },
+    { id: "testimonials", label: "Témoignages", badge: pendingTestimonials },
+  ];
   return (
     <div className="space-y-5">
-      <div className="flex gap-2 flex-wrap">
-        {subs.map(([id, l]) => (
-          <button key={id} onClick={() => setSub(id)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sub === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
-        ))}
-      </div>
-      {sub === "banner" && <HomeLabelTab />}
+      <SubTabs tabs={subs} active={sub} onSelect={setSub} />
       {sub === "marquee" && <AnnouncementBarTab />}
+      {sub === "banner" && <HomeLabelTab />}
       {sub === "stats" && <HomeStatsTab />}
+      {sub === "testimonials" && <TestimonialsTab onCount={onTestimonialCount} />}
+    </div>
+  );
+}
+
+// The "Tarifs" admin section: promo codes first, then the DZD (Algeria)
+// manual-payment settings.
+function TarifsSection() {
+  const [sub, setSub] = useState("promos");
+  const subs = [{ id: "promos", label: "Promos" }, { id: "dzd", label: "DZD" }];
+  return (
+    <div className="space-y-5">
+      <SubTabs tabs={subs} active={sub} onSelect={setSub} />
+      {sub === "promos" && <PromosTab />}
+      {sub === "dzd" && <PaymentSettingsTab />}
     </div>
   );
 }
@@ -512,7 +552,7 @@ function OverviewTab({ go }) {
       <Card className="p-4 flex items-center gap-2 flex-wrap">
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
-        <Btn small variant="ghost" icon={Ticket} onClick={() => go("promos")}>Créer un code promo</Btn>
+        <Btn small variant="ghost" icon={Ticket} onClick={() => go("pricing")}>Créer un code promo</Btn>
         <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les sujets (EE·EO)</Btn>
         <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
       </Card>
@@ -1507,9 +1547,7 @@ export function Admin() {
     { id: "pricing", l: "Tarifs", icon: Coins },
     { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
     { id: "messages", l: "Messages", icon: MessageCircle },
-    { id: "testimonials", l: "Témoignages", icon: Quote },
     { id: "requests", l: "Demandes", icon: Inbox },
-    { id: "promos", l: "Promos", icon: Ticket },
     { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
@@ -1531,7 +1569,9 @@ export function Admin() {
                 <t.icon size={16} className="shrink-0" />
                 <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
                 {(() => {
-                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : t.id === "testimonials" ? newTestimonials : 0;
+                  // Accueil carries the testimonial queue, which now lives in
+                  // one of its sub-tabs.
+                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : t.id === "home" ? newTestimonials : 0;
                   return badge > 0 ? (
                     <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
                       {badge > 9 ? "9+" : badge}
@@ -1544,14 +1584,12 @@ export function Admin() {
         </nav>
         <div role="tabpanel" className="min-w-0">
       {tab === "overview" && <OverviewTab go={setTab} />}
-      {tab === "home" && <AccueilTab />}
+      {tab === "home" && <AccueilTab pendingTestimonials={newTestimonials} onTestimonialCount={setNewTestimonials} />}
       {tab === "users" && <UsersTab />}
-      {tab === "pricing" && <TarifsTab />}
+      {tab === "pricing" && <TarifsSection />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
-      {tab === "testimonials" && <TestimonialsTab onCount={setNewTestimonials} />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
-      {tab === "promos" && <PromosTab />}
       {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}
