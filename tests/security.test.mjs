@@ -68,3 +68,25 @@ test("username format forbids markup and payload characters", () => {
   for (const payload of PAYLOADS) assert.ok(!USERNAME_RE.test(payload), `accepted: ${payload}`);
   assert.ok(USERNAME_RE.test("marie.dupont_92"));
 });
+
+// Mirrors the link-scheme allowlist in src/utils/richText.js (isSafeUrl). The
+// admin banner is the one place raw HTML is rendered (dangerouslySetInnerHTML);
+// it is sanitized twice (whitelist walk + DOMPurify), and links are restricted
+// to http(s)/mailto. The full sanitizer needs a DOM, so this tripwires the
+// scheme rule — the piece that would let a hostile href (javascript:, data:)
+// through if it ever regressed. Keep in sync with richText.js.
+test("rich-text link scheme allowlist rejects dangerous URLs", () => {
+  const isSafeUrl = (href) => /^(https?:|mailto:)/i.test(String(href || "").trim());
+  const BAD = [
+    "javascript:alert(1)",
+    "JavaScript:alert(1)",
+    " javascript:alert(1)",
+    "data:text/html,<script>alert(1)</script>",
+    "vbscript:msgbox(1)",
+    "javascript&colon;alert(1)",
+  ];
+  for (const href of BAD) assert.ok(!isSafeUrl(href), `dangerous href accepted: ${href}`);
+  for (const href of ["https://tcfpasserelle.com", "http://x.io/a?b=1", "mailto:contact@tcfpasserelle.com"]) {
+    assert.ok(isSafeUrl(href), `safe href rejected: ${href}`);
+  }
+});
