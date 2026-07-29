@@ -113,7 +113,15 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
           <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
-            <span key={mainPrice} className="metal-text font-display font-extrabold text-4xl rise" style={gradText}>{mainPrice}</span>
+            {/* Two spans, not one: the entrance `.rise` and the hover shimmer
+                both set the `animation` shorthand, so on one element the more
+                specific hover rule replaced `.rise` — and dropping it on
+                mouse-out restarted `.rise`, replaying the entrance every time
+                the cursor left. Keyed on the outer span so a price change (a
+                promo applied) still replays the entrance. */}
+            <span key={mainPrice} className="rise inline-block">
+              <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{mainPrice}</span>
+            </span>
             {struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
             <span className={`text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
           </p>
