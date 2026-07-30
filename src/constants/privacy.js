@@ -69,6 +69,7 @@ export const PRIVACY_SECTIONS = [
       "Les pièces liées aux paiements sont conservées pendant la durée exigée par la réglementation comptable et fiscale applicable.",
       "La preuve d'acceptation des conditions générales est conservée pendant la vie du compte puis, après sa suppression, pendant la durée de prescription applicable au contrat : sans elle, nous ne pourrions plus démontrer les termes que vous avez acceptés.",
       "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un témoignage publié reste en ligne jusqu'à ce que vous en demandiez le retrait.",
+      "Plus généralement, certaines données peuvent être conservées au-delà de la suppression du compte lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Cette conservation est limitée à ce qui est nécessaire à ces finalités.",
     ],
   },
   {

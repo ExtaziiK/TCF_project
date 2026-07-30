@@ -624,6 +624,8 @@ export const EN = {
     "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Passeport and Visa passes, two for Première classe, four for VIP. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
   "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.":
     "You may sign in with an email address and password, or through a Google account. In the latter case, Google sends us only the information needed to create the account.",
+  "Nous pouvons exiger la vérification de l'adresse électronique avant l'accès à certaines fonctionnalités du Service.":
+    "We may require verification of the email address before giving access to certain features of the Service.",
 
   "5. Contenu du Service": "5. What the Service includes",
   "Le Service donne accès, selon le forfait, à des questions au format de l'examen (compréhension orale et écrite), à des sujets d'expression écrite et orale, à des corrections et explications, à des fiches de vocabulaire et de grammaire, à des TCF blancs chronométrés et à un suivi de progression.":
@@ -634,6 +636,8 @@ export const EN = {
     "All exercises are written or selected by us to reproduce the format, timing and difficulty of the exam. They are not official topics, past papers or real exam questions: no content from the official exam is reproduced on the Platform, which has no access to it.",
   "Le contenu est enrichi et corrigé régulièrement. Nous pouvons ajouter, modifier ou retirer des exercices sans préavis, sous réserve de ne pas vider de sa substance le forfait que vous avez acheté pendant sa durée de validité.":
     "Content is enriched and corrected regularly. We may add, change or remove exercises without notice, provided this does not deprive the plan you purchased of its substance during its period of validity.",
+  "Certaines fonctionnalités peuvent être proposées à titre expérimental (« bêta »). Elles peuvent être modifiées, suspendues ou retirées sans préavis.":
+    "Some features may be offered on an experimental basis (“beta”). They may be changed, suspended or withdrawn without notice.",
 
   "6. Prix, paiement et durée d'accès": "6. Prices, payment and length of access",
   "Les prix sont affichés en dollars américains (USD) sur la page Tarifs. Le montant effectivement dû est celui présenté sur la page de paiement avant confirmation. Les éventuels frais bancaires, frais de conversion ou taxes locales appliqués par votre banque restent à votre charge.":
@@ -644,6 +648,8 @@ export const EN = {
     "Card payments are processed by Stripe. We neither receive nor store your card details. For Algeria, manual payment by CCP or BaridiMob is offered: access is activated after the transfer has been verified, which can take up to a few business days, and the pass runs from that activation.",
   "Les codes promotionnels sont valables selon les conditions annoncées lors de leur diffusion, ne sont pas cumulables sauf mention contraire et ne peuvent donner lieu à aucune contrepartie en espèces.":
     "Promotional codes are valid on the conditions announced when they are issued, cannot be combined unless stated otherwise, and give rise to no cash equivalent.",
+  "Nous nous réservons le droit d'annuler toute commande obtenue au moyen d'un paiement frauduleux, d'une utilisation abusive d'un code promotionnel ou de toute autre fraude.":
+    "We reserve the right to cancel any order obtained by means of a fraudulent payment, the abusive use of a promotional code, or any other fraud.",
 
   "7. Droit de rétractation et remboursements": "7. Right of withdrawal and refunds",
   "L'accès au contenu Premium est ouvert immédiatement après la confirmation du paiement. En achetant un pass, vous demandez expressément l'exécution immédiate du Service et reconnaissez perdre, de ce fait, le droit de rétractation prévu pour les contrats à distance portant sur un contenu numérique, dans la mesure permise par la loi applicable.":
@@ -684,6 +690,8 @@ export const EN = {
     "You may not attempt to circumvent the Service's technical limits, in particular the number of devices, Premium access restrictions or usage quotas; access the Service by automated means; analyse, decompile or reproduce all or part of the code; or disrupt the Platform's operation or compromise its security.",
   "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les témoignages, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.":
     "You may not transmit, through the exercises, the contact form or testimonials, any unlawful, defamatory, hateful or infringing content, or a third party's personal data without their agreement.",
+  "Afin d'assurer la sécurité du Service et de prévenir les fraudes, nous pouvons mettre en œuvre des mécanismes techniques destinés à détecter les usages anormaux, les connexions automatisées, le partage de comptes ou toute tentative de contournement des limitations techniques.":
+    "In order to keep the Service secure and to prevent fraud, we may put in place technical mechanisms intended to detect abnormal usage, automated connections, account sharing or any attempt to circumvent the technical limits.",
   "Tout manquement peut entraîner, selon sa gravité, un avertissement, la suspension ou la fermeture définitive du compte, sans remboursement des sommes versées et sans préjudice de poursuites.":
     "Any breach may result, depending on its seriousness, in a warning, suspension, or permanent closure of the account, without refund of sums paid and without prejudice to legal proceedings.",
 
@@ -694,6 +702,8 @@ export const EN = {
     "Interruptions may occur for maintenance, updates or security reasons. A brief or one-off interruption gives no right to compensation or extension; prolonged unavailability attributable to us may give rise to an extension of the pass or a refund, assessed in good faith.",
   "L'assistance est assurée par courriel à {courriel}. Nous répondons dans un délai raisonnable, sans garantie de délai. Aucun autre canal d'assistance n'est proposé à ce jour.":
     "Support is provided by email at {courriel}. We reply within a reasonable time, with no guaranteed turnaround. No other support channel is offered at this time.",
+  "Nous ne sommes pas responsables des retards, interruptions ou inexécutions résultant d'événements échappant raisonnablement à notre contrôle, notamment une panne d'un fournisseur technique, une interruption d'Internet, une catastrophe naturelle, une cyberattaque généralisée, une décision administrative ou tout autre cas de force majeure.":
+    "We are not liable for delays, interruptions or non-performance resulting from events reasonably beyond our control, in particular an outage at a technical provider, an internet disruption, a natural disaster, a widespread cyberattack, an administrative decision or any other event of force majeure.",
 
   "13. Responsabilité": "13. Liability",
   "Le Service est un outil d'entraînement proposé par une personne indépendante, sans aucun lien avec l'organisation de l'examen officiel. Nous ne garantissons ni la réussite à l'examen, ni l'obtention d'un niveau déterminé, ni aucune conséquence favorable sur une démarche d'immigration. Les résultats dépendent de votre travail personnel et de facteurs qui nous échappent.":
@@ -714,6 +724,8 @@ export const EN = {
   "15. Suspension, fermeture du compte et fin du Service": "15. Suspension, account closure and end of the Service",
   "Vous pouvez cesser d'utiliser le Service à tout moment et demander la suppression de votre compte en écrivant à {courriel}. La suppression est traitée dans un délai de trente jours ; un pass en cours n'est alors pas remboursé.":
     "You may stop using the Service at any time and ask for your account to be deleted by writing to {courriel}. Deletion is carried out within thirty days; a pass then running is not refunded.",
+  "Certaines données peuvent toutefois être conservées lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Le détail figure dans la Politique de confidentialité.":
+    "Some data may nonetheless be kept where the law requires it, or where it is necessary for fraud prevention, payment administration, dispute resolution or the defence of our rights. The detail is set out in the Privacy Policy.",
   "Nous pouvons suspendre ou fermer un compte en cas de manquement aux présentes CGU, de fraude, d'impayé ou d'usage manifestement abusif du Service. Sauf urgence ou manquement grave, nous vous en informons au préalable et vous laissons la possibilité de vous expliquer.":
     "We may suspend or close an account in the event of a breach of these Terms, fraud, non-payment, or manifestly abusive use of the Service. Except in an emergency or in the event of a serious breach, we inform you beforehand and give you the opportunity to explain.",
   "Nous pouvons faire évoluer le Service ou cesser de l'exploiter. Dans ce dernier cas, les pass en cours sont remboursés au prorata de la durée restante.":
@@ -790,6 +802,8 @@ export const EN = {
     "Proof of acceptance of the terms and conditions is kept for the life of the account and then, after its deletion, for the limitation period applicable to the contract: without it, we could no longer demonstrate the terms you accepted.",
   "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un témoignage publié reste en ligne jusqu'à ce que vous en demandiez le retrait.":
     "Technical logs, anti-abuse counters and device-session records are kept for a short period, proportionate to their security purpose. A published testimonial stays online until you ask for it to be removed.",
+  "Plus généralement, certaines données peuvent être conservées au-delà de la suppression du compte lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Cette conservation est limitée à ce qui est nécessaire à ces finalités.":
+    "More generally, some data may be kept beyond the deletion of the account where the law requires it, or where it is necessary for fraud prevention, payment administration, dispute resolution or the defence of our rights. Such retention is limited to what those purposes require.",
 
   "7. Vos droits": "7. Your rights",
   "Vous disposez d'un droit d'accès à vos données, de rectification, d'effacement, de limitation et d'opposition au traitement, ainsi que d'un droit à la portabilité des données que vous nous avez fournies. Vous pouvez également retirer, à tout moment, un consentement que vous auriez donné.":

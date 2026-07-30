@@ -43,7 +43,7 @@ export function fillOperator(text) {
 // Bumped whenever the wording changes: every acceptance is recorded against
 // this string (terms_acceptances, 20260730 migration), which is what lets you
 // tell later who agreed to which text. Keep each published version in git.
-export const TERMS_VERSION = "draft-2";
+export const TERMS_VERSION = "draft-3";
 export const TERMS_UPDATED = "30 juillet 2026";
 
 // Flips the "still being written" notice on the page and in the dialog. Set to
@@ -94,6 +94,7 @@ export const TERMS_SECTIONS = [
       "Un compte est strictement personnel et ne peut être partagé, prêté, revendu ni utilisé par plusieurs personnes. Le partage d'identifiants entraîne la suspension du compte sans remboursement.",
       "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et les pass Passeport et Visa, deux pour Première classe, quatre pour VIP. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.",
       "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.",
+      "Nous pouvons exiger la vérification de l'adresse électronique avant l'accès à certaines fonctionnalités du Service.",
     ],
   },
   {
@@ -103,6 +104,7 @@ export const TERMS_SECTIONS = [
       "Un compte gratuit donne accès à une partie de ce contenu. Les pass payants ouvrent l'ensemble des modules Premium pour la durée indiquée à l'achat. Le détail des offres figure sur la page Tarifs, qui fait partie intégrante des présentes CGU.",
       "Tous les exercices sont rédigés ou sélectionnés par nos soins pour reproduire le format, le minutage et le niveau de difficulté de l'épreuve. Ce ne sont ni des sujets officiels, ni des annales, ni des questions réelles de l'examen : aucun contenu de l'examen officiel n'est reproduit sur la Plateforme, qui n'y a pas accès.",
       "Le contenu est enrichi et corrigé régulièrement. Nous pouvons ajouter, modifier ou retirer des exercices sans préavis, sous réserve de ne pas vider de sa substance le forfait que vous avez acheté pendant sa durée de validité.",
+      "Certaines fonctionnalités peuvent être proposées à titre expérimental (« bêta »). Elles peuvent être modifiées, suspendues ou retirées sans préavis.",
     ],
   },
   {
@@ -112,6 +114,7 @@ export const TERMS_SECTIONS = [
       "Chaque pass est un achat unique qui ouvre l'accès Premium pour la durée annoncée (5, 15, 30 ou 90 jours selon le forfait). Il n'y a pas de reconduction tacite : à l'échéance, l'accès Premium prend fin automatiquement et aucun nouveau prélèvement n'est effectué. Vous restez libre d'acheter un nouveau pass.",
       "Le paiement par carte bancaire est traité par Stripe. Nous ne recevons ni ne conservons vos données de carte. Pour l'Algérie, un paiement manuel par CCP ou BaridiMob est proposé : l'accès est activé après vérification du versement, ce qui peut prendre jusqu'à quelques jours ouvrables, et la durée du pass court à compter de cette activation.",
       "Les codes promotionnels sont valables selon les conditions annoncées lors de leur diffusion, ne sont pas cumulables sauf mention contraire et ne peuvent donner lieu à aucune contrepartie en espèces.",
+      "Nous nous réservons le droit d'annuler toute commande obtenue au moyen d'un paiement frauduleux, d'une utilisation abusive d'un code promotionnel ou de toute autre fraude.",
     ],
   },
   {
@@ -152,6 +155,7 @@ export const TERMS_SECTIONS = [
     p: [
       "Il est interdit de tenter de contourner les limitations techniques du Service, notamment le nombre d'appareils, les restrictions d'accès au contenu Premium ou les quotas d'usage ; d'accéder au Service par un moyen automatisé ; d'analyser, décompiler ou reproduire tout ou partie du code ; de perturber le fonctionnement de la Plateforme ou d'en compromettre la sécurité.",
       "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les témoignages, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.",
+      "Afin d'assurer la sécurité du Service et de prévenir les fraudes, nous pouvons mettre en œuvre des mécanismes techniques destinés à détecter les usages anormaux, les connexions automatisées, le partage de comptes ou toute tentative de contournement des limitations techniques.",
       "Tout manquement peut entraîner, selon sa gravité, un avertissement, la suspension ou la fermeture définitive du compte, sans remboursement des sommes versées et sans préjudice de poursuites.",
     ],
   },
@@ -161,6 +165,7 @@ export const TERMS_SECTIONS = [
       "Nous mettons en œuvre les moyens raisonnables pour maintenir la Plateforme accessible, sans garantir une disponibilité ininterrompue. Le Service repose sur des prestataires tiers (hébergement, base de données, paiement, intelligence artificielle) dont les incidents peuvent l'affecter.",
       "Des interruptions peuvent survenir pour maintenance, mise à jour ou raison de sécurité. Une interruption brève ou ponctuelle n'ouvre pas droit à indemnisation ou à prolongation ; une indisponibilité prolongée qui nous serait imputable peut donner lieu à une prolongation du pass ou à un remboursement, apprécié de bonne foi.",
       "L'assistance est assurée par courriel à {courriel}. Nous répondons dans un délai raisonnable, sans garantie de délai. Aucun autre canal d'assistance n'est proposé à ce jour.",
+      "Nous ne sommes pas responsables des retards, interruptions ou inexécutions résultant d'événements échappant raisonnablement à notre contrôle, notamment une panne d'un fournisseur technique, une interruption d'Internet, une catastrophe naturelle, une cyberattaque généralisée, une décision administrative ou tout autre cas de force majeure.",
     ],
   },
   {
@@ -183,6 +188,7 @@ export const TERMS_SECTIONS = [
     t: "15. Suspension, fermeture du compte et fin du Service",
     p: [
       "Vous pouvez cesser d'utiliser le Service à tout moment et demander la suppression de votre compte en écrivant à {courriel}. La suppression est traitée dans un délai de trente jours ; un pass en cours n'est alors pas remboursé.",
+      "Certaines données peuvent toutefois être conservées lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Le détail figure dans la Politique de confidentialité.",
       "Nous pouvons suspendre ou fermer un compte en cas de manquement aux présentes CGU, de fraude, d'impayé ou d'usage manifestement abusif du Service. Sauf urgence ou manquement grave, nous vous en informons au préalable et vous laissons la possibilité de vous expliquer.",
       "Nous pouvons faire évoluer le Service ou cesser de l'exploiter. Dans ce dernier cas, les pass en cours sont remboursés au prorata de la durée restante.",
     ],
