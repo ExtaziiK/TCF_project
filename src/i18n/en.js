@@ -592,8 +592,8 @@ export const EN = {
   // here would silently fall back to French. Regenerate rather than retype
   // if the French wording changes.
   "1. Qui édite Passerelle": "1. Who publishes Passerelle",
-  "Passerelle (« la Plateforme », « le Service ») est un service en ligne de préparation au TCF Canada édité par {nom}, personne physique domiciliée à {ville}, {pays} (« l'Éditeur », « nous »). Toute question ou notification relative aux présentes conditions peut être adressée à {courriel}.":
-    "Passerelle (“the Platform”, “the Service”) is an online TCF Canada preparation service published by {nom}, a private individual residing in {ville}, {pays} (“the Publisher”, “we”). Any question or notice regarding these terms may be sent to {courriel}.",
+  "Passerelle (« la Plateforme », « le Service ») est un service en ligne de préparation au TCF Canada, édité et exploité à titre individuel (« l'Éditeur », « nous »). Toute question, réclamation ou notification relative aux présentes conditions peut être adressée à {courriel}, qui est le point de contact du Service.":
+    "Passerelle (“the Platform”, “the Service”) is an online TCF Canada preparation service, published and operated on an individual basis (“the Publisher”, “we”). Any question, complaint or notice regarding these terms may be sent to {courriel}, which is the Service's point of contact.",
   "Passerelle est un projet personnel et indépendant, né de l'envie d'aider les candidats à s'entraîner sérieusement avant le jour de l'examen. Ce n'est ni une école, ni un centre d'examen, ni un organisme officiel : c'est un outil d'entraînement, conçu et maintenu par une personne, que vous utilisez librement.":
     "Passerelle is a personal, independent project, born of the wish to help candidates train seriously before exam day. It is not a school, not a test centre and not an official body: it is a practice tool, designed and maintained by one person, which you are free to use.",
   "Passerelle n'est ni affiliée, ni mandatée, ni agréée, ni approuvée par France Éducation international, par Immigration, Réfugiés et Citoyenneté Canada (IRCC), par la Chambre de commerce et d'industrie de Paris, ni par aucun centre d'examen agréé ou organisme organisateur d'un test de français. Les marques « TCF », « TCF Canada » et les autres noms d'examens cités appartiennent à leurs titulaires respectifs et ne sont mentionnés qu'à titre descriptif, pour indiquer à quoi la Plateforme prépare.":
@@ -720,10 +720,10 @@ export const EN = {
     "We may change the Service or stop operating it. In the latter case, passes then running are refunded pro rata to the remaining period.",
 
   "16. Droit applicable et règlement des litiges": "16. Governing law and disputes",
-  "Les présentes CGU sont régies par le droit de {pays}, sans préjudice des dispositions impératives plus protectrices applicables dans votre pays de résidence habituelle.":
-    "These Terms are governed by the law of {pays}, without prejudice to more protective mandatory provisions applicable in your country of habitual residence.",
-  "En cas de difficulté, adressez-vous d'abord à nous à {courriel} : la plupart des situations se règlent ainsi. À défaut d'accord amiable, le litige relève des tribunaux compétents de {pays}, étant précisé que, si vous agissez en qualité de consommateur, vous conservez la faculté de saisir la juridiction de votre lieu de résidence lorsque la loi vous le permet.":
-    "If there is a problem, contact us first at {courriel}: most situations are resolved that way. Failing an amicable agreement, the dispute falls to the competent courts of {pays}, it being specified that, if you are acting as a consumer, you retain the option of bringing proceedings before the court of your place of residence where the law allows you to do so.",
+  "Les présentes CGU ne comportent pas de choix de loi : la loi applicable est déterminée par les règles de droit international privé pertinentes. Si vous agissez en qualité de consommateur, vous bénéficiez en tout état de cause des dispositions impératives de votre pays de résidence habituelle.":
+    "These Terms make no choice of law: the applicable law is determined by the relevant private international law rules. If you are acting as a consumer, you benefit in any event from the mandatory provisions of your country of habitual residence.",
+  "En cas de difficulté, adressez-vous d'abord à nous à {courriel} : la plupart des situations se règlent ainsi, et nous nous engageons à examiner toute réclamation de bonne foi. À défaut d'accord amiable, le litige est porté devant la juridiction compétente en application des règles rappelées ci-dessus ; si vous êtes consommateur, il s'agit en principe de celle de votre lieu de résidence.":
+    "If there is a problem, contact us first at {courriel}: most situations are resolved that way, and we undertake to consider any complaint in good faith. Failing an amicable agreement, the dispute is brought before the court having jurisdiction under the rules set out above; if you are a consumer, that is in principle the court of your place of residence.",
 
   "17. Dispositions diverses": "17. Miscellaneous",
   "Si une clause des présentes est jugée nulle ou inapplicable, les autres clauses demeurent en vigueur et la clause concernée est remplacée par une stipulation valide d'effet équivalent.":
@@ -731,15 +731,15 @@ export const EN = {
   "Le fait de ne pas se prévaloir d'un manquement ne vaut pas renonciation à s'en prévaloir ultérieurement. Les présentes CGU, complétées par la page Tarifs et la Politique de confidentialité, expriment l'intégralité de l'accord entre vous et l'Éditeur au titre du Service.":
     "Failing to rely on a breach does not amount to waiving the right to rely on it later. These Terms, supplemented by the Pricing page and the Privacy Policy, express the entirety of the agreement between you and the Publisher in respect of the Service.",
 
-  "Ce document est rédigé mais n'est pas encore en vigueur : les coordonnées de l'éditeur et les modalités de paiement définitives doivent y être ajoutées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.":
-    "This document has been drafted but is not yet in force: the publisher's details and the final payment terms still have to be added. The applicable version will be published shortly and submitted to you for acceptance.",
+  "Ce document est rédigé mais n'est pas encore en vigueur : les modalités de paiement définitives doivent encore y être confirmées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.":
+    "This document has been drafted but is not yet in force: the final payment terms still have to be confirmed in it. The applicable version will be published shortly and submitted to you for acceptance.",
   "30 juillet 2026": "30 July 2026",
 
   // ── Privacy policy: the legal text (constants/privacy.js) ─────────────
   // Generated like the CGU block above — regenerate rather than retype.
   "1. Responsable du traitement": "1. Data controller",
-  "Le responsable du traitement des données collectées sur Passerelle est {nom}, personne physique domiciliée à {ville}, {pays}. Pour toute question relative à vos données, ou pour exercer vos droits, écrivez à {courriel}.":
-    "The controller of the data collected on Passerelle is {nom}, a private individual residing in {ville}, {pays}. For any question about your data, or to exercise your rights, write to {courriel}.",
+  "Le responsable du traitement des données collectées sur Passerelle est l'éditeur de la Plateforme, qui l'exploite à titre individuel. Pour toute question relative à vos données, pour exercer vos droits ou pour toute réclamation, écrivez à {courriel} : c'est le canal prévu pour l'ensemble de ces demandes, et il est relevé.":
+    "The controller of the data collected on Passerelle is the Platform's publisher, who operates it on an individual basis. For any question about your data, to exercise your rights, or to make a complaint, write to {courriel}: that is the channel provided for all such requests, and it is monitored.",
   "La présente politique explique quelles données nous collectons, pourquoi, avec qui elles sont partagées, combien de temps elles sont conservées et comment vous en gardez le contrôle. Elle complète les conditions générales d'utilisation.":
     "This policy explains what data we collect, why, who it is shared with, how long it is kept and how you keep control of it. It supplements the terms and conditions.",
 
@@ -825,9 +825,9 @@ export const EN = {
   "Pour toute question relative à la présente politique, écrivez-nous à {courriel}.":
     "For any question about this policy, write to us at {courriel}.",
 
-  "Ce document est rédigé mais n'est pas encore en vigueur : l'identité du responsable du traitement doit y être ajoutée. La version applicable sera publiée en même temps que les conditions générales.":
-    "This document has been drafted but is not yet in force: the identity of the data controller still has to be added. The applicable version will be published at the same time as the terms and conditions.",
-  // (PRIVACY_UPDATED is the same date string as TERMS_UPDATED, already keyed above.)
+  "Ce document est rédigé mais n'est pas encore en vigueur. La version applicable sera publiée en même temps que les conditions générales d'utilisation.":
+    "This document has been drafted but is not yet in force. The applicable version will be published at the same time as the terms and conditions.",
+  // (PRIVACY_UPDATED is the same date string as TERMS_UPDATED, keyed above.)
   "Politique de confidentialité": "Privacy Policy",
   "Quelles données nous collectons, pourquoi, avec qui elles sont partagées et comment les faire supprimer.":
     "What data we collect, why, who it is shared with, and how to have it deleted.",

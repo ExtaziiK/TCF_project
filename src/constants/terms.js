@@ -7,43 +7,37 @@
 // one.
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// BEFORE PUBLISHING (setting TERMS_DRAFT = false), two things must be true:
-//
-//   1. OPERATOR below is filled in. Every {token} in the text is substituted
-//      from it; while a value is empty the page shows a visible [à compléter]
-//      marker instead. A paid service whose terms identify nobody is worth
-//      little in a dispute and breaches EU e-commerce disclosure rules.
-//
-//   2. Stripe actually sells one-time passes. Section 6 states there is NO
-//      automatic renewal, which is the intended model — but the live Stripe
-//      prices are recurring and api/create-checkout-session.js refuses any
-//      price that is not (`price.type !== "recurring"`), so today the passes
-//      DO renew. Publishing this clause before that change would put a false
-//      statement in the contract, which is worse than having no contract.
+// BEFORE PUBLISHING (setting TERMS_DRAFT = false), one thing must be true:
+// Stripe actually sells one-time passes. Section 6 states there is NO automatic
+// renewal, which is the intended model — but the live Stripe prices are
+// recurring and api/create-checkout-session.js refuses any price that is not
+// (`price.type !== "recurring"`), so today the passes DO renew. Publishing that
+// clause before the change would put a false statement in the contract, which
+// is worse than having no contract.
 //
 // Then: bump TERMS_VERSION, set TERMS_DRAFT = false. TERMS_REACCEPTANCE turns
 // itself on and every existing account is asked to accept the new text.
+//
+// A deliberate choice, made by the site owner: the document names no person and
+// no country. The email below is the only identification and the only point of
+// contact. The consequences are real and accepted — section 16 makes no choice
+// of law, so a consumer can generally rely on their own country's courts and
+// rules, and some jurisdictions expect an online seller to be identifiable.
+// Filling an identity back in later means editing section 1, section 16 and
+// section 1 of the privacy policy.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Who the user is contracting with. Name, city and country identify a real
-// person; the email is where legal notices and rights requests arrive.
+// The Service's single point of contact: legal notices, rights requests and
+// support all arrive here.
 export const OPERATOR = {
-  name: "", // ex. "Prénom Nom"
-  city: "", // ex. "Alger"
-  country: "", // ex. "Algérie"
   email: "contact@tcfpasserelle.com",
 };
 
-// Substitutes the {tokens} in the text below. Applied by TermsBody AFTER
-// translation, so a paragraph keeps a single stable i18n key whatever the
-// operator's details are. Missing values stay visible rather than rendering an
-// empty gap — an unfinished document should look unfinished.
+// Substitutes {courriel} in the text below. Applied by TermsBody AFTER
+// translation, so a paragraph keeps one stable i18n key even if the address
+// changes.
 export function fillOperator(text) {
-  return String(text)
-    .replace(/\{nom\}/g, OPERATOR.name || "[à compléter]")
-    .replace(/\{ville\}/g, OPERATOR.city || "[à compléter]")
-    .replace(/\{pays\}/g, OPERATOR.country || "[à compléter]")
-    .replace(/\{courriel\}/g, OPERATOR.email);
+  return String(text).replace(/\{courriel\}/g, OPERATOR.email);
 }
 
 // Bumped whenever the wording changes: every acceptance is recorded against
@@ -65,14 +59,14 @@ export const TERMS_DRAFT = true;
 export const TERMS_REACCEPTANCE = !TERMS_DRAFT;
 
 export const TERMS_DRAFT_NOTICE =
-  "Ce document est rédigé mais n'est pas encore en vigueur : les coordonnées de l'éditeur et les modalités de paiement définitives doivent y être ajoutées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.";
+  "Ce document est rédigé mais n'est pas encore en vigueur : les modalités de paiement définitives doivent encore y être confirmées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.";
 
 // Each section: a heading and one or more paragraphs.
 export const TERMS_SECTIONS = [
   {
     t: "1. Qui édite Passerelle",
     p: [
-      "Passerelle (« la Plateforme », « le Service ») est un service en ligne de préparation au TCF Canada édité par {nom}, personne physique domiciliée à {ville}, {pays} (« l'Éditeur », « nous »). Toute question ou notification relative aux présentes conditions peut être adressée à {courriel}.",
+      "Passerelle (« la Plateforme », « le Service ») est un service en ligne de préparation au TCF Canada, édité et exploité à titre individuel (« l'Éditeur », « nous »). Toute question, réclamation ou notification relative aux présentes conditions peut être adressée à {courriel}, qui est le point de contact du Service.",
       "Passerelle est un projet personnel et indépendant, né de l'envie d'aider les candidats à s'entraîner sérieusement avant le jour de l'examen. Ce n'est ni une école, ni un centre d'examen, ni un organisme officiel : c'est un outil d'entraînement, conçu et maintenu par une personne, que vous utilisez librement.",
       "Passerelle n'est ni affiliée, ni mandatée, ni agréée, ni approuvée par France Éducation international, par Immigration, Réfugiés et Citoyenneté Canada (IRCC), par la Chambre de commerce et d'industrie de Paris, ni par aucun centre d'examen agréé ou organisme organisateur d'un test de français. Les marques « TCF », « TCF Canada » et les autres noms d'examens cités appartiennent à leurs titulaires respectifs et ne sont mentionnés qu'à titre descriptif, pour indiquer à quoi la Plateforme prépare.",
       "La Plateforme ne fait pas passer l'examen officiel, ne délivre aucune attestation reconnue, n'inscrit personne à une session et ne transmet aucun résultat aux autorités ou aux centres d'examen. Les scores, niveaux et corrections affichés sont des estimations pédagogiques produites par nos soins.",
@@ -196,8 +190,8 @@ export const TERMS_SECTIONS = [
   {
     t: "16. Droit applicable et règlement des litiges",
     p: [
-      "Les présentes CGU sont régies par le droit de {pays}, sans préjudice des dispositions impératives plus protectrices applicables dans votre pays de résidence habituelle.",
-      "En cas de difficulté, adressez-vous d'abord à nous à {courriel} : la plupart des situations se règlent ainsi. À défaut d'accord amiable, le litige relève des tribunaux compétents de {pays}, étant précisé que, si vous agissez en qualité de consommateur, vous conservez la faculté de saisir la juridiction de votre lieu de résidence lorsque la loi vous le permet.",
+      "Les présentes CGU ne comportent pas de choix de loi : la loi applicable est déterminée par les règles de droit international privé pertinentes. Si vous agissez en qualité de consommateur, vous bénéficiez en tout état de cause des dispositions impératives de votre pays de résidence habituelle.",
+      "En cas de difficulté, adressez-vous d'abord à nous à {courriel} : la plupart des situations se règlent ainsi, et nous nous engageons à examiner toute réclamation de bonne foi. À défaut d'accord amiable, le litige est porté devant la juridiction compétente en application des règles rappelées ci-dessus ; si vous êtes consommateur, il s'agit en principe de celle de votre lieu de résidence.",
     ],
   },
   {

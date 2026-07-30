@@ -17,13 +17,13 @@ export const PRIVACY_DRAFT = TERMS_DRAFT;
 export const PRIVACY_UPDATED = "30 juillet 2026";
 
 export const PRIVACY_DRAFT_NOTICE =
-  "Ce document est rédigé mais n'est pas encore en vigueur : l'identité du responsable du traitement doit y être ajoutée. La version applicable sera publiée en même temps que les conditions générales.";
+  "Ce document est rédigé mais n'est pas encore en vigueur. La version applicable sera publiée en même temps que les conditions générales d'utilisation.";
 
 export const PRIVACY_SECTIONS = [
   {
     t: "1. Responsable du traitement",
     p: [
-      "Le responsable du traitement des données collectées sur Passerelle est {nom}, personne physique domiciliée à {ville}, {pays}. Pour toute question relative à vos données, ou pour exercer vos droits, écrivez à {courriel}.",
+      "Le responsable du traitement des données collectées sur Passerelle est l'éditeur de la Plateforme, qui l'exploite à titre individuel. Pour toute question relative à vos données, pour exercer vos droits ou pour toute réclamation, écrivez à {courriel} : c'est le canal prévu pour l'ensemble de ces demandes, et il est relevé.",
       "La présente politique explique quelles données nous collectons, pourquoi, avec qui elles sont partagées, combien de temps elles sont conservées et comment vous en gardez le contrôle. Elle complète les conditions générales d'utilisation.",
     ],
   },
