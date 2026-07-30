@@ -52,13 +52,19 @@ export const TERMS_UPDATED = "30 juillet 2026";
 // set it back to true only if a future rewrite is published as a draft again.
 export const TERMS_DRAFT = false;
 
-// Whether signed-in accounts are asked to accept again when TERMS_VERSION moves
-// past what they agreed to (TermsGate). Off while the text is a draft: making
-// people accept a document that announces it is provisional collects consent
-// worth little, and nags them twice. Publishing the real conditions — set
-// TERMS_DRAFT to false and bump TERMS_VERSION — is what starts the wave, and it
-// reaches the accounts that predate consent tracking as well.
-export const TERMS_REACCEPTANCE = !TERMS_DRAFT;
+// Whether signed-in accounts are stopped and asked to accept again when
+// TERMS_VERSION moves past what they agreed to (TermsGate, a full-page block).
+//
+// OFF by choice: the requirement is only that the conditions are readable at
+// the moment someone signs up — the consent box opens them on click — not that
+// existing accounts are interrupted. Consent is therefore recorded for new
+// signups only; accounts created before it are not asked again.
+//
+// Deliberately a constant rather than `!TERMS_DRAFT`: derived from the draft
+// flag, the gate switched itself on the moment the documents went into force,
+// which is not something a publication step should do behind your back. Set it
+// to true only if you decide you want that wave.
+export const TERMS_REACCEPTANCE = false;
 
 export const TERMS_DRAFT_NOTICE =
   "Ce document est rédigé mais n'est pas encore en vigueur : les modalités de paiement définitives doivent encore y être confirmées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.";
