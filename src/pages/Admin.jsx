@@ -8,9 +8,9 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats } from "@/services/settingsService";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats, getStudentCount } from "@/services/settingsService";
 import { STAT_SOURCES, STAT_SOURCE_LABELS } from "@/constants/home";
-import { SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
+import { AUTO_SOURCES, SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
@@ -318,17 +318,31 @@ function AnnouncementBarTab() {
 
 // Editor for the "Statistique" band on the public landing page
 // (site_settings.home_stats). Values are never invented here: a row either
-// counts the shipped content live, or holds a figure pulled from the live
-// database with "Actualiser depuis le site", or is typed by hand.
+// counts the shipped content live, or reads the student count from the database
+// on every page load, or holds a figure pulled from the live database with
+// "Actualiser depuis le site", or is typed by hand.
 function HomeStatsTab() {
   const { c, notify } = useApp();
   const [cfg, setCfg] = useState(null);
   const [busy, setBusy] = useState(false);
   const [live, setLive] = useState(null); // /api/admin/stats payload, once fetched
   const [pulling, setPulling] = useState(false);
+  // Live student count: undefined until fetched, null if the RPC is missing.
+  const [students, setStudents] = useState(undefined);
   const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   useEffect(() => { getHomeStats().then(setCfg); }, []);
+
+  // Read once, the moment a row first asks for it — the same call the public
+  // landing page makes, so the preview shows exactly what a visitor will see.
+  const needsStudents = !!cfg?.items.some((it) => it.src === "students");
+  useEffect(() => {
+    if (!needsStudents) return undefined;
+    let cancelled = false;
+    getStudentCount().then((n) => { if (!cancelled) setStudents(n); });
+    return () => { cancelled = true; };
+  }, [needsStudents]);
+  const liveStudents = typeof students === "number" ? { students } : null;
 
   const setItem = (i, k, v) => setCfg((p) => ({ ...p, items: p.items.map((x, j) => (j === i ? { ...x, [k]: v } : x)) }));
   const add = () => setCfg((p) => ({ ...p, items: [...p.items, { src: "manual", n: "", l: "" }] }));
@@ -358,8 +372,14 @@ function HomeStatsTab() {
 
   const save = async () => {
     setBusy(true);
-    const r = await setHomeStats(cfg);
+    // The live student count is also stored as the row's value, so the public
+    // page has a last-known figure to show if the read ever fails.
+    const payload = typeof students === "number"
+      ? { ...cfg, items: cfg.items.map((it) => (it.src === "students" ? { ...it, n: String(students) } : it)) }
+      : cfg;
+    const r = await setHomeStats(payload);
     setBusy(false);
+    if (r.ok) setCfg(payload);
     notify(r.ok ? "Statistique enregistrée." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
   };
 
@@ -378,20 +398,21 @@ function HomeStatsTab() {
         </div>
         <p className={`text-sm mb-5 ${c.sub}`}>
           La bande de statistiques sur la page d'accueil publique. Désactivez-la pour la faire disparaître entièrement.
-          Les sources « Auto » se comptent toutes seules à partir du contenu du site ; les sources « Site » se remplissent avec
-          « Actualiser depuis le site » et restent figées jusqu'à la prochaine actualisation.
+          Les sources « Auto » se mettent à jour toutes seules — le contenu du site est compté à chaque visite, et
+          « Auto · étudiants inscrits » lit le nombre de comptes réels (comptes admin exclus). Les sources « Site » se
+          remplissent avec « Actualiser depuis le site » et restent figées jusqu'à la prochaine actualisation.
         </p>
 
         <div className="space-y-2">
           {cfg.items.map((it, i) => {
-            const auto = ["questions", "series", "exercises"].includes(it.src);
+            const auto = AUTO_SOURCES.includes(it.src);
             return (
               <div key={i} className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                 <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
                 <select value={it.src} onChange={(e) => setItem(i, "src", e.target.value)} aria-label={`Source du chiffre ${i + 1}`} className={`${inp} sm:w-64 shrink-0`}>
                   {STAT_SOURCES.map((s) => <option key={s} value={s}>{STAT_SOURCE_LABELS[s]}</option>)}
                 </select>
-                <input value={auto ? resolveStatValue(it) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
+                <input value={auto ? resolveStatValue(it, liveStudents) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
                   placeholder="Valeur" aria-label={`Valeur du chiffre ${i + 1}`} className={`${inp} sm:w-28 shrink-0 disabled:opacity-60`} />
                 <input value={it.l} onChange={(e) => setItem(i, "l", e.target.value)} maxLength={60} placeholder="Libellé (ex. étudiants inscrits)"
                   aria-label={`Libellé du chiffre ${i + 1}`} className={`flex-1 min-w-[12rem] ${inp}`} />
@@ -421,6 +442,14 @@ function HomeStatsTab() {
             Données réelles lues à l'instant — {live.users.total} inscrits · {live.activity.quizzesTotal} quiz complétés · {live.activity.examsCompleted} TCF blancs terminés.
           </p>
         )}
+
+        {needsStudents && students === null && (
+          <p className="mt-3 text-xs text-amber-500">
+            « Auto · étudiants inscrits » n'a pas pu être lu : appliquez la migration
+            <code className="mx-1">supabase/migrations/20260729_student_count.sql</code>
+            dans Supabase. En attendant, la dernière valeur enregistrée s'affiche.
+          </p>
+        )}
       </Card>
 
       <Card className="p-6">
@@ -429,7 +458,7 @@ function HomeStatsTab() {
           <div className={`rounded-2xl border ${c.border} ${c.tint} px-4 py-8 grid grid-cols-2 gap-6 ${preview.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {preview.map((it, i) => (
               <div key={i} className="text-center">
-                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it)}</p>
+                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it, liveStudents)}</p>
                 <p className={`mt-1.5 text-sm ${c.sub}`}>{it.l}</p>
               </div>
             ))}

@@ -10,8 +10,10 @@
 -- save replaces it with { enabled, items: [{ src, n, l }] }.
 --
 -- `src` values: questions | series | exercises (counted live in the browser),
--- users | quizzes | exams (snapshots published from the live database via
--- Admin › Accueil › Statistique › « Actualiser depuis le site »), manual.
+-- students (read live via registered_students_count(), see
+-- 20260729_student_count.sql), users | quizzes | exams (snapshots published
+-- from the live database via Admin › Accueil › Statistique ›
+-- « Actualiser depuis le site »), manual.
 
 insert into public.site_settings (key, value) values ('home_stats', '')
   on conflict (key) do nothing;

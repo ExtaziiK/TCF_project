@@ -126,6 +126,20 @@ export async function setHomeStats(cfg) {
   return { ok: !error, error: error?.message };
 }
 
+/* ── Live student count (home stats "Auto · étudiants inscrits") ─────────── */
+
+// Number of registered learners, staff accounts excluded. Goes through the
+// registered_students_count() RPC (supabase/migrations/20260729_student_count.sql)
+// because the anon key can read neither auth.users nor other people's profiles
+// rows; the function returns the aggregate only. Returns null when the
+// migration isn't applied or the call fails, so callers fall back to the last
+// saved figure rather than publishing a 0.
+export async function getStudentCount() {
+  const { data, error } = await supabase.rpc("registered_students_count");
+  const n = Number(data);
+  return error || !Number.isFinite(n) ? null : n;
+}
+
 /* ── DZD (Algeria) manual-payment config ────────────────────────────────────
  * Bank-transfer account details + per-plan DZD prices, edited by the owner in
  * the admin "Tarifs" tab and read publicly by the DZD checkout page. Prices are

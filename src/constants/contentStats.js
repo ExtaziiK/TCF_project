@@ -38,12 +38,21 @@ export const SNAPSHOT_SOURCES = {
   exams: (s) => s.activity?.examsCompleted,
 };
 
+// Sources that need no admin upkeep: their number is fetched or computed on
+// every page load, so the editor shows them read-only.
+export const AUTO_SOURCES = ["questions", "series", "exercises", "students"];
+
 // Turns a stored stat item into the string shown on the page. Auto sources are
 // recomputed on every render; everything else falls back to the stored value.
-export function resolveStatValue(item) {
+// `live` carries the figures that must be fetched rather than computed
+// ({ students }); `students` degrades to the last value saved with the config,
+// so a failed fetch (or a database still missing the migration) shows the last
+// known count instead of dropping the band to 0.
+export function resolveStatValue(item, live) {
   if (item.src === "manual") return item.n;
   if (item.src === "questions") return formatCount(countBank().questions);
   if (item.src === "series") return formatCount(countBank().series);
   if (item.src === "exercises") return formatCount(EXERCISE_COUNT);
+  if (item.src === "students") return formatCount(live?.students ?? item.n);
   return formatCount(item.n); // users / quizzes / exams snapshot
 }

@@ -69,8 +69,9 @@ function Landing() {
       </section>
 
       {/* STATS — admin-toggleable (Admin › Accueil › Statistique). Numbers are
-          real: content counts are computed from the shipped bank, site counts
-          are the last figures an admin published from the live database. */}
+          real: content counts are computed from the shipped bank, the student
+          count is read from the database on load, site counts are the last
+          figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (
         <section className={`border-y ${c.border} ${c.tint}`}>
           <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
