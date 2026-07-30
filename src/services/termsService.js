@@ -37,6 +37,11 @@ export async function hasAcceptedCurrentTerms(userId) {
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId) // admins can read every row — scope the check to this account
     .eq("version", TERMS_VERSION);
-  if (error) return null;
-  return (count || 0) > 0;
+  // A HEAD request has no response body, so a failed one — the table missing
+  // before the migration is applied, most of all — comes back as
+  // `error: null, count: null` instead of a real error. Treating that absent
+  // count as "zero rows, so they have not accepted" is what locked every
+  // signed-in user behind the gate. Only a number is an answer.
+  if (error || typeof count !== "number") return null;
+  return count > 0;
 }

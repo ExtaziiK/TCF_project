@@ -26,8 +26,12 @@ export function TermsGate({ onAccepted }) {
     setBusy(true);
     try {
       const r = await recordTermsAcceptance("reacceptance");
-      if (!r.ok) return setError(t("Enregistrement refusé. Réessayez."));
-      notify(t("Merci — votre acceptation a bien été enregistrée."));
+      // If consent cannot be stored at all (migration not applied), let the user
+      // through anyway. A gate that refuses the only action it offers is a
+      // locked door, and the acceptance is asked again on the next visit once
+      // there is somewhere to record it.
+      if (!r.ok && !r.unavailable) return setError(t("Enregistrement refusé. Réessayez."));
+      if (r.ok) notify(t("Merci — votre acceptation a bien été enregistrée."));
       onAccepted();
     } finally {
       setBusy(false);
