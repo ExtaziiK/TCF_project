@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { PASSES, passExpiryISO } from "./_lib/passes.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -28,21 +29,14 @@ function periodEndISO(subscription) {
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
-// The plan name shown to the user, derived from the subscription's recurring
-// price. First the known Pricing-page tiers (keep in sync with the priceIds in
-// src/constants/pricing.js); otherwise the price's own nickname or its product
-// name, so any plan still surfaces something real rather than a generic label.
-const PRICE_LABELS = {
-  price_1TuaWRCFsAOkGQj0WeMgaejo: "Passeport",
-  price_1TuaZYCFsAOkGQj0OCxA6IWA: "Visa",
-  price_1TuabOCFsAOkGQj0M6cOUnxr: "Première classe",
-  price_1TuadPCFsAOkGQj0QXGKdRGS: "VIP",
-};
-
+// The plan name shown to the user, for the LEGACY recurring subscriptions that
+// were sold before the switch to one-time passes. Falls back to the price's own
+// nickname or its product name, so any plan still surfaces something real
+// rather than a generic label. New purchases take their label from PASSES.
 async function planLabelFor(subscription) {
   const price = subscription.items?.data?.[0]?.price;
   if (!price) return null;
-  if (PRICE_LABELS[price.id]) return PRICE_LABELS[price.id];
+  if (PASSES[price.id]) return PASSES[price.id].label;
   if (price.nickname) return price.nickname;
   let product = price.product;
   if (typeof product === "string") {
@@ -79,16 +73,40 @@ export default async function handler(req, res) {
       case "checkout.session.completed": {
         const session = event.data.object;
         const userId = session.client_reference_id || session.metadata?.supabase_user_id;
-        if (userId && session.subscription) {
-          const subscription = await stripe.subscriptions.retrieve(session.subscription);
+        if (!userId) break;
+
+        // A pass (mode: payment) creates no subscription, so there is no billing
+        // period to read: the access window comes from our own PASSES table,
+        // counted from now. Only paid sessions grant anything — an unpaid one
+        // can complete for asynchronous methods.
+        if (!session.subscription) {
+          if (session.payment_status !== "paid") break;
+          const priceId = session.metadata?.price_id
+            || (await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 })).data[0]?.price?.id;
+          const pass = priceId ? PASSES[priceId] : null;
+          if (!pass) { console.error("checkout.session.completed: unknown price", priceId); break; }
           await setPremiumStatus(userId, {
             plan: "Premium",
-            plan_label: await planLabelFor(subscription),
-            premium_until: periodEndISO(subscription),
+            plan_label: pass.label,
+            premium_until: passExpiryISO(priceId),
             stripe_customer_id: session.customer,
-            stripe_subscription_id: session.subscription,
+            // Deliberately cleared: a pass has no subscription to manage, and a
+            // stale id from an earlier subscription would otherwise keep
+            // offering the billing portal for something that no longer exists.
+            stripe_subscription_id: null,
           });
+          break;
         }
+
+        // Legacy: sessions created while the site still sold recurring plans.
+        const subscription = await stripe.subscriptions.retrieve(session.subscription);
+        await setPremiumStatus(userId, {
+          plan: "Premium",
+          plan_label: await planLabelFor(subscription),
+          premium_until: periodEndISO(subscription),
+          stripe_customer_id: session.customer,
+          stripe_subscription_id: session.subscription,
+        });
         break;
       }
       case "customer.subscription.updated": {

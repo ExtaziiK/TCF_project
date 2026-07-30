@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
 import { setDzCheckoutPlan } from "@/utils/dzCheckout";
+import { WithdrawalWaiverDialog } from "@/components/pricing/WithdrawalWaiverDialog";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
 // for the top VIP tier. `grad` drives the price text, the "popular" badge and
@@ -63,6 +64,7 @@ function discounted(price, promo) {
 export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
+  const [askWaiver, setAskWaiver] = useState(false);
   // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
   const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
@@ -76,19 +78,31 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const struckPrice = promoPrice ? p.price : oldPrice;
   const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? "−50 %" : null);
 
-  const subscribe = async () => {
+  // Clicking "subscribe" no longer goes straight to payment: CGU section 7
+  // rests on the buyer expressly asking for immediate access and acknowledging
+  // the loss of the withdrawal right, which has to be collected before
+  // performance begins (WithdrawalWaiverDialog). The server enforces it too, so
+  // this gate is the user-facing half of the same rule, not the whole of it.
+  const subscribe = () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
+    setAskWaiver(true);
+  };
+
+  const proceed = async () => {
+    setAskWaiver(false);
     // Algerian dinar: hand off to the on-site manual-payment page instead of Stripe.
     if (isDzd) { setDzCheckoutPlan(p.name); return nav("checkout-dz"); }
     setBusy(true);
     try {
-      await startCheckout(p.priceId, promo?.code);
+      await startCheckout(p.priceId, promo?.code, { withdrawalWaiver: true });
     } catch (err) {
       notify(t(err?.message === "already-subscribed"
-        ? "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil."
+        ? "Votre accès Premium est encore actif. Vous pourrez acheter un nouveau pass à son échéance."
         : err?.message === "invalid-promo"
           ? "Ce code promo n'est plus valide. Retirez-le et réessayez."
-          : "Impossible de démarrer le paiement. Réessayez."));
+          : err?.message === "waiver-required"
+            ? "Confirmez la demande d'accès immédiat pour continuer."
+            : "Impossible de démarrer le paiement. Réessayez."), "error");
       setBusy(false);
     }
   };
@@ -157,6 +171,8 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           </div>
         </Card>
       </div>
+      <WithdrawalWaiverDialog open={askWaiver} planName={t(p.name)}
+        onClose={() => setAskWaiver(false)} onConfirm={proceed} />
     </div>
   );
 }

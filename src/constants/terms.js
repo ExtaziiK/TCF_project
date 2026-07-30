@@ -9,15 +9,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // IN FORCE since 30 July 2026 (version 1.0).
 //
-// ⚠ KNOWN DIVERGENCE, accepted by the site owner when publishing: section 6
-// states there is NO automatic renewal, which is the intended model — but the
-// live Stripe prices are recurring and api/create-checkout-session.js refuses
-// any price that is not (`price.type !== "recurring"`), so the passes DO renew
-// today. A customer who is rebilled therefore holds a contract saying they
-// should not have been. Closing the gap means either switching Stripe to
-// one-time prices (plus the checkout, webhook and billing-portal code), or
-// amending section 6 to describe the renewal honestly. Either way: bump
-// TERMS_VERSION so the change is recorded and re-accepted.
+// The section-6 divergence is CLOSED: the code was brought to the contract
+// rather than the other way round. Checkout now uses Stripe `payment` mode with
+// one-time prices only, and the access window comes from api/_lib/passes.js
+// (5 / 15 / 30 / 90 days) instead of a billing period, so nothing renews. The
+// wording did not change, so TERMS_VERSION stays at 1.0 — see the migration
+// note in 20260731 for the section-7 half of the same review.
+//
+// Legacy recurring subscriptions sold before the switch are still honoured by
+// the webhook until they lapse; they are the one population for whom section 6
+// was inaccurate, and they were billed under it.
 //
 // A deliberate choice, made by the site owner: the document names no person and
 // no country. The email below is the only identification and the only point of
