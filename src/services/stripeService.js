@@ -1,10 +1,16 @@
 import { supabase } from "@/services/supabaseClient";
+import { TERMS_VERSION } from "@/constants/terms";
 
 // Starts a Stripe Checkout session for the given price (optionally carrying a
 // validated promo code) and redirects the browser to Stripe's hosted payment
 // page. The session is created server-side (api/create-checkout-session)
 // since it needs the Stripe secret key.
-export async function startCheckout(priceId, promoCode) {
+// `withdrawalWaiver` must be the buyer's own acknowledgement, collected before
+// this is called (WithdrawalWaiverDialog). The server refuses the session
+// without it and records it — see api/create-checkout-session.js and CGU s.7 —
+// so passing it from anywhere that did not actually ask the user defeats the
+// point of having it.
+export async function startCheckout(priceId, promoCode, { withdrawalWaiver = false } = {}) {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error("not-authenticated");
@@ -12,7 +18,7 @@ export async function startCheckout(priceId, promoCode) {
   const res = await fetch("/api/create-checkout-session", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ priceId, promoCode: promoCode || null }),
+    body: JSON.stringify({ priceId, promoCode: promoCode || null, withdrawalWaiver, termsVersion: TERMS_VERSION }),
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "checkout-failed");
