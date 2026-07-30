@@ -43,11 +43,29 @@ for (const file of FILES) {
 /* ── 2 & 3. sitemap paths vs the routes seo.js actually serves ────────────── */
 const seo = read("src/constants/seo.js");
 
-// Each ROUTE_META entry: capture its path and whether it is noindex. Entries are
-// objects opening with `path:` and ending at the next top-level `},`.
+// Each ROUTE_META entry, captured by scanning brace depth from its opening line.
+// A regex ending the entry at the next `^  },` silently mis-parses the file:
+// one-line entries (`profile: { path: "/profil", ... },`) have no such closing
+// line, so the previous multi-line entry swallows them AND the next real entry
+// with them — which is how /conditions-generales came to "match no route".
+const entries = [];
+const seoLines = seo.split(/\r?\n/);
+for (let i = 0; i < seoLines.length; i++) {
+  const open = seoLines[i].match(/^ {2}"?([\w/-]+)"?:\s*\{/);
+  if (!open) continue;
+  let depth = 0;
+  let body = "";
+  for (let j = i; j < seoLines.length; j++) {
+    const line = seoLines[j];
+    depth += (line.match(/\{/g) || []).length - (line.match(/\}/g) || []).length;
+    body += `${line}\n`;
+    if (depth <= 0) { i = j; break; }
+  }
+  entries.push({ route: open[1], body });
+}
+
 const routes = [];
-for (const m of seo.matchAll(/^ {2}"?([\w/-]+)"?:\s*\{([\s\S]*?)^ {2}\},?$/gm)) {
-  const [, route, body] = m;
+for (const { route, body } of entries) {
   const pathMatch = body.match(/path:\s*"([^"]*)"/);
   if (!pathMatch) continue; // pathless (the 404) — never in a sitemap
   routes.push({ route, path: pathMatch[1], noindex: /noindex:\s*true/.test(body) });
@@ -64,9 +82,7 @@ const listed = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, u])
 // `noindex: TERMS_DRAFT` and friends are computed, not literal — treat any
 // non-literal noindex as "unknown" and skip it rather than guess wrong.
 const computedNoindex = new Set(
-  [...seo.matchAll(/^ {2}"?([\w/-]+)"?:\s*\{([\s\S]*?)^ {2}\},?$/gm)]
-    .filter(([, , body]) => /noindex:\s*(?!true|false)/.test(body))
-    .map(([, route]) => route),
+  entries.filter(({ body }) => /noindex:\s*(?!true|false)/.test(body)).map(({ route }) => route),
 );
 
 for (const r of routes) {

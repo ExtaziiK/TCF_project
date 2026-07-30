@@ -7,16 +7,17 @@
 // one.
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// BEFORE PUBLISHING (setting TERMS_DRAFT = false), one thing must be true:
-// Stripe actually sells one-time passes. Section 6 states there is NO automatic
-// renewal, which is the intended model — but the live Stripe prices are
-// recurring and api/create-checkout-session.js refuses any price that is not
-// (`price.type !== "recurring"`), so today the passes DO renew. Publishing that
-// clause before the change would put a false statement in the contract, which
-// is worse than having no contract.
+// IN FORCE since 30 July 2026 (version 1.0).
 //
-// Then: bump TERMS_VERSION, set TERMS_DRAFT = false. TERMS_REACCEPTANCE turns
-// itself on and every existing account is asked to accept the new text.
+// ⚠ KNOWN DIVERGENCE, accepted by the site owner when publishing: section 6
+// states there is NO automatic renewal, which is the intended model — but the
+// live Stripe prices are recurring and api/create-checkout-session.js refuses
+// any price that is not (`price.type !== "recurring"`), so the passes DO renew
+// today. A customer who is rebilled therefore holds a contract saying they
+// should not have been. Closing the gap means either switching Stripe to
+// one-time prices (plus the checkout, webhook and billing-portal code), or
+// amending section 6 to describe the renewal honestly. Either way: bump
+// TERMS_VERSION so the change is recorded and re-accepted.
 //
 // A deliberate choice, made by the site owner: the document names no person and
 // no country. The email below is the only identification and the only point of
@@ -43,12 +44,13 @@ export function fillOperator(text) {
 // Bumped whenever the wording changes: every acceptance is recorded against
 // this string (terms_acceptances, 20260730 migration), which is what lets you
 // tell later who agreed to which text. Keep each published version in git.
-export const TERMS_VERSION = "draft-3";
+export const TERMS_VERSION = "1.0";
 export const TERMS_UPDATED = "30 juillet 2026";
 
-// Flips the "still being written" notice on the page and in the dialog. Set to
-// false once the two conditions at the top of this file are met.
-export const TERMS_DRAFT = true;
+// Flips the "still being written" notice on the page and in the dialog, and
+// the noindex on both legal pages. False since the documents went into force;
+// set it back to true only if a future rewrite is published as a draft again.
+export const TERMS_DRAFT = false;
 
 // Whether signed-in accounts are asked to accept again when TERMS_VERSION moves
 // past what they agreed to (TermsGate). Off while the text is a draft: making
