@@ -1,6 +1,6 @@
 import { AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { TERMS_SECTIONS, TERMS_UPDATED, TERMS_DRAFT, TERMS_DRAFT_NOTICE } from "@/constants/terms";
+import { TERMS_SECTIONS, TERMS_UPDATED, TERMS_DRAFT, TERMS_DRAFT_NOTICE, fillOperator } from "@/constants/terms";
 
 // The conditions themselves, rendered identically on the standalone page and
 // inside the registration dialog — one component so the text a visitor accepts
@@ -21,8 +21,10 @@ export function TermsBody({ compact }) {
       {TERMS_SECTIONS.map((s) => (
         <section key={s.t}>
           <h2 className={`font-display font-bold ${compact ? "text-base" : "text-lg"} ${c.text}`}>{t(s.t)}</h2>
+          {/* Substitution runs AFTER translation so each paragraph keeps one
+              stable i18n key whatever the operator's details are. */}
           {s.p.map((para, i) => (
-            <p key={i} className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{t(para)}</p>
+            <p key={i} className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{fillOperator(t(para))}</p>
           ))}
         </section>
       ))}

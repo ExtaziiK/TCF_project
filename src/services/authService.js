@@ -1,5 +1,6 @@
 import { supabase } from "@/services/supabaseClient";
 import { TERMS_VERSION } from "@/constants/terms";
+import { recordTermsAcceptance } from "@/services/termsService";
 
 // ── Active device sessions (up to the plan's device limit) ──────────────────
 // Each login claims a fresh random id, stored locally and added to
@@ -178,12 +179,24 @@ export async function completeGoogleProfile({ username, country, acceptedTerms }
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
   const meta = user.user_metadata || {};
-  // Country and terms consent are both user_metadata: written together so the
-  // OAuth path records the same acceptance the email form does, in one call.
+  // The authoritative consent record is the terms_acceptances row below; this
+  // metadata copy is kept only so both signup paths look alike in the Supabase
+  // dashboard. The account itself can edit user_metadata, which is exactly why
+  // it is not what we rely on.
   const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
   if ((country && country !== meta.country) || acceptedTerms) {
     const { error } = await supabase.auth.updateUser({ data: { ...meta, ...(country ? { country } : {}), ...consent } });
     if (error) return { error };
+  }
+  // The email path gets its row from the signup trigger; this one has to write
+  // its own, because the account already existed when consent was given. A
+  // database without the 20260730 migration is not a reason to refuse the
+  // account — the metadata copy above is then all there is, exactly as before.
+  if (acceptedTerms) {
+    const rec = await recordTermsAcceptance("google_onboarding");
+    if (!rec.ok && !rec.unavailable) {
+      return { error: { message: "Impossible d'enregistrer votre acceptation des conditions. Réessayez." } };
+    }
   }
   if (username) {
     const clean = String(username).trim().toLowerCase();
@@ -288,10 +301,11 @@ export async function verifyRecoveryToken(tokenHash) {
   return { session: data?.session || null, error };
 }
 
-// `acceptedTerms` records the consent collected by the registration form (see
-// AuthPage): which version of the conditions was shown, and when. Stored on the
-// user so a later change to the text can be compared against what they actually
-// agreed to — bump TERMS_VERSION when the wording changes.
+// `acceptedTerms` carries the consent collected by the registration form (see
+// AuthPage). The version travels in the new user's metadata, where the
+// on_auth_user_created_terms trigger picks it up and writes the authoritative,
+// server-timestamped row in terms_acceptances (20260730) — bump TERMS_VERSION
+// when the wording changes and the next signups record the new one.
 export async function signUp({ name, username, email, password, country, acceptedTerms }) {
   const { data, error } = await supabase.auth.signUp({
     email,

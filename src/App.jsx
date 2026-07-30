@@ -6,12 +6,15 @@ import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Onboarding } from "@/components/auth/Onboarding";
+import { TermsGate } from "@/components/auth/TermsGate";
 import { Toast } from "@/components/common";
+import { useTermsGate } from "@/hooks/useTermsGate";
 import { ROLES } from "@/auth/rbac";
 import { PAGES } from "@/pages";
 
 function AppShell() {
   const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth } = useApp();
+  const terms = useTermsGate();
   // Returning from a Google redirect: hold a "signing in…" splash until the
   // session is resolved, so we never flash signed-in UI (e.g. the dashboard)
   // during the reject/claim network calls before a decision is made.
@@ -31,6 +34,17 @@ function AppShell() {
     return (
       <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
         <Onboarding />
+        <Toast />
+      </div>
+    );
+  }
+  // Published conditions newer than what this account accepted: the same kind of
+  // gate, so the app is only reachable once the new text has been accepted (or
+  // the user signs out). Never triggers while the check is unanswered.
+  if (terms.blocked && user) {
+    return (
+      <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
+        <TermsGate onAccepted={terms.clear} />
         <Toast />
       </div>
     );

@@ -567,8 +567,9 @@ export const EN = {
   "Les deux mots de passe ne correspondent pas.": "The two passwords do not match.",
 
   // ── Terms & conditions (constants/terms.js, pages/Terms.jsx) ─────────
-  // The section text itself is placeholder French pending the real legal
-  // wording; only the surrounding UI is translated for now.
+  // The legal text itself is translated below, after the UI strings. The
+  // French version is the contract and prevails; the English is a courtesy
+  // translation (the document says so in section 2).
   "Mentions légales": "Legal",
   "Conditions générales d'utilisation": "Terms and conditions",
   "conditions générales d'utilisation": "terms and conditions",
@@ -585,6 +586,261 @@ export const EN = {
   "Vous devez lire et accepter les conditions générales pour créer un compte.":
     "You must read and accept the terms and conditions to create an account.",
   // ("Conditions" — the footer label — is already translated further up.)
+
+  // ── CGU: the legal text (constants/terms.js TERMS_SECTIONS) ───────────
+  // Generated so every key matches its French source byte for byte; a typo
+  // here would silently fall back to French. Regenerate rather than retype
+  // if the French wording changes.
+  "1. Qui édite Passerelle": "1. Who publishes Passerelle",
+  "Passerelle (« la Plateforme », « le Service ») est un service en ligne de préparation au TCF Canada édité par {nom}, personne physique domiciliée à {ville}, {pays} (« l'Éditeur », « nous »). Toute question ou notification relative aux présentes conditions peut être adressée à {courriel}.":
+    "Passerelle (“the Platform”, “the Service”) is an online TCF Canada preparation service published by {nom}, a private individual residing in {ville}, {pays} (“the Publisher”, “we”). Any question or notice regarding these terms may be sent to {courriel}.",
+  "Passerelle est un projet personnel et indépendant, né de l'envie d'aider les candidats à s'entraîner sérieusement avant le jour de l'examen. Ce n'est ni une école, ni un centre d'examen, ni un organisme officiel : c'est un outil d'entraînement, conçu et maintenu par une personne, que vous utilisez librement.":
+    "Passerelle is a personal, independent project, born of the wish to help candidates train seriously before exam day. It is not a school, not a test centre and not an official body: it is a practice tool, designed and maintained by one person, which you are free to use.",
+  "Passerelle n'est ni affiliée, ni mandatée, ni agréée, ni approuvée par France Éducation international, par Immigration, Réfugiés et Citoyenneté Canada (IRCC), par la Chambre de commerce et d'industrie de Paris, ni par aucun centre d'examen agréé ou organisme organisateur d'un test de français. Les marques « TCF », « TCF Canada » et les autres noms d'examens cités appartiennent à leurs titulaires respectifs et ne sont mentionnés qu'à titre descriptif, pour indiquer à quoi la Plateforme prépare.":
+    "Passerelle is not affiliated with, mandated by, accredited by or approved by France Éducation international, Immigration, Refugees and Citizenship Canada (IRCC), the Paris Chamber of Commerce and Industry, or any accredited test centre or body running a French-language test. The “TCF” and “TCF Canada” trademarks and the other exam names mentioned belong to their respective owners and are referred to descriptively only, to indicate what the Platform prepares you for.",
+  "La Plateforme ne fait pas passer l'examen officiel, ne délivre aucune attestation reconnue, n'inscrit personne à une session et ne transmet aucun résultat aux autorités ou aux centres d'examen. Les scores, niveaux et corrections affichés sont des estimations pédagogiques produites par nos soins.":
+    "The Platform does not administer the official exam, issues no recognised certificate, registers nobody for a session and reports no result to any authority or test centre. The scores, levels and corrections shown are educational estimates produced by us.",
+
+  "2. Acceptation et évolution des conditions": "2. Acceptance and changes to these terms",
+  "La création d'un compte suppose la lecture et l'acceptation des présentes conditions générales d'utilisation (« CGU »). Cette acceptation est enregistrée : nous conservons la version acceptée, la date et l'heure, ainsi que l'adresse IP et le navigateur utilisés, à seule fin de prouver le consentement en cas de litige.":
+    "Creating an account requires reading and accepting these terms and conditions (“the Terms”). That acceptance is recorded: we keep the version accepted, the date and time, and the IP address and browser used, for the sole purpose of proving consent in the event of a dispute.",
+  "Les CGU peuvent évoluer, notamment pour suivre une modification du Service ou de la réglementation. En cas de modification substantielle, la nouvelle version vous est présentée à la connexion et votre acceptation est de nouveau demandée. Si vous refusez, vous pouvez cesser d'utiliser le Service et demander la fermeture de votre compte ; l'accès Premium éventuellement en cours n'est alors pas remboursé au prorata, sauf disposition impérative contraire.":
+    "The Terms may change, in particular to follow a change to the Service or to the law. Where a change is substantial, the new version is presented to you at sign-in and your acceptance is requested again. If you decline, you may stop using the Service and ask for your account to be closed; any Premium access then running is not refunded pro rata, unless mandatory law provides otherwise.",
+  "La version française des présentes CGU fait foi. Toute traduction, notamment anglaise, est fournie à titre de commodité et ne prévaut pas sur le texte français.":
+    "The French version of these Terms governs. Any translation, including the English one, is provided for convenience and does not prevail over the French text.",
+
+  "3. Conditions d'accès et âge minimum": "3. Eligibility and minimum age",
+  "La création d'un compte gratuit est réservée aux personnes âgées d'au moins 16 ans. L'achat d'un pass payant est réservé aux personnes âgées d'au moins 18 ans, ou aux mineurs disposant de l'autorisation préalable du titulaire de l'autorité parentale, qui assume alors la responsabilité du paiement.":
+    "Creating a free account is open to persons aged 16 or over. Purchasing a paid pass is reserved for persons aged 18 or over, or for minors with the prior authorisation of the holder of parental authority, who then takes responsibility for payment.",
+  "En créant un compte, vous déclarez remplir ces conditions. Nous pouvons suspendre un compte dont il apparaît qu'il a été ouvert en violation du présent article.":
+    "By creating an account you declare that you meet these conditions. We may suspend an account that appears to have been opened in breach of this article.",
+
+  "4. Compte, identifiants et appareils": "4. Account, credentials and devices",
+  "Vous vous engagez à fournir des informations exactes à l'inscription et à les tenir à jour. Vous êtes responsable de la confidentialité de votre mot de passe et de toute activité effectuée depuis votre compte. Prévenez-nous sans délai à {courriel} si vous suspectez un accès non autorisé.":
+    "You undertake to provide accurate information when registering and to keep it up to date. You are responsible for keeping your password confidential and for all activity carried out from your account. Tell us without delay at {courriel} if you suspect unauthorised access.",
+  "Un compte est strictement personnel et ne peut être partagé, prêté, revendu ni utilisé par plusieurs personnes. Le partage d'identifiants entraîne la suspension du compte sans remboursement.":
+    "An account is strictly personal and may not be shared, lent, resold or used by several people. Sharing credentials results in suspension of the account without refund.",
+  "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et les pass Passeport et Visa, deux pour Première classe, quatre pour VIP. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.":
+    "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Passeport and Visa passes, two for Première classe, four for VIP. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
+  "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.":
+    "You may sign in with an email address and password, or through a Google account. In the latter case, Google sends us only the information needed to create the account.",
+
+  "5. Contenu du Service": "5. What the Service includes",
+  "Le Service donne accès, selon le forfait, à des questions au format de l'examen (compréhension orale et écrite), à des sujets d'expression écrite et orale, à des corrections et explications, à des fiches de vocabulaire et de grammaire, à des TCF blancs chronométrés et à un suivi de progression.":
+    "Depending on the plan, the Service gives access to exam-format questions (listening and reading comprehension), written and spoken expression topics, corrections and explanations, vocabulary and grammar sheets, timed mock TCF exams, and progress tracking.",
+  "Un compte gratuit donne accès à une partie de ce contenu. Les pass payants ouvrent l'ensemble des modules Premium pour la durée indiquée à l'achat. Le détail des offres figure sur la page Tarifs, qui fait partie intégrante des présentes CGU.":
+    "A free account gives access to part of this content. Paid passes open all Premium modules for the period stated at purchase. Details of the offers appear on the Pricing page, which forms an integral part of these Terms.",
+  "Tous les exercices sont rédigés ou sélectionnés par nos soins pour reproduire le format, le minutage et le niveau de difficulté de l'épreuve. Ce ne sont ni des sujets officiels, ni des annales, ni des questions réelles de l'examen : aucun contenu de l'examen officiel n'est reproduit sur la Plateforme, qui n'y a pas accès.":
+    "All exercises are written or selected by us to reproduce the format, timing and difficulty of the exam. They are not official topics, past papers or real exam questions: no content from the official exam is reproduced on the Platform, which has no access to it.",
+  "Le contenu est enrichi et corrigé régulièrement. Nous pouvons ajouter, modifier ou retirer des exercices sans préavis, sous réserve de ne pas vider de sa substance le forfait que vous avez acheté pendant sa durée de validité.":
+    "Content is enriched and corrected regularly. We may add, change or remove exercises without notice, provided this does not deprive the plan you purchased of its substance during its period of validity.",
+
+  "6. Prix, paiement et durée d'accès": "6. Prices, payment and length of access",
+  "Les prix sont affichés en dollars américains (USD) sur la page Tarifs. Le montant effectivement dû est celui présenté sur la page de paiement avant confirmation. Les éventuels frais bancaires, frais de conversion ou taxes locales appliqués par votre banque restent à votre charge.":
+    "Prices are shown in US dollars (USD) on the Pricing page. The amount actually due is the one presented on the payment page before confirmation. Any bank charges, conversion fees or local taxes applied by your bank remain your responsibility.",
+  "Chaque pass est un achat unique qui ouvre l'accès Premium pour la durée annoncée (5, 15, 30 ou 90 jours selon le forfait). Il n'y a pas de reconduction tacite : à l'échéance, l'accès Premium prend fin automatiquement et aucun nouveau prélèvement n'est effectué. Vous restez libre d'acheter un nouveau pass.":
+    "Each pass is a one-off purchase opening Premium access for the period announced (5, 15, 30 or 90 days depending on the plan). There is no automatic renewal: at expiry, Premium access ends automatically and no further payment is taken. You remain free to buy a new pass.",
+  "Le paiement par carte bancaire est traité par Stripe. Nous ne recevons ni ne conservons vos données de carte. Pour l'Algérie, un paiement manuel par CCP ou BaridiMob est proposé : l'accès est activé après vérification du versement, ce qui peut prendre jusqu'à quelques jours ouvrables, et la durée du pass court à compter de cette activation.":
+    "Card payments are processed by Stripe. We neither receive nor store your card details. For Algeria, manual payment by CCP or BaridiMob is offered: access is activated after the transfer has been verified, which can take up to a few business days, and the pass runs from that activation.",
+  "Les codes promotionnels sont valables selon les conditions annoncées lors de leur diffusion, ne sont pas cumulables sauf mention contraire et ne peuvent donner lieu à aucune contrepartie en espèces.":
+    "Promotional codes are valid on the conditions announced when they are issued, cannot be combined unless stated otherwise, and give rise to no cash equivalent.",
+
+  "7. Droit de rétractation et remboursements": "7. Right of withdrawal and refunds",
+  "L'accès au contenu Premium est ouvert immédiatement après la confirmation du paiement. En achetant un pass, vous demandez expressément l'exécution immédiate du Service et reconnaissez perdre, de ce fait, le droit de rétractation prévu pour les contrats à distance portant sur un contenu numérique, dans la mesure permise par la loi applicable.":
+    "Access to Premium content opens immediately once payment is confirmed. By purchasing a pass, you expressly request immediate performance of the Service and acknowledge that you thereby lose the right of withdrawal provided for distance contracts covering digital content, to the extent permitted by applicable law.",
+  "En conséquence, un pass entamé n'est pas remboursable. Nous procédons néanmoins au remboursement en cas de double facturation, d'erreur de notre part, ou d'indisponibilité prolongée du Service qui nous serait imputable. Les demandes s'adressent à {courriel}.":
+    "Accordingly, a pass that has been started is not refundable. We do nonetheless refund duplicate charges, errors on our part, and prolonged unavailability of the Service attributable to us. Requests go to {courriel}.",
+  "L'ouverture d'une contestation bancaire (chargeback) sans avoir cherché au préalable une solution avec nous entraîne la suspension immédiate du compte, le temps que la situation soit examinée.":
+    "Opening a bank dispute (chargeback) without first seeking a solution with us results in immediate suspension of the account while the situation is examined.",
+  "Les dispositions impératives protégeant les consommateurs dans leur pays de résidence restent applicables et priment sur le présent article lorsqu'elles sont plus favorables.":
+    "Mandatory consumer-protection rules in your country of residence continue to apply and prevail over this article where they are more favourable.",
+
+  "8. Corrections automatiques et intelligence artificielle": "8. Automatic correction and artificial intelligence",
+  "Les épreuves d'expression écrite et orale peuvent être analysées automatiquement. Vos textes, et la transcription de vos enregistrements vocaux, sont transmis à des prestataires techniques d'intelligence artificielle pour produire une correction et une estimation de niveau. La voix de l'examinateur virtuel est générée par un service de synthèse vocale.":
+    "Written and spoken expression tasks may be analysed automatically. Your texts, and the transcription of your voice recordings, are sent to third-party artificial-intelligence providers to produce a correction and an estimated level. The virtual examiner's voice is generated by a speech-synthesis service.",
+  "Vos enregistrements audio ne sont pas conservés : ils sont transcrits puis supprimés. Seules des données techniques (taille du fichier, durée du traitement) sont journalisées pour le suivi des coûts et la prévention des abus.":
+    "Your audio recordings are not kept: they are transcribed and then deleted. Only technical data (file size, processing time) is logged, for cost monitoring and abuse prevention.",
+  "Les corrections, notes et niveaux produits automatiquement sont indicatifs et pédagogiques. Ils peuvent comporter des erreurs, ne constituent en aucun cas un résultat officiel et ne préjugent pas de la note que vous obtiendrez à l'examen réel.":
+    "Corrections, marks and levels produced automatically are indicative and educational. They may contain errors, are in no way an official result, and do not predict the mark you will obtain in the real exam.",
+  "Nous le répétons parce que c'est important : Passerelle n'a aucun lien avec les organismes qui conçoivent, administrent ou corrigent l'examen officiel. Notre barème est une estimation faite de notre côté, avec nos propres critères ; il n'a aucune valeur officielle et personne d'autre que nous n'en répond.":
+    "We say it again because it matters: Passerelle has no connection with the bodies that design, administer or mark the official exam. Our scale is an estimate made on our side, using our own criteria; it has no official value and nobody but us answers for it.",
+
+  "9. Absence de conseil en immigration": "9. No immigration advice",
+  "Les informations relatives au TCF Canada, à Entrée express, aux seuils de points ou aux démarches d'immigration sont fournies à titre informatif et pédagogique. Elles ne constituent ni un conseil juridique, ni un conseil en immigration, et peuvent ne plus être à jour.":
+    "Information about TCF Canada, Express Entry, points thresholds or immigration procedures is provided for information and teaching purposes. It is neither legal advice nor immigration advice, and may be out of date.",
+  "Seules les sources officielles, notamment IRCC et les centres d'examen agréés, font foi. Il vous appartient de les consulter et, le cas échéant, de vous adresser à un professionnel habilité.":
+    "Only official sources, in particular IRCC and accredited test centres, are authoritative. It is up to you to consult them and, where appropriate, to approach a qualified professional.",
+
+  "10. Propriété intellectuelle": "10. Intellectual property",
+  "L'ensemble des contenus de la Plateforme — questions, textes, enregistrements audio, corrections, explications, fiches, illustrations, marque, logo, code et interface — est protégé et demeure la propriété de l'Éditeur ou de ses partenaires.":
+    "All content on the Platform — questions, texts, audio recordings, corrections, explanations, sheets, illustrations, brand, logo, code and interface — is protected and remains the property of the Publisher or its partners.",
+  "L'achat d'un pass confère un droit d'usage personnel, non exclusif et non transférable, limité à votre préparation individuelle et à la durée du pass. Sont notamment interdits : la reproduction, la diffusion publique, la revente, le partage de comptes, la constitution de bases de données à partir du contenu, ainsi que toute extraction automatisée (robots, aspirateurs de site, scripts, captures massives).":
+    "Purchasing a pass grants a personal, non-exclusive and non-transferable right of use, limited to your individual preparation and to the duration of the pass. The following are prohibited in particular: reproduction, public distribution, resale, account sharing, building databases from the content, and any automated extraction (bots, site rippers, scripts, bulk capture).",
+  "Le contenu que vous produisez sur la Plateforme — réponses aux exercices, témoignages — vous appartient. En soumettant un témoignage, vous nous autorisez à le publier sur le site, tel que vous l'avez rédigé, avec le prénom et la ville que vous avez indiqués. Vous pouvez en demander le retrait à tout moment à {courriel}.":
+    "Content you produce on the Platform — answers to exercises, testimonials — belongs to you. By submitting a testimonial, you authorise us to publish it on the site, as you wrote it, with the first name and city you provided. You may ask for it to be removed at any time at {courriel}.",
+
+  "11. Usages interdits": "11. Prohibited uses",
+  "Il est interdit de tenter de contourner les limitations techniques du Service, notamment le nombre d'appareils, les restrictions d'accès au contenu Premium ou les quotas d'usage ; d'accéder au Service par un moyen automatisé ; d'analyser, décompiler ou reproduire tout ou partie du code ; de perturber le fonctionnement de la Plateforme ou d'en compromettre la sécurité.":
+    "You may not attempt to circumvent the Service's technical limits, in particular the number of devices, Premium access restrictions or usage quotas; access the Service by automated means; analyse, decompile or reproduce all or part of the code; or disrupt the Platform's operation or compromise its security.",
+  "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les témoignages, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.":
+    "You may not transmit, through the exercises, the contact form or testimonials, any unlawful, defamatory, hateful or infringing content, or a third party's personal data without their agreement.",
+  "Tout manquement peut entraîner, selon sa gravité, un avertissement, la suspension ou la fermeture définitive du compte, sans remboursement des sommes versées et sans préjudice de poursuites.":
+    "Any breach may result, depending on its seriousness, in a warning, suspension, or permanent closure of the account, without refund of sums paid and without prejudice to legal proceedings.",
+
+  "12. Disponibilité, maintenance et assistance": "12. Availability, maintenance and support",
+  "Nous mettons en œuvre les moyens raisonnables pour maintenir la Plateforme accessible, sans garantir une disponibilité ininterrompue. Le Service repose sur des prestataires tiers (hébergement, base de données, paiement, intelligence artificielle) dont les incidents peuvent l'affecter.":
+    "We use reasonable means to keep the Platform accessible, without guaranteeing uninterrupted availability. The Service relies on third-party providers (hosting, database, payment, artificial intelligence) whose incidents may affect it.",
+  "Des interruptions peuvent survenir pour maintenance, mise à jour ou raison de sécurité. Une interruption brève ou ponctuelle n'ouvre pas droit à indemnisation ou à prolongation ; une indisponibilité prolongée qui nous serait imputable peut donner lieu à une prolongation du pass ou à un remboursement, apprécié de bonne foi.":
+    "Interruptions may occur for maintenance, updates or security reasons. A brief or one-off interruption gives no right to compensation or extension; prolonged unavailability attributable to us may give rise to an extension of the pass or a refund, assessed in good faith.",
+  "L'assistance est assurée par courriel à {courriel}. Nous répondons dans un délai raisonnable, sans garantie de délai. Aucun autre canal d'assistance n'est proposé à ce jour.":
+    "Support is provided by email at {courriel}. We reply within a reasonable time, with no guaranteed turnaround. No other support channel is offered at this time.",
+
+  "13. Responsabilité": "13. Liability",
+  "Le Service est un outil d'entraînement proposé par une personne indépendante, sans aucun lien avec l'organisation de l'examen officiel. Nous ne garantissons ni la réussite à l'examen, ni l'obtention d'un niveau déterminé, ni aucune conséquence favorable sur une démarche d'immigration. Les résultats dépendent de votre travail personnel et de facteurs qui nous échappent.":
+    "The Service is a practice tool offered by an independent individual, with no connection to the organisation of the official exam. We do not guarantee success in the exam, the achievement of any particular level, or any favourable outcome in an immigration process. Results depend on your own work and on factors beyond our control.",
+  "Notre responsabilité ne peut être engagée pour les dommages indirects, notamment la perte de chance, l'échec à un examen, le rejet ou le retard d'une demande d'immigration, la perte de données ou le manque à gagner.":
+    "We cannot be held liable for indirect damage, in particular loss of opportunity, failure in an exam, refusal or delay of an immigration application, loss of data, or loss of profit.",
+  "En tout état de cause, et dans la limite de ce que permet la loi applicable, notre responsabilité totale au titre des présentes est plafonnée aux sommes que vous nous avez effectivement versées au cours des douze mois précédant le fait générateur.":
+    "In any event, and to the extent permitted by applicable law, our total liability under these Terms is capped at the sums you have actually paid us during the twelve months preceding the triggering event.",
+  "Aucune stipulation des présentes n'a pour effet d'exclure ou de limiter notre responsabilité en cas de dol, de faute lourde, d'atteinte aux personnes, ou dans les autres cas où la loi l'interdit.":
+    "Nothing in these Terms excludes or limits our liability for wilful misconduct, gross negligence, personal injury, or in any other case where the law prohibits it.",
+
+  "14. Données personnelles": "14. Personal data",
+  "Nous traitons des données personnelles pour faire fonctionner le Service : compte, progression, résultats, paiements, ainsi que la preuve d'acceptation des présentes CGU. Ces données ne sont ni vendues, ni louées, ni cédées à des fins publicitaires.":
+    "We process personal data to operate the Service: account, progress, results, payments, and proof of acceptance of these Terms. This data is neither sold, rented, nor transferred for advertising purposes.",
+  "Les finalités, les destinataires, les durées de conservation et les moyens d'exercer vos droits (accès, rectification, suppression, opposition) sont détaillés dans notre Politique de confidentialité, qui complète les présentes CGU. Toute demande relative à vos données peut être adressée à {courriel}.":
+    "The purposes, recipients, retention periods and the ways to exercise your rights (access, rectification, erasure, objection) are set out in our Privacy Policy, which supplements these Terms. Any request concerning your data may be sent to {courriel}.",
+
+  "15. Suspension, fermeture du compte et fin du Service": "15. Suspension, account closure and end of the Service",
+  "Vous pouvez cesser d'utiliser le Service à tout moment et demander la suppression de votre compte en écrivant à {courriel}. La suppression est traitée dans un délai de trente jours ; un pass en cours n'est alors pas remboursé.":
+    "You may stop using the Service at any time and ask for your account to be deleted by writing to {courriel}. Deletion is carried out within thirty days; a pass then running is not refunded.",
+  "Nous pouvons suspendre ou fermer un compte en cas de manquement aux présentes CGU, de fraude, d'impayé ou d'usage manifestement abusif du Service. Sauf urgence ou manquement grave, nous vous en informons au préalable et vous laissons la possibilité de vous expliquer.":
+    "We may suspend or close an account in the event of a breach of these Terms, fraud, non-payment, or manifestly abusive use of the Service. Except in an emergency or in the event of a serious breach, we inform you beforehand and give you the opportunity to explain.",
+  "Nous pouvons faire évoluer le Service ou cesser de l'exploiter. Dans ce dernier cas, les pass en cours sont remboursés au prorata de la durée restante.":
+    "We may change the Service or stop operating it. In the latter case, passes then running are refunded pro rata to the remaining period.",
+
+  "16. Droit applicable et règlement des litiges": "16. Governing law and disputes",
+  "Les présentes CGU sont régies par le droit de {pays}, sans préjudice des dispositions impératives plus protectrices applicables dans votre pays de résidence habituelle.":
+    "These Terms are governed by the law of {pays}, without prejudice to more protective mandatory provisions applicable in your country of habitual residence.",
+  "En cas de difficulté, adressez-vous d'abord à nous à {courriel} : la plupart des situations se règlent ainsi. À défaut d'accord amiable, le litige relève des tribunaux compétents de {pays}, étant précisé que, si vous agissez en qualité de consommateur, vous conservez la faculté de saisir la juridiction de votre lieu de résidence lorsque la loi vous le permet.":
+    "If there is a problem, contact us first at {courriel}: most situations are resolved that way. Failing an amicable agreement, the dispute falls to the competent courts of {pays}, it being specified that, if you are acting as a consumer, you retain the option of bringing proceedings before the court of your place of residence where the law allows you to do so.",
+
+  "17. Dispositions diverses": "17. Miscellaneous",
+  "Si une clause des présentes est jugée nulle ou inapplicable, les autres clauses demeurent en vigueur et la clause concernée est remplacée par une stipulation valide d'effet équivalent.":
+    "If any provision of these Terms is held void or unenforceable, the remaining provisions stay in force and the provision concerned is replaced by a valid stipulation of equivalent effect.",
+  "Le fait de ne pas se prévaloir d'un manquement ne vaut pas renonciation à s'en prévaloir ultérieurement. Les présentes CGU, complétées par la page Tarifs et la Politique de confidentialité, expriment l'intégralité de l'accord entre vous et l'Éditeur au titre du Service.":
+    "Failing to rely on a breach does not amount to waiving the right to rely on it later. These Terms, supplemented by the Pricing page and the Privacy Policy, express the entirety of the agreement between you and the Publisher in respect of the Service.",
+
+  "Ce document est rédigé mais n'est pas encore en vigueur : les coordonnées de l'éditeur et les modalités de paiement définitives doivent y être ajoutées. La version applicable sera publiée prochainement et vous sera soumise pour acceptation.":
+    "This document has been drafted but is not yet in force: the publisher's details and the final payment terms still have to be added. The applicable version will be published shortly and submitted to you for acceptance.",
+  "30 juillet 2026": "30 July 2026",
+
+  // ── Privacy policy: the legal text (constants/privacy.js) ─────────────
+  // Generated like the CGU block above — regenerate rather than retype.
+  "1. Responsable du traitement": "1. Data controller",
+  "Le responsable du traitement des données collectées sur Passerelle est {nom}, personne physique domiciliée à {ville}, {pays}. Pour toute question relative à vos données, ou pour exercer vos droits, écrivez à {courriel}.":
+    "The controller of the data collected on Passerelle is {nom}, a private individual residing in {ville}, {pays}. For any question about your data, or to exercise your rights, write to {courriel}.",
+  "La présente politique explique quelles données nous collectons, pourquoi, avec qui elles sont partagées, combien de temps elles sont conservées et comment vous en gardez le contrôle. Elle complète les conditions générales d'utilisation.":
+    "This policy explains what data we collect, why, who it is shared with, how long it is kept and how you keep control of it. It supplements the terms and conditions.",
+
+  "2. Données que nous collectons": "2. Data we collect",
+  "Compte : le prénom ou le nom que vous saisissez, votre nom d'utilisateur, votre adresse de courriel, votre pays et votre mot de passe, ce dernier étant conservé sous forme chiffrée et jamais lisible par nous. Si vous vous connectez avec Google, nous recevons de Google votre adresse de courriel, votre nom et un identifiant technique — jamais votre mot de passe Google.":
+    "Account: the first name or name you enter, your username, your email address, your country and your password, the last of which is stored encrypted and is never readable by us. If you sign in with Google, Google sends us your email address, your name and a technical identifier — never your Google password.",
+  "Utilisation du Service : vos résultats de quiz, vos réponses, vos tentatives de TCF blancs, les questions mises en signet et les niveaux estimés qui en découlent. Ces données servent à afficher votre progression.":
+    "Use of the Service: your quiz results, your answers, your mock-exam attempts, bookmarked questions and the estimated levels derived from them. This data is used to show your progress.",
+  "Expression écrite et orale : les textes que vous rédigez et les enregistrements que vous soumettez pour correction. Les enregistrements audio ne sont pas conservés — ils sont transmis pour transcription puis supprimés. Nous journalisons uniquement des données techniques sans contenu (taille du fichier, durée du traitement, volume de texte analysé), pour suivre les coûts et prévenir les abus.":
+    "Written and spoken expression: the texts you write and the recordings you submit for correction. Audio recordings are not kept — they are sent for transcription and then deleted. We log only technical data with no content (file size, processing time, volume of text analysed), to monitor costs and prevent abuse.",
+  "Paiement : nous conservons un identifiant client du prestataire de paiement, le forfait acheté et sa date d'échéance. Nous ne recevons ni ne conservons vos numéros de carte bancaire. Pour un paiement manuel par CCP ou BaridiMob, nous conservons la demande et les éléments que vous nous transmettez pour vérifier le versement.":
+    "Payment: we keep a customer identifier from the payment provider, the plan purchased and its expiry date. We neither receive nor store your card numbers. For a manual payment by CCP or BaridiMob, we keep the request and the material you send us to verify the transfer.",
+  "Preuve d'acceptation des conditions générales : la version acceptée, la date et l'heure, votre adresse IP et votre navigateur. Cette donnée existe pour prouver votre consentement en cas de litige, et pour rien d'autre.":
+    "Proof of acceptance of the terms and conditions: the version accepted, the date and time, your IP address and your browser. This data exists to prove your consent in the event of a dispute, and for nothing else.",
+  "Sécurité et sessions : les identifiants techniques de vos appareils connectés, la date de votre dernière activité, ainsi que des compteurs anti-abus indexés sur l'adresse IP pour limiter les tentatives de connexion et l'usage automatisé.":
+    "Security and sessions: the technical identifiers of your signed-in devices, the date of your last activity, and anti-abuse counters indexed on the IP address to limit sign-in attempts and automated use.",
+  "Échanges et contributions : les messages envoyés via le formulaire de contact (nom, courriel, sujet, message) et, si vous en soumettez un, votre témoignage avec le prénom et la ville que vous indiquez.":
+    "Correspondence and contributions: messages sent through the contact form (name, email, subject, message) and, if you submit one, your testimonial with the first name and city you provide.",
+
+  "3. Pourquoi nous traitons ces données": "3. Why we process this data",
+  "Exécuter le contrat qui nous lie : créer et maintenir votre compte, donner accès au contenu, enregistrer votre progression, corriger vos productions, traiter votre paiement et vous fournir l'assistance demandée.":
+    "To perform our contract with you: creating and maintaining your account, giving access to the content, recording your progress, correcting your work, processing your payment and providing the support you ask for.",
+  "Respecter nos obligations légales : conservation des pièces comptables liées aux paiements, réponse aux demandes d'exercice de droits.":
+    "To meet our legal obligations: keeping accounting records relating to payments, and responding to requests to exercise rights.",
+  "Poursuivre nos intérêts légitimes, de manière proportionnée : sécuriser les comptes, faire respecter la limite d'appareils, prévenir la fraude et les abus, prouver l'acceptation des conditions générales, et mesurer l'audience du site de façon agrégée pour l'améliorer.":
+    "To pursue our legitimate interests, proportionately: securing accounts, enforcing the device limit, preventing fraud and abuse, proving acceptance of the terms and conditions, and measuring site audience in aggregate in order to improve it.",
+  "Lorsque la loi applicable exige votre consentement pour un traitement particulier, celui-ci vous est demandé séparément et vous pouvez le retirer à tout moment.":
+    "Where applicable law requires your consent for a particular processing operation, it is requested separately and you may withdraw it at any time.",
+
+  "4. Prestataires qui traitent des données pour nous": "4. Providers that process data for us",
+  "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :":
+    "We do not sell, rent or trade any personal data. We use technical providers who act on our instructions, each for a specific purpose:",
+  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option.":
+    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option.",
+  "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.":
+    "We may also disclose data where a legal obligation requires it, or to establish, exercise or defend a legal claim.",
+
+  "5. Transferts hors de votre pays": "5. Transfers outside your country",
+  "Nos prestataires peuvent héberger ou traiter des données en dehors de votre pays de résidence, notamment aux États-Unis et dans l'Union européenne. Ces transferts s'effectuent sur la base des garanties prévues par la réglementation applicable, telles que les clauses contractuelles types ou une décision d'adéquation.":
+    "Our providers may host or process data outside your country of residence, in particular in the United States and in the European Union. Such transfers take place on the basis of the safeguards provided for by applicable law, such as standard contractual clauses or an adequacy decision.",
+
+  "6. Combien de temps nous conservons vos données": "6. How long we keep your data",
+  "Les données de compte et de progression sont conservées tant que votre compte existe. Après la suppression du compte, elles sont effacées dans un délai de trente jours, à l'exception de ce qui suit.":
+    "Account and progress data is kept for as long as your account exists. After the account is deleted, it is erased within thirty days, with the exceptions below.",
+  "Les pièces liées aux paiements sont conservées pendant la durée exigée par la réglementation comptable et fiscale applicable.":
+    "Records relating to payments are kept for the period required by applicable accounting and tax rules.",
+  "La preuve d'acceptation des conditions générales est conservée pendant la vie du compte puis, après sa suppression, pendant la durée de prescription applicable au contrat : sans elle, nous ne pourrions plus démontrer les termes que vous avez acceptés.":
+    "Proof of acceptance of the terms and conditions is kept for the life of the account and then, after its deletion, for the limitation period applicable to the contract: without it, we could no longer demonstrate the terms you accepted.",
+  "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un témoignage publié reste en ligne jusqu'à ce que vous en demandiez le retrait.":
+    "Technical logs, anti-abuse counters and device-session records are kept for a short period, proportionate to their security purpose. A published testimonial stays online until you ask for it to be removed.",
+
+  "7. Vos droits": "7. Your rights",
+  "Vous disposez d'un droit d'accès à vos données, de rectification, d'effacement, de limitation et d'opposition au traitement, ainsi que d'un droit à la portabilité des données que vous nous avez fournies. Vous pouvez également retirer, à tout moment, un consentement que vous auriez donné.":
+    "You have the right to access your data, to have it corrected or erased, to restrict or object to its processing, and to receive the data you provided to us in a portable form. You may also withdraw, at any time, any consent you have given.",
+  "Une partie de ces droits s'exerce directement depuis votre espace : vos informations de compte et votre mot de passe se modifient dans la page Profil. Pour la suppression de votre compte, l'accès à l'ensemble de vos données ou toute autre demande, écrivez à {courriel} : nous répondons dans un délai de trente jours.":
+    "Some of these rights can be exercised directly from your account: your account details and password can be changed on the Profile page. To delete your account, obtain all of your data, or make any other request, write to {courriel}: we reply within thirty days.",
+  "Nous pouvons demander un élément permettant de vérifier votre identité avant de donner suite, afin de ne pas divulguer vos données à un tiers.":
+    "We may ask for something to verify your identity before acting, so as not to disclose your data to a third party.",
+  "Si notre réponse ne vous satisfait pas, vous pouvez saisir l'autorité de protection des données compétente dans votre pays de résidence — par exemple la CNIL en France, ou la Commission d'accès à l'information au Québec.":
+    "If our response does not satisfy you, you may complain to the data protection authority in your country of residence — for example the CNIL in France, or the Commission d'accès à l'information in Québec.",
+
+  "8. Sécurité": "8. Security",
+  "Les échanges avec la Plateforme sont chiffrés (HTTPS). Les mots de passe sont stockés sous forme chiffrée. L'accès aux données est cloisonné au niveau de la base : par défaut, un compte ne peut lire que ses propres enregistrements.":
+    "Exchanges with the Platform are encrypted (HTTPS). Passwords are stored encrypted. Access to data is partitioned at the database level: by default, an account can read only its own records.",
+  "Nous limitons le nombre de sessions simultanées par compte, comptons les tentatives de connexion échouées et journalisons les actions d'administration. Aucun système n'étant infaillible, nous vous invitons à utiliser un mot de passe unique et à nous signaler sans délai toute activité suspecte.":
+    "We limit the number of simultaneous sessions per account, count failed sign-in attempts and log administrative actions. As no system is infallible, we encourage you to use a unique password and to report any suspicious activity to us without delay.",
+
+  "9. Cookies et stockage local": "9. Cookies and local storage",
+  "Passerelle n'utilise ni cookie publicitaire, ni cookie de suivi comportemental, ni traceur tiers à des fins de profilage.":
+    "Passerelle uses no advertising cookie, no behavioural tracking cookie and no third-party tracker for profiling purposes.",
+  "Le site conserve dans votre navigateur les seules informations nécessaires à son fonctionnement : votre session de connexion, l'identifiant technique de l'appareil, votre préférence de thème et de langue, et quelques repères d'affichage. Les effacer vous déconnecte, sans autre conséquence.":
+    "The site stores in your browser only what it needs to work: your sign-in session, the device's technical identifier, your theme and language preference, and a few display markers. Clearing them signs you out, with no other consequence.",
+  "La mesure d'audience est assurée par Vercel Web Analytics, qui ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier.":
+    "Audience measurement is provided by Vercel Web Analytics, which sets no cookie and produces only aggregate statistics (page views, referrer, device type) that cannot identify you.",
+
+  "10. Mineurs": "10. Minors",
+  "Le Service n'est pas destiné aux personnes de moins de 16 ans, et l'achat d'un pass est réservé aux personnes majeures ou autorisées par le titulaire de l'autorité parentale. Si nous apprenons qu'un compte a été créé par un enfant en deçà de cet âge, nous le supprimons.":
+    "The Service is not intended for people under 16, and buying a pass is reserved for people of full age or authorised by the holder of parental authority. If we learn that an account has been created by a child below that age, we delete it.",
+
+  "11. Modification de la présente politique": "11. Changes to this policy",
+  "Cette politique peut évoluer, en particulier si le Service change ou si nous faisons appel à un nouveau prestataire. La date de dernière mise à jour figure en tête du document, et toute modification substantielle vous sera signalée par courriel ou lors de votre prochaine connexion.":
+    "This policy may change, in particular if the Service changes or if we start using a new provider. The date of the last update appears at the top of the document, and you will be told of any substantial change by email or at your next sign-in.",
+  "Pour toute question relative à la présente politique, écrivez-nous à {courriel}.":
+    "For any question about this policy, write to us at {courriel}.",
+
+  "Ce document est rédigé mais n'est pas encore en vigueur : l'identité du responsable du traitement doit y être ajoutée. La version applicable sera publiée en même temps que les conditions générales.":
+    "This document has been drafted but is not yet in force: the identity of the data controller still has to be added. The applicable version will be published at the same time as the terms and conditions.",
+  // (PRIVACY_UPDATED is the same date string as TERMS_UPDATED, already keyed above.)
+  "Politique de confidentialité": "Privacy Policy",
+  "Quelles données nous collectons, pourquoi, avec qui elles sont partagées et comment les faire supprimer.":
+    "What data we collect, why, who it is shared with, and how to have it deleted.",
+
+  // ── Re-acceptance gate (components/auth/TermsGate.jsx) ────────────────
+  "Nos conditions générales ont changé": "Our terms and conditions have changed",
+  "Merci de les lire et de les accepter pour continuer à utiliser votre compte.":
+    "Please read and accept them to keep using your account.",
+  "Vous devez lire et accepter les conditions générales pour continuer.":
+    "You must read and accept the terms and conditions to continue.",
+  "J'accepte et je continue": "I accept and continue",
+  "Merci — votre acceptation a bien été enregistrée.": "Thank you — your acceptance has been recorded.",
+  "Enregistrement refusé. Réessayez.": "Could not save. Please try again.",
 
   // ── Password strength meter (components/auth/PasswordMeter.jsx) ───────
   // The bar is guidance only — the sole hard rule is the length above, which

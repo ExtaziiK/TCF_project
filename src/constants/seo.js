@@ -14,6 +14,7 @@
 
 import { POSTS } from "@/constants/blog";
 import { TERMS_DRAFT } from "@/constants/terms";
+import { PRIVACY_DRAFT } from "@/constants/privacy";
 
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
@@ -154,6 +155,13 @@ export const ROUTE_META = {
     description:
       "Les conditions générales d'utilisation de Passerelle : objet du service, compte, abonnements, contenu et données personnelles.",
     noindex: TERMS_DRAFT,
+  },
+  privacy: {
+    path: "/politique-de-confidentialite",
+    title: "Politique de confidentialité",
+    description:
+      "Quelles données Passerelle collecte, pourquoi, avec quels prestataires elles sont partagées, combien de temps elles sont conservées et comment exercer vos droits.",
+    noindex: PRIVACY_DRAFT,
   },
 
   // ── 404 ──────────────────────────────────────────────────────────────────

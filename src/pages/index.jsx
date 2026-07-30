@@ -30,6 +30,7 @@ import { Admin } from "@/pages/Admin";
 import { QuestionBank } from "@/pages/QuestionBank";
 import { NotFound } from "@/pages/NotFound";
 import { Terms } from "@/pages/Terms";
+import { Privacy } from "@/pages/Privacy";
 
 function Login() {
   return <AuthPage mode="login" />;
@@ -75,5 +76,6 @@ export const PAGES = {
   admin: Admin,
   bank: QuestionBank,
   terms: Terms,
+  privacy: Privacy,
   notfound: NotFound,
 };

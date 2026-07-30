@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2, ArrowRight, Mail, MessageCircle, Users, XCircle } from "lucide-react";
+import { CheckCircle2, ArrowRight, Mail, XCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { submitContactMessage } from "@/services/adminService";
@@ -51,8 +51,11 @@ export function Contact() {
         </Card>
         <div className="md:col-span-2 space-y-4">
           {/* `href` makes a card's detail actionable; an address is left as-is
-              rather than run through t(), which has nothing to translate. */}
-          {[{ icon: Mail, t: "Courriel", d: "contact@tcfpasserelle.com", href: "mailto:contact@tcfpasserelle.com" }, { icon: MessageCircle, t: "Clavardage en direct", d: "Lun.–ven., 9 h à 17 h (HE)" }, { icon: Users, t: "Communauté", d: "Groupe d'étude hebdomadaire en ligne" }].map((k) => (
+              rather than run through t(), which has nothing to translate.
+              Email only: a live-chat window and a weekly study group were
+              advertised here before they existed — a support channel is a
+              promise, so it goes on this page once it is real, not before. */}
+          {[{ icon: Mail, t: "Courriel", d: "contact@tcfpasserelle.com", href: "mailto:contact@tcfpasserelle.com" }].map((k) => (
             <Card key={k.t} className="p-5 flex items-center gap-4">
               <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><k.icon size={19} /></span>
               <div className="min-w-0"><p className={`font-semibold text-sm ${c.text}`}>{t(k.t)}</p>
