@@ -34,7 +34,7 @@ export const PLANS = [
     accent: "violet",
     cta: "Choisir Passeport",
     featured: false,
-    priceId: "price_1TuaWRCFsAOkGQj0WeMgaejo",
+    priceId: "price_1Txu9yFzf0ilrkDnvsHPE0oy",
     feats: [
       "20 quiz de compréhension écrite",
       "20 quiz de compréhension orale",
@@ -51,7 +51,7 @@ export const PLANS = [
     accent: "rose",
     cta: "Choisir Visa",
     featured: false,
-    priceId: "price_1TuaZYCFsAOkGQj0OCxA6IWA",
+    priceId: "price_1Txu9uFzf0ilrkDnXXgHJiAG",
     feats: [
       "40 quiz de compréhension écrite",
       "40 quiz de compréhension orale",
@@ -68,7 +68,7 @@ export const PLANS = [
     accent: "red",
     cta: "Choisir Première classe",
     featured: true,
-    priceId: "price_1TuabOCFsAOkGQj0M6cOUnxr",
+    priceId: "price_1Txu9uFzf0ilrkDni2sOGNO5",
     feats: [
       "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",
@@ -86,7 +86,7 @@ export const PLANS = [
     accent: "gold",
     cta: "Choisir VIP",
     featured: false,
-    priceId: "price_1TuadPCFsAOkGQj0QXGKdRGS",
+    priceId: "price_1Txu9vFzf0ilrkDnltQg1Fbc",
     feats: [
       "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",
