@@ -25,6 +25,34 @@ export async function startCheckout(priceId, promoCode, { withdrawalWaiver = fal
   window.location.href = json.url;
 }
 
+// Asks the server to apply a completed Checkout session's pass right now,
+// rather than waiting for Stripe's webhook to arrive. The webhook is
+// asynchronous and races the redirect, so relying on it alone left the buyer
+// staring at a free-looking account. The server verifies the session belongs to
+// this user and is paid before granting, and the operation is idempotent — the
+// webhook applying the same patch afterwards changes nothing.
+//
+// Returns { ok: true } once granted, { pending: true } while Stripe has not
+// settled it yet (an asynchronous payment method), or { ok: false } on error.
+export async function confirmCheckout(sessionId) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token || !sessionId) return { ok: false };
+
+  try {
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ sessionId }),
+    });
+    const json = await res.json().catch(() => ({}));
+    if (res.status === 202) return { ok: false, pending: true };
+    return res.ok ? { ok: true, ...json } : { ok: false, error: json.error };
+  } catch {
+    return { ok: false };
+  }
+}
+
 // Checks a promo code against Stripe (api/promo-validate) so the Pricing page
 // can show the real discount before checkout. Fails closed: network errors or
 // the local-dev 404 read as "not valid" (with `unavailable` set for the 404

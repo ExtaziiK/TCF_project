@@ -8,6 +8,7 @@ import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
+import { confirmCheckout } from "@/services/stripeService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -218,7 +219,12 @@ export function AppProvider({ children }) {
   // is read once on load, then the URL is rewritten to the landing route's
   // clean path.
   useEffect(() => {
-    const checkout = new URLSearchParams(window.location.search).get("checkout");
+    const params = new URLSearchParams(window.location.search);
+    const checkout = params.get("checkout");
+    // Read before the URL is rewritten below — Stripe substitutes it into
+    // success_url, and it is what lets the server confirm the purchase without
+    // waiting for the webhook.
+    const sessionId = params.get("session_id");
     if (checkout) {
       const target = checkout === "success" ? "dashboard" : "home";
       window.history.replaceState({ route: target }, "", pathForRoute(target));
@@ -233,28 +239,31 @@ export function AppProvider({ children }) {
     // out and back in.
     markPremiumPending();
 
-    // The webhook granting Premium runs asynchronously and can land after this
-    // redirect, so the cached JWT is usually stale for a moment. Back off
-    // between attempts rather than hammering: each refresh rotates the refresh
-    // token, and two in flight at once fail each other (see
-    // authService.refreshSession). ~32s total, which covers a slow webhook
-    // without turning into a retry storm.
+    // Grant the pass now instead of waiting for Stripe's webhook to race this
+    // redirect. Stripe puts the session id in the success URL; the server
+    // verifies it belongs to this user, applies the same idempotent patch the
+    // webhook would, and answers definitively — so one round trip replaces the
+    // old poll-and-hope loop that had buyers reaching for refresh.
     let stop = false;
     (async () => {
-      const waits = [1500, 2500, 4000, 6000, 8000, 10000];
-      for (const wait of waits) {
-        if (stop) return;
-        const { session, error } = await refreshSession();
-        const mapped = mapSupabaseUser(session);
-        if (mapped) setUser(mapped);
-        if (mapped?.plan === "Premium") { clearPremiumPending(); return; }
-        if (error) console.warn("premium activation: token refresh failed, retrying", error.message);
-        await new Promise((r) => setTimeout(r, wait));
-      }
-      // Still nothing: the flag stays set so a later load retries, and the user
-      // gets told what to do rather than being left on a free-looking account
-      // wondering where their money went.
-      if (!stop) notify("Paiement reçu. L'activation prend un instant — rafraîchissez la page si l'accès n'apparaît pas.");
+      const granted = await confirmCheckout(sessionId);
+      if (stop) return;
+
+      // One refresh either way: Premium lives in app_metadata, which is baked
+      // into the access token, so the grant is invisible until the JWT is
+      // reminted.
+      const { session } = await refreshSession();
+      const mapped = mapSupabaseUser(session);
+      if (stop) return;
+      if (mapped) setUser(mapped);
+      if (mapped?.plan === "Premium") { clearPremiumPending(); return; }
+
+      // Not granted yet. `pending` means Stripe has not settled an asynchronous
+      // payment; anything else means confirmation failed and the webhook is now
+      // the fallback. Either way the flag survives, so the next load retries.
+      notify(granted.pending
+        ? "Paiement en cours de validation. Votre accès s'ouvrira dès sa confirmation."
+        : "Paiement reçu. L'activation prend un instant — rafraîchissez la page si l'accès n'apparaît pas.");
     })();
     return () => { stop = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
