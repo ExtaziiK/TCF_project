@@ -12,10 +12,10 @@
 // decides how long a purchase grants — the webhook reads it to compute
 // premium_until, and the checkout endpoint uses the keys as its allow-list.
 export const PASSES = {
-  price_1TuaWRCFsAOkGQj0WeMgaejo: { label: "Passeport", days: 5 },
-  price_1TuaZYCFsAOkGQj0OCxA6IWA: { label: "Visa", days: 15 },
-  price_1TuabOCFsAOkGQj0M6cOUnxr: { label: "Première classe", days: 30 },
-  price_1TuadPCFsAOkGQj0QXGKdRGS: { label: "VIP", days: 90 },
+  price_1Txu9yFzf0ilrkDnvsHPE0oy: { label: "Passeport", days: 5 },
+  price_1Txu9uFzf0ilrkDnXXgHJiAG: { label: "Visa", days: 15 },
+  price_1Txu9uFzf0ilrkDni2sOGNO5: { label: "Première classe", days: 30 },
+  price_1Txu9vFzf0ilrkDnltQg1Fbc: { label: "VIP", days: 90 },
 };
 
 export const isSellablePass = (priceId) => Object.prototype.hasOwnProperty.call(PASSES, priceId);

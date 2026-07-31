@@ -11,7 +11,6 @@ import {
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
 } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
-import { openBillingPortal } from "@/services/stripeService";
 import {
   listMyTestimonials, submitTestimonial, deleteTestimonial, MIN_BODY, MAX_BODY,
 } from "@/services/testimonialsService";
@@ -49,7 +48,6 @@ export function Profile() {
   const [showPw, setShowPw] = useState(false);
   const [savingPw, setSavingPw] = useState(false);
 
-  const [busyPortal, setBusyPortal] = useState(false);
 
   useEffect(() => {
     getProfile().then((p) => {
@@ -100,16 +98,6 @@ export function Profile() {
       notify(t("Mot de passe mis à jour."));
     } finally {
       setSavingPw(false);
-    }
-  };
-
-  const manageSubscription = async () => {
-    setBusyPortal(true);
-    try {
-      await openBillingPortal();
-    } catch {
-      notify(t("Gestion de l'abonnement indisponible pour le moment."));
-      setBusyPortal(false);
     }
   };
 
@@ -191,10 +179,13 @@ export function Profile() {
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>
                 <p className={`font-semibold ${c.text} flex items-center gap-2`}><Crown size={16} className="text-blue-600" /> {user.planLabel || "Premium"}</p>
-                {user.premiumUntil && <p className={`text-sm mt-1 ${c.sub}`}>{t("Renouvellement / échéance :")} {t(fmtDate(user.premiumUntil))}</p>}
+                {user.premiumUntil && <p className={`text-sm mt-1 ${c.sub}`}>{t("Fin de votre accès :")} {t(fmtDate(user.premiumUntil))}</p>}
               </div>
-              <Btn small variant="ghost" icon={CreditCard} disabled={busyPortal} onClick={manageSubscription}>{t(busyPortal ? "Ouverture…" : "Gérer mon abonnement")}</Btn>
-              <p className={`text-xs ${c.faint}`}>{t("Mettez à jour votre carte, consultez vos factures ou annulez via le portail sécurisé Stripe.")}</p>
+              {/* No billing-portal button: a pass is a single purchase (CGU s.6)
+                  — there is no card on file to update, no renewal to cancel and
+                  no subscription to manage. Offering the portal here promised
+                  all three and led to a dead end. */}
+              <p className={`text-xs ${c.faint}`}>{t("Votre pass est un achat unique : rien n'est reconduit et aucun prélèvement n'aura lieu à l'échéance. Pour un reçu, écrivez-nous.")}</p>
             </div>
           ) : (
             <div className="space-y-3">
