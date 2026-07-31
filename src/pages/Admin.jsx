@@ -32,6 +32,9 @@ import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
 const PAID_PLANS = PLANS.filter((p) => p.priceId);
+// Increments offered by the "Prolonger" control, mirroring the pass durations
+// so a goodwill gesture is expressed in the same units the user bought in.
+const EXTEND_DAYS = [5, 15, 30, 90];
 
 // Account-type chips for the Users tab. Keys match the server filter (users.js
 // TYPE_FILTERS); the whole set of account types the platform has.
@@ -858,6 +861,19 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
           <td colSpan={6} className="py-3">
             <div className="flex items-center gap-2 flex-wrap">
               {PAID_PLANS.map((p) => planButton(u, p))}
+              {/* Prolonger ADDS to what is left; the plan buttons above restart
+                  the window from today. Using those to grant a few extra days
+                  would throw away the remainder of a pass the user paid for. */}
+              <span className={`inline-flex items-center gap-1.5 pl-2 ml-1 border-l ${c.border}`}>
+                <span className={`text-[11px] font-semibold ${c.faint}`}>Prolonger</span>
+                {EXTEND_DAYS.map((d) => (
+                  <Btn key={d} small variant="ghost" disabled={busy}
+                    onClick={() => act({ action: "extend-access", userId: u.id, days: d }, `${u.email} prolongé de ${d} jours.`)}
+                    title={u.premiumActive ? `Ajoute ${d} jours à l'accès en cours` : `Ouvre un accès de ${d} jours à partir d'aujourd'hui`}>
+                    +{d} j
+                  </Btn>
+                ))}
+              </span>
               {u.plan === "Premium" && (
                 <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Sans papier" }, `${u.email} repassé en Sans papier.`)}>Retirer Premium</Btn>
               )}
@@ -1428,6 +1444,7 @@ function MessagesTab({ onCount }) {
 const AUDIT_LABELS = {
   "set-plan": ["Forfait modifié", "gold"],
   "set-role": ["Rôle modifié", "red"],
+  "extend-access": ["Accès prolongé", "gold"],
   "reset-sessions": ["Appareils réinitialisés", "slate"],
   "disconnect-user": ["Utilisateur déconnecté", "amber"],
   "delete-user": ["Compte supprimé", "amber"],
@@ -1452,6 +1469,13 @@ function AuditTab() {
       const d = e.detail;
       const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
       return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;
+    }
+    if (e.action === "extend-access") {
+      const d = e.detail;
+      const sign = d.days > 0 ? `+${d.days}` : `${d.days}`;
+      // No premium_until after the change means it was shortened past today,
+      // which revokes rather than extends — worth naming in the log.
+      return d.premium_until ? `${sign} j → ${dateOnly(d.premium_until)}` : `${sign} j → accès retiré`;
     }
     if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : "rôle retiré";
     return "";
