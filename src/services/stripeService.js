@@ -10,7 +10,7 @@ import { TERMS_VERSION } from "@/constants/terms";
 // without it and records it — see api/create-checkout-session.js and CGU s.7 —
 // so passing it from anywhere that did not actually ask the user defeats the
 // point of having it.
-export async function startCheckout(priceId, promoCode, { withdrawalWaiver = false } = {}) {
+export async function startCheckout(planSlug, promoCode, { withdrawalWaiver = false } = {}) {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error("not-authenticated");
@@ -18,7 +18,7 @@ export async function startCheckout(priceId, promoCode, { withdrawalWaiver = fal
   const res = await fetch("/api/create-checkout-session", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ priceId, promoCode: promoCode || null, withdrawalWaiver, termsVersion: TERMS_VERSION }),
+    body: JSON.stringify({ plan: planSlug, promoCode: promoCode || null, withdrawalWaiver, termsVersion: TERMS_VERSION }),
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "checkout-failed");
@@ -102,14 +102,15 @@ function formatAmount(amountInCents, currency) {
 // broken). The `per` line stays static: it describes each pass's access
 // duration (e.g. "accès 5 jours"), which the price object doesn't carry.
 export async function fetchLivePlans(plans) {
-  const ids = plans.map((p) => p.priceId).filter(Boolean);
-  if (!ids.length) return plans;
+  if (!plans.some((p) => p.slug)) return plans;
   try {
-    const res = await fetch(`/api/prices?ids=${encodeURIComponent(ids.join(","))}`);
+    // Keyed by plan slug: the browser never learns a Stripe price id, and a
+    // re-pricing in Stripe shows up here without a deploy.
+    const res = await fetch("/api/prices");
     if (!res.ok) return plans;
     const byId = await res.json();
     return plans.map((p) => {
-      const live = p.priceId && byId[p.priceId];
+      const live = p.slug && byId[p.slug];
       if (!live || live.amount == null) return p;
       return { ...p, price: formatAmount(live.amount, live.currency) };
     });

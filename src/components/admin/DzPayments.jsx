@@ -13,7 +13,7 @@ import {
   listSubscriptionRequests, signReceiptUrl, setRequestStatus, deleteSubscriptionRequest,
 } from "@/services/subscriptionService";
 
-const PAID_PLANS = PLANS.filter((p) => p.priceId);
+const PAID_PLANS = PLANS.filter((p) => p.slug);
 const when = (iso) => (iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—");
 
 function Skeleton({ className = "" }) {

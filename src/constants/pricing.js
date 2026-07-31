@@ -17,7 +17,7 @@ export const PLANS = [
     accent: "blue",
     cta: "Créer un compte",
     featured: false,
-    priceId: null,
+    slug: null, // free plan: nothing to buy
     feats: [
       "Un quiz offert dans chaque épreuve",
       "Corrections détaillées et explications",
@@ -34,7 +34,7 @@ export const PLANS = [
     accent: "violet",
     cta: "Choisir Passeport",
     featured: false,
-    priceId: "price_1Txu9yFzf0ilrkDnvsHPE0oy",
+    slug: "passeport",
     feats: [
       "20 quiz de compréhension écrite",
       "20 quiz de compréhension orale",
@@ -51,7 +51,7 @@ export const PLANS = [
     accent: "rose",
     cta: "Choisir Visa",
     featured: false,
-    priceId: "price_1Txu9uFzf0ilrkDnXXgHJiAG",
+    slug: "visa",
     feats: [
       "40 quiz de compréhension écrite",
       "40 quiz de compréhension orale",
@@ -68,7 +68,7 @@ export const PLANS = [
     accent: "red",
     cta: "Choisir Première classe",
     featured: true,
-    priceId: "price_1Txu9uFzf0ilrkDni2sOGNO5",
+    slug: "premiere-classe",
     feats: [
       "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",
@@ -86,7 +86,7 @@ export const PLANS = [
     accent: "gold",
     cta: "Choisir VIP",
     featured: false,
-    priceId: "price_1Txu9vFzf0ilrkDnltQg1Fbc",
+    slug: "vip",
     feats: [
       "Tous les quiz de compréhension écrite (40)",
       "Tous les quiz de compréhension orale (40)",

@@ -68,7 +68,7 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
   const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
-  const paid = !!p.priceId;
+  const paid = !!p.slug;
   const oldPrice = paid ? beforePrice(p.price) : null;
   // With a promo applied, preview the post-discount price: it becomes the big
   // number, the (pre-promo) plan price is struck through, and the launch −50 %
@@ -94,7 +94,7 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
     if (isDzd) { setDzCheckoutPlan(p.name); return nav("checkout-dz"); }
     setBusy(true);
     try {
-      await startCheckout(p.priceId, promo?.code, { withdrawalWaiver: true });
+      await startCheckout(p.slug, promo?.code, { withdrawalWaiver: true });
     } catch (err) {
       notify(t(err?.message === "already-subscribed"
         ? "Votre accès Premium est encore actif. Vous pourrez acheter un nouveau pass à son échéance."

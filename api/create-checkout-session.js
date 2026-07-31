@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { isSellablePass, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
+import { isPassSlug, resolvePassPrice, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -62,10 +62,11 @@ export default async function handler(req, res) {
     }
   }
 
-  const { priceId, promoCode, withdrawalWaiver, termsVersion } = req.body || {};
-  if (!priceId || typeof priceId !== "string" || !/^price_[A-Za-z0-9]{8,64}$/.test(priceId)) {
-    return res.status(400).json({ error: "Missing priceId" });
-  }
+  // The client names a PLAN ("passeport"), not a Stripe price. The id is
+  // resolved here from the pass's lookup key, so re-pricing in Stripe needs no
+  // deploy and no Stripe identifier reaches the browser.
+  const { plan, promoCode, withdrawalWaiver, termsVersion } = req.body || {};
+  if (!isPassSlug(plan)) return res.status(400).json({ error: "invalid-plan" });
 
   // CGU section 7 makes a started pass non-refundable on the footing that the
   // buyer expressly asked for immediate access and acknowledged losing the
@@ -85,19 +86,15 @@ export default async function handler(req, res) {
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
   try {
-    // Only sell what the Pricing page sells: the price must be one of our
-    // passes, exist, be active, and be a ONE-TIME price. Without this check any
-    // price id in the Stripe account (legacy subscription plans, test prices)
-    // could be checked out by calling the endpoint directly.
-    //
-    // one_time, not recurring: a pass is a single purchase opening Premium for a
-    // fixed window (PASSES), which is what the CGU promises. A recurring price
-    // here would rebill the customer against a contract that says it won't.
-    if (!isSellablePass(priceId)) return res.status(400).json({ error: "invalid-price" });
-    const price = await stripe.prices.retrieve(priceId).catch(() => null);
+    // Resolve the plan to its current live price via its lookup key. one_time,
+    // not recurring: a pass is a single purchase opening Premium for a fixed
+    // window, which is what the CGU promises. A recurring price here would
+    // rebill the customer against a contract saying it will not.
+    const price = await resolvePassPrice(stripe, plan);
     if (!price || !price.active || price.type !== "one_time") {
       return res.status(400).json({ error: "invalid-price" });
     }
+    const priceId = price.id;
 
     // Record the acknowledgement before handing the buyer to Stripe, so the
     // evidence exists for every session that could result in a charge. Stamped
@@ -139,7 +136,7 @@ export default async function handler(req, res) {
       // webhook) so buying again doesn't create a duplicate customer record.
       ...(meta.stripe_customer_id ? { customer: meta.stripe_customer_id } : { customer_email: user.email }),
       ...(discounts ? { discounts } : { allow_promotion_codes: true }),
-      metadata: { supabase_user_id: user.id, price_id: priceId },
+      metadata: { supabase_user_id: user.id, plan, price_id: priceId },
       success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
     });
