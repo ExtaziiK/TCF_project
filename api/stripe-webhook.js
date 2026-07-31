@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { PASSES, passExpiryISO } from "./_lib/passes.js";
+import { PASSES, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -86,21 +86,12 @@ export default async function handler(req, res) {
         // receive nothing. "unpaid" is the one to refuse: it is what an
         // asynchronous method looks like before the funds actually arrive.
         if (!session.subscription) {
-          if (!["paid", "no_payment_required"].includes(session.payment_status)) break;
-          const priceId = session.metadata?.price_id
-            || (await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 })).data[0]?.price?.id;
-          const pass = priceId ? PASSES[priceId] : null;
-          if (!pass) { console.error("checkout.session.completed: unknown price", priceId); break; }
-          await setPremiumStatus(userId, {
-            plan: "Premium",
-            plan_label: pass.label,
-            premium_until: passExpiryISO(priceId),
-            stripe_customer_id: session.customer,
-            // Deliberately cleared: a pass has no subscription to manage, and a
-            // stale id from an earlier subscription would otherwise keep
-            // offering the billing portal for something that no longer exists.
-            stripe_subscription_id: null,
-          });
+          if (!GRANTABLE_PAYMENT_STATUSES.includes(session.payment_status)) break;
+          // Same patch the browser's confirmation applies, and idempotent, so
+          // whichever of the two gets here first the outcome is identical.
+          const patch = await passPatchForSession(session, stripe);
+          if (!patch) { console.error("checkout.session.completed: unknown price on", session.id); break; }
+          await setPremiumStatus(userId, patch);
           break;
         }
 

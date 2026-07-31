@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { isSellablePass } from "./_lib/passes.js";
+import { isSellablePass, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -24,6 +24,42 @@ export default async function handler(req, res) {
     await enforceRateLimit(req, { name: "checkout", limit: 5, windowSeconds: 60, userId: user.id });
   } catch (err) {
     return res.status(err.status || 429).json({ error: err.message });
+  }
+
+  // ── Confirm a completed session ────────────────────────────────────────────
+  // Called by the browser the moment Stripe redirects back, instead of waiting
+  // for the webhook to race it. The webhook is asynchronous, so polling for it
+  // from the client meant the buyer watched a free-looking account for seconds
+  // and reached for refresh. Here the answer is definitive in one round trip;
+  // the webhook stays as the safety net for a buyer who closes the tab.
+  //
+  // Lives in this function rather than its own: Vercel Hobby caps a deployment
+  // at 12 functions and api/ is already at 12 (see api/admin/[resource].js).
+  if (req.body?.sessionId) {
+    const sessionId = String(req.body.sessionId);
+    if (!/^cs_[A-Za-z0-9_]{8,120}$/.test(sessionId)) return res.status(400).json({ error: "invalid-session" });
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      // Ownership check: the session must be the caller's own. Without it,
+      // anyone holding a session id could have its pass applied to their
+      // account — session ids travel in URLs and get pasted around.
+      const owner = session.client_reference_id || session.metadata?.supabase_user_id;
+      if (owner !== user.id) return res.status(403).json({ error: "not-your-session" });
+      if (!GRANTABLE_PAYMENT_STATUSES.includes(session.payment_status)) {
+        return res.status(202).json({ ok: false, pending: true });
+      }
+      const patch = await passPatchForSession(session, stripe);
+      if (!patch) return res.status(400).json({ error: "invalid-price" });
+
+      const { data } = await supabaseAdmin.auth.admin.getUserById(user.id);
+      await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        app_metadata: { ...(data?.user?.app_metadata || {}), ...patch },
+      });
+      return res.status(200).json({ ok: true, plan: patch.plan, planLabel: patch.plan_label, premiumUntil: patch.premium_until });
+    } catch (err) {
+      console.error("confirm-checkout:", err.message);
+      return res.status(500).json({ error: "confirm-failed" });
+    }
   }
 
   const { priceId, promoCode, withdrawalWaiver, termsVersion } = req.body || {};
@@ -104,7 +140,7 @@ export default async function handler(req, res) {
       ...(meta.stripe_customer_id ? { customer: meta.stripe_customer_id } : { customer_email: user.email }),
       ...(discounts ? { discounts } : { allow_promotion_codes: true }),
       metadata: { supabase_user_id: user.id, price_id: priceId },
-      success_url: `${origin}/?checkout=success`,
+      success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
     });
     res.status(200).json({ url: session.url });
