@@ -79,22 +79,10 @@ export function promoLabel(promo) {
     : `−${formatAmount(promo.amountOff || 0, promo.currency || "usd")}`;
 }
 
-// Redirects a subscriber to the Stripe billing portal (manage card, invoices,
-// cancel). Created server-side (api/create-portal-session) from the customer
-// id stored on their app_metadata.
-export async function openBillingPortal() {
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  if (!token) throw new Error("not-authenticated");
-
-  const res = await fetch("/api/create-portal-session", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.error || "portal-failed");
-  window.location.href = json.url;
-}
+// No billing portal: a pass is a one-time purchase, so there is no card on
+// file to update, no renewal to cancel and no subscription to manage. Receipts
+// are emailed by Stripe on payment. api/create-portal-session.js was deleted
+// with this, freeing one of the twelve function slots.
 
 function formatAmount(amountInCents, currency) {
   const isWhole = amountInCents % 100 === 0;
