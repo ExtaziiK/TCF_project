@@ -77,10 +77,16 @@ export default async function handler(req, res) {
 
         // A pass (mode: payment) creates no subscription, so there is no billing
         // period to read: the access window comes from our own PASSES table,
-        // counted from now. Only paid sessions grant anything — an unpaid one
-        // can complete for asynchronous methods.
+        // counted from now.
+        //
+        // Two statuses grant access. "paid" is the ordinary case. A session
+        // settled entirely by a discount — a 100 %-off promotion code — never
+        // charges the card, so Stripe reports "no_payment_required" instead;
+        // treating only "paid" as valid let the buyer finish checkout and
+        // receive nothing. "unpaid" is the one to refuse: it is what an
+        // asynchronous method looks like before the funds actually arrive.
         if (!session.subscription) {
-          if (session.payment_status !== "paid") break;
+          if (!["paid", "no_payment_required"].includes(session.payment_status)) break;
           const priceId = session.metadata?.price_id
             || (await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 })).data[0]?.price?.id;
           const pass = priceId ? PASSES[priceId] : null;
