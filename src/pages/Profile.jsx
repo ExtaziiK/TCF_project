@@ -185,7 +185,7 @@ export function Profile() {
                   — there is no card on file to update, no renewal to cancel and
                   no subscription to manage. Offering the portal here promised
                   all three and led to a dead end. */}
-              <p className={`text-xs ${c.faint}`}>{t("Votre pass est un achat unique : rien n'est reconduit et aucun prélèvement n'aura lieu à l'échéance. Pour un reçu, écrivez-nous.")}</p>
+              <p className={`text-xs ${c.faint}`}>{t("Votre pass est un achat unique : rien n'est reconduit et aucun prélèvement n'aura lieu à l'échéance. Votre reçu vous a été envoyé par courriel au moment du paiement.")}</p>
             </div>
           ) : (
             <div className="space-y-3">
