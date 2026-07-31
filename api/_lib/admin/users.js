@@ -11,6 +11,7 @@ import { HttpError } from "../groq.js";
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
 //     action: "set-plan"        { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
+//             "extend-access"   { days: number }  adds/removes days on top of what is left
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
 //             "disconnect"      {}    signs the account out on every device, now
@@ -179,6 +180,51 @@ async function handlePost(req, res, actor) {
     const user = await patchMetadata(userId, { plan, premium_until: until, plan_label: label });
     await audit(actor, "set-plan", user.email, { plan, days: Number(days) || null, months: Number(months) || null, label, premium_until: until });
     return res.status(200).json({ ok: true });
+  }
+
+  if (action === "extend-access") {
+    // Adds days to what the account already has, rather than restarting a
+    // window like set-plan does. Distinct action on purpose: set-plan computes
+    // premium_until from now, so using it to "give a few more days" would
+    // silently DISCARD whatever access was left on a pass the user paid for.
+    const days = Number(req.body.days);
+    if (!Number.isFinite(days) || days === 0 || Math.abs(days) > 365) {
+      throw new HttpError(400, "Durée invalide (1 à 365 jours, positifs ou négatifs).");
+    }
+
+    const { data } = await admin.auth.admin.getUserById(userId);
+    if (!data?.user) throw new HttpError(404, "Utilisateur introuvable.");
+    const meta = data.user.app_metadata || {};
+    const email = data.user.email || userId;
+
+    // Premium with no expiry is unlimited access. Adding days to "never" would
+    // put an end date on an account that had none — a downgrade dressed up as a
+    // favour — so it is refused rather than guessed at.
+    if (meta.plan === "Premium" && !meta.premium_until) {
+      throw new HttpError(400, "Ce compte a un accès Premium sans expiration : il n'y a rien à prolonger.");
+    }
+
+    // Count from the remaining access when there is some, otherwise from now.
+    // Extending an expired pass therefore gives the full extra days rather than
+    // burning them against a date already in the past.
+    const current = meta.premium_until ? Date.parse(meta.premium_until) : NaN;
+    const hasTimeLeft = Number.isFinite(current) && current > Date.now();
+    const base = hasTimeLeft ? current : Date.now();
+    const untilMs = base + days * 24 * 3600 * 1000;
+
+    // Shortened past the present: that is a revocation, so say so in the data
+    // rather than leaving a Premium plan pointing at a date in the past.
+    const patch = untilMs <= Date.now()
+      ? { plan: "Sans papier", plan_label: null, premium_until: null }
+      : { plan: "Premium", premium_until: new Date(untilMs).toISOString() };
+
+    await patchMetadata(userId, patch);
+    await audit(actor, "extend-access", email, {
+      days,
+      from: hasTimeLeft ? new Date(current).toISOString() : null,
+      premium_until: patch.premium_until,
+    });
+    return res.status(200).json({ ok: true, premiumUntil: patch.premium_until });
   }
 
   if (action === "set-role") {
