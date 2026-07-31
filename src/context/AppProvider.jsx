@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -100,6 +100,22 @@ export function AppProvider({ children }) {
               notify(deviceSessionNotice(check.reason));
               return;
             }
+          }
+        }
+        // A purchase whose JWT never caught up (slow webhook, closed tab, a
+        // refresh that collided). Premium lives in app_metadata, so the cached
+        // token keeps saying "Sans papier" through any number of reloads — only
+        // a remint shows it. One attempt per load, and the flag clears itself
+        // once Premium lands or after six hours.
+        if (mapped && mapped.plan !== "Premium" && isPremiumPending()) {
+          const { session: fresh } = await refreshSession();
+          const remapped = mapSupabaseUser(fresh);
+          if (remapped?.plan === "Premium") {
+            clearPremiumPending();
+            setUser(remapped);
+            setAuthReady(true);
+            notify("Votre accès Premium est actif.");
+            return;
           }
         }
         setUser(mapped);
@@ -210,21 +226,35 @@ export function AppProvider({ children }) {
     if (checkout === "cancelled") return notify("Paiement annulé.");
     if (checkout !== "success") return;
 
-    notify("Paiement réussi ! Votre abonnement Premium est actif.");
+    notify("Paiement réussi ! Votre accès Premium est en cours d'activation.");
     setRoute("dashboard");
+    // Survives this page: if the webhook is slow, or a refresh collides, the
+    // next load finishes the activation instead of the user being told to sign
+    // out and back in.
+    markPremiumPending();
 
-    // The webhook that grants Premium runs asynchronously and can land just
-    // after this redirect, so the cached session may still be stale - poll
-    // a few times instead of trusting the first refresh.
+    // The webhook granting Premium runs asynchronously and can land after this
+    // redirect, so the cached JWT is usually stale for a moment. Back off
+    // between attempts rather than hammering: each refresh rotates the refresh
+    // token, and two in flight at once fail each other (see
+    // authService.refreshSession). ~32s total, which covers a slow webhook
+    // without turning into a retry storm.
     let stop = false;
     (async () => {
-      for (let attempt = 0; attempt < 5 && !stop; attempt++) {
-        const session = await refreshSession();
+      const waits = [1500, 2500, 4000, 6000, 8000, 10000];
+      for (const wait of waits) {
+        if (stop) return;
+        const { session, error } = await refreshSession();
         const mapped = mapSupabaseUser(session);
         if (mapped) setUser(mapped);
-        if (mapped?.plan === "Premium") break;
-        await new Promise((r) => setTimeout(r, 1500));
+        if (mapped?.plan === "Premium") { clearPremiumPending(); return; }
+        if (error) console.warn("premium activation: token refresh failed, retrying", error.message);
+        await new Promise((r) => setTimeout(r, wait));
       }
+      // Still nothing: the flag stays set so a later load retries, and the user
+      // gets told what to do rather than being left on a free-looking account
+      // wondering where their money went.
+      if (!stop) notify("Paiement reçu. L'activation prend un instant — rafraîchissez la page si l'accès n'apparaît pas.");
     })();
     return () => { stop = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps

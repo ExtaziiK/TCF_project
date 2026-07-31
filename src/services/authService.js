@@ -545,9 +545,44 @@ export async function getSession() {
 // Forces a new access token from the server, picking up any app_metadata
 // change (e.g. plan/role) made server-side since the cached session was
 // issued - getSession() alone only returns what's already cached locally.
+// A fresh JWT. Premium lives in app_metadata, which is baked into the access
+// token, so a purchase is invisible to the browser until the token is reminted
+// — reloading the page is not enough, it reuses the cached one.
+//
+// Supabase ROTATES the refresh token on every call, so calling this in a tight
+// loop can fail with "refresh token already used" once a call races another
+// (supabase-js auto-refreshes on its own timer, and a second tab refreshes
+// too). The error used to be swallowed — `data.session` was read without ever
+// checking `error` — so a caller polling for Premium saw null and simply kept
+// hammering, which made the collision more likely rather than less. Report it
+// instead, and let callers back off.
 export async function refreshSession() {
-  const { data } = await supabase.auth.refreshSession();
-  return data.session;
+  const { data, error } = await supabase.auth.refreshSession();
+  if (error) return { session: null, error };
+  return { session: data.session, error: null };
+}
+
+// A purchase was made and the JWT has not caught up yet. Set on return from
+// Checkout and cleared once Premium shows up, so a reload — or the next visit —
+// can finish the job instead of the user having to sign out and back in.
+const PREMIUM_PENDING_KEY = "tcf_premium_pending";
+const PREMIUM_PENDING_MAX_MS = 6 * 60 * 60 * 1000; // stop trying after 6 h
+
+export function markPremiumPending() {
+  try { localStorage.setItem(PREMIUM_PENDING_KEY, String(Date.now())); } catch { /* storage unavailable */ }
+}
+export function clearPremiumPending() {
+  try { localStorage.removeItem(PREMIUM_PENDING_KEY); } catch { /* ignore */ }
+}
+// True only while the flag is set AND recent: a webhook that never arrives must
+// not leave every future page load refreshing the token forever.
+export function isPremiumPending() {
+  try {
+    const at = Number(localStorage.getItem(PREMIUM_PENDING_KEY));
+    if (!Number.isFinite(at) || at <= 0) return false;
+    if (Date.now() - at > PREMIUM_PENDING_MAX_MS) { clearPremiumPending(); return false; }
+    return true;
+  } catch { return false; }
 }
 
 export function onAuthStateChange(callback) {
