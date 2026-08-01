@@ -38,6 +38,12 @@ export function Pricing() {
   // the visitor's currency. For DZD, the owner's explicit price wins (falling
   // back to the auto-converted amount); other currencies are indicative
   // conversions. PlanCard's −50 % and promo math still run on the string.
+  // DZD is paid by manual transfer, so a Stripe coupon can only be honoured
+  // when it is a percentage — that arithmetic works on any currency. A
+  // fixed-amount USD coupon is dropped for DZD and explained below.
+  const isDzd = currency.code === "DZD";
+  const dzUsablePromo = isDzd ? (applied?.percentOff ? applied : null) : applied;
+
   const displayPlans = useMemo(
     () => plans.map((p) => ({
       ...p,
@@ -94,9 +100,8 @@ export function Pricing() {
         </p>
       )}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={currency.code === "DZD" ? null : applied} index={i} currency={currency} />)}
+        {displayPlans.map((p, i) => <PlanCard key={p.name} p={p} promo={dzUsablePromo} index={i} currency={currency} />)}
       </div>
-      {currency.code !== "DZD" && (
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
         <div className="flex gap-2">
@@ -109,8 +114,15 @@ export function Pricing() {
           </p>
         )}
         {couponError && <p className="mt-3 text-sm text-rose-600 flex items-center gap-1.5"><XCircle size={15} /> {couponError}</p>}
+        {/* A fixed-amount Stripe coupon is priced in USD; there is no honest way
+            to subtract it from a dinar total, so say so rather than show a
+            discount the manual payment will not honour. */}
+        {isDzd && applied && !applied.percentOff && (
+          <p className="mt-3 text-sm text-amber-600 flex items-start gap-1.5">
+            <XCircle size={15} className="shrink-0 mt-0.5" /> {t("Ce code est un montant fixe en dollars : il ne peut pas s'appliquer à un paiement en dinars. Seuls les codes en pourcentage sont acceptés ici.")}
+          </p>
+        )}
       </Card>
-      )}
       <div className={`mt-12 max-w-3xl mx-auto grid sm:grid-cols-3 gap-4 text-center`}>
         {[{ icon: Shield, t: currency.code === "DZD" ? "Paiement local sécurisé" : "Paiement chiffré Stripe" }, { icon: RotateCcw, t: "Satisfait ou remboursé" }, { icon: CreditCard, t: "Sans engagement" }].map((b) => (
           <div key={b.t} className={`p-4 rounded-2xl border ${c.border} ${c.card} flex flex-col items-center gap-2`}>

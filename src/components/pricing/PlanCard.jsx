@@ -3,9 +3,8 @@ import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
-import { setDzCheckoutPlan } from "@/utils/dzCheckout";
+import { setDzCheckoutPlan, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getLaunchDiscount } from "@/services/settingsService";
-import { WithdrawalWaiverDialog } from "@/components/pricing/WithdrawalWaiverDialog";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
 // for the top VIP tier. `grad` drives the price text, the "popular" badge and
@@ -65,7 +64,6 @@ function discounted(price, promo) {
 export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
-  const [askWaiver, setAskWaiver] = useState(false);
   // The launch "−50 %" badge is admin-toggled (Tarifs → Prix). Starts null
   // rather than true so a disabled badge never flashes on screen before the
   // setting arrives; the cost is that an enabled one appears a beat late,
@@ -92,31 +90,22 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   // until Stripe answers or the fetch gives up.
   const priceLoading = paid && p.priceState === "loading";
 
-  // Clicking "subscribe" no longer goes straight to payment: CGU section 7
-  // rests on the buyer expressly asking for immediate access and acknowledging
-  // the loss of the withdrawal right, which has to be collected before
-  // performance begins (WithdrawalWaiverDialog). The server enforces it too, so
-  // this gate is the user-facing half of the same rule, not the whole of it.
-  const subscribe = () => {
+  // Straight to payment: no interstitial between the button and Stripe.
+  const subscribe = async () => {
     if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
-    setAskWaiver(true);
-  };
-
-  const proceed = async () => {
-    setAskWaiver(false);
     // Algerian dinar: hand off to the on-site manual-payment page instead of Stripe.
-    if (isDzd) { setDzCheckoutPlan(p.name); return nav("checkout-dz"); }
+    // Carry the promo across too, or the buyer sees a discounted card price
+    // and is then asked to transfer the full amount.
+    if (isDzd) { setDzCheckoutPlan(p.name); setDzCheckoutPromo(promo); return nav("checkout-dz"); }
     setBusy(true);
     try {
-      await startCheckout(p.slug, promo?.code, { withdrawalWaiver: true });
+      await startCheckout(p.slug, promo?.code);
     } catch (err) {
       notify(t(err?.message === "already-subscribed"
         ? "Votre accès Premium est encore actif. Vous pourrez acheter un nouveau pass à son échéance."
         : err?.message === "invalid-promo"
           ? "Ce code promo n'est plus valide. Retirez-le et réessayez."
-          : err?.message === "waiver-required"
-            ? "Confirmez la demande d'accès immédiat pour continuer."
-            : "Impossible de démarrer le paiement. Réessayez."), "error");
+          : "Impossible de démarrer le paiement. Réessayez."), "error");
       setBusy(false);
     }
   };
@@ -189,8 +178,6 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           </div>
         </Card>
       </div>
-      <WithdrawalWaiverDialog open={askWaiver} planName={t(p.name)}
-        onClose={() => setAskWaiver(false)} onConfirm={proceed} />
     </div>
   );
 }

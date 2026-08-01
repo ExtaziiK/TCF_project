@@ -65,15 +65,9 @@ export default async function handler(req, res) {
   // The client names a PLAN ("passeport"), not a Stripe price. The id is
   // resolved here from the pass's lookup key, so re-pricing in Stripe needs no
   // deploy and no Stripe identifier reaches the browser.
-  const { plan, promoCode, withdrawalWaiver, termsVersion } = req.body || {};
+  const { plan, promoCode } = req.body || {};
   if (!isPassSlug(plan)) return res.status(400).json({ error: "invalid-plan" });
 
-  // CGU section 7 makes a started pass non-refundable on the footing that the
-  // buyer expressly asked for immediate access and acknowledged losing the
-  // withdrawal right. That has to be obtained, not merely asserted in the
-  // contract, so no session is created without it — enforced here rather than
-  // only in the UI, since the endpoint is callable directly.
-  if (withdrawalWaiver !== true) return res.status(400).json({ error: "waiver-required" });
 
   // A user whose Premium is still active must manage/upgrade through the
   // billing portal — starting a second Checkout would create a second live
@@ -96,22 +90,6 @@ export default async function handler(req, res) {
     }
     const priceId = price.id;
 
-    // Record the acknowledgement before handing the buyer to Stripe, so the
-    // evidence exists for every session that could result in a charge. Stamped
-    // from the request headers here — the browser never supplies them (see the
-    // 20260731 migration). Best effort by design: if the table is missing
-    // (migration not yet applied) the purchase still proceeds rather than
-    // failing over bookkeeping, and the console line is the signal to apply it.
-    const forwarded = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
-    const { error: waiverError } = await supabaseAdmin.from("withdrawal_waivers").insert({
-      user_id: user.id,
-      terms_version: typeof termsVersion === "string" && termsVersion.length <= 40 ? termsVersion : "unknown",
-      price_id: priceId,
-      channel: "stripe",
-      ip: forwarded || null,
-      user_agent: String(req.headers["user-agent"] || "").slice(0, 300) || null,
-    });
-    if (waiverError) console.error("withdrawal waiver not recorded:", waiverError.message);
 
     // A code applied on the Pricing page is attached to the session directly;
     // otherwise Stripe's own promo-code field is enabled on the checkout page

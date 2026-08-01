@@ -6,8 +6,8 @@ import {
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
-import { planDzdAmount } from "@/utils/currency";
-import { getDzCheckoutPlan } from "@/utils/dzCheckout";
+import { planDzdAmount, applyPercentOff } from "@/utils/currency";
+import { getDzCheckoutPlan, getDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
 import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
 
@@ -61,6 +61,9 @@ export function CheckoutDz() {
   // Resolve the plan the user picked on the Tarifs page. Missing/invalid (e.g.
   // someone deep-links here) → back to Tarifs.
   const plan = useMemo(() => PLANS.find((p) => p.name === getDzCheckoutPlan() && p.slug), []);
+  // Read beside the plan, above the early return below — hooks must run in
+  // the same order on every render.
+  const promo = useMemo(() => getDzCheckoutPromo(), []);
 
   useEffect(() => {
     if (!plan) { nav("pricing"); return; }
@@ -70,7 +73,10 @@ export function CheckoutDz() {
 
   if (!plan || !user) return null;
 
-  const amount = cfg ? planDzdAmount(plan, cfg.prices) : planDzdAmount(plan);
+  const fullAmount = cfg ? planDzdAmount(plan, cfg.prices) : planDzdAmount(plan);
+  // Percentage only — a fixed-amount coupon is in USD and cannot be taken off a
+  // dinar total, so the Tarifs page never lets one through to here.
+  const amount = promo?.percentOff ? applyPercentOff(fullAmount, promo.percentOff) : fullAmount;
   const waUrl = cfg?.whatsappGroupUrl || "";
 
   const pickFile = (f) => {
@@ -87,7 +93,10 @@ export function CheckoutDz() {
     setBusy(true);
     const r = await submitSubscriptionRequest({
       plan: plan.name, planDays: plan.days, method, amountDzd: amount,
-      reference, notes, receiptFile: file,
+      reference, receiptFile: file,
+      // The code goes in the notes so the reviewer can see why the transfer is
+      // smaller than the list price, without a schema change.
+      notes: promo ? `[Code promo ${promo.code} · −${promo.percentOff} %] ${notes || ""}`.trim() : notes,
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));

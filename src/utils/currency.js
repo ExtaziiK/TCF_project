@@ -44,3 +44,21 @@ export function planDzdAmount(plan, overrides = {}) {
   if (num) return DZD.format(parseFloat(num[0].replace(",", ".")));
   return convertPrice(plan?.price ?? "$0", DZD);
 }
+
+// Takes a percentage off a formatted money string, keeping its formatting
+// ("2 600 DZD" → "2 080 DZD"). Used by the DZD manual checkout: a Stripe
+// promotion code cannot be attached to a bank transfer, so the discount is
+// applied to the amount we ask the buyer to send. Percentage only — a
+// fixed-amount coupon is denominated in USD and has no meaning against dinars.
+export function applyPercentOff(formatted, percentOff) {
+  const pct = Number(percentOff);
+  if (!Number.isFinite(pct) || pct <= 0 || pct > 100) return formatted;
+  // Strip the thin/non-breaking spaces the fr-DZ formatter uses as thousands
+  // separators, along with the currency symbol, to get back to a number.
+  const digits = String(formatted).replace(/[^\d.,]/g, "").replace(",", ".");
+  const n = parseFloat(digits);
+  if (!Number.isFinite(n) || n <= 0) return formatted;
+  // Re-format rather than splice the discounted number back into the original
+  // string: splicing dropped the separator before the currency symbol ("2 080DA").
+  return DZD.format(Math.round(n * (1 - pct / 100)));
+}
