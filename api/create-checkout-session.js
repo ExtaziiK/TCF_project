@@ -48,12 +48,15 @@ export default async function handler(req, res) {
       if (!GRANTABLE_PAYMENT_STATUSES.includes(session.payment_status)) {
         return res.status(202).json({ ok: false, pending: true });
       }
-      const patch = await passPatchForSession(session, stripe);
+      // Read first: the patch needs the current expiry so an upgrade cannot
+      // shorten access that was already paid for.
+      const { data } = await supabaseAdmin.auth.admin.getUserById(user.id);
+      const currentMeta = data?.user?.app_metadata || {};
+      const patch = await passPatchForSession(session, stripe, currentMeta);
       if (!patch) return res.status(400).json({ error: "invalid-price" });
 
-      const { data } = await supabaseAdmin.auth.admin.getUserById(user.id);
       await supabaseAdmin.auth.admin.updateUserById(user.id, {
-        app_metadata: { ...(data?.user?.app_metadata || {}), ...patch },
+        app_metadata: { ...currentMeta, ...patch },
       });
       return res.status(200).json({ ok: true, plan: patch.plan, planLabel: patch.plan_label, premiumUntil: patch.premium_until });
     } catch (err) {
@@ -69,13 +72,11 @@ export default async function handler(req, res) {
   if (!isPassSlug(plan)) return res.status(400).json({ error: "invalid-plan" });
 
 
-  // A user whose Premium is still active must manage/upgrade through the
-  // billing portal — starting a second Checkout would create a second live
-  // subscription (double billing).
+  // An active pass is no longer a reason to refuse a purchase: upgrading has to
+  // be possible without waiting for the current one to lapse. The new window
+  // runs from the moment of purchase and never shortens what is already there
+  // (see passPatchForSession).
   const meta = user.app_metadata || {};
-  const premiumActive =
-    meta.plan === "Premium" && (!meta.premium_until || Date.parse(meta.premium_until) > Date.now());
-  if (premiumActive) return res.status(400).json({ error: "already-subscribed" });
 
   const origin = req.headers.origin || `https://${req.headers.host}`;
 

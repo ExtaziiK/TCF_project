@@ -88,7 +88,10 @@ export default async function handler(req, res) {
           if (!GRANTABLE_PAYMENT_STATUSES.includes(session.payment_status)) break;
           // Same patch the browser's confirmation applies, and idempotent, so
           // whichever of the two gets here first the outcome is identical.
-          const patch = await passPatchForSession(session, stripe);
+          // Current metadata goes in so an upgrade cannot shorten access that
+          // was already paid for.
+          const { data: existing } = await supabaseAdmin.auth.admin.getUserById(userId);
+          const patch = await passPatchForSession(session, stripe, existing?.user?.app_metadata || {});
           if (!patch) { console.error("checkout.session.completed: unknown price on", session.id); break; }
           await setPremiumStatus(userId, patch);
           break;
