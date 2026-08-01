@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Play, Sparkles, GraduationCap, ChevronDown, Check, Loader2, Keyboard } from "lucide-react";
+import { Play, Sparkles, ChevronDown, Check, Loader2, Keyboard } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
@@ -171,7 +171,6 @@ function WritingTaskPane({ task }) {
         </Card>
         <div className="flex gap-3 flex-wrap">
           <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>
-          <Btn variant="ghost" icon={GraduationCap} onClick={() => notify(t("Texte envoyé pour correction humaine (fonctionnalité Premium Annuel — démo)."))}>{t("Envoyer à un enseignant")}</Btn>
         </div>
         {analyzing && !ai && (
           <Card className="p-6 border-2 border-blue-600/40 flex items-center gap-3">
