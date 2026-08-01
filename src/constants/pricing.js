@@ -24,6 +24,11 @@ export const PLANS = [
     slug: null, // free plan: nothing to buy
     feats: [
       "Un quiz offert dans chaque épreuve",
+      // One only, and it is enforced by the attempt itself — see
+      // examService.findFreeAttempt and requirePremiumOrFreeMock. Keep the
+      // wording honest about the limit: it is the first thing a free user
+      // discovers when they try to start a second.
+      "1 TCF blanc complet, correction IA incluse",
       "Corrections détaillées et explications",
       "Cartes de vocabulaire pour démarrer",
       "Sujets d'actualité du mois (EE + EO)",
