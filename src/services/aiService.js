@@ -1,5 +1,6 @@
 import { supabase } from "@/services/supabaseClient";
 import { getDeviceSessionId } from "@/services/authService";
+import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 
 // Client for the AI evaluation endpoints (api/expression-*). The Groq key
 // lives on the server; here we just forward the request with the user's
@@ -48,13 +49,16 @@ async function postJSON(path, body) {
 }
 
 // { level, summary, strengths[], improvements[], corrected }
-export function evaluateWriting({ prompt, response, taskLabel, targetWords, lang }) {
-  return postJSON("/api/expression-ecrite", { prompt, response, taskLabel, targetWords, lang });
+// `attemptId` is only needed by a FREE account: it names the one TCF blanc
+// they are entitled to, which the server verifies before allowing the call
+// (requirePremiumOrFreeMock). Premium users may omit it.
+export function evaluateWriting({ prompt, response, taskLabel, targetWords, lang, attemptId }) {
+  return postJSON("/api/expression-ecrite", { prompt, response, taskLabel, targetWords, lang, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // { transcript, level, summary, strengths[], improvements[], empty? }
-export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang }) {
-  return postJSON("/api/expression-orale", { audio: audioBase64, mime, prompt, taskLabel, lang });
+export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, attemptId }) {
+  return postJSON("/api/expression-orale", { audio: audioBase64, mime, prompt, taskLabel, lang, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // One turn of the oral-interview simulation. `history` is the dialogue so far
@@ -65,8 +69,8 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang })
 // server-synthesized speech ({ audio: <base64>, audioMime }); when absent the
 // client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final });
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, attemptId }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // Reads a recorded Blob as a bare base64 string (no data: prefix).

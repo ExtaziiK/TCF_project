@@ -1,4 +1,4 @@
-import { requirePremium } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage } from "./_lib/usage.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
@@ -20,7 +20,9 @@ Respond with ONLY a minified JSON object of this exact shape:
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    const user = await requirePremium(req);
+    // Premium, or a free account inside the one TCF blanc it is entitled to —
+    // the attempt id is verified server-side (see requirePremiumOrFreeMock).
+    const user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
     // Each call is a billable Groq request; cap the pace per account so a
     // scripted client can't burn the AI budget (Premium gates access, not volume).
     await enforceRateLimit(req, { name: "expr-ecrite", limit: 10, windowSeconds: 300, userId: user.id });

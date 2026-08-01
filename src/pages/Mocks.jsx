@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff, Clock } from "lucide-react";
+import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff, Clock, Crown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -12,9 +12,12 @@ import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
-  TASKS_PER_EXAM, generateExamTasks, resolveTasks, scoreExam, levelForPct,
+  TASKS_PER_EXAM, generateExamTasks, generateFreeExamTasks, resolveTasks, scoreExam, levelForPct,
+  FREE_MOCK_META, isFreeAttempt, findFreeAttempt,
   listAttempts, createAttempt, saveProgress, completeAttempt, abandonAttempt,
 } from "@/services/examService";
+import { setFreeMockAttemptId } from "@/utils/freeMockAttempt";
+import { deriveRole, ROLES } from "@/auth/rbac";
 
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 
@@ -307,12 +310,39 @@ export function Mocks() {
   // the user stays scrolled to wherever the "Reprendre"/"Commencer" button was.
   useEffect(() => { if (active || reviewing) window.scrollTo({ top: 0 }); }, [active, reviewing]);
 
+  // The AI endpoints accept a non-Premium caller only for the free attempt, and
+  // they identify it by id. Publish it while that exam is open — including on a
+  // resume after a reload — and clear it otherwise so a Premium exam never
+  // sends one.
+  useEffect(() => {
+    setFreeMockAttemptId(active && isFreeAttempt(active) ? active.id : null);
+    return () => setFreeMockAttemptId(null);
+  }, [active]);
+
+  // A "Sans papier" account may sit exactly one TCF blanc, on fixed content.
+  // Premium (and staff) keep the rotating generator and unlimited attempts.
+  // deriveRole is the one place that decides this — mapSupabaseUser exposes
+  // plan/premiumUntil, not a boolean, and rolling the check by hand here is
+  // how the nav once drifted out of step with the route guard.
+  const isFreeTier = deriveRole(user) === ROLES.FREE_USER;
+  const freeAttempt = isFreeTier ? findFreeAttempt(attempts || []) : null;
+  const freeUsedUp = !!freeAttempt && freeAttempt.status !== "in_progress";
+  const canStart = !isFreeTier || !freeAttempt;
+
   // Called by the setup screen with the chosen mode.
   const start = async ({ mode }) => {
+    // Enforced here as well as in the UI: the button is hidden once the free
+    // exam is spent, but nothing stops the screen being reached another way.
+    if (!canStart) {
+      setSetup(false);
+      return notify(t("Votre TCF blanc gratuit a déjà été utilisé. Les suivants font partie de l'abonnement Premium."), "error");
+    }
     setStarting(true);
-    const tasks = generateExamTasks(attempts || []);
+    // Free accounts always sit the SAME exam (CO 15, CE 15, and the two
+    // expression workshops) rather than a rotating draw.
+    const tasks = isFreeTier ? generateFreeExamTasks() : generateExamTasks(attempts || []);
     if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
-    const attempt = await createAttempt(user?.id, tasks, { mode });
+    const attempt = await createAttempt(user?.id, tasks, isFreeTier ? { mode, ...FREE_MOCK_META } : { mode });
     setStarting(false);
     setSetup(false);
     setActive(attempt);
@@ -395,8 +425,29 @@ export function Mocks() {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>{t("Commencer l'examen")}</Btn>
-            <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
+            {freeUsedUp ? (
+              /* The one free TCF blanc has been sat. The report stays reachable
+                 from the Historique below — only starting another is blocked. */
+              <div className="max-w-lg text-center p-5 rounded-2xl bg-blue-600/10 border border-blue-600/25">
+                <p className={`font-semibold text-sm ${c.text}`}>{t("Vous avez déjà passé votre TCF blanc gratuit")}</p>
+                <p className={`mt-1.5 text-sm ${c.sub}`}>
+                  {t("Votre compte Sans papier donne droit à un TCF blanc complet, correction IA comprise. Il a été utilisé — vous pouvez toujours consulter votre résultat dans l'historique ci-dessous. Les examens suivants font partie de l'abonnement Premium.")}
+                </p>
+                <Btn variant="accent" className="mt-4" icon={Crown} onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
+              </div>
+            ) : (
+              <>
+                <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>
+                  {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
+                </Btn>
+                {isFreeTier && !freeAttempt && (
+                  <p className={`text-xs text-center max-w-md ${c.sub}`}>
+                    {t("Votre compte gratuit donne droit à un TCF blanc complet — les quatre épreuves, avec la correction IA de l'écrit et de l'oral. Un seul, alors prenez votre temps.")}
+                  </p>
+                )}
+                <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
+              </>
+            )}
           </div>
         </div>
       </Card>

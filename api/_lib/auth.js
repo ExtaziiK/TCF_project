@@ -54,6 +54,41 @@ export async function requirePremium(req) {
   return user;
 }
 
+// Premium, OR a free account working through the single TCF blanc it is
+// entitled to.
+//
+// A "Sans papier" user gets one mock exam including the AI correction, so the
+// endpoints below cannot simply demand Premium. Entitlement is proved by the
+// attempt itself rather than by a counter: the caller names an attempt, and it
+// is accepted only when that row belongs to them, is flagged as the free mock
+// and is still in progress. That bounds the spend at one Expression écrite and
+// one Expression orale per account for good — a completed attempt stops
+// working, and a second free attempt cannot be created (see
+// examService.findFreeAttempt).
+//
+// Deliberately server-side: the client sends only an id, and every fact used
+// to decide is read from the database with the service-role key.
+export async function requirePremiumOrFreeMock(req, attemptId) {
+  const user = await requireUser(req);
+  if (isPremiumUser(user)) return user;
+
+  if (!attemptId || typeof attemptId !== "string") {
+    throw new HttpError(403, "Réservé à l'abonnement Premium.");
+  }
+  const { data, error } = await admin
+    .from("exam_attempts")
+    .select("id, user_id, status, progress")
+    .eq("id", attemptId)
+    .maybeSingle();
+  if (error || !data) throw new HttpError(403, "Réservé à l'abonnement Premium.");
+  if (data.user_id !== user.id) throw new HttpError(403, "Réservé à l'abonnement Premium.");
+  if (!data.progress?.free) throw new HttpError(403, "Réservé à l'abonnement Premium.");
+  if (data.status !== "in_progress") {
+    throw new HttpError(403, "Votre TCF blanc gratuit est terminé. La correction IA fait partie de l'abonnement Premium.");
+  }
+  return user;
+}
+
 // requireUser + a back-office role (admin or owner; app_metadata,
 // server-controlled). Gates the service-role admin API (api/admin/*): user
 // management and platform stats. An owner has every admin capability.

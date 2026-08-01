@@ -67,7 +67,10 @@ export const PAGE_ACCESS = {
   speaking: PREMIUM,
   vocabulary: PREMIUM,
   grammar: PREMIUM,
-  mocks: PREMIUM,
+  // Free accounts reach the TCF blanc page and may sit exactly ONE, on fixed
+  // content (examService.generateFreeExamTasks). The limit is enforced on the
+  // page and, for the AI correction, server-side — not by this route policy.
+  mocks: AUTHENTICATED,
   // Monthly EE/EO trending subjects: signed-in only (free or paid), not public.
   // A visitor is sent to the register gate (see deniedReason).
   "sujets-actualite": AUTHENTICATED,

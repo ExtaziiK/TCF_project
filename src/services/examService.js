@@ -76,6 +76,47 @@ export function generateExamTasks(history = []) {
   return tasks;
 }
 
+/* --------------------------- the free TCF blanc --------------------------- */
+
+// A "Sans papier" account may sit exactly one TCF blanc. Its content is FIXED
+// rather than drawn from the rotation: every free candidate takes the same
+// exam, which keeps the free tier a consistent sample of the product instead
+// of a random slice of the bank.
+//
+// Compréhension orale and écrite come from quiz 15 of each; expression écrite
+// and orale are the built-in workshops, because that is where the AI
+// correction lives and offering it is the point of the free exam.
+export const FREE_MOCK_QUIZ_NUMBER = 15;
+
+export function generateFreeExamTasks() {
+  const bank = getBank();
+  const tasks = [];
+  for (const section of EPREUVE_ORDER) {
+    // EE/EO always run the workshop, even once bank quizzes exist for them:
+    // an MCQ there would drop the AI feedback this exam is meant to showcase.
+    if (BUILTIN_TASKS[section]) {
+      tasks.push({ type: BUILTIN_TASKS[section], section, order: tasks.length });
+      continue;
+    }
+    const pool = (bank[section] || []).filter((q) => q.kind !== "prompt");
+    // Fall back to the first available quiz if 15 is ever missing, so the free
+    // exam degrades to "some quiz" rather than to a section that will not open.
+    const quiz = pool.find((q) => q.quizNumber === FREE_MOCK_QUIZ_NUMBER) || pool[0];
+    if (quiz) tasks.push({ type: "quiz", quizId: quiz.id, section, order: tasks.length });
+  }
+  return tasks;
+}
+
+// Marked in the attempt's progress JSON (createAttempt folds `meta` into it),
+// so the flag travels with the row and is readable by the API too — that is
+// what lets the AI endpoints accept a free user for this attempt alone.
+export const FREE_MOCK_META = { free: true };
+export const isFreeAttempt = (a) => !!a?.progress?.free;
+
+// The free attempt this account has already taken, if any. `null` means they
+// are still entitled to one.
+export const findFreeAttempt = (attempts = []) => attempts.find(isFreeAttempt) || null;
+
 // Resolves stored quiz-task references back to live bank quizzes (built-in
 // tasks have nothing to resolve). A quiz removed from the bank since the
 // attempt started resolves to null.

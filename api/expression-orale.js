@@ -1,4 +1,4 @@
-import { requirePremium } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
@@ -244,7 +244,9 @@ function extForMime(mime = "") {
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
-    const user = await requirePremium(req);
+    // Premium, or a free account inside the one TCF blanc it is entitled to —
+    // the attempt id is verified server-side (see requirePremiumOrFreeMock).
+    const user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
     // Transcription + evaluation are billable Groq/Azure calls; cap the pace
     // per account. Generous enough for a real interview (one turn per ~30 s).
     await enforceRateLimit(req, { name: "expr-orale", limit: 30, windowSeconds: 300, userId: user.id });
