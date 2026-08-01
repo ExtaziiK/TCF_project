@@ -15,7 +15,8 @@ import { HttpError } from "../groq.js";
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
 //             "disconnect"      {}    signs the account out on every device, now
-//             "delete"          {}                        (cannot delete yourself)
+//             "delete"          {}    not yourself, never an owner, and an
+//                                     admin only if you are the owner
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
@@ -282,6 +283,21 @@ async function handlePost(req, res, actor) {
     if (userId === actor.id) throw new HttpError(400, "Vous ne pouvez pas supprimer votre propre compte ici.");
     const { data } = await admin.auth.admin.getUserById(userId);
     const email = data?.user?.email || userId;
+
+    // Privileged accounts are not ordinary users. Deleting one is irreversible
+    // and takes its access with it — an admin deleting the owner leaves the
+    // project with nobody able to manage admins at all, recoverable only with
+    // the service-role key. Same policy as set-role, so the two cannot
+    // disagree: the owner is untouchable here, and only the owner may remove
+    // an admin.
+    const targetRole = data?.user?.app_metadata?.role;
+    if (targetRole === "owner") {
+      throw new HttpError(400, "Le compte propriétaire ne peut pas être supprimé ici.");
+    }
+    if (targetRole === "admin" && actor.app_metadata?.role !== "owner") {
+      throw new HttpError(403, "Seul le propriétaire peut supprimer un administrateur.");
+    }
+
     const { error } = await admin.auth.admin.deleteUser(userId);
     if (error) throw new HttpError(502, `Suppression refusée : ${error.message}`);
     await audit(actor, "delete-user", email);

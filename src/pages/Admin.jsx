@@ -932,6 +932,16 @@ function UsersTab() {
 
 function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
   const { c } = useApp();
+  // Mirrors the server rule in api/_lib/admin/users.js: never yourself, never
+  // an owner, and an admin only if you are the owner. The endpoint enforces
+  // this on its own — it is callable directly — so this only spares the admin a
+  // refused request and explains why the button is dead.
+  const deleteBlockedReason =
+    isSelf ? "Vous ne pouvez pas supprimer votre propre compte"
+      : u.owner ? "Le compte propriétaire ne peut pas être supprimé ici"
+        : u.admin && !canManageAdmins ? "Seul le propriétaire peut supprimer un administrateur"
+          : null;
+  const canDelete = !deleteBlockedReason;
   return (
     <>
       <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
@@ -1007,8 +1017,8 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                   <Btn small variant="ghost" disabled={busy} onClick={onCancelDelete}>Annuler</Btn>
                 </span>
               ) : (
-                <Btn small variant="ghost" className="text-rose-600" disabled={busy || isSelf} icon={Trash2} onClick={onConfirmDelete}
-                  title={isSelf ? "Vous ne pouvez pas supprimer votre propre compte" : undefined}>Supprimer</Btn>
+                <Btn small variant="ghost" className="text-rose-600" disabled={busy || !canDelete} icon={Trash2} onClick={onConfirmDelete}
+                  title={deleteBlockedReason || undefined}>Supprimer</Btn>
               )}
             </div>
           </td>
