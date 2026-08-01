@@ -1,10 +1,13 @@
-import { requireUser, isPremiumUser } from "./_lib/auth.js";
+import { requireUser, isPremiumUser, freeMockQuizNumbers } from "./_lib/auth.js";
 import { signMediaBatch } from "./_lib/media.js";
 import { HttpError } from "./_lib/groq.js";
 
 // Hands out short-lived signed URLs for a batch of quiz media, addressed by
 // logical coordinates (section / quiz / question / kind). Access tiers:
 //   - Premium/admin: any quiz.
+//   - A free account part-way through its one TCF blanc: quiz 1 plus the
+//     quizzes that exam is built from (read back from the attempt, so the
+//     allowance follows the exam's content and ends when it does).
 //   - Everyone else — free accounts, AND anonymous visitors: quiz 1 only, the
 //     free teaser (same one BankExplorer leaves unlocked, and what the public
 //     home-page CO demo needs). A superseded device (single-active-session)
@@ -32,10 +35,16 @@ export default async function handler(req, res) {
       .filter((it) => it && (it.kind === "image" || it.kind === "audio") && it.section && it.quiz != null && it.order != null)
       .map((it) => ({ ref: String(it.ref), section: String(it.section), quiz: it.quiz, order: it.order, kind: it.kind }));
 
-    // Non-premium (free or anonymous) may only sign quiz 1. Enforced here, not
-    // just in the UI, so nobody can bulk-download the premium bank by calling
-    // this endpoint directly with arbitrary coordinates.
-    if (!isPremiumUser(user)) clean = clean.filter((it) => Number(it.quiz) === 1);
+    // Non-premium (free or anonymous) may only sign quiz 1 — plus, while a free
+    // account is sitting its one TCF blanc, the quizzes that exam uses. Without
+    // the second part the free mock opened with no audio and no images, since
+    // it is built from quiz 15. Enforced here, not just in the UI, so nobody
+    // can bulk-download the premium bank by calling this endpoint directly with
+    // arbitrary coordinates.
+    if (!isPremiumUser(user)) {
+      const allowed = new Set([1, ...(await freeMockQuizNumbers(user))]);
+      clean = clean.filter((it) => allowed.has(Number(it.quiz)));
+    }
 
     const urls = await signMediaBatch(clean);
     res.status(200).json({ urls });

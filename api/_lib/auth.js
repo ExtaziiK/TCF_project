@@ -68,6 +68,42 @@ export async function requirePremium(req) {
 //
 // Deliberately server-side: the client sends only an id, and every fact used
 // to decide is read from the database with the service-role key.
+// Whether this account is part-way through the one free TCF blanc, and if so
+// which quiz numbers that exam is made of.
+//
+// api/media.js signs quiz media and lets a non-Premium caller have quiz 1 only.
+// The free mock is built from quiz 15, so without this its audio and images
+// were filtered out and the exam opened with empty questions. Rather than
+// hard-code 15 there, the quizzes are read back from the attempt's own tasks —
+// change the free exam's content and the media follows.
+//
+// Returns an empty array for everyone else, so the quiz-1 rule is unchanged
+// for anonymous visitors and for free users who are not sitting the exam.
+export async function freeMockQuizNumbers(user) {
+  if (!user) return [];
+  const { data: attempt } = await admin
+    .from("exam_attempts")
+    .select("id, progress")
+    .eq("user_id", user.id)
+    .eq("status", "in_progress")
+    .order("started_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!attempt?.progress?.free) return [];
+
+  const { data: tasks } = await admin
+    .from("exam_attempt_tasks")
+    .select("quiz_id")
+    .eq("exam_attempt_id", attempt.id);
+  // quiz_id looks like "co-Quiz_15_CO"; the exam's quiz number is the digits.
+  const numbers = new Set();
+  for (const t of tasks || []) {
+    const m = String(t.quiz_id || "").match(/(\d+)/);
+    if (m) numbers.add(Number(m[1]));
+  }
+  return [...numbers];
+}
+
 export async function requirePremiumOrFreeMock(req, attemptId) {
   const user = await requireUser(req);
   if (isPremiumUser(user)) return user;
