@@ -2,13 +2,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Receipt, Landmark, Smartphone, Copy, Check, ShieldCheck, UploadCloud,
   Send, MessageCircle, Hash, StickyNote, CheckCircle2, FileText, Zap, X, Phone,
+  Gift, XCircle,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
 import { planDzdAmount, applyPercentOff } from "@/utils/currency";
-import { getDzCheckoutPlan, getDzCheckoutPromo } from "@/utils/dzCheckout";
+import { getDzCheckoutPlan, getDzCheckoutPromo, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
+import { validatePromoCode, promoLabel } from "@/services/stripeService";
 import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
 
 // The two manual methods offered to Algerian users (Stripe is never used for
@@ -61,9 +63,16 @@ export function CheckoutDz() {
   // Resolve the plan the user picked on the Tarifs page. Missing/invalid (e.g.
   // someone deep-links here) → back to Tarifs.
   const plan = useMemo(() => PLANS.find((p) => p.name === getDzCheckoutPlan() && p.slug), []);
-  // Read beside the plan, above the early return below — hooks must run in
-  // the same order on every render.
-  const promo = useMemo(() => getDzCheckoutPromo(), []);
+  // Seeded from the code applied on the Tarifs page, but editable here: a buyer
+  // who lands on this page without one (or who is given a code after arriving)
+  // must still be able to enter it, so this is state rather than a one-shot
+  // read. Declared above the early return below — hooks must run in the same
+  // order on every render. Every change is mirrored back to sessionStorage so
+  // it survives a reload of this page.
+  const [promo, setPromo] = useState(getDzCheckoutPromo);
+  const [coupon, setCoupon] = useState("");
+  const [checking, setChecking] = useState(false);
+  const [couponError, setCouponError] = useState("");
 
   useEffect(() => {
     if (!plan) { nav("pricing"); return; }
@@ -78,6 +87,38 @@ export function CheckoutDz() {
   // dinar total, so the Tarifs page never lets one through to here.
   const amount = promo?.percentOff ? applyPercentOff(fullAmount, promo.percentOff) : fullAmount;
   const waUrl = cfg?.whatsappGroupUrl || "";
+
+  // Same validation the Tarifs page runs (api/promo-validate), with the same
+  // dinar rule: a fixed-amount Stripe coupon is denominated in USD and cannot
+  // honestly be subtracted from a dinar total, so only a percentage is kept.
+  const applyCoupon = async () => {
+    const code = coupon.trim();
+    if (!code) return;
+    setChecking(true);
+    setCouponError("");
+    const r = await validatePromoCode(code);
+    setChecking(false);
+    if (!r.valid) {
+      setCouponError(r.unavailable
+        ? t("Vérification indisponible ici (fonctions serverless non déployées).")
+        : t("Ce code n'est pas valide, a expiré ou a atteint sa limite d'utilisation."));
+      return;
+    }
+    if (!r.percentOff) {
+      setCouponError(t("Ce code est un montant fixe en dollars : il ne peut pas s'appliquer à un paiement en dinars. Seuls les codes en pourcentage sont acceptés ici."));
+      return;
+    }
+    const next = { code: r.code, percentOff: r.percentOff };
+    setPromo(next);
+    setDzCheckoutPromo(next);
+    setCoupon("");
+  };
+
+  const removeCoupon = () => {
+    setPromo(null);
+    setDzCheckoutPromo(null);
+    setCouponError("");
+  };
 
   const pickFile = (f) => {
     if (!f) return;
@@ -140,9 +181,34 @@ export function CheckoutDz() {
               <li key={f} className={`flex gap-2 text-sm ${c.sub}`}><Check size={16} className="text-emerald-500 shrink-0 mt-0.5" /><span>{t(f)}</span></li>
             ))}
           </ul>
-          <div className={`mt-5 pt-4 border-t ${c.border} flex items-center justify-between`}>
+          {/* Code promo. The Tarifs page has the same field, but a buyer can
+              reach this page without having used it — or be given a code once
+              here — so the total must stay reachable from this screen too. */}
+          <div className={`mt-5 pt-4 border-t ${c.border}`}>
+            <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
+            {promo ? (
+              <div className="flex items-center justify-between gap-2 rounded-2xl bg-emerald-500/10 px-4 py-3">
+                <span className="text-sm text-emerald-600 flex items-center gap-1.5 min-w-0">
+                  <CheckCircle2 size={15} className="shrink-0" />
+                  <span className="font-mono2 font-semibold truncate">{promo.code}</span>
+                  <span className="shrink-0">· {promoLabel(promo)}</span>
+                </span>
+                <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input value={coupon} onChange={(e) => { setCoupon(e.target.value.toUpperCase()); setCouponError(""); }} onKeyDown={(e) => { if (e.key === "Enter") applyCoupon(); }} placeholder={t("Ex. : BIENVENUE20")} aria-label={t("Code promo")} className={`flex-1 min-w-0 px-4 py-3 rounded-2xl border text-sm font-mono2 outline-none focus:border-blue-600 ${c.inputCls}`} />
+                <Btn small disabled={checking || !coupon.trim()} onClick={applyCoupon}>{t(checking ? "Vérification…" : "Appliquer")}</Btn>
+              </div>
+            )}
+            {couponError && <p className="mt-3 text-sm text-rose-600 flex items-start gap-1.5"><XCircle size={15} className="shrink-0 mt-0.5" /> {couponError}</p>}
+          </div>
+          <div className={`mt-5 pt-4 border-t ${c.border} flex items-center justify-between gap-3`}>
             <span className={`text-sm font-semibold ${c.text}`}>{t("Total à payer")}</span>
-            <span className="font-display font-extrabold text-2xl grad-text">{amount}</span>
+            <span className="flex items-baseline gap-2 min-w-0">
+              {promo && <span className={`text-sm line-through shrink-0 ${c.faint}`}>{fullAmount}</span>}
+              <span className="font-display font-extrabold text-2xl grad-text">{amount}</span>
+            </span>
           </div>
         </Card>
 
