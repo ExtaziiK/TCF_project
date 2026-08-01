@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
+  Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -22,7 +22,9 @@ import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
+  listPassPrices, setPassPrice,
 } from "@/services/adminService";
+import { getLaunchDiscount, setLaunchDiscount } from "@/services/settingsService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
 } from "@/services/testimonialsService";
@@ -31,7 +33,7 @@ import { PLANS } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
-const PAID_PLANS = PLANS.filter((p) => p.priceId);
+const PAID_PLANS = PLANS.filter((p) => p.slug);
 // Increments offered by the "Prolonger" control, mirroring the pass durations
 // so a goodwill gesture is expressed in the same units the user bought in.
 const EXTEND_DAYS = [5, 15, 30, 90];
@@ -497,14 +499,114 @@ function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
 // The "Tarifs" admin section: promo codes first, then the DZD (Algeria)
 // manual-payment settings.
 function TarifsSection() {
-  const [sub, setSub] = useState("promos");
-  const subs = [{ id: "promos", label: "Promos" }, { id: "dzd", label: "DZD" }];
+  const [sub, setSub] = useState("prices");
+  const subs = [{ id: "prices", label: "Prix" }, { id: "promos", label: "Promos" }, { id: "dzd", label: "DZD" }];
   return (
     <div className="space-y-5">
       <SubTabs tabs={subs} active={sub} onSelect={setSub} />
+      {sub === "prices" && <PricesTab />}
       {sub === "promos" && <PromosTab />}
       {sub === "dzd" && <PaymentSettingsTab />}
     </div>
+  );
+}
+
+// Live pass prices, editable.
+//
+// A Stripe Price is immutable in its amount, so saving here does not "edit" a
+// price — the server creates a new one and moves the pass's lookup key onto it,
+// then archives the old. Nothing in the code holds a price id, so the change is
+// live everywhere (checkout, the pricing page) without a deploy.
+function PricesTab() {
+  const { c, notify } = useApp();
+  const [passes, setPasses] = useState(null);
+  const [draft, setDraft] = useState({});      // slug -> string being typed
+  const [savingSlug, setSavingSlug] = useState(null);
+  const [unavailable, setUnavailable] = useState(false);
+  const [badge, setBadge] = useState(null);       // launch "−50 %" toggle
+  const [badgeBusy, setBadgeBusy] = useState(false);
+
+  const load = () => listPassPrices().then((r) => {
+    if (r.ok) { setPasses(r.data.passes); setDraft({}); } else setUnavailable(!!r.unavailable);
+  });
+  useEffect(() => { load(); getLaunchDiscount().then((d) => setBadge(d.enabled)); }, []);
+
+  const toggleBadge = async () => {
+    const next = !badge;
+    setBadgeBusy(true);
+    const r = await setLaunchDiscount(next);
+    setBadgeBusy(false);
+    if (!r.ok) return notify(r.error || "Changement refusé.", "error");
+    setBadge(next);
+    notify(next ? "Badge −50 % affiché sur la page Tarifs." : "Badge −50 % masqué.");
+  };
+
+  const save = async (pass) => {
+    const typed = (draft[pass.slug] ?? "").trim().replace(",", ".");
+    const value = Number(typed);
+    if (!typed || !Number.isFinite(value) || value <= 0) return notify("Entrez un montant valide.", "error");
+    const cents = Math.round(value * 100);
+    if (cents === pass.amount) return notify("Ce forfait est déjà à ce prix.");
+    setSavingSlug(pass.slug);
+    const r = await setPassPrice(pass.slug, cents);
+    setSavingSlug(null);
+    if (!r.ok) return notify(r.error || "Changement de prix refusé.", "error");
+    notify(`${pass.label} passe à ${value.toFixed(2)} $.`);
+    load();
+  };
+
+  if (unavailable) {
+    return <UnavailableCard>Les tarifs passent par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
+  }
+  if (!passes) return <Card className="p-6"><p className={`text-sm ${c.sub}`}>Chargement des tarifs…</p></Card>;
+
+  return (
+    <Card className="p-6">
+      <h3 className={`font-display font-bold ${c.text}`}>Prix des pass</h3>
+      <p className={`text-sm mt-1 mb-5 ${c.sub}`}>
+        Le montant est lu dans Stripe et appliqué immédiatement, sans redéploiement. L&apos;ancien prix est archivé : les
+        achats déjà payés ne changent pas.
+      </p>
+      {/* Presentational only: the struck-through price is double the real one
+          and nothing about it reaches Stripe. */}
+      <div className={`flex items-center gap-3 flex-wrap p-4 mb-5 rounded-2xl border ${c.border}`}>
+        <div className="min-w-[14rem]">
+          <p className={`font-semibold text-sm ${c.text}`}>Badge « −50 % » de lancement</p>
+          <p className={`text-xs ${c.faint}`}>Affiche un prix barré au double du prix réel sur chaque forfait payant.</p>
+        </div>
+        <Btn small variant="ghost" className="ml-auto" disabled={badge === null || badgeBusy}
+          icon={badge ? Eye : EyeOff} onClick={toggleBadge}>
+          {badge === null ? "…" : badge ? "Affiché — masquer" : "Masqué — afficher"}
+        </Btn>
+      </div>
+
+      <div className="space-y-3">
+        {passes.map((p) => (
+          <div key={p.slug} className={`flex items-center gap-3 flex-wrap p-4 rounded-2xl border ${c.border}`}>
+            <div className="min-w-[10rem]">
+              <p className={`font-semibold text-sm ${c.text}`}>{p.label}</p>
+              <p className={`text-xs ${c.faint}`}>{p.days} jours d&apos;accès</p>
+            </div>
+            <p className={`font-mono2 font-bold ${p.resolved ? c.text : "text-rose-600"}`}>
+              {p.resolved ? `${(p.amount / 100).toFixed(2)} ${String(p.currency).toUpperCase()}` : "introuvable"}
+            </p>
+            <span className={`ml-auto flex items-center gap-2`}>
+              <input
+                type="text" inputMode="decimal" placeholder={p.resolved ? (p.amount / 100).toFixed(2) : "0.00"}
+                value={draft[p.slug] ?? ""} onChange={(e) => setDraft({ ...draft, [p.slug]: e.target.value })}
+                aria-label={`Nouveau prix pour ${p.label}`}
+                className={`w-28 px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+              <Btn small variant="ghost" icon={Save} disabled={savingSlug === p.slug || !p.resolved}
+                onClick={() => save(p)}>{savingSlug === p.slug ? "…" : "Appliquer"}</Btn>
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className={`text-xs mt-4 ${c.faint}`}>
+        Montants en {String(passes[0]?.currency || "usd").toUpperCase()}. Pour une remise temporaire, préférez un code
+        promo : il ne touche pas au prix affiché.
+      </p>
+    </Card>
   );
 }
 

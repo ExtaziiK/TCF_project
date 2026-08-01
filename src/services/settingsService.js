@@ -191,3 +191,41 @@ export async function setPaymentDz(cfg) {
     .upsert({ key: PAYMENT_DZ, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
+
+/* ── Launch "−50 %" badge on the pricing page ───────────────────────────────
+ * { enabled }. When on, each paid plan card shows a struck-through price at
+ * double the real one and a "−50 %" badge. Purely presentational: it does not
+ * touch what Stripe charges.
+ *
+ * Defaults to ON so behaviour is unchanged until an admin turns it off, and a
+ * read failure (migration missing, offline) degrades to ON for the same reason.
+ *
+ * Memoized: every plan card on the page asks, and they should share one
+ * request. setLaunchDiscount() clears it so the next read is fresh. */
+
+const LAUNCH_DISCOUNT = "launch_discount";
+let launchDiscountPromise = null;
+
+export async function getLaunchDiscount() {
+  if (!launchDiscountPromise) {
+    launchDiscountPromise = (async () => {
+      const { data, error } = await supabase.from("site_settings").select("value").eq("key", LAUNCH_DISCOUNT).maybeSingle();
+      if (error || !data?.value) return { enabled: true };
+      try {
+        const parsed = JSON.parse(data.value);
+        return { enabled: parsed?.enabled !== false };
+      } catch { return { enabled: true }; }
+    })();
+  }
+  return launchDiscountPromise;
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setLaunchDiscount(enabled) {
+  launchDiscountPromise = null; // force the next read to hit the table
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: LAUNCH_DISCOUNT, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}

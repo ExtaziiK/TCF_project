@@ -60,7 +60,7 @@ export function CheckoutDz() {
 
   // Resolve the plan the user picked on the Tarifs page. Missing/invalid (e.g.
   // someone deep-links here) → back to Tarifs.
-  const plan = useMemo(() => PLANS.find((p) => p.name === getDzCheckoutPlan() && p.priceId), []);
+  const plan = useMemo(() => PLANS.find((p) => p.name === getDzCheckoutPlan() && p.slug), []);
 
   useEffect(() => {
     if (!plan) { nav("pricing"); return; }

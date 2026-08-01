@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { PASSES, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
+import { passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -36,7 +36,6 @@ function periodEndISO(subscription) {
 async function planLabelFor(subscription) {
   const price = subscription.items?.data?.[0]?.price;
   if (!price) return null;
-  if (PASSES[price.id]) return PASSES[price.id].label;
   if (price.nickname) return price.nickname;
   let product = price.product;
   if (typeof product === "string") {

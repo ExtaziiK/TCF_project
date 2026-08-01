@@ -81,6 +81,18 @@ export function updateAdminUser(payload) {
 
 /* ------------------------------- promo codes ------------------------------ */
 
+// Pass prices, read from Stripe by lookup key (api/_lib/admin/pricing.js).
+export function listPassPrices() {
+  return adminFetch("/api/admin/pricing");
+}
+
+// Re-prices a pass. A Stripe Price is immutable, so this creates a new one and
+// transfers the pass's lookup key onto it — every lookup follows automatically,
+// with no deploy. `amount` is in cents.
+export function setPassPrice(slug, amount) {
+  return adminFetch("/api/admin/pricing", { method: "POST", body: JSON.stringify({ slug, amount }) });
+}
+
 export function listPromoCodes() {
   return adminFetch("/api/admin/promo");
 }
