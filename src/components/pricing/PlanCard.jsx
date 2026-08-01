@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
 import { setDzCheckoutPlan } from "@/utils/dzCheckout";
+import { getLaunchDiscount } from "@/services/settingsService";
 import { WithdrawalWaiverDialog } from "@/components/pricing/WithdrawalWaiverDialog";
 
 // Accents grade along the brand gradient, from blue up through red, then gold
@@ -65,11 +66,18 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
   const [askWaiver, setAskWaiver] = useState(false);
+  // The launch "−50 %" badge is admin-toggled (Tarifs → Prix). Starts null
+  // rather than true so a disabled badge never flashes on screen before the
+  // setting arrives; the cost is that an enabled one appears a beat late,
+  // which is the harmless direction to be wrong in. The getter is memoized,
+  // so the cards on a page share one request.
+  const [showLaunchBadge, setShowLaunchBadge] = useState(null);
+  useEffect(() => { getLaunchDiscount().then((d) => setShowLaunchBadge(d.enabled)); }, []);
   // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
   const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.slug;
-  const oldPrice = paid ? beforePrice(p.price) : null;
+  const oldPrice = paid && showLaunchBadge === true ? beforePrice(p.price) : null;
   // With a promo applied, preview the post-discount price: it becomes the big
   // number, the (pre-promo) plan price is struck through, and the launch −50 %
   // marketing badge is replaced by the promo's own discount label.

@@ -4,7 +4,7 @@ import {
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
-  Radio, Clock, Globe, Eye, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
+  Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -24,6 +24,7 @@ import {
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
+import { getLaunchDiscount, setLaunchDiscount } from "@/services/settingsService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
 } from "@/services/testimonialsService";
@@ -522,11 +523,23 @@ function PricesTab() {
   const [draft, setDraft] = useState({});      // slug -> string being typed
   const [savingSlug, setSavingSlug] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
+  const [badge, setBadge] = useState(null);       // launch "−50 %" toggle
+  const [badgeBusy, setBadgeBusy] = useState(false);
 
   const load = () => listPassPrices().then((r) => {
     if (r.ok) { setPasses(r.data.passes); setDraft({}); } else setUnavailable(!!r.unavailable);
   });
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); getLaunchDiscount().then((d) => setBadge(d.enabled)); }, []);
+
+  const toggleBadge = async () => {
+    const next = !badge;
+    setBadgeBusy(true);
+    const r = await setLaunchDiscount(next);
+    setBadgeBusy(false);
+    if (!r.ok) return notify(r.error || "Changement refusé.", "error");
+    setBadge(next);
+    notify(next ? "Badge −50 % affiché sur la page Tarifs." : "Badge −50 % masqué.");
+  };
 
   const save = async (pass) => {
     const typed = (draft[pass.slug] ?? "").trim().replace(",", ".");
@@ -554,6 +567,19 @@ function PricesTab() {
         Le montant est lu dans Stripe et appliqué immédiatement, sans redéploiement. L&apos;ancien prix est archivé : les
         achats déjà payés ne changent pas.
       </p>
+      {/* Presentational only: the struck-through price is double the real one
+          and nothing about it reaches Stripe. */}
+      <div className={`flex items-center gap-3 flex-wrap p-4 mb-5 rounded-2xl border ${c.border}`}>
+        <div className="min-w-[14rem]">
+          <p className={`font-semibold text-sm ${c.text}`}>Badge « −50 % » de lancement</p>
+          <p className={`text-xs ${c.faint}`}>Affiche un prix barré au double du prix réel sur chaque forfait payant.</p>
+        </div>
+        <Btn small variant="ghost" className="ml-auto" disabled={badge === null || badgeBusy}
+          icon={badge ? Eye : EyeOff} onClick={toggleBadge}>
+          {badge === null ? "…" : badge ? "Affiché — masquer" : "Masqué — afficher"}
+        </Btn>
+      </div>
+
       <div className="space-y-3">
         {passes.map((p) => (
           <div key={p.slug} className={`flex items-center gap-3 flex-wrap p-4 rounded-2xl border ${c.border}`}>
