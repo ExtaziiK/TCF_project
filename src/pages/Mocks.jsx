@@ -233,6 +233,15 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   // mode (VITE_SIGNED_MEDIA) questions carry audio: null until the quiz opens,
   // and testing only qq.audio silently degraded Mode Test to free navigation.
   const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio || qq.sign?.audio);
+  // An auto-advanced CO épreuve paces itself: every question costs exactly its
+  // clip plus the answer window, and the candidate can neither replay, skip nor
+  // go back. A countdown therefore adds no discipline — it can only cut the
+  // épreuve short, and the recordings in the slower séries total more than
+  // n × 55 s, so it did (série 16 ran out five questions from the end, 158 of
+  // its 699 points unreachable). The clock is dropped here; the recordings are
+  // the clock. Real time spent is still measured, and `oneWay` + `autoAdvance`
+  // keep the exam conditions intact.
+  const selfPaced = autoAdvance;
 
   const onProgress = ({ picks, index, left }) => {
     persist({
@@ -260,7 +269,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
         examLayout
         candidate={candidatePanel}
         oneWay={mode === "test"}
-        untimed={mode !== "test"}
+        untimed={mode !== "test" || selfPaced}
         autoAdvance={autoAdvance}
         initialPicks={savedPicks}
         initialIndex={savedIndex}
