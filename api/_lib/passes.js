@@ -103,7 +103,7 @@ export function passExpiryISO(slug, from = Date.now()) {
 //
 // The slug comes from the session metadata we set at creation. Falling back to
 // the line item's lookup key covers a session created before this change.
-export async function passPatchForSession(session, stripe) {
+export async function passPatchForSession(session, stripe, currentMeta = {}) {
   let slug = session.metadata?.plan;
   if (!isPassSlug(slug)) {
     const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1, expand: ["data.price"] });
@@ -112,10 +112,22 @@ export async function passPatchForSession(session, stripe) {
   }
   const pass = isPassSlug(slug) ? PASSES[slug] : null;
   if (!pass) return null;
+  // The new pass runs from the moment it was bought, not from the end of
+  // whatever was already there — buying an upgrade should not mean waiting for
+  // the old pass to lapse first.
+  const boughtAt = (session.created || Math.floor(Date.now() / 1000)) * 1000;
+  const fresh = passExpiryISO(slug, boughtAt);
+  // …but it never SHORTENS access. Someone with 80 days left who buys a 5-day
+  // pass would otherwise pay to lose 75 days; keeping the later of the two
+  // makes that impossible. Still idempotent: re-applying compares the same two
+  // dates and picks the same winner.
+  const existing = currentMeta?.premium_until ? Date.parse(currentMeta.premium_until) : NaN;
+  const until = Number.isFinite(existing) && existing > Date.parse(fresh) ? currentMeta.premium_until : fresh;
+
   return {
     plan: "Premium",
     plan_label: pass.label,
-    premium_until: passExpiryISO(slug, (session.created || Math.floor(Date.now() / 1000)) * 1000),
+    premium_until: until,
     stripe_customer_id: session.customer,
     // A pass has no subscription; clear any id left by the old recurring model.
     stripe_subscription_id: null,

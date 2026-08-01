@@ -101,11 +101,11 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
     try {
       await startCheckout(p.slug, promo?.code);
     } catch (err) {
-      notify(t(err?.message === "already-subscribed"
-        ? "Votre accès Premium est encore actif. Vous pourrez acheter un nouveau pass à son échéance."
-        : err?.message === "invalid-promo"
-          ? "Ce code promo n'est plus valide. Retirez-le et réessayez."
-          : "Impossible de démarrer le paiement. Réessayez."), "error");
+      // "already-subscribed" is gone from the server: an active pass no longer
+      // blocks a purchase, so upgrading does not mean waiting for it to lapse.
+      notify(t(err?.message === "invalid-promo"
+        ? "Ce code promo n'est plus valide. Retirez-le et réessayez."
+        : "Impossible de démarrer le paiement. Réessayez."), "error");
       setBusy(false);
     }
   };

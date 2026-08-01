@@ -213,6 +213,12 @@ export function AppProvider({ children }) {
   useEffect(() => {
     injectStructuredData();
     applyRouteMeta(route);
+    // Every page opens at the top — including the first paint, which nav()
+    // never sees (the initial route comes from useState), and route changes
+    // made with setRoute directly rather than through nav(). nav() and the
+    // popstate handler still scroll too; this is the backstop that catches the
+    // paths they miss.
+    window.scrollTo({ top: 0 });
   }, [route]);
 
   // Stripe Checkout redirects back to "/?checkout=success|cancelled"; the flag
