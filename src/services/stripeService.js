@@ -102,19 +102,23 @@ function formatAmount(amountInCents, currency) {
 // broken). The `per` line stays static: it describes each pass's access
 // duration (e.g. "accès 5 jours"), which the price object doesn't carry.
 export async function fetchLivePlans(plans) {
-  if (!plans.some((p) => p.slug)) return plans;
+  const mark = (list, priceState) => list.map((p) => ({ ...p, priceState }));
+  if (!plans.some((p) => p.slug)) return mark(plans, "live");
   try {
     // Keyed by plan slug: the browser never learns a Stripe price id, and a
     // re-pricing in Stripe shows up here without a deploy.
     const res = await fetch("/api/prices");
-    if (!res.ok) return plans;
+    if (!res.ok) return mark(plans, "fallback");
     const byId = await res.json();
     return plans.map((p) => {
       const live = p.slug && byId[p.slug];
-      if (!live || live.amount == null) return p;
-      return { ...p, price: formatAmount(live.amount, live.currency) };
+      // A pass Stripe could not resolve keeps its hand-written figure and is
+      // flagged "fallback", so the card shows it rather than a skeleton that
+      // would never resolve.
+      if (!live || live.amount == null) return { ...p, priceState: "fallback" };
+      return { ...p, price: formatAmount(live.amount, live.currency), priceState: "live" };
     });
   } catch {
-    return plans;
+    return mark(plans, "fallback");
   }
 }

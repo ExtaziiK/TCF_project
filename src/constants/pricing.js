@@ -32,7 +32,7 @@ export const PLANS = [
   },
   {
     name: "Passeport",
-    price: "$4.99",
+    price: "$7.99",
     per: "5 jours d'accès",
     days: 5,
     accent: "violet",
@@ -49,7 +49,7 @@ export const PLANS = [
   },
   {
     name: "Visa",
-    price: "$8.99",
+    price: "$14.99",
     per: "15 jours d'accès",
     days: 15,
     accent: "rose",
@@ -66,7 +66,7 @@ export const PLANS = [
   },
   {
     name: "Première classe",
-    price: "$19.99",
+    price: "$24.99",
     per: "30 jours d'accès",
     days: 30,
     accent: "red",
@@ -84,7 +84,7 @@ export const PLANS = [
   },
   {
     name: "VIP",
-    price: "$39.99",
+    price: "$49.99",
     per: "90 jours d'accès",
     days: 90,
     accent: "gold",
