@@ -14,9 +14,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // asks for "the passes" and gets whatever they currently cost — a price change
 // in Stripe shows up here with no deploy.
 //
-// Rate limited per IP (unauthenticated, proxies to the Stripe API). Cached at
-// the edge for five minutes: long enough to absorb traffic, short enough that a
-// price change made in the admin Tarifs tab is visible almost immediately.
+// Rate limited per IP (unauthenticated, proxies to the Stripe API), and cached
+// briefly — see the header below for why the window is as short as it is.
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).end();
 
@@ -36,7 +35,14 @@ export default async function handler(req, res) {
         return price ? [slug, { amount: price.unit_amount, currency: price.currency }] : null;
       }),
     );
-    res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
+    // Short on purpose. Each call costs four Stripe lookups, so some caching is
+    // needed to keep Stripe out of the hot path — but prices are now edited
+    // from the admin Tarifs tab, and the previous 5 min + 1 h stale-while-
+    // revalidate made a change look like it had not applied at all. A minute is
+    // enough to absorb a traffic burst without the panel appearing broken.
+    // The admin panel reads /api/admin/pricing, which is never cached, so it
+    // always shows the true current price.
+    res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=120");
     res.status(200).json(Object.fromEntries(entries.filter(Boolean)));
   } catch (err) {
     console.error("prices:", err.message);
