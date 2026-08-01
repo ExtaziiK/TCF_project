@@ -85,6 +85,12 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const mainPrice = promoPrice || p.price;
   const struckPrice = promoPrice ? p.price : oldPrice;
   const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? "−50 %" : null);
+  // Never print a paid price we are not sure of. The static figure in
+  // constants/pricing.js is only a fallback, and since prices became
+  // admin-editable it can be out of date — showing it would advertise an
+  // amount checkout will not charge. A skeleton holds the space instead,
+  // until Stripe answers or the fetch gives up.
+  const priceLoading = paid && p.priceState === "loading";
 
   // Clicking "subscribe" no longer goes straight to payment: CGU section 7
   // rests on the buyer expressly asking for immediate access and acknowledging
@@ -146,13 +152,17 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
                 mouse-out restarted `.rise`, replaying the entrance every time
                 the cursor left. Keyed on the outer span so a price change (a
                 promo applied) still replays the entrance. */}
-            <span key={mainPrice} className="rise inline-block">
-              <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{mainPrice}</span>
-            </span>
-            {struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
+            {priceLoading ? (
+              <span className={`inline-block h-9 w-24 rounded-xl animate-pulse ${c.track}`} aria-label={t("Chargement du prix")} />
+            ) : (
+              <span key={mainPrice} className="rise inline-block">
+                <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{mainPrice}</span>
+              </span>
+            )}
+            {!priceLoading && struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
             <span className={`text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
           </p>
-          {priceBadge && (
+          {!priceLoading && priceBadge && (
             <p className="mt-1.5">
               <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
             </p>

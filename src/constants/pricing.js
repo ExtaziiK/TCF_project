@@ -2,10 +2,14 @@
 // blue up through red, then gold for the top VIP tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
-// NOTE: the per-day AI-simulation, quiz-count and mock-exam quotas below are
-// still marketing copy — checkout grants a single "Premium" role and does not
-// yet enforce them. The DEVICE limits, however, ARE enforced via the active-
-// session mechanism (profiles.active_session_ids + claim_device_session):
+// NOTE: the per-day AI-simulation and mock-exam quotas below are still
+// marketing copy — checkout grants a single "Premium" role and does not yet
+// enforce them. The quiz counts, by contrast, now describe what actually
+// happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
+// BankExplorer only locks quizzes for ROLES.FREE_USER. Keep the counts in
+// sync with src/bank if the bank grows.
+// The DEVICE limits are likewise enforced, via the active-session
+// mechanism (profiles.active_session_ids + claim_device_session):
 // Première classe → 2 simultaneous devices, VIP → 4, other plans → 1. Over the
 // limit, the newest login wins and the oldest device is signed out — a login is
 // never refused for this reason.
@@ -28,7 +32,7 @@ export const PLANS = [
   },
   {
     name: "Passeport",
-    price: "$4.99",
+    price: "$7.99",
     per: "5 jours d'accès",
     days: 5,
     accent: "violet",
@@ -36,8 +40,8 @@ export const PLANS = [
     featured: false,
     slug: "passeport",
     feats: [
-      "20 quiz de compréhension écrite",
-      "20 quiz de compréhension orale",
+      "40 quiz de compréhension écrite",
+      "40 quiz de compréhension orale",
       "2 simulations IA par jour (écrit + oral)",
       "1 TCF blanc chronométré par jour",
       "Sujets d'actualité du mois (EE + EO)",
@@ -45,7 +49,7 @@ export const PLANS = [
   },
   {
     name: "Visa",
-    price: "$8.99",
+    price: "$14.99",
     per: "15 jours d'accès",
     days: 15,
     accent: "rose",
@@ -62,7 +66,7 @@ export const PLANS = [
   },
   {
     name: "Première classe",
-    price: "$19.99",
+    price: "$24.99",
     per: "30 jours d'accès",
     days: 30,
     accent: "red",
@@ -80,7 +84,7 @@ export const PLANS = [
   },
   {
     name: "VIP",
-    price: "$39.99",
+    price: "$49.99",
     per: "90 jours d'accès",
     days: 90,
     accent: "gold",
