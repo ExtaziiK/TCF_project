@@ -296,8 +296,6 @@ export const EN = {
   "Corrections détaillées et explications": "Detailed corrections and explanations",
   "Cartes de vocabulaire pour démarrer": "Vocabulary flashcards to get started",
   "Suivi de progression": "Progress tracking",
-  "20 quiz de compréhension écrite": "20 reading-comprehension quizzes",
-  "20 quiz de compréhension orale": "20 listening-comprehension quizzes",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
   "40 quiz de compréhension orale": "40 listening-comprehension quizzes",
   "Tous les quiz de compréhension écrite (40)": "All reading-comprehension quizzes (40)",
