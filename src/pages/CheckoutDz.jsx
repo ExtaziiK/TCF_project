@@ -15,9 +15,10 @@ import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTE
 
 // The two manual methods offered to Algerian users (Stripe is never used for
 // DZD). Each reveals the account details to transfer to, then a receipt upload.
+// BaridiMob leads and is preselected — it is the way most buyers actually pay.
 const METHODS = [
-  { id: "ccp", label: "CCP (Compte Courant Postal)", icon: Landmark },
   { id: "baridimob", label: "BaridiMob", icon: Smartphone },
+  { id: "ccp", label: "CCP (Compte Courant Postal)", icon: Landmark },
 ];
 
 // One "label : value [copy]" line for an account detail.
@@ -50,7 +51,7 @@ function DetailRow({ label, value }) {
 export function CheckoutDz() {
   const { c, t, user, nav, notify } = useApp();
   const [cfg, setCfg] = useState(null);
-  const [method, setMethod] = useState("ccp");
+  const [method, setMethod] = useState(METHODS[0].id);
   const [file, setFile] = useState(null);
   const [phone, setPhone] = useState("");
   const [reference, setReference] = useState("");
