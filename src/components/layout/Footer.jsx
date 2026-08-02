@@ -44,14 +44,14 @@ export function Footer() {
       <div className={`border-t ${c.border}`}>
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs ${c.faint}`}>
           <p>{t("© 2026 Passerelle. Plateforme indépendante — le TCF est une marque de France Éducation international.")}</p>
-          {/* Both legal documents are real links — a visitor accepts the
-              conditions at signup and the policy is referenced from them, so
-              both have to stay reachable afterwards. "Accessibilité" is still a
-              label: that page doesn't exist yet. */}
+          {/* All three legal documents are real links now — a visitor accepts
+              the conditions at signup and the policy is referenced from them,
+              so both have to stay reachable afterwards, and "Accessibilité"
+              finally has a page behind it instead of being a bare label. */}
           <p className="flex items-center gap-4">
             <RouteLink r="privacy" className="hover:text-blue-600 transition-colors">{t("Confidentialité")}</RouteLink>
             <RouteLink r="terms" className="hover:text-blue-600 transition-colors">{t("Conditions")}</RouteLink>
-            <span>{t("Accessibilité")}</span>
+            <RouteLink r="accessibility" className="hover:text-blue-600 transition-colors">{t("Accessibilité")}</RouteLink>
           </p>
         </div>
       </div>

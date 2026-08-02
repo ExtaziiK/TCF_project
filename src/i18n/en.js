@@ -862,6 +862,79 @@ export const EN = {
   "Quelles données nous collectons, pourquoi, avec qui elles sont partagées et comment les faire supprimer.":
     "What data we collect, why, who it is shared with, and how to have it deleted.",
 
+  // ── Accessibility statement (constants/accessibility.js) ──────────────
+  // Courtesy translation, like the two documents above. The French remains the
+  // reference text; where a limitation is described, the English says the same
+  // thing with the same bluntness rather than softening it.
+  "Déclaration d'accessibilité": "Accessibility Statement",
+  "Ce que nous avons mis en place, ce qui ne fonctionne pas encore, et comment nous signaler un obstacle.":
+    "What we have put in place, what does not work yet, and how to report a barrier to us.",
+  "Objectif visé :": "Target:",
+  "WCAG 2.1 niveau AA": "WCAG 2.1 level AA",
+  "2 août 2026": "2 August 2026", // A11Y_UPDATED, keyed like TERMS_UPDATED above
+
+  "1. Notre engagement": "1. Our commitment",
+  "Passerelle prépare des candidates et des candidats à un examen qui décide d'un projet d'immigration. Une plateforme qui exclut une partie d'entre eux échoue à ce qu'elle promet. Nous visons donc le niveau WCAG 2.1 AA, le référentiel retenu au Québec, au Canada et dans l'Union européenne.":
+    "Passerelle prepares candidates for an exam that decides an immigration project. A platform that shuts some of them out fails at what it promises. We therefore aim for WCAG 2.1 level AA, the standard adopted in Quebec, in Canada and in the European Union.",
+  "Cette déclaration n'est pas une attestation de conformité. Le site n'a pas été audité par un tiers et nous ne prétendons pas être pleinement conformes : nous décrivons ci-dessous ce qui est en place, ce qui ne l'est pas encore, et ce qui ne le sera pas. Les limites listées à la section 3 ont été relevées par nos soins, et elles sont nommées précisément plutôt que résumées en une formule prudente.":
+    "This statement is not a certificate of conformance. The site has not been audited by a third party and we do not claim to be fully conformant: below we describe what is in place, what is not yet, and what will not be. The limitations listed in section 3 were found by us, and they are named precisely rather than summarised into a cautious formula.",
+  "Ce document décrit l'état du site à la date indiquée en tête. Il est mis à jour quand le site change, pas une fois par an.":
+    "This document describes the state of the site on the date shown at the top. It is updated when the site changes, not once a year.",
+
+  "2. Ce qui est en place aujourd'hui": "2. What is in place today",
+  "Navigation au clavier : les commandes de la plateforme sont de véritables boutons et liens, atteignables par la touche Tabulation et activables par Entrée ou Espace. Chaque élément reçoit un contour bleu net et décalé lorsqu'il a le focus, y compris en mode sombre — vous voyez toujours où vous êtes.":
+    "Keyboard navigation: the platform's controls are real buttons and links, reachable with the Tab key and activated with Enter or Space. Every element gets a crisp, offset blue outline when focused, including in dark mode — you can always see where you are.",
+  "Lecteurs d'écran : la page annonce ses régions (en-tête, navigation principale, contenu principal). Les boutons qui n'affichent qu'une icône — lecture audio, menus, fermeture, réseaux sociaux — portent un intitulé textuel lu à voix haute au lieu d'être annoncés comme « bouton ». Les illustrations des questions ont une alternative textuelle, et les éléments purement décoratifs sont masqués aux technologies d'assistance plutôt que lus inutilement.":
+    "Screen readers: the page announces its regions (header, main navigation, main content). Buttons that show only an icon — audio playback, menus, close, social links — carry a text label read aloud instead of being announced as \"button\". Question illustrations have alternative text, and purely decorative elements are hidden from assistive technology rather than read out pointlessly.",
+  "Animations : si votre système est réglé sur « réduire les animations », toutes les animations et transitions du site sont désactivées, sans exception et sans réglage à trouver dans nos préférences. C'est le réglage de votre appareil qui décide.":
+    "Animation: if your system is set to \"reduce motion\", every animation and transition on the site is switched off, with no exception and no setting to hunt for in our preferences. Your device's setting decides.",
+  "Lisibilité : un thème clair et un thème sombre sont disponibles, et le site suit le zoom du navigateur ainsi que la taille de police du système. La langue de la page est déclarée et suit le sélecteur français / anglais, pour que la synthèse vocale emploie la bonne prononciation.":
+    "Readability: a light and a dark theme are available, and the site follows browser zoom as well as the system font size. The page's language is declared and follows the French / English switch, so speech synthesis uses the right pronunciation.",
+  "Sous-titres et transcriptions ne sont pas concernés ici : hors des documents d'examen, la plateforme ne diffuse pas de vidéo.":
+    "Captions and transcripts do not arise here: outside exam documents, the platform hosts no video.",
+
+  "3. Limites connues": "3. Known limitations",
+  "Nous préférons les nommer que les laisser découvrir. À la date de cette déclaration :":
+    "We would rather name them than let you discover them. As of the date of this statement:",
+  "Il n'existe pas encore de lien « Aller au contenu principal ». Un utilisateur au clavier doit traverser la barre de navigation à chaque page avant d'atteindre le contenu.":
+    "There is no \"Skip to main content\" link yet. A keyboard user has to cross the navigation bar on every page before reaching the content.",
+  "Le lecteur audio des questions : le bouton Écouter / Pause est accessible au clavier et correctement annoncé, mais la barre de progression ne se déplace qu'à la souris. Il n'est pas possible d'avancer ou de reculer dans un document audio au clavier. (En mode examen, l'écoute est unique et la barre n'est de toute façon pas déplaçable.)":
+    "The question audio player: the Play / Pause button is keyboard accessible and correctly announced, but the progress bar can only be moved with a mouse. There is no way to seek forward or back in an audio document from the keyboard. (In exam mode the clip plays once and the bar cannot be moved at all.)",
+  "Certains textes secondaires — horodatages, mentions d'aide, compteurs — s'affichent en gris clair dont le contraste reste sous le rapport de 4,5:1 exigé au niveau AA. L'information principale n'en dépend jamais, mais ces mentions sont difficiles à lire pour une vision affaiblie.":
+    "Some secondary text — timestamps, hints, counters — is shown in a light grey whose contrast stays below the 4.5:1 ratio required at level AA. Primary information never depends on it, but those mentions are hard to read with reduced vision.",
+  "Quelques commandes secondaires, en particulier dans l'espace d'administration, n'ont pas été vérifiées au clavier et peuvent ne pas être atteignables autrement qu'à la souris.":
+    "A few secondary controls, particularly in the administration area, have not been verified with a keyboard and may not be reachable other than with a mouse.",
+  "Enfin, le site n'a pas été testé avec l'ensemble des combinaisons de lecteurs d'écran et de navigateurs. Un problème peut donc exister sans que nous le sachions : la section 5 est là pour ça.":
+    "Finally, the site has not been tested with every combination of screen reader and browser. A problem may therefore exist without our knowing: section 5 is there for that.",
+
+  "4. Limites propres à l'épreuve": "4. Limitations inherent to the exam",
+  "Certaines barrières ne sont pas des défauts que nous pourrions corriger : elles tiennent à ce que l'examen mesure. Nous les indiquons pour que personne ne découvre après un achat que la plateforme ne convient pas à sa situation.":
+    "Some barriers are not defects we could fix: they follow from what the exam measures. We set them out so that nobody discovers after paying that the platform does not suit their situation.",
+  "La compréhension orale repose sur des documents audio sans transcription, et il n'y en aura pas : un test d'écoute accompagné du texte ne mesure plus l'écoute. Cette épreuve n'est donc pas praticable par une personne sourde ou fortement malentendante.":
+    "Listening comprehension rests on audio documents with no transcript, and there will not be one: a listening test supplied with the text no longer measures listening. That section is therefore not practicable for a deaf or severely hard-of-hearing person.",
+  "L'expression orale suppose un microphone et une prise de parole en français. Elle ne peut pas être remplacée par une réponse écrite sans cesser d'évaluer ce qu'elle évalue.":
+    "Speaking requires a microphone and speaking aloud in French. It cannot be replaced by a written answer without ceasing to assess what it assesses.",
+  "Les TCF blancs et certaines séries sont chronométrés parce que la contrainte de temps fait partie de l'épreuve reproduite. Ces durées ne peuvent pas être allongées. En dehors du mode examen, l'entraînement libre n'impose aucune limite de temps : vous pouvez travailler à votre rythme sur les mêmes contenus.":
+    "Mock TCF exams and some series are timed because the time pressure is part of the exam being reproduced. Those durations cannot be extended. Outside exam mode, free practice imposes no time limit at all: you can work through the same content at your own pace.",
+  "Si vous avez besoin d'un aménagement pour le véritable TCF Canada — temps majoré, format adapté, assistance — la demande se fait auprès de votre centre de passation et de France Éducation international, qui organisent l'examen officiel. Passerelle est une plateforme de préparation indépendante et n'a aucun rôle dans ces aménagements.":
+    "If you need an accommodation for the real TCF Canada — extra time, an adapted format, assistance — the request goes to your test centre and to France Éducation international, who run the official exam. Passerelle is an independent preparation platform and plays no part in those accommodations.",
+
+  "5. Signaler un problème": "5. Reporting a problem",
+  "Si une page, une commande ou un exercice vous est inutilisable, écrivez à {courriel}. C'est la même adresse que pour le reste du service, et elle est relevée.":
+    "If a page, a control or an exercise is unusable for you, write to {courriel}. It is the same address as for the rest of the service, and it is monitored.",
+  "Indiquez si possible la page concernée, ce que vous tentiez de faire, et votre équipement — navigateur, système, lecteur d'écran ou autre aide technique employée. Ces trois éléments suffisent presque toujours à reproduire le problème.":
+    "Tell us if you can which page was involved, what you were trying to do, and your setup — browser, system, screen reader or other assistive technology in use. Those three things are almost always enough to reproduce the problem.",
+  "Nous accusons réception sous quelques jours ouvrables. Quand un correctif demande du temps, nous cherchons d'abord une solution de contournement pour que vous puissiez continuer à travailler entre-temps, et les problèmes qui empêchent complètement l'usage d'une fonction passent devant le reste.":
+    "We acknowledge receipt within a few business days. When a fix takes time, we look first for a workaround so you can keep working in the meantime, and problems that make a feature completely unusable go ahead of everything else.",
+  "Les signalements reçus alimentent directement la section 3 : c'est ainsi que cette liste s'allonge, puis se raccourcit.":
+    "Reports feed straight into section 3: that is how the list grows, and then shrinks.",
+
+  "6. Portée de cette déclaration": "6. Scope of this statement",
+  "La présente déclaration couvre le site tcfpasserelle.com et l'application accessible à cette adresse. Elle ne couvre pas les services tiers que vous pourriez utiliser en parallèle, ni nos pages sur les réseaux sociaux, dont l'accessibilité relève des plateformes qui les hébergent.":
+    "This statement covers the tcfpasserelle.com site and the application served at that address. It does not cover third-party services you might use alongside it, nor our social media pages, whose accessibility is a matter for the platforms hosting them.",
+  "Passerelle est une plateforme privée et non un organisme public : cette déclaration est publiée volontairement, et non en exécution d'une obligation légale de publication. Elle vient en complément des conditions générales d'utilisation et de la politique de confidentialité, sans les modifier.":
+    "Passerelle is a private platform and not a public body: this statement is published voluntarily, not in discharge of a legal duty to publish. It complements the terms and conditions and the privacy policy without altering them.",
+
   // ── Re-acceptance gate (components/auth/TermsGate.jsx) ────────────────
   "Nos conditions générales ont changé": "Our terms and conditions have changed",
   "Merci de les lire et de les accepter pour continuer à utiliser votre compte.":

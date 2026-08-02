@@ -31,6 +31,7 @@ import { QuestionBank } from "@/pages/QuestionBank";
 import { NotFound } from "@/pages/NotFound";
 import { Terms } from "@/pages/Terms";
 import { Privacy } from "@/pages/Privacy";
+import { Accessibility } from "@/pages/Accessibility";
 
 function Login() {
   return <AuthPage mode="login" />;
@@ -77,5 +78,6 @@ export const PAGES = {
   bank: QuestionBank,
   terms: Terms,
   privacy: Privacy,
+  accessibility: Accessibility,
   notfound: NotFound,
 };
