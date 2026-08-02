@@ -99,7 +99,7 @@ export const ROUTE_META = {
   // and are the pages that should rank.
   "sujets-actualite": {
     path: "/sujets-actualite",
-    title: "Sujets d'actualité — TCF Canada",
+    title: "Sujets EE/EO du mois — TCF Canada",
     description:
       "Les derniers sujets d'expression écrite et orale qui circulent ce mois-ci au TCF Canada, à préparer en priorité. Choisissez l'épreuve pour découvrir les sujets du mois.",
     noindex: true,
