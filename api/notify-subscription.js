@@ -18,6 +18,22 @@ import { createClient } from "@supabase/supabase-js";
 //   SUPABASE_SERVICE_ROLE_KEY (already set) — server-only
 //   SITE_URL             (optional) — admin deep link
 //   SUBSCRIPTION_WEBHOOK_SECRET (optional) — only for the Supabase-webhook path
+//
+// If the notification silently stops arriving, check these two before the code
+// — both fail at Telegram's end and are invisible from here, because the app
+// fires this call and ignores the response on purpose (a broken notification
+// must never break someone's checkout):
+//
+//   · A bot cannot open a conversation. Every recipient in TELEGRAM_CHAT_ID
+//     must have pressed Start on THIS bot, or the send is refused with
+//     "403 bot can't initiate conversation with a user". Replacing the bot
+//     resets that: a new bot has no conversation with anyone, even though the
+//     chat id is unchanged (for a private chat it is the recipient's own user
+//     id, the same across every bot).
+//   · Rotating credentials means /revoke on the existing bot, which keeps its
+//     username, its chats and its Start history. /newbot makes a SECOND bot and
+//     leaves the old token working — replacing a leaked one that way rotates
+//     nothing and quietly breaks delivery until someone presses Start.
 
 const RECEIPT_TTL = 60 * 60;          // 1 h — Telegram downloads at send time
 const RECENT_MS = 20 * 60 * 1000;     // only notify for requests < 20 min old
@@ -58,9 +74,14 @@ export default async function handler(req, res) {
   // hardcoded "temporary" bot token used to sit here so production could run
   // before the Vercel vars existed; it was committed, split across a join so
   // GitHub's secret scanning wouldn't catch it, and it outlived its purpose by
-  // a long way. That token is revoked. Do not reintroduce the pattern: an
-  // unset variable must break loudly here rather than quietly send through
-  // some other bot.
+  // a long way. Do not reintroduce the pattern: an unset variable must break
+  // loudly here rather than quietly send through some other bot.
+  //
+  // Deleting it from this file did NOT revoke it — the token stayed valid, and
+  // it is still in this repository's history. Revocation happens in @BotFather
+  // and nowhere else. Do not restate it as done here: a comment claiming a
+  // credential is dead is worse than no comment, because it stops the next
+  // person checking.
   //
   // TELEGRAM_CHAT_ID takes one id or a comma-separated list (each recipient
   // must have pressed Start on the bot; a group's chat id reaches everyone in
