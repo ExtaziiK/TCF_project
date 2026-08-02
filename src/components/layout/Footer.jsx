@@ -9,7 +9,7 @@ export function Footer() {
   const cols = [
     { h: "Pratique", links: [["Compréhension orale", "listening"], ["Compréhension écrite", "reading"], ["Expression écrite", "writing"], ["Expression orale", "speaking"], ["TCF blanc", "mocks"]] },
     { h: "Ressources", links: [["Guide de l'examen", "guide"], ["Calculateur TCF → NCLC", "calculator"], ["Sujets EE/EO", "sujets-actualite"], ["Vocabulaire", "vocabulary"], ["Grammaire", "grammar"], ["Blog", "blog"], ["FAQ", "faq"]] },
-    { h: "Passerelle", links: [["À propos", "about"], ["Tarifs", "pricing"], ["Contact", "contact"]] },
+    { h: "Passerelle", links: [["À propos", "about"], ["Avis", "avis"], ["Tarifs", "pricing"], ["Contact", "contact"]] },
   ];
   return (
     <footer className={`border-t ${c.border} ${c.footer} mt-8`}>

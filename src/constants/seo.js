@@ -39,6 +39,12 @@ export const ROUTE_META = {
     description:
       "Convertissez gratuitement vos scores TCF Canada en niveaux NCLC (Niveaux de compétence linguistique canadiens) pour Entrée express et vos démarches d'immigration.",
   },
+  avis: {
+    path: "/avis",
+    title: "Avis des candidats sur Passerelle TCF Canada",
+    description:
+      "Les avis et notes laissés par les membres de Passerelle après leur TCF blanc : ce qui les a aidés à préparer le TCF Canada, dans leurs mots.",
+  },
   guide: {
     path: "/guide-tcf-canada",
     title: "Guide de l'examen TCF Canada",

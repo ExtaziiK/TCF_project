@@ -69,5 +69,6 @@ export const SEARCH_INDEX = [
   { l: "Calculateur TCF → NCLC", r: "calculator", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blog" },
+  { l: "Avis des candidats", r: "avis", c: "Page" },
   { l: "Foire aux questions", r: "faq", c: "Page" },
 ];
