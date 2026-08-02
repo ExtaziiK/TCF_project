@@ -5,6 +5,7 @@ import { Card, Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { TermsConsent } from "@/components/auth/TermsConsent";
+import { CodeInput } from "@/components/auth/CodeInput";
 import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
@@ -107,12 +108,11 @@ export function AuthPage({ mode }) {
     nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
   };
 
-  const submitCode = async (e) => {
-    e.preventDefault();
-    if (busy) return;
+  const runVerify = async (value) => {
+    if (busy || value.length !== 6) return;
     setBusy(true);
     try {
-      const { session, error } = await verifySignupCode(email, code);
+      const { session, error } = await verifySignupCode(email, value);
       if (error) return notify(authErrorMessage(error), "error");
       if (!session) return notify(t("Code vérifié, mais la session n'a pas pu s'ouvrir. Connectez-vous."), "error");
       notify(t("Votre compte est activé. Bienvenue !"));
@@ -121,6 +121,8 @@ export function AuthPage({ mode }) {
       setBusy(false);
     }
   };
+
+  const submitCode = (e) => { e.preventDefault(); runVerify(code); };
 
   const resend = async () => {
     if (cooldown > 0 || busy) return;
@@ -172,17 +174,14 @@ export function AuthPage({ mode }) {
             <Mail size={36} className="text-blue-600 mx-auto" />
             <p className={`mt-4 font-semibold ${c.text}`}>{t("Entrez votre code de confirmation")}</p>
             <p className={`mt-1.5 text-sm ${c.sub}`}>{t("Nous avons envoyé un code à 6 chiffres à")} <span className="font-semibold">{email || t("votre adresse")}</span>.</p>
-            <input
+            {/* Verifies itself on the sixth digit — the button stays for anyone
+                who lands there by paste or autofill and expects to confirm. */}
+            <CodeInput
               value={code}
-              // Digits only, capped at 6: the field should not accept anything
-              // the code cannot be. inputMode brings up the numeric keypad.
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              autoFocus
-              placeholder="------"
-              aria-label={t("Code de confirmation")}
-              className={`mt-6 w-full text-center font-mono2 text-3xl tracking-[0.5em] indent-[0.5em] py-4 rounded-2xl border ${c.inputCls}`}
+              onChange={setCode}
+              onComplete={runVerify}
+              disabled={busy}
+              label={t("Code de confirmation")}
             />
             <Btn type="submit" variant="accent" className="mt-4 w-full" disabled={busy || code.length !== 6}>
               {t(busy ? "Vérification…" : "Activer mon compte")}
