@@ -154,20 +154,6 @@ function ReviewPanel({ quiz, attempt, onBack, onRestart }) {
   );
 }
 
-// Shown to free users on an épreuve whose content is a Premium-only workshop
-// (Expression écrite / orale — there's no free "quiz 1" to open there).
-function PremiumSectionGate() {
-  const { c, nav, t } = useApp();
-  return (
-    <Card className="p-8 md:p-10 text-center border-2 border-blue-600/40 max-w-2xl mx-auto">
-      <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Lock size={22} /></span>
-      <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Cette épreuve fait partie du Premium")}</p>
-      <p className={`text-sm mt-1.5 ${c.sub}`}>{t("L'atelier d'expression écrite et orale, avec l'analyse IA, est réservé aux abonnés Premium.")}</p>
-      <Btn variant="accent" className="mt-6" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
-    </Card>
-  );
-}
-
 // Expression écrite / orale entries: a list of consignes with their metadata,
 // linking to the workshop page where these tasks are actually practiced.
 function PromptList({ quiz, onBack }) {
@@ -351,21 +337,23 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         </Card>
       )}
       {showWorkshop ? (
-        freeTier ? <PremiumSectionGate /> : (
-          // Provider shares the selected tâche between the workshop and the
-          // guide panel, so switching task on either side updates the other.
-          <ExpressionTaskProvider>
-            {GUIDE_PANELS[section] && (
-              <div className="flex justify-end mb-4">
-                <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
-              </div>
-            )}
-            <div className="flex items-start gap-6">
-              <div className="flex-1 min-w-0">{workshop}</div>
-              {GUIDE_PANELS[section] && <GuideAside section={section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
+        // Open to free accounts too: they get one fixed subject with two AI
+        // analyses per tâche, and the workshop body explains that itself
+        // (FreeExpressionNotice). Premium is what lifts the rotation and the cap.
+        //
+        // Provider shares the selected tâche between the workshop and the
+        // guide panel, so switching task on either side updates the other.
+        <ExpressionTaskProvider>
+          {GUIDE_PANELS[section] && (
+            <div className="flex justify-end mb-4">
+              <Btn small variant={guideOpen ? "soft" : "ghost"} icon={BookOpen} onClick={() => setGuideOpen((o) => !o)}>{t("Guide de l'épreuve")}</Btn>
             </div>
-          </ExpressionTaskProvider>
-        )
+          )}
+          <div className="flex items-start gap-6">
+            <div className="flex-1 min-w-0">{workshop}</div>
+            {GUIDE_PANELS[section] && <GuideAside section={section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
+          </div>
+        </ExpressionTaskProvider>
       ) : quizzes.length === 0 ? (
         <Card className="p-10 text-center">
           <FolderOpen size={32} className="text-blue-600 mx-auto mb-4" />
