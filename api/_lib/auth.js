@@ -54,20 +54,20 @@ export async function requirePremium(req) {
   return user;
 }
 
-// Premium, OR a free account working through the single TCF blanc it is
-// entitled to.
+// Premium, OR a free account inside one of the two things it may use the AI
+// for: the single TCF blanc it is entitled to, and the standalone Expression
+// workshop's one fixed subject.
 //
-// A "Sans papier" user gets one mock exam including the AI correction, so the
-// endpoints below cannot simply demand Premium. Entitlement is proved by the
-// attempt itself rather than by a counter: the caller names an attempt, and it
-// is accepted only when that row belongs to them, is flagged as the free mock
-// and is still in progress. That bounds the spend at one Expression écrite and
-// one Expression orale per account for good — a completed attempt stops
-// working, and a second free attempt cannot be created (see
-// examService.findFreeAttempt).
+// Which case applies is decided by whether an attempt is named, not by a flag
+// the client sets:
+//   - an attempt id -> it must belong to the caller, be flagged as the free
+//     mock and still be in progress; every fact is read from the database with
+//     the service-role key, so the client only ever supplies the id;
+//   - no attempt id -> the standalone workshop. Any signed-in account may call,
+//     and the spend is bounded by claimFreeAiUse's per-tache quota rather than
+//     by this gate.
 //
-// Deliberately server-side: the client sends only an id, and every fact used
-// to decide is read from the database with the service-role key.
+// Premium is unaffected either way: unlimited, and nothing is counted.
 // Whether this account is part-way through the one free TCF blanc, and if so
 // which quiz numbers that exam is made of.
 //
@@ -108,7 +108,13 @@ export async function requirePremiumOrFreeMock(req, attemptId) {
   const user = await requireUser(req);
   if (isPremiumUser(user)) return user;
 
-  if (!attemptId || typeof attemptId !== "string") {
+  // No attempt named: the standalone Expression écrite / orale workshop, where
+  // a free account gets one fixed subject. Access is open to any signed-in
+  // user; what bounds it is the two-analyses-per-tache quota claimed below,
+  // NOT this gate.
+  if (attemptId == null || attemptId === "") return user;
+
+  if (typeof attemptId !== "string") {
     throw new HttpError(403, "Réservé à l'abonnement Premium.");
   }
   const { data, error } = await admin
@@ -127,10 +133,10 @@ export async function requirePremiumOrFreeMock(req, attemptId) {
 
 /* ------------------ the free tier's AI quota (2 per tache) ----------------- */
 
-// A free account gets two AI analyses per tache inside its one TCF blanc.
-// Access is gated by requirePremiumOrFreeMock above; this caps VOLUME, because
-// every analysis is a billable Groq call and the button can otherwise be
-// pressed forever.
+// A free account gets two AI analyses per tache, counted separately for the
+// TCF blanc and for the standalone workshop. Access is gated by
+// requirePremiumOrFreeMock above; this caps VOLUME, because every analysis is a
+// billable Groq call and the button can otherwise be pressed forever.
 export const FREE_AI_USES_PER_TASK = 2;
 
 // The six real taches. The key comes from the browser, so it is validated
@@ -143,17 +149,25 @@ export function freeAiTaskKey(section, task) {
   return TASK_KEY.test(key) ? key : null;
 }
 
+// The quota key carries its scope: work inside the free TCF blanc and work in
+// the standalone workshop are separate budgets, each two per tache.
+function quotaKey(attemptId, taskKey) {
+  return attemptId ? `attempt:${attemptId}:${taskKey}` : `practice:${taskKey}`;
+}
+
 // Claims one use up front - before the AI call, so a burst of clicks is refused
 // rather than served. Returns null for Premium (unlimited, nothing counted).
 export async function claimFreeAiUse(user, attemptId, taskKey) {
   if (isPremiumUser(user)) return null;
   if (!taskKey) throw new HttpError(400, "Tâche inconnue.");
 
+  const key = quotaKey(attemptId, taskKey);
   const { data, error } = await admin.rpc("claim_free_ai_use", {
-    p_attempt: attemptId,
     p_user: user.id,
-    p_task: taskKey,
+    p_key: key,
     p_limit: FREE_AI_USES_PER_TASK,
+    p_attempt: attemptId || null,
+    p_task: taskKey,
   });
   // Fail CLOSED: if the quota cannot be recorded we cannot bound the spend, so
   // refuse rather than hand out an uncounted analysis.
@@ -162,16 +176,16 @@ export async function claimFreeAiUse(user, attemptId, taskKey) {
     throw new HttpError(503, "La correction IA est momentanément indisponible. Réessayez dans un instant.");
   }
   if (data === -1) {
-    throw new HttpError(429, `Vous avez utilisé vos ${FREE_AI_USES_PER_TASK} analyses IA pour cette tâche. Les analyses illimitées font partie de l'abonnement Premium.`);
+    throw new HttpError(429, `Vous avez utilisé vos ${FREE_AI_USES_PER_TASK} analyses IA gratuites pour cette tâche. Les analyses illimitées font partie de l'abonnement Premium.`);
   }
-  return { attemptId, taskKey, left: Math.max(FREE_AI_USES_PER_TASK - data, 0) };
+  return { userId: user.id, key, left: Math.max(FREE_AI_USES_PER_TASK - data, 0) };
 }
 
 // Hands the use back when the AI call fails, so a transient upstream error does
 // not cost one of only two attempts. Never throws: it runs inside a catch.
 export async function releaseFreeAiUse(claim) {
   if (!claim) return;
-  const { error } = await admin.rpc("release_free_ai_use", { p_attempt: claim.attemptId, p_task: claim.taskKey });
+  const { error } = await admin.rpc("release_free_ai_use", { p_user: claim.userId, p_key: claim.key });
   if (error) console.warn("release_free_ai_use:", error.message);
 }
 

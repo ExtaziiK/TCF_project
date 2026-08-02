@@ -203,7 +203,7 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
       <div>
         {header}
         <SectionHead eyebrow={`${t("Tâche")} ${idx + 1} / ${attempt.tasks.length}`} title={t(SECTION_LABELS[task.section])} sub={t("Travaillez la tâche comme le jour J. Cette épreuve est auto-évaluée : elle n'entre pas dans le score à choix multiple.")} />
-        {type === "writing" ? <WritingWorkshopBody /> : <SpeakingStudioBody />}
+        {type === "writing" ? <WritingWorkshopBody inExam /> : <SpeakingStudioBody inExam />}
         <Card className="mt-8 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-blue-600/40">
           <p className={`text-sm ${c.sub}`}>{t("Quand vous avez terminé cette épreuve, passez à la suite de l'examen.")}</p>
           <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>{t("J'ai terminé cette épreuve")}</Btn>

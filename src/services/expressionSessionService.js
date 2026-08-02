@@ -105,9 +105,31 @@ function generateWritingCombinationSession(userId) {
   });
 }
 
+// The fixed subject a free account always gets: the built-in seeds, never the
+// archive and never the rotation. Two reasons it is pinned rather than drawn —
+// the free tier is a sample, so everyone should see the same one; and the seeds
+// are the only prompts that ship with a model answer (`sample`), which is what
+// makes a single subject worth practising without the AI.
+export function freeExpressionSession(section) {
+  if (section === "ee") {
+    return OFFICIAL_TASKS.map((task) => {
+      const tk = EE_COMBINATIONS[0].tasks.find((x) => Number(x.task) === task);
+      return tk ? { task, ...tk } : { task, empty: true };
+    });
+  }
+  return OFFICIAL_TASKS.map((task) => {
+    const seed = SPEAKING_TASKS[task - 1];
+    return seed ? { task, ...seed, id: `seed-eo-${task}` } : { task, empty: true };
+  });
+}
+
 // One prompt per official tâche, locked for the session. Returns
 // [{ task: 1..3, ...workshopTaskShape } | { task, empty: true }].
-export async function generateExpressionSession(userId, section) {
+//
+// `free` pins the subject instead of rotating: a free account practises the
+// same one every visit, which is what its two AI analyses per tâche are for.
+export async function generateExpressionSession(userId, section, { free = false } = {}) {
+  if (free) return freeExpressionSession(section);
   const seen = readSeen(userId);
   if (section === "ee") {
     const combos = await buildEECombos();

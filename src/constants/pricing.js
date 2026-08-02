@@ -29,6 +29,10 @@ export const PLANS = [
       // wording honest about the limit: it is the first thing a free user
       // discovers when they try to start a second.
       "1 TCF blanc complet, correction IA incluse",
+      // One fixed subject per workshop, two AI analyses per tâche (rbac opens
+      // the routes; api/_lib/auth.js enforces the quota). Same honesty rule as
+      // above — say the limit, since it is what they hit first.
+      "1 sujet d'expression écrite et 1 d'expression orale, avec analyse IA",
       "Corrections détaillées et explications",
       "Cartes de vocabulaire pour démarrer",
       "Sujets d'actualité du mois (EE + EO)",

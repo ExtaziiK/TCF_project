@@ -304,6 +304,8 @@ export const EN = {
   "6 simulations IA par jour (écrit + oral)": "6 AI simulations per day (writing + speaking)",
   "Simulations IA illimitées": "Unlimited AI simulations",
   "1 TCF blanc complet, correction IA incluse": "1 full mock exam, AI feedback included",
+  "1 sujet d'expression écrite et 1 d'expression orale, avec analyse IA": "1 written and 1 spoken expression subject, with AI analysis",
+  "Votre compte gratuit donne accès à ce sujet, identique à chaque visite, avec 2 analyses IA par tâche. Premium débloque tous les sujets du mois, la rotation complète et les analyses illimitées.": "Your free account gives you this subject, the same on every visit, with 2 AI analyses per task. Premium unlocks every monthly subject, the full rotation and unlimited analyses.",
   "Commencer mon TCF blanc gratuit": "Start my free mock exam",
   "Vous avez déjà passé votre TCF blanc gratuit": "You have already taken your free mock exam",
   "1 TCF blanc chronométré par jour": "1 timed mock exam per day",

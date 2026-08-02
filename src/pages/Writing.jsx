@@ -8,6 +8,7 @@ import { useWritingTask } from "@/hooks/useWritingTask";
 import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { AiFeedback } from "@/components/expression/AiFeedback";
+import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
@@ -47,9 +48,9 @@ function WritingWorkshop() {
 // experience as the Expression écrite page. The session serves exactly one
 // prompt per official tâche, drawn from the Question Bank (admin content)
 // via a rotation-aware random pick — see expressionSessionService.
-export function WritingWorkshopBody() {
+export function WritingWorkshopBody({ inExam = false } = {}) {
   const { c, t } = useApp();
-  const { loading, tasks } = useExpressionSession("ee");
+  const { loading, tasks, isFreeTier } = useExpressionSession("ee");
   // Shared with the guide side panel when both are on screen (Exams hub); local
   // state otherwise (standalone page / mock runner).
   const [active, setActive] = useExpressionTask(OFFICIAL_TASKS[0]);
@@ -59,6 +60,7 @@ export function WritingWorkshopBody() {
 
   return (
     <div>
+      {isFreeTier && !inExam && <FreeExpressionNotice section="ee" />}
       <div className="flex gap-2 flex-wrap mb-6">
         {tasks.map((tk) => (
           <button key={tk.task} onClick={() => setActive(tk.task)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${active === tk.task ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
