@@ -4,6 +4,7 @@ import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
+import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -101,6 +102,9 @@ function Landing() {
           ))}
         </div>
       </section>
+
+      {/* TUTORIAL VIDEO — between the four épreuves and the exam overview */}
+      <VideoTutorial />
 
       {/* EXAM OVERVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>

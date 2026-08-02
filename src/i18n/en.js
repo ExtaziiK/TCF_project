@@ -55,6 +55,10 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "Visite guidée": "Guided tour",
+  "Découvrez Passerelle en vidéo": "See Passerelle in action",
+  "Deux minutes pour comprendre comment préparer chaque épreuve sur la plateforme.": "Two minutes on how to prepare for each test section on the platform.",
+  "Lire la vidéo de présentation": "Play the introduction video",
   "Calculateur TCF → NCLC": "TCF → NCLC calculator",
   "Convertissez vos scores en niveaux NCLC": "Convert your scores into NCLC levels",
   "Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.":
