@@ -13,7 +13,7 @@ const SUGGESTIONS = [
   { r: "guide", t: "Guide du TCF Canada", d: "Le format des quatre épreuves, le barème et les niveaux." },
   { r: "practice", t: "Pratique gratuite", d: "Un quiz offert dans chaque épreuve, au format officiel." },
   { r: "pricing", t: "Tarifs", d: "Les forfaits et ce que débloque l'accès Premium." },
-  { r: "blog", t: "Blogue", d: "Conseils de préparation et repères pour l'immigration." },
+  { r: "blog", t: "Blog", d: "Conseils de préparation et repères pour l'immigration." },
 ];
 
 export function NotFound() {

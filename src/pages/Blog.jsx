@@ -23,7 +23,7 @@ export function Blog() {
   }
 
   return (
-    <PageShell back wide eyebrow={t("Blogue")} title={t("Conseils, méthode et actualités du TCF Canada")} sub={t("Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.")}>
+    <PageShell back wide eyebrow={t("Blog")} title={t("Conseils, méthode et actualités du TCF Canada")} sub={t("Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.")}>
       <div className="grid md:grid-cols-3 gap-5">
         {POSTS.map((p) => (
           <RouteLink key={p.id} r={`blog/${p.slug}`} className="text-left block">

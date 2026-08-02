@@ -71,7 +71,7 @@ export const ROUTE_META = {
   },
   blog: {
     path: "/blogue",
-    title: "Blogue — conseils TCF Canada et immigration",
+    title: "Blog — conseils TCF Canada et immigration",
     description:
       "Conseils de préparation au TCF Canada, stratégies par épreuve et repères pour votre projet d'immigration : Entrée express, NCLC et étude efficace du français.",
   },
