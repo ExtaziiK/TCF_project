@@ -13,10 +13,28 @@ export class AiError extends Error {
   }
 }
 
+// The access token has to be FRESH, not merely present. These endpoints are
+// called after long idle stretches — the oral workshop in particular sits for
+// minutes between recording and analysis — and the server verifies the token
+// against Supabase, so a stale one comes back 401 "Invalid or expired session"
+// with nothing the candidate can act on. Refresh slightly ahead of expiry
+// rather than waiting to be refused.
+const TOKEN_SKEW_MS = 60_000;
+
+async function currentToken() {
+  const { data } = await supabase.auth.getSession();
+  const session = data?.session || null;
+  const expiresAt = (session?.expires_at || 0) * 1000;
+  if (session && expiresAt && expiresAt - Date.now() < TOKEN_SKEW_MS) {
+    const { data: refreshed } = await supabase.auth.refreshSession();
+    return refreshed?.session?.access_token || session.access_token;
+  }
+  return session?.access_token;
+}
+
 async function authHeaders() {
   try {
-    const { data } = await supabase.auth.getSession();
-    const token = data?.session?.access_token;
+    const token = await currentToken();
     const headers = {};
     if (token) headers.Authorization = `Bearer ${token}`;
     // Lets the server refuse a device whose single-active-session id was
@@ -29,7 +47,7 @@ async function authHeaders() {
   }
 }
 
-async function postJSON(path, body) {
+async function postJSON(path, body, { retriedAuth = false } = {}) {
   let res;
   try {
     res = await fetch(path, {
@@ -43,6 +61,15 @@ async function postJSON(path, body) {
   // Plain `vite dev` has no serverless routes → 404. Surface it distinctly so
   // callers can fall back gracefully instead of showing a hard error.
   if (res.status === 404) throw new AiError(404, "unavailable");
+  // A token can also be revoked or expire mid-flight (the refresh above only
+  // covers what the client can see). Force one refresh and replay before
+  // giving up — losing a recording to a stale token is not something the
+  // candidate can do anything about. Once only, so a genuinely dead session
+  // fails fast instead of looping.
+  if (res.status === 401 && !retriedAuth) {
+    const { data } = await supabase.auth.refreshSession().catch(() => ({ data: null }));
+    if (data?.session) return postJSON(path, body, { retriedAuth: true });
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new AiError(res.status, data.error || "AI request failed");
   return data;

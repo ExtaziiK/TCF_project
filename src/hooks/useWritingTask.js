@@ -72,6 +72,8 @@ export function useWritingTask(task, notify) {
       if (err instanceof AiError && (err.status === 404 || err.status === 0)) {
         setAi(heuristic());
         notify(t("Analyse IA indisponible ici — aperçu heuristique affiché. Déployez les fonctions serverless pour l'analyse complète."));
+      } else if (err instanceof AiError && err.status === 401) {
+        notify(t("Votre session a expiré. Reconnectez-vous pour lancer l'analyse."), "error");
       } else if (err instanceof AiError && (err.status === 429 || err.status === 403)) {
         notify(err.message, "error");
       } else {
