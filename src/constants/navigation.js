@@ -25,7 +25,7 @@ export const NAV_LINKS = [
   // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
   // match sujets-actualite's PAGE_ACCESS list in rbac.js).
-  { l: "Sujets d'actualité", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
+  { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
@@ -63,7 +63,7 @@ export const SEARCH_INDEX = [
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
   { l: "TCF blancs TCF Canada", r: "mocks", c: "Examens" },
-  { l: "Sujets d'actualité · EE et EO", r: "sujets-actualite", c: "Ressources" },
+  { l: "Sujets EE/EO du mois", r: "sujets-actualite", c: "Ressources" },
   { l: "Anciens sujets · Expression écrite", r: "sujets-ee", c: "Ressources" },
   { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
   { l: "Calculateur TCF → NCLC", r: "calculator", c: "Ressources" },

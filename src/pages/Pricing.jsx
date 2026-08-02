@@ -10,7 +10,7 @@ import { PlanCard } from "@/components/pricing/PlanCard";
 const WEBSITE_FEATURES = [
   { icon: Layers, t: "Les 4 épreuves officielles", d: "Compréhension orale et écrite, expression orale et écrite : des quiz réalistes calqués sur le vrai TCF Canada." },
   { icon: Sparkles, t: "Correction par intelligence artificielle", d: "Vos expressions écrite et orale évaluées en quelques secondes : niveau CECR estimé, points forts, pistes d'amélioration et version réécrite de votre texte." },
-  { icon: Flame, t: "Sujets d'actualité du mois", d: "Les sujets d'expression écrite et orale les plus fréquents du moment, actualisés chaque mois pour coller aux sessions récentes." },
+  { icon: Flame, t: "Sujets EE/EO du mois", d: "Les sujets d'expression écrite et orale les plus fréquents du moment, actualisés chaque mois pour coller aux sessions récentes." },
   { icon: Timer, t: "TCF blancs chronométrés", d: "L'examen complet en conditions réelles, minuté épreuve par épreuve, pour vous entraîner comme le jour J." },
   { icon: BookOpen, t: "Vocabulaire et grammaire", d: "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases." },
   { icon: LineChart, t: "Suivi et score estimé", d: "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment." },

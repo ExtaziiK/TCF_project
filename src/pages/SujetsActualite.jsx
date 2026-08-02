@@ -5,7 +5,7 @@ import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { EECombinaison, EOTacheBlock } from "@/components/sujets/renderers";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 
-// Ressources · Sujets d'actualité: the latest month's subjects for the épreuve
+// Ressources · Sujets EE/EO: the latest month's subjects for the épreuve
 // the student picks (EE or EO) — the trending set to prepare right now. Older
 // months live on the "Anciens sujets" pages.
 export function SujetsActualite() {
@@ -18,8 +18,8 @@ export function SujetsActualite() {
   return (
     <PageShell
       back
-      eyebrow={t("Ressources · Sujets d'actualité")}
-      title={t("Sujets d'actualité")}
+      eyebrow={t("Ressources · Sujets EE/EO")}
+      title={t("Sujets EE/EO du mois")}
       sub={t("Les derniers sujets qui circulent ce mois-ci au TCF Canada. Choisissez l'épreuve pour découvrir les sujets à préparer en priorité.")}
     >
       {/* Épreuve toggle */}

@@ -325,7 +325,6 @@ export const EN = {
   "TCF blancs illimités": "Unlimited mock exams",
   "Accès sur 2 appareils": "Access on 2 devices",
   "Accès sur 4 appareils": "Access on 4 devices",
-  "Sujets d'actualité du mois (EE + EO)": "This month's trending subjects (writing + speaking)",
   "Le plus populaire": "Most popular",
   // Pricing page — "everything included" overview section
   "Tout pour réussir le TCF Canada, au même endroit": "Everything you need to pass the TCF Canada, in one place",
@@ -337,7 +336,7 @@ export const EN = {
   "Correction par intelligence artificielle": "AI-powered feedback",
   "Vos expressions écrite et orale évaluées en quelques secondes : niveau CECR estimé, points forts, pistes d'amélioration et version réécrite de votre texte.":
     "Your writing and speaking assessed in seconds: estimated CEFR level, strengths, areas to improve, and a rewritten, higher-level version of your text.",
-  "Sujets d'actualité du mois": "This month's trending subjects",
+  "Sujets EE/EO du mois": "This month's writing & speaking subjects",
   "Les sujets d'expression écrite et orale les plus fréquents du moment, actualisés chaque mois pour coller aux sessions récentes.":
     "The most common writing and speaking topics right now, updated every month to match recent exam sessions.",
   "TCF blancs chronométrés": "Timed mock exams",
