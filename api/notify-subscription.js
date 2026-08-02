@@ -18,6 +18,22 @@ import { createClient } from "@supabase/supabase-js";
 //   SUPABASE_SERVICE_ROLE_KEY (already set) — server-only
 //   SITE_URL             (optional) — admin deep link
 //   SUBSCRIPTION_WEBHOOK_SECRET (optional) — only for the Supabase-webhook path
+//
+// If the notification silently stops arriving, check these two before the code
+// — both fail at Telegram's end and are invisible from here, because the app
+// fires this call and ignores the response on purpose (a broken notification
+// must never break someone's checkout):
+//
+//   · A bot cannot open a conversation. Every recipient in TELEGRAM_CHAT_ID
+//     must have pressed Start on THIS bot, or the send is refused with
+//     "403 bot can't initiate conversation with a user". Replacing the bot
+//     resets that: a new bot has no conversation with anyone, even though the
+//     chat id is unchanged (for a private chat it is the recipient's own user
+//     id, the same across every bot).
+//   · Rotating credentials means /revoke on the existing bot, which keeps its
+//     username, its chats and its Start history. /newbot makes a SECOND bot and
+//     leaves the old token working — replacing a leaked one that way rotates
+//     nothing and quietly breaks delivery until someone presses Start.
 
 const RECEIPT_TTL = 60 * 60;          // 1 h — Telegram downloads at send time
 const RECENT_MS = 20 * 60 * 1000;     // only notify for requests < 20 min old
