@@ -68,46 +68,48 @@ export function VideoTutorial() {
           {t("Découvrez Passerelle en vidéo")}
         </h2>
         <p className={`mt-3 text-sm md:text-base ${c.sub}`}>
-          {t("Deux minutes pour comprendre comment préparer chaque épreuve sur la plateforme.")}
+          {t("Cinq minutes pour comprendre comment préparer chaque épreuve sur la plateforme.")}
         </p>
       </div>
 
-      <div
-        ref={boxRef}
-        className={`relative max-w-4xl mx-auto aspect-video rounded-3xl overflow-hidden border ${c.border} shadow-xl shadow-blue-600/10 bg-black`}
-      >
-        {started ? (
-          <iframe
-            ref={frameRef}
-            src={src}
-            title={t("Découvrez Passerelle en vidéo")}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
-        ) : (
-          // Poster + a real button, so the video is reachable by click and by
-          // keyboard even when autoplay never fires (reduced motion, or an
-          // observer that has not triggered yet).
-          <button
-            type="button"
-            onClick={() => setStarted(true)}
-            className="absolute inset-0 w-full h-full group"
-            aria-label={t("Lire la vidéo de présentation")}
-          >
-            <img
-              src={`https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
-              alt=""
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+      <div className="max-w-4xl mx-auto rounded-3xl p-[3px] grad-brand shadow-xl shadow-blue-600/20">
+        <div
+          ref={boxRef}
+          className="relative aspect-video rounded-[21px] overflow-hidden bg-black"
+        >
+          {started ? (
+            <iframe
+              ref={frameRef}
+              src={src}
+              title={t("Découvrez Passerelle en vidéo")}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
             />
-            <span className="absolute inset-0 flex items-center justify-center">
-              <span className="w-16 h-16 rounded-full grad-brand text-white flex items-center justify-center shadow-2xl shadow-blue-600/40 transition-transform group-hover:scale-110">
-                <Play size={26} className="ml-1" fill="currentColor" />
+          ) : (
+            // Poster + a real button, so the video is reachable by click and by
+            // keyboard even when autoplay never fires (reduced motion, or an
+            // observer that has not triggered yet).
+            <button
+              type="button"
+              onClick={() => setStarted(true)}
+              className="absolute inset-0 w-full h-full group"
+              aria-label={t("Lire la vidéo de présentation")}
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+              />
+              <span className="absolute inset-0 flex items-center justify-center">
+                <span className="w-16 h-16 rounded-full grad-brand text-white flex items-center justify-center shadow-2xl shadow-blue-600/40 transition-transform group-hover:scale-110">
+                  <Play size={26} className="ml-1" fill="currentColor" />
+                </span>
               </span>
-            </span>
-          </button>
-        )}
+            </button>
+          )}
+        </div>
       </div>
     </section>
   );
