@@ -1,10 +1,11 @@
-import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
+import { Leaf, ArrowRight, ChevronRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
+import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -137,27 +138,19 @@ function Landing() {
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
           once an admin approves them (Admin › Témoignages). Falls back to the
-          three seed stories until the table has approved content. */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-        <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
-        <div className="grid md:grid-cols-3 gap-5">
-          {testimonials.map((tm) => (
-            <Card key={tm.id} lift className="p-6 flex flex-col">
-              <Quote size={22} className="text-blue-600/40" aria-hidden="true" />
-              <p className={`mt-4 text-sm leading-relaxed flex-1 ${c.text}`}>« {t(tm.body)} »</p>
-              <div className="mt-6 flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center">{tm.name[0]}</span>
-                <div className="flex-1 min-w-0"><p className={`text-sm font-bold ${c.text}`}>{tm.name}</p>{tm.origin && <p className={`text-xs ${c.faint}`}>{tm.origin}</p>}</div>
-                {tm.level && <Pill tone="green">{t(tm.level)}</Pill>}
-              </div>
-            </Card>
-          ))}
-        </div>
-        <p className={`mt-8 text-center text-sm ${c.sub}`}>
-          {t("Vous avez passé le TCF avec Passerelle ?")}{" "}
-          <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
-        </p>
-      </section>
+          three seed stories until the table has approved content, and the whole
+          block can be switched off from Admin › Accueil › Témoignages — heading
+          and invitation included, so hiding it leaves nothing dangling. */}
+      {testimonials?.enabled && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+          <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
+          <TestimonialsCarousel items={testimonials.items} />
+          <p className={`mt-8 text-center text-sm ${c.sub}`}>
+            {t("Vous avez passé le TCF avec Passerelle ?")}{" "}
+            <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
+          </p>
+        </section>
+      )}
 
       {/* NCLC CALCULATOR */}
       <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">

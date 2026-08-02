@@ -24,7 +24,7 @@ import {
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
-import { getLaunchDiscount, setLaunchDiscount } from "@/services/settingsService";
+import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials } from "@/services/settingsService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
 } from "@/services/testimonialsService";
@@ -1645,6 +1645,19 @@ function TestimonialsTab({ onCount }) {
   const [items, setItems] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("pending");
+  // Whether the section appears on the landing page at all — separate from
+  // moderation below, which decides what may be shown once it does.
+  const [shown, setShown] = useState(null);
+
+  useEffect(() => { getHomeTestimonials().then((r) => setShown(r.enabled)); }, []);
+
+  const toggleShown = async () => {
+    const next = !shown;
+    setShown(next); // optimistic: the switch answers immediately, reverts on failure
+    const r = await setHomeTestimonials(next);
+    if (!r.ok) { setShown(!next); return notify(r.error || "Action refusée."); }
+    notify(next ? "Section affichée sur l'accueil." : "Section masquée de l'accueil.");
+  };
 
   const load = () => listAllTestimonials().then((r) => {
     setItems(r.items);
@@ -1676,6 +1689,20 @@ function TestimonialsTab({ onCount }) {
   const list = (items || []).filter((x) => filter === "all" || x.status === filter);
   return (
     <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Témoignages (accueil)</h3>
+          <button onClick={toggleShown} disabled={shown === null} role="switch" aria-checked={!!shown} aria-label="Afficher les témoignages sur l'accueil"
+            className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${shown ? "bg-blue-600" : c.track} ${shown === null ? "opacity-50" : ""}`}>
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${shown ? "translate-x-5" : ""}`} />
+          </button>
+        </div>
+        <p className={`text-sm ${c.sub}`}>
+          La section « Histoires de réussite » de la page d'accueil publique, affichée en diaporama. Désactivez-la pour
+          la retirer entièrement — titre et invitation à témoigner compris. Cela ne change rien aux témoignages
+          eux-mêmes : ceux qui sont publiés le restent et réapparaissent tels quels à la réactivation.
+        </p>
+      </Card>
       <div className="flex gap-2 flex-wrap">
         {TM_FILTERS.map(([id, l]) => (
           <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>

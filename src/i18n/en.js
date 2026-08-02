@@ -212,6 +212,11 @@ export const EN = {
   "C2 obtenu": "Achieved C2",
   "Vous avez passé le TCF avec Passerelle ?": "Took the TCF with Passerelle?",
   "Partagez votre histoire": "Share your story",
+  // Testimonials carousel controls (components/home/TestimonialsCarousel.jsx)
+  "carrousel": "carousel",
+  "Témoignages précédents": "Previous testimonials",
+  "Témoignages suivants": "Next testimonials",
+  "Aller à la page": "Go to page",
   "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les TCF blancs m'ont enlevé tout le stress le jour J.":
     "In 8 weeks I went from B1 to C1 in listening. The mock exams took away all the stress on test day.",
   "Le suivi de progression m'a montré exactement où je perdais des points. J'ai obtenu les 50 points d'Entrée express qu'il me fallait.":
