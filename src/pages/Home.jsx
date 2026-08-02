@@ -76,7 +76,7 @@ function Landing() {
           figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (
         <section className={`border-y ${c.border} ${c.tint}`}>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {stats.items.map((s) => (
               <div key={s.key} className="text-center">
                 <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
@@ -88,7 +88,7 @@ function Landing() {
       )}
 
       {/* FEATURES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f) => (
@@ -109,7 +109,7 @@ function Landing() {
 
       {/* EXAM OVERVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
             <div className="space-y-3">
@@ -142,7 +142,7 @@ function Landing() {
           block can be switched off from Admin › Accueil › Témoignages — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           <TestimonialsCarousel items={testimonials.items} />
           <p className={`mt-8 text-center text-sm ${c.sub}`}>
@@ -153,14 +153,14 @@ function Landing() {
       )}
 
       {/* NCLC CALCULATOR */}
-      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
         <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
       </section>
 
       {/* PRICING PREVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Des accès en dollars américains, sans engagement. Annulable en deux clics.")} />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
             {plans.map((p, i) => <PlanCard key={p.name} p={p} compact index={i} />)}
@@ -169,7 +169,7 @@ function Landing() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
         <div className="mt-8 flex justify-center gap-3 flex-wrap">
