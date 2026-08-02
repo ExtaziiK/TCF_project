@@ -49,7 +49,7 @@ export function AppProvider({ children }) {
 
   const { toast, notify } = useToast();
   const { customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useCustomListening(notify);
-  useContentProtection(notify); // right-click / dev-tools deterrent — see the hook for scope & limits
+  useContentProtection(notify); // view-source / dev-tools deterrent; copying is allowed — see the hook
   const c = useTheme(dark);
 
   useEffect(() => {
