@@ -203,6 +203,15 @@ export async function createAttempt(userId, tasks, meta = {}) {
     .select()
     .single();
   if (error) {
+    // The local fallback keeps a Premium exam usable when the table is missing
+    // or the network drops, but it cannot carry the FREE exam: the server signs
+    // its audio/images and authorises its AI correction from the attempt row
+    // itself, so a local-only free attempt is an exam with no media and no
+    // correction — and it would spend the single free entitlement on it.
+    if (meta.free) {
+      console.warn("free exam attempt:", error.message);
+      return null;
+    }
     localStore.saveAll(userId, [attempt, ...localStore.list(userId)]);
     return attempt;
   }
