@@ -344,6 +344,10 @@ export function Mocks() {
     if (tasks.length === 0) { notify(t("La banque de questions est vide : impossible de générer un examen.")); setStarting(false); return; }
     const attempt = await createAttempt(user?.id, tasks, isFreeTier ? { mode, ...FREE_MOCK_META } : { mode });
     setStarting(false);
+    // Only the free exam returns null, and only when it could not be saved.
+    // Better to say so than to open an exam whose audio and images will not
+    // load — and it leaves the free entitlement unspent.
+    if (!attempt) return notify(t("Impossible de démarrer votre TCF blanc pour le moment. Réessayez dans un instant."), "error");
     setSetup(false);
     setActive(attempt);
   };
