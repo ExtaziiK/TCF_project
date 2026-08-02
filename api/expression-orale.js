@@ -1,4 +1,4 @@
-import { requirePremiumOrFreeMock } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock, claimFreeAiUse, releaseFreeAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
@@ -242,6 +242,7 @@ function extForMime(mime = "") {
 }
 
 export default async function handler(req, res) {
+  let claim = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
@@ -251,7 +252,20 @@ export default async function handler(req, res) {
     // per account. Generous enough for a real interview (one turn per ~30 s).
     await enforceRateLimit(req, { name: "expr-orale", limit: 30, windowSeconds: 300, userId: user.id });
 
-    if (req.body?.mode === "dialogue") return await dialogueTurn(res, user, req.body);
+    // Free accounts get FREE_AI_USES_PER_TASK analyses per tache (Premium is
+    // unlimited and claim returns null). What counts as one analysis:
+    //   - the one-shot evaluation of a recording (taches 1 and 3);
+    //   - the FINAL grading of the tache 2 interview.
+    // The interview's individual turns do not, or a two-analysis budget would
+    // end the conversation after two exchanges instead of capping evaluations.
+    // Their pace stays bounded by enforceRateLimit above.
+    const isDialogue = req.body?.mode === "dialogue";
+    const wantsGrade = req.body?.final === true || req.body?.final === "true";
+    if (!isDialogue || wantsGrade) {
+      claim = await claimFreeAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
+    }
+
+    if (isDialogue) return await dialogueTurn(res, user, req.body);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     const buffer = decodeAudio(audio);
@@ -267,6 +281,9 @@ export default async function handler(req, res) {
     // Whisper hallucinates captions on near-silence; treat very short output
     // as "nothing said" and skip the (pointless) evaluation call.
     if (!transcript || transcript.replace(/\s/g, "").length < 3) {
+      // Nothing intelligible was said, so no evaluation was produced: give the
+      // use back rather than charge for a microphone problem.
+      await releaseFreeAiUse(claim);
       return res.status(200).json({ transcript: transcript || "", empty: true, level: "", summary: "", strengths: [], improvements: [] });
     }
 
@@ -285,8 +302,13 @@ export default async function handler(req, res) {
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
-    res.status(200).json({ transcript, ...normalizeFeedback(raw) });
+    // `freeAiLeft` is undefined for Premium (no quota); the workshop then shows
+    // no counter at all.
+    res.status(200).json({ transcript, ...normalizeFeedback(raw), freeAiLeft: claim?.left });
   } catch (err) {
+    // Give the use back: a candidate should not lose one of two attempts to an
+    // upstream failure. A refusal never claimed, so there is nothing to undo.
+    await releaseFreeAiUse(claim);
     res.status(err.status || 500).json({ error: err.message || "AI evaluation failed." });
   }
 }
