@@ -31,6 +31,11 @@ update public.free_ai_uses
  where quota_key is null and exam_attempt_id is not null and task_key is not null;
 delete from public.free_ai_uses where quota_key is null;
 
+-- The old primary key goes FIRST: a column that is part of a primary key is
+-- implicitly NOT NULL, and Postgres refuses `drop not null` while it is
+-- (ERROR 42P16), so the constraint has to be gone before the columns relax.
+alter table public.free_ai_uses drop constraint if exists free_ai_uses_pkey;
+
 -- exam_attempt_id stays (nullable) purely for its ON DELETE CASCADE: deleting
 -- an attempt should still take its quota rows with it. Practice rows leave it
 -- null, which is why it can no longer be part of the key.
@@ -38,7 +43,6 @@ alter table public.free_ai_uses alter column exam_attempt_id drop not null;
 alter table public.free_ai_uses alter column task_key drop not null;
 alter table public.free_ai_uses alter column quota_key set not null;
 
-alter table public.free_ai_uses drop constraint if exists free_ai_uses_pkey;
 alter table public.free_ai_uses add constraint free_ai_uses_pkey primary key (user_id, quota_key);
 
 alter table public.free_ai_uses enable row level security;
