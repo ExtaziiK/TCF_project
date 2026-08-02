@@ -32,7 +32,7 @@ export const NAV_LINKS = [
     { l: "Grammaire", r: "grammar", roles: PREMIUM },
   ] },
   { l: "Tarifs", r: "pricing" },
-  { l: "Blogue", r: "blog" },
+  { l: "Calculateur", r: "calculator" },
 ];
 
 // Extra entries that only exist in the mobile menu for signed-in users.
@@ -66,6 +66,7 @@ export const SEARCH_INDEX = [
   { l: "Sujets d'actualité · EE et EO", r: "sujets-actualite", c: "Ressources" },
   { l: "Anciens sujets · Expression écrite", r: "sujets-ee", c: "Ressources" },
   { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
+  { l: "Calculateur TCF → NCLC", r: "calculator", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
   { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
   { l: "Foire aux questions", r: "faq", c: "Page" },

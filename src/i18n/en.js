@@ -56,6 +56,7 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "Calculateur TCF → NCLC": "TCF → NCLC calculator",
   "Convertissez vos scores en niveaux NCLC": "Convert your scores into NCLC levels",
   "Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.":
     "Enter your TCF Canada scores and check whether you meet your immigration project's thresholds.",
