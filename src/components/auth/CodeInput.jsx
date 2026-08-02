@@ -1,30 +1,36 @@
 import { useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 
-const LENGTH = 6;
-
-// Six boxes drawn over ONE real input.
+// One box per digit, drawn over ONE real input.
 //
-// Six separate <input>s is the obvious build and the fragile one: a pasted code
+// One <input> per box is the obvious build and the fragile one: a pasted code
 // lands entirely in the first box, the browser's one-time-code autofill has
-// nowhere to put six digits at once, and every backspace needs manual focus
+// nowhere to put the whole code at once, and every backspace needs manual focus
 // juggling across refs. Keeping a single input means paste, autofill, the
 // mobile numeric keypad and text selection all behave natively — the boxes are
 // only a rendering of its value, and the caret is drawn on whichever box is
 // next to be filled.
-export function CodeInput({ value, onChange, onComplete, disabled, label }) {
+//
+// `length` comes from CONFIRM_CODE_LENGTH, which tracks Supabase's "Email OTP
+// Length" setting — it is 8 on this project, not the 6 Supabase ships by
+// default.
+export function CodeInput({ value, onChange, onComplete, disabled, label, length = 6 }) {
   const { c } = useApp();
   const ref = useRef(null);
   const [focused, setFocused] = useState(false);
 
-  // Where the next digit lands. LENGTH once the code is complete, which is also
-  // how "no caret to draw" is expressed.
+  // Where the next digit lands. Equal to `length` once the code is complete,
+  // which is also how "no caret to draw" is expressed.
+  //
+  // Eight boxes have to fit a 360px phone, so they are sized down past six
+  // rather than overflowing the card.
+  const tight = length > 6;
   const caretAt = value.length;
 
   const change = (e) => {
-    const next = e.target.value.replace(/\D/g, "").slice(0, LENGTH);
+    const next = e.target.value.replace(/\D/g, "").slice(0, length);
     onChange(next);
-    if (next.length === LENGTH) onComplete?.(next);
+    if (next.length === length) onComplete?.(next);
   };
 
   // Typing always appends. A caret dropped into the middle by a click would
@@ -36,14 +42,14 @@ export function CodeInput({ value, onChange, onComplete, disabled, label }) {
 
   return (
     <div className="relative mt-6">
-      <div className="flex justify-center gap-2 sm:gap-2.5" aria-hidden="true">
-        {Array.from({ length: LENGTH }, (_, i) => {
+      <div className={`flex justify-center ${tight ? "gap-1.5 sm:gap-2" : "gap-2 sm:gap-2.5"}`} aria-hidden="true">
+        {Array.from({ length }, (_, i) => {
           const active = focused && i === caretAt;
           const filled = i < value.length;
           return (
             <div
               key={i}
-              className={`w-11 h-14 sm:w-12 sm:h-16 rounded-xl border-2 flex items-center justify-center font-mono2 text-2xl font-bold transition-colors ${
+              className={`${tight ? "w-9 h-12 sm:w-11 sm:h-14 text-xl" : "w-11 h-14 sm:w-12 sm:h-16 text-2xl"} rounded-xl border-2 flex items-center justify-center font-mono2 font-bold transition-colors ${
                 active
                   ? "border-blue-600 ring-4 ring-blue-600/15"
                   : filled
@@ -51,7 +57,7 @@ export function CodeInput({ value, onChange, onComplete, disabled, label }) {
                     : c.inputCls
               }`}
             >
-              {filled ? value[i] : active ? <span className="w-[2px] h-7 bg-blue-600 caret-blink" /> : null}
+              {filled ? value[i] : active ? <span className={`w-[2px] ${tight ? "h-6" : "h-7"} bg-blue-600 caret-blink`} /> : null}
             </div>
           );
         })}
@@ -70,7 +76,7 @@ export function CodeInput({ value, onChange, onComplete, disabled, label }) {
         inputMode="numeric"
         autoComplete="one-time-code"
         autoFocus
-        maxLength={LENGTH}
+        maxLength={length}
         aria-label={label}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
       />

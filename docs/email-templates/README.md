@@ -19,9 +19,16 @@ body as-is, so a complete document is what gets delivered.
 
 ## Confirm signup sends a CODE, not a link
 
-`confirm-signup.html` shows `{{ .Token }}` — the six digits the candidate types
-back into the tab they signed up in (`verifySignupCode` in
+`confirm-signup.html` shows `{{ .Token }}` — the digits the candidate types back
+into the tab they signed up in (`verifySignupCode` in
 `src/services/authService.js`).
+
+**How many digits is a setting, and the app has to agree with it.**
+Authentication → Sign In / Providers → Email → **Email OTP Length** is `8` on
+this project, not the `6` Supabase ships by default. The API does not expose it,
+so `CONFIRM_CODE_LENGTH` in `authService.js` is kept in step by hand — change
+one and you must change the other, or the boxes cannot hold the code that was
+sent.
 
 **Do not add `{{ .ConfirmationURL }}` to that template.** The link and the code
 are the *same single-use token*. Mail providers fetch every link in an incoming
@@ -40,6 +47,7 @@ Two settings worth checking under **Authentication → Providers → Email**:
   the code screen never appears.
 - **Email OTP expiration** defaults to 1 hour. The template says "valable une
   heure" — change both together if you shorten it.
+- **Email OTP Length** must equal `CONFIRM_CODE_LENGTH` (see above).
 
 ## Brand values used
 

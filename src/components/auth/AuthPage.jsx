@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { TermsConsent } from "@/components/auth/TermsConsent";
 import { CodeInput } from "@/components/auth/CodeInput";
@@ -109,7 +109,7 @@ export function AuthPage({ mode }) {
   };
 
   const runVerify = async (value) => {
-    if (busy || value.length !== 6) return;
+    if (busy || value.length !== CONFIRM_CODE_LENGTH) return;
     setBusy(true);
     try {
       const { session, error } = await verifySignupCode(email, value);
@@ -173,7 +173,7 @@ export function AuthPage({ mode }) {
           <form className="text-center py-4 rise" onSubmit={submitCode}>
             <Mail size={36} className="text-blue-600 mx-auto" />
             <p className={`mt-4 font-semibold ${c.text}`}>{t("Entrez votre code de confirmation")}</p>
-            <p className={`mt-1.5 text-sm ${c.sub}`}>{t("Nous avons envoyé un code à 6 chiffres à")} <span className="font-semibold">{email || t("votre adresse")}</span>.</p>
+            <p className={`mt-1.5 text-sm ${c.sub}`}>{t(`Nous avons envoyé un code à ${CONFIRM_CODE_LENGTH} chiffres à`)} <span className="font-semibold">{email || t("votre adresse")}</span>.</p>
             {/* Verifies itself on the sixth digit — the button stays for anyone
                 who lands there by paste or autofill and expects to confirm. */}
             <CodeInput
@@ -181,9 +181,10 @@ export function AuthPage({ mode }) {
               onChange={setCode}
               onComplete={runVerify}
               disabled={busy}
+              length={CONFIRM_CODE_LENGTH}
               label={t("Code de confirmation")}
             />
-            <Btn type="submit" variant="accent" className="mt-4 w-full" disabled={busy || code.length !== 6}>
+            <Btn type="submit" variant="accent" className="mt-4 w-full" disabled={busy || code.length !== CONFIRM_CODE_LENGTH}>
               {t(busy ? "Vérification…" : "Activer mon compte")}
             </Btn>
             <button type="button" onClick={resend} disabled={busy || cooldown > 0} className={`mt-4 text-sm font-semibold ${cooldown > 0 ? c.faint : "text-blue-600"} disabled:cursor-not-allowed`}>

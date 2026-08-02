@@ -333,9 +333,17 @@ export async function signUp({ name, username, email, password, country, accepte
 // The "Confirm signup" template must therefore carry {{ .Token }} and NO
 // confirmation URL: they are the same token, so a link in the message would let
 // a scanner kill the code. See docs/email-templates/confirm-signup.html.
+//
+// MUST match Supabase → Authentication → Sign In / Providers → Email → "Email
+// OTP Length". The API does not expose that setting, so the two are kept in
+// step by hand: get it wrong and the boxes cannot hold the code that was sent.
+export const CONFIRM_CODE_LENGTH = 8;
+
 export async function verifySignupCode(email, code) {
   const token = String(code || "").replace(/\D/g, "");
-  if (token.length !== 6) return { session: null, error: { message: "Entrez les 6 chiffres du code reçu par courriel." } };
+  if (token.length !== CONFIRM_CODE_LENGTH) {
+    return { session: null, error: { message: `Entrez les ${CONFIRM_CODE_LENGTH} chiffres du code reçu par courriel.` } };
+  }
 
   // The token minted by "Confirm signup" is of type `signup`, but Supabase has
   // also accepted `email` for it across versions. Try the documented one and
@@ -350,7 +358,7 @@ export async function verifySignupCode(email, code) {
   // ("Token has expired or is invalid"). Translated at the source rather than in
   // authErrorMessage, whose other callers redeem links, not codes.
   if (error && (error.code === "otp_expired" || /token has expired|invalid|expired/i.test(error.message || ""))) {
-    return { session: null, error: { message: "Code invalide ou expiré. Vérifiez les 6 chiffres, ou demandez-en un nouveau." } };
+    return { session: null, error: { message: `Code invalide ou expiré. Vérifiez les ${CONFIRM_CODE_LENGTH} chiffres, ou demandez-en un nouveau.` } };
   }
   return { session: data?.session || null, error };
 }
