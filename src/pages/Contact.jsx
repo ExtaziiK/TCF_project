@@ -3,11 +3,11 @@ import { CheckCircle2, ArrowRight, Mail, XCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn, SOCIAL_ICON } from "@/components/common";
 import { submitContactMessage } from "@/services/adminService";
-import { SOCIAL, CONTACT_EMAIL } from "@/constants/social";
+import { SOCIAL, CONTACT_EMAIL, socialHref } from "@/constants/social";
 
 const channels = [
   { label: "Courriel", d: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: Mail, tone: "text-blue-600 bg-blue-600/10" },
-  ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: s.url, icon: SOCIAL_ICON[s.key], tone: s.tone, external: true })),
+  ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: socialHref(s), icon: SOCIAL_ICON[s.key], tone: s.tone, external: true })),
 ];
 
 export function Contact() {
