@@ -35,3 +35,25 @@ export const getDzCheckoutPromo = () => {
     return p?.code && p?.percentOff ? p : null;
   } catch { return null; }
 };
+
+// A promo code entered BEFORE signing up. Buying needs an account, so a visitor
+// who applies a code on the landing page is sent through registration in the
+// middle of the purchase; this is what carries the code across that trip. Only
+// the code string is kept — never the discount — so the value is always
+// re-validated against Stripe rather than restored from something a user could
+// edit in devtools.
+//
+// Distinct from the DZD pair above: that one survives one hop to the manual
+// checkout page, this one survives a signup.
+const PENDING_PROMO_KEY = "passerelle.pendingPromo";
+
+export const setPendingPromo = (code) => {
+  try {
+    if (code) sessionStorage.setItem(PENDING_PROMO_KEY, String(code).slice(0, 64));
+    else sessionStorage.removeItem(PENDING_PROMO_KEY);
+  } catch { /* private mode */ }
+};
+
+export const getPendingPromo = () => {
+  try { return sessionStorage.getItem(PENDING_PROMO_KEY) || ""; } catch { return ""; }
+};

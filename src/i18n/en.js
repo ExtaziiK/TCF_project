@@ -156,6 +156,8 @@ export const EN = {
   "Commencez gratuitement, progressez en Premium": "Start for free, progress with Premium",
   "Des accès en dollars américains, sans engagement. Annulable en deux clics.":
     "Access passes in US dollars, no commitment. Cancel in two clicks.",
+  "Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.":
+    "Pick your currency, apply your promo code, and pay by card or in dinars — no account needed just to look.",
   "Comparer les forfaits en détail": "Compare plans in detail",
   "Votre passerelle vers le Canada": "Your gateway to Canada",
   "commence aujourd'hui.": "starts today.",

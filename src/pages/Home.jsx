@@ -8,9 +8,9 @@ import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
-import { PlanCard } from "@/components/pricing/PlanCard";
+import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { FEATURES, WHY } from "@/constants/home";
-import { useLivePlans } from "@/hooks/useLivePlans";
+import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { MOCK_SECTIONS } from "@/constants/mocks";
@@ -26,7 +26,7 @@ export function Home() {
 
 function Landing() {
   const { c, nav, t } = useApp();
-  const plans = useLivePlans();
+  const pricing = usePricingSelection();
   const stats = useHomeStats();
   const testimonials = useTestimonials();
   return (
@@ -161,10 +161,11 @@ function Landing() {
       {/* PRICING PREVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Des accès en dollars américains, sans engagement. Annulable en deux clics.")} />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-            {plans.map((p, i) => <PlanCard key={p.name} p={p} compact index={i} />)}
-          </div>
+          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
+          {/* Same block as the Tarifs page: currency switch, plans, promo field.
+              All of it works signed out — only the purchase itself needs an
+              account, and the code entered here survives that signup. */}
+          <PricingPlans s={pricing} compact />
         </div>
       </section>
 
