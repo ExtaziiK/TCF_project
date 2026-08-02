@@ -27,7 +27,6 @@ export const EN = {
   "Vocabulaire": "Vocabulary",
   "Grammaire": "Grammar",
   "Tarifs": "Pricing",
-  "Blogue": "Blog",
   "À propos": "About",
   "Tableau de bord": "Dashboard",
   "Mon profil": "My profile",

@@ -68,6 +68,6 @@ export const SEARCH_INDEX = [
   { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
   { l: "Calculateur TCF → NCLC", r: "calculator", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
-  { l: "Entrée express : points du français", r: "blog", c: "Blogue" },
+  { l: "Entrée express : points du français", r: "blog", c: "Blog" },
   { l: "Foire aux questions", r: "faq", c: "Page" },
 ];
