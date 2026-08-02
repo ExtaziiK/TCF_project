@@ -2,9 +2,15 @@
 // blue up through red, then gold for the top VIP tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
-// NOTE: the per-day AI-simulation and mock-exam quotas below are still
-// marketing copy — checkout grants a single "Premium" role and does not yet
-// enforce them. The quiz counts, by contrast, now describe what actually
+// NOTE: the per-day AI-SIMULATION quotas below are now enforced, per épreuve,
+// against the plan_label baked into app_metadata at checkout — Passeport 2,
+// Visa 6, Première classe and VIP unlimited (api/_lib/auth.js:DAILY_SITTINGS,
+// counted in public.ai_sittings). A "simulation" is one sitting: it opens on
+// the first AI analysis and stays open while the candidate works, so a whole
+// Expression écrite counts once. Paid accounts are additionally paced at 3
+// analyses per tâche per 5 minutes. Keep these numbers in sync with the cards.
+// The per-day MOCK-EXAM quotas are still marketing copy: nothing enforces them.
+// The quiz counts, by contrast, now describe what actually
 // happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
 // BankExplorer only locks quizzes for ROLES.FREE_USER. Keep the counts in
 // sync with src/bank if the bank grows.

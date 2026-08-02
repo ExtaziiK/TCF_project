@@ -155,6 +155,101 @@ function quotaKey(attemptId, taskKey) {
   return attemptId ? `attempt:${attemptId}:${taskKey}` : `practice:${taskKey}`;
 }
 
+/* --------------------- the paid tiers' AI limits --------------------------- */
+
+// Two limits apply to a paying account, and they are independent.
+//
+// PACE: 3 analyses per tache per 5-minute window. Anti-spam only - it never
+// touches the daily count, so a real Expression ecrite sitting (three taches,
+// the better part of an hour) still costs one simulation.
+//
+// DAILY SITTINGS: what the plan cards call "simulations IA par jour", counted
+// per epreuve. A sitting opens on the first analysis and stays open while the
+// candidate keeps working; a long idle gap ends it. Opening the workshop or
+// reading a subject costs nothing.
+export const PAID_ANALYSES_PER_TASK = 3;
+const PACE_WINDOW_SECONDS = 5 * 60;
+const SITTING_IDLE_SECONDS = 30 * 60;
+
+// Keep in sync with the plan cards in src/constants/pricing.js. Matched on the
+// plan_label baked into app_metadata at checkout (api/_lib/passes.js).
+const DAILY_SITTINGS = {
+  passeport: 2,
+  visa: 6,
+  "premiere classe": null, // unlimited
+  vip: null,
+};
+
+const normalizeLabel = (v) =>
+  String(v || "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim()
+    .toLowerCase();
+
+// null = unlimited. Admins and owners are unlimited, and so is any paid account
+// whose label we do not recognise: these are paying customers, and wrongly
+// locking one out is a worse failure than letting an unknown tier run free.
+export function dailySittingsFor(user) {
+  const meta = user?.app_metadata || {};
+  if (meta.role === "admin" || meta.role === "owner") return null;
+  const key = normalizeLabel(meta.plan_label);
+  return key in DAILY_SITTINGS ? DAILY_SITTINGS[key] : null;
+}
+
+async function claimPaidAiUse(user, taskKey) {
+  const section = taskKey.split(":")[0];
+  const limit = dailySittingsFor(user);
+
+  const { data, error } = await admin.rpc("claim_ai_analysis", {
+    p_user: user.id,
+    p_section: section,
+    p_task_key: taskKey,
+    p_daily_limit: limit,
+    p_per_task: PAID_ANALYSES_PER_TASK,
+    p_window_secs: PACE_WINDOW_SECONDS,
+    p_idle_secs: SITTING_IDLE_SECONDS,
+  });
+  // Fail OPEN for paying customers: if the counters are unreachable we cannot
+  // meter, but refusing someone who has paid is the worse outcome. (The free
+  // tier fails closed - there the quota IS the entitlement.)
+  if (error) {
+    console.warn("claim_ai_analysis:", error.message);
+    return null;
+  }
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) return null;
+
+  if (!row.allowed) {
+    if (row.reason === "daily") {
+      const epreuve = section === "ee" ? "expression écrite" : "expression orale";
+      throw new HttpError(429, `Vous avez atteint votre limite de ${limit} simulations IA par jour en ${epreuve}. Elle se réinitialise demain, ou passez à un forfait supérieur pour en avoir plus.`);
+    }
+    throw new HttpError(429, `Vous avez lancé ${PAID_ANALYSES_PER_TASK} analyses sur cette tâche. Patientez quelques minutes avant d'en relancer une.`);
+  }
+  return { userId: user.id, taskKey, paid: true, left: row.task_left };
+}
+
+// Single entry point: paid accounts are paced and metered per day, free
+// accounts keep their own hard 2-per-tache allowance.
+export async function claimAiUse(user, attemptId, taskKey) {
+  if (!taskKey) throw new HttpError(400, "Tâche inconnue.");
+  if (isPremiumUser(user)) return claimPaidAiUse(user, taskKey);
+  return claimFreeAiUse(user, attemptId, taskKey);
+}
+
+export async function releaseAiUse(claim) {
+  if (!claim) return;
+  if (claim.paid) {
+    // Only the paced use is returned; the sitting stays open, being a window of
+    // activity rather than a count of successes.
+    const { error } = await admin.rpc("release_ai_pace", { p_user: claim.userId, p_task_key: claim.taskKey });
+    if (error) console.warn("release_ai_pace:", error.message);
+    return;
+  }
+  return releaseFreeAiUse(claim);
+}
+
 // Claims one use up front - before the AI call, so a burst of clicks is refused
 // rather than served. Returns null for Premium (unlimited, nothing counted).
 export async function claimFreeAiUse(user, attemptId, taskKey) {

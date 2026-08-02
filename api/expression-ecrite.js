@@ -1,4 +1,4 @@
-import { requirePremiumOrFreeMock, claimFreeAiUse, releaseFreeAiUse, freeAiTaskKey } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage } from "./_lib/usage.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     // Free accounts get FREE_AI_USES_PER_TASK analyses per tache; Premium is
     // unlimited and claim returns null. Claimed before the Groq call so a burst
     // of clicks is refused rather than served, and released below if it fails.
-    claim = await claimFreeAiUse(user, req.body?.attemptId, freeAiTaskKey("ee", req.body?.task));
+    claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("ee", req.body?.task));
 
     const userMsg = [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
@@ -53,13 +53,15 @@ export default async function handler(req, res) {
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - startedAt });
 
-    // `freeAiLeft` is undefined for Premium (no quota) and the workshop then
-    // shows no counter at all.
-    res.status(200).json({ ...normalizeFeedback(raw), freeAiLeft: claim?.left });
+    // How many analyses are left on this tache: 2 for a free account, 3 per
+    // 5-minute window for a paid one. Undefined only when the counters could
+    // not be reached, and the workshop then shows nothing rather than a wrong
+    // number.
+    res.status(200).json({ ...normalizeFeedback(raw), aiLeft: claim?.left });
   } catch (err) {
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.
-    await releaseFreeAiUse(claim);
+    await releaseAiUse(claim);
     res.status(err.status || 500).json({ error: err.message || "AI evaluation failed." });
   }
 }

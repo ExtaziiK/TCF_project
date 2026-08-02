@@ -1,4 +1,4 @@
-import { requirePremiumOrFreeMock, claimFreeAiUse, releaseFreeAiUse, freeAiTaskKey } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
@@ -277,7 +277,7 @@ export default async function handler(req, res) {
     // Their pace stays bounded by enforceRateLimit above.
     const isDialogue = req.body?.mode === "dialogue";
     if (!isDialogue || dialogueWillGrade(req.body)) {
-      claim = await claimFreeAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
+      claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
     }
 
     if (isDialogue) return await dialogueTurn(res, user, req.body);
@@ -298,7 +298,7 @@ export default async function handler(req, res) {
     if (!transcript || transcript.replace(/\s/g, "").length < 3) {
       // Nothing intelligible was said, so no evaluation was produced: give the
       // use back rather than charge for a microphone problem.
-      await releaseFreeAiUse(claim);
+      await releaseAiUse(claim);
       return res.status(200).json({ transcript: transcript || "", empty: true, level: "", summary: "", strengths: [], improvements: [] });
     }
 
@@ -317,13 +317,15 @@ export default async function handler(req, res) {
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
-    // `freeAiLeft` is undefined for Premium (no quota); the workshop then shows
-    // no counter at all.
-    res.status(200).json({ transcript, ...normalizeFeedback(raw), freeAiLeft: claim?.left });
+    // How many analyses are left on this tache: 2 for a free account, 3 per
+    // 5-minute window for a paid one. Undefined only when the counters could
+    // not be reached, and the workshop then shows nothing rather than a wrong
+    // number.
+    res.status(200).json({ transcript, ...normalizeFeedback(raw), aiLeft: claim?.left });
   } catch (err) {
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
-    await releaseFreeAiUse(claim);
+    await releaseAiUse(claim);
     res.status(err.status || 500).json({ error: err.message || "AI evaluation failed." });
   }
 }

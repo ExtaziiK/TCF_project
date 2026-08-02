@@ -173,12 +173,12 @@ function WritingTaskPane({ task }) {
         </Card>
         <div className="flex gap-3 flex-wrap items-center">
           <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>
-          {/* Free accounts get two analyses per tâche; the server reports what
-              is left after each one. Premium sends nothing, so nothing shows. */}
-          {typeof ai?.freeAiLeft === "number" && (
+          {/* What is left on this tâche, as the server counted it: 2 for a free
+              account (hard limit), 3 per 5-minute window for a paid one. */}
+          {typeof ai?.aiLeft === "number" && (
             <span className={`text-xs ${c.sub}`}>
-              {ai.freeAiLeft > 0
-                ? t(`Il vous reste ${ai.freeAiLeft} analyse${ai.freeAiLeft > 1 ? "s" : ""} IA pour cette tâche.`)
+              {ai.aiLeft > 0
+                ? t(`Il vous reste ${ai.aiLeft} analyse${ai.aiLeft > 1 ? "s" : ""} IA pour cette tâche.`)
                 : t("Vous avez utilisé vos analyses IA pour cette tâche.")}
             </span>
           )}
