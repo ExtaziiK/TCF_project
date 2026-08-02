@@ -1,4 +1,4 @@
-import { requirePremiumOrFreeMock } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock, claimFreeAiUse, releaseFreeAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage } from "./_lib/usage.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
@@ -18,6 +18,7 @@ Respond with ONLY a minified JSON object of this exact shape:
 "strengths", "improvements" and "changes" must never be empty, and "targetLevel" must be higher than "level".`;
 
 export default async function handler(req, res) {
+  let claim = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
@@ -30,6 +31,11 @@ export default async function handler(req, res) {
     const { prompt = "", response = "", taskLabel = "", targetWords = "", lang = "fr" } = req.body || {};
     const text = String(response).trim();
     if (!text) throw new HttpError(400, "The response is empty.");
+
+    // Free accounts get FREE_AI_USES_PER_TASK analyses per tache; Premium is
+    // unlimited and claim returns null. Claimed before the Groq call so a burst
+    // of clicks is refused rather than served, and released below if it fails.
+    claim = await claimFreeAiUse(user, req.body?.attemptId, freeAiTaskKey("ee", req.body?.task));
 
     const userMsg = [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
@@ -47,8 +53,13 @@ export default async function handler(req, res) {
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - startedAt });
 
-    res.status(200).json(normalizeFeedback(raw));
+    // `freeAiLeft` is undefined for Premium (no quota) and the workshop then
+    // shows no counter at all.
+    res.status(200).json({ ...normalizeFeedback(raw), freeAiLeft: claim?.left });
   } catch (err) {
+    // Give the use back: the candidate should not lose one of two attempts to
+    // an upstream failure. A refusal (429) never claimed, so nothing to undo.
+    await releaseFreeAiUse(claim);
     res.status(err.status || 500).json({ error: err.message || "AI evaluation failed." });
   }
 }

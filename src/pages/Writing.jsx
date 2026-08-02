@@ -169,8 +169,17 @@ function WritingTaskPane({ task }) {
             className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text}`}
           />
         </Card>
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-3 flex-wrap items-center">
           <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>
+          {/* Free accounts get two analyses per tâche; the server reports what
+              is left after each one. Premium sends nothing, so nothing shows. */}
+          {typeof ai?.freeAiLeft === "number" && (
+            <span className={`text-xs ${c.sub}`}>
+              {ai.freeAiLeft > 0
+                ? t(`Il vous reste ${ai.freeAiLeft} analyse${ai.freeAiLeft > 1 ? "s" : ""} IA pour cette tâche.`)
+                : t("Vous avez utilisé vos analyses IA pour cette tâche.")}
+            </span>
+          )}
         </div>
         {analyzing && !ai && (
           <Card className="p-6 border-2 border-blue-600/40 flex items-center gap-3">

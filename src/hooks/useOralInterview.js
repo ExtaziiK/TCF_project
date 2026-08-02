@@ -156,6 +156,7 @@ export function useOralInterview(task, notify) {
         mime: type,
         prompt: taskRef.current.prompt,
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
+        task: taskRef.current.task,
         history,
         emptyStreak: emptyStreak.current,
         lang,
@@ -223,7 +224,11 @@ export function useOralInterview(task, notify) {
       const msg =
         err instanceof AiError && (err.status === 404 || err.status === 0)
           ? t("Simulation indisponible ici (fonctions serverless non déployées).")
-          : t("L'analyse a échoué. Réessayez.");
+          // The quota refusal explains itself; the generic notice would leave
+          // the candidate wondering why the evaluation never arrived.
+          : err instanceof AiError && (err.status === 429 || err.status === 403)
+            ? err.message
+            : t("L'analyse a échoué. Réessayez.");
       fail(msg);
     }
   };

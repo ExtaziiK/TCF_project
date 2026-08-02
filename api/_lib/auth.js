@@ -125,6 +125,56 @@ export async function requirePremiumOrFreeMock(req, attemptId) {
   return user;
 }
 
+/* ------------------ the free tier's AI quota (2 per tache) ----------------- */
+
+// A free account gets two AI analyses per tache inside its one TCF blanc.
+// Access is gated by requirePremiumOrFreeMock above; this caps VOLUME, because
+// every analysis is a billable Groq call and the button can otherwise be
+// pressed forever.
+export const FREE_AI_USES_PER_TASK = 2;
+
+// The six real taches. The key comes from the browser, so it is validated
+// against this shape rather than trusted: without it a client could send a new
+// task key per request and give itself an unlimited number of buckets.
+const TASK_KEY = /^(ee|eo):[1-3]$/;
+
+export function freeAiTaskKey(section, task) {
+  const key = `${String(section || "").toLowerCase()}:${String(task ?? "").trim()}`;
+  return TASK_KEY.test(key) ? key : null;
+}
+
+// Claims one use up front - before the AI call, so a burst of clicks is refused
+// rather than served. Returns null for Premium (unlimited, nothing counted).
+export async function claimFreeAiUse(user, attemptId, taskKey) {
+  if (isPremiumUser(user)) return null;
+  if (!taskKey) throw new HttpError(400, "Tâche inconnue.");
+
+  const { data, error } = await admin.rpc("claim_free_ai_use", {
+    p_attempt: attemptId,
+    p_user: user.id,
+    p_task: taskKey,
+    p_limit: FREE_AI_USES_PER_TASK,
+  });
+  // Fail CLOSED: if the quota cannot be recorded we cannot bound the spend, so
+  // refuse rather than hand out an uncounted analysis.
+  if (error) {
+    console.warn("claim_free_ai_use:", error.message);
+    throw new HttpError(503, "La correction IA est momentanément indisponible. Réessayez dans un instant.");
+  }
+  if (data === -1) {
+    throw new HttpError(429, `Vous avez utilisé vos ${FREE_AI_USES_PER_TASK} analyses IA pour cette tâche. Les analyses illimitées font partie de l'abonnement Premium.`);
+  }
+  return { attemptId, taskKey, left: Math.max(FREE_AI_USES_PER_TASK - data, 0) };
+}
+
+// Hands the use back when the AI call fails, so a transient upstream error does
+// not cost one of only two attempts. Never throws: it runs inside a catch.
+export async function releaseFreeAiUse(claim) {
+  if (!claim) return;
+  const { error } = await admin.rpc("release_free_ai_use", { p_attempt: claim.attemptId, p_task: claim.taskKey });
+  if (error) console.warn("release_free_ai_use:", error.message);
+}
+
 // requireUser + a back-office role (admin or owner; app_metadata,
 // server-controlled). Gates the service-role admin API (api/admin/*): user
 // management and platform stats. An owner has every admin capability.

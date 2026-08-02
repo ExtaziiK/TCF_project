@@ -65,6 +65,7 @@ export function useSpeakingSession(task, notify) {
         mime: type,
         prompt: taskRef.current.prompt,
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
+        task: taskRef.current.task,
         lang,
       });
       patch({ status: "done", transcript: fb.transcript || "", empty: !!fb.empty, feedback: fb.empty ? null : fb });
@@ -72,7 +73,9 @@ export function useSpeakingSession(task, notify) {
       const msg =
         err instanceof AiError && (err.status === 404 || err.status === 0)
           ? t("Analyse vocale indisponible ici (fonctions serverless non déployées).")
-          : t("La transcription a échoué. Réessayez.");
+          : err instanceof AiError && (err.status === 429 || err.status === 403)
+            ? err.message
+            : t("La transcription a échoué. Réessayez.");
       patch({ status: "error", error: msg });
     }
   };

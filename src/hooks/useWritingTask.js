@@ -63,6 +63,7 @@ export function useWritingTask(task, notify) {
         prompt: task.prompt,
         response: text,
         taskLabel: task.t || `Tâche ${task.task}`,
+        task: task.task,
         targetWords: task.words,
         lang,
       });
@@ -71,6 +72,8 @@ export function useWritingTask(task, notify) {
       if (err instanceof AiError && (err.status === 404 || err.status === 0)) {
         setAi(heuristic());
         notify(t("Analyse IA indisponible ici — aperçu heuristique affiché. Déployez les fonctions serverless pour l'analyse complète."));
+      } else if (err instanceof AiError && (err.status === 429 || err.status === 403)) {
+        notify(err.message, "error");
       } else {
         notify(t("L'analyse IA a échoué. Réessayez dans un instant."));
       }
