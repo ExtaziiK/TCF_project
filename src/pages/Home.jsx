@@ -1,15 +1,16 @@
-import { Leaf, ArrowRight, ChevronRight, Quote } from "lucide-react";
+import { Leaf, ArrowRight, ChevronRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
+import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { MemberHome } from "@/components/dashboard/MemberHome";
-import { PlanCard } from "@/components/pricing/PlanCard";
+import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { FEATURES, WHY } from "@/constants/home";
-import { useLivePlans } from "@/hooks/useLivePlans";
+import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { MOCK_SECTIONS } from "@/constants/mocks";
@@ -25,7 +26,7 @@ export function Home() {
 
 function Landing() {
   const { c, nav, t } = useApp();
-  const plans = useLivePlans();
+  const pricing = usePricingSelection();
   const stats = useHomeStats();
   const testimonials = useTestimonials();
   return (
@@ -75,7 +76,7 @@ function Landing() {
           figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (
         <section className={`border-y ${c.border} ${c.tint}`}>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {stats.items.map((s) => (
               <div key={s.key} className="text-center">
                 <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
@@ -87,7 +88,7 @@ function Landing() {
       )}
 
       {/* FEATURES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f) => (
@@ -108,7 +109,7 @@ function Landing() {
 
       {/* EXAM OVERVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
             <div className="space-y-3">
@@ -137,46 +138,39 @@ function Landing() {
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
           once an admin approves them (Admin › Témoignages). Falls back to the
-          three seed stories until the table has approved content. */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-        <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
-        <div className="grid md:grid-cols-3 gap-5">
-          {testimonials.map((tm) => (
-            <Card key={tm.id} lift className="p-6 flex flex-col">
-              <Quote size={22} className="text-blue-600/40" aria-hidden="true" />
-              <p className={`mt-4 text-sm leading-relaxed flex-1 ${c.text}`}>« {t(tm.body)} »</p>
-              <div className="mt-6 flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center">{tm.name[0]}</span>
-                <div className="flex-1 min-w-0"><p className={`text-sm font-bold ${c.text}`}>{tm.name}</p>{tm.origin && <p className={`text-xs ${c.faint}`}>{tm.origin}</p>}</div>
-                {tm.level && <Pill tone="green">{t(tm.level)}</Pill>}
-              </div>
-            </Card>
-          ))}
-        </div>
-        <p className={`mt-8 text-center text-sm ${c.sub}`}>
-          {t("Vous avez passé le TCF avec Passerelle ?")}{" "}
-          <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
-        </p>
-      </section>
+          three seed stories until the table has approved content, and the whole
+          block can be switched off from Admin › Accueil › Témoignages — heading
+          and invitation included, so hiding it leaves nothing dangling. */}
+      {testimonials?.enabled && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+          <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
+          <TestimonialsCarousel items={testimonials.items} />
+          <p className={`mt-8 text-center text-sm ${c.sub}`}>
+            {t("Vous avez passé le TCF avec Passerelle ?")}{" "}
+            <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
+          </p>
+        </section>
+      )}
 
       {/* NCLC CALCULATOR */}
-      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
+      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
         <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
       </section>
 
       {/* PRICING PREVIEW */}
       <section className={`${c.tint} border-y ${c.border}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-24">
-          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Des accès en dollars américains, sans engagement. Annulable en deux clics.")} />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
-            {plans.map((p, i) => <PlanCard key={p.name} p={p} compact index={i} />)}
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+          <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
+          {/* Same block as the Tarifs page: currency switch, plans, promo field.
+              All of it works signed out — only the purchase itself needs an
+              account, and the code entered here survives that signup. */}
+          <PricingPlans s={pricing} compact />
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
         <div className="mt-8 flex justify-center gap-3 flex-wrap">

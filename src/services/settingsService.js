@@ -229,3 +229,36 @@ export async function setLaunchDiscount(enabled) {
     .upsert({ key: LAUNCH_DISCOUNT, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
+
+/* ── Home testimonials section ──────────────────────────────────────────────
+ * { enabled }. Turning it off removes the whole "Histoires de réussite" block
+ * from the public landing page — the heading, the stories and the "share
+ * yours" invitation together, so nothing is left dangling.
+ *
+ * This is a VISIBILITY switch, not moderation: approving a story
+ * (Admin › Témoignages) still decides whether it may ever be shown, and this
+ * decides whether the section appears at all. An approved story stays approved
+ * while the section is hidden.
+ *
+ * Defaults to ON, and a read failure (migration missing, offline) also degrades
+ * to ON: the section has always been part of the page, so the fallback is
+ * "unchanged", never "silently gone". */
+
+const HOME_TESTIMONIALS = "home_testimonials";
+
+export async function getHomeTestimonials() {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", HOME_TESTIMONIALS).maybeSingle();
+  if (error || !data?.value) return { enabled: true };
+  try {
+    return { enabled: JSON.parse(data.value)?.enabled !== false };
+  } catch { return { enabled: true }; }
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setHomeTestimonials(enabled) {
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: HOME_TESTIMONIALS, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}

@@ -61,7 +61,7 @@ export function VideoTutorial() {
     "?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1";
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-20 md:pb-28">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-14 md:pb-20">
       <div className="max-w-3xl mx-auto text-center mb-8">
         <p className="text-xs font-bold tracking-wider uppercase text-blue-600">{t("Visite guidée")}</p>
         <h2 className={`font-display font-bold text-2xl md:text-3xl mt-2 ${c.text}`}>
