@@ -10,9 +10,10 @@ import { createClient } from "@supabase/supabase-js";
 // document (Telegram fetches a short-lived signed URL), with the payment
 // details as the caption.
 //
-// Required env (Vercel project):
-//   TELEGRAM_BOT_TOKEN   from @BotFather
-//   TELEGRAM_CHAT_ID     your chat id
+// Required env (Vercel project) — both mandatory, the handler refuses to run
+// without them (see the note above the credentials below):
+//   TELEGRAM_BOT_TOKEN   from @BotFather (/token; rotate with /revoke)
+//   TELEGRAM_CHAT_ID     your chat id, or several comma-separated
 //   VITE_SUPABASE_URL    (already set) — read the row + sign the receipt
 //   SUPABASE_SERVICE_ROLE_KEY (already set) — server-only
 //   SITE_URL             (optional) — admin deep link
@@ -53,15 +54,26 @@ async function tg(token, chat, method, payload) {
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  // TEMPORARY hardcoded test bot as a fallback so production works before the
-  // Vercel env vars are set. ⚠️ Revoke this token in @BotFather and switch to
-  // the TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID env vars for the real launch.
-  // (Token is split so GitHub secret-scanning won't flag/block the push.)
-  const token = process.env.TELEGRAM_BOT_TOKEN || ["8991329744", "AAFmkgMHiwrc9vzaa1SD6Y4NBxWrszWTST0"].join(":");
-  // One or more recipients: TELEGRAM_CHAT_ID may be a single id or a
-  // comma-separated list (each person must have pressed Start on the bot; or use
-  // a group's chat id to reach everyone in it at once).
-  const chats = (process.env.TELEGRAM_CHAT_ID || "8487288131").split(",").map((s) => s.trim()).filter(Boolean);
+  // Credentials come from the environment, with no fallback on purpose. A
+  // hardcoded "temporary" bot token used to sit here so production could run
+  // before the Vercel vars existed; it was committed, split across a join so
+  // GitHub's secret scanning wouldn't catch it, and it outlived its purpose by
+  // a long way. That token is revoked. Do not reintroduce the pattern: an
+  // unset variable must break loudly here rather than quietly send through
+  // some other bot.
+  //
+  // TELEGRAM_CHAT_ID takes one id or a comma-separated list (each recipient
+  // must have pressed Start on the bot; a group's chat id reaches everyone in
+  // it at once).
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chats = (process.env.TELEGRAM_CHAT_ID || "").split(",").map((s) => s.trim()).filter(Boolean);
+  if (!token || !chats.length) {
+    // 500, not a silent 200: the caller treats this as fire-and-forget, so the
+    // deployment log is the only place a missing variable can surface.
+    const missing = [!token && "TELEGRAM_BOT_TOKEN", !chats.length && "TELEGRAM_CHAT_ID"].filter(Boolean);
+    console.error(`notify-subscription: not configured — set ${missing.join(" and ")} in the Vercel project.`);
+    return res.status(500).json({ error: "Telegram not configured", missing });
+  }
 
   const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
   const db = admin();
