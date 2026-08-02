@@ -17,6 +17,8 @@ import {
   listAttempts, createAttempt, saveProgress, completeAttempt, abandonAttempt,
 } from "@/services/examService";
 import { setFreeMockAttemptId } from "@/utils/freeMockAttempt";
+import { ExamFeedbackDialog } from "@/components/exam/ExamFeedbackDialog";
+import { hasReviewed } from "@/services/testimonialsService";
 import { deriveRole, ROLES } from "@/auth/rbac";
 
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
@@ -130,10 +132,11 @@ function ExamReport({ attempt, onRestart, onBack }) {
 
 /* ------------------------------ exam runner ------------------------------ */
 
-function ExamRunner({ attempt: initialAttempt, onExit }) {
+function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   const { c, user, notify, t } = useApp();
   const [attempt, setAttempt] = useState(initialAttempt);
   const [justFinished, setJustFinished] = useState(null); // completed attempt -> report
+  const [askReview, setAskReview] = useState(false);
   const saveTimer = useRef(null);
   const quizzes = resolveTasks(attempt.tasks);
   const mode = attempt.progress?.mode || "entrainement"; // "test" mirrors real conditions
@@ -147,7 +150,14 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
   };
   useEffect(() => () => clearTimeout(saveTimer.current), []);
 
-  if (justFinished) return <ExamReport attempt={justFinished} onRestart={onExit} onBack={onExit} />;
+  if (justFinished) {
+    return (
+      <>
+        <ExamReport attempt={justFinished} onRestart={onExit} onBack={onExit} />
+        {askReview && <ExamFeedbackDialog onClose={() => setAskReview(false)} />}
+      </>
+    );
+  }
 
   const idx = attempt.progress.taskIndex || 0;
   const task = attempt.tasks[idx];
@@ -169,6 +179,10 @@ function ExamRunner({ attempt: initialAttempt, onExit }) {
       const score = { ...scoreExam(perTask), perTask };
       const done = await completeAttempt(user?.id, { ...attempt, progress: { ...attempt.progress, results } }, score);
       setJustFinished(done);
+      // Ask for a review once, on the first exam a candidate ever finishes, and
+      // only if they have not already left one. Checked here rather than on the
+      // report screen so re-reading an old result never re-opens it.
+      if (firstEver && !(await hasReviewed())) setAskReview(true);
     }
   };
 
@@ -358,7 +372,11 @@ export function Mocks() {
     // with only the height needed to clear the fixed nav — no scrolling.
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 md:pt-24 pb-10">
-        <ExamRunner attempt={active} onExit={() => { setActive(null); reload(); }} />
+        <ExamRunner
+          attempt={active}
+          onExit={() => { setActive(null); reload(); }}
+          firstEver={!(attempts || []).some((a) => a.status === "completed")}
+        />
       </main>
     );
   }

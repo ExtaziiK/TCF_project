@@ -34,19 +34,25 @@ export function VideoTutorial() {
     // just never start it on its own.
     const calm = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
+    // Drives the player directly. postMessage needs no YouTube script, which
+    // matters here: script-src is 'self'.
+    const command = (func) =>
+      frameRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func, args: [] }),
+        ORIGIN,
+      );
+
     const io = new window.IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!calm) setStarted(true);
-          return;
-        }
         // Scrolled away: pause rather than leave it running out of sight.
-        // postMessage talks to the player directly, so this needs no YouTube
-        // script — which matters, since script-src is 'self'.
-        frameRef.current?.contentWindow?.postMessage(
-          JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
-          ORIGIN,
-        );
+        if (!entry.isIntersecting) return command("pauseVideo");
+        if (calm) return;
+        // Back in view. Mounting the iframe only starts it the FIRST time —
+        // after that `started` is already true and setting it again does
+        // nothing, so a player paused on the way out stayed paused for good.
+        // Once it exists, it has to be told to play.
+        if (frameRef.current) command("playVideo");
+        else setStarted(true);
       },
       // Half of it on screen: enough to mean "looking at it" rather than
       // "it clipped the bottom edge while scrolling past".
@@ -58,7 +64,8 @@ export function VideoTutorial() {
 
   const src =
     `${ORIGIN}/embed/${VIDEO_ID}` +
-    "?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1";
+    "?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1" +
+    `&origin=${encodeURIComponent(window.location.origin)}`;
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-14 md:pb-20">

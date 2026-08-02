@@ -7,7 +7,10 @@ import { supabase } from "@/services/supabaseClient";
 // "only admins may approve", so no service-role endpoint is needed.
 
 export const MAX_BODY = 600;
-export const MIN_BODY = 40;
+// Matches the table's own check constraint (20260803_testimonial_ratings).
+// Short on purpose: this is also the box a candidate types into straight after
+// an exam, where 40 characters was a wall.
+export const MIN_BODY = 10;
 
 const s = (v, max) => String(v ?? "").trim().slice(0, max);
 
@@ -22,6 +25,7 @@ const toItem = (r) => ({
   body: r.body,
   status: r.status,
   featured: !!r.featured,
+  rating: r.rating ?? null,
   createdAt: r.created_at,
 });
 
@@ -40,9 +44,22 @@ export async function listApprovedTestimonials(limit = 6) {
   return { ok: true, items: (data || []).map(toItem) };
 }
 
+// The avis page: approved reviews, newest first. Separate from the landing
+// page's call, which puts featured stories first and takes only a handful.
+export async function listApprovedReviews(limit = 60) {
+  const { data, error } = await supabase
+    .from("testimonials")
+    .select("*")
+    .eq("status", "approved")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return { ok: false, items: [] };
+  return { ok: true, items: (data || []).map(toItem) };
+}
+
 // Member submission. Always lands as `pending`; RLS rejects anything else, so
 // the status is not a caller-supplied value.
-export async function submitTestimonial({ name, origin, level, body }) {
+export async function submitTestimonial({ name, origin, level, body, rating }) {
   const { data: auth } = await supabase.auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: false, error: "Connectez-vous pour partager votre témoignage." };
@@ -50,16 +67,37 @@ export async function submitTestimonial({ name, origin, level, body }) {
   const clean = s(body, MAX_BODY);
   if (clean.length < MIN_BODY) return { ok: false, error: `Votre témoignage doit faire au moins ${MIN_BODY} caractères.` };
 
+  // A rating outside 1-5 is dropped rather than clamped: the table would
+  // reject it anyway, and a silently corrected star count is worse than none.
+  const stars = Number(rating);
   const { error } = await supabase.from("testimonials").insert({
     user_id: userId,
     name: s(name, 60) || "Membre",
     origin: s(origin, 80) || null,
     level: s(level, 40) || null,
     body: clean,
+    rating: Number.isInteger(stars) && stars >= 1 && stars <= 5 ? stars : null,
     status: "pending",
     featured: false,
   });
   return { ok: !error, error: error?.message };
+}
+
+// Has this member already left one? Used to ask for feedback exactly once,
+// after their first TCF blanc, rather than after every exam. Counts rows of any
+// status, so someone whose review is still pending — or was rejected — is not
+// asked again.
+export async function hasReviewed() {
+  const { data: auth } = await supabase.auth.getUser();
+  const userId = auth?.user?.id;
+  if (!userId) return true; // signed out: nothing to ask
+  const { count, error } = await supabase
+    .from("testimonials")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId);
+  // On error assume they have, so a broken read never nags anyone.
+  if (error) return true;
+  return (count || 0) > 0;
 }
 
 // The signed-in member's own stories, whatever their status (RLS lets an author
