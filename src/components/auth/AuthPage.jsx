@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { TermsConsent } from "@/components/auth/TermsConsent";
+import { CodeInput } from "@/components/auth/CodeInput";
 import { COUNTRIES } from "@/constants/exam";
 
 function GoogleIcon(props) {
@@ -31,11 +32,20 @@ export function AuthPage({ mode }) {
   const [confirm, setConfirm] = useState(""); // register only
   const [accepted, setAccepted] = useState(false); // terms gate, register only
   const [resetSent, setResetSent] = useState(false);
-  const [verify, setVerify] = useState(false);
+  const [verify, setVerify] = useState(false); // awaiting the emailed 6-digit code
+  const [code, setCode] = useState("");
+  const [cooldown, setCooldown] = useState(0); // seconds before "resend" re-arms
   const [busy, setBusy] = useState(false);
   const [lockMsg, setLockMsg] = useState("");
   const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
   useEffect(() => setView(mode), [mode]);
+  // Re-arms the resend button. Supabase rate-limits resends server-side, so the
+  // cooldown is there to stop a candidate tripping that limit on their own signup.
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setTimeout(() => setCooldown((n) => n - 1), 1000);
+    return () => clearTimeout(id);
+  }, [cooldown]);
   // Already signed in? The login/register pages don't apply — bounce to the
   // landing page (admins/owners to the panel, everyone else to their
   // dashboard). Runs once on arrival, so a fresh login on this page — which
@@ -91,6 +101,43 @@ export function AuthPage({ mode }) {
     }
   };
 
+  // Signing in lands the new account exactly where a normal signup would.
+  const enter = (session) => {
+    const newUser = mapSupabaseUser(session);
+    const firstLogin = consumeFirstLogin(newUser?.id);
+    nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+  };
+
+  const runVerify = async (value) => {
+    if (busy || value.length !== CONFIRM_CODE_LENGTH) return;
+    setBusy(true);
+    try {
+      const { session, error } = await verifySignupCode(email, value);
+      if (error) return notify(authErrorMessage(error), "error");
+      if (!session) return notify(t("Code vérifié, mais la session n'a pas pu s'ouvrir. Connectez-vous."), "error");
+      notify(t("Votre compte est activé. Bienvenue !"));
+      enter(session);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const submitCode = (e) => { e.preventDefault(); runVerify(code); };
+
+  const resend = async () => {
+    if (cooldown > 0 || busy) return;
+    setBusy(true);
+    try {
+      const { error } = await resendSignupCode(email);
+      if (error) return notify(authErrorMessage(error), "error");
+      setCode("");
+      setCooldown(60);
+      notify(t("Un nouveau code vient d'être envoyé."));
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const google = async () => {
     setBusy(true);
     // Both the login and register buttons use the same flow: a new Google
@@ -123,11 +170,28 @@ export function AuthPage({ mode }) {
           </p>
         </div>
         {verify ? (
-          <div className="text-center py-6 rise">
+          <form className="text-center py-4 rise" onSubmit={submitCode}>
             <Mail size={36} className="text-blue-600 mx-auto" />
-            <p className={`mt-4 font-semibold ${c.text}`}>{t("Vérifiez votre boîte de réception")}</p>
-            <p className={`mt-1.5 text-sm ${c.sub}`}>{t("Un courriel de confirmation a été envoyé à")} <span className="font-semibold">{email || t("votre adresse")}</span>{t(". Cliquez sur le lien pour activer votre compte.")}</p>
-          </div>
+            <p className={`mt-4 font-semibold ${c.text}`}>{t("Entrez votre code de confirmation")}</p>
+            <p className={`mt-1.5 text-sm ${c.sub}`}>{t(`Nous avons envoyé un code à ${CONFIRM_CODE_LENGTH} chiffres à`)} <span className="font-semibold">{email || t("votre adresse")}</span>.</p>
+            {/* Verifies itself on the sixth digit — the button stays for anyone
+                who lands there by paste or autofill and expects to confirm. */}
+            <CodeInput
+              value={code}
+              onChange={setCode}
+              onComplete={runVerify}
+              disabled={busy}
+              length={CONFIRM_CODE_LENGTH}
+              label={t("Code de confirmation")}
+            />
+            <Btn type="submit" variant="accent" className="mt-4 w-full" disabled={busy || code.length !== CONFIRM_CODE_LENGTH}>
+              {t(busy ? "Vérification…" : "Activer mon compte")}
+            </Btn>
+            <button type="button" onClick={resend} disabled={busy || cooldown > 0} className={`mt-4 text-sm font-semibold ${cooldown > 0 ? c.faint : "text-blue-600"} disabled:cursor-not-allowed`}>
+              {cooldown > 0 ? `${t("Renvoyer le code dans")} ${cooldown} s` : t("Je n'ai rien reçu — renvoyer le code")}
+            </button>
+            <p className={`mt-3 text-xs ${c.faint}`}>{t("Pensez à regarder dans vos courriels indésirables.")}</p>
+          </form>
         ) : resetSent ? (
           <div className="text-center py-6 rise">
             <CheckCircle2 size={36} className="text-emerald-500 mx-auto" />

@@ -16,6 +16,10 @@ html{scroll-behavior:smooth}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .eqbar{animation:eq 1s ease-in-out infinite;transform-origin:bottom}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
+/* Text-cursor blink for the confirmation-code boxes (CodeInput). A hard on/off
+   like a real caret — animate-pulse only fades, which reads as a glow. */
+@keyframes caret-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.caret-blink{animation:caret-blink 1.06s steps(1,end) infinite}
 .rec-dot{animation:pulse-dot 1.1s ease-in-out infinite}
 .fwrap{perspective:1200px}
 .fcard{transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,1,.36,1)}

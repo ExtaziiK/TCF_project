@@ -15,6 +15,7 @@
 import { POSTS } from "@/constants/blog";
 import { TERMS_DRAFT } from "@/constants/terms";
 import { PRIVACY_DRAFT } from "@/constants/privacy";
+import { SOCIAL_URLS, CONTACT_EMAIL } from "@/constants/social";
 
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
@@ -296,6 +297,10 @@ export function injectStructuredData() {
         name: "Passerelle",
         url: `${origin}/`,
         logo: `${origin}/logo-mark.png`,
+        email: CONTACT_EMAIL,
+        // The official profiles, so Google can tie these accounts to the same
+        // entity as the site instead of treating each as an unrelated page.
+        sameAs: SOCIAL_URLS,
       },
       {
         "@type": "WebSite",

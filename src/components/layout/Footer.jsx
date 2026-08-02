@@ -1,6 +1,7 @@
-import { Shield, Leaf } from "lucide-react";
+import { Shield, Leaf, Mail } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Pill, RouteLink } from "@/components/common";
+import { Pill, RouteLink, SocialLinks } from "@/components/common";
+import { CONTACT_EMAIL } from "@/constants/social";
 import { Logo } from "@/components/layout/Logo";
 
 export function Footer() {
@@ -20,6 +21,14 @@ export function Footer() {
             <Pill tone="blue"><Shield size={12} /> {t("Paiement sécurisé Stripe")}</Pill>
             <Pill tone="red"><Leaf size={12} /> {t("Fait au Canada")}</Pill>
           </div>
+          {/* The follow strip sits under the brand block rather than in a link
+              column: these are the only outbound links in the footer, and the
+              columns below are all in-app routes. */}
+          <p className={`mt-6 text-xs font-semibold uppercase tracking-wide ${c.faint}`}>{t("Suivez-nous")}</p>
+          <SocialLinks className="mt-2.5" />
+          <a href={`mailto:${CONTACT_EMAIL}`} className={`mt-4 inline-flex items-center gap-1.5 text-sm ${c.sub} hover:text-blue-600 transition-colors`}>
+            <Mail size={14} /> {CONTACT_EMAIL}
+          </a>
         </div>
         {cols.map((col) => (
           <div key={col.h}>
