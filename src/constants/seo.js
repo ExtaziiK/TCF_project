@@ -164,6 +164,16 @@ export const ROUTE_META = {
       "Quelles données Passerelle collecte, pourquoi, avec quels prestataires elles sont partagées, combien de temps elles sont conservées et comment exercer vos droits.",
     noindex: PRIVACY_DRAFT,
   },
+  // Indexable from the start, unlike the two above: it was never a draft, it
+  // binds nobody, and a visitor who needs to know whether the site works with
+  // their screen reader should be able to find the answer from a search engine
+  // rather than only from the footer.
+  accessibility: {
+    path: "/accessibilite",
+    title: "Déclaration d'accessibilité",
+    description:
+      "Ce que Passerelle a mis en place pour l'accessibilité, les limites connues du site, celles propres aux épreuves du TCF, et comment nous signaler un obstacle.",
+  },
 
   // ── 404 ──────────────────────────────────────────────────────────────────
   // Rendered for any URL matching no route. It deliberately has no path of its
