@@ -12,9 +12,34 @@ template → paste the subject and the message body → **Save**.
 | File | Supabase template | Subject line |
 |---|---|---|
 | [`reset-password.html`](reset-password.html) | Reset Password | `Réinitialisez votre mot de passe Passerelle` |
+| [`confirm-signup.html`](confirm-signup.html) | Confirm signup | `Votre code de confirmation Passerelle` |
 
 Paste the file's whole contents, `<!DOCTYPE html>` included — Supabase sends the
 body as-is, so a complete document is what gets delivered.
+
+## Confirm signup sends a CODE, not a link
+
+`confirm-signup.html` shows `{{ .Token }}` — the six digits the candidate types
+back into the tab they signed up in (`verifySignupCode` in
+`src/services/authService.js`).
+
+**Do not add `{{ .ConfirmationURL }}` to that template.** The link and the code
+are the *same single-use token*. Mail providers fetch every link in an incoming
+message to scan it, and that GET redeems the token — which is precisely how the
+password-reset email used to fail with `otp_expired`. A link sitting next to the
+code would let a scanner silently kill the code before the candidate types it.
+A scanner cannot spend a code, because it does not type.
+
+The same choice also fixes a cross-device annoyance: a link opened on a phone
+creates the session there, leaving the laptop the candidate actually signed up
+on still unconfirmed.
+
+Two settings worth checking under **Authentication → Providers → Email**:
+
+- **Confirm email** must be ON, or `signUp` returns a session immediately and
+  the code screen never appears.
+- **Email OTP expiration** defaults to 1 hour. The template says "valable une
+  heure" — change both together if you shorten it.
 
 ## Brand values used
 

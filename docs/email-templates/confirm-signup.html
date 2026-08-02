@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>Confirmez votre adresse courriel</title>
+<!--
+  Passerelle TCF Canada — "Confirm signup" email.
+  Paste into Supabase → Authentication → Emails → Confirm signup (see README.md).
+
+  A CODE, NOT A LINK — and this is load-bearing, not a style choice.
+
+  Confirmation tokens are single-use, and mail providers fetch every link in an
+  incoming message to scan it. That GET redeems the token, so the human arrives
+  to an already-spent link ("otp_expired") — exactly the failure the password
+  reset email hit. A six-digit code cannot be spent by a scanner, because a
+  scanner does not type.
+
+  Which means: DO NOT add {{ .ConfirmationURL }} anywhere in this template.
+  The code and the link are THE SAME TOKEN. Including both would let a scanner
+  consume the link and silently kill the code the candidate is about to type.
+-->
+<style>
+  /* Progressive enhancement only. Anything essential is inlined below. */
+  @media (prefers-color-scheme: dark) {
+    .p-canvas { background-color: #020617 !important; }
+    .p-card   { background-color: #0f172a !important; border-color: #1e293b !important; }
+    .p-title, .p-strong { color: #f1f5f9 !important; }
+    .p-body   { color: #cbd5e1 !important; }
+    .p-muted, .p-footer { color: #94a3b8 !important; }
+    .p-well   { background-color: #1e293b !important; border-color: #334155 !important; }
+    .p-code   { color: #f1f5f9 !important; }
+    .p-link   { color: #93b4f5 !important; }
+  }
+  @media only screen and (max-width: 620px) {
+    .p-pad   { padding-left: 24px !important; padding-right: 24px !important; }
+    .p-title { font-size: 22px !important; }
+    .p-code  { font-size: 30px !important; letter-spacing: 8px !important; }
+  }
+</style>
+</head>
+<body class="p-canvas" style="margin:0; padding:0; width:100%; background-color:#f1f5f9; -webkit-font-smoothing:antialiased;">
+
+<!-- Preheader: the grey preview line in the inbox. Hidden in the body itself;
+     the trailing entities stop the client pulling in the header text after it. -->
+<div style="display:none; font-size:1px; color:#f1f5f9; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+  Votre code de confirmation : {{ .Token }}
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f1f5f9" class="p-canvas" style="background-color:#f1f5f9; border-collapse:collapse;">
+  <tr>
+    <td align="center" style="padding:32px 12px 40px 12px;">
+
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; border-collapse:collapse;">
+
+        <!-- Brand bar: the site's blue → violet → red gradient. Outlook ignores
+             the gradient and keeps the solid bgcolor, which is the brand blue. -->
+        <tr>
+          <td bgcolor="#2E6BE6" height="5" style="height:5px; line-height:5px; font-size:0; background-color:#2E6BE6; background-image:linear-gradient(90deg,#2E6BE6 0%,#6C4FE0 55%,#D8354A 100%); border-radius:16px 16px 0 0;">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td bgcolor="#ffffff" class="p-card" style="background-color:#ffffff; border:1px solid #e2e8f0; border-top:0; border-radius:0 0 16px 16px;">
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+              <!-- Header -->
+              <tr>
+                <td align="center" class="p-pad" style="padding:36px 40px 8px 40px;">
+                  <img src="https://www.tcfpasserelle.com/logo-full.png"
+                       width="132" height="123" alt="Passerelle TCF Canada"
+                       style="display:block; width:132px; height:auto; max-width:132px; border:0; outline:none; text-decoration:none; color:#2E6BE6; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:18px; font-weight:700;">
+                </td>
+              </tr>
+
+              <!-- Title -->
+              <tr>
+                <td align="center" class="p-pad" style="padding:20px 40px 0 40px;">
+                  <h1 class="p-title" style="margin:0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:25px; line-height:32px; font-weight:700; color:#0f172a; letter-spacing:-0.2px;">
+                    Bienvenue sur Passerelle
+                  </h1>
+                </td>
+              </tr>
+
+              <!-- Intro -->
+              <tr>
+                <td align="center" class="p-pad" style="padding:14px 40px 0 40px;">
+                  <p class="p-body" style="margin:0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:15px; line-height:24px; color:#475569;">
+                    Pour activer le compte lié à
+                    <span class="p-strong" style="color:#0f172a; font-weight:600;">{{ .Email }}</span>,
+                    saisissez ce code dans l'onglet resté ouvert sur le site.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- The code -->
+              <tr>
+                <td align="center" class="p-pad" style="padding:26px 40px 0 40px;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                    <tr>
+                      <td bgcolor="#f8fafc" class="p-well" align="center" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:20px 34px;">
+                        <div class="p-code" style="font-family:Consolas,Menlo,Monaco,monospace; font-size:36px; line-height:44px; font-weight:700; color:#0f172a; letter-spacing:10px; text-indent:10px;">{{ .Token }}</div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- Validity -->
+              <tr>
+                <td align="center" class="p-pad" style="padding:16px 40px 0 40px;">
+                  <p class="p-muted" style="margin:0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#64748b;">
+                    Ce code est valable une heure et ne sert qu'une fois.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- Reassurance -->
+              <tr>
+                <td class="p-pad" style="padding:26px 40px 36px 40px;">
+                  <p class="p-muted" style="margin:0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#64748b;">
+                    Vous n'êtes pas à l'origine de cette inscription ? Ignorez ce message : sans ce code, aucun compte ne sera activé.
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="padding:22px 24px 0 24px;">
+            <p class="p-footer" style="margin:0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:12px; line-height:20px; color:#94a3b8;">
+              <strong style="color:#64748b; font-weight:600;">Passerelle</strong> · Préparation au TCF Canada<br>
+              Une question ? <a class="p-link" href="mailto:contact@tcfpasserelle.com" style="color:#64748b; text-decoration:underline;">contact@tcfpasserelle.com</a>
+            </p>
+            <p class="p-footer" style="margin:10px 0 0 0; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:12px; line-height:20px; color:#94a3b8;">
+              <a class="p-link" href="https://www.tcfpasserelle.com" style="color:#94a3b8; text-decoration:underline;">tcfpasserelle.com</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

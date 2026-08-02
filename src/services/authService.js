@@ -317,10 +317,50 @@ export async function signUp({ name, username, email, password, country, accepte
         country,
         ...(acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {}),
       },
-      emailRedirectTo: window.location.origin,
     },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
+}
+
+// Confirmation is a six-digit CODE the candidate types, not a link they click.
+//
+// Same reason as verifyRecoveryToken above: confirmation tokens are single-use
+// and mail providers fetch every link in a message to scan it, spending the
+// token before the human gets there. A code cannot be spent by a scanner. It
+// also confirms on the device the candidate is actually using — a link opened
+// on their phone would leave the tab they signed up in still unconfirmed.
+//
+// The "Confirm signup" template must therefore carry {{ .Token }} and NO
+// confirmation URL: they are the same token, so a link in the message would let
+// a scanner kill the code. See docs/email-templates/confirm-signup.html.
+export async function verifySignupCode(email, code) {
+  const token = String(code || "").replace(/\D/g, "");
+  if (token.length !== 6) return { session: null, error: { message: "Entrez les 6 chiffres du code reçu par courriel." } };
+
+  // The token minted by "Confirm signup" is of type `signup`, but Supabase has
+  // also accepted `email` for it across versions. Try the documented one and
+  // fall back rather than leave a candidate unable to activate their account
+  // over a naming difference. A failed verify does not spend the token.
+  let { data, error } = await supabase.auth.verifyOtp({ email, token, type: "signup" });
+  if (error) {
+    const retry = await supabase.auth.verifyOtp({ email, token, type: "email" });
+    if (!retry.error) ({ data, error } = retry);
+  }
+  // A mistyped code is the ordinary case here, and Supabase words it in English
+  // ("Token has expired or is invalid"). Translated at the source rather than in
+  // authErrorMessage, whose other callers redeem links, not codes.
+  if (error && (error.code === "otp_expired" || /token has expired|invalid|expired/i.test(error.message || ""))) {
+    return { session: null, error: { message: "Code invalide ou expiré. Vérifiez les 6 chiffres, ou demandez-en un nouveau." } };
+  }
+  return { session: data?.session || null, error };
+}
+
+// Sends a fresh code. Supabase rate-limits this server-side; the button is also
+// held on a cooldown so an impatient candidate does not trip that limit and
+// lock themselves out of their own signup.
+export async function resendSignupCode(email) {
+  const { error } = await supabase.auth.resend({ type: "signup", email });
+  return { error };
 }
 
 // Display name ("Prénom"). Deliberately permissive: the audience writes accents,
