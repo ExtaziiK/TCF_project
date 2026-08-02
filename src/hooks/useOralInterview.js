@@ -226,9 +226,11 @@ export function useOralInterview(task, notify) {
           ? t("Simulation indisponible ici (fonctions serverless non déployées).")
           // The quota refusal explains itself; the generic notice would leave
           // the candidate wondering why the evaluation never arrived.
-          : err instanceof AiError && (err.status === 429 || err.status === 403)
-            ? err.message
-            : t("L'analyse a échoué. Réessayez.");
+          : err instanceof AiError && err.status === 401
+            ? t("Votre session a expiré. Reconnectez-vous pour lancer l'analyse.")
+            : err instanceof AiError && (err.status === 429 || err.status === 403)
+              ? err.message
+              : t("L'analyse a échoué. Réessayez.");
       fail(msg);
     }
   };

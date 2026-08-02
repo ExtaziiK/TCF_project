@@ -73,9 +73,11 @@ export function useSpeakingSession(task, notify) {
       const msg =
         err instanceof AiError && (err.status === 404 || err.status === 0)
           ? t("Analyse vocale indisponible ici (fonctions serverless non déployées).")
-          : err instanceof AiError && (err.status === 429 || err.status === 403)
-            ? err.message
-            : t("La transcription a échoué. Réessayez.");
+          : err instanceof AiError && err.status === 401
+            ? t("Votre session a expiré. Reconnectez-vous pour lancer l'analyse.")
+            : err instanceof AiError && (err.status === 429 || err.status === 403)
+              ? err.message
+              : t("La transcription a échoué. Réessayez.");
       patch({ status: "error", error: msg });
     }
   };

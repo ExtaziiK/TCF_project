@@ -54,20 +54,20 @@ export async function requirePremium(req) {
   return user;
 }
 
-// Premium, OR a free account working through the single TCF blanc it is
-// entitled to.
+// Premium, OR a free account inside one of the two things it may use the AI
+// for: the single TCF blanc it is entitled to, and the standalone Expression
+// workshop's one fixed subject.
 //
-// A "Sans papier" user gets one mock exam including the AI correction, so the
-// endpoints below cannot simply demand Premium. Entitlement is proved by the
-// attempt itself rather than by a counter: the caller names an attempt, and it
-// is accepted only when that row belongs to them, is flagged as the free mock
-// and is still in progress. That bounds the spend at one Expression écrite and
-// one Expression orale per account for good — a completed attempt stops
-// working, and a second free attempt cannot be created (see
-// examService.findFreeAttempt).
+// Which case applies is decided by whether an attempt is named, not by a flag
+// the client sets:
+//   - an attempt id -> it must belong to the caller, be flagged as the free
+//     mock and still be in progress; every fact is read from the database with
+//     the service-role key, so the client only ever supplies the id;
+//   - no attempt id -> the standalone workshop. Any signed-in account may call,
+//     and the spend is bounded by claimFreeAiUse's per-tache quota rather than
+//     by this gate.
 //
-// Deliberately server-side: the client sends only an id, and every fact used
-// to decide is read from the database with the service-role key.
+// Premium is unaffected either way: unlimited, and nothing is counted.
 // Whether this account is part-way through the one free TCF blanc, and if so
 // which quiz numbers that exam is made of.
 //
@@ -108,7 +108,13 @@ export async function requirePremiumOrFreeMock(req, attemptId) {
   const user = await requireUser(req);
   if (isPremiumUser(user)) return user;
 
-  if (!attemptId || typeof attemptId !== "string") {
+  // No attempt named: the standalone Expression écrite / orale workshop, where
+  // a free account gets one fixed subject. Access is open to any signed-in
+  // user; what bounds it is the two-analyses-per-tache quota claimed below,
+  // NOT this gate.
+  if (attemptId == null || attemptId === "") return user;
+
+  if (typeof attemptId !== "string") {
     throw new HttpError(403, "Réservé à l'abonnement Premium.");
   }
   const { data, error } = await admin
@@ -127,10 +133,10 @@ export async function requirePremiumOrFreeMock(req, attemptId) {
 
 /* ------------------ the free tier's AI quota (2 per tache) ----------------- */
 
-// A free account gets two AI analyses per tache inside its one TCF blanc.
-// Access is gated by requirePremiumOrFreeMock above; this caps VOLUME, because
-// every analysis is a billable Groq call and the button can otherwise be
-// pressed forever.
+// A free account gets two AI analyses per tache, counted separately for the
+// TCF blanc and for the standalone workshop. Access is gated by
+// requirePremiumOrFreeMock above; this caps VOLUME, because every analysis is a
+// billable Groq call and the button can otherwise be pressed forever.
 export const FREE_AI_USES_PER_TASK = 2;
 
 // The six real taches. The key comes from the browser, so it is validated
@@ -143,17 +149,120 @@ export function freeAiTaskKey(section, task) {
   return TASK_KEY.test(key) ? key : null;
 }
 
+// The quota key carries its scope: work inside the free TCF blanc and work in
+// the standalone workshop are separate budgets, each two per tache.
+function quotaKey(attemptId, taskKey) {
+  return attemptId ? `attempt:${attemptId}:${taskKey}` : `practice:${taskKey}`;
+}
+
+/* --------------------- the paid tiers' AI limits --------------------------- */
+
+// Two limits apply to a paying account, and they are independent.
+//
+// PACE: 3 analyses per tache per 5-minute window. Anti-spam only - it never
+// touches the daily count, so a real Expression ecrite sitting (three taches,
+// the better part of an hour) still costs one simulation.
+//
+// DAILY SITTINGS: what the plan cards call "simulations IA par jour", counted
+// per epreuve. A sitting opens on the first analysis and stays open while the
+// candidate keeps working; a long idle gap ends it. Opening the workshop or
+// reading a subject costs nothing.
+export const PAID_ANALYSES_PER_TASK = 3;
+const PACE_WINDOW_SECONDS = 5 * 60;
+const SITTING_IDLE_SECONDS = 30 * 60;
+
+// Keep in sync with the plan cards in src/constants/pricing.js. Matched on the
+// plan_label baked into app_metadata at checkout (api/_lib/passes.js).
+const DAILY_SITTINGS = {
+  passeport: 2,
+  visa: 6,
+  "premiere classe": null, // unlimited
+  vip: null,
+};
+
+const normalizeLabel = (v) =>
+  String(v || "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim()
+    .toLowerCase();
+
+// null = unlimited. Admins and owners are unlimited, and so is any paid account
+// whose label we do not recognise: these are paying customers, and wrongly
+// locking one out is a worse failure than letting an unknown tier run free.
+export function dailySittingsFor(user) {
+  const meta = user?.app_metadata || {};
+  if (meta.role === "admin" || meta.role === "owner") return null;
+  const key = normalizeLabel(meta.plan_label);
+  return key in DAILY_SITTINGS ? DAILY_SITTINGS[key] : null;
+}
+
+async function claimPaidAiUse(user, taskKey) {
+  const section = taskKey.split(":")[0];
+  const limit = dailySittingsFor(user);
+
+  const { data, error } = await admin.rpc("claim_ai_analysis", {
+    p_user: user.id,
+    p_section: section,
+    p_task_key: taskKey,
+    p_daily_limit: limit,
+    p_per_task: PAID_ANALYSES_PER_TASK,
+    p_window_secs: PACE_WINDOW_SECONDS,
+    p_idle_secs: SITTING_IDLE_SECONDS,
+  });
+  // Fail OPEN for paying customers: if the counters are unreachable we cannot
+  // meter, but refusing someone who has paid is the worse outcome. (The free
+  // tier fails closed - there the quota IS the entitlement.)
+  if (error) {
+    console.warn("claim_ai_analysis:", error.message);
+    return null;
+  }
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) return null;
+
+  if (!row.allowed) {
+    if (row.reason === "daily") {
+      const epreuve = section === "ee" ? "expression écrite" : "expression orale";
+      throw new HttpError(429, `Vous avez atteint votre limite de ${limit} simulations IA par jour en ${epreuve}. Elle se réinitialise demain, ou passez à un forfait supérieur pour en avoir plus.`);
+    }
+    throw new HttpError(429, `Vous avez lancé ${PAID_ANALYSES_PER_TASK} analyses sur cette tâche. Patientez quelques minutes avant d'en relancer une.`);
+  }
+  return { userId: user.id, taskKey, paid: true, left: row.task_left };
+}
+
+// Single entry point: paid accounts are paced and metered per day, free
+// accounts keep their own hard 2-per-tache allowance.
+export async function claimAiUse(user, attemptId, taskKey) {
+  if (!taskKey) throw new HttpError(400, "Tâche inconnue.");
+  if (isPremiumUser(user)) return claimPaidAiUse(user, taskKey);
+  return claimFreeAiUse(user, attemptId, taskKey);
+}
+
+export async function releaseAiUse(claim) {
+  if (!claim) return;
+  if (claim.paid) {
+    // Only the paced use is returned; the sitting stays open, being a window of
+    // activity rather than a count of successes.
+    const { error } = await admin.rpc("release_ai_pace", { p_user: claim.userId, p_task_key: claim.taskKey });
+    if (error) console.warn("release_ai_pace:", error.message);
+    return;
+  }
+  return releaseFreeAiUse(claim);
+}
+
 // Claims one use up front - before the AI call, so a burst of clicks is refused
 // rather than served. Returns null for Premium (unlimited, nothing counted).
 export async function claimFreeAiUse(user, attemptId, taskKey) {
   if (isPremiumUser(user)) return null;
   if (!taskKey) throw new HttpError(400, "Tâche inconnue.");
 
+  const key = quotaKey(attemptId, taskKey);
   const { data, error } = await admin.rpc("claim_free_ai_use", {
-    p_attempt: attemptId,
     p_user: user.id,
-    p_task: taskKey,
+    p_key: key,
     p_limit: FREE_AI_USES_PER_TASK,
+    p_attempt: attemptId || null,
+    p_task: taskKey,
   });
   // Fail CLOSED: if the quota cannot be recorded we cannot bound the spend, so
   // refuse rather than hand out an uncounted analysis.
@@ -162,16 +271,16 @@ export async function claimFreeAiUse(user, attemptId, taskKey) {
     throw new HttpError(503, "La correction IA est momentanément indisponible. Réessayez dans un instant.");
   }
   if (data === -1) {
-    throw new HttpError(429, `Vous avez utilisé vos ${FREE_AI_USES_PER_TASK} analyses IA pour cette tâche. Les analyses illimitées font partie de l'abonnement Premium.`);
+    throw new HttpError(429, `Vous avez utilisé vos ${FREE_AI_USES_PER_TASK} analyses IA gratuites pour cette tâche. Les analyses illimitées font partie de l'abonnement Premium.`);
   }
-  return { attemptId, taskKey, left: Math.max(FREE_AI_USES_PER_TASK - data, 0) };
+  return { userId: user.id, key, left: Math.max(FREE_AI_USES_PER_TASK - data, 0) };
 }
 
 // Hands the use back when the AI call fails, so a transient upstream error does
 // not cost one of only two attempts. Never throws: it runs inside a catch.
 export async function releaseFreeAiUse(claim) {
   if (!claim) return;
-  const { error } = await admin.rpc("release_free_ai_use", { p_attempt: claim.attemptId, p_task: claim.taskKey });
+  const { error } = await admin.rpc("release_free_ai_use", { p_user: claim.userId, p_key: claim.key });
   if (error) console.warn("release_free_ai_use:", error.message);
 }
 

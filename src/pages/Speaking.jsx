@@ -6,6 +6,7 @@ import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { OralInterview } from "@/components/expression/OralInterview";
 import { SpeakingRecorder } from "@/components/expression/SpeakingRecorder";
+import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
@@ -44,9 +45,9 @@ function SpeakingStudio() {
 // experience as the Expression orale page. The session serves exactly one
 // prompt per official tâche, drawn from the Question Bank (admin content)
 // via a rotation-aware random pick — see expressionSessionService.
-export function SpeakingStudioBody() {
+export function SpeakingStudioBody({ inExam = false } = {}) {
   const { c, t } = useApp();
-  const { loading, tasks } = useExpressionSession("eo");
+  const { loading, tasks, isFreeTier } = useExpressionSession("eo");
   // Shared with the guide side panel when both are on screen (Exams hub); local
   // state otherwise (standalone page / mock runner).
   const [active, setActive] = useExpressionTask(OFFICIAL_TASKS[0]);
@@ -56,6 +57,7 @@ export function SpeakingStudioBody() {
 
   return (
     <div>
+      {isFreeTier && !inExam && <FreeExpressionNotice section="eo" />}
       <div className="flex gap-2 flex-wrap mb-6">
         {tasks.map((tk) => (
           <button key={tk.task} onClick={() => setActive(tk.task)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${active === tk.task ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>

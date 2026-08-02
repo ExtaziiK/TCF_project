@@ -63,8 +63,12 @@ export const PAGE_ACCESS = {
   exams: AUTHENTICATED,
   listening: PREMIUM,
   reading: PREMIUM,
-  writing: PREMIUM,
-  speaking: PREMIUM,
+  // Free accounts reach the two Expression workshops and get ONE fixed subject
+  // each (expressionSessionService.generateExpressionSession), with two AI
+  // analyses per tâche. As with the TCF blanc, the limit is enforced on the
+  // page and — for the billable AI correction — server-side, not here.
+  writing: AUTHENTICATED,
+  speaking: AUTHENTICATED,
   vocabulary: PREMIUM,
   grammar: PREMIUM,
   // Free accounts reach the TCF blanc page and may sit exactly ONE, on fixed

@@ -1,4 +1,4 @@
-import { requirePremiumOrFreeMock, claimFreeAiUse, releaseFreeAiUse, freeAiTaskKey } from "./_lib/auth.js";
+import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
@@ -16,11 +16,11 @@ import { logAiUsage } from "./_lib/usage.js";
 //   - mode "dialogue": one turn of the Tâche 2 (Interaction) simulation —
 //     transcribe the candidate's answer, then either reply in character as the
 //     candidate's interlocutor (never as a helper) or grade the whole exchange.
-//     The interview is TIME-BOXED like the real exam: the client runs down the
-//     task's speaking budget and sends `final: true` on the turn where the time
-//     runs out, which is what triggers grading (MAX_EXCHANGES is only a runaway
-//     safety net). The client keeps the dialogue state and sends it back as
-//     `history`; the function stays stateless.
+//     The interview ends, and is graded, at whichever comes first: the
+//     candidate's answer after MAX_EXCHANGES follow-ups, or the client's
+//     speaking timer running out (it sends `final: true` on that turn). The
+//     client keeps the dialogue state and sends it back as `history`; the
+//     function stays stateless.
 
 const system = (lang) => `You are a certified TCF Canada examiner grading the Expression orale (spoken expression) section from a TRANSCRIPT of the candidate's speech.
 Assess: relevance to the task, task coverage, vocabulary range, grammar, and fluency/coherence. You only have the transcript, so DO NOT judge pronunciation or accent.
@@ -36,7 +36,12 @@ Respond with ONLY a minified JSON object of this exact shape:
 // speaking budget runs out), not on a fixed number of exchanges. This is only a
 // safety ceiling so a broken/tampered client can't loop forever: at this many
 // interlocutor replies the server grades regardless of what the client asked.
-export const MAX_EXCHANGES = 12;
+// How many follow-up questions the interlocutor asks before the interview ends
+// and is graded. Tâche 2 is a short interaction, not an open conversation: the
+// candidate speaks, gets three follow-ups, answers the last one, and the
+// exchange is evaluated. The client's speaking timer can still end it earlier
+// (`final: true`); this is what ends it on its own.
+export const MAX_EXCHANGES = 3;
 
 // The exchange itself is always in French (it's a French exam); only the
 // final feedback follows the user's UI language, like the one-shot mode.
@@ -114,6 +119,17 @@ function isSilent(transcript) {
 
 // The client echoes the conversation back each turn; clamp it so a tampered
 // payload can't smuggle an arbitrary prompt volume into the billable call.
+// Will this turn produce an evaluation? Grading happens when the client says
+// time is up OR when the follow-up budget is spent, and the free tier has to be
+// charged for both — otherwise the interview's natural ending would hand out an
+// uncounted analysis. Reading the same history the turn itself will use means a
+// client cannot trim it to dodge the charge: a shorter history simply gets
+// another follow-up instead of a grade.
+export function dialogueWillGrade(body) {
+  if (body?.final === true || body?.final === "true") return true;
+  return sanitizeHistory(body?.history).filter((m) => m.role === "examiner").length >= MAX_EXCHANGES;
+}
+
 function sanitizeHistory(raw) {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -255,14 +271,13 @@ export default async function handler(req, res) {
     // Free accounts get FREE_AI_USES_PER_TASK analyses per tache (Premium is
     // unlimited and claim returns null). What counts as one analysis:
     //   - the one-shot evaluation of a recording (taches 1 and 3);
-    //   - the FINAL grading of the tache 2 interview.
+    //   - the grading that ends the tache 2 interview, however it is reached.
     // The interview's individual turns do not, or a two-analysis budget would
     // end the conversation after two exchanges instead of capping evaluations.
     // Their pace stays bounded by enforceRateLimit above.
     const isDialogue = req.body?.mode === "dialogue";
-    const wantsGrade = req.body?.final === true || req.body?.final === "true";
-    if (!isDialogue || wantsGrade) {
-      claim = await claimFreeAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
+    if (!isDialogue || dialogueWillGrade(req.body)) {
+      claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
     }
 
     if (isDialogue) return await dialogueTurn(res, user, req.body);
@@ -283,7 +298,7 @@ export default async function handler(req, res) {
     if (!transcript || transcript.replace(/\s/g, "").length < 3) {
       // Nothing intelligible was said, so no evaluation was produced: give the
       // use back rather than charge for a microphone problem.
-      await releaseFreeAiUse(claim);
+      await releaseAiUse(claim);
       return res.status(200).json({ transcript: transcript || "", empty: true, level: "", summary: "", strengths: [], improvements: [] });
     }
 
@@ -302,13 +317,15 @@ export default async function handler(req, res) {
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
-    // `freeAiLeft` is undefined for Premium (no quota); the workshop then shows
-    // no counter at all.
-    res.status(200).json({ transcript, ...normalizeFeedback(raw), freeAiLeft: claim?.left });
+    // How many analyses are left on this tache: 2 for a free account, 3 per
+    // 5-minute window for a paid one. Undefined only when the counters could
+    // not be reached, and the workshop then shows nothing rather than a wrong
+    // number.
+    res.status(200).json({ transcript, ...normalizeFeedback(raw), aiLeft: claim?.left });
   } catch (err) {
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
-    await releaseFreeAiUse(claim);
+    await releaseAiUse(claim);
     res.status(err.status || 500).json({ error: err.message || "AI evaluation failed." });
   }
 }
