@@ -74,9 +74,14 @@ export default async function handler(req, res) {
   // hardcoded "temporary" bot token used to sit here so production could run
   // before the Vercel vars existed; it was committed, split across a join so
   // GitHub's secret scanning wouldn't catch it, and it outlived its purpose by
-  // a long way. That token is revoked. Do not reintroduce the pattern: an
-  // unset variable must break loudly here rather than quietly send through
-  // some other bot.
+  // a long way. Do not reintroduce the pattern: an unset variable must break
+  // loudly here rather than quietly send through some other bot.
+  //
+  // Deleting it from this file did NOT revoke it — the token stayed valid, and
+  // it is still in this repository's history. Revocation happens in @BotFather
+  // and nowhere else. Do not restate it as done here: a comment claiming a
+  // credential is dead is worse than no comment, because it stops the next
+  // person checking.
   //
   // TELEGRAM_CHAT_ID takes one id or a comma-separated list (each recipient
   // must have pressed Start on the bot; a group's chat id reaches everyone in
