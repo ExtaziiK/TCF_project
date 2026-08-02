@@ -15,9 +15,11 @@
 export const CONTACT_EMAIL = "contact@tcfpasserelle.com";
 export const SITE_URL = "https://www.tcfpasserelle.com";
 
-// `tone` carries its own light/dark-safe colours: the app switches themes via
-// the `c` object rather than Tailwind's `dark:` variant, so a mid-weight brand
-// hue that reads on both canvases is the reliable choice.
+// `tone` is only the tint behind the mark on the contact cards: the brand hue
+// at 10%, which sits correctly on both canvases without Tailwind's `dark:`
+// variant (the app switches themes through the `c` object instead). It carries
+// no text colour — the marks in SocialLinks.jsx bring their own fills. TikTok
+// tints neutral, its logo being three colours at once.
 export const SOCIAL = [
   {
     key: "youtube",
@@ -33,7 +35,7 @@ export const SOCIAL = [
     // an action parameter there describes no entity and is the sort of thing
     // that gets a sameAs entry disregarded.
     cta: "https://www.youtube.com/@TCFPasserelle?sub_confirmation=1",
-    tone: "text-red-600 bg-red-600/10",
+    tone: "bg-[#FF0000]/10",
   },
   {
     key: "tiktok",
@@ -41,7 +43,7 @@ export const SOCIAL = [
     handle: "@tcfpasserelle",
     d: "Astuces courtes et pièges de l'examen",
     url: "https://www.tiktok.com/@tcfpasserelle",
-    tone: "text-pink-600 bg-pink-600/10",
+    tone: "bg-slate-500/10",
   },
   {
     key: "facebook",
@@ -49,7 +51,7 @@ export const SOCIAL = [
     handle: "Groupe Passerelle TCF Canada",
     d: "Entraide entre candidats et annonces",
     url: "https://www.facebook.com/groups/2760698497636775",
-    tone: "text-blue-600 bg-blue-600/10",
+    tone: "bg-[#1877F2]/10",
   },
   {
     key: "whatsapp",
@@ -57,7 +59,7 @@ export const SOCIAL = [
     handle: "Rejoindre la communauté",
     d: "Sujets du mois et réponses rapides",
     url: "https://chat.whatsapp.com/KurRZ6cjCNE4caS3hdYo9D",
-    tone: "text-emerald-600 bg-emerald-600/10",
+    tone: "bg-[#25D366]/10",
   },
 ];
 
