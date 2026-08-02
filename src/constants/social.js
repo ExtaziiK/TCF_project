@@ -25,6 +25,14 @@ export const SOCIAL = [
     handle: "@TCFPasserelle",
     d: "Cours, corrigés et méthode en vidéo",
     url: "https://www.youtube.com/@TCFPasserelle",
+    // Where a CLICK goes, when it should differ from `url`. YouTube's
+    // ?sub_confirmation=1 opens the subscribe dialog on arrival instead of
+    // dropping the visitor on a channel page they then have to act on.
+    // Deliberately not folded into `url`: that one feeds sameAs in the
+    // structured data, which must stay the plain canonical profile address —
+    // an action parameter there describes no entity and is the sort of thing
+    // that gets a sameAs entry disregarded.
+    cta: "https://www.youtube.com/@TCFPasserelle?sub_confirmation=1",
     tone: "text-red-600 bg-red-600/10",
   },
   {
@@ -54,5 +62,10 @@ export const SOCIAL = [
 ];
 
 // `sameAs` for the Organization structured data: the profiles Google uses to
-// tie these accounts to the site's knowledge-graph entity.
+// tie these accounts to the site's knowledge-graph entity. Always `url`, never
+// `cta` — see the note on the YouTube entry.
 export const SOCIAL_URLS = SOCIAL.map((s) => s.url);
+
+// Where a follow link should point in the UI. One helper so the footer strip
+// and the contact cards can never drift apart on this.
+export const socialHref = (s) => s.cta || s.url;

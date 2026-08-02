@@ -1,6 +1,6 @@
 import { Youtube, Facebook } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { SOCIAL } from "@/constants/social";
+import { SOCIAL, socialHref } from "@/constants/social";
 
 // lucide ships a YouTube and a Facebook mark but no TikTok or WhatsApp one, so
 // those two are drawn here (single filled path each, 24×24, currentColor) and
@@ -33,7 +33,7 @@ export function SocialLinks({ className = "" }) {
         return (
           <a
             key={s.key}
-            href={s.url}
+            href={socialHref(s)}
             target="_blank"
             rel="noopener noreferrer"
             title={t(s.label)}
