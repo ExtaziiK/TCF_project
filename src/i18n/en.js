@@ -111,6 +111,17 @@ export const EN = {
   "Conditions": "Terms",
   "Accessibilité": "Accessibility",
 
+  // ── Social channels (constants/social.js — footer strip + contact cards) ──
+  // Network names and handles stay as they are; only the labels and the
+  // one-line descriptions are translated.
+  "Suivez-nous": "Follow us",
+  "Groupe Facebook": "Facebook group",
+  "Communauté WhatsApp": "WhatsApp community",
+  "Cours, corrigés et méthode en vidéo": "Lessons, corrections and method, on video",
+  "Astuces courtes et pièges de l'examen": "Quick tips and exam traps",
+  "Entraide entre candidats et annonces": "Peer support between candidates, plus announcements",
+  "Sujets du mois et réponses rapides": "This month's topics and quick answers",
+
   // ── Shared chrome ────────────────────────────────────────────────────
   "Retour": "Back",
   "Niveau actuel": "Current level",

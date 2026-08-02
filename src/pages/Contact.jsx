@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { CheckCircle2, ArrowRight, Mail, XCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Btn } from "@/components/common";
+import { PageShell, Card, Btn, SOCIAL_ICON } from "@/components/common";
 import { submitContactMessage } from "@/services/adminService";
+import { SOCIAL, CONTACT_EMAIL } from "@/constants/social";
+
+const channels = [
+  { label: "Courriel", d: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: Mail, tone: "text-blue-600 bg-blue-600/10" },
+  ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: s.url, icon: SOCIAL_ICON[s.key], tone: s.tone, external: true })),
+];
 
 export function Contact() {
   const { c, user, notify, t } = useApp();
@@ -50,18 +56,19 @@ export function Contact() {
           )}
         </Card>
         <div className="md:col-span-2 space-y-4">
-          {/* `href` makes a card's detail actionable; an address is left as-is
-              rather than run through t(), which has nothing to translate.
-              Email only: a live-chat window and a weekly study group were
-              advertised here before they existed — a support channel is a
-              promise, so it goes on this page once it is real, not before. */}
-          {[{ icon: Mail, t: "Courriel", d: "contact@tcfpasserelle.com", href: "mailto:contact@tcfpasserelle.com" }].map((k) => (
-            <Card key={k.t} className="p-5 flex items-center gap-4">
-              <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><k.icon size={19} /></span>
-              <div className="min-w-0"><p className={`font-semibold text-sm ${c.text}`}>{t(k.t)}</p>
-                {k.href
-                  ? <a href={k.href} className="text-sm font-medium text-blue-600 hover:underline break-all">{k.d}</a>
-                  : <p className={`text-sm ${c.sub}`}>{t(k.d)}</p>}
+          {/* A support channel is a promise: a live-chat window and a weekly
+              study group were advertised here before they existed, so a channel
+              only appears once it is real and staffed. The email plus the four
+              community channels below all are — they come from
+              constants/social.js, the same list the footer renders.
+              `handle`/address stays out of t(): there is nothing to translate. */}
+          {channels.map((k) => (
+            <Card key={k.label} className="p-5 flex items-center gap-4">
+              <span className={`w-11 h-11 rounded-2xl ${k.tone} flex items-center justify-center shrink-0`}><k.icon size={19} /></span>
+              <div className="min-w-0">
+                <p className={`font-semibold text-sm ${c.text}`}>{t(k.label)}</p>
+                <a href={k.href} {...(k.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="text-sm font-medium text-blue-600 hover:underline break-all">{k.d}</a>
+                {k.sub && <p className={`text-xs mt-0.5 ${c.sub}`}>{t(k.sub)}</p>}
               </div>
             </Card>
           ))}

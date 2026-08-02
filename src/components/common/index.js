@@ -8,3 +8,4 @@ export { LevelRibbon } from "@/components/common/LevelRibbon";
 export { PageShell } from "@/components/common/PageShell";
 export { TimerChip } from "@/components/common/TimerChip";
 export { Toast } from "@/components/common/Toast";
+export { SocialLinks, SOCIAL_ICON } from "@/components/common/SocialLinks";
