@@ -864,16 +864,26 @@ function UsersTab() {
 
       {/* Account-type filter chips. */}
       <div className="flex items-center gap-2 flex-wrap">
-        {USER_FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => selectFilter(f.key)}
-            aria-pressed={filter === f.key}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${filter === f.key ? "bg-blue-600 border-blue-600 text-white" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
-          >
-            {f.label}
-          </button>
-        ))}
+        {USER_FILTERS.map((f) => {
+          // How many accounts this chip would show, the current search
+          // included. Undefined until the first response — rendering a 0 then
+          // would claim every plan is empty.
+          const n = data?.counts?.[f.key];
+          const on = filter === f.key;
+          return (
+            <button
+              key={f.key}
+              onClick={() => selectFilter(f.key)}
+              aria-pressed={on}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors flex items-center gap-1.5 ${on ? "bg-blue-600 border-blue-600 text-white" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+            >
+              {f.label}
+              {typeof n === "number" && (
+                <span className={`font-mono2 tabular-nums px-1.5 rounded-full ${on ? "bg-white/20" : `${c.tint} ${c.faint}`}`}>{n}</span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <Card className="p-6 overflow-x-auto">

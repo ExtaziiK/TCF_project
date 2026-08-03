@@ -141,9 +141,11 @@ async function handleGet(req, res) {
     .slice(0, RECENT_LOGINS)
     .map((u) => toRow(u, profiles));
 
-  if (filterKey !== "all") {
-    users = users.filter((u) => matchesType(u.app_metadata || {}, premiumActive(u.app_metadata || {})));
-  }
+  // Search FIRST, then count per type, then narrow to the chosen type. Both
+  // filters are conjunctive so the order cannot change the final list, but this
+  // order lets one pass produce a count for every chip — and those counts then
+  // describe what clicking each chip would actually show, search included,
+  // rather than a site-wide total that contradicts the list underneath it.
   if (search) {
     users = users.filter((u) =>
       (u.email || "").toLowerCase().includes(search) ||
@@ -152,12 +154,25 @@ async function handleGet(req, res) {
     );
   }
 
+  // Free: every account is already in memory, so this is arithmetic, not I/O.
+  const counts = Object.fromEntries(
+    Object.entries(TYPE_FILTERS).map(([key, match]) => [
+      key,
+      users.filter((u) => match(u.app_metadata || {}, premiumActive(u.app_metadata || {}))).length,
+    ]),
+  );
+
+  if (filterKey !== "all") {
+    users = users.filter((u) => matchesType(u.app_metadata || {}, premiumActive(u.app_metadata || {})));
+  }
+
   const total = users.length;
   const slice = users.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   res.status(200).json({
     users: slice.map((u) => toRow(u, profiles)),
     total, page, perPage: PER_PAGE,
     filter: filterKey,
+    counts,
     onlineCount,
     onlineUsers,
     recentLogins,
