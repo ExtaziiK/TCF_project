@@ -69,8 +69,11 @@ export const PAGE_ACCESS = {
   // page and — for the billable AI correction — server-side, not here.
   writing: AUTHENTICATED,
   speaking: AUTHENTICATED,
-  vocabulary: PREMIUM,
-  grammar: PREMIUM,
+  // Supplementary practice, open to any signed-in account. Neither page
+  // gates its own content, so this policy is the whole of the rule: a free
+  // user gets the vocabulary decks and the grammar lessons in full.
+  vocabulary: AUTHENTICATED,
+  grammar: AUTHENTICATED,
   // Free accounts reach the TCF blanc page and may sit exactly ONE, on fixed
   // content (examService.generateFreeExamTasks). The limit is enforced on the
   // page and, for the AI correction, server-side — not by this route policy.

@@ -57,6 +57,29 @@ export async function listApprovedReviews(limit = 60) {
   return { ok: true, items: (data || []).map(toItem) };
 }
 
+// The overall rating, over EVERY approved review rather than the handful a
+// given page happens to show. The landing page loads six stories and the avis
+// page sixty; averaging what each had in hand would print two different
+// "overall" scores on the same site.
+//
+// Only `rating` is selected, so this stays a small read even as reviews pile up.
+export async function approvedRatingSummary() {
+  const { data, error } = await supabase
+    .from("testimonials")
+    .select("rating")
+    .eq("status", "approved")
+    .not("rating", "is", null);
+  if (error) return { ok: false, average: 0, count: 0 };
+  const ratings = (data || []).map((r) => r.rating).filter((n) => n >= 1 && n <= 5);
+  if (!ratings.length) return { ok: true, average: 0, count: 0 };
+  const mean = ratings.reduce((sum, n) => sum + n, 0) / ratings.length;
+  return { ok: true, average: Math.round(mean * 10) / 10, count: ratings.length };
+}
+
+// Below this, one opinion moves the average by a whole star, so no average is
+// shown at all. Shared so the landing page and the avis page agree.
+export const MIN_RATINGS_FOR_AVERAGE = 3;
+
 // Member submission. Always lands as `pending`; RLS rejects anything else, so
 // the status is not a caller-supplied value.
 export async function submitTestimonial({ name, origin, level, body, rating }) {
