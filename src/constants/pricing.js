@@ -40,7 +40,7 @@ export const PLANS = [
       // above — say the limit, since it is what they hit first.
       "1 sujet d'expression écrite et 1 d'expression orale, avec analyse IA",
       "Corrections détaillées et explications",
-      "Cartes de vocabulaire pour démarrer",
+      "Cartes de vocabulaire et leçons de grammaire, sans limite",
       "Sujets EE/EO du mois",
       "Suivi de progression",
     ],

@@ -336,7 +336,7 @@ export const EN = {
   "Choisir VIP": "Choose VIP",
   "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
-  "Cartes de vocabulaire pour démarrer": "Vocabulary flashcards to get started",
+  "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
   "40 quiz de compréhension orale": "40 listening-comprehension quizzes",
