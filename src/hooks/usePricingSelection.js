@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode } from "@/services/stripeService";
-import { CURRENCIES, convertPrice, planDzdAmount } from "@/utils/currency";
+import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, rememberedCurrency } from "@/utils/currency";
+import { detectCountry, guessCountry } from "@/utils/geo";
 import { getPaymentDz } from "@/services/settingsService";
 import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 
@@ -18,9 +19,41 @@ export function usePricingSelection() {
   const [applied, setApplied] = useState(null); // validated promo ({ code, percentOff | amountOff… })
   const [checking, setChecking] = useState(false);
   const [couponError, setCouponError] = useState("");
-  const [currency, setCurrency] = useState(CURRENCIES[0]); // USD = the currency actually charged
   const [dzPrices, setDzPrices] = useState({}); // owner's per-plan DZD overrides
   const plans = useLivePlans();
+
+  // Which currency tab is open. USD is what Stripe charges, so it stays the
+  // default everywhere except Algeria, where the dinar price IS the purchase
+  // (CCP/BaridiMob) and a visitor landing on USD would never see the price
+  // they can actually pay. Resolved in three steps so the tab never flips
+  // under someone who has already touched it:
+  //
+  //   1. their own earlier choice this session, if any — it always wins;
+  //   2. otherwise the browser's timezone/locale, read synchronously so the
+  //      first paint is already on the right tab for most DZ visitors;
+  //   3. then /api/geo (the edge's reading of the request IP), which corrects
+  //      step 2 for a device whose locale disagrees with where it is.
+  //
+  // Nothing here touches what is charged — only which figures are displayed.
+  const remembered = useMemo(() => rememberedCurrency(), []);
+  const [currency, showCurrency] = useState(() => remembered || currencyForCountry(guessCountry()));
+  const pickedByVisitor = useRef(!!remembered);
+
+  const setCurrency = useCallback((cur) => {
+    pickedByVisitor.current = true; // stop the geo answer from overriding them
+    rememberCurrency(cur);
+    showCurrency(cur);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    detectCountry().then((country) => {
+      // No country (offline, no functions deployed) means no reason to move.
+      if (cancelled || pickedByVisitor.current || !country) return;
+      showCurrency(currencyForCountry(country));
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   // The DZD prices set by the owner in Admin → Tarifs. Loaded once so the cards
   // match exactly what the manual checkout will charge.

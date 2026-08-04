@@ -33,6 +33,33 @@ export function convertPrice(usdPrice, currency) {
 }
 
 export const DZD = CURRENCIES.find((x) => x.code === "DZD");
+export const USD = CURRENCIES[0];
+
+// The currency the pricing tabs should OPEN on for a visitor in `countryCode`
+// (ISO-3166, from src/utils/geo.js). Only Algeria is mapped, on purpose: there
+// the dinar figure is not a convenience conversion but the amount actually
+// transferred by CCP/BaridiMob, so opening on USD hides the only way to buy.
+// Everywhere else keeps USD, which is what Stripe really charges — an extra
+// country here would just show a converted number and could be added if the
+// site ever bills in that currency for real.
+export function currencyForCountry(countryCode) {
+  return countryCode === "DZ" ? DZD : USD;
+}
+
+// The currency the visitor picked by hand, remembered for the tab. Accueil and
+// Tarifs each mount their own usePricingSelection(), so without this, someone
+// who switched to USD on the landing page would be put back on DZD the moment
+// they opened Tarifs — the auto-selection would look like a switch that won't
+// stay put.
+const CHOICE_KEY = "passerelle.currency";
+
+export const rememberCurrency = (cur) => {
+  try { sessionStorage.setItem(CHOICE_KEY, cur?.code || ""); } catch { /* private mode */ }
+};
+
+export const rememberedCurrency = () => {
+  try { return CURRENCIES.find((x) => x.code === sessionStorage.getItem(CHOICE_KEY)) || null; } catch { return null; }
+};
 
 // The DZD amount to charge for a plan on the manual checkout. Prefers the
 // owner's per-plan override (a bare number the admin typed, e.g. "2600" →
