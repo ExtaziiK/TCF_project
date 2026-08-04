@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, StarRating } from "@/components/common";
 import { listApprovedReviews } from "@/services/testimonialsService";
+import { useRatingSummary } from "@/hooks/useRatingSummary";
 
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { month: "long", year: "numeric" }) : "";
@@ -14,17 +15,15 @@ const when = (iso) =>
 export function Avis() {
   const { c, t } = useApp();
   const [items, setItems] = useState(null); // null = loading
+  // Shared with the landing page, and counted over EVERY approved review rather
+  // than the page's own slice, so the two never print different overall scores.
+  const rating = useRatingSummary();
 
   useEffect(() => {
     let live = true;
     listApprovedReviews().then((r) => { if (live) setItems(r.items); });
     return () => { live = false; };
   }, []);
-
-  const rated = (items || []).filter((r) => r.rating);
-  const average = rated.length
-    ? Math.round((rated.reduce((sum, r) => sum + r.rating, 0) / rated.length) * 10) / 10
-    : 0;
 
   return (
     <PageShell
@@ -34,13 +33,13 @@ export function Avis() {
       title={t("Ce que disent les candidats")}
       sub={t("Les avis publiés ici sont laissés par des membres après leur TCF blanc, puis validés par notre équipe.")}
     >
-      {/* Averages only once there are enough ratings to mean anything. Three is
-          the point below which one opinion moves the number by a whole star. */}
-      {rated.length >= 3 && (
+      {/* The hook returns null below the threshold where an average would
+          mislead, so there is no rule to repeat here. */}
+      {rating && (
         <Card className="p-6 mb-8 max-w-md mx-auto text-center">
-          <p className={`font-display font-extrabold text-4xl ${c.text}`}>{average.toLocaleString("fr-CA")}</p>
-          <div className="mt-2 flex justify-center"><StarRating value={Math.round(average)} size={20} /></div>
-          <p className={`mt-2 text-sm ${c.sub}`}>{rated.length} {t("avis notés")}</p>
+          <p className={`font-display font-extrabold text-4xl ${c.text}`}>{rating.average.toLocaleString("fr-CA")}</p>
+          <div className="mt-2 flex justify-center"><StarRating value={Math.round(rating.average)} size={20} /></div>
+          <p className={`mt-2 text-sm ${c.sub}`}>{rating.count} {t("avis notés")}</p>
         </Card>
       )}
 

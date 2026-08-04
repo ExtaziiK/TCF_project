@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill } from "@/components/common";
+import { Card, Pill, StarRating } from "@/components/common";
 
 // The landing page's success stories, as an auto-advancing slideshow.
 //
@@ -109,7 +109,11 @@ export function TestimonialsCarousel({ items }) {
         {items.map((tm) => (
           <div key={tm.id} className="snap-start shrink-0 w-[85%] sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)]">
             <Card lift className="p-6 h-full flex flex-col">
-              <Quote size={22} className="text-blue-600/40" aria-hidden="true" />
+              {tm.rating ? (
+                <StarRating value={tm.rating} size={16} />
+              ) : (
+                <Quote size={22} className="text-blue-600/40" aria-hidden="true" />
+              )}
               <p className={`mt-4 text-sm leading-relaxed flex-1 ${c.text}`}>« {t(tm.body)} »</p>
               <div className="mt-6 flex items-center gap-3">
                 <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center">{tm.name[0]}</span>

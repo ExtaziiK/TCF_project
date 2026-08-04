@@ -1,6 +1,6 @@
 import { Leaf, ArrowRight, ChevronRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill, Btn, SectionHead } from "@/components/common";
+import { Card, Pill, Btn, SectionHead, StarRating } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
@@ -13,6 +13,7 @@ import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { useRatingSummary } from "@/hooks/useRatingSummary";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 
 // Logged-in users land on their personal dashboard; the marketing landing
@@ -29,6 +30,7 @@ function Landing() {
   const pricing = usePricingSelection();
   const stats = useHomeStats();
   const testimonials = useTestimonials();
+  const rating = useRatingSummary(); // null until there are enough ratings to mean anything
   return (
     <main>
       {/* HERO — the nav-clearance padding lives on the section (not <main>) so
@@ -144,6 +146,20 @@ function Landing() {
       {testimonials?.enabled && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
+          {/* The site-wide score, over every approved review rather than the
+              six shown below — the same figure the avis page prints. */}
+          {rating && (
+            <div className="flex flex-wrap items-center justify-center gap-3 -mt-2 mb-8">
+              <StarRating value={Math.round(rating.average)} size={20} />
+              <p className={`text-sm ${c.sub}`}>
+                <span className={`font-display font-bold text-lg ${c.text}`}>{rating.average.toLocaleString("fr-CA")}</span>
+                {" / 5 · "}
+                <button onClick={() => nav("avis")} className="font-semibold text-blue-600 hover:underline">
+                  {rating.count} {t("avis")}
+                </button>
+              </p>
+            </div>
+          )}
           <TestimonialsCarousel items={testimonials.items} />
           <p className={`mt-8 text-center text-sm ${c.sub}`}>
             {t("Vous avez passé le TCF avec Passerelle ?")}{" "}

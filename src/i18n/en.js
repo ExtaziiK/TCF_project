@@ -55,6 +55,7 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "avis": "reviews",
   "Avis": "Reviews",
   "Ce que disent les candidats": "What candidates say",
   "Les avis publiés ici sont laissés par des membres après leur TCF blanc, puis validés par notre équipe.": "These reviews are left by members after their mock exam, then checked by our team.",
