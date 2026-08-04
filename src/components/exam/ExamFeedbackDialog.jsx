@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
+import { EyeOff, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, Card, StarRating } from "@/components/common";
-import { submitTestimonial, MIN_BODY, MAX_BODY } from "@/services/testimonialsService";
+import { submitTestimonial, MIN_BODY, MAX_BODY, ANONYMOUS_NAME } from "@/services/testimonialsService";
 
 // Asked once, right after a candidate's first TCF blanc — the moment they have
 // an opinion and before they close the tab.
@@ -15,12 +15,19 @@ import { submitTestimonial, MIN_BODY, MAX_BODY } from "@/services/testimonialsSe
 // What is collected lands in `testimonials` as PENDING, like every other
 // submission — RLS refuses any other status — so nothing reaches the avis page
 // without an admin approving it.
+//
+// The name is opt-out: some people will say more about a two-hour exam once
+// their name is not attached to it, and a review we can publish is worth more
+// than a name we cannot use.
 export function ExamFeedbackDialog({ onClose }) {
   const { c, t, user, notify } = useApp();
   const [rating, setRating] = useState(0);
   const [body, setBody] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
   const [busy, setBusy] = useState(false);
   const closeRef = useRef(null);
+
+  const realName = user?.name || user?.username || "Membre";
 
   // Escape closes it, like every other dialog on the site.
   useEffect(() => {
@@ -40,12 +47,13 @@ export function ExamFeedbackDialog({ onClose }) {
     setBusy(true);
     try {
       const r = await submitTestimonial({
-        name: user?.name || user?.username || "Membre",
+        name: realName,
         body: body.trim(),
         rating,
+        anonymous,
       });
       if (!r.ok) return notify(r.error || t("L'envoi a échoué. Réessayez dans un instant."), "error");
-      notify(t("Merci ! Votre avis sera publié après validation."));
+      notify(t("Merci ! Votre avis rejoindra bientôt notre page Avis."));
       onClose?.();
     } finally {
       setBusy(false);
@@ -69,7 +77,7 @@ export function ExamFeedbackDialog({ onClose }) {
           {t("Bravo pour ce premier TCF blanc !")}
         </h2>
         <p className={`mt-2 text-sm ${c.sub}`}>
-          {t("Votre avis aide les futurs candidats à se décider. Il sera publié après validation.")}
+          {t("Vous venez de vivre ce que des milliers de candidats redoutent. Racontez-le en deux phrases : votre avis sera publié sur notre page Avis, et c'est souvent celui d'un candidat comme vous qui décide quelqu'un à se lancer.")}
         </p>
 
         <form className="mt-6" onSubmit={submit}>
@@ -86,10 +94,37 @@ export function ExamFeedbackDialog({ onClose }) {
             value={body}
             onChange={(e) => setBody(e.target.value.slice(0, MAX_BODY))}
             rows={4}
-            placeholder={t("Ce qui vous a aidé, ce qui pourrait être amélioré…")}
+            placeholder={t("Ce qui vous a le plus aidé, ce qui vous a surpris, ce que vous diriez à un candidat qui hésite encore…")}
             className={`mt-2 w-full p-3 rounded-2xl border text-sm resize-y ${c.inputCls}`}
           />
           <p className={`mt-1.5 text-xs ${c.faint}`}>{body.trim().length} / {MAX_BODY}</p>
+
+          {/* Opt-out on the name, stated in terms of what will actually appear
+              under the review — "masquer mon nom" alone leaves people guessing
+              what replaces it, and guessing is what stops them from writing. */}
+          <div className={`mt-5 p-3.5 rounded-2xl border ${c.border}`}>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={anonymous}
+                onChange={(e) => setAnonymous(e.target.checked)}
+                className="sr-only peer"
+              />
+              <span className={`mt-0.5 relative w-10 h-6 rounded-full shrink-0 transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500/60 ${anonymous ? "bg-blue-600" : c.track}`}>
+                <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${anonymous ? "translate-x-4" : ""}`} />
+              </span>
+              <span className="min-w-0">
+                <span className={`flex items-center gap-1.5 text-sm font-semibold ${c.text}`}>
+                  <EyeOff size={14} aria-hidden="true" /> {t("Masquer mon nom")}
+                </span>
+                <span className={`block mt-0.5 text-xs ${c.sub}`}>
+                  {anonymous
+                    ? `${t("Votre avis sera signé")} « ${t(ANONYMOUS_NAME)} ». ${t("Seule notre équipe verra votre nom.")}`
+                    : `${t("Votre avis sera signé")} « ${realName} ».`}
+                </span>
+              </span>
+            </label>
+          </div>
 
           <div className="mt-6 flex gap-3 flex-wrap">
             <Btn type="submit" variant="accent" disabled={busy}>{t(busy ? "Envoi…" : "Envoyer mon avis")}</Btn>

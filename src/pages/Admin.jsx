@@ -27,6 +27,7 @@ import {
 import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials } from "@/services/settingsService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
+  listTestimonialIdentities,
 } from "@/services/testimonialsService";
 import { promoLabel } from "@/services/stripeService";
 import { PLANS } from "@/constants/pricing";
@@ -1658,6 +1659,10 @@ function TestimonialsTab({ onCount }) {
   // Whether the section appears on the landing page at all — separate from
   // moderation below, which decides what may be shown once it does.
   const [shown, setShown] = useState(null);
+  // Real names behind the reviews whose authors asked not to be named. Kept out
+  // of the testimonials table itself so the public copy never carries them, and
+  // readable here only because RLS gates the identities table on is_admin().
+  const [identities, setIdentities] = useState({});
 
   useEffect(() => { getHomeTestimonials().then((r) => setShown(r.enabled)); }, []);
 
@@ -1669,11 +1674,14 @@ function TestimonialsTab({ onCount }) {
     notify(next ? "Section affichée sur l'accueil." : "Section masquée de l'accueil.");
   };
 
-  const load = () => listAllTestimonials().then((r) => {
-    setItems(r.items);
-    setUnavailable(!r.ok);
-    onCount?.(r.items.filter((x) => x.status === "pending").length); // keep the sidebar badge in sync
-  });
+  const load = () => {
+    listTestimonialIdentities().then(setIdentities);
+    return listAllTestimonials().then((r) => {
+      setItems(r.items);
+      setUnavailable(!r.ok);
+      onCount?.(r.items.filter((x) => x.status === "pending").length); // keep the sidebar badge in sync
+    });
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
 
@@ -1734,7 +1742,18 @@ function TestimonialsTab({ onCount }) {
                 <div className="flex items-center gap-2 flex-wrap mb-2">
                   <Pill tone={TM_TONES[tm.status]}>{TM_LABELS[tm.status]}</Pill>
                   {tm.featured && <Pill tone="gold">Mis en avant</Pill>}
-                  <span className={`text-sm font-semibold ${c.text}`}>{tm.name}</span>
+                  {/* An anonymous review still shows you who wrote it — you are
+                      moderating a person, not a label — but says plainly that
+                      the name is yours to read and not to publish. */}
+                  {tm.anonymous ? (
+                    <>
+                      <Pill tone="blue"><EyeOff size={12} /> Nom masqué à sa demande</Pill>
+                      <span className={`text-sm font-semibold ${c.text}`}>{identities[tm.id] || "nom non enregistré"}</span>
+                      <span className={`text-xs ${c.faint}`}>publié sous « {tm.name} »</span>
+                    </>
+                  ) : (
+                    <span className={`text-sm font-semibold ${c.text}`}>{tm.name}</span>
+                  )}
                   <span className={`text-xs ${c.faint}`}>{tm.origin || "—"} · {tm.level || "niveau non précisé"} · {when(tm.createdAt)}</span>
                 </div>
                 <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>« {tm.body} »</p>

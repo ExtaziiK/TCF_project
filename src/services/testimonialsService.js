@@ -12,6 +12,11 @@ export const MAX_BODY = 600;
 // an exam, where 40 characters was a wall.
 export const MIN_BODY = 10;
 
+// What a review is signed with when its author asked us not to use their name.
+// It is stored in `name`, so it is what every public read returns — the real
+// name never reaches the table (see 20260804_testimonial_anonymity).
+export const ANONYMOUS_NAME = "Candidat anonyme";
+
 const s = (v, max) => String(v ?? "").trim().slice(0, max);
 
 // Shape used by the UI. `body` is the story text; the column is named `body`
@@ -26,6 +31,9 @@ const toItem = (r) => ({
   status: r.status,
   featured: !!r.featured,
   rating: r.rating ?? null,
+  // `name` is already the public label for these; the flag is what tells the
+  // moderation queue the label is standing in for someone.
+  anonymous: !!r.anonymous,
   createdAt: r.created_at,
 });
 
@@ -82,7 +90,11 @@ export const MIN_RATINGS_FOR_AVERAGE = 3;
 
 // Member submission. Always lands as `pending`; RLS rejects anything else, so
 // the status is not a caller-supplied value.
-export async function submitTestimonial({ name, origin, level, body, rating }) {
+//
+// `anonymous` is a promise to the member, not a display preference, so it is
+// kept at the point where the data is written rather than where it is read: the
+// name they asked us to hide is never stored on a row the public can read.
+export async function submitTestimonial({ name, origin, level, body, rating, anonymous = false }) {
   const { data: auth } = await supabase.auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: false, error: "Connectez-vous pour partager votre témoignage." };
@@ -90,20 +102,37 @@ export async function submitTestimonial({ name, origin, level, body, rating }) {
   const clean = s(body, MAX_BODY);
   if (clean.length < MIN_BODY) return { ok: false, error: `Votre témoignage doit faire au moins ${MIN_BODY} caractères.` };
 
+  const realName = s(name, 60) || "Membre";
+  const hide = !!anonymous;
+
   // A rating outside 1-5 is dropped rather than clamped: the table would
   // reject it anyway, and a silently corrected star count is worse than none.
   const stars = Number(rating);
-  const { error } = await supabase.from("testimonials").insert({
+  const { data, error } = await supabase.from("testimonials").insert({
     user_id: userId,
-    name: s(name, 60) || "Membre",
+    name: hide ? ANONYMOUS_NAME : realName,
+    // Named only when it is set. The column defaults to false, so this is the
+    // same row either way — but naming a column the database does not have yet
+    // fails the whole insert, and that would take every ordinary review down
+    // with it in the window before 20260804 is applied. Asking to be unnamed
+    // still fails loudly there rather than quietly publishing a real name.
+    ...(hide ? { anonymous: true } : {}),
     origin: s(origin, 80) || null,
     level: s(level, 40) || null,
     body: clean,
     rating: Number.isInteger(stars) && stars >= 1 && stars <= 5 ? stars : null,
     status: "pending",
     featured: false,
-  });
-  return { ok: !error, error: error?.message };
+  }).select("id").single();
+  if (error) return { ok: false, error: error.message };
+
+  // Moderation still needs to know who wrote it. A failure here costs the admin
+  // queue a name; it must not cost the member their review, which is already in
+  // — and already anonymous, which is the part that was promised.
+  if (hide && data?.id) {
+    await supabase.from("testimonial_identities").insert({ testimonial_id: data.id, real_name: realName });
+  }
+  return { ok: true };
 }
 
 // Has this member already left one? Used to ask for feedback exactly once,
@@ -148,6 +177,17 @@ export async function listAllTestimonials() {
     .limit(300);
   if (error) return { ok: false, unavailable: true, items: [] };
   return { ok: true, items: (data || []).map(toItem) };
+}
+
+// The real names behind reviews whose authors asked to stay unnamed, keyed by
+// testimonial id. Admin-only by RLS, so for anyone else this comes back empty
+// rather than failing — as it does when the migration has yet to be applied.
+export async function listTestimonialIdentities() {
+  const { data, error } = await supabase
+    .from("testimonial_identities")
+    .select("testimonial_id, real_name");
+  if (error) return {};
+  return Object.fromEntries((data || []).map((r) => [r.testimonial_id, r.real_name]));
 }
 
 export async function setTestimonialStatus(id, status) {

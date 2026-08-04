@@ -116,9 +116,11 @@ export function TestimonialsCarousel({ items }) {
               )}
               <p className={`mt-4 text-sm leading-relaxed flex-1 ${c.text}`}>« {t(tm.body)} »</p>
               <div className="mt-6 flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center">{tm.name[0]}</span>
+                {/* Only the stand-in label is translated — a real name is a
+                    name, in any language. */}
+                <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center">{(tm.anonymous ? t(tm.name) : tm.name)[0]}</span>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-bold ${c.text}`}>{tm.name}</p>
+                  <p className={`text-sm font-bold ${c.text}`}>{tm.anonymous ? t(tm.name) : tm.name}</p>
                   {tm.origin && <p className={`text-xs ${c.faint}`}>{tm.origin}</p>}
                 </div>
                 {tm.level && <Pill tone="green">{t(tm.level)}</Pill>}

@@ -61,7 +61,9 @@ export function Avis() {
               {r.rating ? <StarRating value={r.rating} /> : null}
               <p className={`mt-3 text-sm leading-relaxed flex-1 ${c.sub}`}>« {r.body} »</p>
               <div className={`mt-4 pt-4 border-t ${c.border}`}>
-                <p className={`text-sm font-semibold ${c.text}`}>{r.name}</p>
+                {/* Only the stand-in label is translated — a real name is a
+                    name, in any language. */}
+                <p className={`text-sm font-semibold ${c.text}`}>{r.anonymous ? t(r.name) : r.name}</p>
                 <p className={`text-xs ${c.faint}`}>
                   {[r.origin, r.level, when(r.createdAt)].filter(Boolean).join(" · ")}
                 </p>
