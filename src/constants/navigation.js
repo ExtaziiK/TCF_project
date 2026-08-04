@@ -1,8 +1,8 @@
 // Role lists come from rbac.js rather than being rebuilt here: this file used
-// to declare its own `PREMIUM` that omitted OWNER, so an owner saw no "Pratique"
-// menu (and no account links on mobile) for pages the guard happily let them
-// open. One definition, no drift.
-import { AUTHENTICATED, PREMIUM, ADMIN_ONLY } from "@/auth/rbac";
+// to declare its own role list that omitted OWNER, so an owner saw no
+// "Pratique" menu (and no account links on mobile) for pages the guard happily
+// let them open. One definition, no drift.
+import { AUTHENTICATED, ADMIN_ONLY } from "@/auth/rbac";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
 // array; entries without one are visible to everyone (including visitors).
@@ -28,8 +28,8 @@ export const NAV_LINKS = [
   { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
-    { l: "Vocabulaire", r: "vocabulary", roles: PREMIUM },
-    { l: "Grammaire", r: "grammar", roles: PREMIUM },
+    { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
+    { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Calculateur", r: "calculator" },
