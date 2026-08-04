@@ -55,6 +55,18 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "2 simulations IA par jour en expression écrite, et 2 à l'oral": "2 AI simulations a day in written expression, and 2 in speaking",
+  "6 simulations IA par jour en expression écrite, et 6 à l'oral": "6 AI simulations a day in written expression, and 6 in speaking",
+  "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale": "All 80 quizzes unlocked: 40 reading, 40 listening",
+  "1 TCF blanc chronométré par jour, noté sur 699": "1 timed mock exam a day, scored out of 699",
+  "3 TCF blancs chronométrés par jour, notés sur 699": "3 timed mock exams a day, scored out of 699",
+  "Simulations IA illimitées, à l'écrit comme à l'oral": "Unlimited AI simulations, written and spoken",
+  "TCF blancs chronométrés illimités, notés sur 699": "Unlimited timed mock exams, scored out of 699",
+  "Accès simultané sur 2 appareils": "Use on 2 devices at once",
+  "Accès simultané sur 4 appareils": "Use on 4 devices at once",
+  "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit": "Detailed AI feedback: CEFR level, what to fix, your text rewritten",
+  "Entretien oral simulé avec un examinateur IA qui vous répond": "Simulated speaking interview with an AI examiner that answers you",
+  "Un nouveau sujet d'expression à chaque session": "A fresh expression subject every session",
   "avis": "reviews",
   "Avis": "Reviews",
   "Ce que disent les candidats": "What candidates say",

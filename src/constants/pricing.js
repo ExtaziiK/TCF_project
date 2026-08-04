@@ -19,6 +19,11 @@
 // Première classe → 2 simultaneous devices, VIP → 4, other plans → 1. Over the
 // limit, the newest login wins and the oldest device is signed out — a login is
 // never refused for this reason.
+// Feature lists are ordered deliberately: PlanCard shows only the FIRST FOUR
+// on the landing page (compact mode), so each plan leads with what it grants
+// that the free tier does not. The quantities match what api/_lib/auth.js
+// actually enforces — a card promising more than the code grants is a support
+// ticket, not marketing.
 export const PLANS = [
   {
     name: "Sans papier",
@@ -55,11 +60,12 @@ export const PLANS = [
     featured: false,
     slug: "passeport",
     feats: [
-      "40 quiz de compréhension écrite",
-      "40 quiz de compréhension orale",
-      "2 simulations IA par jour (écrit + oral)",
-      "1 TCF blanc chronométré par jour",
-      "Sujets EE/EO du mois",
+      "2 simulations IA par jour en expression écrite, et 2 à l'oral",
+      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "1 TCF blanc chronométré par jour, noté sur 699",
+      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
+      "Entretien oral simulé avec un examinateur IA qui vous répond",
+      "Un nouveau sujet d'expression à chaque session",
     ],
   },
   {
@@ -72,11 +78,12 @@ export const PLANS = [
     featured: false,
     slug: "visa",
     feats: [
-      "40 quiz de compréhension écrite",
-      "40 quiz de compréhension orale",
-      "6 simulations IA par jour (écrit + oral)",
-      "3 TCF blancs chronométrés par jour",
-      "Sujets EE/EO du mois",
+      "6 simulations IA par jour en expression écrite, et 6 à l'oral",
+      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "3 TCF blancs chronométrés par jour, notés sur 699",
+      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
+      "Entretien oral simulé avec un examinateur IA qui vous répond",
+      "Un nouveau sujet d'expression à chaque session",
     ],
   },
   {
@@ -89,12 +96,13 @@ export const PLANS = [
     featured: true,
     slug: "premiere-classe",
     feats: [
-      "Tous les quiz de compréhension écrite (40)",
-      "Tous les quiz de compréhension orale (40)",
-      "Simulations IA illimitées",
-      "TCF blancs illimités",
-      "Sujets EE/EO du mois",
-      "Accès sur 2 appareils",
+      "Simulations IA illimitées, à l'écrit comme à l'oral",
+      "TCF blancs chronométrés illimités, notés sur 699",
+      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "Accès simultané sur 2 appareils",
+      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
+      "Entretien oral simulé avec un examinateur IA qui vous répond",
+      "Un nouveau sujet d'expression à chaque session",
     ],
   },
   {
@@ -107,12 +115,13 @@ export const PLANS = [
     featured: false,
     slug: "vip",
     feats: [
-      "Tous les quiz de compréhension écrite (40)",
-      "Tous les quiz de compréhension orale (40)",
-      "Simulations IA illimitées",
-      "TCF blancs illimités",
-      "Sujets EE/EO du mois",
-      "Accès sur 4 appareils",
+      "Simulations IA illimitées, à l'écrit comme à l'oral",
+      "TCF blancs chronométrés illimités, notés sur 699",
+      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "Accès simultané sur 4 appareils",
+      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
+      "Entretien oral simulé avec un examinateur IA qui vous répond",
+      "Un nouveau sujet d'expression à chaque session",
     ],
   },
 ];
