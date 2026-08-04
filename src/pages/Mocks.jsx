@@ -19,6 +19,7 @@ import {
 import { setFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { ExamFeedbackDialog } from "@/components/exam/ExamFeedbackDialog";
 import { hasReviewed } from "@/services/testimonialsService";
+import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
 
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
@@ -150,11 +151,27 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   };
   useEffect(() => () => clearTimeout(saveTimer.current), []);
 
+  // What each way out of the review dialog is worth. "Plus tard" spends one ask
+  // and buys the question a second life after the next exam; the ✕ and Escape
+  // spend them all. Sending one needs no bookkeeping — hasReviewed() covers it
+  // from then on, whatever this browser remembers.
+  const closeReview = (reason) => {
+    setAskReview(false);
+    if (reason === "sent") return;
+    if (reason === "later") {
+      deferReviewAsk();
+      // Say so, or "Plus tard" reads as "never" and the promise goes unnoticed.
+      if (mayAskForReview()) notify(t("Pas de souci — on vous le redemandera après votre prochain TCF blanc."));
+      return;
+    }
+    endReviewAsks();
+  };
+
   if (justFinished) {
     return (
       <>
         <ExamReport attempt={justFinished} onRestart={onExit} onBack={onExit} />
-        {askReview && <ExamFeedbackDialog onClose={() => setAskReview(false)} />}
+        {askReview && <ExamFeedbackDialog onClose={closeReview} />}
       </>
     );
   }
@@ -179,10 +196,13 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
       const score = { ...scoreExam(perTask), perTask };
       const done = await completeAttempt(user?.id, { ...attempt, progress: { ...attempt.progress, results } }, score);
       setJustFinished(done);
-      // Ask for a review once, on the first exam a candidate ever finishes, and
-      // only if they have not already left one. Checked here rather than on the
-      // report screen so re-reading an old result never re-opens it.
-      if (firstEver && !(await hasReviewed())) setAskReview(true);
+      // Ask for a review on the first exam a candidate ever finishes, and again
+      // after a later one if they answered "Plus tard" — up to MAX_ASKS in all.
+      // Never if they have already left one, or closed the dialog outright.
+      // Checked here rather than on the report screen so re-reading an old
+      // result never re-opens it.
+      const invited = firstEver || reviewAskDeferred();
+      if (invited && mayAskForReview() && !(await hasReviewed())) setAskReview(true);
     }
   };
 

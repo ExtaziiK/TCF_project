@@ -91,6 +91,7 @@ export const EN = {
   "Votre commentaire doit faire au moins": "Your comment must be at least",
   "caractères.": "characters.",
   "Merci ! Votre avis rejoindra bientôt notre page Avis.": "Thank you! Your review will join our Reviews page shortly.",
+  "Pas de souci — on vous le redemandera après votre prochain TCF blanc.": "No problem — we'll ask again after your next mock exam.",
   "Visite guidée": "Guided tour",
   "Découvrez Passerelle en vidéo": "See Passerelle in action",
   "Cinq minutes pour comprendre comment préparer chaque épreuve sur la plateforme.": "Five minutes on how to prepare for each test section on the platform.",
@@ -314,6 +315,10 @@ export const EN = {
   "Un forfait pour chaque étape de votre préparation": "A plan for every stage of your preparation",
   "Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
     "Pay in US dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
+  "Afficher les prix dans une autre devise": "Show prices in another currency",
+  "Tous les paiements sont effectués en dollars US (USD).": "All payments are charged in US dollars (USD).",
+  "Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.":
+    "Payment in Algerian dinars by CCP or BaridiMob, activated once the receipt has been checked.",
   "Vous avez un code promo ?": "Have a promo code?",
   "Ex. : BIENVENUE20": "E.g. BIENVENUE20",
   "Code promo": "Promo code",

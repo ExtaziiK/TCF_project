@@ -4,13 +4,17 @@ import { useApp } from "@/context/AppContext";
 import { Btn, Card, StarRating } from "@/components/common";
 import { submitTestimonial, MIN_BODY, MAX_BODY, ANONYMOUS_NAME } from "@/services/testimonialsService";
 
-// Asked once, right after a candidate's first TCF blanc — the moment they have
-// an opinion and before they close the tab.
+// Asked right after a candidate's first TCF blanc — the moment they have an
+// opinion and before they close the tab — and again after a later exam if they
+// answered "Plus tard" the first time.
 //
-// Dismissible on purpose, and dismissing counts: someone who has just finished
-// a two-hour exam does not owe us a review, and a modal they cannot escape is
-// the fastest way to make them resent one. `onClose` fires either way so the
-// caller stops asking.
+// Dismissible on purpose: someone who has just finished a two-hour exam does
+// not owe us a review, and a modal they cannot escape is the fastest way to
+// make them resent one.
+//
+// `onClose` always fires, carrying WHY it closed — "sent", "later" (Plus tard)
+// or "dismissed" (✕ / Escape). The caller decides what each is worth; only
+// "later" brings the dialog back after another exam.
 //
 // What is collected lands in `testimonials` as PENDING, like every other
 // submission — RLS refuses any other status — so nothing reaches the avis page
@@ -29,9 +33,10 @@ export function ExamFeedbackDialog({ onClose }) {
 
   const realName = user?.name || user?.username || "Membre";
 
-  // Escape closes it, like every other dialog on the site.
+  // Escape closes it, like every other dialog on the site. Counted as a real
+  // no, same as the ✕: reaching for Escape is not "ask me another time".
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") onClose?.(); };
+    const onKey = (e) => { if (e.key === "Escape") onClose?.("dismissed"); };
     document.addEventListener("keydown", onKey);
     closeRef.current?.focus();
     return () => document.removeEventListener("keydown", onKey);
@@ -54,7 +59,7 @@ export function ExamFeedbackDialog({ onClose }) {
       });
       if (!r.ok) return notify(r.error || t("L'envoi a échoué. Réessayez dans un instant."), "error");
       notify(t("Merci ! Votre avis rejoindra bientôt notre page Avis."));
-      onClose?.();
+      onClose?.("sent");
     } finally {
       setBusy(false);
     }
@@ -66,7 +71,7 @@ export function ExamFeedbackDialog({ onClose }) {
         <button
           ref={closeRef}
           type="button"
-          onClick={onClose}
+          onClick={() => onClose?.("dismissed")}
           aria-label={t("Fermer")}
           className={`absolute top-4 right-4 p-1.5 rounded-lg ${c.sub} ${c.hoverSoft}`}
         >
@@ -128,7 +133,7 @@ export function ExamFeedbackDialog({ onClose }) {
 
           <div className="mt-6 flex gap-3 flex-wrap">
             <Btn type="submit" variant="accent" disabled={busy}>{t(busy ? "Envoi…" : "Envoyer mon avis")}</Btn>
-            <Btn type="button" variant="ghost" onClick={onClose}>{t("Plus tard")}</Btn>
+            <Btn type="button" variant="ghost" onClick={() => onClose?.("later")}>{t("Plus tard")}</Btn>
           </div>
         </form>
       </Card>
