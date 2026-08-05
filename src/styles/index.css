@@ -79,6 +79,20 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 .img-skeleton{position:relative;overflow:hidden}
 .img-skeleton:after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(148,163,184,.22),transparent);animation:img-shimmer 1.4s ease-in-out infinite}
 @keyframes img-shimmer{100%{transform:translateX(100%)}}
+/* Attention flash for the dinar payment notice under the currency tabs. That
+   line is the only place the pricing block says a DZD purchase is a MANUAL
+   CCP/BaridiMob transfer rather than a card payment, and as grey 12px hint text
+   it was read by nobody — a buyer who misses it picks a plan expecting Stripe.
+   Animates the ring and the text weight of an already-highlighted pill, so the
+   notice is fully legible before the first cycle and after the last: the
+   highlight carries the message, the flash only points at it.
+   Finite on purpose (3 cycles ≈ 4s). WCAG 2.2.2 requires a way to stop
+   anything that blinks for more than five seconds, and a permanent blink on a
+   page people read prices on is a nuisance rather than a signal; the
+   reduced-motion rule at the foot of this file removes it altogether for
+   anyone who asked for less motion, leaving the static highlight. */
+@keyframes notice-flash{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}50%{box-shadow:0 0 0 7px rgba(245,158,11,.32);opacity:.72}}
+.notice-flash{animation:notice-flash 1.3s ease-in-out 3}
 .link-anim{position:relative}
 .link-anim:after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#2E6BE6;transition:width .25s ease}
 .link-anim:hover:after{width:100%}

@@ -1,4 +1,4 @@
-import { Gift, CheckCircle2, XCircle } from "lucide-react";
+import { Gift, CheckCircle2, XCircle, Info } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
@@ -16,7 +16,7 @@ import { CURRENCIES } from "@/utils/currency";
 // only the purchase itself needs a login, since a pass has to attach to
 // someone. The code they entered survives that signup (see setPendingPromo).
 export function PricingPlans({ s, compact = false }) {
-  const { c, t } = useApp();
+  const { c, t, dark } = useApp();
 
   return (
     <>
@@ -40,12 +40,28 @@ export function PricingPlans({ s, compact = false }) {
           })}
         </div>
       </div>
-      {s.currency.code !== "EUR" && (
+      {s.currency.code === "USD" && (
         <p className={`text-center text-xs mt-3 mb-8 ${c.faint}`}>
-          {s.currency.code === "USD"
-            ? t("Tous les paiements sont effectués en dollars US (USD).")
-            : t("Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.")}
+          {t("Tous les paiements sont effectués en dollars US (USD).")}
         </p>
+      )}
+      {/* The dinar notice is not a footnote like the USD one: it is the only
+          warning that this purchase is a MANUAL transfer (CCP/BaridiMob) with
+          access opened after the receipt is checked, not an instant card
+          payment. As grey hint text it went unread, so it gets a highlighted
+          pill and a short flash — see .notice-flash in styles/index.css for why
+          the flash stops on its own. role="status" so a screen reader announces
+          it when the tab switches, since the flash means nothing there. */}
+      {s.isDzd && (
+        <div className="flex justify-center mt-3 mb-8">
+          <p
+            role="status"
+            className={`notice-flash inline-flex items-start gap-2 max-w-xl text-xs sm:text-sm font-semibold leading-snug px-4 py-2.5 rounded-2xl border ${dark ? "bg-amber-500/15 border-amber-400/50 text-amber-200" : "bg-amber-50 border-amber-300 text-amber-900"}`}
+          >
+            <Info size={16} className="shrink-0 mt-0.5" aria-hidden="true" />
+            <span className="text-left">{t("Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.")}</span>
+          </p>
+        </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
