@@ -10,7 +10,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
 import { syncSiteContent } from "@/services/questionsService";
-import { deriveRole } from "@/auth/rbac";
+import { deriveRole, isStaff, ROLES } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
@@ -45,6 +45,10 @@ export function AppProvider({ children }) {
   // so the user isn't kicked abruptly. The ref guards against re-triggering it
   // on the next heartbeat/focus tick while the popup is already counting down.
   const [forcedLogout, setForcedLogout] = useState(false);
+  // Staff previewing the site as a signed-out visitor. Deliberately not
+  // persisted: a preview you can forget you left on is a support ticket about
+  // the admin link having vanished.
+  const [visitorPreview, setVisitorPreview] = useState(false);
   const forcingOut = useRef(false);
 
   const { toast, notify } = useToast();
@@ -318,11 +322,35 @@ export function AppProvider({ children }) {
   // immediately, without waiting for an auth event.
   const role = deriveRole(user);
 
+  // "Aperçu visiteur": staff looking at the site the way someone with no
+  // account sees it.
+  //
+  // Done by masking the session in the context value rather than by threading a
+  // preview flag through the pages. Home already branches on `user`, and so do
+  // the nav, the footer and the announcement bar — hand all of them a
+  // logged-out session and every one of them renders the visitor view, with no
+  // component needing to know a preview exists. The alternative was a flag each
+  // of those had to remember to honour, which is the kind of thing that goes
+  // stale the next time one of them is touched.
+  //
+  // Only ever a view: `user` is masked in what the tree reads, never in the
+  // provider's own state, so the real session is untouched underneath and
+  // nothing has to be re-authenticated on the way out.
+  const canPreviewAsVisitor = isStaff(role);
+  const previewing = visitorPreview && canPreviewAsVisitor;
+  const startVisitorPreview = () => { if (canPreviewAsVisitor) setVisitorPreview(true); };
+  const exitVisitorPreview = () => setVisitorPreview(false);
+
   const value = {
     dark, setDark,
     lang, setLang, t,
     route, nav, back,
-    user, setUser, authReady, signOut, role,
+    user: previewing ? null : user,
+    setUser, authReady, signOut,
+    role: previewing ? ROLES.VISITOR : role,
+    // Unmasked, so the preview bar can offer a way out of a session the rest of
+    // the tree has been told does not exist.
+    visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
     pendingOnboarding, completeOnboarding,
     resolvingOAuth,
     c,

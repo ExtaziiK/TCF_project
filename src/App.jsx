@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { VisitorPreviewBar } from "@/components/layout/VisitorPreviewBar";
 import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Onboarding } from "@/components/auth/Onboarding";
 import { TermsGate } from "@/components/auth/TermsGate";
@@ -68,6 +69,7 @@ function AppShell() {
       <Nav barOffset={showAnnounce} />
       <div key={route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
+      <VisitorPreviewBar />
       <Toast />
       {/* Vercel Web Analytics — auto-tracks route changes via the History API;
           the numbers surface in the admin dashboard's "Trafic" tab. */}
