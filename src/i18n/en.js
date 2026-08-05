@@ -93,7 +93,7 @@ export const EN = {
   "Merci ! Votre avis rejoindra bientôt notre page Avis.": "Thank you! Your review will join our Reviews page shortly.",
   "Pas de souci — on vous le redemandera après votre prochain TCF blanc.": "No problem — we'll ask again after your next mock exam.",
   "Aperçu visiteur": "Visitor preview",
-  "Ce que voit un internaute sans compte.": "What someone with no account sees.",
+  "La page d'accueil publique — vous restez connecté·e.": "The public homepage — you stay signed in.",
   "Quitter l'aperçu": "Exit preview",
   "Visite guidée": "Guided tour",
   "Découvrez Passerelle en vidéo": "See Passerelle in action",

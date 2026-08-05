@@ -10,7 +10,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
 import { syncSiteContent } from "@/services/questionsService";
-import { deriveRole, isStaff, ROLES } from "@/auth/rbac";
+import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
@@ -287,6 +287,10 @@ export function AppProvider({ children }) {
   // one — used after login/registration so Back doesn't return to the auth
   // page (which the user has already left by signing in).
   const nav = (r, { replace = false } = {}) => {
+    // The preview is a state of the accueil, so leaving it ends the preview.
+    // Safe against the logo's own click: RouteLink runs nav() before its
+    // onNavigate, and that navigation is to "home".
+    if (r !== "home") setVisitorPreview(false);
     if (r !== route) window.history[replace ? "replaceState" : "pushState"]({ route: r }, "", pathForRoute(r));
     setRoute(r);
     window.scrollTo({ top: 0 });
@@ -322,20 +326,15 @@ export function AppProvider({ children }) {
   // immediately, without waiting for an auth event.
   const role = deriveRole(user);
 
-  // "Aperçu visiteur": staff looking at the site the way someone with no
-  // account sees it.
+  // "Aperçu visiteur": staff looking at the public landing page — the one most
+  // traffic arrives on, and the one Home hides from anyone signed in.
   //
-  // Done by masking the session in the context value rather than by threading a
-  // preview flag through the pages. Home already branches on `user`, and so do
-  // the nav, the footer and the announcement bar — hand all of them a
-  // logged-out session and every one of them renders the visitor view, with no
-  // component needing to know a preview exists. The alternative was a flag each
-  // of those had to remember to honour, which is the kind of thing that goes
-  // stale the next time one of them is touched.
-  //
-  // Only ever a view: `user` is masked in what the tree reads, never in the
-  // provider's own state, so the real session is untouched underneath and
-  // nothing has to be re-authenticated on the way out.
+  // Scoped to what Home renders, and nothing else. An earlier version masked
+  // `user` and `role` for the whole tree, which did produce a pixel-accurate
+  // visitor view — signed-out nav and all — but a back office that suddenly
+  // shows "Connexion" is indistinguishable from having been logged out, and
+  // that is alarming in a way no amount of preview chrome fixes. The session
+  // now stays visible and signed in; only the page body changes.
   const canPreviewAsVisitor = isStaff(role);
   const previewing = visitorPreview && canPreviewAsVisitor;
   const startVisitorPreview = () => { if (canPreviewAsVisitor) setVisitorPreview(true); };
@@ -345,11 +344,7 @@ export function AppProvider({ children }) {
     dark, setDark,
     lang, setLang, t,
     route, nav, back,
-    user: previewing ? null : user,
-    setUser, authReady, signOut,
-    role: previewing ? ROLES.VISITOR : role,
-    // Unmasked, so the preview bar can offer a way out of a session the rest of
-    // the tree has been told does not exist.
+    user, setUser, authReady, signOut, role,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
     pendingOnboarding, completeOnboarding,
     resolvingOAuth,

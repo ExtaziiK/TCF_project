@@ -17,11 +17,13 @@ import { useRatingSummary } from "@/hooks/useRatingSummary";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 
 // Logged-in users land on their personal dashboard; the marketing landing
-// below is only for signed-out traffic.
+// below is for signed-out traffic — and for staff who asked to see it, via the
+// logo (see VisitorPreviewBar). That preview leaves them signed in: it changes
+// which page renders here, not who they are.
 export function Home() {
-  const { user, authReady } = useApp();
+  const { user, authReady, visitorPreview } = useApp();
   if (!authReady) return null; // avoid a landing flash while the session loads
-  if (user) return <MemberHome />;
+  if (user && !visitorPreview) return <MemberHome />;
   return <Landing />;
 }
 

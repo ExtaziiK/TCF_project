@@ -11,8 +11,10 @@ import { useApp } from "@/context/AppContext";
 // Down here it overlays nothing that matters and the page above stays pixel-for
 // -pixel what a visitor gets.
 export function VisitorPreviewBar() {
-  const { c, t, visitorPreview, exitVisitorPreview, nav } = useApp();
-  if (!visitorPreview) return null;
+  const { c, t, route, visitorPreview, exitVisitorPreview, nav } = useApp();
+  // nav() already ends the preview on the way out of the accueil; this also
+  // covers arriving back by Back/Forward, which bypasses nav() entirely.
+  if (!visitorPreview || route !== "home") return null;
 
   const leave = () => { exitVisitorPreview(); nav("home"); };
 
@@ -26,7 +28,10 @@ export function VisitorPreviewBar() {
           <Eye size={16} className="text-blue-600 shrink-0" aria-hidden="true" />
           {t("Aperçu visiteur")}
         </span>
-        <span className={`hidden sm:inline text-xs ${c.sub}`}>{t("Ce que voit un internaute sans compte.")}</span>
+        {/* Says "toujours connecté·e" because the point of confusion is exactly
+            this: the page below is the one shown to people with no account, and
+            without a word here that reads as having been signed out. */}
+        <span className={`hidden sm:inline text-xs ${c.sub}`}>{t("La page d'accueil publique — vous restez connecté·e.")}</span>
         <button
           onClick={leave}
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors shrink-0"
