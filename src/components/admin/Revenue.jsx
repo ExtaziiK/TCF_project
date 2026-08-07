@@ -179,7 +179,7 @@ function AddPaymentForm({ onDone, onCancel }) {
       amount: n, plan, method, customer, email, notes,
     });
     setBusy(false);
-    if (!r.ok) return notify(r.error || "Enregistrement refusé. Vérifiez que la migration 20260807_revenue est appliquée.");
+    if (!r.ok) return notify(r.error || "Enregistrement refusé.");
     notify(`Paiement de ${formatDzdTotal(n)} enregistré.`);
     onDone();
   };
@@ -241,7 +241,7 @@ function SaleRow({ sale, onSaved, onDeleted }) {
     setBusy(true);
     const r = await setRequestAmount(sale.id, n);
     setBusy(false);
-    if (!r.ok) return notify(r.error || "Correction refusée. Vérifiez que la migration 20260807_revenue est appliquée.");
+    if (!r.ok) return notify(r.error || "Correction refusée.");
     setDraft(null);
     notify("Montant corrigé.");
     onSaved();
@@ -376,10 +376,14 @@ export function RevenueTab() {
           <p className={`text-sm ${c.sub}`}>Les demandes d'abonnement sont illisibles — appliquez la migration <span className="font-mono2">20260725_dz_payments.sql</span>.</p>
         </Card>
       )}
-      {data.entriesUnavailable && (
-        <Card className="p-4 flex items-center gap-3 border-amber-500/40">
-          <CloudOff size={18} className="text-amber-500 shrink-0" />
-          <p className={`text-sm ${c.sub}`}>Les paiements saisis à la main ne sont pas disponibles — appliquez la migration <span className="font-mono2">20260807_revenue.sql</span>. Les demandes approuvées restent comptées.</p>
+      {(data.entriesUnavailable || data.columnsUnavailable) && (
+        <Card className="p-4 flex items-start gap-3 border-amber-500/40">
+          <CloudOff size={18} className="text-amber-500 shrink-0 mt-0.5" />
+          <p className={`text-sm ${c.sub}`}>
+            Migration <span className="font-mono2">20260807_revenue.sql</span> pas encore appliquée : exécutez-la dans l'éditeur SQL Supabase.
+            En attendant, les ventes restent comptées d'après les demandes approuvées, mais les montants ne peuvent pas être corrigés
+            et les paiements hors boîte de réception ne peuvent pas être saisis.
+          </p>
         </Card>
       )}
 

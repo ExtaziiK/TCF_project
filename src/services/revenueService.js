@@ -63,6 +63,17 @@ const saleFromEntry = (e) => ({
   notes: e.notes || null,
 });
 
+// A write that lands on a table or column the 20260807_revenue migration was
+// supposed to create fails with PostgREST's own wording ("Could not find the
+// 'amount_received_dzd' column … in the schema cache"), which tells the owner
+// nothing they can act on. Trade it for the one instruction that fixes it.
+const MIGRATION_HINT = "Migration 20260807_revenue.sql non appliquée : exécutez-la dans l'éditeur SQL Supabase pour enregistrer les montants.";
+const friendly = (error) => {
+  if (!error) return undefined;
+  const m = error.message || String(error);
+  return /schema cache|does not exist|could not find/i.test(m) ? MIGRATION_HINT : m;
+};
+
 // Every counted sale, newest first. Each source degrades on its own: a missing
 // revenue_entries table (migration not applied) still leaves the approved
 // requests countable, and the tab says which half is missing.
@@ -81,6 +92,11 @@ export async function listRevenue() {
     ok: !reqs.error,
     requestsUnavailable: !!reqs.error,
     entriesUnavailable: !!entries.error,
+    // The requests read survives the missing migration (select * returns
+    // whatever columns exist), so nothing else would reveal that amounts are
+    // not yet writable — until the owner tries to correct one and is refused.
+    // Absence of the column on a returned row is the tell; say so up front.
+    columnsUnavailable: (reqs.data || []).some((r) => !("amount_received_dzd" in r)),
     sales,
   };
 }
@@ -93,7 +109,7 @@ export async function setRequestAmount(id, amount) {
     .from("subscription_requests")
     .update({ amount_received_dzd: amount })
     .eq("id", id);
-  return { ok: !error, error: error?.message };
+  return { ok: !error, error: friendly(error) };
 }
 
 export async function addRevenueEntry({ occurredAt, amount, plan, method, customer, email, notes }) {
@@ -106,15 +122,15 @@ export async function addRevenueEntry({ occurredAt, amount, plan, method, custom
     email: email ? String(email).trim().slice(0, 200) : null,
     notes: notes ? String(notes).trim().slice(0, 2000) : null,
   });
-  return { ok: !error, error: error?.message };
+  return { ok: !error, error: friendly(error) };
 }
 
 export async function updateRevenueEntry(id, patch) {
   const { error } = await supabase.from("revenue_entries").update(patch).eq("id", id);
-  return { ok: !error, error: error?.message };
+  return { ok: !error, error: friendly(error) };
 }
 
 export async function deleteRevenueEntry(id) {
   const { error } = await supabase.from("revenue_entries").delete().eq("id", id);
-  return { ok: !error, error: error?.message };
+  return { ok: !error, error: friendly(error) };
 }
