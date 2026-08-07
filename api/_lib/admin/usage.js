@@ -53,10 +53,16 @@ async function aiUsage(users) {
     .limit(20000);
   if (error) return null; // table missing — migration not applied yet
 
+  // ai_usage_log carries every provider. Groq does the chat and the
+  // transcription; kind "tts" is Azure neural speech (api/_lib/tts.js), billed
+  // per character on a different account entirely.
+  const groq = data.filter((r) => r.kind !== "tts");
+  const tts = data.filter((r) => r.kind === "tts");
+
   const since7 = Date.now() - 7 * DAY;
   const sum = (rows, f) => rows.reduce((s, r) => s + (f(r) || 0), 0);
   const byUser = {};
-  for (const r of data) {
+  for (const r of groq) {
     if (!r.user_id) continue;
     (byUser[r.user_id] ||= { calls: 0, tokens: 0 });
     byUser[r.user_id].calls++;
@@ -69,14 +75,24 @@ async function aiUsage(users) {
     .map(([id, v]) => ({ email: emails[id] || id, calls: v.calls, tokens: v.tokens }));
 
   return {
-    calls30d: data.length,
-    calls7d: data.filter((r) => Date.parse(r.created_at) >= since7).length,
-    promptTokens30d: sum(data, (r) => r.prompt_tokens),
-    completionTokens30d: sum(data, (r) => r.completion_tokens),
-    transcriptions30d: data.filter((r) => r.kind === "transcription").length,
-    audioBytes30d: sum(data, (r) => r.audio_bytes),
-    callsByDay: bucketByDay(data.map((r) => r.created_at)),
+    calls30d: groq.length,
+    calls7d: groq.filter((r) => Date.parse(r.created_at) >= since7).length,
+    promptTokens30d: sum(groq, (r) => r.prompt_tokens),
+    completionTokens30d: sum(groq, (r) => r.completion_tokens),
+    transcriptions30d: groq.filter((r) => r.kind === "transcription").length,
+    audioBytes30d: sum(groq, (r) => r.audio_bytes),
+    callsByDay: bucketByDay(groq.map((r) => r.created_at)),
     topUsers,
+    // Azure neural TTS: the examiner's voice in the Tâche 2 interview. Billed
+    // per CHARACTER, which is what logAiUsage stores in total_tokens for these
+    // rows — hence "caractères" rather than tokens on the dashboard.
+    azure: {
+      calls30d: tts.length,
+      calls7d: tts.filter((r) => Date.parse(r.created_at) >= since7).length,
+      characters30d: sum(tts, (r) => r.total_tokens),
+      audioBytes30d: sum(tts, (r) => r.audio_bytes),
+      callsByDay: bucketByDay(tts.map((r) => r.created_at)),
+    },
   };
 }
 
