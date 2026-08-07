@@ -183,6 +183,7 @@ export const EN = {
   "Communauté WhatsApp": "WhatsApp community",
   "Cours, corrigés et méthode en vidéo": "Lessons, corrections and method, on video",
   "Astuces courtes et pièges de l'examen": "Quick tips and exam traps",
+  "Conseils en images et actualités du TCF": "Visual tips and TCF news",
   "Entraide entre candidats et annonces": "Peer support between candidates, plus announcements",
   "Sujets du mois et réponses rapides": "This month's topics and quick answers",
 

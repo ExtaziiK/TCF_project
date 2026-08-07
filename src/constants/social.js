@@ -46,6 +46,14 @@ export const SOCIAL = [
     tone: "bg-slate-500/10",
   },
   {
+    key: "instagram",
+    label: "Instagram",
+    handle: "@tcfpasserelle",
+    d: "Conseils en images et actualités du TCF",
+    url: "https://www.instagram.com/tcfpasserelle/",
+    tone: "bg-[#E1306C]/10",
+  },
+  {
     key: "facebook",
     label: "Groupe Facebook",
     handle: "Groupe Passerelle TCF Canada",
