@@ -9,7 +9,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
 
 export function Nav({ barOffset = false }) {
-  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile } = useApp();
+  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, activeProfile, switchProfile, maxProfiles } = useApp();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
@@ -146,7 +146,7 @@ export function Nav({ barOffset = false }) {
                       : null}
                   </span>
                 </button>
-                {profiles?.length > 1 && (
+                {maxProfiles > 1 && (
                   <button onClick={switchProfile} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-2.5 rounded-full shrink-0 ${c.sub} ${c.hoverSoft}`}><Users size={17} /></button>
                 )}
                 <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
@@ -167,6 +167,11 @@ export function Nav({ barOffset = false }) {
                 {m.grad ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
               </RouteLink>
             ))}
+            {user && maxProfiles > 1 && (
+              <button onClick={() => { setOpen(false); switchProfile(); }} className={`flex items-center gap-2 py-2.5 text-sm font-semibold ${c.sub}`}>
+                <Users size={16} /> {t("Changer de profil")}
+              </button>
+            )}
             <div className="flex gap-2 pt-3">
               {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>{t("Se déconnecter")}</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>{t("Connexion")}</Btn><Btn small className="flex-1" onClick={() => go("register")}>{t("S'inscrire")}</Btn></>)}
             </div>

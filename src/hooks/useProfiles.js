@@ -87,6 +87,10 @@ export function useProfiles(user) {
     // Only offer the tile when the plan allows another one; the insert policy
     // refuses anyway, but a button that always fails is a bad button.
     canAddProfile: profiles.length < maxProfilesFor(user),
+    // Whether this account may have profiles AT ALL. What decides if the
+    // chooser is reachable: an account entitled to several starts with one, and
+    // the only place to create the next is inside the chooser itself.
+    maxProfiles: maxProfilesFor(user),
     selectProfile: select,
     switchProfile,
     profileAdded: added,
