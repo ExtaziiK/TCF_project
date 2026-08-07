@@ -10,6 +10,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
 import { useDzActivation } from "@/hooks/useDzActivation";
+import { useProfiles } from "@/hooks/useProfiles";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -187,6 +188,11 @@ export function AppProvider({ children }) {
   // whole problem. Costs nothing for accounts that are already Premium.
   useDzActivation({ user, setUser, notify });
 
+  // Profiles inside one account (Première classe 2, VIP 4). An account with a
+  // single unlocked profile never sees the chooser, so plans without profiles
+  // are unaffected — see the hook.
+  const profileState = useProfiles(user);
+
   // Pull admin-authored questions (QMS) into the bank and workshop pages.
   useEffect(() => { syncSiteContent(); }, []);
 
@@ -352,6 +358,7 @@ export function AppProvider({ children }) {
     lang, setLang, t,
     route, nav, back,
     user, setUser, authReady, signOut, role,
+    ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
     pendingOnboarding, completeOnboarding,
     resolvingOAuth,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield } from "lucide-react";
+import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
@@ -9,7 +9,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
 
 export function Nav({ barOffset = false }) {
-  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role } = useApp();
+  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile } = useApp();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   const [notifOpen, setNotifOpen] = useState(false);
@@ -137,15 +137,18 @@ export function Nav({ barOffset = false }) {
                   <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full shrink-0 ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
                 <button onClick={() => go("profile")} aria-label={t("Mon profil")} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border shrink-0 ${c.border} ${c.hoverSoft}`}>
-                  <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{user.name[0]}</span>
+                  <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
                   <span className="flex flex-col items-start leading-tight">
-                    <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{user.name}</span>
+                    <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{activeProfile?.name || user.name}</span>
                     {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
                       : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
                       : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>
                       : null}
                   </span>
                 </button>
+                {profiles?.length > 1 && (
+                  <button onClick={switchProfile} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-2.5 rounded-full shrink-0 ${c.sub} ${c.hoverSoft}`}><Users size={17} /></button>
+                )}
                 <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
               </div>
             ) : (

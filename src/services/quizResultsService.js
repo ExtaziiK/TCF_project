@@ -1,4 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
+import { getActiveProfileId } from "@/utils/activeProfile";
 
 // Standalone practice-quiz results (bank/practice/reading/listening quizzes).
 // Mock-exam quizzes are excluded (storageKey prefix "mock-") since those are
@@ -37,10 +38,13 @@ const rowToResult = (r) => ({
 });
 
 export async function listQuizResults(userId) {
-  const { data, error } = await supabase
-    .from("quiz_results")
-    .select("*")
-    .order("completed_at", { ascending: false });
+  // Scoped to the profile in use when the account has them. Without a profile
+  // (most accounts, and any database where the migration has not run) the query
+  // is unchanged, so nothing about single-profile accounts moves.
+  const profileId = getActiveProfileId();
+  let q = supabase.from("quiz_results").select("*").order("completed_at", { ascending: false });
+  if (profileId) q = q.eq("profile_id", profileId);
+  const { data, error } = await q;
   if (error) {
     if (!isMissingTable(error)) console.warn("quiz_results:", error.message);
     return { results: localStore.list(userId), backend: "local" };
@@ -52,7 +56,7 @@ export async function recordQuizResult(userId, { quizKey, section, ok, total, an
   if (!quizKey || !total) return;
   const pct = Math.round((ok / total) * 100);
   const ans = answered ?? total;
-  const base = { user_id: userId, quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null };
+  const base = { user_id: userId, profile_id: getActiveProfileId(), quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null };
   let { error } = await supabase.from("quiz_results").insert({ ...base, answers: answers ?? null });
   if (error && isMissingAnswersColumn(error)) {
     // The `answers` migration isn't applied on this database yet — still record

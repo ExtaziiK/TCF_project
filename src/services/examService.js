@@ -1,5 +1,6 @@
 import { getBank } from "@/services/bankService";
 import { supabase } from "@/services/supabaseClient";
+import { getActiveProfileId } from "@/utils/activeProfile";
 
 // TCF blancs: dynamic mock-exam generation + attempt persistence.
 //
@@ -174,10 +175,15 @@ const rowToAttempt = (row, taskRows) => ({
 });
 
 export async function listAttempts(userId) {
-  const { data, error } = await supabase
+  // Scoped to the profile in use, when the account has them — a VIP family
+  // must not see each other's mock exams in their history.
+  const profileId = getActiveProfileId();
+  let q = supabase
     .from("exam_attempts")
     .select("*, exam_attempt_tasks(*)")
     .order("started_at", { ascending: false });
+  if (profileId) q = q.eq("profile_id", profileId);
+  const { data, error } = await q;
   if (error) {
     if (!isMissingTable(error)) console.warn("exam_attempts:", error.message);
     return { attempts: localStore.list(userId), backend: "local" };
@@ -199,7 +205,7 @@ export async function createAttempt(userId, tasks, meta = {}) {
   };
   const { data, error } = await supabase
     .from("exam_attempts")
-    .insert({ user_id: userId, status: attempt.status, progress: attempt.progress })
+    .insert({ user_id: userId, profile_id: getActiveProfileId(), status: attempt.status, progress: attempt.progress })
     .select()
     .single();
   if (error) {

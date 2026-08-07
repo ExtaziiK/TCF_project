@@ -8,13 +8,15 @@ import { VisitorPreviewBar } from "@/components/layout/VisitorPreviewBar";
 import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Onboarding } from "@/components/auth/Onboarding";
 import { TermsGate } from "@/components/auth/TermsGate";
+import { ProfileGate } from "@/components/profile/ProfileGate";
 import { Toast } from "@/components/common";
 import { useTermsGate } from "@/hooks/useTermsGate";
 import { ROLES } from "@/auth/rbac";
 import { PAGES } from "@/pages";
 
 function AppShell() {
-  const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth } = useApp();
+  const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth,
+    profiles, activeProfile, profilesReady, canAddProfile, selectProfile, profileAdded } = useApp();
   const terms = useTermsGate();
   // Returning from a Google redirect: hold a "signing in…" splash until the
   // session is resolved, so we never flash signed-in UI (e.g. the dashboard)
@@ -46,6 +48,25 @@ function AppShell() {
     return (
       <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
         <TermsGate onAccepted={terms.clear} />
+        <Toast />
+      </div>
+    );
+  }
+  // Several candidates share a Première classe or VIP pass. Which one is
+  // sitting down decides whose progression this session reads and writes, so it
+  // is settled before any page renders. Accounts with a single unlocked profile
+  // never reach here — useProfiles selects it silently — and neither does an
+  // account whose profiles could not be read, so a missing migration locks
+  // nobody out.
+  if (user && profilesReady && profiles.length > 0 && !activeProfile) {
+    return (
+      <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
+        <ProfileGate
+          profiles={profiles}
+          canAdd={canAddProfile}
+          onPick={selectProfile}
+          onCreated={profileAdded}
+        />
         <Toast />
       </div>
     );
