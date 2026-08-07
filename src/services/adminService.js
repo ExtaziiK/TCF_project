@@ -79,6 +79,17 @@ export function updateAdminUser(payload) {
   return adminFetch("/api/admin/users", { method: "POST", body: JSON.stringify(payload) });
 }
 
+/* ------------------------------ subjects import --------------------------- */
+
+// Reads the newest month of subjects published on reussir-tcfcanada.com for
+// one épreuve and rewords it (server-side, see api/_lib/sujetsSource.js).
+// Returns a PROPOSAL — { year, monthNum, month, sourceUrl, data, counts, kept }
+// — that the admin reviews and then publishes with saveMonth(). It can take a
+// while: two page fetches plus several AI calls.
+export function generateSujetsFromSource(section) {
+  return adminFetch("/api/admin/sujets", { method: "POST", body: JSON.stringify({ section }) });
+}
+
 /* ------------------------------- promo codes ------------------------------ */
 
 // Pass prices, read from Stripe by lookup key (api/_lib/admin/pricing.js).

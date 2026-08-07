@@ -2,6 +2,9 @@
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
+  "functions": {
+    "api/admin/*.js": { "maxDuration": 60 }
+  },
   "crons": [
     { "path": "/api/cron/reminders", "schedule": "0 8 * * *" }
   ],

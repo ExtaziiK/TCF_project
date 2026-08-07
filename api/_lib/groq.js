@@ -28,14 +28,17 @@ function groqKey() {
 export const CHAT_MODEL_NAME = CHAT_MODEL;
 export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
 
-export async function groqChatJSON(messages, { maxTokens = 2000 } = {}) {
+// `temperature` defaults low because the graders must be reproducible; the
+// subjects importer raises it, since rewording the same source twice with
+// identical output would defeat the point.
+export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2 } = {}) {
   const res = await fetch(`${GROQ_BASE}/chat/completions`, {
     method: "POST",
     headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: CHAT_MODEL,
       messages,
-      temperature: 0.2,
+      temperature,
       max_tokens: maxTokens,
       reasoning_effort: "low",
       response_format: { type: "json_object" },
@@ -43,7 +46,15 @@ export async function groqChatJSON(messages, { maxTokens = 2000 } = {}) {
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
-    throw new HttpError(502, `Groq chat error (${res.status}): ${detail.slice(0, 300)}`);
+    const err = new HttpError(502, `Groq chat error (${res.status}): ${detail.slice(0, 300)}`);
+    // Kept on the error so a caller that can wait (the subjects importer) can
+    // back off for exactly as long as Groq asks instead of guessing. Groq puts
+    // the delay in Retry-After, or in the 429 body as "try again in 8.5275s".
+    err.upstreamStatus = res.status;
+    const header = Number(res.headers.get("retry-after"));
+    const inBody = detail.match(/try again in ([\d.]+)s/i);
+    err.retryAfterMs = header > 0 ? header * 1000 : inBody ? Math.ceil(Number(inBody[1]) * 1000) : null;
+    throw err;
   }
   const data = await res.json();
   const content = data?.choices?.[0]?.message?.content || "";

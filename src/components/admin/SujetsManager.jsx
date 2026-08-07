@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic } from "lucide-react";
+import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic, Sparkles, ExternalLink, AlertTriangle, UploadCloud, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 import { saveMonth, deleteMonth, monthLabel, MONTH_LABELS, SECTION_LABEL } from "@/services/sujetsArchiveService";
+import { generateSujetsFromSource } from "@/services/adminService";
 
 const YEAR_NOW = new Date().getFullYear();
 const YEAR_CHOICES = Array.from({ length: 8 }, (_, i) => YEAR_NOW + 1 - i); // next year → 6 years back
@@ -21,6 +22,10 @@ export function SujetsManager() {
   const [mkey, setMkey] = useState(null);
   const [q, setQ] = useState("");
   const [busy, setBusy] = useState(false);
+  // Proposal returned by the importer, awaiting review. Never written until
+  // "Publier" — see the note on api/_lib/admin/sujets.js.
+  const [proposal, setProposal] = useState(null);
+  const [importing, setImporting] = useState(false);
   const inp = `px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const yearObj = years.find((y) => y.year === year) || years[0] || null;
@@ -38,6 +43,28 @@ export function SujetsManager() {
 
   const addMonth = (y, mn) => run(() => saveMonth(section, y, mn, []), `${monthLabel(mn)} ${y} ajouté.`).then(() => { setYear(y); setMkey(`${y}-${String(mn).padStart(2, "0")}`); });
   const removeMonth = (m) => run(() => deleteMonth(section, yearObj.year, m.monthNum), `${m.month} ${yearObj.year} supprimé.`);
+
+  const select = (y, mn) => { setYear(y); setMkey(`${y}-${String(mn).padStart(2, "0")}`); };
+
+  // Fetch + reword the newest month published by the source. Nothing is saved:
+  // the result lands in `proposal` for review.
+  const generate = async () => {
+    setImporting(true);
+    setProposal(null);
+    const r = await generateSujetsFromSource(section);
+    setImporting(false);
+    if (!r.ok) return notify(r.unavailable ? "Import indisponible : lancez `vercel dev` (les routes /api n'existent pas sous `vite`)." : `Échec : ${r.error}`);
+    setProposal(r.data);
+    notify(`${r.data.month} ${r.data.year} récupéré et reformulé — relisez puis publiez.`);
+  };
+
+  const publish = async () => {
+    const p = proposal;
+    const r = await run(() => saveMonth(section, p.year, p.monthNum, p.data), `${p.month} ${p.year} publié sur le site.`);
+    if (!r?.ok) return;
+    setProposal(null);
+    select(p.year, p.monthNum);
+  };
 
   // EE: append / remove a combinaison in the selected month.
   const addCombinaison = (payload) => {
@@ -71,7 +98,7 @@ export function SujetsManager() {
       {/* Section tabs */}
       <div className="flex items-center gap-2 flex-wrap">
         {["ee", "eo"].map((s) => (
-          <button key={s} onClick={() => { setSection(s); setYear(null); setMkey(null); }}
+          <button key={s} onClick={() => { setSection(s); setYear(null); setMkey(null); setProposal(null); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
             {s === "ee" ? <FileText size={15} /> : <Mic size={15} />} {SECTION_LABEL[s]}
           </button>
@@ -95,6 +122,31 @@ export function SujetsManager() {
         <AddMonth onAdd={addMonth} busy={busy} c={c} inp={inp} />
       </Card>
 
+      {/* One-click monthly import from the source site. */}
+      <Card className="p-4 flex flex-wrap items-center gap-3">
+        <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Sparkles size={17} /></span>
+        <div className="flex-1 min-w-[220px]">
+          <p className={`text-sm font-semibold ${c.text}`}>Générer les sujets du mois</p>
+          <p className={`text-xs ${c.sub}`}>
+            Récupère le dernier mois publié sur reussir-tcfcanada.com pour l'{SECTION_LABEL[section].toLowerCase()}, reformule chaque énoncé, puis vous le soumet avant publication.
+          </p>
+        </div>
+        <Btn small icon={importing ? Loader2 : Sparkles} disabled={importing || busy} onClick={generate} className={importing ? "[&_svg]:animate-spin" : ""}>
+          {importing ? "Reformulation… (~1 min)" : "Générer"}
+        </Btn>
+      </Card>
+
+      {proposal && (
+        <ImportPreview
+          p={proposal}
+          existing={years.find((y) => y.year === proposal.year)?.months.find((m) => m.monthNum === proposal.monthNum) || null}
+          busy={busy}
+          c={c}
+          onPublish={publish}
+          onCancel={() => setProposal(null)}
+        />
+      )}
+
       {loading ? (
         <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement…</p></Card>
       ) : !monthObj ? (
@@ -115,6 +167,95 @@ export function SujetsManager() {
             : <EOEditor month={monthObj} q={q} onAdd={addSujet} onRemove={removeSujet} busy={busy} c={c} inp={inp} />}
         </Card>
       )}
+    </div>
+  );
+}
+
+// Review step for an imported month. Read-only: the admin reads what the
+// importer produced, then publishes it or throws it away. Publishing a month
+// that already exists replaces it wholesale, so that case is called out.
+function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
+  const existingCount = existing ? (p.section === "ee" ? existing.data.length : countEO(existing.data)) : 0;
+  return (
+    <Card className="p-6 border-2 border-blue-600/40">
+      <div className="flex items-start justify-between gap-3 flex-wrap mb-4">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-1">Proposition · non publiée</p>
+          <h3 className={`font-display font-bold text-lg ${c.text}`}>
+            {p.month} {p.year}
+            <span className={`ml-2 text-sm font-normal ${c.faint}`}>
+              · {p.section === "ee" ? `${p.counts.subjects} combinaisons` : `${p.counts.subjects} sujets`} · {p.counts.strings} énoncés reformulés
+            </span>
+          </h3>
+          <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:underline mt-1">
+            <ExternalLink size={12} /> {p.sourceUrl.replace(/^https?:\/\//, "")}
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <Btn small variant="ghost" icon={XCircle} disabled={busy} onClick={onCancel}>Annuler</Btn>
+          <Btn small icon={UploadCloud} disabled={busy} onClick={onPublish}>{existing ? "Remplacer et publier" : "Publier"}</Btn>
+        </div>
+      </div>
+
+      {existing && (
+        <Notice tone="amber" c={c}>
+          {p.month} {p.year} existe déjà avec {existingCount} {p.section === "ee" ? "combinaison(s)" : "sujet(s)"}. Publier remplacera entièrement ce mois.
+        </Notice>
+      )}
+      {p.counts.kept > 0 && (
+        <Notice tone="amber" c={c}>
+          {p.counts.kept} énoncé(s) n'ont pas pu être reformulés et gardent le texte d'origine — relancez la génération ou corrigez-les à la main après publication.
+          <ul className="mt-1.5 space-y-0.5 list-disc list-inside">
+            {p.kept.map((t, i) => <li key={i} className="truncate">{t}</li>)}
+          </ul>
+        </Notice>
+      )}
+
+      <div className="mt-4 max-h-[26rem] overflow-y-auto pr-1 space-y-3">
+        {p.section === "ee"
+          ? p.data.map((s, i) => (
+            <div key={i} className={`rounded-2xl border ${c.border} p-4 flex gap-3`}>
+              <span className="w-8 h-8 rounded-xl grad-brand text-white flex items-center justify-center text-sm font-bold shrink-0">{s.n ?? i + 1}</span>
+              <div className="flex-1 min-w-0 space-y-1.5 text-sm">
+                <p className={c.text}><span className="font-semibold text-blue-600">T1 · </span>{s.t1}</p>
+                <p className={c.text}><span className="font-semibold text-blue-600">T2 · </span>{s.t2}</p>
+                {s.t3?.theme && <p className={c.text}><span className="font-semibold text-blue-600">T3 · </span>{s.t3.theme}</p>}
+                {s.t3?.doc1 && <p className={`text-xs ${c.sub}`}><span className="font-semibold">Doc 1 · </span>{s.t3.doc1}</p>}
+                {s.t3?.doc2 && <p className={`text-xs ${c.sub}`}><span className="font-semibold">Doc 2 · </span>{s.t3.doc2}</p>}
+              </div>
+            </div>
+          ))
+          : p.data.map((t) => (
+            <div key={t.tache}>
+              <p className={`font-display font-bold mb-2 ${c.text}`}>Tâche {t.tache}</p>
+              <div className="space-y-3">
+                {t.parties.map((pa) => (
+                  <div key={pa.partie} className={`rounded-2xl border ${c.border} p-4`}>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-2">Partie {pa.partie}</p>
+                    <ul className="space-y-2">
+                      {pa.sujets.map((s, si) => (
+                        <li key={si} className="flex gap-2.5 items-start text-sm">
+                          <span className="w-5 h-5 rounded-full bg-blue-600/10 text-blue-600 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">{si + 1}</span>
+                          <p className={`flex-1 ${c.text}`}>{s}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+      </div>
+    </Card>
+  );
+}
+
+function Notice({ tone = "amber", c, children }) {
+  const tint = tone === "amber" ? "bg-amber-500/10 text-amber-700 dark:text-amber-400" : `${c.hoverSoft} ${c.sub}`;
+  return (
+    <div className={`rounded-2xl px-4 py-3 text-sm flex gap-2.5 items-start mt-2 ${tint}`}>
+      <AlertTriangle size={15} className="shrink-0 mt-0.5" />
+      <div className="min-w-0">{children}</div>
     </div>
   );
 }
