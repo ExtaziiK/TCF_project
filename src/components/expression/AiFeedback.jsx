@@ -37,28 +37,34 @@ export function AiFeedback({ level, summary, strengths = [], improvements = [], 
         </div>
       )}
 
+      {rewrites.length > 0 && (
+        <div className="mt-5 pt-4 border-t border-blue-600/20">
+          <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5 mb-3">
+            <Sparkles size={14} /> {t("Vos phrases, en mieux")}
+          </p>
+          <ul className="space-y-3">
+            {rewrites.map((r, i) => (
+              <li key={i} className={`rounded-2xl border ${c.border} overflow-hidden`}>
+                {/* Their own sentence struck through, the better version under
+                    it. Seeing the two together is what makes the advice land;
+                    a bullet saying "vary your vocabulary" does not. */}
+                <p className={`px-3.5 py-2.5 text-sm line-through decoration-rose-500/60 ${c.sub}`}>{r.before}</p>
+                <p className={`px-3.5 py-2.5 text-sm border-t ${c.border} ${c.text}`}>
+                  <Sparkles size={14} className="inline text-blue-500 mr-1.5 -mt-0.5" />{r.after}
+                </p>
+                {r.why && <p className={`px-3.5 pb-2.5 text-xs ${c.faint}`}>{r.why}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {corrected && (
         <div className="mt-5 pt-4 border-t border-blue-600/20">
           <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
             <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5"><ArrowUpRight size={14} /> {t("Version améliorée")}</p>
             {targetLevel && <Pill tone="blue">{t("Niveau visé :")} {targetLevel}</Pill>}
           </div>
-          {rewrites.length > 0 && (
-            <ul className="space-y-3 mb-4">
-              {rewrites.map((r, i) => (
-                <li key={i} className={`rounded-2xl border ${c.border} overflow-hidden`}>
-                  {/* The candidate's own sentence, struck through, then the
-                      better version. Seeing the two side by side is what makes
-                      the lesson land — a list of advice does not. */}
-                  <p className={`px-3.5 py-2.5 text-sm line-through decoration-rose-500/60 ${c.sub}`}>{r.before}</p>
-                  <p className={`px-3.5 py-2.5 text-sm border-t ${c.border} ${c.text}`}>
-                    <Sparkles size={14} className="inline text-blue-500 mr-1.5 -mt-0.5" />{r.after}
-                  </p>
-                  {r.why && <p className={`px-3.5 pb-2.5 text-xs ${c.faint}`}>{r.why}</p>}
-                </li>
-              ))}
-            </ul>
-          )}
           <details>
             <summary className="text-sm font-semibold text-blue-600 cursor-pointer select-none">{t("Lire le texte réécrit")}</summary>
             <p className={`mt-2 text-sm leading-relaxed whitespace-pre-line ${c.sub}`}>{corrected}</p>
