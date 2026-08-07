@@ -113,12 +113,17 @@ function rewritePairs(raw, source) {
   if (!Array.isArray(raw)) return [];
   const hay = loose(source);
   const out = [];
+  // The model sometimes emits the same passage twice, which reads as a bug to
+  // the candidate and wastes one of the four to six slots they get.
+  const seen = new Set();
   for (const r of raw) {
     const before = typeof r?.before === "string" ? r.before.trim() : "";
     const after = typeof r?.after === "string" ? r.after.trim() : "";
     if (!before || !after) continue;
     if (loose(before) === loose(after)) continue;      // nothing improved
     if (!hay || !hay.includes(loose(before))) continue; // unverifiable, or not theirs
+    if (seen.has(loose(before))) continue;              // already shown
+    seen.add(loose(before));
     out.push({ before: before.slice(0, 400), after: after.slice(0, 400), why: (typeof r?.why === "string" ? r.why.trim() : "").slice(0, 120) });
     if (out.length === 5) break;
   }
