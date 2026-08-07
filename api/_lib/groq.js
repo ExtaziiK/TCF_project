@@ -4,6 +4,8 @@
 // Files under api/_lib are ignored by Vercel's router (underscore prefix),
 // so this is a plain shared module, not an endpoint.
 
+import { levelsFromScore } from "./levels.js";
+
 const GROQ_BASE = "https://api.groq.com/openai/v1";
 const CHAT_MODEL = "openai/gpt-oss-20b";
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
@@ -113,12 +115,17 @@ function rewritePairs(raw, source) {
   if (!Array.isArray(raw)) return [];
   const hay = loose(source);
   const out = [];
+  // The model sometimes emits the same passage twice, which reads as a bug to
+  // the candidate and wastes one of the four to six slots they get.
+  const seen = new Set();
   for (const r of raw) {
     const before = typeof r?.before === "string" ? r.before.trim() : "";
     const after = typeof r?.after === "string" ? r.after.trim() : "";
     if (!before || !after) continue;
     if (loose(before) === loose(after)) continue;      // nothing improved
     if (!hay || !hay.includes(loose(before))) continue; // unverifiable, or not theirs
+    if (seen.has(loose(before))) continue;              // already shown
+    seen.add(loose(before));
     out.push({ before: before.slice(0, 400), after: after.slice(0, 400), why: (typeof r?.why === "string" ? r.why.trim() : "").slice(0, 120) });
     if (out.length === 5) break;
   }
@@ -129,8 +136,22 @@ export function normalizeFeedback(raw = {}, source = "") {
   const list = (v, max = 4) =>
     Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, max) : [];
   const str = (v) => (typeof v === "string" ? v.trim() : "");
+  // The CEFR letter and the NCLC are DERIVED from the /20 score through the
+  // official IRCC table, never taken from the model. Asked for both, a model
+  // will cheerfully return a level and a score that do not correspond, and the
+  // candidate has no way to tell which one to believe.
+  const graded = levelsFromScore(raw.score);
+  const crit = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? Math.max(0, Math.min(20, Math.round(n))) : null;
+  };
   return {
-    level: str(raw.level).slice(0, 8),
+    score: graded.score,
+    nclc: graded.nclc,
+    criteria: raw.criteria && typeof raw.criteria === "object"
+      ? Object.fromEntries(Object.entries(raw.criteria).map(([k, v]) => [k, crit(v)]).filter(([, v]) => v !== null))
+      : {},
+    level: graded.level,
     summary: str(raw.summary),
     strengths: list(raw.strengths),
     improvements: list(raw.improvements),

@@ -5,13 +5,17 @@ import { Card, Pill } from "@/components/common";
 // Renders one AI evaluation (shared by Expression écrite & orale). The dynamic
 // text (summary, bullets, corrected version) is already localized by the model
 // via the `lang` we send; only the static labels go through t().
-export function AiFeedback({ level, summary, strengths = [], improvements = [], corrected, targetLevel, rewrites = [], compact }) {
+export function AiFeedback({ level, score, nclc, summary, strengths = [], improvements = [], corrected, targetLevel, rewrites = [], compact }) {
   const { c, t } = useApp();
   return (
     <Card className={`${compact ? "p-4" : "p-6"} border-2 border-blue-600/40 rise`}>
       <div className="flex items-center justify-between gap-2 mb-3">
         <p className="font-semibold text-sm text-blue-600 flex items-center gap-1.5"><Sparkles size={15} /> {t("Analyse IA")}</p>
-        {level && <Pill tone="blue">{t("Niveau estimé :")} {level}</Pill>}
+        <span className="flex items-center gap-1.5 flex-wrap justify-end">
+          {typeof score === "number" && <Pill tone="blue">{score} / 20</Pill>}
+          {level && <Pill tone="blue">{level}</Pill>}
+          {typeof nclc === "number" && <Pill tone="green">NCLC {nclc}</Pill>}
+        </span>
       </div>
       {summary && <p className={`text-sm ${c.sub} mb-4`}>{summary}</p>}
 
