@@ -1229,9 +1229,10 @@ const fmtBytes = (n) => {
 };
 const fmtTokens = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)} M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)} k` : String(n ?? 0));
 
-// Supabase Free plan ceilings; adjust if the project is upgraded (values
-// shown as denominators, they don't gate anything).
-const SUPABASE_LIMITS = { dbBytes: 500e6, storageBytes: 1e9, mau: 50000 };
+// Supabase PRO plan allowances — what the subscription includes before usage
+// is billed on top, not a hard stop. Shown as denominators only; nothing here
+// gates anything. Update if the plan changes again.
+const SUPABASE_LIMITS = { dbBytes: 8e9, storageBytes: 100e9, mau: 100000 };
 
 function LimitBar({ label, used, limit, format }) {
   const { c } = useApp();
@@ -1287,7 +1288,7 @@ function UsageTab() {
             Facturation exacte sur console.groq.com <ExternalLink size={12} />
           </a>
         </div>
-        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré par la plateforme elle-même : chaque appel des ateliers d'expression est journalisé (Groq n'expose pas d'API d'utilisation).</p>
+        <p className={`text-sm mb-5 ${c.sub}`}>Corrections écrites et transcriptions audio, journalisées par la plateforme (Groq n'expose pas d'API d'utilisation). La synthèse vocale est comptée à part, ci-dessous.</p>
         {!ai ? (
           <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée — appliquez la migration <span className="font-mono2">20260715_usage_tracking.sql</span> ; les appels seront comptés à partir de là.</p>
         ) : (
@@ -1331,6 +1332,38 @@ function UsageTab() {
         )}
       </Card>
 
+      {/* ── Azure (voix de l'examinateur) ── */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+          <h3 className={`font-display font-bold ${c.text}`}>Voix — Azure Speech (30 derniers jours)</h3>
+          <a href="https://portal.azure.com/#view/Microsoft_Azure_CostManagement/Menu/~/costanalysis" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+            Facturation exacte sur portal.azure.com <ExternalLink size={12} />
+          </a>
+        </div>
+        <p className={`text-sm mb-5 ${c.sub}`}>La voix de l'examinateur dans l'entretien de la tâche 2. Facturée au <strong className={c.text}>caractère</strong> synthétisé, sur un compte distinct de Groq.</p>
+        {!ai?.azure ? (
+          <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée — les synthèses vocales sont comptées à partir de la migration <span className="font-mono2">20260715_usage_tracking.sql</span>.</p>
+        ) : (
+          <>
+            <div className="grid sm:grid-cols-3 gap-4 mb-6">
+              {[
+                [ai.azure.calls30d, "Synthèses vocales (30 j)", ai.azure.calls7d > 0 ? `${ai.azure.calls7d} ces 7 derniers jours` : null],
+                [fmtTokens(ai.azure.characters30d), "Caractères synthétisés", "l'unité facturée"],
+                [fmtBytes(ai.azure.audioBytes30d), "Audio produit", null],
+              ].map(([v, l, h]) => (
+                <div key={l}>
+                  <p className="font-display font-extrabold text-2xl grad-text">{v}</p>
+                  <p className={`text-sm font-medium mt-0.5 ${c.text}`}>{l}</p>
+                  {h && <p className={`text-xs mt-0.5 ${c.faint}`}>{h}</p>}
+                </div>
+              ))}
+            </div>
+            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Synthèses par jour — 14 jours</p>
+            <DayBars days={ai.azure.callsByDay} label="Synthèses vocales par jour sur 14 jours" />
+          </>
+        )}
+      </Card>
+
       {/* ── Supabase ── */}
       <Card className="p-6">
         <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
@@ -1339,7 +1372,7 @@ function UsageTab() {
             Détail complet (dont l'egress) sur supabase.com <ExternalLink size={12} />
           </a>
         </div>
-        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré depuis la base elle-même. Les plafonds affichés sont ceux du forfait Free — ajustez <span className="font-mono2">SUPABASE_LIMITS</span> si le projet passe au forfait Pro.</p>
+        <p className={`text-sm mb-5 ${c.sub}`}>Mesuré depuis la base elle-même. Les valeurs affichées en dénominateur sont ce que le forfait <strong className={c.text}>Pro</strong> comprend : les dépasser n'interrompt rien, la consommation supplémentaire est facturée à l'usage.</p>
         {!platform ? (
           <p className={`text-sm py-4 text-center ${c.faint}`}>Aucune donnée — appliquez la migration <span className="font-mono2">20260715_usage_tracking.sql</span> (fonction <span className="font-mono2">admin_platform_usage</span>).</p>
         ) : (
