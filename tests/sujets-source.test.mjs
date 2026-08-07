@@ -12,7 +12,13 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { toLines, parseEE, parseEO, monthLinks, countSubjects, sourceKey, provenanceKeys, selectNew, mergeMonth } from "../api/_lib/sujetsSource.js";
+import { countSubjects, sourceKey, provenanceKeys, itemsOf, treeOf, mergeMonth } from "../api/_lib/sujetsSource.js";
+import { toLines } from "../api/_lib/sujets/html.js";
+import { parseEE, parseEO, monthsFrom } from "../api/_lib/sujets/reussir.js";
+
+// The fingerprint pass exactly as importLatest runs it: keep the source items
+// whose key the month has not seen, and stamp the survivors.
+const selectNew = (section, parsed, seen) => treeOf(section, itemsOf(section, parsed).filter((it) => !seen.has(it.key)));
 
 const CHROME_HEAD = `
   <p>Août 2026</p><p>Sujets d'actualité</p><p>Attention!</p>
@@ -124,7 +130,7 @@ test("month links are read from the slug and sorted newest first", () => {
     <a href="/decembre-2025-expression-ecrite/">Decembre 2024</a>
     <a href="https://reussir-tcfcanada.com/aout-2026-expression-orale/">autre épreuve</a>
     <a href="https://reussir-tcfcanada.com/tarifs/">hors sujet</a>`;
-  const links = monthLinks(index, "ee");
+  const links = monthsFrom(index, "ee");
   assert.deepEqual(
     links.map((l) => `${l.year}-${l.monthNum}`),
     ["2026-8", "2026-7", "2025-12"],

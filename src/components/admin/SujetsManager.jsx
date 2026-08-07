@@ -149,7 +149,7 @@ export function SujetsManager() {
         <div className="flex-1 min-w-[220px]">
           <p className={`text-sm font-semibold ${c.text}`}>Générer les sujets du mois</p>
           <p className={`text-xs ${c.sub}`}>
-            Récupère le dernier mois publié sur reussir-tcfcanada.com pour l'{SECTION_LABEL[section].toLowerCase()}, reformule chaque énoncé, puis vous le soumet avant publication.
+            Réunit le dernier mois publié sur reussir-tcfcanada.com et formation-tcfcanada.com pour l'{SECTION_LABEL[section].toLowerCase()}, écarte ce que vous avez déjà, reformule le reste, puis vous le soumet avant publication.
           </p>
         </div>
         <Btn small icon={importing ? Loader2 : Sparkles} disabled={importing || busy} onClick={generate} className={importing ? "[&_svg]:animate-spin" : ""}>
@@ -209,9 +209,14 @@ function ImportPreview({ p, busy, c, onPublish, onCancel }) {
               {p.counts.strings > 0 && ` · ${p.counts.strings} énoncés reformulés`}
             </span>
           </h3>
-          <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:underline mt-1">
-            <ExternalLink size={12} /> {p.sourceUrl.replace(/^https?:\/\//, "")}
-          </a>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
+            {(p.sources || []).map((s) => (
+              <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-1.5 text-xs hover:underline ${s.failed ? "text-rose-600" : "text-blue-600"}`}>
+                <ExternalLink size={12} /> {s.label}
+                <span className={c.faint}>{s.failed ? "· injoignable" : `· ${s.found} trouvé(s), ${s.added} nouveau(x)`}</span>
+              </a>
+            ))}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Btn small variant="ghost" icon={XCircle} disabled={busy} onClick={onCancel}>{nothingNew ? "Fermer" : "Annuler"}</Btn>
@@ -225,7 +230,12 @@ function ImportPreview({ p, busy, c, onPublish, onCancel }) {
 
       {nothingNew && (
         <Notice tone="plain" c={c}>
-          Rien de nouveau : les {p.counts.found} {unit} publiés sur la source pour {p.month} {p.year} sont déjà dans l'archive.
+          Rien de nouveau : les {p.counts.found} {unit} publiés sur les sources pour {p.month} {p.year} sont déjà dans l'archive.
+        </Notice>
+      )}
+      {p.unreachable > 0 && (
+        <Notice tone="amber" c={c}>
+          {p.unreachable} source(s) n'ont pas répondu — il manque peut-être des sujets. Relancez la génération plus tard : ce qui est déjà publié ne sera pas dupliqué.
         </Notice>
       )}
       {merging && !nothingNew && (

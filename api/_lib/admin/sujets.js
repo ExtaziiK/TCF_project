@@ -4,9 +4,10 @@ import { logAiUsage } from "../usage.js";
 import { enforceRateLimit } from "../ratelimit.js";
 import { importLatest } from "../sujetsSource.js";
 
-// POST /api/admin/sujets — reads the newest month of subjects published on
-// reussir-tcfcanada.com for one épreuve, rewords every string through Groq and
-// returns it for review. Backs the "Générer" button in the admin Sujets tab.
+// POST /api/admin/sujets — collects the newest month of subjects published for
+// one épreuve across every source site, drops what the archive already holds,
+// rewords the rest through Groq and returns it for review. Backs the "Générer"
+// button in the admin Sujets tab.
 //
 // This endpoint only PROPOSES: nothing is written here. The admin reviews the
 // preview and publishes it, and that write goes through the same
@@ -54,7 +55,8 @@ export default async function handler(req, res) {
       year: result.year,
       monthNum: result.monthNum,
       month: result.month,
-      sourceUrl: result.sourceUrl,
+      sources: result.sources,
+      unreachable: result.unreachable,
       mode: result.mode,
       data: result.data,
       fresh: result.fresh,

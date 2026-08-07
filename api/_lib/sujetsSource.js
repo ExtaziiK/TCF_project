@@ -1,203 +1,51 @@
 import { createHash } from "node:crypto";
 import { HttpError, groqChatJSON } from "./groq.js";
+import { tidy } from "./sujets/html.js";
+import * as reussir from "./sujets/reussir.js";
+import * as formation from "./sujets/formation.js";
+import { findDuplicates } from "./sujets/dedupe.js";
 
-// Monthly subjects importer — the source side of the admin "Générer" button.
+// Monthly subjects importer — the engine behind the admin "Générer" button.
 //
-// reussir-tcfcanada.com publishes the freshly reported TCF Canada subjects
-// every month. Two index pages never change address:
-//   /expression-ecrite/   and   /expression-orale/
-// each listing one link per month (…/aout-2026-expression-ecrite/ …). So the
-// importer reads the index, follows the newest month, parses that page, and
-// rewords every string through Groq before anything is shown for publishing.
+// Two sites publish the TCF Canada subjects candidates report each month, and
+// each has a fixed index page per épreuve (four links in all). Their adapters
+// live in api/_lib/sujets/ and both answer the same three questions: which
+// months exist, where a month lives, and what it contains — one parses prose
+// out of WordPress markup, the other reads a Next.js flight payload. Everything
+// downstream is source-agnostic.
 //
-// The rewording is the point, not a nicety: the source text is someone else's
-// wording, three or four themes a month already exist in earlier months of our
-// own archive, and near-duplicate paragraphs across archive pages hurt them in
-// search. Every string goes through the model; anything the model fails to
-// rewrite convincingly is handed back flagged (see `kept`) rather than silently
-// published verbatim.
+// An import takes the newest month either site has published, collects that
+// month from both, drops what we already hold, rewords the rest and hands it
+// back for review. Nothing is ever written here.
+//
+// Three kinds of duplicate have to be caught, and they need different tools:
+//
+//   same source, re-run    A fingerprint of the source text, saved with each
+//                          imported subject (see `sourceKey`). Exact, cheap,
+//                          and survives the rewording we apply on the way in.
+//
+//   across the two sites   The same real exam, transcribed by two different
+//                          candidates — the wording differs completely, so
+//                          fingerprints and text similarity are both useless
+//                          (measured: sujets/dedupe.js). The model judges it.
+//
+//   within one run         Both of the above, applied as the run goes: each
+//                          source is checked against what the earlier ones
+//                          already contributed.
+//
+// The rewording is the point of the import, not a nicety: the text belongs to
+// someone else, and several themes a month already exist in earlier months of
+// our own archive, where near-duplicate paragraphs hurt us in search.
 //
 // No auth or database access here on purpose: this module is pure enough to
 // unit-test (tests/sujets-source.test.mjs). The handler that gates it on an
 // admin session lives in api/_lib/admin/sujets.js.
 
-const ORIGIN = "https://reussir-tcfcanada.com";
-const INDEX_PATH = { ee: "/expression-ecrite/", eo: "/expression-orale/" };
-const SECTION_SLUG = { ee: "expression-ecrite", eo: "expression-orale" };
+// Order matters only for tie-breaking: when both sites carry the same subject,
+// the first one listed is the wording that gets imported and reworded.
+export const SOURCES = [reussir, formation];
 
-// Slugs as they appear in the source URLs (unaccented, lowercase).
-const MONTH_SLUGS = ["janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre"];
-export const MONTH_LABELS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-
-const FETCH_TIMEOUT_MS = 15000;
-// A plain browser UA: the site sits behind a CDN that answers 403 to obvious
-// scripted agents, and this reads one public page a month.
-const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
-
-/* ------------------------------- html → lines ------------------------------ */
-
-const NAMED_ENTITIES = {
-  nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", times: "×",
-  rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“",
-  hellip: "…", ndash: "–", mdash: "—", laquo: "«", raquo: "»", eacute: "é",
-  egrave: "è", agrave: "à", ccedil: "ç", ecirc: "ê", ocirc: "ô", ucirc: "û", icirc: "î",
-};
-
-function decodeEntities(s) {
-  return s
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
-}
-
-const BLOCK_TAGS = "p|div|section|article|header|footer|nav|aside|main|h[1-6]|ul|ol|li|table|tr|td|th|blockquote|figure|figcaption|br|hr";
-
-// Flattens a page to the visible lines, in reading order. Block elements are
-// line breaks; inline elements vanish WITHOUT leaving a space, because the
-// source styles words mid-sentence ("J'ai mis cer<span …>tains objets") and a
-// space there would split the word. `<article>` is preferred when present — it
-// excludes the header, sidebar and footer chrome.
-export function toLines(html) {
-  let h = String(html)
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<!--[\s\S]*?-->/g, " ");
-  const article = h.match(/<article[\s\S]*?<\/article>/i);
-  if (article) h = article[0];
-  return decodeEntities(
-    h
-      .replace(new RegExp(`<\\/?(?:${BLOCK_TAGS})(?:\\s[^>]*)?\\/?>`, "gi"), "\n")
-      .replace(/<[^>]+>/g, ""),
-  )
-    .split("\n")
-    .map((l) => tidy(l))
-    .filter(Boolean);
-}
-
-// French typography keeps a space before ? ! : ; and inside quotes, so only the
-// period and comma are tightened — the source often trails "(…, etc.) .".
-const tidy = (s) => s.replace(/\s+/g, " ").replace(/\s+([.,])/g, "$1").trim();
-
-/* --------------------------------- markers -------------------------------- */
-
-const RE = {
-  combinaison: /^combinaison\s*(\d+)/i,
-  tache: /^t[âa]che\s*(\d+)/i,
-  document: /^document\s*(\d+)\s*:?/i,
-  partie: /^partie\s*(\d+)/i,
-  sujet: /^sujet\s*(\d+)\s*:?/i,
-  // "(60 mots minimum/120 mots maximum)" — a constraint, not subject text.
-  wordCount: /^\(?\s*\d+\s*mots\b/i,
-  // Page furniture that surrounds the subjects; also the tail after the last
-  // one, which would otherwise be swallowed into the final document.
-  chrome: /^(r[ée]ussir l|pour partager|sujets? d.actualit|attention\s*!?$|consignes?$|formations?$|exemples? corrig|corrections?$|×$|partagez|commentaires?$|laisser un commentaire)/i,
-};
-
-const isMarker = (l) =>
-  RE.combinaison.test(l) || RE.tache.test(l) || RE.document.test(l) || RE.partie.test(l) || RE.sujet.test(l) || RE.wordCount.test(l) || RE.chrome.test(l);
-
-// Text that follows a marker on the same line ("Sujet 1 : Je suis…").
-const inlineRest = (line, match) => line.slice(match[0].length).replace(/^[\s:.–—-]+/, "").trim();
-
-// Everything from `i` up to the next marker, joined — a subject or a document
-// can be split across several paragraphs.
-function collect(lines, i) {
-  const buf = [];
-  while (i < lines.length && !isMarker(lines[i])) buf.push(lines[i++]);
-  return [buf.join(" ").trim(), i];
-}
-
-const joinText = (inline, rest) => tidy([inline, rest].filter(Boolean).join(" "));
-
-/* --------------------------------- parsers -------------------------------- */
-
-// Expression écrite: "Combinaison N" → Tâche 1 / Tâche 2 / Tâche 3 (theme,
-// then Document 1 and Document 2). Combinaisons are numbered `n` in page
-// order — the source lists the newest first, which is the order our archive
-// shows them in.
-export function parseEE(lines) {
-  const out = [];
-  let cur = null;
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    let m;
-    if ((m = line.match(RE.combinaison))) {
-      cur = { t1: "", t2: "", t3: { theme: "", doc1: "", doc2: "" } };
-      out.push(cur);
-      i++;
-      continue;
-    }
-    if (cur && (m = line.match(RE.tache))) {
-      const n = Number(m[1]);
-      const inline = inlineRest(line, m);
-      const [rest, next] = collect(lines, i + 1);
-      i = next;
-      const text = joinText(inline, rest);
-      if (n === 1) cur.t1 = text;
-      else if (n === 2) cur.t2 = text;
-      else if (n === 3) cur.t3.theme = text;
-      continue;
-    }
-    if (cur && (m = line.match(RE.document))) {
-      const n = Number(m[1]);
-      const inline = inlineRest(line, m);
-      const [rest, next] = collect(lines, i + 1);
-      i = next;
-      const text = joinText(inline, rest);
-      if (n === 1) cur.t3.doc1 = text;
-      else if (n === 2) cur.t3.doc2 = text;
-      continue;
-    }
-    i++;
-  }
-  return out.filter((s) => s.t1 || s.t2).map((s, idx) => ({ n: idx + 1, ...s }));
-}
-
-// Expression orale: "Tâche 2"/"Tâche 3" → "Partie N" → "Sujet N". Stored with
-// tâches and parties ascending, matching the shipped archive.
-export function parseEO(lines) {
-  const taches = new Map();
-  let tache = null;
-  let partie = null;
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    let m;
-    if ((m = line.match(RE.tache))) {
-      const n = Number(m[1]);
-      tache = n === 2 || n === 3 ? n : null;
-      partie = null;
-      i++;
-      continue;
-    }
-    if ((m = line.match(RE.partie))) {
-      partie = Number(m[1]);
-      i++;
-      continue;
-    }
-    if ((m = line.match(RE.sujet))) {
-      const inline = inlineRest(line, m);
-      const [rest, next] = collect(lines, i + 1);
-      i = next;
-      const text = joinText(inline, rest);
-      if (tache && partie && text) {
-        if (!taches.has(tache)) taches.set(tache, new Map());
-        const parties = taches.get(tache);
-        if (!parties.has(partie)) parties.set(partie, []);
-        parties.get(partie).push(text);
-      }
-      continue;
-    }
-    i++;
-  }
-  return [...taches.entries()]
-    .sort((a, b) => a[0] - b[0])
-    .map(([t, parties]) => ({
-      tache: t,
-      parties: [...parties.entries()].sort((a, b) => a[0] - b[0]).map(([p, sujets]) => ({ partie: p, sujets })),
-    }));
-}
+export { MONTH_LABELS } from "./sujets/html.js";
 
 export const countSubjects = (section, data) =>
   section === "ee"
@@ -237,7 +85,6 @@ export const sourceKey = (text) =>
     .digest("hex")
     .slice(0, SRC_KEY_LENGTH);
 
-const eeKey = (s) => sourceKey([s.t1, s.t2, s.t3?.theme, s.t3?.doc1, s.t3?.doc2].filter(Boolean).join(" "));
 
 // Every source fingerprint already recorded in a saved month.
 export function provenanceKeys(section, data) {
@@ -245,45 +92,6 @@ export function provenanceKeys(section, data) {
   if (section === "ee") for (const s of data || []) { if (s?.src) keys.add(s.src); }
   else for (const t of data || []) for (const p of t?.parties || []) for (const k of p?.src || []) keys.add(k);
   return keys;
-}
-
-/* ------------------------------ source fetching ---------------------------- */
-
-async function fetchPage(url) {
-  let res;
-  try {
-    res = await fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" }, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
-  } catch {
-    throw new HttpError(504, `La source n'a pas répondu (${url}).`);
-  }
-  if (!res.ok) throw new HttpError(502, `La source a répondu ${res.status} (${url}).`);
-  return res.text();
-}
-
-// Every month link on an index page, newest first. Reading the month out of the
-// slug rather than the link text keeps this independent of the page's wording
-// (the source misspells a label now and then — "Decembre 2024").
-export function monthLinks(html, section) {
-  const slug = SECTION_SLUG[section];
-  const re = new RegExp(`href=["']([^"']*?/(${MONTH_SLUGS.join("|")})-(\\d{4})-${slug}/?)["']`, "gi");
-  const seen = new Set();
-  const out = [];
-  for (const m of String(html).matchAll(re)) {
-    const url = m[1].startsWith("http") ? m[1] : `${ORIGIN}${m[1].startsWith("/") ? "" : "/"}${m[1]}`;
-    if (seen.has(url)) continue;
-    seen.add(url);
-    const monthNum = MONTH_SLUGS.indexOf(m[2].toLowerCase()) + 1;
-    out.push({ url, year: Number(m[3]), monthNum, month: MONTH_LABELS[monthNum - 1] });
-  }
-  return out.sort((a, b) => b.year - a.year || b.monthNum - a.monthNum);
-}
-
-// The most recent month published for a section.
-export async function latestMonth(section) {
-  const url = `${ORIGIN}${INDEX_PATH[section]}`;
-  const links = monthLinks(await fetchPage(url), section);
-  if (!links.length) throw new HttpError(502, `Aucun lien mensuel trouvé sur ${url} — la structure de la page a changé.`);
-  return links[0];
 }
 
 /* ------------------------------- reformulation ----------------------------- */
@@ -294,6 +102,8 @@ Règles impératives :
 - Réécris chaque texte AVEC D'AUTRES MOTS : change la construction des phrases, l'ordre des informations, les verbes et les connecteurs. Aucune phrase ne doit rester identique à l'originale, et un simple échange de synonymes ne suffit pas.
 - Garde EXACTEMENT la même idée : même situation, même rôle de chaque personne (ami(e), collègue, voisin(e), employé(e)…), même consigne, mêmes éléments entre parenthèses et dans le même ordre, même position et mêmes arguments pour les documents d'opinion.
 - Le candidat est VOUVOYÉ : garde « votre / vous / vos » et l'impératif de politesse (« Rédigez », « Écrivez », « Racontez »). Ne passe jamais au tutoiement.
+- N'INVERSE JAMAIS QUI PARLE. Quand l'original commence par « Je suis… » ou « Je travaille… », c'est l'examinateur qui se présente : garde cette première personne. Ce que fait le candidat reste à la deuxième personne. « Je travaille à l'accueil d'une billetterie. Vous êtes en vacances et vous me posez des questions » peut devenir « Je suis employé(e) à la billetterie d'un théâtre. En vacances, vous m'interrogez… », jamais « Vous occupez le poste d'accueil… ».
+- Garde la forme de la phrase : une question reste une question (« Comment évaluez-vous… ? » ne devient pas « Évaluez… »), une consigne reste une consigne.
 - Un item portant "type":"titre" est le TITRE du thème de débat, pas une consigne : rends un titre (groupe nominal ou question), sans verbe à l'impératif et sans t'adresser au candidat. Par exemple « Distributeurs dans les lycées : avantages et inconvénients » peut devenir « Les distributeurs automatiques au lycée : bienfaits et limites », jamais « Analysez les distributeurs… ».
 - N'ajoute aucune information et n'en supprime aucune.
 - Reste en français ; garde le registre, les noms propres, les lieux et les chiffres.
@@ -484,24 +294,6 @@ async function rewriteBatch(items, insist = false, deadline = Infinity) {
   return null;
 }
 
-/* ---------------------------- filtering & merging -------------------------- */
-
-// Drops the source items already imported into this month, and stamps what's
-// left with its fingerprint. Returns the section-shaped tree of new subjects.
-export function selectNew(section, parsed, seen) {
-  if (section === "ee") return parsed.filter((s) => !seen.has(eeKey(s))).map((s) => ({ ...s, src: eeKey(s) }));
-  const out = [];
-  for (const t of parsed) {
-    const parties = [];
-    for (const p of t.parties) {
-      const keep = p.sujets.filter((s) => !seen.has(sourceKey(s)));
-      if (keep.length) parties.push({ partie: p.partie, sujets: keep, src: keep.map(sourceKey) });
-    }
-    if (parties.length) out.push({ tache: t.tache, parties });
-  }
-  return out;
-}
-
 // Adds newly imported subjects to a month that already has some, leaving every
 // existing entry (imported earlier, or typed by hand) untouched.
 export function mergeMonth(section, existing, fresh) {
@@ -525,16 +317,85 @@ export function mergeMonth(section, existing, fresh) {
   return out.sort((a, b) => a.tache - b.tache);
 }
 
-// Full import for one section: newest month → parsed → reworded.
-//
-// `budgetMs` is a wall-clock ceiling for the whole thing, well under the
-// function's maxDuration (vercel.json). A month is a few thousand tokens and
-// Groq's on-demand tier meters 8000 per minute, so a full import normally
-// spends part of its time waiting on rate limits; when that eats the budget,
-// the rewording stops and the leftovers come back flagged in `kept` instead of
-// the request being killed with nothing to show.
+/* ------------------------------ the import run ----------------------------- */
+
+const monthKeyOf = (t) => `${t.year}-${String(t.monthNum).padStart(2, "0")}`;
+
+// Flattens a month into one comparable item per subject, so the duplicate
+// checks have something to compare and the survivors can be put back.
+// `key` is the fingerprint of the SOURCE wording — taken here, before any
+// rewording, because that is the only text a later run can match against.
+export function itemsOf(section, data) {
+  const items = [];
+  if (section === "ee") {
+    for (const s of data || []) {
+      items.push({
+        text: [s.t1, s.t2, s.t3?.theme].filter(Boolean).join(" — "),
+        key: s.src || sourceKey([s.t1, s.t2, s.t3?.theme, s.t3?.doc1, s.t3?.doc2].filter(Boolean).join(" ")),
+        sujet: s,
+      });
+    }
+  } else {
+    for (const t of data || []) {
+      for (const p of t.parties || []) {
+        for (const s of p.sujets || []) items.push({ text: s, key: sourceKey(s), tache: t.tache, partie: p.partie, sujet: s });
+      }
+    }
+  }
+  return items;
+}
+
+// Rebuilds a section-shaped tree from items, carrying their fingerprints into
+// the `src` fields the next run will read.
+export function treeOf(section, items) {
+  if (section === "ee") return items.map((it, i) => ({ ...it.sujet, n: i + 1, src: it.key }));
+  const taches = new Map();
+  for (const it of items) {
+    if (!taches.has(it.tache)) taches.set(it.tache, new Map());
+    const parties = taches.get(it.tache);
+    if (!parties.has(it.partie)) parties.set(it.partie, { sujets: [], src: [] });
+    const bucket = parties.get(it.partie);
+    bucket.sujets.push(it.sujet);
+    bucket.src.push(it.key);
+  }
+  return [...taches.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([tache, parties]) => ({
+      tache,
+      parties: [...parties.entries()].sort((a, b) => a[0] - b[0]).map(([partie, b]) => ({ partie, sujets: b.sujets, src: b.src })),
+    }));
+}
+
+// EO sujets are only ever compared within their tâche: partie numbering is each
+// site's own and means nothing across sources, while tâche 2 (interaction) and
+// tâche 3 (opinion) are never the same kind of subject.
+const bucketOf = (section, item) => (section === "ee" ? "ee" : `t${item.tache}`);
+
+// The newest month any source has published, and which sources carry it. A
+// source that is down or has changed shape is skipped rather than failing the
+// run — one site's outage should not block the other's subjects.
+async function pickMonth(section) {
+  const settled = await Promise.all(
+    SOURCES.map(async (src) => {
+      try { return { src, months: await src.months(section) }; } catch { return { src, months: [] }; }
+    }),
+  );
+  const reachable = settled.filter((s) => s.months.length);
+  if (!reachable.length) throw new HttpError(502, "Aucune des sources n'a répondu — réessayez dans un instant.");
+
+  let target = null;
+  for (const { months } of reachable) {
+    const newest = months[0];
+    if (!target || newest.year > target.year || (newest.year === target.year && newest.monthNum > target.monthNum)) target = newest;
+  }
+  const carriers = reachable
+    .map(({ src, months }) => ({ src, month: months.find((m) => m.year === target.year && m.monthNum === target.monthNum) }))
+    .filter((c) => c.month);
+  return { target, carriers, unreachable: SOURCES.length - reachable.length };
+}
+
 // `known` is `[{ key: "2026-08", data }]` — the months the caller already
-// holds. It cannot know in advance which month the source has published last,
+// holds. It cannot know in advance which month the sources have published last,
 // so it sends its most recent few and we use whichever matches. This is what
 // lets a re-run add only what is new. Three outcomes, reported as `mode`:
 //   "new"     — we don't have this month at all; import everything.
@@ -543,26 +404,71 @@ export function mergeMonth(section, existing, fresh) {
 //   "replace" — we have it but with no fingerprints (typed by hand, or saved
 //               before this existed). Nothing can be matched, so the whole
 //               month is re-imported and the caller is told it replaces.
-// Filtering happens BEFORE the rewording, so a re-run that finds one new
-// combinaison spends one small AI call rather than redoing the month.
+//
+// Both duplicate checks run BEFORE the rewording, so a re-run that finds one
+// new combinaison spends one small AI call rather than redoing the month.
+//
+// `budgetMs` is a wall-clock ceiling, well under the function's maxDuration
+// (vercel.json). Groq's on-demand tier meters 8000 tokens a minute, so a large
+// first import spends part of its time waiting on rate limits; when that eats
+// the budget the rewording stops and the leftovers come back flagged in `kept`
+// rather than the request being killed with nothing to show.
 export async function importLatest(section, { known = [], budgetMs = 45000 } = {}) {
   const startedAt = Date.now();
-  const target = await latestMonth(section);
-  const lines = toLines(await fetchPage(target.url));
-  const parsed = section === "ee" ? parseEE(lines) : parseEO(lines);
-  const found = countSubjects(section, parsed);
-  if (!found) throw new HttpError(502, `Aucun sujet trouvé sur ${target.url} — la structure de la page a probablement changé.`);
+  const deadline = startedAt + budgetMs;
+  const { target, carriers, unreachable } = await pickMonth(section);
 
-  const monthKey = `${target.year}-${String(target.monthNum).padStart(2, "0")}`;
-  const held = (known || []).find((m) => m?.key === monthKey)?.data;
+  const held = (known || []).find((m) => m?.key === monthKeyOf(target))?.data;
   const existing = countSubjects(section, held) ? held : null;
   const seen = existing ? provenanceKeys(section, existing) : new Set();
   const mode = !existing ? "new" : seen.size ? "merge" : "replace";
+  // In "replace" the month is rebuilt from scratch, so nothing counts as known.
+  const fingerprints = mode === "merge" ? new Set(seen) : new Set();
 
-  const fresh = mode === "merge" ? selectNew(section, parsed, seen) : selectNew(section, parsed, new Set());
+  // What the semantic check compares against: the subjects we are keeping, plus
+  // whatever earlier sources in this same run have already contributed.
+  const knownItems = mode === "merge" ? itemsOf(section, existing).map((it, i) => ({ ...it, id: i })) : [];
+  const accepted = [];
+  const sources = [];
+
+  for (const { src, month } of carriers) {
+    let parsed;
+    try {
+      parsed = await src.fetchMonth(section, month);
+    } catch {
+      sources.push({ id: src.id, label: src.label, url: month.url, found: 0, added: 0, failed: true });
+      continue;
+    }
+    const items = itemsOf(section, parsed);
+    // Cheap pass first: source text we have imported before, verbatim.
+    const unseen = items.filter((it) => !fingerprints.has(it.key));
+
+    // Then the semantic pass, per bucket — the two sites word the same exam
+    // differently, so only meaning can match them.
+    const fresh = [];
+    for (const bucket of [...new Set(unseen.map((it) => bucketOf(section, it)))]) {
+      if (Date.now() >= deadline) break;
+      const candidates = unseen.filter((it) => bucketOf(section, it) === bucket).map((it, i) => ({ ...it, id: 1000 + i }));
+      const against = [...knownItems, ...accepted].filter((it) => bucketOf(section, it) === bucket);
+      const dupes = await findDuplicates(candidates, against, { deadline });
+      for (const c of candidates) if (!dupes.has(c.id)) fresh.push(c);
+    }
+
+    for (const it of fresh) {
+      fingerprints.add(it.key);
+      accepted.push({ ...it, id: knownItems.length + accepted.length });
+    }
+    sources.push({ id: src.id, label: src.label, url: month.url, found: countSubjects(section, parsed), added: fresh.length });
+  }
+
+  const found = sources.reduce((a, s) => a + s.found, 0);
+  if (!found) throw new HttpError(502, `Aucun sujet trouvé pour ${target.month} ${target.year} — la structure des pages sources a probablement changé.`);
+
+  // Fingerprints are already on the tree, and rewording only touches the text,
+  // so what gets saved still points back at the source wording it came from.
+  const fresh = treeOf(section, accepted);
   const added = countSubjects(section, fresh);
-
-  const { kept, usage, total } = added ? await reformulate(section, fresh, { deadline: startedAt + budgetMs }) : { kept: [], usage: null, total: 0 };
+  const { kept, usage, total } = added ? await reformulate(section, fresh, { deadline }) : { kept: [], usage: null, total: 0 };
   const data = mode === "merge" ? mergeMonth(section, existing, fresh) : fresh;
 
   return {
@@ -570,13 +476,14 @@ export async function importLatest(section, { known = [], budgetMs = 45000 } = {
     year: target.year,
     monthNum: target.monthNum,
     month: target.month,
-    sourceUrl: target.url,
+    sources,
+    unreachable,
     mode,
     data, // the complete month to save
     fresh, // just the additions, for the review panel
     counts: {
-      found, // subjects on the source page
-      added, // of those, not already in the month
+      found,
+      added,
       skipped: found - added,
       existing: countSubjects(section, existing),
       strings: total,
