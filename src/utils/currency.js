@@ -72,6 +72,35 @@ export function planDzdAmount(plan, overrides = {}) {
   return convertPrice(plan?.price ?? "$0", DZD);
 }
 
+// Reads a dinar amount back out of whatever shape it was stored in: the
+// display text a checkout saved ("2600 DA", "2 600 DA"), a hand-typed figure,
+// or an already-numeric column. Returns null when there is no digit to read.
+// Used by the Revenus tab, which has to total amounts that were only ever
+// persisted as text before the 20260807_revenue migration.
+export function parseDzd(value) {
+  if (value == null) return null;
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  // Strip spaces before matching: \s covers the non-breaking and narrow
+  // no-break spaces the fr-DZ formatter groups thousands with, so "2 600 DA"
+  // reads as 2600 and not as 2.
+  const cleaned = String(value).replace(/\s/g, "").replace(",", ".");
+  const m = cleaned.match(/\d+(\.\d+)?/);
+  if (!m) return null;
+  const n = parseFloat(m[0]);
+  return Number.isFinite(n) ? n : null;
+}
+
+// Accounting display for a dinar total ("1 080 DA", "126 500 DA"). Deliberately
+// NOT DZD.format: that one rounds to the nearest 10 and omits thousands
+// separators because PlanCard regex-parses its output. A revenue figure must be
+// exact and readable, so it keeps its grouping and any centimes.
+export function formatDzdTotal(value) {
+  const n = Number(value) || 0;
+  const rounded = Math.round(n * 100) / 100;
+  const opts = Number.isInteger(rounded) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+  return `${rounded.toLocaleString("fr-DZ", opts)} DA`;
+}
+
 // Takes a percentage off a formatted money string, keeping its formatting
 // ("2 600 DZD" → "2 080 DZD"). Used by the DZD manual checkout: a Stripe
 // promotion code cannot be attached to a bank transfer, so the discount is

@@ -72,6 +72,29 @@ export function DayBars({ days, height = 96, label }) {
   );
 }
 
+// Money over time (admin Revenus): the DayBars idiom — thin rounded bars, one
+// brand hue, native tooltips — for buckets that may be days or months, and for
+// a magnitude that needs formatting (a raw "2600" in a tooltip reads as a
+// count, not as dinars). Labels thin out on their own when the bars get dense.
+export function MoneyBars({ bars, height = 120, label, format = String }) {
+  const { c } = useApp();
+  const max = Math.max(1, ...bars.map((b) => b.value));
+  const stride = bars.length > 24 ? 4 : bars.length > 12 ? 2 : 1;
+  return (
+    <div className="flex items-end justify-between gap-1" style={{ height }} role="img" aria-label={label}>
+      {bars.map((b, i) => (
+        <div key={b.key} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end" title={`${b.title || b.label} · ${format(b.value)}`}>
+          <div
+            className={`w-2.5 rounded-full ${b.value > 0 ? "" : c.track}`}
+            style={{ height: `${Math.max(6, (b.value / max) * 78)}%`, background: b.value > 0 ? BLUE : undefined }}
+          />
+          <span className={`text-[9px] font-mono2 whitespace-nowrap ${c.faint}`}>{i % stride === 0 ? b.label : " "}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Section performance: horizontal magnitude bars, labeled directly.
 export function SectionBars({ items }) {
   const { c } = useApp();

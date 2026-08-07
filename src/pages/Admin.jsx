@@ -5,6 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
+  Wallet,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -15,6 +16,7 @@ import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
+import { RevenueTab } from "@/components/admin/Revenue";
 import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { DayBars } from "@/components/dashboard/charts";
@@ -1800,6 +1802,7 @@ export function Admin() {
     { id: "messages", l: "Messages", icon: MessageCircle },
     { id: "emails", l: "Emails", icon: Mail },
     { id: "requests", l: "Demandes", icon: Inbox },
+    { id: "revenue", l: "Revenus", icon: Wallet },
     { id: "traffic", l: "Trafic", icon: Globe },
     { id: "usage", l: "Utilisation", icon: Gauge },
     { id: "audit", l: "Journal", icon: ScrollText },
@@ -1843,6 +1846,7 @@ export function Admin() {
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
       {tab === "emails" && <EmailTemplatesTab />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
+      {tab === "revenue" && <RevenueTab />}
       {tab === "traffic" && <TrafficTab />}
       {tab === "usage" && <UsageTab />}
       {tab === "audit" && <AuditTab />}

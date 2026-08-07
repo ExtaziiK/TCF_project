@@ -108,8 +108,14 @@ export async function signReceiptUrl(path, expiresIn = 3600) {
   return error ? null : data?.signedUrl || null;
 }
 
-export async function setRequestStatus(id, status) {
-  const { error } = await supabase.from("subscription_requests").update({ status }).eq("id", id);
+// `extra` carries the accounting stamp an approval writes alongside the status
+// (approved_at + amount_received_dzd, see 20260807_revenue.sql). A database
+// without that migration rejects the whole update, so the status — the part
+// that actually grants access — is retried on its own rather than lost.
+export async function setRequestStatus(id, status, extra) {
+  const table = () => supabase.from("subscription_requests");
+  let { error } = await table().update({ status, ...extra }).eq("id", id);
+  if (error && extra) ({ error } = await table().update({ status }).eq("id", id));
   return { ok: !error, error: error?.message };
 }
 

@@ -6,7 +6,7 @@ import {
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
-import { planDzdAmount } from "@/utils/currency";
+import { planDzdAmount, parseDzd } from "@/utils/currency";
 import { getPaymentDz, setPaymentDz } from "@/services/settingsService";
 import { updateAdminUser } from "@/services/adminService";
 import {
@@ -145,7 +145,13 @@ export function SubscriptionRequestsTab({ onCount }) {
     // Grant the plan through the same admin endpoint the Users tab uses.
     const g = await updateAdminUser({ action: "set-plan", userId: req.user_id, plan: "Premium", days: req.plan_days, label: req.plan });
     if (!g.ok) { setBusyId(null); return notify(g.error || (g.unavailable ? "Activation indisponible en local (fonctions serverless absentes)." : "Activation refusée.")); }
-    await setRequestStatus(req.id, "approved");
+    // Stamp the sale as it closes: this approval is what the Revenus tab counts,
+    // dated now and valued at the amount asked at checkout (already discounted
+    // if a promo was used). An amount corrected by hand earlier is kept.
+    await setRequestStatus(req.id, "approved", {
+      approved_at: new Date().toISOString(),
+      amount_received_dzd: req.amount_received_dzd ?? parseDzd(req.amount_dzd),
+    });
     // The user's current session still carries their old (non-Premium) claims —
     // app_metadata is baked into the JWT at login. Sign them out everywhere so
     // they pick up the new plan the moment they log back in. Best-effort.
