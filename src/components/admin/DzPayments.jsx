@@ -153,10 +153,12 @@ export function SubscriptionRequestsTab({ onCount }) {
       approved_at: new Date().toISOString(),
       amount_received_dzd: req.amount_received_dzd ?? parseDzd(req.amount_dzd),
     });
-    // The user's current session still carries their old (non-Premium) claims —
-    // app_metadata is baked into the JWT at login. Sign them out everywhere so
-    // they pick up the new plan the moment they log back in. Best-effort.
-    if (req.user_id) await updateAdminUser({ action: "disconnect", userId: req.user_id });
+    // No forced sign-out here. It used to be necessary — app_metadata is baked
+    // into the JWT, so the buyer's session still carried "Sans papier" claims —
+    // but it greeted someone who had just paid with "Reconnexion nécessaire"
+    // and an eight-second countdown. useDzActivation now watches the buyer's
+    // own request and remints their token within seconds of this approval, on
+    // every device they have open, so the disconnect only did harm.
     setBusyId(null);
     notify(`${req.plan} activé pour ${req.email || "le client"} — il devra se reconnecter pour y accéder.`);
     load();
