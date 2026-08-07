@@ -5,7 +5,7 @@ import { Card, Pill } from "@/components/common";
 // Renders one AI evaluation (shared by Expression écrite & orale). The dynamic
 // text (summary, bullets, corrected version) is already localized by the model
 // via the `lang` we send; only the static labels go through t().
-export function AiFeedback({ level, summary, strengths = [], improvements = [], corrected, targetLevel, changes = [], compact }) {
+export function AiFeedback({ level, summary, strengths = [], improvements = [], corrected, targetLevel, rewrites = [], compact }) {
   const { c, t } = useApp();
   return (
     <Card className={`${compact ? "p-4" : "p-6"} border-2 border-blue-600/40 rise`}>
@@ -43,10 +43,19 @@ export function AiFeedback({ level, summary, strengths = [], improvements = [], 
             <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5"><ArrowUpRight size={14} /> {t("Version améliorée")}</p>
             {targetLevel && <Pill tone="blue">{t("Niveau visé :")} {targetLevel}</Pill>}
           </div>
-          {changes.length > 0 && (
-            <ul className="space-y-2 mb-3">
-              {changes.map((ch, i) => (
-                <li key={i} className={`flex gap-2.5 text-sm ${c.sub}`}><Sparkles size={15} className="text-blue-500 shrink-0 mt-0.5" />{ch}</li>
+          {rewrites.length > 0 && (
+            <ul className="space-y-3 mb-4">
+              {rewrites.map((r, i) => (
+                <li key={i} className={`rounded-2xl border ${c.border} overflow-hidden`}>
+                  {/* The candidate's own sentence, struck through, then the
+                      better version. Seeing the two side by side is what makes
+                      the lesson land — a list of advice does not. */}
+                  <p className={`px-3.5 py-2.5 text-sm line-through decoration-rose-500/60 ${c.sub}`}>{r.before}</p>
+                  <p className={`px-3.5 py-2.5 text-sm border-t ${c.border} ${c.text}`}>
+                    <Sparkles size={14} className="inline text-blue-500 mr-1.5 -mt-0.5" />{r.after}
+                  </p>
+                  {r.why && <p className={`px-3.5 pb-2.5 text-xs ${c.faint}`}>{r.why}</p>}
+                </li>
               ))}
             </ul>
           )}

@@ -1234,6 +1234,25 @@ const fmtTokens = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)} M` : n >= 1e3 ? `$
 // gates anything. Update if the plan changes again.
 const SUPABASE_LIMITS = { dbBytes: 8e9, storageBytes: 100e9, mau: 100000 };
 
+function TopAiUsers({ rows, unit }) {
+  const { c } = useApp();
+  if (!rows || rows.length === 0) {
+    return <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun appel sur la période.</p>;
+  }
+  return (
+    <div className="space-y-1">
+      {rows.map((u) => (
+        <div key={u.email} className={`flex items-center justify-between px-3 py-2 rounded-xl ${c.hoverSoft}`}>
+          <span className={`text-sm truncate ${c.text}`}>{u.email}</span>
+          <span className={`text-xs font-mono2 shrink-0 ${c.sub}`}>
+            {u.calls} appel{u.calls > 1 ? "s" : ""} · {fmtTokens(u.units)} {unit}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function LimitBar({ label, used, limit, format }) {
   const { c } = useApp();
   const pct = Math.min(100, Math.round((used / limit) * 100));
@@ -1314,18 +1333,7 @@ function UsageTab() {
               </div>
               <div>
                 <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Plus gros utilisateurs (30 j)</p>
-                {ai.topUsers.length === 0 ? (
-                  <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun appel sur la période.</p>
-                ) : (
-                  <div className="space-y-1">
-                    {ai.topUsers.map((u) => (
-                      <div key={u.email} className={`flex items-center justify-between px-3 py-2 rounded-xl ${c.hoverSoft}`}>
-                        <span className={`text-sm truncate ${c.text}`}>{u.email}</span>
-                        <span className={`text-xs font-mono2 shrink-0 ${c.sub}`}>{u.calls} appel{u.calls > 1 ? "s" : ""} · {fmtTokens(u.tokens)} jetons</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <TopAiUsers rows={ai.topUsers} unit="jetons" />
               </div>
             </div>
           </>
@@ -1358,8 +1366,16 @@ function UsageTab() {
                 </div>
               ))}
             </div>
-            <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Synthèses par jour — 14 jours</p>
-            <DayBars days={ai.azure.callsByDay} label="Synthèses vocales par jour sur 14 jours" />
+            <div className="grid lg:grid-cols-2 gap-6">
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Synthèses par jour — 14 jours</p>
+                <DayBars days={ai.azure.callsByDay} label="Synthèses vocales par jour sur 14 jours" />
+              </div>
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Plus gros utilisateurs (30 j)</p>
+                <TopAiUsers rows={ai.azure.topUsers} unit="caractères" />
+              </div>
+            </div>
           </>
         )}
       </Card>

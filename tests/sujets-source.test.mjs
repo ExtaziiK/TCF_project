@@ -13,7 +13,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { countSubjects, sourceKey, provenanceKeys, itemsOf, treeOf, mergeMonth } from "../api/_lib/sujetsSource.js";
-import { toLines } from "../api/_lib/sujets/html.js";
+import { toLines, tidy } from "../api/_lib/sujets/html.js";
 import { parseEE, parseEO, monthsFrom } from "../api/_lib/sujets/reussir.js";
 
 // The fingerprint pass exactly as importLatest runs it: keep the source items
@@ -233,4 +233,27 @@ test("a month with no fingerprints yields no keys, so the import must not merge 
   // instead of appending a second copy of every subject.
   assert.equal(provenanceKeys("ee", [{ n: 1, t1: "a", t2: "b", t3: { theme: "t" } }]).size, 0);
   assert.equal(provenanceKeys("eo", [{ tache: 2, parties: [{ partie: 1, sujets: ["x"] }] }]).size, 0);
+});
+
+// The sources punctuate inconsistently, and the bank had drifted: 821 stray
+// spaces before a period and 318 missing before a "?" had to be cleaned out of
+// the published data. tidy() is the choke point every scraped string passes
+// through, so the rule belongs there and this is what stops it regressing.
+test("tidy fixes French punctuation spacing without touching times or URLs", () => {
+  // The source's own habit, about one question in eight.
+  assert.equal(tidy("Doit-on lire pour être cultivé?"), "Doit-on lire pour être cultivé ?");
+  assert.equal(tidy("Bravo! Vous avez réussi."), "Bravo ! Vous avez réussi.");
+  assert.equal(tidy("Il a dit « oui »? Vraiment."), "Il a dit « oui » ? Vraiment.");
+
+  // Already correct: left exactly as it is, no doubled space.
+  assert.equal(tidy("Qu’en pensez-vous ?"), "Qu’en pensez-vous ?");
+
+  // The trailing "(…, etc.) ." the sources emit.
+  assert.equal(tidy("(meubles, objets, etc.) ."), "(meubles, objets, etc.).");
+
+  // A colon is deliberately NOT spaced: it is indistinguishable by regex from
+  // a time or a URL scheme, and mangling those is worse than leaving a colon
+  // tight in the rare sentence that has one.
+  assert.equal(tidy("Rendez-vous à 14:30 précises."), "Rendez-vous à 14:30 précises.");
+  assert.equal(tidy("Voir https://exemple.fr/page pour en savoir plus."), "Voir https://exemple.fr/page pour en savoir plus.");
 });

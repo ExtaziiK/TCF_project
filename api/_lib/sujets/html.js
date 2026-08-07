@@ -21,7 +21,19 @@ export async function fetchPage(url) {
 
 // French typography keeps a space before ? ! : ; and inside quotes, so only the
 // period and comma are tightened — the sources often trail "(…, etc.) .".
-export const tidy = (s) => String(s).replace(/\s+/g, " ").replace(/\s+([.,])/g, "$1").trim();
+//
+// The reverse also has to be corrected: the sources write "Qu'en pensez-vous?"
+// about one time in eight, and a bank that spaces the other seven reads as
+// sloppy. Only ? and ! are given their space back — never : or ;, because a
+// colon follows letters and digits in text we must not touch ("14:30",
+// "https://…"), and there is no way to tell those from a real punctuation
+// colon with a regex.
+export const tidy = (s) =>
+  String(s)
+    .replace(/\s+/g, " ")
+    .replace(/\s+([.,])/g, "$1")
+    .replace(/([\p{L}\p{N}»)\]])([?!])/gu, "$1 $2")
+    .trim();
 
 export const MONTH_LABELS = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 // Unaccented forms, for reading a month out of a URL slug or a heading.

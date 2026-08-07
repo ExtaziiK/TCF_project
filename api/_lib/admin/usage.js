@@ -61,18 +61,24 @@ async function aiUsage(users) {
 
   const since7 = Date.now() - 7 * DAY;
   const sum = (rows, f) => rows.reduce((s, r) => s + (f(r) || 0), 0);
-  const byUser = {};
-  for (const r of groq) {
-    if (!r.user_id) continue;
-    (byUser[r.user_id] ||= { calls: 0, tokens: 0 });
-    byUser[r.user_id].calls++;
-    byUser[r.user_id].tokens += r.total_tokens || 0;
-  }
   const emails = Object.fromEntries(users.map((u) => [u.id, u.email]));
-  const topUsers = Object.entries(byUser)
-    .sort((a, b) => b[1].calls - a[1].calls)
-    .slice(0, 5)
-    .map(([id, v]) => ({ email: emails[id] || id, calls: v.calls, tokens: v.tokens }));
+
+  // Rows with no user_id are skipped rather than bucketed under "unknown":
+  // they cannot be attributed, and a phantom top consumer is worse than a
+  // slightly short list.
+  const topUsers = (rows, metric) => {
+    const byUser = {};
+    for (const r of rows) {
+      if (!r.user_id) continue;
+      (byUser[r.user_id] ||= { calls: 0, units: 0 });
+      byUser[r.user_id].calls++;
+      byUser[r.user_id].units += metric(r) || 0;
+    }
+    return Object.entries(byUser)
+      .sort((a, b) => b[1].calls - a[1].calls)
+      .slice(0, 5)
+      .map(([id, v]) => ({ email: emails[id] || id, calls: v.calls, units: v.units }));
+  };
 
   return {
     calls30d: groq.length,
@@ -82,7 +88,7 @@ async function aiUsage(users) {
     transcriptions30d: groq.filter((r) => r.kind === "transcription").length,
     audioBytes30d: sum(groq, (r) => r.audio_bytes),
     callsByDay: bucketByDay(groq.map((r) => r.created_at)),
-    topUsers,
+    topUsers: topUsers(groq, (r) => r.total_tokens),
     // Azure neural TTS: the examiner's voice in the Tâche 2 interview. Billed
     // per CHARACTER, which is what logAiUsage stores in total_tokens for these
     // rows — hence "caractères" rather than tokens on the dashboard.
@@ -92,6 +98,7 @@ async function aiUsage(users) {
       characters30d: sum(tts, (r) => r.total_tokens),
       audioBytes30d: sum(tts, (r) => r.audio_bytes),
       callsByDay: bucketByDay(tts.map((r) => r.created_at)),
+      topUsers: topUsers(tts, (r) => r.total_tokens),
     },
   };
 }
