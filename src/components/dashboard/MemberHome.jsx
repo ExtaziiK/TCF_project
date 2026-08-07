@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
+import { DzRequestStatus } from "@/components/dashboard/DzRequestStatus";
 import { ProgressPanels } from "@/components/dashboard/ProgressPanels";
 import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
@@ -256,6 +257,7 @@ export function MemberHome({ eyebrow = "Votre espace" }) {
 
   return (
     <PageShell wide eyebrow={t(eyebrow)} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
+      <DzRequestStatus />
       {loading ? <Skeleton /> : <DashboardView data={data} />}
     </PageShell>
   );

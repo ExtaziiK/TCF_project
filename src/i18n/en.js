@@ -55,6 +55,12 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "Paiement en cours de vérification": "Payment being checked",
+  "Votre paiement n'a pas été validé": "Your payment was not accepted",
+  "demande envoyée le": "request sent on",
+  "Votre accès est activé dès que nous avons vérifié votre reçu, sans action de votre part.": "Your access is activated as soon as we have checked your receipt — nothing more to do.",
+  "Vous pouvez renvoyer un reçu : l'accès est activé dès qu'il est vérifié.": "You can send another receipt: access is activated as soon as it is checked.",
+  "Renvoyer un reçu": "Send another receipt",
   "Qui apprend aujourd'hui ?": "Who is studying today?",
   "Chaque profil garde sa propre progression.": "Each profile keeps its own progress.",
   "Entrez le code de ce profil.": "Enter this profile's code.",

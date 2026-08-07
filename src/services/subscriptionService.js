@@ -62,6 +62,23 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
 //
 // Uses the anon key and the buyer's own RLS policy ("subreq: own read"), so no
 // endpoint and no privilege are involved.
+export async function latestRequest() {
+  const { data: auth } = await supabase.auth.getUser();
+  const userId = auth?.user?.id;
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from("subscription_requests")
+    .select("id, plan, amount_dzd, status, review_note, created_at, reviewed_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  // review_note arrives with the 20260804 migration; without it the select
+  // fails and the card simply stays hidden rather than breaking the dashboard.
+  if (error) return null;
+  return data || null;
+}
+
 export async function latestApprovedRequest() {
   const { data: auth } = await supabase.auth.getUser();
   const userId = auth?.user?.id;
@@ -108,7 +125,8 @@ export async function signReceiptUrl(path, expiresIn = 3600) {
   return error ? null : data?.signedUrl || null;
 }
 
-// `extra` carries the accounting stamp an approval writes alongside the status
+// `extra` carries whatever a decision records alongside the status: the
+// accounting stamp on an approval, the reason shown to the buyer on a refusal
 // (approved_at + amount_received_dzd, see 20260807_revenue.sql). A database
 // without that migration rejects the whole update, so the status — the part
 // that actually grants access — is retried on its own rather than lost.

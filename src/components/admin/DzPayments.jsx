@@ -132,6 +132,7 @@ export function SubscriptionRequestsTab({ onCount }) {
   const [filter, setFilter] = useState("new");
   const [busyId, setBusyId] = useState(null);
   const [confirm, setConfirm] = useState(null); // { id, action } awaiting a second click
+  const [note, setNote] = useState(""); // reason shown to the buyer on a refusal
 
   const load = () => listSubscriptionRequests().then((r) => {
     setRequests(r.requests);
@@ -160,9 +161,12 @@ export function SubscriptionRequestsTab({ onCount }) {
     notify(`${req.plan} activé pour ${req.email || "le client"} — il devra se reconnecter pour y accéder.`);
     load();
   };
-  const reject = async (req) => {
+  const reject = async (req, reason) => {
     setBusyId(req.id);
-    const r = await setRequestStatus(req.id, "rejected");
+    const r = await setRequestStatus(req.id, "rejected", {
+      review_note: String(reason || "").trim().slice(0, 300) || null,
+      reviewed_at: new Date().toISOString(),
+    });
     setBusyId(null);
     notify(r.ok ? "Demande refusée." : "Action refusée.");
     load();
@@ -182,7 +186,7 @@ export function SubscriptionRequestsTab({ onCount }) {
   // Runs the action the confirmation bar just approved.
   const runAction = (action, req) => {
     if (action === "approve") return approve(req);
-    if (action === "reject") return reject(req);
+    if (action === "reject") return reject(req, note);
     if (action === "remove") return remove(req);
   };
 
@@ -223,12 +227,22 @@ export function SubscriptionRequestsTab({ onCount }) {
                 <p className={`text-sm ${c.text}`}>{r.name || "—"} <span className={c.faint}>· {r.email || "compte supprimé"}</span></p>
                 {r.reference && <p className={`text-xs mt-1 ${c.sub}`}>Réf. : <span className="font-mono2">{r.reference}</span></p>}
                 {r.notes && <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{r.notes}</p>}
+                {r.review_note && <p className="text-sm mt-1 text-amber-600">Motif envoyé : {r.review_note}</p>}
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
                   {confirm?.id === r.id ? (
                     <>
                       <span className={`text-sm font-semibold ${c.text}`}>{CONFIRM_PROMPT[confirm.action]}</span>
-                      <Btn small variant="accent" icon={Check} disabled={busyId === r.id} onClick={() => { const a = confirm.action; setConfirm(null); runAction(a, r); }}>Confirmer</Btn>
-                      <Btn small variant="ghost" onClick={() => setConfirm(null)}>Annuler</Btn>
+                      {confirm.action === "reject" && (
+                        <input
+                          value={note}
+                          onChange={(e) => setNote(e.target.value.slice(0, 300))}
+                          placeholder="Motif montré au client (facultatif)"
+                          aria-label="Motif du refus"
+                          className={`w-full sm:w-72 px-3 py-2 rounded-xl border text-sm ${c.inputCls}`}
+                        />
+                      )}
+                      <Btn small variant="accent" icon={Check} disabled={busyId === r.id} onClick={() => { const a = confirm.action; setConfirm(null); runAction(a, r); setNote(""); }}>Confirmer</Btn>
+                      <Btn small variant="ghost" onClick={() => { setConfirm(null); setNote(""); }}>Annuler</Btn>
                     </>
                   ) : (
                     <>
