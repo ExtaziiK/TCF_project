@@ -189,7 +189,7 @@ function WritingTaskPane({ task }) {
             <p className={`text-sm ${c.sub}`}>{t("L'examinateur IA lit votre texte…")}</p>
           </Card>
         )}
-        {ai && <AiFeedback level={ai.level} summary={ai.summary} strengths={ai.strengths} improvements={ai.improvements} corrected={ai.corrected} targetLevel={ai.targetLevel} rewrites={ai.rewrites} />}
+        {ai && <AiFeedback level={ai.level} score={ai.score} nclc={ai.nclc} summary={ai.summary} strengths={ai.strengths} improvements={ai.improvements} corrected={ai.corrected} targetLevel={ai.targetLevel} rewrites={ai.rewrites} />}
       </div>
       <div className="space-y-5">
         <Card className="p-6">
