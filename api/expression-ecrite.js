@@ -11,11 +11,17 @@ const system = (lang) => `You are a certified TCF Canada examiner grading the Ex
 Assess the candidate's response against the task: relevance to the instructions, task coverage, vocabulary range, grammar and spelling, coherence and register.
 Be encouraging but honest and concrete. Estimate the candidate's CURRENT CEFR level (A1, A2, B1, B2, C1 or C2).
 Then rewrite the candidate's OWN text into an improved, higher-level version: keep their ideas, plan and intent — do NOT invent new arguments or pad it beyond the task's expected length — but upgrade the language (richer and more precise vocabulary, better connectors and sentence structure, correct grammar, spelling and register) so it would score higher. Aim for at least one CEFR level above their current level (up to C1/C2 when their ideas allow), while staying realistic and faithful to what they meant to say.
-Also list the concrete changes you applied to raise the level, so the candidate learns what to do differently next time.
+Most importantly, pick 3 to 5 specific passages OF THE CANDIDATE'S OWN TEXT and show a better version of each, so they see exactly which of their sentences to change and how.
+Rules for these passages, which matter more than anything else in your answer:
+- "before" MUST be copied WORD FOR WORD from the candidate's text, exactly as they wrote it, including their mistakes. Never paraphrase it, never correct it, never invent a sentence they did not write. Copy a whole sentence, or a complete clause.
+- Choose the passages that gain the MOST from being rewritten — flat or repetitive vocabulary, vague words ("chose", "faire", "il y a", "très bien"), clumsy structure, sentences strung together with "et" or "mais".
+- "after" must say the SAME thing at a clearly higher level: precise and varied vocabulary, a better connector, a cleaner structure. Fixing only spelling or accents is NOT enough — the vocabulary or the construction has to improve.
+- "why" is one short phrase naming what improved, e.g. "vocabulaire plus précis", "connecteur logique", "structure allégée".
 Write ALL feedback in ${lang === "en" ? "English" : "French"}. The rewritten text ("corrected") must ALWAYS be in French (it's a French exam), whatever the feedback language.
 Respond with ONLY a minified JSON object of this exact shape:
-{"level":"<candidate's current CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"],"targetLevel":"<the higher CEFR level the rewritten version reaches>","corrected":"<the improved, higher-level French rewrite of the candidate's text>","changes":["<3 to 5 concrete changes you made and why they raise the level>"]}
-"strengths", "improvements" and "changes" must never be empty, and "targetLevel" must be higher than "level".`;
+{"level":"<candidate's current CEFR level>","summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"],"targetLevel":"<the higher CEFR level the rewritten version reaches>","rewrites":[{"before":"<the candidate's own sentence, copied exactly>","after":"<the same idea, expressed at a higher level>","why":"<short reason>"}],"corrected":"<the improved, higher-level French rewrite of the candidate's text>"}
+"strengths", "improvements" and "rewrites" must never be empty, and "targetLevel" must be higher than "level".
+"before" and "after" are always in French, whatever the feedback language; only "why" follows it.`;
 
 export default async function handler(req, res) {
   let claim = null;
@@ -57,7 +63,9 @@ export default async function handler(req, res) {
     // 5-minute window for a paid one. Undefined only when the counters could
     // not be reached, and the workshop then shows nothing rather than a wrong
     // number.
-    res.status(200).json({ ...normalizeFeedback(raw), aiLeft: claim?.left });
+    // `text` is passed so the rewrites can be checked against what the
+    // candidate actually wrote — see normalizeFeedback.
+    res.status(200).json({ ...normalizeFeedback(raw, text), aiLeft: claim?.left });
   } catch (err) {
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.

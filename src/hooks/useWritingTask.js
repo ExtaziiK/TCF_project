@@ -50,7 +50,7 @@ export function useWritingTask(task, notify) {
     ],
     targetLevel: "",
     corrected: "",
-    changes: [],
+    rewrites: [],
   });
 
   const analyze = async () => {

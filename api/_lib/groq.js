@@ -90,7 +90,42 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
 // Coerces the model's JSON into the exact shape the UI expects, dropping any
 // stray/extra fields and capping list lengths so a chatty model can't blow up
 // the layout.
-export function normalizeFeedback(raw = {}) {
+// Loose comparison for checking a quote against the source: apostrophe
+// variants, accents and whitespace all drift when a model copies a sentence,
+// and none of those differences mean it invented the sentence.
+const loose = (v) =>
+  String(v || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[’‘'`]/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
+// Sentence-level rewrites: the candidate's own words beside a better version.
+//
+// `before` is VERIFIED against the text they submitted. A model asked to quote
+// will sometimes paraphrase or produce a plausible sentence that was never
+// written, and showing someone "your sentence" when it is not theirs destroys
+// the credibility of the whole correction. Unverifiable pairs are dropped
+// rather than shown with a caveat.
+function rewritePairs(raw, source) {
+  if (!Array.isArray(raw)) return [];
+  const hay = loose(source);
+  const out = [];
+  for (const r of raw) {
+    const before = typeof r?.before === "string" ? r.before.trim() : "";
+    const after = typeof r?.after === "string" ? r.after.trim() : "";
+    if (!before || !after) continue;
+    if (loose(before) === loose(after)) continue;      // nothing improved
+    if (!hay || !hay.includes(loose(before))) continue; // unverifiable, or not theirs
+    out.push({ before: before.slice(0, 400), after: after.slice(0, 400), why: (typeof r?.why === "string" ? r.why.trim() : "").slice(0, 120) });
+    if (out.length === 5) break;
+  }
+  return out;
+}
+
+export function normalizeFeedback(raw = {}, source = "") {
   const list = (v, max = 4) =>
     Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, max) : [];
   const str = (v) => (typeof v === "string" ? v.trim() : "");
@@ -103,6 +138,6 @@ export function normalizeFeedback(raw = {}) {
     // itself, and the concrete edits that raise the level. Empty for oral.
     targetLevel: str(raw.targetLevel).slice(0, 8),
     corrected: str(raw.corrected),
-    changes: list(raw.changes, 5),
+    rewrites: rewritePairs(raw.rewrites, source),
   };
 }
