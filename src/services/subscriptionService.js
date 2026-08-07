@@ -53,6 +53,31 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
 // `vite` there is no /api route, so this simply no-ops there.
 // `phone` rides along here only (it isn't stored on the request) so the owner
 // gets it in the Telegram message, like a note.
+// The caller's own most recent APPROVED request, or null.
+//
+// A DZD pass is granted by an admin long after the buyer left the checkout, and
+// nothing pushes that to their browser: the plan lives in app_metadata, sealed
+// inside the access token, so the app keeps saying "Sans papier" until the JWT
+// is reminted. This read is what lets the client notice on its own.
+//
+// Uses the anon key and the buyer's own RLS policy ("subreq: own read"), so no
+// endpoint and no privilege are involved.
+export async function latestApprovedRequest() {
+  const { data: auth } = await supabase.auth.getUser();
+  const userId = auth?.user?.id;
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from("subscription_requests")
+    .select("id, plan, created_at")
+    .eq("user_id", userId)
+    .eq("status", "approved")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) return null;
+  return data || null;
+}
+
 export async function notifyNewRequest(id, phone) {
   if (!id) return;
   try {

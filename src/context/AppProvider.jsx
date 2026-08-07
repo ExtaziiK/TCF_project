@@ -9,6 +9,7 @@ import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
+import { useDzActivation } from "@/hooks/useDzActivation";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -179,6 +180,12 @@ export function AppProvider({ children }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
+
+  // A DZD pass is granted by an admin, not by a redirect the buyer comes back
+  // through, so nothing tells their browser. This watches their own request and
+  // remints the token once it is approved — see the hook for why the JWT is the
+  // whole problem. Costs nothing for accounts that are already Premium.
+  useDzActivation({ user, setUser, notify });
 
   // Pull admin-authored questions (QMS) into the bank and workshop pages.
   useEffect(() => { syncSiteContent(); }, []);
