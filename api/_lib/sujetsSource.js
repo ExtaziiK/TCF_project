@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { HttpError, groqChatJSON } from "./groq.js";
 
 // Monthly subjects importer — the source side of the admin "Générer" button.
@@ -202,6 +203,49 @@ export const countSubjects = (section, data) =>
   section === "ee"
     ? (data || []).length
     : (data || []).reduce((a, t) => a + (t.parties || []).reduce((b, p) => b + (p.sujets || []).length, 0), 0);
+
+/* ------------------------------- provenance -------------------------------- */
+
+// The button gets pressed several times a month, because the source publishes
+// combinaisons as they are reported. A second run must add only what is new —
+// but by then the first run's subjects have been REWORDED, so nothing can be
+// recognised by comparing text. (Measured: two independent rewrites of the same
+// énoncé score no higher against each other than two unrelated énoncés do.)
+//
+// So each imported subject carries a fingerprint of the SOURCE text it came
+// from, and a re-run skips any source item whose fingerprint is already in the
+// month. Fingerprints ride along in the saved payload — `src` on an EE
+// combinaison, `src` on an EO partie holding the keys imported into it — where
+// every renderer ignores them. The EO set is deliberately not index-aligned
+// with `sujets`, so adding or deleting a sujet by hand in the admin cannot
+// corrupt it.
+//
+// Normalising before hashing means casing, accents and punctuation on the
+// source page can drift without inventing a duplicate; rewriting the sentence
+// still counts as a new subject, which is the honest reading.
+const SRC_KEY_LENGTH = 12;
+export const sourceKey = (text) =>
+  createHash("sha1")
+    .update(
+      String(text)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim(),
+    )
+    .digest("hex")
+    .slice(0, SRC_KEY_LENGTH);
+
+const eeKey = (s) => sourceKey([s.t1, s.t2, s.t3?.theme, s.t3?.doc1, s.t3?.doc2].filter(Boolean).join(" "));
+
+// Every source fingerprint already recorded in a saved month.
+export function provenanceKeys(section, data) {
+  const keys = new Set();
+  if (section === "ee") for (const s of data || []) { if (s?.src) keys.add(s.src); }
+  else for (const t of data || []) for (const p of t?.parties || []) for (const k of p?.src || []) keys.add(k);
+  return keys;
+}
 
 /* ------------------------------ source fetching ---------------------------- */
 
@@ -440,6 +484,47 @@ async function rewriteBatch(items, insist = false, deadline = Infinity) {
   return null;
 }
 
+/* ---------------------------- filtering & merging -------------------------- */
+
+// Drops the source items already imported into this month, and stamps what's
+// left with its fingerprint. Returns the section-shaped tree of new subjects.
+export function selectNew(section, parsed, seen) {
+  if (section === "ee") return parsed.filter((s) => !seen.has(eeKey(s))).map((s) => ({ ...s, src: eeKey(s) }));
+  const out = [];
+  for (const t of parsed) {
+    const parties = [];
+    for (const p of t.parties) {
+      const keep = p.sujets.filter((s) => !seen.has(sourceKey(s)));
+      if (keep.length) parties.push({ partie: p.partie, sujets: keep, src: keep.map(sourceKey) });
+    }
+    if (parties.length) out.push({ tache: t.tache, parties });
+  }
+  return out;
+}
+
+// Adds newly imported subjects to a month that already has some, leaving every
+// existing entry (imported earlier, or typed by hand) untouched.
+export function mergeMonth(section, existing, fresh) {
+  if (section === "ee") {
+    // The source lists its newest combinaison first and our archive follows
+    // that order, so new ones go on top; `n` is then just the position.
+    return [...fresh, ...(existing || [])].map((s, i) => ({ ...s, n: i + 1 }));
+  }
+  const out = (existing || []).map((t) => ({ ...t, parties: (t.parties || []).map((p) => ({ ...p, sujets: [...(p.sujets || [])], src: [...(p.src || [])] })) }));
+  for (const t of fresh) {
+    let tt = out.find((x) => x.tache === t.tache);
+    if (!tt) { tt = { tache: t.tache, parties: [] }; out.push(tt); }
+    for (const p of t.parties) {
+      let pp = tt.parties.find((x) => x.partie === p.partie);
+      if (!pp) { pp = { partie: p.partie, sujets: [], src: [] }; tt.parties.push(pp); }
+      pp.sujets.push(...p.sujets);
+      pp.src = [...new Set([...(pp.src || []), ...p.src])];
+    }
+    tt.parties.sort((a, b) => a.partie - b.partie);
+  }
+  return out.sort((a, b) => a.tache - b.tache);
+}
+
 // Full import for one section: newest month → parsed → reworded.
 //
 // `budgetMs` is a wall-clock ceiling for the whole thing, well under the
@@ -448,23 +533,55 @@ async function rewriteBatch(items, insist = false, deadline = Infinity) {
 // spends part of its time waiting on rate limits; when that eats the budget,
 // the rewording stops and the leftovers come back flagged in `kept` instead of
 // the request being killed with nothing to show.
-export async function importLatest(section, { budgetMs = 45000 } = {}) {
+// `known` is `[{ key: "2026-08", data }]` — the months the caller already
+// holds. It cannot know in advance which month the source has published last,
+// so it sends its most recent few and we use whichever matches. This is what
+// lets a re-run add only what is new. Three outcomes, reported as `mode`:
+//   "new"     — we don't have this month at all; import everything.
+//   "merge"   — we have it WITH fingerprints; import the unseen subjects and
+//               append them, leaving everything already there untouched.
+//   "replace" — we have it but with no fingerprints (typed by hand, or saved
+//               before this existed). Nothing can be matched, so the whole
+//               month is re-imported and the caller is told it replaces.
+// Filtering happens BEFORE the rewording, so a re-run that finds one new
+// combinaison spends one small AI call rather than redoing the month.
+export async function importLatest(section, { known = [], budgetMs = 45000 } = {}) {
   const startedAt = Date.now();
   const target = await latestMonth(section);
   const lines = toLines(await fetchPage(target.url));
-  const data = section === "ee" ? parseEE(lines) : parseEO(lines);
-  const count = countSubjects(section, data);
-  if (!count) throw new HttpError(502, `Aucun sujet trouvé sur ${target.url} — la structure de la page a probablement changé.`);
+  const parsed = section === "ee" ? parseEE(lines) : parseEO(lines);
+  const found = countSubjects(section, parsed);
+  if (!found) throw new HttpError(502, `Aucun sujet trouvé sur ${target.url} — la structure de la page a probablement changé.`);
 
-  const { kept, usage, total } = await reformulate(section, data, { deadline: startedAt + budgetMs });
+  const monthKey = `${target.year}-${String(target.monthNum).padStart(2, "0")}`;
+  const held = (known || []).find((m) => m?.key === monthKey)?.data;
+  const existing = countSubjects(section, held) ? held : null;
+  const seen = existing ? provenanceKeys(section, existing) : new Set();
+  const mode = !existing ? "new" : seen.size ? "merge" : "replace";
+
+  const fresh = mode === "merge" ? selectNew(section, parsed, seen) : selectNew(section, parsed, new Set());
+  const added = countSubjects(section, fresh);
+
+  const { kept, usage, total } = added ? await reformulate(section, fresh, { deadline: startedAt + budgetMs }) : { kept: [], usage: null, total: 0 };
+  const data = mode === "merge" ? mergeMonth(section, existing, fresh) : fresh;
+
   return {
     section,
     year: target.year,
     monthNum: target.monthNum,
     month: target.month,
     sourceUrl: target.url,
-    data,
-    counts: { subjects: count, strings: total, kept: kept.length },
+    mode,
+    data, // the complete month to save
+    fresh, // just the additions, for the review panel
+    counts: {
+      found, // subjects on the source page
+      added, // of those, not already in the month
+      skipped: found - added,
+      existing: countSubjects(section, existing),
+      strings: total,
+      kept: kept.length,
+    },
     kept: kept.map((t) => t.slice(0, 160)),
     usage,
     durationMs: Date.now() - startedAt,

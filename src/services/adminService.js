@@ -83,11 +83,16 @@ export function updateAdminUser(payload) {
 
 // Reads the newest month of subjects published on reussir-tcfcanada.com for
 // one épreuve and rewords it (server-side, see api/_lib/sujetsSource.js).
-// Returns a PROPOSAL — { year, monthNum, month, sourceUrl, data, counts, kept }
-// — that the admin reviews and then publishes with saveMonth(). It can take a
-// while: two page fetches plus several AI calls.
-export function generateSujetsFromSource(section) {
-  return adminFetch("/api/admin/sujets", { method: "POST", body: JSON.stringify({ section }) });
+// Returns a PROPOSAL — { mode, year, monthNum, month, sourceUrl, data, fresh,
+// counts, kept } — that the admin reviews and then publishes with saveMonth().
+// It can take a while: two page fetches plus several AI calls.
+//
+// `known` carries the months we already hold (newest first, a few of them —
+// which month the source published last isn't known until the server looks).
+// It is what stops a second run in the same month from importing subjects that
+// are already there; see the provenance note in api/_lib/sujetsSource.js.
+export function generateSujetsFromSource(section, known = []) {
+  return adminFetch("/api/admin/sujets", { method: "POST", body: JSON.stringify({ section, known }) });
 }
 
 /* ------------------------------- promo codes ------------------------------ */

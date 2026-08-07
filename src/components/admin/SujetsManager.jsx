@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic, Sparkles, ExternalLink, AlertTriangle, UploadCloud, Loader2 } from "lucide-react";
+import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic, Sparkles, ExternalLink, AlertTriangle, Info, UploadCloud, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
@@ -9,6 +9,15 @@ import { generateSujetsFromSource } from "@/services/adminService";
 const YEAR_NOW = new Date().getFullYear();
 const YEAR_CHOICES = Array.from({ length: 8 }, (_, i) => YEAR_NOW + 1 - i); // next year → 6 years back
 const countEO = (data) => (data || []).reduce((a, t) => a + (t.parties || []).reduce((b, p) => b + (p.sujets || []).length, 0), 0);
+
+// The few most recent months we hold, sent with an import so the server can
+// tell what is already published (see generateSujetsFromSource).
+const KNOWN_MONTHS_SENT = 3;
+const recentMonths = (years) =>
+  years
+    .flatMap((y) => y.months.map((m) => ({ key: m.key, data: m.data })))
+    .sort((a, b) => b.key.localeCompare(a.key))
+    .slice(0, KNOWN_MONTHS_SENT);
 
 // Admin manager for the monthly subjects archive (Expression écrite / orale),
 // backed by sujets_archive (DB). No in-place editing by request — only add,
@@ -48,19 +57,31 @@ export function SujetsManager() {
 
   // Fetch + reword the newest month published by the source. Nothing is saved:
   // the result lands in `proposal` for review.
+  //
+  // The months we already hold go with the request so the server can skip the
+  // subjects it imported here before — the button is pressed several times a
+  // month as the source publishes more, and a re-run must add, not duplicate.
   const generate = async () => {
     setImporting(true);
     setProposal(null);
-    const r = await generateSujetsFromSource(section);
+    const r = await generateSujetsFromSource(section, recentMonths(years));
     setImporting(false);
     if (!r.ok) return notify(r.unavailable ? "Import indisponible : lancez `vercel dev` (les routes /api n'existent pas sous `vite`)." : `Échec : ${r.error}`);
     setProposal(r.data);
-    notify(`${r.data.month} ${r.data.year} récupéré et reformulé — relisez puis publiez.`);
+    const { month, year, counts, mode } = r.data;
+    notify(
+      counts.added === 0
+        ? `${month} ${year} : aucun nouveau sujet sur la source.`
+        : mode === "merge"
+          ? `${counts.added} nouveau(x) sujet(s) pour ${month} ${year} — relisez puis ajoutez.`
+          : `${month} ${year} récupéré et reformulé — relisez puis publiez.`,
+    );
   };
 
   const publish = async () => {
     const p = proposal;
-    const r = await run(() => saveMonth(section, p.year, p.monthNum, p.data), `${p.month} ${p.year} publié sur le site.`);
+    const done = p.mode === "merge" ? "ajouté(s) à" : "publié sur";
+    const r = await run(() => saveMonth(section, p.year, p.monthNum, p.data), `${p.counts.added} sujet(s) ${done} ${p.month} ${p.year}.`);
     if (!r?.ok) return;
     setProposal(null);
     select(p.year, p.monthNum);
@@ -136,16 +157,7 @@ export function SujetsManager() {
         </Btn>
       </Card>
 
-      {proposal && (
-        <ImportPreview
-          p={proposal}
-          existing={years.find((y) => y.year === proposal.year)?.months.find((m) => m.monthNum === proposal.monthNum) || null}
-          busy={busy}
-          c={c}
-          onPublish={publish}
-          onCancel={() => setProposal(null)}
-        />
-      )}
+      {proposal && <ImportPreview p={proposal} busy={busy} c={c} onPublish={publish} onCancel={() => setProposal(null)} />}
 
       {loading ? (
         <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement…</p></Card>
@@ -172,10 +184,18 @@ export function SujetsManager() {
 }
 
 // Review step for an imported month. Read-only: the admin reads what the
-// importer produced, then publishes it or throws it away. Publishing a month
-// that already exists replaces it wholesale, so that case is called out.
-function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
-  const existingCount = existing ? (p.section === "ee" ? existing.data.length : countEO(existing.data)) : 0;
+// importer produced, then publishes it or throws it away.
+//
+// What "publish" means depends on `mode` (see importLatest): "merge" appends
+// the subjects that appeared since the last run and touches nothing else,
+// "replace" overwrites a month the importer can't match against, "new" creates
+// it. In merge mode the panel lists only the additions — the rest of the month
+// is already visible in the editor below.
+function ImportPreview({ p, busy, c, onPublish, onCancel }) {
+  const merging = p.mode === "merge";
+  const shown = merging ? p.fresh : p.data;
+  const unit = p.section === "ee" ? "combinaison(s)" : "sujet(s)";
+  const nothingNew = p.counts.added === 0;
   return (
     <Card className="p-6 border-2 border-blue-600/40">
       <div className="flex items-start justify-between gap-3 flex-wrap mb-4">
@@ -184,7 +204,9 @@ function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
           <h3 className={`font-display font-bold text-lg ${c.text}`}>
             {p.month} {p.year}
             <span className={`ml-2 text-sm font-normal ${c.faint}`}>
-              · {p.section === "ee" ? `${p.counts.subjects} combinaisons` : `${p.counts.subjects} sujets`} · {p.counts.strings} énoncés reformulés
+              · {p.counts.added} nouveau(x) {unit}
+              {p.counts.skipped > 0 && ` · ${p.counts.skipped} déjà présent(s)`}
+              {p.counts.strings > 0 && ` · ${p.counts.strings} énoncés reformulés`}
             </span>
           </h3>
           <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:underline mt-1">
@@ -192,14 +214,28 @@ function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
           </a>
         </div>
         <div className="flex items-center gap-2">
-          <Btn small variant="ghost" icon={XCircle} disabled={busy} onClick={onCancel}>Annuler</Btn>
-          <Btn small icon={UploadCloud} disabled={busy} onClick={onPublish}>{existing ? "Remplacer et publier" : "Publier"}</Btn>
+          <Btn small variant="ghost" icon={XCircle} disabled={busy} onClick={onCancel}>{nothingNew ? "Fermer" : "Annuler"}</Btn>
+          {!nothingNew && (
+            <Btn small icon={UploadCloud} disabled={busy} onClick={onPublish}>
+              {merging ? "Ajouter au mois" : p.mode === "replace" ? "Remplacer et publier" : "Publier"}
+            </Btn>
+          )}
         </div>
       </div>
 
-      {existing && (
+      {nothingNew && (
+        <Notice tone="plain" c={c}>
+          Rien de nouveau : les {p.counts.found} {unit} publiés sur la source pour {p.month} {p.year} sont déjà dans l'archive.
+        </Notice>
+      )}
+      {merging && !nothingNew && (
+        <Notice tone="plain" c={c}>
+          Ajout à {p.month} {p.year}, qui contient déjà {p.counts.existing} {unit}. Les sujets existants ne sont pas modifiés.
+        </Notice>
+      )}
+      {p.mode === "replace" && (
         <Notice tone="amber" c={c}>
-          {p.month} {p.year} existe déjà avec {existingCount} {p.section === "ee" ? "combinaison(s)" : "sujet(s)"}. Publier remplacera entièrement ce mois.
+          {p.month} {p.year} existe déjà avec {p.counts.existing} {unit}, mais sans trace d'origine : impossible de savoir ce qui vient de la source, donc publier remplacera entièrement ce mois. Les prochains imports pourront, eux, ajouter sans écraser.
         </Notice>
       )}
       {p.counts.kept > 0 && (
@@ -213,7 +249,7 @@ function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
 
       <div className="mt-4 max-h-[26rem] overflow-y-auto pr-1 space-y-3">
         {p.section === "ee"
-          ? p.data.map((s, i) => (
+          ? shown.map((s, i) => (
             <div key={i} className={`rounded-2xl border ${c.border} p-4 flex gap-3`}>
               <span className="w-8 h-8 rounded-xl grad-brand text-white flex items-center justify-center text-sm font-bold shrink-0">{s.n ?? i + 1}</span>
               <div className="flex-1 min-w-0 space-y-1.5 text-sm">
@@ -225,7 +261,7 @@ function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
               </div>
             </div>
           ))
-          : p.data.map((t) => (
+          : shown.map((t) => (
             <div key={t.tache}>
               <p className={`font-display font-bold mb-2 ${c.text}`}>Tâche {t.tache}</p>
               <div className="space-y-3">
@@ -251,10 +287,11 @@ function ImportPreview({ p, existing, busy, c, onPublish, onCancel }) {
 }
 
 function Notice({ tone = "amber", c, children }) {
-  const tint = tone === "amber" ? "bg-amber-500/10 text-amber-700 dark:text-amber-400" : `${c.hoverSoft} ${c.sub}`;
+  const amber = tone === "amber";
+  const Icon = amber ? AlertTriangle : Info;
   return (
-    <div className={`rounded-2xl px-4 py-3 text-sm flex gap-2.5 items-start mt-2 ${tint}`}>
-      <AlertTriangle size={15} className="shrink-0 mt-0.5" />
+    <div className={`rounded-2xl px-4 py-3 text-sm flex gap-2.5 items-start mt-2 ${amber ? "bg-amber-500/10 text-amber-700 dark:text-amber-400" : `bg-blue-600/5 ${c.sub}`}`}>
+      <Icon size={15} className={`shrink-0 mt-0.5 ${amber ? "" : "text-blue-600"}`} />
       <div className="min-w-0">{children}</div>
     </div>
   );

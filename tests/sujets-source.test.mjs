@@ -12,7 +12,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { toLines, parseEE, parseEO, monthLinks, countSubjects } from "../api/_lib/sujetsSource.js";
+import { toLines, parseEE, parseEO, monthLinks, countSubjects, sourceKey, provenanceKeys, selectNew, mergeMonth } from "../api/_lib/sujetsSource.js";
 
 const CHROME_HEAD = `
   <p>Août 2026</p><p>Sujets d'actualité</p><p>Attention!</p>
@@ -135,4 +135,96 @@ test("month links are read from the slug and sorted newest first", () => {
   // The label in the anchor is wrong on the real site ("Decembre 2024" for a
   // 2025 page); the slug is what we trust.
   assert.equal(links[2].url, "https://reussir-tcfcanada.com/decembre-2025-expression-ecrite/");
+});
+
+/* --------------------- re-running the import mid-month --------------------- */
+//
+// The button gets pressed several times a month as the source publishes more
+// combinaisons. Because a first run REWORDS what it imports, the second run
+// cannot recognise its own work by comparing text — it matches on a fingerprint
+// of the source instead. These tests pin that down: the danger is silently
+// re-importing subjects that are already published.
+
+test("a source fingerprint survives cosmetic drift but not a rewrite", () => {
+  const original = "Je suis un(e) ami(e). Vous cherchez un emploi (tenue, préparation, etc.).";
+  assert.equal(sourceKey(original), sourceKey(original), "stable");
+  assert.equal(sourceKey(original), sourceKey("JE SUIS UN(E) AMI(E). Vous cherchez un emploi (tenue, préparation, etc.)."), "casing");
+  assert.equal(sourceKey(original), sourceKey("Je suis un(e) ami(e) : vous cherchez un emploi — tenue, préparation, etc."), "punctuation");
+  assert.equal(sourceKey(original), sourceKey("Je suis un(e) ami(e). Vous cherchez un emploi (tenue, preparation, etc.)."), "accents");
+  assert.notEqual(sourceKey(original), sourceKey("Je suis votre voisin(e). Vous cherchez un emploi (tenue, préparation, etc.)."), "different subject");
+  // A rewording is a different subject as far as matching goes — which is
+  // exactly why the fingerprint is taken from the source, never from what we
+  // publish.
+  assert.notEqual(sourceKey(original), sourceKey("Je suis un(e) ami(e). Un entretien vous attend (tenue, préparation, etc.)."));
+});
+
+test("EE: a re-run imports only the combinaison that appeared since", () => {
+  const page = (combis) => `<article>${combis.map((n) => `
+    <h2>Combinaison ${n}</h2>
+    <h3>Tâche 1</h3><p>Premier énoncé numéro ${n}.</p>
+    <h3>Tâche 2</h3><p>Second énoncé numéro ${n}.</p>
+    <h3>Tâche 3</h3><p>Thème ${n}</p>
+    <p>Document 1 :</p><p>Un premier point de vue sur le thème ${n}.</p>
+    <p>Document 2 :</p><p>Un point de vue opposé sur le thème ${n}.</p>`).join("")}</article>`;
+
+  // First run: two combinaisons, imported and (in reality) reworded.
+  const first = selectNew("ee", parseEE(toLines(page([2, 1]))), new Set());
+  assert.equal(first.length, 2);
+  assert.ok(first.every((s) => s.src), "every imported combinaison carries its source fingerprint");
+  // Stand in for the rewording, which changes every string we publish.
+  const published = first.map((s, i) => ({ ...s, n: i + 1, t1: `REFORMULÉ ${i}`, t2: `REFORMULÉ ${i}`, t3: { ...s.t3, theme: `REFORMULÉ ${i}` } }));
+
+  // Second run: the source has added Combinaison 3 on top.
+  const seen = provenanceKeys("ee", published);
+  assert.equal(seen.size, 2);
+  const fresh = selectNew("ee", parseEE(toLines(page([3, 2, 1]))), seen);
+  assert.equal(fresh.length, 1, "only the new combinaison, despite the published ones reading differently now");
+  assert.equal(fresh[0].t3.theme, "Thème 3");
+
+  const merged = mergeMonth("ee", published, fresh);
+  assert.equal(merged.length, 3);
+  assert.deepEqual(merged.map((s) => s.n), [1, 2, 3], "renumbered in place");
+  assert.equal(merged[0].t3.theme, "Thème 3", "the newest combinaison leads, as on the source");
+  assert.deepEqual(merged.slice(1).map((s) => s.t1), ["REFORMULÉ 0", "REFORMULÉ 1"], "already-published wording is left alone");
+
+  // Third run with nothing new on the source must add nothing at all.
+  assert.equal(selectNew("ee", parseEE(toLines(page([3, 2, 1]))), provenanceKeys("ee", merged)).length, 0);
+});
+
+test("EO: a re-run adds new sujets into their partie and leaves the rest alone", () => {
+  const page = (sujets) => `<article><h2>Tâche 2</h2><h3>Partie 1</h3>
+    ${sujets.map((s) => `<p>Sujet 1</p><p>${s}</p>`).join("")}</article>`;
+
+  const first = selectNew("eo", parseEO(toLines(page(["Énoncé A.", "Énoncé B."]))), new Set());
+  assert.deepEqual(first[0].parties[0].sujets, ["Énoncé A.", "Énoncé B."]);
+  assert.equal(first[0].parties[0].src.length, 2, "the partie records which source items it holds");
+
+  const published = [{ tache: 2, parties: [{ partie: 1, sujets: ["A reformulé.", "B reformulé."], src: first[0].parties[0].src }] }];
+  const fresh = selectNew("eo", parseEO(toLines(page(["Énoncé A.", "Énoncé B.", "Énoncé C."]))), provenanceKeys("eo", published));
+  assert.equal(countSubjects("eo", fresh), 1);
+
+  const merged = mergeMonth("eo", published, fresh);
+  assert.deepEqual(merged[0].parties[0].sujets, ["A reformulé.", "B reformulé.", "Énoncé C."]);
+  assert.equal(merged[0].parties[0].src.length, 3);
+  assert.equal(countSubjects("eo", selectNew("eo", parseEO(toLines(page(["Énoncé A.", "Énoncé B.", "Énoncé C."]))), provenanceKeys("eo", merged))), 0);
+});
+
+test("EO merge creates a missing tâche/partie and keeps both sorted", () => {
+  const published = [{ tache: 3, parties: [{ partie: 2, sujets: ["déjà là"], src: ["deadbeef0001"] }] }];
+  const fresh = [
+    { tache: 2, parties: [{ partie: 4, sujets: ["nouveau T2P4"], src: ["aaaa00000001"] }] },
+    { tache: 3, parties: [{ partie: 1, sujets: ["nouveau T3P1"], src: ["bbbb00000002"] }] },
+  ];
+  const merged = mergeMonth("eo", published, fresh);
+  assert.deepEqual(merged.map((t) => t.tache), [2, 3]);
+  assert.deepEqual(merged[1].parties.map((p) => p.partie), [1, 2]);
+  assert.deepEqual(merged[1].parties.find((p) => p.partie === 2).sujets, ["déjà là"], "untouched");
+});
+
+test("a month with no fingerprints yields no keys, so the import must not merge blindly", () => {
+  // Hand-typed months, and anything saved before provenance existed, have no
+  // `src`. Reporting zero keys is what makes importLatest choose "replace"
+  // instead of appending a second copy of every subject.
+  assert.equal(provenanceKeys("ee", [{ n: 1, t1: "a", t2: "b", t3: { theme: "t" } }]).size, 0);
+  assert.equal(provenanceKeys("eo", [{ tache: 2, parties: [{ partie: 1, sujets: ["x"] }] }]).size, 0);
 });
