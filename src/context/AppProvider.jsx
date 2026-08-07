@@ -11,6 +11,7 @@ import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut
 import { confirmCheckout } from "@/services/stripeService";
 import { useDzActivation } from "@/hooks/useDzActivation";
 import { useProfiles } from "@/hooks/useProfiles";
+import { usePlanSync } from "@/hooks/usePlanSync";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -187,6 +188,11 @@ export function AppProvider({ children }) {
   // remints the token once it is approved — see the hook for why the JWT is the
   // whole problem. Costs nothing for accounts that are already Premium.
   useDzActivation({ user, setUser, notify });
+
+  // The safety net under every other way a plan can change - an admin
+  // extending or revoking access, above all - since none of those pass through
+  // a checkout the browser is watching.
+  usePlanSync({ user, setUser });
 
   // Profiles inside one account (Première classe 2, VIP 4). An account with a
   // single unlocked profile never sees the chooser, so plans without profiles
