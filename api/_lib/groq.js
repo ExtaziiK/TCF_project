@@ -48,7 +48,18 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
-    const err = new HttpError(502, `Groq chat error (${res.status}): ${detail.slice(0, 300)}`);
+    // A saturated upstream is not a broken app, and must not read like one. 429
+    // means Groq's per-minute or per-day allowance is spent: the candidate did
+    // nothing wrong, their text is fine, and waiting fixes it. Surfacing that as
+    // a bare 502 "l'analyse a échoué" invites them to retry immediately, which
+    // only deepens the hole, and to conclude the product is broken.
+    // Status 429 so the workshops pass the message through verbatim.
+    const mins = Number(detail.match(/try again in (?:(\d+)m)?([\d.]+)s/)?.[1] || 0);
+    const err = res.status === 429
+      ? new HttpError(429, mins > 0
+        ? `L'analyse IA est momentanément saturée. Réessayez dans ${mins + 1} minutes.`
+        : "L'analyse IA est momentanément saturée. Réessayez dans quelques minutes.")
+      : new HttpError(502, `Groq chat error (${res.status}): ${detail.slice(0, 300)}`);
     // Kept on the error so a caller that can wait (the subjects importer) can
     // back off for exactly as long as Groq asks instead of guessing. Groq puts
     // the delay in Retry-After, or in the 429 body as "try again in 8.5275s".
