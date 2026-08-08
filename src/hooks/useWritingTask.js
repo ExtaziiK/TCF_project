@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { evaluateWriting, AiError } from "@/services/aiService";
 
@@ -53,9 +53,27 @@ export function useWritingTask(task, notify) {
     rewrites: [],
   });
 
+  // The last text analysed, and what came back for it. Pressing the button
+  // again on an UNCHANGED text re-shows that result instead of asking for a new
+  // one: a second call would spend money and one of the candidate's analyses to
+  // produce an answer that should be identical anyway — and if it came back even
+  // slightly different, they would rightly stop believing either version.
+  //
+  // Only an exact match counts. Serving the old feedback for edited text would
+  // quote sentences they have just changed, which is worse than re-analysing.
+  const lastRun = useRef({ text: null, feedback: null });
+
   const analyze = async () => {
     if (analyzing) return;
     if (words === 0) { notify(t("Rédigez d'abord votre réponse avant de lancer l'analyse.")); return; }
+
+    const current = text.trim();
+    if (lastRun.current.feedback && lastRun.current.text === current) {
+      setAi(lastRun.current.feedback);
+      notify(t("Texte inchangé : voici votre analyse précédente. Modifiez votre texte pour en obtenir une nouvelle."));
+      return;
+    }
+
     setAnalyzing(true);
     setAi(null);
     try {
@@ -67,6 +85,7 @@ export function useWritingTask(task, notify) {
         targetWords: task.words,
         lang,
       });
+      lastRun.current = { text: current, feedback };
       setAi(feedback);
     } catch (err) {
       if (err instanceof AiError && (err.status === 404 || err.status === 0)) {

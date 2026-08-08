@@ -73,10 +73,13 @@ export default async function handler(req, res) {
       .join("\n");
 
     const startedAt = Date.now();
+    // temperature 0: a grade must not move when the same text is submitted
+    // again. Sampling noise that renames a level between two presses of the
+    // same button destroys the candidate's trust in every grade we give.
     const { json: raw, usage } = await groqChatJSON([
       { role: "system", content: system(lang) },
       { role: "user", content: userMsg },
-    ]);
+    ], { temperature: 0 });
     logAiUsage({ userId: user.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - startedAt });
 
     // How many analyses are left on this tache: 2 for a free account, 3 per

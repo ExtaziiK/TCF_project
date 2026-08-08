@@ -55,6 +55,7 @@ export const EN = {
 
   // ── NCLC calculator ──────────────────────────────────────────────────
   "Calculateur": "Calculator",
+  "Texte inchangé : voici votre analyse précédente. Modifiez votre texte pour en obtenir une nouvelle.": "Text unchanged: here is your previous analysis. Edit your text to get a new one.",
   "Paiement en cours de vérification": "Payment being checked",
   "Votre paiement n'a pas été validé": "Your payment was not accepted",
   "demande envoyée le": "request sent on",
