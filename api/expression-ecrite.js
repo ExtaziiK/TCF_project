@@ -11,6 +11,7 @@ const system = (lang) => `You are a certified TCF Canada examiner grading Expres
 
 SCORE. The TCF scores this épreuve OUT OF 20, so give a score /20 — not a CEFR level. Rate four criteria /20, then set the overall score at the level the candidate SUSTAINS (not an average: one strong criterion does not lift weak language, one slip does not sink solid work).
 1. Consigne — task carried out, right text type and register, and length if a word count was given.
+The candidate's word count is GIVEN to you above. Use that number; do not count the words yourself and never contradict it. If it falls inside the target range, the length is correct — say nothing about it and apply no length penalty.
 LENGTH BELONGS TO THIS CRITERION AND NO OTHER. A short text still shows whatever range and control its sentences show: mark cohérence, lexique and morphosyntaxe on the LANGUAGE alone, exactly as you would if the text were the right length. Never lower them because the text is short — that is punishing the same fault four times. Only if the text is under three quarters of the minimum does the OVERALL score cap at 9, and even then the criteria keep their true values. With no word count given, say nothing about length.
 2. Cohérence — organisation and linking of ideas: real connectors rather than sentences juxtaposed with "et"/"mais".
 3. Lexique — range, precision, repetition.
@@ -54,10 +55,18 @@ export default async function handler(req, res) {
     // of clicks is refused rather than served, and released below if it fails.
     claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("ee", req.body?.task));
 
+    // Counted HERE and handed over, never left to the model. Asked to judge
+    // length itself it miscounts, and then justifies a penalty with a false
+    // claim: a 160-word text inside a 120-180 target was capped at 9/20 for
+    // "ne respecte pas le nombre de mots requis". Counted server-side rather
+    // than taken from the client, so it cannot be spoofed to dodge the cap.
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+
     const userMsg = [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
       prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
       targetWords && `Nombre de mots attendu : ${String(targetWords).slice(0, 20)}`,
+      `Nombre de mots réellement écrits : ${wordCount}`,
       `Réponse du candidat :\n"""\n${text.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)
