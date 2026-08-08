@@ -1,4 +1,4 @@
-import { Sparkles, Check, ArrowUpRight } from "lucide-react";
+import { Sparkles, Check, ArrowUpRight, ChevronDown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 
@@ -69,16 +69,21 @@ export function AiFeedback({ level, score, nclc, summary, strengths = [], improv
 
       {corrected && (
         <div className="mt-5 pt-4 border-t border-blue-600/20">
-          {/* The rewrite always targets C2 (see api/expression-ecrite.js) — a
-              fixed fact about the feature, not a per-answer judgement, so this
-              is a plain static badge rather than a value read from the model. */}
-          <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
-            <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5"><ArrowUpRight size={14} /> {t("Version améliorée")}</p>
-            <Pill tone="blue">C2</Pill>
-          </div>
-          <details>
-            <summary className="text-sm font-semibold text-blue-600 cursor-pointer select-none">{t("Lire le texte réécrit")}</summary>
-            <p className={`mt-2 text-sm leading-relaxed whitespace-pre-line ${c.sub}`}>{corrected}</p>
+          {/* One centered control instead of a label plus a separate "read it"
+              link: the label WAS the toggle, so give it the affordance (chevron,
+              cursor, native <details> semantics) directly rather than hiding
+              "click to open" behind a second, easy-to-miss line of text.
+              grad-brand (not the plain blue-600 text every other header in this
+              card uses) makes it the one thing here styled like a call to
+              action — this is the payoff of the whole analysis. */}
+          <details className="group">
+            <summary className="mx-auto w-fit flex items-center gap-2 rounded-full grad-brand text-white text-sm font-bold px-5 py-2.5 cursor-pointer select-none list-none shadow-lg shadow-blue-600/25 hover:shadow-xl hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all duration-200">
+              <Sparkles size={15} aria-hidden="true" />
+              {t("Version améliorée")}
+              <span className="px-2 py-0.5 rounded-full bg-white/25 text-[11px] font-extrabold">C2</span>
+              <ChevronDown size={16} className="transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+            </summary>
+            <p className={`mt-4 text-sm leading-relaxed whitespace-pre-line ${c.sub}`}>{corrected}</p>
           </details>
         </div>
       )}

@@ -1228,7 +1228,6 @@ export const EN = {
   "À améliorer": "To improve",
   "Voir une version améliorée": "See an improved version",
   "Version améliorée": "Improved version",
-  "Lire le texte réécrit": "Read the rewritten text",
   "Analyse en cours…": "Analyzing…",
   "L'examinateur IA lit votre texte…": "The AI examiner is reading your text…",
   "Rédigez d'abord votre réponse avant de lancer l'analyse.": "Write your answer first, then run the analysis.",
