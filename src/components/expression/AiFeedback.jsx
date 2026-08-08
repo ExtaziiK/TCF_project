@@ -5,7 +5,7 @@ import { Card, Pill } from "@/components/common";
 // Renders one AI evaluation (shared by Expression écrite & orale). The dynamic
 // text (summary, bullets, corrected version) is already localized by the model
 // via the `lang` we send; only the static labels go through t().
-export function AiFeedback({ level, score, nclc, summary, strengths = [], improvements = [], corrected, targetLevel, rewrites = [], compact }) {
+export function AiFeedback({ level, score, nclc, summary, strengths = [], improvements = [], corrected, rewrites = [], compact }) {
   const { c, t } = useApp();
   return (
     <Card className={`${compact ? "p-4" : "p-6"} border-2 border-blue-600/40 rise`}>
@@ -69,9 +69,12 @@ export function AiFeedback({ level, score, nclc, summary, strengths = [], improv
 
       {corrected && (
         <div className="mt-5 pt-4 border-t border-blue-600/20">
+          {/* The rewrite always targets C2 (see api/expression-ecrite.js) — a
+              fixed fact about the feature, not a per-answer judgement, so this
+              is a plain static badge rather than a value read from the model. */}
           <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
             <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5"><ArrowUpRight size={14} /> {t("Version améliorée")}</p>
-            {targetLevel && <Pill tone="blue">{t("Niveau visé :")} {targetLevel}</Pill>}
+            <Pill tone="blue">C2</Pill>
           </div>
           <details>
             <summary className="text-sm font-semibold text-blue-600 cursor-pointer select-none">{t("Lire le texte réécrit")}</summary>
