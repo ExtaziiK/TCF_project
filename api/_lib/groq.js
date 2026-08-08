@@ -19,8 +19,27 @@ const GROQ_BASE = "https://api.groq.com/openai/v1";
 //
 // 20b leads because it is the cheaper model and has been producing the grades
 // measured against the rubric; 120b is the relief valve, not the default.
-const CHAT_MODELS = ["openai/gpt-oss-20b", "openai/gpt-oss-120b"];
-const CHAT_MODEL = CHAT_MODELS[0];
+// llama grades the same texts two to four points high — 16/20 C2 where the
+// gpt-oss pair says 12/20 B2 — and the inflation is not linear: accurate at A2,
+// +2 at B1, +2 to +4 at B2. This anchor closed about half that gap in testing
+// (16 -> 14 on the reference text). It does NOT make llama equivalent, and it
+// is attached to llama alone so the primary's calibration is untouched.
+const LLAMA_CALIBRATION = `
+CALIBRATION — you grade too generously; correct for it.
+A text that argues clearly with varied vocabulary, real connectors and controlled subordination, with only occasional errors, is 12/20 (B2). It is NOT 15 or 16. Reserve 14-15 for genuinely nuanced writing with idiomatic range, and 16+ for near-native work you would not correct.
+A text of short juxtaposed sentences with repeated basic vocabulary and frequent errors is 4-5/20 (A2).
+Before answering, check your overall score against these two anchors and lower it if it sits above the first without clearly earning it.`;
+
+const CHAT_MODELS = [
+  { id: "openai/gpt-oss-20b" },
+  { id: "openai/gpt-oss-120b" },
+  // Third bucket (100K/day of its own), reached only when both gpt-oss models
+  // are spent. A grade from here is not interchangeable with the ones above —
+  // ai_usage_log records which model served each call, so a run of llama grades
+  // is identifiable if a candidate ever disputes one.
+  { id: "llama-3.3-70b-versatile", calibration: LLAMA_CALIBRATION },
+];
+const CHAT_MODEL = CHAT_MODELS[0].id;
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
 
 export class HttpError extends Error {
@@ -52,13 +71,22 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
   // unparseable reply — would fail identically everywhere, and retrying it just
   // spends a second model's allowance to reach the same error.
   for (const candidate of CHAT_MODELS) {
-    model = candidate;
+    model = candidate.id;
+    // A per-model note is appended to the FIRST system message rather than sent
+    // as a separate one: some models weight a trailing system turn oddly, and
+    // the calibration has to be read as part of the instructions, not after
+    // them.
+    const payload = candidate.calibration
+      ? messages.map((m, i) => (i === messages.findIndex((x) => x.role === "system")
+        ? { ...m, content: m.content + candidate.calibration }
+        : m))
+      : messages;
     res = await fetch(`${GROQ_BASE}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model,
-        messages,
+        messages: payload,
         temperature,
         max_tokens: maxTokens,
         reasoning_effort: "low",
