@@ -4,7 +4,7 @@
 -- per-day "simulations IA" on the cards were marketing copy (see the NOTE in
 -- src/constants/pricing.js). Two limits now apply to paid accounts:
 --
---   1. PACE - 3 analyses per tâche per 5-minute window. Anti-spam only; it
+--   1. PACE - 3 analyses per tâche per 10-minute window. Anti-spam only; it
 --      never touches the daily count, so a candidate can work a whole
 --      Expression écrite sitting (three tâches, the better part of an hour) and
 --      still have spent one simulation.

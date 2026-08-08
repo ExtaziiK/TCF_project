@@ -8,7 +8,7 @@
 // counted in public.ai_sittings). A "simulation" is one sitting: it opens on
 // the first AI analysis and stays open while the candidate works, so a whole
 // Expression écrite counts once. Paid accounts are additionally paced at 3
-// analyses per tâche per 5 minutes. Keep these numbers in sync with the cards.
+// analyses per tâche per 10 minutes. Keep these numbers in sync with the cards.
 // The per-day MOCK-EXAM quotas are still marketing copy: nothing enforces them.
 // The quiz counts, by contrast, now describe what actually
 // happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
