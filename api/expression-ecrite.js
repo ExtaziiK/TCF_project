@@ -124,7 +124,16 @@ export default async function handler(req, res) {
   } catch (err) {
     // Record the failure as well as the successes. A saturated day otherwise
     // reads as a quiet one in the admin, which is the opposite of the truth.
-    logAiFailure({ userId: user?.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, status: err.upstreamStatus || err.status });
+    // err.model is the model that actually refused (the end of the fallback
+    // chain), not the first one tried — otherwise every 429 is blamed on the
+    // primary. err.upstreamDetail is Groq's own sentence, which names the
+    // exhausted bucket; both land in ai_usage_log for the admin.
+    logAiFailure({
+      userId: user?.id, endpoint: "expression-ecrite", kind: "chat",
+      model: err.model || CHAT_MODEL_NAME,
+      status: err.upstreamStatus || err.status,
+      detail: err.upstreamDetail,
+    });
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.
     await releaseAiUse(claim);

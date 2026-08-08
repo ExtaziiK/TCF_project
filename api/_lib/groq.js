@@ -128,6 +128,17 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // back off for exactly as long as Groq asks instead of guessing. Groq puts
     // the delay in Retry-After, or in the 429 body as "try again in 8.5275s".
     err.upstreamStatus = res.status;
+    // The model that actually refused — the LAST one tried, i.e. the end of the
+    // fallback chain. Callers used to meter the failure against CHAT_MODEL_NAME,
+    // so every 429 in the admin was blamed on the primary even though the whole
+    // chain was spent; the dashboard read "20b refuses" while 120b and llama had
+    // already been tried and refused too.
+    err.model = model;
+    // Groq's own sentence, which names the exhausted bucket and the wait. It is
+    // deliberately NOT what the candidate sees (they get the reassuring French
+    // message above) — it goes to ai_usage_log so the admin can tell a spent
+    // quota from a bad key without opening Groq's console.
+    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, 300) || null;
     const header = Number(res.headers.get("retry-after"));
     const inBody = detail.match(/try again in ([\d.]+)s/i);
     err.retryAfterMs = header > 0 ? header * 1000 : inBody ? Math.ceil(Number(inBody[1]) * 1000) : null;
@@ -160,7 +171,13 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
-    throw new HttpError(502, `Groq transcription error (${res.status}): ${detail.slice(0, 300)}`);
+    const err = new HttpError(502, `Groq transcription error (${res.status}): ${detail.slice(0, 300)}`);
+    // Same contract as the chat path, so a transcription refusal is metered
+    // with its real status and reason rather than a flat 502 with no cause.
+    err.upstreamStatus = res.status;
+    err.model = TRANSCRIBE_MODEL;
+    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, 300) || null;
+    throw err;
   }
   const data = await res.json();
   return (data?.text || "").trim();

@@ -78,6 +78,24 @@ test("every model rate limited surfaces a saturation message, not a raw 502", as
   );
 });
 
+test("a refusal names the model that actually refused, and why", async () => {
+  // What the admin dashboard meters. The endpoints used to log every failure
+  // against CHAT_MODEL_NAME, so a saturated chain was always blamed on the
+  // primary — the Utilisation tab said "20b refuses" while 120b and llama had
+  // been tried and refused too. The error carries the LAST model tried, and
+  // Groq's own sentence, so ai_usage_log records both.
+  stub(() => rateLimited());
+  await assert.rejects(
+    () => groqChatJSON([{ role: "user", content: "x" }]),
+    (err) => {
+      assert.equal(err.model, "llama-3.3-70b-versatile", "the end of the chain is what refused");
+      assert.equal(err.upstreamStatus, 429);
+      assert.match(err.upstreamDetail, /Rate limit reached/, "Groq's reason is kept for the admin");
+      return true;
+    },
+  );
+});
+
 test("reaches llama only after both gpt-oss models, and calibrates it", async () => {
   const asked = stub((m) => (m.startsWith("openai/") ? rateLimited() : ok()));
   const { model } = await groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]);
