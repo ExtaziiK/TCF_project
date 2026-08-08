@@ -58,6 +58,20 @@ export default [
     },
   },
   {
+    // node:test suites - Node runtime, and they stub browser-ish globals
+    // (fetch, Response) to exercise code paths that must not call the network.
+    files: ["tests/**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: {
+        process: "readonly", console: "readonly", Buffer: "readonly",
+        fetch: "readonly", Response: "readonly", URL: "readonly",
+        setTimeout: "readonly", clearTimeout: "readonly",
+      },
+    },
+  },
+  {
     // One-off maintenance scripts - Node runtime.
     files: ["scripts/**/*.{js,mjs}"],
     languageOptions: {

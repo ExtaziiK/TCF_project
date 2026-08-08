@@ -7,7 +7,20 @@
 import { levelsFromScore } from "./levels.js";
 
 const GROQ_BASE = "https://api.groq.com/openai/v1";
-const CHAT_MODEL = "openai/gpt-oss-20b";
+// Groq meters TOKENS PER MODEL — the 429 body names the model whose bucket is
+// spent — so a second model is a second daily allowance, not just a retry.
+// Tried in order; the fallback is only reached when the one before it is rate
+// limited.
+//
+// `groq/compound` is deliberately NOT here. It looks like a third option but
+// runs ON gpt-oss-120b: a request to compound while 120b is saturated comes
+// back "Rate limit reached for model `openai/gpt-oss-120b`". It would share the
+// bucket it is meant to relieve.
+//
+// 20b leads because it is the cheaper model and has been producing the grades
+// measured against the rubric; 120b is the relief valve, not the default.
+const CHAT_MODELS = ["openai/gpt-oss-20b", "openai/gpt-oss-120b"];
+const CHAT_MODEL = CHAT_MODELS[0];
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
 
 export class HttpError extends Error {
@@ -34,18 +47,26 @@ export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
 // subjects importer raises it, since rewording the same source twice with
 // identical output would defeat the point.
 export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2 } = {}) {
-  const res = await fetch(`${GROQ_BASE}/chat/completions`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: CHAT_MODEL,
-      messages,
-      temperature,
-      max_tokens: maxTokens,
-      reasoning_effort: "low",
-      response_format: { type: "json_object" },
-    }),
-  });
+  let res, model;
+  // Only a 429 moves to the next model. Anything else — a malformed request, an
+  // unparseable reply — would fail identically everywhere, and retrying it just
+  // spends a second model's allowance to reach the same error.
+  for (const candidate of CHAT_MODELS) {
+    model = candidate;
+    res = await fetch(`${GROQ_BASE}/chat/completions`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+        reasoning_effort: "low",
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (res.status !== 429) break;
+  }
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     // A saturated upstream is not a broken app, and must not read like one. 429
@@ -72,7 +93,9 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
   const data = await res.json();
   const content = data?.choices?.[0]?.message?.content || "";
   try {
-    return { json: JSON.parse(content), usage: data?.usage || null };
+    // `model` travels back so ai_usage_log records which one served the call —
+    // otherwise a day spent entirely on the fallback looks like a normal day.
+    return { json: JSON.parse(content), usage: data?.usage || null, model };
   } catch {
     throw new HttpError(502, "The AI returned a response we couldn't parse.");
   }

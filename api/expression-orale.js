@@ -238,11 +238,11 @@ async function dialogueTurn(res, user, body) {
       return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
     }
     const gradeStart = Date.now();
-    const { json: rawGrade, usage: gradeUsage } = await groqChatJSON([
+    const { json: rawGrade, usage: gradeUsage, model: usedModel } = await groqChatJSON([
       { role: "system", content: finalSystem(lang) },
       { role: "user", content: buildUserMsg(renderDialogue(history)) },
     ], { temperature: 0 });
-    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
     const closing = "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici. Voici mon évaluation.";
     return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade), closing, ...(await voiceLine(closing)) });
   }
@@ -254,21 +254,21 @@ async function dialogueTurn(res, user, body) {
   // under the safety ceiling; otherwise fall through and grade the exchange.
   const chatStart = Date.now();
   if (!timeUp && exchangesSoFar < MAX_EXCHANGES) {
-    const { json: raw, usage } = await groqChatJSON([
+    const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: followUpSystem },
       { role: "user", content: userMsg },
     ]);
-    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
     return res.status(200).json({ transcript, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(reply)) });
   }
 
-  const { json: raw, usage } = await groqChatJSON([
+  const { json: raw, usage, model: usedModel } = await groqChatJSON([
     { role: "system", content: finalSystem(lang) },
     { role: "user", content: userMsg },
   ], { temperature: 0 });
-  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
+  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
   // The closing line lives here (not client-side) so it comes out in the same
   // examiner voice as the follow-ups.
   const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
@@ -342,11 +342,11 @@ export default async function handler(req, res) {
       .join("\n");
 
     const chatStart = Date.now();
-    const { json: raw, usage } = await groqChatJSON([
+    const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: system(lang) },
       { role: "user", content: userMsg },
     ], { temperature: 0 });
-    logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
+    logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
     // How many analyses are left on this tache: 2 for a free account, 3 per
     // 5-minute window for a paid one. Undefined only when the counters could
