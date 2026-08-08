@@ -1,6 +1,7 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage, logAiFailure } from "./_lib/usage.js";
+import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -62,11 +63,42 @@ export default async function handler(req, res) {
     // than taken from the client, so it cannot be spoofed to dodge the cap.
     const wordCount = text.split(/\s+/).filter(Boolean).length;
 
+    // The consigne submitted back as an answer. Answered here rather than by
+    // the grader: it noticed on one run and missed it on the next, and grading
+    // copied documents as the candidate's own prose awards a level for text
+    // they did not write.
+    const copied = copiedShare(text, prompt);
+    if (copied >= COPIED_HARD) {
+      // No Groq call, so nothing to meter — and the attempt is given back,
+      // since spending one of two analyses on a paste is a harsh way to learn
+      // where the answer box is.
+      await releaseAiUse(claim);
+      return res.status(200).json({
+        score: 0,
+        level: "",
+        nclc: null,
+        criteria: {},
+        summary: "Ce texte reprend la consigne : il n'y a pas de production personnelle à évaluer. Rédigez votre propre réponse dans la zone de saisie, puis relancez l'analyse.",
+        strengths: [],
+        improvements: [
+          "Le texte envoyé est le sujet lui-même, pas votre réponse. Vérifiez que la zone de saisie contient bien ce que VOUS avez rédigé avant de lancer l'analyse.",
+          `La tâche demande ${targetWords || "un texte"} : exposez votre opinion avec vos propres arguments et vos propres exemples.`,
+        ],
+        rewrites: [],
+        corrected: "",
+        targetLevel: "",
+        notAnAnswer: true,
+        aiLeft: claim?.left,
+      });
+    }
+
     const userMsg = [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
       prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
       targetWords && `Nombre de mots attendu : ${String(targetWords).slice(0, 20)}`,
       `Nombre de mots réellement écrits : ${wordCount}`,
+      copied >= COPIED_WARN &&
+        `ALERTE : ${Math.round(copied * 100)} % de cette réponse est repris mot pour mot de la consigne ci-dessus. Ce qui est recopié n'est pas de la production du candidat et ne peut lui valoir aucun point de lexique ni de morphosyntaxe.`,
       `Réponse du candidat :\n"""\n${text.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)
