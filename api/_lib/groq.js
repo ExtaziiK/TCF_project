@@ -40,6 +40,21 @@ const CHAT_MODELS = [
   { id: "llama-3.3-70b-versatile", calibration: LLAMA_CALIBRATION },
 ];
 const CHAT_MODEL = CHAT_MODELS[0].id;
+
+// Groq's tokens-per-day allowance for each chat model, from the account's
+// Limits page. A ROLLING 24-hour window, not a midnight reset — spend ages out
+// of it gradually, which is why a saturated bucket recovers minute by minute.
+//
+// Kept here beside the models rather than in the dashboard: it is a fact about
+// the model, and the admin should not carry its own copy that can drift from
+// the chain actually being called. Whisper is metered in audio seconds, not
+// tokens, so it has no entry.
+export const MODEL_DAILY_TOKENS = {
+  "openai/gpt-oss-20b": 200_000,
+  "openai/gpt-oss-120b": 200_000,
+  "llama-3.3-70b-versatile": 100_000,
+};
+export const CHAT_MODEL_IDS = CHAT_MODELS.map((m) => m.id);
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
 
 export class HttpError extends Error {

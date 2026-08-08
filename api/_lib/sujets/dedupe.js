@@ -1,4 +1,5 @@
 import { groqChatJSON } from "../groq.js";
+import { logAiUsage } from "../usage.js";
 
 // Cross-source duplicate detection.
 //
@@ -58,13 +59,17 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function ask(payload, size, deadline) {
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
-      return await groqChatJSON(
+      const res = await groqChatJSON(
         [
           { role: "system", content: SYSTEM },
           { role: "user", content: JSON.stringify(payload) },
         ],
         { maxTokens: tokenBudget(size), temperature: 0 },
       );
+      // Same reason as the reformulation step: an unmetered consumer of the
+      // shared budget makes the headroom figure a guess.
+      logAiUsage({ endpoint: "sujets-dedupe", kind: "chat", model: res.model, usage: res.usage });
+      return res;
     } catch (err) {
       if (err?.upstreamStatus !== 429 || attempt === 3) return null;
       const wait = Math.min(err.retryAfterMs || 5000, 25000) + 500;

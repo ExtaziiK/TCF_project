@@ -15,6 +15,10 @@ export function AiFeedback({ level, score, nclc, summary, strengths = [], improv
           {typeof score === "number" && <Pill tone="blue">{score} / 20</Pill>}
           {level && <Pill tone="blue">{level}</Pill>}
           {typeof nclc === "number" && <Pill tone="green">NCLC {nclc}</Pill>}
+          {/* Below 4/20 the TCF awards no level at all, so there is nothing to
+              convert. Saying so beats a lone score with two empty spaces beside
+              it, which reads as something having failed to load. */}
+          {typeof score === "number" && !level && <Pill tone="slate">{t("Niveau non attribué")}</Pill>}
         </span>
       </div>
       {summary && <p className={`text-sm ${c.sub} mb-4`}>{summary}</p>}

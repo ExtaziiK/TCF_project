@@ -6,12 +6,23 @@ import { createClient } from "@supabase/supabase-js";
 // a metering failure (e.g. migration not applied yet) must not break the
 // user-facing AI evaluation that just succeeded.
 
-const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
-  auth: { persistSession: false },
-});
+// Built on first use, not at import. Creating it eagerly made this module
+// impossible to import without Supabase credentials, which quietly forced that
+// requirement on everything that meters — including the subjects parser, whose
+// tests have no database and need none. Metering must never dictate what its
+// callers depend on.
+let admin = null;
+function client() {
+  if (!admin) {
+    admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+      auth: { persistSession: false },
+    });
+  }
+  return admin;
+}
 
 export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, durationMs, errorStatus = null }) {
-  admin
+  client()
     .from("ai_usage_log")
     .insert({
       user_id: userId || null,

@@ -1,6 +1,7 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage, logAiFailure } from "./_lib/usage.js";
+import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -11,6 +12,7 @@ const system = (lang) => `You are a certified TCF Canada examiner grading Expres
 
 SCORE. The TCF scores this épreuve OUT OF 20, so give a score /20 — not a CEFR level. Rate four criteria /20, then set the overall score at the level the candidate SUSTAINS (not an average: one strong criterion does not lift weak language, one slip does not sink solid work).
 1. Consigne — task carried out, right text type and register, and length if a word count was given.
+The candidate's word count is GIVEN to you above. Use that number; do not count the words yourself and never contradict it. If it falls inside the target range, the length is correct — say nothing about it and apply no length penalty.
 LENGTH BELONGS TO THIS CRITERION AND NO OTHER. A short text still shows whatever range and control its sentences show: mark cohérence, lexique and morphosyntaxe on the LANGUAGE alone, exactly as you would if the text were the right length. Never lower them because the text is short — that is punishing the same fault four times. Only if the text is under three quarters of the minimum does the OVERALL score cap at 9, and even then the criteria keep their true values. With no word count given, say nothing about length.
 2. Cohérence — organisation and linking of ideas: real connectors rather than sentences juxtaposed with "et"/"mais".
 3. Lexique — range, precision, repetition.
@@ -54,10 +56,49 @@ export default async function handler(req, res) {
     // of clicks is refused rather than served, and released below if it fails.
     claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("ee", req.body?.task));
 
+    // Counted HERE and handed over, never left to the model. Asked to judge
+    // length itself it miscounts, and then justifies a penalty with a false
+    // claim: a 160-word text inside a 120-180 target was capped at 9/20 for
+    // "ne respecte pas le nombre de mots requis". Counted server-side rather
+    // than taken from the client, so it cannot be spoofed to dodge the cap.
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+
+    // The consigne submitted back as an answer. Answered here rather than by
+    // the grader: it noticed on one run and missed it on the next, and grading
+    // copied documents as the candidate's own prose awards a level for text
+    // they did not write.
+    const copied = copiedShare(text, prompt);
+    if (copied >= COPIED_HARD) {
+      // No Groq call, so nothing to meter — and the attempt is given back,
+      // since spending one of two analyses on a paste is a harsh way to learn
+      // where the answer box is.
+      await releaseAiUse(claim);
+      return res.status(200).json({
+        score: 0,
+        level: "",
+        nclc: null,
+        criteria: {},
+        summary: "Ce texte reprend la consigne : il n'y a pas de production personnelle à évaluer. Rédigez votre propre réponse dans la zone de saisie, puis relancez l'analyse.",
+        strengths: [],
+        improvements: [
+          "Le texte envoyé est le sujet lui-même, pas votre réponse. Vérifiez que la zone de saisie contient bien ce que VOUS avez rédigé avant de lancer l'analyse.",
+          `La tâche demande ${targetWords || "un texte"} : exposez votre opinion avec vos propres arguments et vos propres exemples.`,
+        ],
+        rewrites: [],
+        corrected: "",
+        targetLevel: "",
+        notAnAnswer: true,
+        aiLeft: claim?.left,
+      });
+    }
+
     const userMsg = [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
       prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
       targetWords && `Nombre de mots attendu : ${String(targetWords).slice(0, 20)}`,
+      `Nombre de mots réellement écrits : ${wordCount}`,
+      copied >= COPIED_WARN &&
+        `ALERTE : ${Math.round(copied * 100)} % de cette réponse est repris mot pour mot de la consigne ci-dessus. Ce qui est recopié n'est pas de la production du candidat et ne peut lui valoir aucun point de lexique ni de morphosyntaxe.`,
       `Réponse du candidat :\n"""\n${text.slice(0, 4000)}\n"""`,
     ]
       .filter(Boolean)
