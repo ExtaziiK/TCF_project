@@ -244,6 +244,7 @@ export function normalizeFeedback(raw = {}, source = "") {
   const list = (v, max = 4) =>
     Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim()).slice(0, max) : [];
   const str = (v) => (typeof v === "string" ? v.trim() : "");
+  const corrected = str(raw.corrected);
   // The CEFR letter and the NCLC are DERIVED from the /20 score through the
   // official IRCC table, never taken from the model. Asked for both, a model
   // will cheerfully return a level and a score that do not correspond, and the
@@ -263,10 +264,20 @@ export function normalizeFeedback(raw = {}, source = "") {
     summary: str(raw.summary),
     strengths: list(raw.strengths),
     improvements: list(raw.improvements),
-    // Expression écrite only: the higher level the rewrite targets, the rewrite
-    // itself, and the concrete edits that raise the level. Empty for oral.
-    targetLevel: str(raw.targetLevel).slice(0, 8),
-    corrected: str(raw.corrected),
+    // Expression écrite only: the rewrite at native level, and the concrete
+    // edits that reach it. Empty for oral, and empty together when there was
+    // nothing to rewrite (a 0-3 response — wrong script, or off-topic).
+    //
+    // targetLevel is NOT asked of the model: the rewrite is always instructed
+    // to reach C2 (see the system prompt), so it is a fixed fact about the
+    // FEATURE, not a judgement call — the same reasoning as deriving level/nclc
+    // from the score above rather than trusting a second, possibly
+    // inconsistent field. Asking a model to also self-report "what level did I
+    // just write at" only invites it to hedge down to whatever it graded the
+    // original at, and that echoed "C1 rewrite" from a C1 original is why this
+    // existed as a per-call field in the first place.
+    targetLevel: corrected ? "C2" : "",
+    corrected,
     rewrites: rewritePairs(raw.rewrites, source),
   };
 }

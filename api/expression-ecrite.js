@@ -35,11 +35,11 @@ REWRITES — the most useful part of your answer, when the text has anything to 
 
 IMPROVEMENTS. One or two FULL SENTENCES each, never a label: what is wrong, why it costs marks, what to reach for. Quote the offending words in « ». Name the criterion (lexique, cohérence, syntaxe, registre). Every point must be demonstrated by one of the rewrites above, each covering a different weakness.
 
-Also rewrite their whole text one level higher ("corrected"): their ideas, plan and length, upgraded language. Invent nothing.
+Also rewrite their whole text at C2 (near-native) level ("corrected"): the SAME ideas, plan and length — only the language is pushed to native-level control: precise vocabulary, natural idiomatic phrasing, flawless grammar. This is the ceiling to show them, not a small step up from wherever they scored. Invent nothing beyond their own ideas.
 Your own French must be impeccable — "faut accorder" instead of "il faut accorder" destroys your authority to correct anyone.
 Write feedback in ${lang === "en" ? "English" : "French"}; "corrected", "before" and "after" are ALWAYS French.
 Respond with ONLY a minified JSON object:
-{"score":<0-20 whole number>,"criteria":{"consigne":<0-20>,"coherence":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentences>","strengths":["<2-3 short points>"],"improvements":["<2-3 taught points>"],"targetLevel":"<CEFR level the rewrite reaches>","rewrites":[{"before":"","after":"","why":""}],"corrected":"<the improved French text>"}
+{"score":<0-20 whole number>,"criteria":{"consigne":<0-20>,"coherence":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentences>","strengths":["<2-3 short points>"],"improvements":["<2-3 taught points>"],"rewrites":[{"before":"","after":"","why":""}],"corrected":"<the improved French text, at C2 level>"}
 "strengths", "improvements" and "rewrites" must never be empty for a genuine attempt at the task. EXCEPTION — a 0-3 response (not real French, or empty of content): "strengths" and "rewrites" MUST be [] instead (there is nothing there to praise or to rewrite), "corrected" is "", and "improvements" has exactly one item saying the response must be a genuine attempt in French. Give no CEFR level for the candidate: the /20 is converted officially and a letter you choose would contradict it.`;
 
 export default async function handler(req, res) {
@@ -90,7 +90,6 @@ export default async function handler(req, res) {
         ],
         rewrites: [],
         corrected: "",
-        targetLevel: "",
         notAnAnswer: true,
         aiLeft: claim?.left,
       });
@@ -119,7 +118,6 @@ export default async function handler(req, res) {
         ],
         rewrites: [],
         corrected: "",
-        targetLevel: "",
         notAnAnswer: true,
         aiLeft: claim?.left,
       });
