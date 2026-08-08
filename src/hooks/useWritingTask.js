@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { evaluateWriting, AiError } from "@/services/aiService";
+import { sameForGrading } from "@/utils/textSignature";
+import { applyStickyScore, STICKY_WITHIN } from "@/utils/stickyScore";
 
 // Encapsulates the writing-task business logic (timer, word count, AI
 // analysis) so the Writing page can stay focused on presentation.
@@ -54,13 +56,15 @@ export function useWritingTask(task, notify) {
   });
 
   // The last text analysed, and what came back for it. Pressing the button
-  // again on an UNCHANGED text re-shows that result instead of asking for a new
-  // one: a second call would spend money and one of the candidate's analyses to
-  // produce an answer that should be identical anyway — and if it came back even
-  // slightly different, they would rightly stop believing either version.
+  // again without changing the WORDS re-shows that result instead of asking for
+  // a new one: a second call would spend money and one of the candidate's
+  // analyses to produce an answer that should be the same anyway — and when it
+  // came back different, they would rightly stop believing either version.
   //
-  // Only an exact match counts. Serving the old feedback for edited text would
-  // quote sentences they have just changed, which is worse than re-analysing.
+  // Punctuation and spacing do not count as a change: deleting one full stop
+  // once moved a real analysis from 11/20 to 10/20, which makes the grader look
+  // arbitrary. See utils/textSignature for why this compares words rather than
+  // a similarity score.
   const lastRun = useRef({ text: null, feedback: null });
 
   const analyze = async () => {
@@ -68,9 +72,13 @@ export function useWritingTask(task, notify) {
     if (words === 0) { notify(t("Rédigez d'abord votre réponse avant de lancer l'analyse.")); return; }
 
     const current = text.trim();
-    if (lastRun.current.feedback && lastRun.current.text === current) {
+    if (lastRun.current.feedback && sameForGrading(lastRun.current.text, current)) {
       setAi(lastRun.current.feedback);
-      notify(t("Texte inchangé : voici votre analyse précédente. Modifiez votre texte pour en obtenir une nouvelle."));
+      notify(t(
+        lastRun.current.text === current
+          ? "Texte inchangé : voici votre analyse précédente. Modifiez votre texte pour en obtenir une nouvelle."
+          : "Seules la ponctuation ou la mise en forme ont changé : la note reste la même. Modifiez les mots pour une nouvelle analyse.",
+      ));
       return;
     }
 
@@ -85,8 +93,15 @@ export function useWritingTask(task, notify) {
         targetWords: task.words,
         lang,
       });
-      lastRun.current = { text: current, feedback };
-      setAi(feedback);
+      // A revision that moves the score by a point or less keeps the previous
+      // grade: that difference is inside the noise of any grid, and reporting
+      // it as a level change claims a precision this assessment does not have.
+      const held = applyStickyScore(lastRun.current.feedback, feedback);
+      lastRun.current = { text: current, feedback: held };
+      setAi(held);
+      if (held.scoreHeld) {
+        notify(t(`Votre note reste à ${held.score}/20 : l'écart avec l'analyse précédente est trop faible (${STICKY_WITHIN} point ou moins) pour changer votre niveau. Les conseils ci-dessous portent sur votre nouveau texte.`));
+      }
     } catch (err) {
       if (err instanceof AiError && (err.status === 404 || err.status === 0)) {
         setAi(heuristic());
