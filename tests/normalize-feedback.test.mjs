@@ -45,3 +45,32 @@ test("level and NCLC come from the score table, never from the model", () => {
   assert.equal(out.level, "B1");
   assert.equal(out.nclc, 6);
 });
+
+// Expression orale's rewrites (added alongside the dialogue's multi-speaker
+// transcript): a "before" must be verified against what the CANDIDATE said,
+// never the interlocutor. api/expression-orale.js builds that verification
+// string as the candidate's own lines only, joined — these tests exercise
+// what normalizeFeedback does with it, at the same level the endpoint calls it.
+test("a rewrite quoting the candidate's own words passes verification", () => {
+  // Mirrors expression-orale.js: `source` is the candidate-only lines,
+  // joined, NOT the raw two-speaker dialogue transcript.
+  const candidateOnly = "Bonjour, je voudrais réserver une table pour deux personnes. Merci beaucoup, à bientôt.";
+  const out = normalizeFeedback({
+    score: 12,
+    rewrites: [{ before: "je voudrais réserver une table pour deux personnes", after: "j'aimerais réserver une table pour deux, si possible", why: "formulation plus naturelle" }],
+  }, candidateOnly);
+  assert.equal(out.rewrites.length, 1);
+  assert.equal(out.rewrites[0].before, "je voudrais réserver une table pour deux personnes");
+});
+
+test("a rewrite quoting a line the candidate never said is dropped, even if the model invents it as theirs", () => {
+  // The interlocutor's line ("Bien sûr, à quelle heure ?") is not part of the
+  // candidate-only source. If a model ever mislabels it as the candidate's, it
+  // must not survive to be shown as "your sentence" in the UI.
+  const candidateOnly = "Bonjour, je voudrais réserver une table pour deux personnes.";
+  const out = normalizeFeedback({
+    score: 12,
+    rewrites: [{ before: "Bien sûr, à quelle heure ?", after: "Bien sûr, pour quelle heure souhaitez-vous réserver ?", why: "plus poli" }],
+  }, candidateOnly);
+  assert.deepEqual(out.rewrites, []);
+});
