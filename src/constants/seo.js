@@ -19,6 +19,9 @@ import { SOCIAL_URLS, CONTACT_EMAIL } from "@/constants/social";
 
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
+// Share card used by every route that has no image of its own — the same file
+// index.html hardcodes, so the two can't disagree.
+export const DEFAULT_SHARE_IMAGE = "/logo-full.png";
 
 export const ROUTE_META = {
   home: {
@@ -202,7 +205,15 @@ export const ROUTE_META = {
 // POSTS so publishing an article automatically publishes its page (URL, meta,
 // canonical, structured data). The base `blog` route stays the article index.
 for (const post of POSTS) {
-  ROUTE_META[`blog/${post.slug}`] = { path: `/blogue/${post.slug}`, title: post.t, description: post.excerpt, post };
+  ROUTE_META[`blog/${post.slug}`] = {
+    path: `/blogue/${post.slug}`,
+    title: post.t,
+    description: post.excerpt,
+    // The article's lead image, so a shared link previews with the article's
+    // own picture instead of the site logo.
+    image: post.hero?.src,
+    post,
+  };
 }
 
 // Pathless routes (the 404) are skipped: there is no URL to map back from.
@@ -261,6 +272,10 @@ export function applyRouteMeta(route) {
   upsertMeta("property", "og:url", url);
   upsertMeta("name", "twitter:title", title);
   upsertMeta("name", "twitter:description", description);
+  // Routes without their own image fall back to the shell's logo card.
+  const image = window.location.origin + (meta.image || DEFAULT_SHARE_IMAGE);
+  upsertMeta("property", "og:image", image);
+  upsertMeta("name", "twitter:image", image);
 
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
@@ -290,6 +305,8 @@ function applyArticleJsonLd(meta) {
     dateModified: post.iso,
     url,
     mainEntityOfPage: url,
+    ...(meta.image ? { image: window.location.origin + meta.image } : {}),
+    ...(post.words ? { wordCount: post.words } : {}),
     author: { "@type": "Organization", name: "Passerelle" },
     publisher: { "@type": "Organization", name: "Passerelle", logo: { "@type": "ImageObject", url: `${window.location.origin}/logo-mark.png` } },
   };

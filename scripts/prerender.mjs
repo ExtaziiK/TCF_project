@@ -59,10 +59,11 @@ function setTag(html, pattern, replacement) {
   return pattern.test(html) ? html.replace(pattern, replacement) : html.replace("</head>", `    ${replacement}\n  </head>`);
 }
 
-function pageHtml(shell, { title, description, url, noindex }) {
+function pageHtml(shell, { title, description, url, noindex, image }) {
   let html = shell;
   const t = escapeAttr(title);
   const d = escapeAttr(description);
+  const img = escapeAttr(image);
 
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${t}</title>`);
   html = setTag(html, /<meta\s+name="description"[\s\S]*?\/>/, `<meta name="description" content="${d}" />`);
@@ -71,6 +72,9 @@ function pageHtml(shell, { title, description, url, noindex }) {
   html = setTag(html, /<meta\s+property="og:url"[\s\S]*?\/>/, `<meta property="og:url" content="${url}" />`);
   html = setTag(html, /<meta\s+name="twitter:title"[\s\S]*?\/>/, `<meta name="twitter:title" content="${t}" />`);
   html = setTag(html, /<meta\s+name="twitter:description"[\s\S]*?\/>/, `<meta name="twitter:description" content="${d}" />`);
+  // Articles carry their own share card; every other route keeps the shell's.
+  html = setTag(html, /<meta\s+property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${img}" />`);
+  html = setTag(html, /<meta\s+name="twitter:image"[\s\S]*?\/>/, `<meta name="twitter:image" content="${img}" />`);
   // Neither of these exists in the shell — applyRouteMeta creates them at
   // runtime — so both are appended on the first pass.
   html = setTag(html, /<meta\s+name="robots"[\s\S]*?\/>/, `<meta name="robots" content="${noindex ? "noindex" : "index, follow"}" />`);
@@ -89,7 +93,7 @@ if (!origin) {
   process.exit(1);
 }
 
-const { ROUTE_META, SITE_NAME } = await loadRouteMeta();
+const { ROUTE_META, SITE_NAME, DEFAULT_SHARE_IMAGE } = await loadRouteMeta();
 
 let written = 0;
 let indexable = 0;
@@ -100,7 +104,8 @@ for (const [route, meta] of Object.entries(ROUTE_META)) {
   const title = route === "home" ? meta.title : `${meta.title} · ${SITE_NAME}`;
   const description = meta.description || ROUTE_META.home.description;
   const url = origin + meta.path;
-  const html = pageHtml(shell, { title, description, url, noindex: !!meta.noindex });
+  const image = origin + (meta.image || DEFAULT_SHARE_IMAGE);
+  const html = pageHtml(shell, { title, description, url, image, noindex: !!meta.noindex });
 
   const target = meta.path === "/"
     ? path.join(dist, "index.html")

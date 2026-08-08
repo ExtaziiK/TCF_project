@@ -1495,80 +1495,96 @@ export const EN = {
   "Examens": "Exams",
 
   // ── Blog ─────────────────────────────────────────────────────────────
-  "Conseils, méthode et actualités du TCF Canada": "TCF Canada tips, method and news",
-  "Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.": "Written by our teachers and former candidates who have been there.",
+  // Article BODIES stay in French. They run well past a thousand words each,
+  // the site is FR-first, and an untranslated string falls back to its French
+  // source (see the note at the top of this file), so an EN reader gets the
+  // article rather than a blank. What is translated here is what they need to
+  // navigate and choose: the page chrome, the categories, and every article's
+  // title and excerpt — the two strings the index and a search result show.
+  "Conseils, méthode et actualités du TCF Canada": "TCF Canada advice, method and news",
+  "Rédigé par nos enseignants et d'anciens candidats qui sont passés par là.":
+    "Written by our teachers and by former candidates who have been through it.",
   "Tous les articles": "All articles",
   "de lecture": "read",
+  "Au sommaire": "Contents",
+  "Continuer la lecture": "Keep reading",
+  "Fil d'Ariane": "Breadcrumb",
+
+  // Categories ("Immigration" is spelled the same in both languages).
   "Actualités": "News",
   "Méthode": "Method",
-  "TCF Canada 2026 : ce qui change et comment s'y préparer": "TCF Canada 2026: what's changing and how to prepare",
-  "Nouvelles consignes à l'oral, banques de sujets élargies : le point complet sur la session 2026 et nos conseils pour adapter votre préparation.":
-    "New speaking instructions, larger topic banks: the full picture of the 2026 session and our advice for adapting your preparation.",
-  "La session 2026 du TCF Canada conserve sa structure en quatre épreuves, mais France Éducation international a élargi la banque de sujets d'expression orale et précisé les consignes de la tâche 2.":
-    "The 2026 TCF Canada session keeps its four-section structure, but France Éducation international has expanded the speaking topic bank and clarified the instructions for task 2.",
-  "Concrètement, les candidats doivent s'attendre à des mises en situation plus ancrées dans la vie canadienne : démarches administratives, logement, travail. Notre banque de questions a été mise à jour en conséquence.":
-    "In practice, candidates should expect scenarios more grounded in Canadian life: administrative procedures, housing, work. Our question bank has been updated accordingly.",
-  "Notre conseil : travaillez l'interaction avec un chronomètre dès le début de votre préparation. La gestion du temps reste la première cause de points perdus à l'oral.":
-    "Our advice: practice the interaction with a timer from the start of your preparation. Time management remains the top cause of lost points in speaking.",
-  "Entrée express : combien de points le français peut-il vous rapporter ?": "Express Entry: how many points can French earn you?",
-  "Jusqu'à 50 points de plus grâce au français : on décortique le calcul, niveau par niveau, avec des exemples concrets de profils.":
-    "Up to 50 extra points thanks to French: we break down the calculation, level by level, with concrete example profiles.",
-  "Dans le système Entrée express, un niveau NCLC 7 (environ B2) dans les quatre compétences en français peut rapporter 25 points si votre anglais est faible, et 50 points si vous atteignez CLB 5 ou plus en anglais.":
-    "In the Express Entry system, an NCLC 7 level (roughly B2) in all four French skills can earn 25 points if your English is weak, and 50 points if you reach CLB 5 or higher in English.",
-  "Pour beaucoup de candidats, ces points font la différence entre une invitation et une attente prolongée dans le bassin.":
-    "For many candidates, these points make the difference between an invitation and a long wait in the pool.",
-  "Le TCF Canada est l'un des deux tests de français reconnus par IRCC. Visez une marge de sécurité : préparez un niveau au-dessus de votre cible.":
-    "The TCF Canada is one of the two French tests recognized by IRCC. Aim for a safety margin: prepare one level above your target.",
-  "5 habitudes d'étude des candidats qui obtiennent C1": "5 study habits of candidates who reach C1",
-  "Nous avons analysé les parcours de nos meilleurs étudiants. Voici ce qu'ils font différemment, et comment les imiter dès aujourd'hui.":
-    "We analyzed the journeys of our best students. Here's what they do differently, and how to imitate them starting today.",
-  "Première habitude : la régularité prime sur le volume. Vingt minutes par jour battent trois heures le dimanche.":
-    "First habit: consistency beats volume. Twenty minutes a day beats three hours on Sunday.",
-  "Deuxième habitude : ils réécoutent chaque audio raté avec la transcription, puis sans. Troisième : ils s'enregistrent à l'oral au moins trois fois par semaine.":
-    "Second habit: they replay every missed audio with the transcript, then without. Third: they record themselves speaking at least three times a week.",
-  "Quatrième : ils apprennent le vocabulaire en contexte, jamais en liste isolée. Cinquième : ils passent un TCF blanc complet toutes les deux semaines pour bâtir leur endurance.":
-    "Fourth: they learn vocabulary in context, never as isolated lists. Fifth: they take a full mock exam every two weeks to build stamina.",
-  "TCF Canada ou TEF Canada : quel test de français choisir ?": "TCF Canada or TEF Canada: which French test should you choose?",
-  "Les deux tests sont reconnus par IRCC pour Entrée express et la résidence permanente. On compare le format, la difficulté et le contenu pour vous aider à choisir.":
-    "Both tests are recognized by IRCC for Express Entry and permanent residence. We compare the format, difficulty and content to help you choose.",
-  "Le TCF Canada et le TEF Canada sont les deux seuls tests de français reconnus par Immigration, Réfugiés et Citoyenneté Canada (IRCC) pour Entrée express, les programmes provinciaux et la citoyenneté. Le bon choix dépend surtout de votre profil et de votre aisance avec chaque format.":
-    "The TCF Canada and the TEF Canada are the only two French tests recognized by Immigration, Refugees and Citizenship Canada (IRCC) for Express Entry, provincial programs and citizenship. The right choice depends mostly on your profile and how comfortable you are with each format.",
-  "Les deux évaluent les quatre compétences : compréhension orale, compréhension écrite, expression orale et expression écrite. Le TCF Canada repose sur des questions à choix multiples pour les épreuves de compréhension, un format qui rassure les candidats stressés par la lecture chronométrée.":
-    "Both assess the four skills: listening, reading, speaking and writing. The TCF Canada relies on multiple-choice questions for the comprehension sections, a format that reassures candidates stressed by timed reading.",
-  "Côté résultats, les deux tests se convertissent en Niveaux de compétence linguistique canadiens (NCLC). Pour viser le NCLC 7, le seuil qui rapporte le plus de points en Entrée express, la préparation compte bien plus que le choix du test.":
-    "For results, both tests convert into Canadian Language Benchmarks (NCLC). To aim for NCLC 7 — the threshold that earns the most points in Express Entry — preparation matters far more than which test you pick.",
-  "Notre conseil : entraînez-vous d'abord sur des sujets au format officiel du test que vous visez. La familiarité avec le format fait gagner de précieuses minutes le jour de l'examen. Notre plateforme reproduit fidèlement le format du TCF Canada, épreuve par épreuve.":
-    "Our advice: practice first on topics in the official format of the test you are targeting. Familiarity with the format saves precious minutes on exam day. Our platform faithfully reproduces the TCF Canada format, section by section.",
-  "Vérifiez enfin les dates et les centres d'examen près de chez vous : la disponibilité varie selon les villes et peut peser autant que vos préférences de format dans votre décision finale.":
-    "Finally, check the exam dates and centers near you: availability varies by city and can weigh as much as your format preferences in your final decision.",
-  "Score TCF Canada et niveaux NCLC : le tableau de correspondance": "TCF Canada score and NCLC levels: the conversion table",
-  "Comment vos scores se traduisent en niveaux NCLC, et quel niveau viser pour maximiser vos points d'Entrée express.":
-    "How your scores translate into NCLC levels, and which level to aim for to maximize your Express Entry points.",
-  "Le TCF Canada note chaque épreuve sur une échelle de points, ensuite convertie en Niveaux de compétence linguistique canadiens (NCLC). Comprendre cette correspondance est indispensable pour fixer un objectif réaliste avant de réserver votre examen.":
-    "The TCF Canada scores each section on a points scale, then converts it into Canadian Language Benchmarks (NCLC). Understanding this correspondence is essential to set a realistic goal before booking your exam.",
-  "Pour l'immigration économique, le palier le plus rentable est le NCLC 7 dans les quatre compétences : il ouvre droit au maximum de points liés au français dans Entrée express. Passer au NCLC 9 rapporte encore quelques points, mais l'effort de préparation devient nettement plus important.":
-    "For economic immigration, the most rewarding tier is NCLC 7 in all four skills: it unlocks the maximum French-related points in Express Entry. Moving up to NCLC 9 earns a few more points, but the preparation effort becomes noticeably greater.",
-  "Chaque épreuve a ses propres seuils. En compréhension orale et écrite, atteindre le NCLC 7 suppose de réussir une majorité des questions les plus difficiles : entraînez-vous donc en priorité sur les items de niveau B2 et C1.":
-    "Each section has its own thresholds. In listening and reading, reaching NCLC 7 means getting most of the hardest questions right, so train first on B2 and C1 level items.",
-  "À l'expression écrite et orale, les examinateurs évaluent la cohérence, la richesse du vocabulaire et la correction grammaticale. Un discours clair et bien structuré compte souvent plus qu'un vocabulaire rare mais mal maîtrisé.":
-    "In writing and speaking, examiners assess coherence, vocabulary range and grammatical accuracy. Clear, well-structured discourse often counts more than rare but poorly mastered vocabulary.",
-  "Utilisez notre calculateur de score NCLC pour convertir vos résultats de TCF blanc et suivre votre progression vers votre objectif, compétence par compétence.":
-    "Use our NCLC score calculator to convert your mock-exam results and track your progress toward your goal, skill by skill.",
-  "Réussir l'expression écrite du TCF Canada : structure et exemples": "Acing TCF Canada writing: structure and examples",
-  "Les trois tâches d'expression écrite décryptées, avec une structure claire pour chacune et les critères que recherchent les correcteurs.":
-    "The three writing tasks decoded, with a clear structure for each and the criteria examiners look for.",
-  "L'épreuve d'expression écrite du TCF Canada comporte trois tâches de longueur et de difficulté croissantes. Bien répartir son temps entre elles est la première clé d'un bon score.":
-    "The TCF Canada writing section has three tasks of increasing length and difficulty. Managing your time well across them is the first key to a good score.",
-  "La tâche 1 demande un message court et concret, comme un courriel ou une note. Allez à l'essentiel : salutation, objet clair, demande ou information, formule de clôture. La précision prime sur la longueur.":
-    "Task 1 asks for a short, concrete message, such as an email or a note. Get to the point: greeting, clear subject, request or information, closing. Precision matters more than length.",
-  "La tâche 2 attend un texte plus développé, souvent un compte rendu ou un message argumenté. Adoptez un plan simple : introduction, deux idées appuyées par des exemples, conclusion. Les connecteurs logiques comme « d'abord », « cependant » et « par conséquent » fluidifient votre propos.":
-    "Task 2 expects a more developed text, often a report or an argued message. Use a simple plan: introduction, two ideas backed by examples, conclusion. Logical connectors such as first, however and therefore make your writing flow.",
-  "La tâche 3 est la plus exigeante : comparer deux points de vue puis donner le vôtre. Reformulez les deux positions sans les recopier, puis prenez clairement position avec des arguments personnels et des exemples.":
-    "Task 3 is the most demanding: compare two viewpoints, then give your own. Restate both positions without copying them, then take a clear stance with personal arguments and examples.",
-  "Les correcteurs valorisent la cohérence, la variété des structures et la correction grammaticale. Gardez deux minutes à la fin pour vous relire et corriger les accords et la ponctuation : ce sont des points faciles à récupérer.":
-    "Examiners value coherence, varied structures and grammatical accuracy. Keep two minutes at the end to reread yourself and fix agreement and punctuation — easy points to recover.",
-  "Entraînez-vous avec notre atelier d'expression écrite : rédigez sur des sujets au format officiel et recevez une analyse détaillée de votre texte, tâche par tâche.":
-    "Train with our writing workshop: compose on official-format topics and get a detailed analysis of your text, task by task.",
+  "Comprendre le test": "Understanding the test",
+
+  // ── Article titles and excerpts (newest first) ───────────────────────
+  "Qu'est-ce que le TCF Canada ? Le test expliqué de A à Z":
+    "What is the TCF Canada? The test explained from A to Z",
+  "Qui l'organise, ce qu'il mesure, à quoi ressemble une session, combien de temps le résultat reste valable : tout ce qu'on aurait aimé savoir avant de s'inscrire.":
+    "Who runs it, what it measures, what a session looks like, how long the result stays valid: everything you wish you had known before registering.",
+
+  "Qui doit passer le TCF Canada ? Les profils concernés (et ceux qui s'en passent)":
+    "Who needs to take the TCF Canada? The profiles concerned (and those who don't)",
+  "Résidence permanente, citoyenneté, programmes provinciaux, Québec : qui a réellement besoin d'une attestation de français, et qui perdrait son temps à en passer une.":
+    "Permanent residence, citizenship, provincial programs, Quebec: who genuinely needs proof of French, and who would be wasting their time taking the test.",
+
+  "Le format du TCF Canada : le déroulé complet, du hall d'accueil à la sortie":
+    "The TCF Canada format: the full run-through, from the front desk to the exit",
+  "2 h 47 d'examen, quatre épreuves, un ordre imposé et quelques règles qui coûtent cher quand on les découvre sur place. Le déroulé réel d'une session, étape par étape.":
+    "2 hrs 47 of exam, four sections, a fixed order and a few rules that cost dearly when you discover them on site. A real session, step by step.",
+
+  "Les quatre épreuves du TCF Canada, une par une":
+    "The four TCF Canada sections, one by one",
+  "Écouter, lire, écrire, parler : ce que chaque épreuve mesure vraiment, ce qu'elle pardonne, ce qu'elle ne pardonne pas — et par laquelle commencer quand le temps manque.":
+    "Listening, reading, writing, speaking: what each section really measures, what it forgives, what it doesn't — and which one to start with when time is short.",
+
+  "Comment le TCF Canada est-il noté ? La mécanique du barème, expliquée":
+    "How is the TCF Canada scored? The marking scheme, explained",
+  "Un score sur 699 d'un côté, une note sur 20 de l'autre, pas de moyenne générale et aucune note éliminatoire : comment fonctionne réellement la notation du TCF Canada.":
+    "A score out of 699 on one side, a mark out of 20 on the other, no overall average and no failing grade: how TCF Canada scoring actually works.",
+
+  "Quel niveau faut-il pour le TCF Canada ? NCLC 5, 7 ou 9 selon votre projet":
+    "What level do you need for the TCF Canada? NCLC 5, 7 or 9 depending on your plan",
+  "Le bon objectif n'est pas « le plus haut possible » : c'est le niveau qu'exige votre programme, plus une marge. Les seuils réels, programme par programme.":
+    "The right target isn't \"as high as possible\": it's the level your program requires, plus a margin. The real thresholds, program by program.",
+
+  "Comment se préparer au TCF Canada quand on travaille à temps plein":
+    "How to prepare for the TCF Canada when you work full time",
+  "Pas de méthode miracle, mais une manière de travailler qui tient dans une vie déjà remplie : diagnostiquer, cibler le maillon faible, s'exposer au format, faire corriger.":
+    "No miracle method, but a way of working that fits an already full life: diagnose, target the weakest skill, get used to the format, get corrections.",
+
+  "Un plan d'étude de 8 semaines pour le TCF Canada":
+    "An 8-week study plan for the TCF Canada",
+  "Huit semaines, quarante minutes par jour, un objectif chiffré : le calendrier complet, semaine par semaine, du diagnostic initial jusqu'à la veille de l'examen.":
+    "Eight weeks, forty minutes a day, one measurable goal: the full week-by-week calendar, from the first diagnosis to the eve of the exam.",
+
+  "TCF Canada ou TEF Canada : quel test de français choisir ?":
+    "TCF Canada or TEF Canada: which French test should you choose?",
+  "Les deux sont reconnus par IRCC. On compare honnêtement le format, la logique de notation et la disponibilité des sessions, pour que vous choisissiez sur des critères réels.":
+    "Both are recognized by IRCC. We compare the format, the scoring logic and session availability honestly, so you can choose on real criteria.",
+
+  "Score TCF Canada et niveaux NCLC : le tableau de correspondance":
+    "TCF Canada score and NCLC levels: the conversion table",
+  "Le tableau complet, compétence par compétence, et surtout comment le lire : pourquoi un point d'écart peut coûter un palier entier, et où viser pour être tranquille.":
+    "The full table, skill by skill, and above all how to read it: why a single point can cost a whole level, and where to aim to be safe.",
+
+  "Réussir l'expression écrite du TCF Canada : structure et exemples":
+    "Acing TCF Canada writing: structure and examples",
+  "Trois tâches, soixante minutes, des bornes de mots à respecter. La structure de chaque tâche, ce que cherchent les correcteurs, et les points faciles que presque tout le monde laisse sur la table.":
+    "Three tasks, sixty minutes, word counts to respect. The structure of each task, what examiners look for, and the easy points almost everyone leaves on the table.",
+
+  "TCF Canada 2026 : ce qui change et comment adapter sa préparation":
+    "TCF Canada 2026: what is changing and how to adapt your preparation",
+  "Banque de sujets d'expression orale élargie, consignes de la tâche 2 précisées, mises en situation plus ancrées dans la vie canadienne : le point sur la session 2026.":
+    "A wider speaking topic bank, clearer task 2 instructions, scenarios more grounded in Canadian life: where the 2026 session stands.",
+
+  "Entrée express : combien de points le français peut-il vous rapporter ?":
+    "Express Entry: how many points can French earn you?",
+  "Jusqu'à 50 points supplémentaires, plus les points de capital humain, plus l'accès aux rondes francophones : on décortique le calcul avec des profils concrets.":
+    "Up to 50 extra points, plus human capital points, plus access to French-language draws: we break the calculation down with concrete profiles.",
+
+  "5 habitudes d'étude des candidats qui obtiennent C1":
+    "5 study habits of candidates who reach C1",
+  "Nous avons regardé ce que font vraiment les candidats qui atteignent le C1 — et ce ne sont pas les plus doués. Cinq habitudes ennuyeuses, et comment les installer.":
+    "We looked at what candidates who reach C1 actually do — and they are not the most gifted. Five boring habits, and how to build them.",
 
   // ── Admin panel ──────────────────────────────────────────────────────
   "Panneau d'administration": "Admin panel",
