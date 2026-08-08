@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { HttpError, groqChatJSON } from "./groq.js";
+import { logAiUsage } from "./usage.js";
 import { tidy } from "./sujets/html.js";
 import * as reussir from "./sujets/reussir.js";
 import * as formation from "./sujets/formation.js";
@@ -277,13 +278,20 @@ async function rewriteBatch(items, insist = false, deadline = Infinity) {
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
-      return await groqChatJSON(
+      // Metered like every other Groq call. Left unmetered, the importer was
+      // invisible in the admin's Utilisation tab while being one of the
+      // heaviest consumers of the same daily token budget the candidate
+      // analyses draw on — which is what made the 07/08 saturation so hard to
+      // account for. No user_id: this runs from the admin, for the whole site.
+      const res = await groqChatJSON(
         [
           { role: "system", content: insist ? SYSTEM + INSIST : SYSTEM },
           { role: "user", content: JSON.stringify(payload) },
         ],
         { maxTokens, temperature: insist ? 0.9 : 0.6 },
       );
+      logAiUsage({ endpoint: "sujets-import", kind: "chat", model: res.model, usage: res.usage });
+      return res;
     } catch (err) {
       if (err?.upstreamStatus !== 429 || attempt === MAX_ATTEMPTS) return null;
       const wait = Math.min(err.retryAfterMs || 5000, BACKOFF_CAP_MS) + 500;

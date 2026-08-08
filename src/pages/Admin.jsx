@@ -1233,6 +1233,8 @@ const fmtTokens = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)} M` : n >= 1e3 ? `$
 // Supabase PRO plan allowances — what the subscription includes before usage
 // is billed on top, not a hard stop. Shown as denominators only; nothing here
 // gates anything. Update if the plan changes again.
+const TOKENS_PER_ANALYSIS = 2016;
+
 const SUPABASE_LIMITS = { dbBytes: 8e9, storageBytes: 100e9, mau: 100000 };
 
 function TopAiUsers({ rows, unit }) {
@@ -1310,6 +1312,61 @@ function UsageTab() {
               Relever la limite
             </a>
           </p>
+        </Card>
+      )}
+
+      {/* ── Consommation Groq et plafonds ── */}
+      {ai?.windows && (
+        <Card className="p-6">
+          <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+            <h3 className={`font-display font-bold ${c.text}`}>Groq — consommation et plafonds</h3>
+            <a href="https://console.groq.com/settings/limits" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
+              Plafonds du compte <ExternalLink size={12} />
+            </a>
+          </div>
+          <p className={`text-sm mb-5 ${c.sub}`}>
+            Le plafond de Groq est <strong className={c.text}>glissant sur 24 h</strong> : il se libère progressivement, il n'attend pas minuit.
+            Seule la fenêtre de 24 h a donc un plafond ; 7 et 30 jours servent à voir la tendance.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-4 mb-6">
+            {ai.windows.map((w) => (
+              <div key={w.days} className={`p-4 rounded-2xl border ${c.border}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider ${c.faint}`}>
+                  {w.days === 1 ? "24 heures" : `${w.days} jours`}
+                </p>
+                <p className="font-display font-extrabold text-2xl mt-1 grad-text">{fmtTokens(w.tokens)}</p>
+                <p className={`text-sm ${c.text}`}>jetons · {w.calls} appel{w.calls > 1 ? "s" : ""}</p>
+                {w.failures > 0 && <p className="text-xs mt-0.5 text-rose-600">{w.failures} refusé{w.failures > 1 ? "s" : ""}</p>}
+              </div>
+            ))}
+          </div>
+
+          {/* Per bucket, because the chain is only as deep as its buckets: one at
+              100% is one the fallback has already moved past, which a single
+              total would hide. */}
+          <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Par modèle — 24 h glissantes</p>
+          <div className="space-y-4">
+            {ai.buckets.map((b) => (
+              <LimitBar
+                key={b.model}
+                label={`${b.model.replace("openai/", "")} · ${b.calls} appel${b.calls > 1 ? "s" : ""}`}
+                used={b.tokens}
+                limit={b.limit}
+                format={fmtTokens}
+              />
+            ))}
+          </div>
+
+          {(() => {
+            const left = ai.buckets.reduce((n, b) => n + Math.max(0, b.limit - b.tokens), 0);
+            return (
+              <p className={`mt-5 text-sm ${c.sub}`}>
+                Reste environ <strong className={c.text}>{Math.floor(left / TOKENS_PER_ANALYSIS)} analyses</strong> d'expression écrite
+                sur les 24 prochaines heures ({fmtTokens(left)} jetons disponibles).
+              </p>
+            );
+          })()}
         </Card>
       )}
 

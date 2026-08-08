@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "../auth.js";
-import { HttpError } from "../groq.js";
+import { HttpError, MODEL_DAILY_TOKENS } from "../groq.js";
 
 // Usage & consumption for the admin "Utilisation" tab:
 // - AI (Groq): aggregated from our own meter (ai_usage_log) — Groq has no
@@ -47,7 +47,7 @@ async function aiUsage(users) {
   const since30 = new Date(Date.now() - 30 * DAY).toISOString();
   const { data, error } = await admin
     .from("ai_usage_log")
-    .select("user_id, kind, prompt_tokens, completion_tokens, total_tokens, audio_bytes, created_at, error_status")
+    .select("user_id, kind, model, prompt_tokens, completion_tokens, total_tokens, audio_bytes, created_at, error_status")
     .gte("created_at", since30)
     .order("created_at", { ascending: false })
     .limit(20000);
@@ -96,6 +96,28 @@ async function aiUsage(users) {
     audioBytes30d: sum(groq, (r) => r.audio_bytes),
     callsByDay: bucketByDay(groq.map((r) => r.created_at)),
     topUsers: topUsers(groq, (r) => r.total_tokens),
+
+    // Three windows. Only the 24-hour one has a limit to compare against:
+    // Groq's allowance is a ROLLING day, so 7 and 30 are trend, not headroom.
+    windows: [1, 7, 30].map((days) => {
+      const from = Date.now() - days * DAY;
+      const inWindow = (r) => Date.parse(r.created_at) >= from;
+      const rows = groq.filter(inWindow);
+      return {
+        days,
+        calls: rows.length,
+        tokens: sum(rows, (r) => r.total_tokens),
+        failures: failed.filter(inWindow).length,
+      };
+    }),
+
+    // Per bucket over the rolling 24 hours, each against its own ceiling. The
+    // chain is only as deep as its buckets: a model at 100% is one the fallback
+    // has already moved past, which the totals alone would hide.
+    buckets: Object.entries(MODEL_DAILY_TOKENS).map(([model, limit]) => {
+      const rows = groq.filter((r) => r.model === model && Date.parse(r.created_at) >= Date.now() - DAY);
+      return { model, limit, tokens: sum(rows, (r) => r.total_tokens), calls: rows.length };
+    }),
     // What the dashboard could not show before. `saturated` is the actionable
     // one: 429s in the last hour mean the model's rate limit is refusing real
     // candidates right now, not that something is broken in the code.
