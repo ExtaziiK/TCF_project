@@ -23,12 +23,18 @@ const rateLimited = () =>
   new Response(JSON.stringify({ error: { message: "Rate limit reached ... try again in 8m34.9s" } }), { status: 429 });
 
 // Records which models were asked, in order.
+// The request bodies of the last stubbed run, kept beside the model list so
+// asserting on the list stays a plain deepEqual.
+let sentBodies = [];
+
 function stub(responder) {
   const asked = [];
+  sentBodies = [];
   globalThis.fetch = async (_url, init) => {
-    const model = JSON.parse(init.body).model;
-    asked.push(model);
-    return responder(model);
+    const body = JSON.parse(init.body);
+    asked.push(body.model);
+    sentBodies.push(body);
+    return responder(body.model);
   };
   return asked;
 }
@@ -70,4 +76,20 @@ test("every model rate limited surfaces a saturation message, not a raw 502", as
       return true;
     },
   );
+});
+
+test("reaches llama only after both gpt-oss models, and calibrates it", async () => {
+  const asked = stub((m) => (m.startsWith("openai/") ? rateLimited() : ok()));
+  const { model } = await groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]);
+  assert.deepEqual(asked, ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "llama-3.3-70b-versatile"]);
+  assert.equal(model, "llama-3.3-70b-versatile");
+
+  // llama grades 2-4 points high, so it carries an anchor the others must NOT
+  // get: changing the primary's calibration to correct a last-resort fallback
+  // would be the wrong trade.
+  const [first, , third] = sentBodies;
+  assert.equal(first.messages[0].content, "GRADE.", "the primary's prompt is untouched");
+  assert.match(third.messages[0].content, /CALIBRATION/);
+  assert.match(third.messages[0].content, /^GRADE\./, "the note is appended to the instructions, not sent separately");
+  assert.equal(third.messages.length, 2, "no extra system turn is added");
 });
