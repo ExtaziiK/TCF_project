@@ -453,12 +453,12 @@ export const EN = {
     "The instant analysis is AI-assisted. Premium Annual subscribers also receive two human corrections per month, done by certified French teachers.",
 
   // ── About ────────────────────────────────────────────────────────────
-  "Une équipe entre deux continents, un seul objectif : votre réussite": "One team across two continents, one goal: your success",
-  "Passerelle est née à Montréal, fondée par des enseignants de FLE et d'anciens candidats au TCF Canada.":
-    "Passerelle was born in Montréal, founded by French teachers and former TCF Canada candidates.",
-  "Notre histoire": "Our story",
-  "En 2022, notre cofondatrice a raté son niveau cible de 8 points, faute de ressources fidèles au format de l'épreuve. Elle a réussi six mois plus tard — puis a bâti la plateforme qu'elle aurait voulu avoir. Aujourd'hui, plus de 12 000 candidats préparent leur test avec Passerelle, depuis 60 pays.":
-    "In 2022, our co-founder missed her target level by 8 points for lack of resources faithful to the exam format. She passed six months later — then built the platform she wished she had. Today, more than 12,000 candidates from 60 countries prepare their test with Passerelle.",
+  "Un seul objectif : que vous arriviez prêt le jour du TCF": "One goal: to have you ready on TCF day",
+  "Une plateforme indépendante de préparation au TCF Canada, pensée pour les candidates et candidats à l'immigration.":
+    "An independent TCF Canada preparation platform, built for people applying to immigrate.",
+  "Notre objectif": "Our goal",
+  "Le TCF Canada coûte cher à passer, et se préparer seul revient souvent à s'entraîner sur des documents qui ne ressemblent pas à l'épreuve. Passerelle existe pour combler ce manque : un entraînement fidèle au format réel, à un prix accessible, et qui vous dit honnêtement où vous en êtes. Notre seul objectif est que vous arriviez à l'examen sans mauvaise surprise.":
+    "Sitting the TCF Canada is expensive, and preparing alone often means training on material that looks nothing like the real exam. Passerelle exists to close that gap: practice faithful to the real format, at a price you can afford, that tells you honestly where you stand. Our only goal is that you walk into the exam with no surprises.",
   "Notre méthode": "Our method",
   "Chaque question est rédigée par un enseignant certifié, testée auprès de candidats réels, puis calibrée sur l'échelle CECR. Nos algorithmes mesurent vos réponses pour estimer votre niveau et prioriser ce qui vous rapportera le plus de points.":
     "Every question is written by a certified teacher, tested with real candidates, then calibrated on the CEFR scale. Our algorithms measure your answers to estimate your level and prioritize what will earn you the most points.",
