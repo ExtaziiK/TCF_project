@@ -19,6 +19,7 @@ import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/
 import { RevenueTab } from "@/components/admin/Revenue";
 import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
+import { getSocialClickStats } from "@/services/socialClicksService";
 import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
@@ -1463,7 +1464,79 @@ function RankList({ icon: Icon, title, rows, emptyLabel, format = (l) => l }) {
   );
 }
 
+// Click-throughs to the public channels, counted in our own database (see
+// socialClicksService). Rendered outside VercelTraffic on purpose: that section
+// bails out early when the Vercel token is missing or the serverless routes are
+// absent in local `vite`, and these numbers come from Supabase, so they are
+// available in exactly the cases where the Vercel half is not.
+function SocialClicksCard() {
+  const { c } = useApp();
+  const [stats, setStats] = useState(null);
+  const [days, setDays] = useState(30);
+
+  useEffect(() => { setStats(null); getSocialClickStats(days).then(setStats); }, [days]);
+
+  const rows = stats?.rows || [];
+  const total = rows.reduce((t, r) => t + r.clicks, 0);
+  const max = Math.max(1, ...rows.map((r) => r.clicks));
+
+  return (
+    <Card className="p-6">
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Link2 size={15} /></span>
+          <h3 className={`font-display font-bold ${c.text}`}>Clics vers les réseaux sociaux</h3>
+        </div>
+        <div className="flex gap-1.5">
+          {[7, 30, 90].map((d) => (
+            <button key={d} onClick={() => setDays(d)}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${days === d ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+              {d} j
+            </button>
+          ))}
+        </div>
+      </div>
+      <p className={`text-sm mb-5 ${c.sub}`}>Mesuré sur le site, pas par un raccourcisseur de liens : chaque clic sur une icône du pied de page ou sur une carte de la page Contact. Anonyme — ni compte, ni adresse IP.</p>
+
+      {stats === null ? (
+        <SkeletonRows n={4} className="h-9" />
+      ) : stats.unavailable ? (
+        <p className={`text-sm ${c.sub}`}>Migration <span className="font-mono2">20260807_social_clicks.sql</span> pas encore appliquée : exécutez-la dans l'éditeur SQL Supabase pour commencer à compter.</p>
+      ) : rows.length === 0 ? (
+        <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun clic sur la période. Les compteurs démarrent au déploiement — rien n'est rétroactif.</p>
+      ) : (
+        <>
+          <div className="space-y-2.5">
+            {rows.map((r) => (
+              <div key={r.network}>
+                <div className="flex items-center justify-between gap-3 text-sm mb-1">
+                  <span className={`truncate capitalize ${c.text}`}>{r.network}</span>
+                  <span className={`font-mono2 text-xs shrink-0 ${c.sub}`}>
+                    {fmtNum(r.clicks)} clic{r.clicks > 1 ? "s" : ""}
+                    <span className={c.faint}> · {fmtNum(r.footer)} pied de page · {fmtNum(r.contact)} contact</span>
+                  </span>
+                </div>
+                <ProgressBar pct={Math.round((r.clicks / max) * 100)} tone="grad" />
+              </div>
+            ))}
+          </div>
+          <p className={`mt-4 text-xs ${c.faint}`}>{fmtNum(total)} clic{total > 1 ? "s" : ""} au total sur {days} jours.</p>
+        </>
+      )}
+    </Card>
+  );
+}
+
 function TrafficTab() {
+  return (
+    <div className="space-y-4">
+      <VercelTraffic />
+      <SocialClicksCard />
+    </div>
+  );
+}
+
+function VercelTraffic() {
   const { c } = useApp();
   const [data, setData] = useState(null);
   const [state, setState] = useState("loading");

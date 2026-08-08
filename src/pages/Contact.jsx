@@ -4,10 +4,14 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn, SOCIAL_ICON } from "@/components/common";
 import { submitContactMessage } from "@/services/adminService";
 import { SOCIAL, CONTACT_EMAIL, socialHref } from "@/constants/social";
+import { recordSocialClick } from "@/services/socialClicksService";
 
+// `network` is what marks a row as click-counted; the email row has none, so it
+// stays untracked — a mailto: is not a channel visit and would only muddy the
+// figures it sat next to.
 const channels = [
   { label: "Courriel", d: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: Mail, tone: "text-blue-600 bg-blue-600/10" },
-  ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: socialHref(s), icon: SOCIAL_ICON[s.key], tone: s.tone, external: true })),
+  ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: socialHref(s), icon: SOCIAL_ICON[s.key], tone: s.tone, external: true, network: s.key })),
 ];
 
 export function Contact() {
@@ -58,7 +62,7 @@ export function Contact() {
         <div className="md:col-span-2 space-y-4">
           {/* A support channel is a promise: a live-chat window and a weekly
               study group were advertised here before they existed, so a channel
-              only appears once it is real and staffed. The email plus the four
+              only appears once it is real and staffed. The email plus the
               community channels below all are — they come from
               constants/social.js, the same list the footer renders.
               `handle`/address stays out of t(): there is nothing to translate. */}
@@ -67,7 +71,9 @@ export function Contact() {
               <span className={`w-11 h-11 rounded-2xl ${k.tone} flex items-center justify-center shrink-0`}><k.icon size={19} /></span>
               <div className="min-w-0">
                 <p className={`font-semibold text-sm ${c.text}`}>{t(k.label)}</p>
-                <a href={k.href} {...(k.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="text-sm font-medium text-blue-600 hover:underline break-all">{k.d}</a>
+                <a href={k.href} {...(k.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  onClick={k.network ? () => recordSocialClick(k.network, "contact") : undefined}
+                  className="text-sm font-medium text-blue-600 hover:underline break-all">{k.d}</a>
                 {k.sub && <p className={`text-xs mt-0.5 ${c.sub}`}>{t(k.sub)}</p>}
               </div>
             </Card>

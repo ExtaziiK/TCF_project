@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { useApp } from "@/context/AppContext";
 import { SOCIAL, socialHref } from "@/constants/social";
+import { recordSocialClick } from "@/services/socialClicksService";
 
 // The five brand marks, drawn here rather than taken from lucide. lucide has no
 // TikTok or WhatsApp glyph at all, and its YouTube, Instagram and Facebook
@@ -76,7 +77,7 @@ export const SOCIAL_ICON = { youtube: YouTube, tiktok: TikTok, instagram: Instag
 // The compact follow row (footer, and anywhere else a discreet strip fits).
 // Each link is labelled for screen readers — an icon-only link is otherwise
 // announced as its URL.
-export function SocialLinks({ className = "" }) {
+export function SocialLinks({ className = "", placement = "footer" }) {
   const { c, t } = useApp();
   return (
     <div className={`flex items-center gap-2 ${className}`}>
@@ -88,6 +89,11 @@ export function SocialLinks({ className = "" }) {
             href={socialHref(s)}
             target="_blank"
             rel="noopener noreferrer"
+            // Counted in our own database — see socialClicksService. Not an
+            // onClick that navigates: the href does that, so the link keeps
+            // working (middle-click, "open in new tab", JS disabled) whatever
+            // this call does.
+            onClick={() => recordSocialClick(s.key, placement)}
             title={t(s.label)}
             aria-label={t(s.label)}
             className={`w-9 h-9 rounded-xl border ${c.border} ${c.hoverSoft} flex items-center justify-center transition-transform hover:-translate-y-0.5`}
