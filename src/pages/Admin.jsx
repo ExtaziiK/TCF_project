@@ -1299,6 +1299,19 @@ function UsageTab() {
 
   return (
     <div className="space-y-4">
+      {ai?.saturated > 0 && (
+        <Card className="p-5 border-2 border-rose-500/50">
+          <p className={`font-semibold ${c.text}`}>Le service IA refuse des analyses en ce moment</p>
+          <p className={`mt-1 text-sm ${c.sub}`}>
+            {ai.saturated} appel{ai.saturated > 1 ? "s" : ""} rejeté{ai.saturated > 1 ? "s" : ""} pour dépassement de quota dans la dernière heure.
+            La limite de Groq est glissante sur 24 h : elle se libère progressivement, sans attendre minuit.{" "}
+            <a href="https://console.groq.com/settings/billing" target="_blank" rel="noreferrer" className="font-semibold text-blue-600 hover:underline">
+              Relever la limite
+            </a>
+          </p>
+        </Card>
+      )}
+
       {/* ── IA (Groq) ── */}
       <Card className="p-6">
         <div className="flex items-center justify-between gap-3 flex-wrap mb-1.5">
@@ -1318,6 +1331,7 @@ function UsageTab() {
                 [fmtTokens(ai.promptTokens30d), "Jetons d'entrée", null],
                 [fmtTokens(ai.completionTokens30d), "Jetons de sortie", null],
                 [ai.transcriptions30d, "Transcriptions audio", `${fmtBytes(ai.audioBytes30d)} envoyés`],
+                [ai.failures30d ?? 0, "Appels refusés (30 j)", ai.failures24h ? `${ai.failures24h} ces 24 dernières heures` : "quota, panne amont…"],
               ].map(([v, l, h]) => (
                 <div key={l}>
                   <p className="font-display font-extrabold text-2xl grad-text">{v}</p>

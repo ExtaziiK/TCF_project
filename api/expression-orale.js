@@ -2,7 +2,7 @@ import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } fro
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
-import { logAiUsage } from "./_lib/usage.js";
+import { logAiUsage, logAiFailure } from "./_lib/usage.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -289,11 +289,12 @@ function extForMime(mime = "") {
 
 export default async function handler(req, res) {
   let claim = null;
+  let user = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
     // the attempt id is verified server-side (see requirePremiumOrFreeMock).
-    const user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
+    user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
     // Transcription + evaluation are billable Groq/Azure calls; cap the pace
     // per account. Generous enough for a real interview (one turn per ~30 s).
     await enforceRateLimit(req, { name: "expr-orale", limit: 30, windowSeconds: 300, userId: user.id });
@@ -353,6 +354,9 @@ export default async function handler(req, res) {
     // number.
     res.status(200).json({ transcript, ...normalizeFeedback(raw), aiLeft: claim?.left });
   } catch (err) {
+    // Record the failure as well as the successes. A saturated day otherwise
+    // reads as a quiet one in the admin, which is the opposite of the truth.
+    logAiFailure({ userId: user?.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, status: err.upstreamStatus || err.status });
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
     await releaseAiUse(claim);

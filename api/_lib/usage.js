@@ -10,7 +10,7 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
   auth: { persistSession: false },
 });
 
-export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, durationMs }) {
+export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, durationMs, errorStatus = null }) {
   admin
     .from("ai_usage_log")
     .insert({
@@ -18,6 +18,7 @@ export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, d
       endpoint,
       kind,
       model: model || null,
+      error_status: errorStatus,
       prompt_tokens: usage?.prompt_tokens ?? null,
       completion_tokens: usage?.completion_tokens ?? null,
       total_tokens: usage?.total_tokens ?? null,
@@ -27,4 +28,15 @@ export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, d
     .then(({ error }) => {
       if (error) console.warn("ai_usage_log:", error.message);
     });
+}
+
+// A call that never produced anything. Logged with the upstream status and no
+// tokens, because none were spent.
+//
+// Without this a saturated day reads as a QUIET one in the admin — few calls,
+// few tokens — which is the opposite of the truth and precisely when the
+// dashboard should be shouting. Same fire-and-forget contract: metering must
+// never turn a failed evaluation into a second failure.
+export function logAiFailure({ userId, endpoint, kind, model, status, durationMs }) {
+  logAiUsage({ userId, endpoint, kind, model, durationMs, errorStatus: Number(status) || 0 });
 }

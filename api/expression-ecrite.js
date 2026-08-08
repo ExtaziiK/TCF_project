@@ -1,6 +1,6 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
-import { logAiUsage } from "./_lib/usage.js";
+import { logAiUsage, logAiFailure } from "./_lib/usage.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -34,11 +34,12 @@ Respond with ONLY a minified JSON object:
 
 export default async function handler(req, res) {
   let claim = null;
+  let user = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
     // the attempt id is verified server-side (see requirePremiumOrFreeMock).
-    const user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
+    user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
     // Each call is a billable Groq request; cap the pace per account so a
     // scripted client can't burn the AI budget (Premium gates access, not volume).
     await enforceRateLimit(req, { name: "expr-ecrite", limit: 10, windowSeconds: 300, userId: user.id });
@@ -79,6 +80,9 @@ export default async function handler(req, res) {
     // candidate actually wrote — see normalizeFeedback.
     res.status(200).json({ ...normalizeFeedback(raw, text), aiLeft: claim?.left });
   } catch (err) {
+    // Record the failure as well as the successes. A saturated day otherwise
+    // reads as a quiet one in the admin, which is the opposite of the truth.
+    logAiFailure({ userId: user?.id, endpoint: "expression-ecrite", kind: "chat", model: CHAT_MODEL_NAME, status: err.upstreamStatus || err.status });
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.
     await releaseAiUse(claim);
