@@ -41,10 +41,15 @@ What the overall score means — judge what is IN FRONT OF YOU against these mar
 - 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures. Look for: idiomatic connectors beyond the basic set ("en définitive", "cela dit", "dans la mesure où"), correct conditional or subjunctive where the answer calls for it, and genuine nuance (weighing both sides, qualifying a claim) rather than a flat opinion. One or two minor slips do not pull a text showing these back to B2.
 - 16-20 (C2): everything C1 shows, plus total ease with register throughout the response (not just one strong moment) and no errors at all, including subtle ones.
 A response showing the C1 markers above IS C1 — do not cap it at B2 out of caution, and one clearly showing the C2 markers IS C2. Underscoring a strong response misleads a candidate exactly as much as inflating a weak one: told they speak at B2 when they speak at C1, they may retake an exam they didn't need to. As background only, most real candidates OVERALL sit between 6 and 13 — that is a population statistic, not a target, and it must never pull down a response that clearly shows the C1 or C2 markers above. Do not inflate either: a generous score for a weak response misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
-Write ALL feedback in ${lang === "en" ? "English" : "French"}.
+REWRITES — pick 3 to 5 passages of the candidate's OWN words, copied word for word from the transcript, and show each at a higher level. Choose what gains most: flat or repeated vocabulary, vague words ("chose", "faire", "il y a"), a clumsy structure. NEVER rewrite a hesitation, restart or filler word by itself ("euh", a repeated "donc") — those are normal in speech, not a fault to fix; pick passages for their VOCABULARY or GRAMMAR, not their disfluency.
+- "before": copied WORD FOR WORD from the transcript. Never paraphrased, never invented, never the same passage twice.
+- "after": a genuine rewrite of that exact passage — same meaning, clearly higher level: precise vocabulary, better connector, cleaner structure. NEVER a placeholder — if you cannot rewrite the passage for real, drop that pair instead of inventing one.
+- "why": one short phrase, e.g. "vocabulaire plus précis".
+NEVER for a 0-3 response: there is nothing worth polishing about a fluent answer to the wrong question, or about unintelligible speech.
+Write ALL feedback in ${lang === "en" ? "English" : "French"}; "before" and "after" are ALWAYS French.
 Respond with ONLY a minified JSON object of this exact shape:
-{"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
-"strengths" and "improvements" must each contain 2 to 3 items for a genuine attempt at the task. EXCEPTION — a 0-3 response: "strengths" MUST be [] instead (there is nothing there to praise), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
+{"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"],"rewrites":[{"before":"","after":"","why":""}]}
+"strengths", "improvements" and "rewrites" must never be empty for a genuine, on-topic attempt at the task ("rewrites" needs 3 to 5 pairs). EXCEPTION — a 0-3 response: "strengths" and "rewrites" MUST be [] instead (there is nothing there to praise or to rewrite), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
 
 /* ------------------------- dialogue (interview) mode ------------------------ */
 
@@ -96,10 +101,15 @@ What the overall score means — judge what is IN FRONT OF YOU against these mar
 - 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures. Look for: idiomatic connectors beyond the basic set ("en définitive", "cela dit", "dans la mesure où"), correct conditional or subjunctive where the answer calls for it, and genuine nuance (weighing both sides, qualifying a claim) rather than a flat opinion. One or two minor slips do not pull a text showing these back to B2.
 - 16-20 (C2): everything C1 shows, plus total ease with register throughout the response (not just one strong moment) and no errors at all, including subtle ones.
 A response showing the C1 markers above IS C1 — do not cap it at B2 out of caution, and one clearly showing the C2 markers IS C2. Underscoring a strong response misleads a candidate exactly as much as inflating a weak one: told they speak at B2 when they speak at C1, they may retake an exam they didn't need to. As background only, most real candidates OVERALL sit between 6 and 13 — that is a population statistic, not a target, and it must never pull down a response that clearly shows the C1 or C2 markers above. Do not inflate either: a generous score for a weak response misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
-Write ALL feedback in ${lang === "en" ? "English" : "French"}.
+REWRITES — pick 3 to 5 passages of the CANDIDATE's OWN words, copied word for word from their lines in the dialogue, and show each at a higher level. NEVER a line spoken by the interlocutor. Choose what gains most: flat or repeated vocabulary, vague words ("chose", "faire", "il y a"), a clumsy structure. NEVER rewrite a hesitation, restart or filler word by itself ("euh", a repeated "donc") — those are normal in speech, not a fault to fix; pick passages for their VOCABULARY or GRAMMAR, not their disfluency.
+- "before": copied WORD FOR WORD from one of the candidate's own lines — never the interlocutor's. Never paraphrased, never invented, never the same passage twice.
+- "after": a genuine rewrite of that exact passage — same meaning, clearly higher level: precise vocabulary, better connector, cleaner structure. NEVER a placeholder — if you cannot rewrite the passage for real, drop that pair instead of inventing one.
+- "why": one short phrase, e.g. "vocabulaire plus précis".
+NEVER for a 0-3 response: there is nothing worth polishing about a fluent answer to the wrong question, or about unintelligible speech.
+Write ALL feedback in ${lang === "en" ? "English" : "French"}; "before" and "after" are ALWAYS French.
 Respond with ONLY a minified JSON object of this exact shape:
-{"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
-"strengths" and "improvements" must each contain 2 to 3 items for a genuine attempt at the task. EXCEPTION — a 0-3 response: "strengths" MUST be [] instead (there is nothing there to praise), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
+{"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"],"rewrites":[{"before":"","after":"","why":""}]}
+"strengths", "improvements" and "rewrites" must never be empty for a genuine, on-topic attempt at the task ("rewrites" needs 3 to 5 pairs). EXCEPTION — a 0-3 response: "strengths" and "rewrites" MUST be [] instead (there is nothing there to praise or to rewrite), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
 
 // A silent/near-silent recording gets up to this many spoken re-prompts
 // ("I didn't hear you, please answer") before the interview stops nagging.
@@ -222,6 +232,11 @@ async function dialogueTurn(res, user, body) {
       .filter(Boolean)
       .join("\n");
   const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Interlocuteur" : "Candidat"} : ${m.text}`).join("\n");
+  // What normalizeFeedback verifies a rewrite's "before" against — the
+  // candidate's OWN lines only, joined. Built the same way renderDialogue
+  // reads `turns`, so a "before" quote that actually belongs to the
+  // interlocutor can never pass verification and be shown as the candidate's.
+  const candidateSpeech = (turns) => turns.filter((m) => m.role === "candidate").map((m) => m.text).join(" ");
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
@@ -246,11 +261,15 @@ async function dialogueTurn(res, user, body) {
     ], { temperature: 0 });
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
     const closing = "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici. Voici mon évaluation.";
-    return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade), closing, ...(await voiceLine(closing)) });
+    // The current turn was silence, not speech — only the PRIOR history has
+    // anything the candidate actually said, so that alone is what a rewrite
+    // gets verified against.
+    return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade, candidateSpeech(history)), closing, ...(await voiceLine(closing)) });
   }
 
   const exchangesSoFar = history.filter((m) => m.role === "examiner").length;
-  const userMsg = buildUserMsg(renderDialogue([...history, { role: "candidate", text: transcript.slice(0, 4000) }]));
+  const candidateTurns = [...history, { role: "candidate", text: transcript.slice(0, 4000) }];
+  const userMsg = buildUserMsg(renderDialogue(candidateTurns));
 
   // Keep going (another interlocutor reply) while there is time left and we're
   // under the safety ceiling; otherwise fall through and grade the exchange.
@@ -274,7 +293,7 @@ async function dialogueTurn(res, user, body) {
   // The closing line lives here (not client-side) so it comes out in the same
   // examiner voice as the follow-ups.
   const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
-  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw), closing, done: true, ...(await voiceLine(closing)) });
+  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw, candidateSpeech(candidateTurns)), closing, done: true, ...(await voiceLine(closing)) });
 }
 
 /* ------------------------------- shared bits ------------------------------- */
@@ -354,7 +373,10 @@ export default async function handler(req, res) {
     // 10-minute window for a paid one. Undefined only when the counters could
     // not be reached, and the workshop then shows nothing rather than a wrong
     // number.
-    res.status(200).json({ transcript, ...normalizeFeedback(raw), aiLeft: claim?.left });
+    // `transcript` verifies each rewrite's "before" was actually said, the
+    // same contract as expression-ecrite.js verifying against the candidate's
+    // written text.
+    res.status(200).json({ transcript, ...normalizeFeedback(raw, transcript), aiLeft: claim?.left });
   } catch (err) {
     // Record the failure as well as the successes. A saturated day otherwise
     // reads as a quiet one in the admin, which is the opposite of the truth.
