@@ -33,14 +33,14 @@ The criteria you CAN judge here:
 3. Compétence morphosyntaxique — range and control of structures.
 The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
 Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
-What the overall score means:
+What the overall score means — judge what is IN FRONT OF YOU against these markers, not against where candidates typically land:
 - 0-3: not a genuine attempt at the task in French — off-topic, unintelligible, or another language; nothing here to credit. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
 - 6-9 (B1): the task is broadly carried out with simple, repetitive language and frequent but non-blocking errors.
-- 10-13 (B2): clear, organised, varied vocabulary, real connectors, occasional errors.
-- 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures.
-- 16-20 (C2): near-native range and ease.
-Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
+- 10-13 (B2): clear, organised, varied vocabulary, real connectors ("d'abord", "ensuite", "mais"), occasional errors; the answer states a position without much nuance.
+- 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures. Look for: idiomatic connectors beyond the basic set ("en définitive", "cela dit", "dans la mesure où"), correct conditional or subjunctive where the answer calls for it, and genuine nuance (weighing both sides, qualifying a claim) rather than a flat opinion. One or two minor slips do not pull a text showing these back to B2.
+- 16-20 (C2): everything C1 shows, plus total ease with register throughout the response (not just one strong moment) and no errors at all, including subtle ones.
+A response showing the C1 markers above IS C1 — do not cap it at B2 out of caution, and one clearly showing the C2 markers IS C2. Underscoring a strong response misleads a candidate exactly as much as inflating a weak one: told they speak at B2 when they speak at C1, they may retake an exam they didn't need to. As background only, most real candidates OVERALL sit between 6 and 13 — that is a population statistic, not a target, and it must never pull down a response that clearly shows the C1 or C2 markers above. Do not inflate either: a generous score for a weak response misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
 Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
 {"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
@@ -88,14 +88,14 @@ The criteria you CAN judge here:
 3. Compétence morphosyntaxique — range and control of structures.
 The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
 Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
-What the overall score means:
+What the overall score means — judge what is IN FRONT OF YOU against these markers, not against where candidates typically land:
 - 0-3: not a genuine attempt at the task in French — off-topic, unintelligible, or another language; nothing here to credit. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
 - 6-9 (B1): the task is broadly carried out with simple, repetitive language and frequent but non-blocking errors.
-- 10-13 (B2): clear, organised, varied vocabulary, real connectors, occasional errors.
-- 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures.
-- 16-20 (C2): near-native range and ease.
-Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
+- 10-13 (B2): clear, organised, varied vocabulary, real connectors ("d'abord", "ensuite", "mais"), occasional errors; the answer states a position without much nuance.
+- 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures. Look for: idiomatic connectors beyond the basic set ("en définitive", "cela dit", "dans la mesure où"), correct conditional or subjunctive where the answer calls for it, and genuine nuance (weighing both sides, qualifying a claim) rather than a flat opinion. One or two minor slips do not pull a text showing these back to B2.
+- 16-20 (C2): everything C1 shows, plus total ease with register throughout the response (not just one strong moment) and no errors at all, including subtle ones.
+A response showing the C1 markers above IS C1 — do not cap it at B2 out of caution, and one clearly showing the C2 markers IS C2. Underscoring a strong response misleads a candidate exactly as much as inflating a weak one: told they speak at B2 when they speak at C1, they may retake an exam they didn't need to. As background only, most real candidates OVERALL sit between 6 and 13 — that is a population statistic, not a target, and it must never pull down a response that clearly shows the C1 or C2 markers above. Do not inflate either: a generous score for a weak response misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
 Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
 {"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
