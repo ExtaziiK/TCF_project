@@ -9,12 +9,13 @@
 //   1. every absolute URL in those files uses the canonical origin below;
 //   2. every indexable route in seo.js appears in sitemap.xml;
 //   3. sitemap.xml lists no path that seo.js does not serve, and none that is
-//      marked noindex (a noindexed URL in a sitemap is a contradiction).
+//      marked noindex (a noindexed URL in a sitemap is a contradiction);
+//   4. every internal link and image in the blog articles resolves.
 //
 // seo.js is read as text rather than imported: it uses Vite's "@/" alias, which
 // plain node cannot resolve (same approach as scripts/count-content.mjs).
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -70,8 +71,13 @@ for (const { route, body } of entries) {
   if (!pathMatch) continue; // pathless (the 404) — never in a sitemap
   routes.push({ route, path: pathMatch[1], noindex: /noindex:\s*true/.test(body) });
 }
-// Blog posts get their routes generated from POSTS, so read the slugs directly.
-for (const [, slug] of read("src/constants/blog.js").matchAll(/slug:\s*"([^"]+)"/g)) {
+// Blog posts get their routes generated from POSTS, one file per article.
+const POSTS_DIR = "src/constants/posts";
+const postFiles = readdirSync(path.join(root, POSTS_DIR)).filter((f) => f.endsWith(".js"));
+const posts = postFiles.map((file) => ({ file: `${POSTS_DIR}/${file}`, text: read(`${POSTS_DIR}/${file}`) }));
+for (const { file, text } of posts) {
+  const slug = (text.match(/slug:\s*"([^"]+)"/) || [])[1];
+  if (!slug) { fail(`${file}: no slug`); continue; }
   routes.push({ route: `blog/${slug}`, path: `/blogue/${slug}`, noindex: false });
 }
 if (routes.length < 10) fail(`src/constants/seo.js: parsed only ${routes.length} routes — the parser needs updating`);
@@ -95,6 +101,23 @@ for (const r of routes) {
 const known = new Set(routes.map((r) => (r.path === "/" ? "/" : r.path)));
 for (const p of listed) {
   if (!known.has(p)) fail(`public/sitemap.xml: lists ${p}, which matches no route in src/constants/seo.js`);
+}
+
+/* ── 4. article links and images actually resolve ─────────────────────────── */
+// The articles interlink heavily ([libellé](/chemin) in src/constants/posts).
+// A typo there renders as plain text in the app rather than as a link — silent,
+// and exactly the kind of rot that makes an internal-linking effort decay. Same
+// for a hero/figure pointing at an image that was never committed.
+const servedPaths = new Set(routes.map((r) => r.path));
+for (const { file, text } of posts) {
+  for (const [, label, href] of text.matchAll(/\[([^\]]+)\]\(([^)\s]+)\)/g)) {
+    if (/^https?:/i.test(href)) continue; // outbound links are not ours to verify
+    if (!href.startsWith("/")) fail(`${file}: link "${label}" -> "${href}" is neither absolute-internal nor http(s)`);
+    else if (!servedPaths.has(href)) fail(`${file}: link "${label}" -> "${href}" matches no route`);
+  }
+  for (const [, src] of text.matchAll(/src:\s*"(\/[^"]+)"/g)) {
+    if (!existsSync(path.join(root, "public", src))) fail(`${file}: image "${src}" is missing from public/`);
+  }
 }
 
 /* ── report ───────────────────────────────────────────────────────────────── */

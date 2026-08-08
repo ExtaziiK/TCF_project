@@ -1,8 +1,89 @@
-export const POSTS = [
-  { id: 4, slug: "tcf-canada-ou-tef-canada", iso: "2026-07-16", t: "TCF Canada ou TEF Canada : quel test de français choisir ?", cat: "Immigration", date: "16 juillet 2026", read: "7 min", excerpt: "Les deux tests sont reconnus par IRCC pour Entrée express et la résidence permanente. On compare le format, la difficulté et le contenu pour vous aider à choisir.", body: ["Le TCF Canada et le TEF Canada sont les deux seuls tests de français reconnus par Immigration, Réfugiés et Citoyenneté Canada (IRCC) pour Entrée express, les programmes provinciaux et la citoyenneté. Le bon choix dépend surtout de votre profil et de votre aisance avec chaque format.", "Les deux évaluent les quatre compétences : compréhension orale, compréhension écrite, expression orale et expression écrite. Le TCF Canada repose sur des questions à choix multiples pour les épreuves de compréhension, un format qui rassure les candidats stressés par la lecture chronométrée.", "Côté résultats, les deux tests se convertissent en Niveaux de compétence linguistique canadiens (NCLC). Pour viser le NCLC 7, le seuil qui rapporte le plus de points en Entrée express, la préparation compte bien plus que le choix du test.", "Notre conseil : entraînez-vous d'abord sur des sujets au format officiel du test que vous visez. La familiarité avec le format fait gagner de précieuses minutes le jour de l'examen. Notre plateforme reproduit fidèlement le format du TCF Canada, épreuve par épreuve.", "Vérifiez enfin les dates et les centres d'examen près de chez vous : la disponibilité varie selon les villes et peut peser autant que vos préférences de format dans votre décision finale."] },
-  { id: 5, slug: "score-tcf-canada-niveaux-nclc", iso: "2026-07-09", t: "Score TCF Canada et niveaux NCLC : le tableau de correspondance", cat: "Immigration", date: "9 juillet 2026", read: "6 min", excerpt: "Comment vos scores se traduisent en niveaux NCLC, et quel niveau viser pour maximiser vos points d'Entrée express.", body: ["Le TCF Canada note chaque épreuve sur une échelle de points, ensuite convertie en Niveaux de compétence linguistique canadiens (NCLC). Comprendre cette correspondance est indispensable pour fixer un objectif réaliste avant de réserver votre examen.", "Pour l'immigration économique, le palier le plus rentable est le NCLC 7 dans les quatre compétences : il ouvre droit au maximum de points liés au français dans Entrée express. Passer au NCLC 9 rapporte encore quelques points, mais l'effort de préparation devient nettement plus important.", "Chaque épreuve a ses propres seuils. En compréhension orale et écrite, atteindre le NCLC 7 suppose de réussir une majorité des questions les plus difficiles : entraînez-vous donc en priorité sur les items de niveau B2 et C1.", "À l'expression écrite et orale, les examinateurs évaluent la cohérence, la richesse du vocabulaire et la correction grammaticale. Un discours clair et bien structuré compte souvent plus qu'un vocabulaire rare mais mal maîtrisé.", "Utilisez notre calculateur de score NCLC pour convertir vos résultats de TCF blanc et suivre votre progression vers votre objectif, compétence par compétence."] },
-  { id: 6, slug: "expression-ecrite-tcf-canada", iso: "2026-07-02", t: "Réussir l'expression écrite du TCF Canada : structure et exemples", cat: "Méthode", date: "2 juillet 2026", read: "7 min", excerpt: "Les trois tâches d'expression écrite décryptées, avec une structure claire pour chacune et les critères que recherchent les correcteurs.", body: ["L'épreuve d'expression écrite du TCF Canada comporte trois tâches de longueur et de difficulté croissantes. Bien répartir son temps entre elles est la première clé d'un bon score.", "La tâche 1 demande un message court et concret, comme un courriel ou une note. Allez à l'essentiel : salutation, objet clair, demande ou information, formule de clôture. La précision prime sur la longueur.", "La tâche 2 attend un texte plus développé, souvent un compte rendu ou un message argumenté. Adoptez un plan simple : introduction, deux idées appuyées par des exemples, conclusion. Les connecteurs logiques comme « d'abord », « cependant » et « par conséquent » fluidifient votre propos.", "La tâche 3 est la plus exigeante : comparer deux points de vue puis donner le vôtre. Reformulez les deux positions sans les recopier, puis prenez clairement position avec des arguments personnels et des exemples.", "Les correcteurs valorisent la cohérence, la variété des structures et la correction grammaticale. Gardez deux minutes à la fin pour vous relire et corriger les accords et la ponctuation : ce sont des points faciles à récupérer.", "Entraînez-vous avec notre atelier d'expression écrite : rédigez sur des sujets au format officiel et recevez une analyse détaillée de votre texte, tâche par tâche."] },
-  { id: 1, slug: "tcf-canada-2026-changements", iso: "2026-06-12", t: "TCF Canada 2026 : ce qui change et comment s'y préparer", cat: "Actualités", date: "12 juin 2026", read: "6 min", excerpt: "Nouvelles consignes à l'oral, banques de sujets élargies : le point complet sur la session 2026 et nos conseils pour adapter votre préparation.", body: ["La session 2026 du TCF Canada conserve sa structure en quatre épreuves, mais France Éducation international a élargi la banque de sujets d'expression orale et précisé les consignes de la tâche 2.", "Concrètement, les candidats doivent s'attendre à des mises en situation plus ancrées dans la vie canadienne : démarches administratives, logement, travail. Notre banque de questions a été mise à jour en conséquence.", "Notre conseil : travaillez l'interaction avec un chronomètre dès le début de votre préparation. La gestion du temps reste la première cause de points perdus à l'oral."] },
-  { id: 2, slug: "entree-express-points-francais", iso: "2026-05-28", t: "Entrée express : combien de points le français peut-il vous rapporter ?", cat: "Immigration", date: "28 mai 2026", read: "8 min", excerpt: "Jusqu'à 50 points de plus grâce au français : on décortique le calcul, niveau par niveau, avec des exemples concrets de profils.", body: ["Dans le système Entrée express, un niveau NCLC 7 (environ B2) dans les quatre compétences en français peut rapporter 25 points si votre anglais est faible, et 50 points si vous atteignez CLB 5 ou plus en anglais.", "Pour beaucoup de candidats, ces points font la différence entre une invitation et une attente prolongée dans le bassin.", "Le TCF Canada est l'un des deux tests de français reconnus par IRCC. Visez une marge de sécurité : préparez un niveau au-dessus de votre cible."] },
-  { id: 3, slug: "5-habitudes-etude-niveau-c1", iso: "2026-05-09", t: "5 habitudes d'étude des candidats qui obtiennent C1", cat: "Méthode", date: "9 mai 2026", read: "5 min", excerpt: "Nous avons analysé les parcours de nos meilleurs étudiants. Voici ce qu'ils font différemment, et comment les imiter dès aujourd'hui.", body: ["Première habitude : la régularité prime sur le volume. Vingt minutes par jour battent trois heures le dimanche.", "Deuxième habitude : ils réécoutent chaque audio raté avec la transcription, puis sans. Troisième : ils s'enregistrent à l'oral au moins trois fois par semaine.", "Quatrième : ils apprennent le vocabulaire en contexte, jamais en liste isolée. Cinquième : ils passent un TCF blanc complet toutes les deux semaines pour bâtir leur endurance."] },
+// The article index. Each post lives in its own file under ./posts — they run
+// well past a thousand words each, and one 4 000-line constants file would be
+// unreadable and unmergeable. This module is the only place that knows the
+// full list, so publishing an article means adding two lines here (plus its
+// URL in public/sitemap.xml, which `npm run check:seo` enforces).
+//
+// Post shape — see src/components/blog/ArticleBody.jsx for the body blocks:
+//   { id, slug, iso, date, cat, t, excerpt, hero, body }
+//
+// `read` is NOT authored: it is computed from the body below, so it can never
+// drift from the article it describes (the old hand-written "7 min" survived
+// three rewrites of its own text).
+
+import { post as quEstCe } from "./posts/qu-est-ce-que-le-tcf-canada";
+import { post as quiDoitPasser } from "./posts/qui-doit-passer-le-tcf-canada";
+import { post as format } from "./posts/format-tcf-canada";
+import { post as quatreEpreuves } from "./posts/quatre-epreuves-tcf-canada";
+import { post as notation } from "./posts/comment-est-note-le-tcf-canada";
+import { post as quelNiveau } from "./posts/quel-niveau-viser-tcf-canada";
+import { post as sePreparer } from "./posts/comment-se-preparer-au-tcf-canada";
+import { post as planEtude } from "./posts/plan-etude-tcf-canada-8-semaines";
+import { post as tcfOuTef } from "./posts/tcf-canada-ou-tef-canada";
+import { post as scoreNclc } from "./posts/score-tcf-canada-niveaux-nclc";
+import { post as expressionEcrite } from "./posts/expression-ecrite-tcf-canada";
+import { post as changements2026 } from "./posts/tcf-canada-2026-changements";
+import { post as entreeExpress } from "./posts/entree-express-points-francais";
+import { post as habitudesC1 } from "./posts/5-habitudes-etude-niveau-c1";
+
+const ALL = [
+  quEstCe, quiDoitPasser, format, quatreEpreuves, notation, quelNiveau,
+  sePreparer, planEtude, tcfOuTef, scoreNclc, expressionEcrite,
+  changements2026, entreeExpress, habitudesC1,
 ];
+
+// Category → Pill tone, so the index and the article header agree on the
+// colour without either of them hard-coding a list of categories.
+export const CAT_TONE = {
+  Immigration: "red",
+  "Comprendre le test": "green",
+  "Méthode": "blue",
+  "Actualités": "amber",
+};
+
+/* ---------------------------- reading time ------------------------------- */
+
+// Every readable string in a block, whatever its shape.
+function blockText(b) {
+  if (typeof b === "string") return b;
+  if (!b || typeof b !== "object") return "";
+  if (b.ul || b.ol) return (b.ul || b.ol).join(" ");
+  if (b.table) return [...b.table.cols, ...b.table.rows.flat()].join(" ");
+  if (b.img) return b.img.caption || "";
+  if (b.cta) return b.cta.text;
+  return [b.h, b.note, b.title, b.caption].filter(Boolean).join(" ");
+}
+
+// Link targets and bold markers are markup, not prose: [libellé](/chemin)
+// counts as its label alone.
+const stripMarkup = (s) => s.replace(/\[([^\]]+)\]\([^)\s]+\)/g, "$1").replace(/\*\*/g, "");
+
+export function wordCount(post) {
+  const text = stripMarkup(post.body.map(blockText).join(" "));
+  return (text.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) || []).length;
+}
+
+// 180 words/minute — slower than the usual 200-250 English figure, because
+// most readers here are reading a second language about a test that matters.
+const readingTime = (post) => `${Math.max(1, Math.round(wordCount(post) / 180))} min`;
+
+/* -------------------------------- exports -------------------------------- */
+
+// Newest first. The index page and "related articles" both rely on this order,
+// and sorting here means a new post lands in the right place from its `iso`
+// alone rather than from where it was pasted into the array.
+export const POSTS = ALL
+  .slice()
+  .sort((a, b) => b.iso.localeCompare(a.iso))
+  .map((p) => ({ ...p, words: wordCount(p), read: readingTime(p) }));
+
+export const postBySlug = (slug) => POSTS.find((p) => p.slug === slug);
+
+// Up to `n` articles to read next: same category first (closest topic), then
+// the most recent of the others, so an article is never a dead end.
+export function relatedPosts(post, n = 3) {
+  const others = POSTS.filter((p) => p.slug !== post.slug);
+  const sameCat = others.filter((p) => p.cat === post.cat);
+  const rest = others.filter((p) => p.cat !== post.cat);
+  return [...sameCat, ...rest].slice(0, n);
+}

@@ -3,6 +3,7 @@
 // "Pratique" menu (and no account links on mobile) for pages the guard happily
 // let them open. One definition, no drift.
 import { AUTHENTICATED, ADMIN_ONLY } from "@/auth/rbac";
+import { POSTS } from "@/constants/blog";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
 // array; entries without one are visible to everyone (including visitors).
@@ -68,7 +69,10 @@ export const SEARCH_INDEX = [
   { l: "Anciens sujets · Expression orale", r: "sujets-eo", c: "Ressources" },
   { l: "Calculateur TCF → NCLC", r: "calculator", c: "Ressources" },
   { l: "Tarifs et abonnements", r: "pricing", c: "Page" },
-  { l: "Entrée express : points du français", r: "blog", c: "Blog" },
   { l: "Avis des candidats", r: "avis", c: "Page" },
   { l: "Foire aux questions", r: "faq", c: "Page" },
+  // Every article, generated rather than listed: the search box used to carry
+  // one hand-written blog entry pointing at the index, so searching for an
+  // article's subject found nothing and searching its title landed on a list.
+  ...POSTS.map((p) => ({ l: p.t, r: `blog/${p.slug}`, c: "Blog" })),
 ];
