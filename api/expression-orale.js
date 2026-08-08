@@ -349,7 +349,7 @@ export default async function handler(req, res) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
 
     // How many analyses are left on this tache: 2 for a free account, 3 per
-    // 5-minute window for a paid one. Undefined only when the counters could
+    // 10-minute window for a paid one. Undefined only when the counters could
     // not be reached, and the workshop then shows nothing rather than a wrong
     // number.
     res.status(200).json({ transcript, ...normalizeFeedback(raw), aiLeft: claim?.left });

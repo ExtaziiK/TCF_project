@@ -174,7 +174,7 @@ function WritingTaskPane({ task }) {
         <div className="flex gap-3 flex-wrap items-center">
           <Btn icon={Sparkles} variant="accent" onClick={analyze} disabled={analyzing}>{t(analyzing ? "Analyse en cours…" : "Analyser avec l'IA")}</Btn>
           {/* What is left on this tâche, as the server counted it: 2 for a free
-              account (hard limit), 3 per 5-minute window for a paid one. */}
+              account (hard limit), 3 per 10-minute window for a paid one. */}
           {typeof ai?.aiLeft === "number" && (
             <span className={`text-xs ${c.sub}`}>
               {ai.aiLeft > 0

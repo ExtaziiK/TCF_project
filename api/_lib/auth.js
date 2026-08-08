@@ -159,7 +159,7 @@ function quotaKey(attemptId, taskKey) {
 
 // Two limits apply to a paying account, and they are independent.
 //
-// PACE: 3 analyses per tache per 5-minute window. Anti-spam only - it never
+// PACE: 3 analyses per tache per 10-minute window. Anti-spam only - it never
 // touches the daily count, so a real Expression ecrite sitting (three taches,
 // the better part of an hour) still costs one simulation.
 //
@@ -168,7 +168,10 @@ function quotaKey(attemptId, taskKey) {
 // candidate keeps working; a long idle gap ends it. Opening the workshop or
 // reading a subject costs nothing.
 export const PAID_ANALYSES_PER_TASK = 3;
-const PACE_WINDOW_SECONDS = 5 * 60;
+// Ten minutes, not five: long enough that the window is a real pause for
+// thought between attempts rather than a formality, and it roughly halves what
+// one account can draw from the shared daily token budget.
+const PACE_WINDOW_SECONDS = 10 * 60;
 const SITTING_IDLE_SECONDS = 30 * 60;
 
 // Keep in sync with the plan cards in src/constants/pricing.js. Matched on the
@@ -225,7 +228,7 @@ async function claimPaidAiUse(user, taskKey) {
       const epreuve = section === "ee" ? "expression écrite" : "expression orale";
       throw new HttpError(429, `Vous avez atteint votre limite de ${limit} simulations IA par jour en ${epreuve}. Elle se réinitialise demain, ou passez à un forfait supérieur pour en avoir plus.`);
     }
-    throw new HttpError(429, `Vous avez lancé ${PAID_ANALYSES_PER_TASK} analyses sur cette tâche. Patientez quelques minutes avant d'en relancer une.`);
+    throw new HttpError(429, `Vous avez lancé ${PAID_ANALYSES_PER_TASK} analyses sur cette tâche. Vous pourrez en relancer une dans ${PACE_WINDOW_SECONDS / 60} minutes.`);
   }
   return { userId: user.id, taskKey, paid: true, left: row.task_left };
 }
