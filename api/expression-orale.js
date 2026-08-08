@@ -34,16 +34,17 @@ The criteria you CAN judge here:
 The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
 Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
 What the overall score means:
+- 0-3: not a genuine attempt at the task in French — off-topic, unintelligible, or another language; nothing here to credit. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
 - 6-9 (B1): the task is broadly carried out with simple, repetitive language and frequent but non-blocking errors.
 - 10-13 (B2): clear, organised, varied vocabulary, real connectors, occasional errors.
 - 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures.
 - 16-20 (C2): near-native range and ease.
-Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam.
+Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
 Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
 {"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
-"strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
+"strengths" and "improvements" must each contain 2 to 3 items for a genuine attempt at the task. EXCEPTION — a 0-3 response: "strengths" MUST be [] instead (there is nothing there to praise), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
 
 /* ------------------------- dialogue (interview) mode ------------------------ */
 
@@ -88,16 +89,17 @@ The criteria you CAN judge here:
 The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
 Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
 What the overall score means:
+- 0-3: not a genuine attempt at the task in French — off-topic, unintelligible, or another language; nothing here to credit. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
 - 6-9 (B1): the task is broadly carried out with simple, repetitive language and frequent but non-blocking errors.
 - 10-13 (B2): clear, organised, varied vocabulary, real connectors, occasional errors.
 - 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures.
 - 16-20 (C2): near-native range and ease.
-Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam.
+Most real candidates sit between 6 and 13. Do not inflate: a generous score misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
 Write ALL feedback in ${lang === "en" ? "English" : "French"}.
 Respond with ONLY a minified JSON object of this exact shape:
 {"score":<overall score out of 20, a whole number>,"criteria":{"consigne":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentence overall assessment>","strengths":["<2 to 3 short points>"],"improvements":["<2 to 3 short, actionable points>"]}
-"strengths" and "improvements" must each contain 2 to 3 items — never leave them empty.`;
+"strengths" and "improvements" must each contain 2 to 3 items for a genuine attempt at the task. EXCEPTION — a 0-3 response: "strengths" MUST be [] instead (there is nothing there to praise), and "improvements" has exactly one item saying the response must be a genuine attempt at the task in French.`;
 
 // A silent/near-silent recording gets up to this many spoken re-prompts
 // ("I didn't hear you, please answer") before the interview stops nagging.
@@ -356,7 +358,20 @@ export default async function handler(req, res) {
   } catch (err) {
     // Record the failure as well as the successes. A saturated day otherwise
     // reads as a quiet one in the admin, which is the opposite of the truth.
-    logAiFailure({ userId: user?.id, endpoint: "expression-orale", kind: "chat", model: CHAT_MODEL_NAME, status: err.upstreamStatus || err.status });
+    // See expression-ecrite.js: the model that refused, Groq's own reason, and
+    // the exact request sent (messages for a chat refusal, mime/size/filename
+    // only — never the audio — for a transcription refusal). This catch covers
+    // the whole request, so the failure may be Whisper's rather than the
+    // grader's — the model says which, and the kind follows it instead of
+    // being hardcoded to "chat".
+    logAiFailure({
+      userId: user?.id, endpoint: "expression-orale",
+      kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
+      model: err.model || CHAT_MODEL_NAME,
+      status: err.upstreamStatus || err.status,
+      detail: err.upstreamDetail,
+      request: err.requestPayload,
+    });
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
     await releaseAiUse(claim);

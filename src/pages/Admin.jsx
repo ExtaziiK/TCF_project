@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, FileText, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
   Wallet,
 } from "lucide-react";
@@ -1256,6 +1256,97 @@ function TopAiUsers({ rows, unit }) {
   );
 }
 
+// "12 appels refusés" told an admin that something was wrong and nothing about
+// what to do. This panel answers the two questions that follow: refusé À QUI,
+// et POURQUOI. Both come straight from ai_usage_log — the user behind the call
+// and the status Groq answered with, plus Groq's own sentence when the row is
+// recent enough to have one.
+function FailureBreakdown({ reasons, recent, affected24h }) {
+  const { c } = useApp();
+  if (!reasons?.length) {
+    return <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun appel refusé sur 30 jours.</p>;
+  }
+  const time = (iso) =>
+    new Date(iso).toLocaleString("fr-CA", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+
+  return (
+    <>
+      <div className="space-y-2 mb-6">
+        {reasons.map((r) => (
+          <div key={r.status} className={`p-3 rounded-2xl border ${c.border}`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <span className="flex items-center gap-2">
+                <Pill tone={r.tone}>{r.label}</Pill>
+                <span className={`text-xs font-mono2 ${c.faint}`}>HTTP {r.status || "—"}</span>
+              </span>
+              <span className={`text-xs font-mono2 ${c.sub}`}>
+                {r.count24h > 0 && <strong className="text-rose-600">{r.count24h} en 24 h</strong>}
+                {r.count24h > 0 && " · "}
+                {r.count30d} sur 30 j
+              </span>
+            </div>
+            <p className={`text-xs mt-1.5 ${c.sub}`}>{r.hint}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>
+        Derniers refus — qui et pourquoi
+        {affected24h > 0 && <span className="ml-2 normal-case tracking-normal font-medium text-rose-600">{affectedLabel(affected24h)}</span>}
+      </p>
+      <div className="space-y-1">
+        {recent.map((f, i) => (
+          <div key={i} className={`px-3 py-2 rounded-xl ${c.hoverSoft}`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              {/* Unattributed = the request failed before we knew who was
+                  calling. Saying so beats inventing a name for the row. */}
+              <span className={`text-sm truncate ${f.email ? c.text : c.faint}`}>
+                {f.email || "Utilisateur non identifié"}
+              </span>
+              <span className={`text-xs font-mono2 shrink-0 ${c.faint}`}>{time(f.at)}</span>
+            </div>
+            <p className={`text-xs mt-0.5 ${c.sub}`}>
+              {f.label}
+              {f.model && <> · <span className="font-mono2">{f.model.replace("openai/", "")}</span></>}
+              {f.endpoint && <> · {f.endpoint}</>}
+            </p>
+            {/* Groq's verbatim answer: it names the exhausted bucket and the
+                wait. Absent on rows logged before the error_detail migration. */}
+            {f.detail && <p className={`text-xs mt-1 font-mono2 break-words ${c.faint}`}>{f.detail}</p>}
+            {/* What WE sent, next to what Groq said back above. Absent on rows
+                logged before the error_request migration. */}
+            <RequestSnapshot request={f.request} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+const affectedLabel = (n) => `${n} candidat${n > 1 ? "s" : ""} touché${n > 1 ? "s" : ""} en 24 h`;
+
+// The exact request a refused call sent to Groq — model, messages (system
+// prompt and any per-model calibration included, exactly as sent) for a chat
+// call, or mime/size/filename only for a transcription (never the audio
+// itself). Collapsed by default so the failure list stays scannable; the
+// point of keeping this at all is to let an admin reproduce or diagnose a
+// SPECIFIC refusal without guessing at what the call must have looked like.
+function RequestSnapshot({ request }) {
+  const { c } = useApp();
+  if (!request) return null;
+  return (
+    <details className="mt-1.5 group">
+      <summary className="text-xs font-semibold text-blue-600 cursor-pointer select-none list-none flex items-center gap-1">
+        <ChevronRight size={12} className="transition-transform group-open:rotate-90" />
+        Voir la requête envoyée à Groq
+      </summary>
+      <pre className={`mt-1.5 p-2.5 rounded-xl text-xs overflow-x-auto whitespace-pre-wrap break-words ${c.tint} ${c.faint}`}>
+        {JSON.stringify(request, null, 2)}
+      </pre>
+    </details>
+  );
+}
+
 function LimitBar({ label, used, limit, format }) {
   const { c } = useApp();
   const pct = Math.min(100, Math.round((used / limit) * 100));
@@ -1306,7 +1397,8 @@ function UsageTab() {
         <Card className="p-5 border-2 border-rose-500/50">
           <p className={`font-semibold ${c.text}`}>Le service IA refuse des analyses en ce moment</p>
           <p className={`mt-1 text-sm ${c.sub}`}>
-            {ai.saturated} appel{ai.saturated > 1 ? "s" : ""} rejeté{ai.saturated > 1 ? "s" : ""} pour dépassement de quota dans la dernière heure.
+            {ai.saturated} appel{ai.saturated > 1 ? "s" : ""} rejeté{ai.saturated > 1 ? "s" : ""} pour dépassement de quota dans la dernière heure
+            {ai.affectedUsers24h > 0 && <> — {affectedLabel(ai.affectedUsers24h)}</>}.
             La limite de Groq est glissante sur 24 h : elle se libère progressivement, sans attendre minuit.{" "}
             <a href="https://console.groq.com/settings/billing" target="_blank" rel="noreferrer" className="font-semibold text-blue-600 hover:underline">
               Relever la limite
@@ -1411,6 +1503,19 @@ function UsageTab() {
           </>
         )}
       </Card>
+
+      {/* ── Appels refusés : à qui, et pourquoi ── */}
+      {ai && (
+        <Card className="p-6">
+          <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Appels refusés — à qui et pourquoi</h3>
+          <p className={`text-sm mb-5 ${c.sub}`}>
+            Un refus n'est pas une panne : le plus souvent, le plafond de Groq est atteint et l'analyse repartira seule.
+            Ce qui compte est de savoir <strong className={c.text}>quels candidats</strong> ont été touchés et{" "}
+            <strong className={c.text}>pour quelle raison</strong>, pour distinguer un quota épuisé d'une clé invalide.
+          </p>
+          <FailureBreakdown reasons={ai.failureReasons} recent={ai.recentFailures} affected24h={ai.affectedUsers24h} />
+        </Card>
+      )}
 
       {/* ── Azure (voix de l'examinateur) ── */}
       <Card className="p-6">
