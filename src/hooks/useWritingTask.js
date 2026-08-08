@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { evaluateWriting, AiError } from "@/services/aiService";
 import { sameForGrading } from "@/utils/textSignature";
+import { applyStickyScore, STICKY_WITHIN } from "@/utils/stickyScore";
 
 // Encapsulates the writing-task business logic (timer, word count, AI
 // analysis) so the Writing page can stay focused on presentation.
@@ -92,8 +93,15 @@ export function useWritingTask(task, notify) {
         targetWords: task.words,
         lang,
       });
-      lastRun.current = { text: current, feedback };
-      setAi(feedback);
+      // A revision that moves the score by a point or less keeps the previous
+      // grade: that difference is inside the noise of any grid, and reporting
+      // it as a level change claims a precision this assessment does not have.
+      const held = applyStickyScore(lastRun.current.feedback, feedback);
+      lastRun.current = { text: current, feedback: held };
+      setAi(held);
+      if (held.scoreHeld) {
+        notify(t(`Votre note reste à ${held.score}/20 : l'écart avec l'analyse précédente est trop faible (${STICKY_WITHIN} point ou moins) pour changer votre niveau. Les conseils ci-dessous portent sur votre nouveau texte.`));
+      }
     } catch (err) {
       if (err instanceof AiError && (err.status === 404 || err.status === 0)) {
         setAi(heuristic());
