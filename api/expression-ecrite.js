@@ -153,13 +153,16 @@ export default async function handler(req, res) {
     // reads as a quiet one in the admin, which is the opposite of the truth.
     // err.model is the model that actually refused (the end of the fallback
     // chain), not the first one tried — otherwise every 429 is blamed on the
-    // primary. err.upstreamDetail is Groq's own sentence, which names the
-    // exhausted bucket; both land in ai_usage_log for the admin.
+    // primary. err.upstreamDetail is Groq's own sentence, and err.requestPayload
+    // is the exact body that was sent (system prompt, calibration and the
+    // candidate's own text included) — together a full recording of the
+    // refused call, for the admin to diagnose without guessing.
     logAiFailure({
       userId: user?.id, endpoint: "expression-ecrite", kind: "chat",
       model: err.model || CHAT_MODEL_NAME,
       status: err.upstreamStatus || err.status,
       detail: err.upstreamDetail,
+      request: err.requestPayload,
     });
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.

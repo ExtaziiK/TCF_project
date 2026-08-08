@@ -57,6 +57,11 @@ export const MODEL_DAILY_TOKENS = {
 export const CHAT_MODEL_IDS = CHAT_MODELS.map((m) => m.id);
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
 
+// How much of Groq's raw error body a REFUSED call keeps, in ai_usage_log
+// (error_detail). Generous: Groq's error bodies are normally one short JSON
+// sentence, so this is headroom for the rare verbose one, not a working limit.
+const DETAIL_CAP = 2000;
+
 export class HttpError extends Error {
   constructor(status, message) {
     super(message);
@@ -81,7 +86,7 @@ export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
 // subjects importer raises it, since rewording the same source twice with
 // identical output would defeat the point.
 export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2 } = {}) {
-  let res, model;
+  let res, model, body;
   // Only a 429 moves to the next model. Anything else — a malformed request, an
   // unparseable reply — would fail identically everywhere, and retrying it just
   // spends a second model's allowance to reach the same error.
@@ -96,17 +101,15 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
         ? { ...m, content: m.content + candidate.calibration }
         : m))
       : messages;
+    // Hoisted to the outer scope (not an inline object in the fetch call) so
+    // that on failure, err.requestPayload below can attach the EXACT body of
+    // whichever attempt actually got refused — the last one, since the loop
+    // only reruns on a 429.
+    body = { model, messages: payload, temperature, max_tokens: maxTokens, reasoning_effort: "low", response_format: { type: "json_object" } };
     res = await fetch(`${GROQ_BASE}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        messages: payload,
-        temperature,
-        max_tokens: maxTokens,
-        reasoning_effort: "low",
-        response_format: { type: "json_object" },
-      }),
+      body: JSON.stringify(body),
     });
     if (res.status !== 429) break;
   }
@@ -138,7 +141,13 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // deliberately NOT what the candidate sees (they get the reassuring French
     // message above) — it goes to ai_usage_log so the admin can tell a spent
     // quota from a bad key without opening Groq's console.
-    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, 300) || null;
+    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, DETAIL_CAP) || null;
+    // The exact request that got refused — model, full messages (system prompt
+    // and any per-model calibration included, exactly as sent), temperature,
+    // max_tokens. Only attached on failure: a successful call has nothing to
+    // investigate, and duplicating every candidate's text into the log for
+    // calls that worked fine would be pure cost for no benefit.
+    err.requestPayload = body;
     const header = Number(res.headers.get("retry-after"));
     const inBody = detail.match(/try again in ([\d.]+)s/i);
     err.retryAfterMs = header > 0 ? header * 1000 : inBody ? Math.ceil(Number(inBody[1]) * 1000) : null;
@@ -176,7 +185,12 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
     // with its real status and reason rather than a flat 502 with no cause.
     err.upstreamStatus = res.status;
     err.model = TRANSCRIBE_MODEL;
-    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, 300) || null;
+    err.upstreamDetail = detail.replace(/\s+/g, " ").trim().slice(0, DETAIL_CAP) || null;
+    // Metadata only — never the audio itself. The clip is what a candidate
+    // spoke; logging it into a diagnostic table is a privacy step this
+    // feature has no reason to take, and the metadata is what actually
+    // distinguishes a working call from a refused one.
+    err.requestPayload = { model: TRANSCRIBE_MODEL, mime, filename, audioBytes: buffer.length, language: language || null };
     throw err;
   }
   const data = await res.json();

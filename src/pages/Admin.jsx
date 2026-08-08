@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, FileText, MessageCircle, ScrollText,
   TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
-  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown,
+  Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
   Wallet,
 } from "lucide-react";
@@ -1313,6 +1313,9 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
             {/* Groq's verbatim answer: it names the exhausted bucket and the
                 wait. Absent on rows logged before the error_detail migration. */}
             {f.detail && <p className={`text-xs mt-1 font-mono2 break-words ${c.faint}`}>{f.detail}</p>}
+            {/* What WE sent, next to what Groq said back above. Absent on rows
+                logged before the error_request migration. */}
+            <RequestSnapshot request={f.request} />
           </div>
         ))}
       </div>
@@ -1321,6 +1324,28 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
 }
 
 const affectedLabel = (n) => `${n} candidat${n > 1 ? "s" : ""} touché${n > 1 ? "s" : ""} en 24 h`;
+
+// The exact request a refused call sent to Groq — model, messages (system
+// prompt and any per-model calibration included, exactly as sent) for a chat
+// call, or mime/size/filename only for a transcription (never the audio
+// itself). Collapsed by default so the failure list stays scannable; the
+// point of keeping this at all is to let an admin reproduce or diagnose a
+// SPECIFIC refusal without guessing at what the call must have looked like.
+function RequestSnapshot({ request }) {
+  const { c } = useApp();
+  if (!request) return null;
+  return (
+    <details className="mt-1.5 group">
+      <summary className="text-xs font-semibold text-blue-600 cursor-pointer select-none list-none flex items-center gap-1">
+        <ChevronRight size={12} className="transition-transform group-open:rotate-90" />
+        Voir la requête envoyée à Groq
+      </summary>
+      <pre className={`mt-1.5 p-2.5 rounded-xl text-xs overflow-x-auto whitespace-pre-wrap break-words ${c.tint} ${c.faint}`}>
+        {JSON.stringify(request, null, 2)}
+      </pre>
+    </details>
+  );
+}
 
 function LimitBar({ label, used, limit, format }) {
   const { c } = useApp();

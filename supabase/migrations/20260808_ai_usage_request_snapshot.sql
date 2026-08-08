@@ -1,0 +1,33 @@
+-- Record exactly what was SENT to Groq on a refused call, next to what Groq
+-- SAID BACK (error_detail, added by 20260808_ai_usage_failure_detail.sql).
+--
+-- The prior two migrations on this table turned "12 appels refusés" into
+-- "refused to WHOM and for WHICH category of reason". Neither answers the
+-- question that actually closes an investigation into a specific refusal:
+-- what did this call actually send, and what came back. Groq's reason
+-- (error_detail) names the exhausted bucket, but not whether the REQUEST
+-- itself was unusual — an oversized payload, an unexpected field, the wrong
+-- calibration branch. Chasing that down used to mean reproducing the call
+-- from memory.
+--
+-- Chat failures store the exact request body api/_lib/groq.js sent on the
+-- attempt that got refused: model, full messages (system prompt and any
+-- per-model calibration included, exactly as sent), temperature, max_tokens.
+-- Transcription failures store request METADATA only (model, mime, filename,
+-- byte size, language) — never the audio itself: a candidate's recorded
+-- speech has no reason to sit in a diagnostic log, and the metadata is what
+-- actually distinguishes a working call from a refused one.
+--
+-- jsonb, not text: the admin dashboard renders it pretty-printed, and a
+-- structured column is what makes it queryable later (e.g. "every refused
+-- call whose payload used the llama calibration") without a text parse.
+--
+-- Only populated on FAILURE rows — a successful call has nothing to
+-- investigate, so there is no reason to duplicate a candidate's text into
+-- this table for the calls that worked fine.
+--
+-- Run in the Supabase dashboard (SQL Editor) or via `supabase db push`.
+-- Safe to re-run.
+
+alter table public.ai_usage_log
+  add column if not exists error_request jsonb;

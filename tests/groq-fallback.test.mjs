@@ -96,6 +96,27 @@ test("a refusal names the model that actually refused, and why", async () => {
   );
 });
 
+test("a refusal carries the exact request body that was sent — the failing attempt, not the first", async () => {
+  // "A recording of what was sent to Groq" only means something if it is the
+  // payload that actually got refused. The primary is rate limited (its
+  // request must NOT be what gets attached); the fallback that follows it is
+  // what actually failed with a 400, so THAT payload is what err.requestPayload
+  // must carry — calibration included, since llama's is appended in place.
+  stub((m) => (m === "openai/gpt-oss-20b" ? rateLimited() : new Response(JSON.stringify({ error: { message: "bad request" } }), { status: 400 })));
+  await assert.rejects(
+    () => groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "texte du candidat" }]),
+    (err) => {
+      assert.equal(err.requestPayload.model, "openai/gpt-oss-120b", "the payload belongs to the model that actually refused");
+      assert.deepEqual(
+        err.requestPayload.messages,
+        [{ role: "system", content: "GRADE." }, { role: "user", content: "texte du candidat" }],
+        "gpt-oss-120b carries no calibration — the messages must be untouched",
+      );
+      return true;
+    },
+  );
+});
+
 test("reaches llama only after both gpt-oss models, and calibrates it", async () => {
   const asked = stub((m) => (m.startsWith("openai/") ? rateLimited() : ok()));
   const { model } = await groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]);

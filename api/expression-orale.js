@@ -358,16 +358,19 @@ export default async function handler(req, res) {
   } catch (err) {
     // Record the failure as well as the successes. A saturated day otherwise
     // reads as a quiet one in the admin, which is the opposite of the truth.
-    // See expression-ecrite.js: the model that refused, plus Groq's own reason.
-    // This catch covers the whole request, so the failure may be Whisper's
-    // rather than the grader's — the model says which, and the kind follows it
-    // instead of being hardcoded to "chat".
+    // See expression-ecrite.js: the model that refused, Groq's own reason, and
+    // the exact request sent (messages for a chat refusal, mime/size/filename
+    // only — never the audio — for a transcription refusal). This catch covers
+    // the whole request, so the failure may be Whisper's rather than the
+    // grader's — the model says which, and the kind follows it instead of
+    // being hardcoded to "chat".
     logAiFailure({
       userId: user?.id, endpoint: "expression-orale",
       kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
       model: err.model || CHAT_MODEL_NAME,
       status: err.upstreamStatus || err.status,
       detail: err.upstreamDetail,
+      request: err.requestPayload,
     });
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.

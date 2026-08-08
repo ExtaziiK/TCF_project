@@ -87,6 +87,12 @@ function recentFailures(failed, emails) {
     // Groq's verbatim sentence — it names the exhausted bucket and the wait.
     // Null on rows written before 20260808_ai_usage_failure_detail.sql.
     detail: r.error_detail || null,
+    // The exact request that was refused: messages (system prompt and
+    // calibration included) for a chat call, mime/size/filename only for a
+    // transcription. Null on rows written before
+    // 20260808_ai_usage_request_snapshot.sql, or on a transcription refusal
+    // that predates it.
+    request: r.error_request || null,
   }));
 }
 
@@ -105,10 +111,12 @@ async function aiUsage(users) {
 
   // Selecting a column the database doesn't have yet fails the whole query, and
   // the tab would go blank on the deploy that lands ahead of its migration —
-  // for the sake of one diagnostic field. Ask for error_detail, and fall back to
-  // the rest if it isn't there: a dashboard missing Groq's sentence is worth far
-  // more than no dashboard.
-  let { data, error } = await rows(`${COLS}, error_detail`);
+  // for the sake of one diagnostic field. error_detail and error_request came
+  // in separate migrations after error_status, so try most-complete first and
+  // fall back a column at a time: a dashboard missing Groq's sentence, or the
+  // request that triggered it, is worth far more than no dashboard.
+  let { data, error } = await rows(`${COLS}, error_detail, error_request`);
+  if (error) ({ data, error } = await rows(`${COLS}, error_detail`));
   if (error) ({ data, error } = await rows(COLS));
   if (error) return null; // table missing — migration not applied yet
 
