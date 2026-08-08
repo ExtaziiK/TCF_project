@@ -2,6 +2,7 @@ import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } fro
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { logAiUsage, logAiFailure } from "./_lib/usage.js";
 import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
+import { nonLatinLetterShare, NOT_LATIN_SCRIPT } from "./_lib/scriptCheck.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -17,13 +18,13 @@ LENGTH BELONGS TO THIS CRITERION AND NO OTHER. A short text still shows whatever
 2. Cohérence — organisation and linking of ideas: real connectors rather than sentences juxtaposed with "et"/"mais".
 3. Lexique — range, precision, repetition.
 4. Morphosyntaxe — range and control of tenses, agreement, subordination.
-Bands: 4-5 A2 isolated sentences, frequent basic errors. 6-9 B1 task broadly done, simple repetitive language, non-blocking errors. 10-13 B2 clear, varied, real subordination, occasional errors. 14-15 C1 fluent, precise, controlled. 16-20 C2 near-native.
-Most candidates sit at 6-13. Do NOT inflate: 14 for a text repeating "bonne chose" misleads someone about to pay for a real exam.
+Bands: 0-3 not a genuine attempt in French — wrong language, keyboard mashing, or otherwise unintelligible; nothing here to credit, and this band is BELOW the "under three quarters of the minimum" cap discussed above, not covered by it. 4-5 A2 isolated sentences, frequent basic errors. 6-9 B1 task broadly done, simple repetitive language, non-blocking errors. 10-13 B2 clear, varied, real subordination, occasional errors. 14-15 C1 fluent, precise, controlled. 16-20 C2 near-native.
+Most candidates sit at 6-13. Do NOT inflate: 14 for a text repeating "bonne chose" misleads someone about to pay for a real exam. The "caps at 9" rule above is a CEILING for text that is short but otherwise readable French — it never means "give 9": text with nothing to credit still scores 0-3, however short or long it is.
 
-REWRITES — the most useful part of your answer. Pick 4 to 6 passages of the candidate's OWN text and show each at a higher level.
+REWRITES — the most useful part of your answer, when the text has anything to work with. Pick 4 to 6 passages of the candidate's OWN text and show each at a higher level.
 - "before": copied WORD FOR WORD from their text, mistakes included. Never paraphrased, never invented, never the same passage twice.
 - Choose what gains most: flat or repeated vocabulary, vague words ("chose", "faire", "il y a"), clumsy structure.
-- "after": same meaning, clearly higher level — precise vocabulary, better connector, cleaner structure. Fixing only spelling or accents is NOT enough.
+- "after": a genuine rewrite of that exact passage — same meaning, clearly higher level: precise vocabulary, better connector, cleaner structure. Fixing only spelling or accents is NOT enough. NEVER a placeholder, instruction to yourself, or bracketed note such as "(texte à fournir en français)" — if you cannot rewrite the passage for real, drop that pair instead of inventing one.
 - "why": one short phrase, e.g. "vocabulaire plus précis".
 
 IMPROVEMENTS. One or two FULL SENTENCES each, never a label: what is wrong, why it costs marks, what to reach for. Quote the offending words in « ». Name the criterion (lexique, cohérence, syntaxe, registre). Every point must be demonstrated by one of the rewrites above, each covering a different weakness.
@@ -33,7 +34,7 @@ Your own French must be impeccable — "faut accorder" instead of "il faut accor
 Write feedback in ${lang === "en" ? "English" : "French"}; "corrected", "before" and "after" are ALWAYS French.
 Respond with ONLY a minified JSON object:
 {"score":<0-20 whole number>,"criteria":{"consigne":<0-20>,"coherence":<0-20>,"lexique":<0-20>,"morphosyntaxe":<0-20>},"summary":"<1-2 sentences>","strengths":["<2-3 short points>"],"improvements":["<2-3 taught points>"],"targetLevel":"<CEFR level the rewrite reaches>","rewrites":[{"before":"","after":"","why":""}],"corrected":"<the improved French text>"}
-"strengths", "improvements" and "rewrites" must never be empty. Give no CEFR level for the candidate: the /20 is converted officially and a letter you choose would contradict it.`;
+"strengths", "improvements" and "rewrites" must never be empty for a genuine attempt at the task. EXCEPTION — a 0-3 response (not real French, or empty of content): "strengths" and "rewrites" MUST be [] instead (there is nothing there to praise or to rewrite), "corrected" is "", and "improvements" has exactly one item saying the response must be a genuine attempt in French. Give no CEFR level for the candidate: the /20 is converted officially and a letter you choose would contradict it.`;
 
 export default async function handler(req, res) {
   let claim = null;
@@ -62,6 +63,32 @@ export default async function handler(req, res) {
     // "ne respecte pas le nombre de mots requis". Counted server-side rather
     // than taken from the client, so it cannot be spoofed to dodge the cap.
     const wordCount = text.split(/\s+/).filter(Boolean).length;
+
+    // Wrong script entirely — not French in any sense the grader can assess
+    // (a wrong keyboard/input language is the usual real-world cause). Caught
+    // here, deterministically: see scriptCheck.js for why leaving this to the
+    // model produced a 9/20 "B1" for a paragraph its own summary called
+    // incomprehensible. No Groq call spent, and the attempt is given back.
+    if (nonLatinLetterShare(text) >= NOT_LATIN_SCRIPT) {
+      await releaseAiUse(claim);
+      return res.status(200).json({
+        score: 0,
+        level: "",
+        nclc: null,
+        criteria: {},
+        summary: "Cette réponse n'est pas rédigée en français : elle ne peut pas être évaluée.",
+        strengths: [],
+        improvements: [
+          "Vérifiez la langue de saisie de votre clavier, puis rédigez votre réponse en français dans la zone de texte.",
+          `La tâche demande ${targetWords || "un texte"} : exposez votre réponse en français, avec vos propres mots.`,
+        ],
+        rewrites: [],
+        corrected: "",
+        targetLevel: "",
+        notAnAnswer: true,
+        aiLeft: claim?.left,
+      });
+    }
 
     // The consigne submitted back as an answer. Answered here rather than by
     // the grader: it noticed on one run and missed it on the next, and grading
