@@ -68,14 +68,54 @@ function byReason(failed) {
   return Object.values(groups).sort((a, b) => b.count24h - a.count24h || b.count30d - a.count30d);
 }
 
-// The last refusals, one line each: who, when, on which endpoint and model, and
-// what Groq actually said. Capped at 12 — this is a "what is happening right
-// now" panel, not a log viewer.
+// The candidate's own submission, pulled out of the stored request rather than
+// left for an admin to find inside a system-prompt-sized JSON blob. The "user"
+// message is what the endpoints build from the candidate's text (see the
+// userMsg construction in expression-ecrite.js / expression-orale.js) — the
+// system message is the grading instructions, identical on every call and of
+// no diagnostic value repeated per row.
+//
+// A transcription refusal has no "messages" at all (Whisper takes audio, not a
+// chat payload) — there is no text to show because the request never reached
+// text, which is itself worth saying rather than showing nothing silently.
+export function candidateContent(request) {
+  if (!request) return null;
+  if (Array.isArray(request.messages)) {
+    return request.messages.find((m) => m.role === "user")?.content || null;
+  }
+  return null; // transcription: audio only, never stored
+}
+
+// Whether the candidate went on to get a real analysis shortly after this
+// refusal — the direct answer to "is this a stuck candidate, or did the retry
+// just work". Matches the next SUCCESSFUL grading call (kind "chat"; not a
+// bare transcription or a TTS line) from the same user on the same endpoint,
+// within RESOLVE_WINDOW after the failure. Long enough to cover someone
+// reading the on-screen message and pressing the button again; short enough
+// that a match means THIS failure, not an unrelated session days later.
+export const RESOLVE_WINDOW = 2 * 3600e3;
+export function resolvedAfter(row, chatOk) {
+  if (!row.user_id) return null;
+  const from = Date.parse(row.created_at);
+  let earliest = null;
+  for (const r of chatOk) {
+    if (r.user_id !== row.user_id || r.endpoint !== row.endpoint) continue;
+    const at = Date.parse(r.created_at);
+    if (at <= from || at - from > RESOLVE_WINDOW) continue;
+    if (earliest === null || at < earliest) earliest = at;
+  }
+  return earliest === null ? null : new Date(earliest).toISOString();
+}
+
+// The last refusals, one line each: who, when, on which endpoint and model,
+// what Groq actually said, what the candidate actually submitted, and whether
+// they got a real analysis afterward. Capped at 12 — this is a "what is
+// happening right now" panel, not a log viewer.
 //
 // A row with no user_id is shown as unattributed rather than dropped: a refusal
 // that happened before authentication resolved still counts as a refusal, and
 // hiding it would make the list disagree with the totals beside it.
-function recentFailures(failed, emails) {
+function recentFailures(failed, emails, chatOk) {
   return failed.slice(0, 12).map((r) => ({
     at: r.created_at,
     email: r.user_id ? emails[r.user_id] || r.user_id : null,
@@ -93,6 +133,8 @@ function recentFailures(failed, emails) {
     // 20260808_ai_usage_request_snapshot.sql, or on a transcription refusal
     // that predates it.
     request: r.error_request || null,
+    candidateText: candidateContent(r.error_request),
+    resolvedAt: resolvedAfter(r, chatOk),
   }));
 }
 
@@ -196,7 +238,9 @@ async function aiUsage(users) {
     // for what reason. Both are in the row — user_id and error_status/detail —
     // they were simply aggregated away.
     failureReasons: byReason(failed),
-    recentFailures: recentFailures(failed, emails),
+    // "chat" only: a bare successful transcription didn't grade anything, and
+    // would falsely mark a grading refusal as resolved.
+    recentFailures: recentFailures(failed, emails, groq.filter((r) => r.kind === "chat")),
     affectedUsers24h: new Set(
       failed.filter((r) => r.user_id && Date.parse(r.created_at) >= Date.now() - DAY).map((r) => r.user_id),
     ).size,

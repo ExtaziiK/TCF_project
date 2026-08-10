@@ -1313,6 +1313,19 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
             {/* Groq's verbatim answer: it names the exhausted bucket and the
                 wait. Absent on rows logged before the error_detail migration. */}
             {f.detail && <p className={`text-xs mt-1 font-mono2 break-words ${c.faint}`}>{f.detail}</p>}
+            {/* The direct answer to "did this candidate get stuck, or did the
+                retry just work" — a successful grading call for the same
+                person on the same endpoint, shortly after this refusal. */}
+            {f.resolvedAt && (
+              <p className="text-xs mt-1 flex items-center gap-1 text-emerald-600">
+                <Check size={12} /> Analyse obtenue à {time(f.resolvedAt)} — probablement résolu par une nouvelle tentative.
+              </p>
+            )}
+            {/* What the candidate actually wrote, pulled out of the request so
+                it doesn't take reading raw JSON to check. Absent on a
+                transcription refusal (no text was ever produced) or on rows
+                from before the error_request migration. */}
+            <CandidateInput text={f.candidateText} />
             {/* What WE sent, next to what Groq said back above. Absent on rows
                 logged before the error_request migration. */}
             <RequestSnapshot request={f.request} />
@@ -1324,6 +1337,25 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
 }
 
 const affectedLabel = (n) => `${n} candidat${n > 1 ? "s" : ""} touché${n > 1 ? "s" : ""} en 24 h`;
+
+// What the candidate actually submitted, extracted from the stored request
+// rather than left for an admin to dig out of the raw JSON below (which also
+// carries the full grading system prompt — the same every time and of no
+// diagnostic value repeated per row). This is the direct answer to "did they
+// write something reasonable, or was the refusal beside the point anyway".
+function CandidateInput({ text }) {
+  const { c } = useApp();
+  if (!text) return null;
+  return (
+    <details className="mt-1.5 group">
+      <summary className="text-xs font-semibold text-blue-600 cursor-pointer select-none list-none flex items-center gap-1">
+        <ChevronRight size={12} className="transition-transform group-open:rotate-90" />
+        Voir ce que le candidat a envoyé
+      </summary>
+      <p className={`mt-1.5 p-2.5 rounded-xl text-xs leading-relaxed whitespace-pre-wrap break-words ${c.tint} ${c.text}`}>{text}</p>
+    </details>
+  );
+}
 
 // The exact request a refused call sent to Groq — model, messages (system
 // prompt and any per-model calibration included, exactly as sent) for a chat
@@ -1510,8 +1542,9 @@ function UsageTab() {
           <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Appels refusés — à qui et pourquoi</h3>
           <p className={`text-sm mb-5 ${c.sub}`}>
             Un refus n'est pas une panne : le plus souvent, le plafond de Groq est atteint et l'analyse repartira seule.
-            Ce qui compte est de savoir <strong className={c.text}>quels candidats</strong> ont été touchés et{" "}
-            <strong className={c.text}>pour quelle raison</strong>, pour distinguer un quota épuisé d'une clé invalide.
+            Ce qui compte est de savoir <strong className={c.text}>quels candidats</strong> ont été touchés,{" "}
+            <strong className={c.text}>pour quelle raison</strong>, et <strong className={c.text}>s'ils ont fini par obtenir une analyse</strong> —
+            chaque ligne peut afficher ce que le candidat a envoyé et si une tentative suivante a réussi.
           </p>
           <FailureBreakdown reasons={ai.failureReasons} recent={ai.recentFailures} affected24h={ai.affectedUsers24h} />
         </Card>
