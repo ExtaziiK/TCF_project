@@ -160,7 +160,19 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // otherwise a day spent entirely on the fallback looks like a normal day.
     return { json: JSON.parse(content), usage: data?.usage || null, model };
   } catch {
-    throw new HttpError(502, "The AI returned a response we couldn't parse.");
+    const err = new HttpError(502, "The AI returned a response we couldn't parse.");
+    // Groq answered 200 (res.ok was true) but with content that isn't valid
+    // JSON — a genuine Groq-side failure, distinct from res.ok being false
+    // above, so it needs the same markers set for the same reason: callers
+    // (and the admin's Appels refusés panel) tell a Groq refusal from an
+    // app-level one — an expired session, our own rate limiter, an exhausted
+    // free-tier quota — by whether upstreamStatus is present at all. Without
+    // it here, an unparseable reply would silently vanish from that view
+    // instead of showing up as the "Panne amont" it actually is.
+    err.upstreamStatus = res.status;
+    err.model = model;
+    err.upstreamDetail = content.slice(0, DETAIL_CAP) || null;
+    throw err;
   }
 }
 

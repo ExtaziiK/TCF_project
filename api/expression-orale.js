@@ -378,22 +378,30 @@ export default async function handler(req, res) {
     // written text.
     res.status(200).json({ transcript, ...normalizeFeedback(raw, transcript), aiLeft: claim?.left });
   } catch (err) {
-    // Record the failure as well as the successes. A saturated day otherwise
-    // reads as a quiet one in the admin, which is the opposite of the truth.
-    // See expression-ecrite.js: the model that refused, Groq's own reason, and
-    // the exact request sent (messages for a chat refusal, mime/size/filename
-    // only — never the audio — for a transcription refusal). This catch covers
-    // the whole request, so the failure may be Whisper's rather than the
-    // grader's — the model says which, and the kind follows it instead of
-    // being hardcoded to "chat".
-    logAiFailure({
-      userId: user?.id, endpoint: "expression-orale",
-      kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
-      model: err.model || CHAT_MODEL_NAME,
-      status: err.upstreamStatus || err.status,
-      detail: err.upstreamDetail,
-      request: err.requestPayload,
-    });
+    // Record the failure as well as the successes — but ONLY when the request
+    // actually reached Groq. See expression-ecrite.js for the full reasoning:
+    // requirePremiumOrFreeMock, enforceRateLimit and claimAiUse above all
+    // throw their OWN 401/403/429 before Groq is ever called, and logging
+    // those into ai_usage_log mislabels an app-level rejection (an expired
+    // session, this endpoint's own pacing, a spent free-tier quota) as
+    // "Quota Groq épuisé" in the admin. upstreamStatus is set ONLY by groq.js,
+    // and only once a Groq HTTP response actually came back — its presence is
+    // exactly the signal that this really is a Groq refusal.
+    // The model that refused, Groq's own reason, and the exact request sent
+    // (messages for a chat refusal, mime/size/filename only — never the audio
+    // — for a transcription refusal). This catch covers the whole request, so
+    // the failure may be Whisper's rather than the grader's — the model says
+    // which, and the kind follows it instead of being hardcoded to "chat".
+    if (typeof err.upstreamStatus === "number") {
+      logAiFailure({
+        userId: user?.id, endpoint: "expression-orale",
+        kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
+        model: err.model || CHAT_MODEL_NAME,
+        status: err.upstreamStatus,
+        detail: err.upstreamDetail,
+        request: err.requestPayload,
+      });
+    }
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
     await releaseAiUse(claim);
