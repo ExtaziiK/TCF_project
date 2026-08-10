@@ -117,6 +117,26 @@ test("a refusal carries the exact request body that was sent — the failing att
   );
 });
 
+test("an unparseable (but 200 OK) reply still carries the Groq markers", async () => {
+  // Groq answered 200 with content that isn't valid JSON — a genuine Groq-side
+  // failure, distinct from res.ok being false. Without upstreamStatus/model set
+  // here too, this failure mode would be indistinguishable from an app-level
+  // rejection that never reached Groq at all (expired session, our own rate
+  // limiter, a spent free-tier quota) — see expression-ecrite.js's catch block,
+  // which uses upstreamStatus as exactly that signal to decide what belongs in
+  // the admin's Groq-refusals ledger.
+  stub(() => reply({ choices: [{ message: { content: "not json at all" } }] }));
+  await assert.rejects(
+    () => groqChatJSON([{ role: "user", content: "x" }]),
+    (err) => {
+      assert.equal(err.upstreamStatus, 200);
+      assert.equal(err.model, "openai/gpt-oss-20b");
+      assert.equal(err.upstreamDetail, "not json at all");
+      return true;
+    },
+  );
+});
+
 test("reaches llama only after both gpt-oss models, and calibrates it", async () => {
   const asked = stub((m) => (m.startsWith("openai/") ? rateLimited() : ok()));
   const { model } = await groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]);

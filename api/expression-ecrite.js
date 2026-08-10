@@ -153,21 +153,36 @@ export default async function handler(req, res) {
     // candidate actually wrote — see normalizeFeedback.
     res.status(200).json({ ...normalizeFeedback(raw, text), aiLeft: claim?.left });
   } catch (err) {
-    // Record the failure as well as the successes. A saturated day otherwise
-    // reads as a quiet one in the admin, which is the opposite of the truth.
+    // Record the failure as well as the successes — but ONLY when the request
+    // actually reached Groq. ai_usage_log exists to meter GROQ calls, and the
+    // admin's "Appels refusés" panel categorizes every row as a Groq problem
+    // (quota, bad key, upstream error). requirePremiumOrFreeMock,
+    // enforceRateLimit and claimAiUse above all throw their OWN 401/403/429
+    // before Groq is ever called — an expired session, this endpoint's own
+    // 10-calls/5min pacing, a free account's 2 analyses for the tâche already
+    // spent. None of those are Groq refusing anything, and logging them here
+    // mislabels them as "Quota Groq épuisé": a candidate hitting their own
+    // free-tier cap once showed up in the admin as three straight Groq
+    // refusals, with gpt-oss-120b sitting at 0% used — nothing to fall back
+    // to, because nothing had asked Groq anything.
+    // upstreamStatus is set ONLY by groq.js, and only once a Groq HTTP
+    // response actually came back (see groqChatJSON/groqTranscribe) — its
+    // presence is exactly the signal for "this really is a Groq refusal".
     // err.model is the model that actually refused (the end of the fallback
     // chain), not the first one tried — otherwise every 429 is blamed on the
     // primary. err.upstreamDetail is Groq's own sentence, and err.requestPayload
     // is the exact body that was sent (system prompt, calibration and the
     // candidate's own text included) — together a full recording of the
     // refused call, for the admin to diagnose without guessing.
-    logAiFailure({
-      userId: user?.id, endpoint: "expression-ecrite", kind: "chat",
-      model: err.model || CHAT_MODEL_NAME,
-      status: err.upstreamStatus || err.status,
-      detail: err.upstreamDetail,
-      request: err.requestPayload,
-    });
+    if (typeof err.upstreamStatus === "number") {
+      logAiFailure({
+        userId: user?.id, endpoint: "expression-ecrite", kind: "chat",
+        model: err.model || CHAT_MODEL_NAME,
+        status: err.upstreamStatus,
+        detail: err.upstreamDetail,
+        request: err.requestPayload,
+      });
+    }
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.
     await releaseAiUse(claim);
