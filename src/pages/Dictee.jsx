@@ -116,7 +116,7 @@ export function Dictee() {
                 <p className={`text-sm ${c.sub}`}>{t("Aucun sujet disponible pour cette tâche. Utilisez le tirage au sort.")}</p>
               ) : (
                 <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
-                  {choices.map((s) => {
+                  {choices.map((s, i) => {
                     const on = s.key === sujetKey;
                     return (
                       <button
@@ -131,8 +131,12 @@ export function Dictee() {
                           {on && <Check size={12} />}
                         </span>
                         <span className="min-w-0 flex-1">
+                          {/* Numbered down the list, not by the sujet's number
+                              within its month: without the month shown, "sujet 1"
+                              would appear twice — once for each of the two
+                              months on offer. */}
                           <span className={`block text-[11px] font-semibold uppercase tracking-wide ${c.faint}`}>
-                            {s.month} {s.year} · {t("sujet")} {s.n}
+                            {t("sujet")} {i + 1}
                           </span>
                           {/* Clamped: a tâche 2 instruction runs to a couple of
                               lines, and a list of full paragraphs is unreadable.
