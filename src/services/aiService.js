@@ -88,7 +88,11 @@ export async function postJSON(path, body, { retriedAuth = false } = {}) {
     try {
       data = JSON.parse(raw);
     } catch {
-      throw new AiError(res.status, "Le service est injoignable (réponse inattendue du serveur). Réessayez dans un instant.");
+      // The status is named in the message on purpose. This failure is only
+      // ever reported second-hand, in a screenshot, and "which code came back"
+      // is the one fact that separates a missing deployment from a gateway
+      // error from an SPA fallback swallowing the route.
+      throw new AiError(res.status, `Le service est injoignable — le serveur a répondu ${res.status} au lieu du résultat attendu. Réessayez dans un instant.`);
     }
   }
   if (!res.ok) throw new AiError(res.status, data.error || "AI request failed");
