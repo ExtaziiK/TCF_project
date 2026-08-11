@@ -72,12 +72,24 @@ export default [
     },
   },
   {
-    // One-off maintenance scripts - Node runtime.
+    // One-off maintenance scripts - Node runtime. dev-api.mjs additionally
+    // parses request bodies and URLs, so it needs Buffer and URL.
     files: ["scripts/**/*.{js,mjs}"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
-      globals: { process: "readonly", console: "readonly" },
+      globals: {
+        process: "readonly", console: "readonly",
+        Buffer: "readonly", URL: "readonly",
+      },
     },
+  },
+  {
+    // The build configs run in Node, not the browser — they are matched by the
+    // React block above (for the JSX/react settings) but need `process` on top
+    // of it. Scoped here rather than added there, so src/** stays browser-only
+    // and cannot reach for process.env by accident.
+    files: ["*.config.js"],
+    languageOptions: { globals: { process: "readonly" } },
   },
 ];
