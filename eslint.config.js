@@ -52,7 +52,7 @@ export default [
       globals: {
         process: "readonly", Buffer: "readonly", console: "readonly",
         fetch: "readonly", FormData: "readonly", Blob: "readonly",
-        URLSearchParams: "readonly", AbortSignal: "readonly",
+        URLSearchParams: "readonly", URL: "readonly", AbortSignal: "readonly",
         setTimeout: "readonly", clearTimeout: "readonly",
       },
     },

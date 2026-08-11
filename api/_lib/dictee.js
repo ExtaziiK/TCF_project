@@ -1,3 +1,6 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createClient } from "@supabase/supabase-js";
 import { HttpError, groqChatJSON } from "./groq.js";
 
@@ -29,19 +32,66 @@ const admin = () =>
 // arbitrary text.
 let shippedCache = null;
 
-async function fetchShipped(req) {
-  if (shippedCache) return shippedCache;
-  const proto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0];
-  const host = req.headers["x-forwarded-host"] || req.headers.host;
-  const res = await fetch(`${proto}://${host}/data/sujets-ee.json`);
-  if (!res.ok) throw new HttpError(502, "Le recueil de sujets est momentanément indisponible.");
-  const json = await res.json();
+const rowsFrom = (json) => {
   const rows = [];
   for (const y of json.years || []) {
     for (const m of y.months || []) rows.push({ year: y.year, monthNum: m.monthNum, data: m.sujets || [] });
   }
-  shippedCache = rows;
+  if (!rows.length) throw new HttpError(502, "Le recueil de sujets est vide.");
   return rows;
+};
+
+// Read from DISK, not over HTTP from our own deployment.
+//
+// This used to fetch https://<host>/data/sujets-ee.json — asking the
+// deployment for one of its own static files. That is fragile in a way that
+// took a while to see: on a preview with Deployment Protection enabled, the
+// request comes back as Vercel's SSO login page — HTML, with status 200. The
+// `res.ok` check passes, `res.json()` throws
+// «Unexpected token '<', "<!DOCTYPE "... is not valid JSON», and the handler
+// dutifully wraps THAT into a valid JSON error response. The candidate is then
+// shown a JSON parse error by an endpoint that parsed its JSON perfectly well,
+// and no amount of hardening on the client can see it, because from the
+// client's side nothing was ever malformed.
+//
+// The file ships with the deployment (vercel.json includeFiles), so reading it
+// is a filesystem call with no auth, no network and no gateway in between.
+const SHIPPED_PATHS = [
+  path.join(process.cwd(), "public", "data", "sujets-ee.json"),
+  path.join(process.cwd(), "dist", "data", "sujets-ee.json"),
+  fileURLToPath(new URL("../../public/data/sujets-ee.json", import.meta.url)),
+];
+
+async function fetchShipped(req) {
+  if (shippedCache) return shippedCache;
+
+  for (const file of SHIPPED_PATHS) {
+    try {
+      shippedCache = rowsFrom(JSON.parse(await readFile(file, "utf8")));
+      return shippedCache;
+    } catch (err) {
+      if (err instanceof HttpError) throw err;
+      // Missing here — try the next location.
+    }
+  }
+
+  // Last resort: the HTTP path, kept for any runtime whose bundle drops the
+  // file. Now with the content actually verified, so a login page or an error
+  // page is reported as what it is instead of surfacing as a parse error.
+  const proto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0];
+  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const res = await fetch(`${proto}://${host}/data/sujets-ee.json`).catch(() => null);
+  const body = res && res.ok ? await res.text().catch(() => "") : "";
+  if (!body || body.trimStart().startsWith("<")) {
+    throw new HttpError(502, "Le recueil de sujets est inaccessible depuis le serveur. Si ce déploiement est protégé par Vercel Deployment Protection, désactivez-la ou testez en production.");
+  }
+  try {
+    shippedCache = rowsFrom(JSON.parse(body));
+  } catch (err) {
+    if (err instanceof HttpError) throw err;
+    throw new HttpError(502, "Le recueil de sujets est illisible.");
+  }
+  return shippedCache;
 }
 
 export const sujetKeyOf = (year, monthNum, n) => `${year}-${monthNum}-${n}`;
