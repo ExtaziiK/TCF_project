@@ -228,7 +228,7 @@ export async function cachedKeysFor(task) {
 }
 
 export async function readCached(sujetKey, task) {
-  const { data, error } = await admin
+  const { data, error } = await admin()
     .from("dictee_texts")
     .select("id, level, text, sentences, audio, words")
     .eq("sujet_key", sujetKey)
@@ -241,7 +241,7 @@ export async function readCached(sujetKey, task) {
 }
 
 export async function writeCached(row) {
-  const { data, error } = await admin
+  const { data, error } = await admin()
     .from("dictee_texts")
     .upsert(row, { onConflict: "sujet_key,task" })
     .select("id")
