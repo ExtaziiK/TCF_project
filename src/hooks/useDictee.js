@@ -4,15 +4,18 @@ import { fetchDictee, recordDicteeSession, listDicteeSessions, recentSujetKeys, 
 import { diffSentence, summarize } from "@/utils/dicteeDiff";
 import { AiError } from "@/services/aiService";
 
-// One dictée, start to finish: draw a text, play it sentence by sentence,
-// correct each sentence the moment it is validated, and record the result.
+// One dictée, start to finish: draw a text, play it sentence by sentence, score
+// each sentence as it is validated, and reveal the whole correction at the end.
 //
-// The correction runs here, in the browser, on the sentence the server already
-// sent. That is deliberate and matches how the rest of the app works — the
-// question bank ships its own answer keys too — and it buys something the
-// dictée specifically needs: the verdict appears the instant the candidate
-// presses Valider, with no round trip between hearing a sentence and learning
-// what was in it.
+// Nothing is shown between sentences. A dictation is one continuous exercise:
+// correcting it as you go turns it into a string of little quizzes, and — since
+// the sentences of a single text share their vocabulary and register — it hands
+// the candidate spellings they are about to need.
+//
+// The scoring runs here, in the browser, on the text the server already sent.
+// That matches how the rest of the app works (the question bank ships its own
+// answer keys too) and means the final report appears instantly, with no round
+// trip between the last sentence and the verdict.
 
 export const SPEEDS = [0.6, 0.8, 1, 1.2];
 export const DEFAULT_SPEED = 1;
@@ -26,7 +29,6 @@ export function useDictee() {
   const [index, setIndex] = useState(0);
   const [draft, setDraft] = useState("");
   const [results, setResults] = useState([]); // diffSentence() per validated sentence
-  const [revealed, setRevealed] = useState(false);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
   const [plays, setPlays] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -81,7 +83,6 @@ export function useDictee() {
     setResults([]);
     setIndex(0);
     setDraft("");
-    setRevealed(false);
     setPlays(0);
     savedRef.current = false;
     try {
@@ -156,34 +157,35 @@ export function useDictee() {
 
   /* ------------------------------- answering ------------------------------ */
 
+  // Validating scores the sentence and moves straight on. The correction is
+  // NOT shown here: seeing the answer after every sentence turns a dictation
+  // into a series of little quizzes, tells the candidate mid-exercise which
+  // way their ear is failing, and — because the sentences of one text share
+  // vocabulary and register — hands them the next sentence's spellings. The
+  // whole correction arrives at the end, in one piece, like a real dictée.
   const validate = useCallback(() => {
-    if (!dictee || revealed) return;
+    if (!dictee) return;
     const diff = diffSentence(dictee.sentences[index], draft);
     setResults((prev) => [...prev.slice(0, index), diff]);
-    setRevealed(true);
     playerRef.current?.pause();
     window.speechSynthesis?.cancel();
     setPlaying(false);
-  }, [dictee, draft, index, revealed]);
-
-  const next = useCallback(() => {
-    if (!dictee) return;
     if (index + 1 >= dictee.sentences.length) { setPhase("done"); return; }
     setIndex((i) => i + 1);
     setDraft("");
-    setRevealed(false);
-  }, [dictee, index]);
+  }, [dictee, draft, index]);
 
-  // Ends the dictée early. Every sentence not reached is scored as unanswered
-  // rather than dropped: stopping at sentence four of ten is a result, and
-  // silently rescoring it out of four would hide that.
+  // Ends the dictée early. The sentence in progress is scored on whatever has
+  // been typed, and every sentence not reached is scored as unanswered rather
+  // than dropped: stopping at sentence four of ten is a result, and silently
+  // rescoring it out of four would hide that.
   const finish = useCallback(() => {
     if (!dictee) return;
-    const done = revealed ? results : [...results, diffSentence(dictee.sentences[index], draft)];
+    const done = [...results.slice(0, index), diffSentence(dictee.sentences[index], draft)];
     const skipped = dictee.sentences.slice(done.length).map((s) => diffSentence(s, ""));
     setResults([...done, ...skipped]);
     setPhase("done");
-  }, [dictee, draft, index, results, revealed]);
+  }, [dictee, draft, index, results]);
 
   const reset = useCallback(() => {
     releaseAudio();
@@ -192,7 +194,6 @@ export function useDictee() {
     setResults([]);
     setIndex(0);
     setDraft("");
-    setRevealed(false);
     setPlays(0);
   }, [releaseAudio]);
 
@@ -225,10 +226,10 @@ export function useDictee() {
   }, [phase, summary, dictee, plays, speed, user?.id, releaseAudio]);
 
   return {
-    phase, dictee, error, index, draft, setDraft, results, revealed, summary, history,
+    phase, dictee, error, index, draft, setDraft, results, summary, history,
     months, speed, setSpeed, plays, playing,
     sentenceCount: dictee?.sentences.length || 0,
     playsPerSentence: results.length ? Math.round((plays / results.length) * 10) / 10 : 0,
-    start, play, validate, next, finish, reset,
+    start, play, validate, finish, reset,
   };
 }

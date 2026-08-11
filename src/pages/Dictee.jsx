@@ -5,7 +5,6 @@ import { PageShell, Card, Pill, Btn, ProgressBar, AccentKeys, insertAtCaret, NO_
 import { sujetsForTask, RECENT_MONTHS } from "@/services/dicteeService";
 import { DicteePlayer } from "@/components/dictee/DicteePlayer";
 import { DicteeReport } from "@/components/dictee/DicteeReport";
-import { SentenceDiff } from "@/components/dictee/SentenceDiff";
 import { useDictee } from "@/hooks/useDictee";
 
 // La dictée — Expression écrite.
@@ -221,23 +220,20 @@ export function Dictee() {
 function Workspace({ d }) {
   const { c, t } = useApp();
   const inputRef = useRef(null);
-  const diff = d.revealed ? d.results[d.index] : null;
 
   // Focus follows the exercise: a new sentence puts the cursor where the
   // candidate is about to type, so the whole dictée runs from the keyboard.
   useEffect(() => {
-    if (!d.revealed) inputRef.current?.focus();
-  }, [d.index, d.revealed]);
+    inputRef.current?.focus();
+  }, [d.index]);
 
   const onKeyDown = (e) => {
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
-    if (d.revealed) d.next();
-    else if (d.draft.trim()) d.validate();
+    if (d.draft.trim()) d.validate();
   };
 
   const done = d.results.length;
-  const last = d.index + 1 >= d.sentenceCount;
 
   return (
     <PageShell
@@ -266,25 +262,10 @@ function Workspace({ d }) {
           />
 
           <div className={`mt-6 pt-6 border-t ${c.border}`}>
-            {diff ? (
-              <>
-                <div className="flex items-center gap-2 mb-3">
-                  {diff.perfect
-                    ? <Pill tone="green"><CheckCircle2 size={12} /> {t("Phrase parfaite")}</Pill>
-                    : <Pill tone={diff.ok / diff.total >= 0.6 ? "amber" : "red"}>{diff.ok} / {diff.total} {t("mots")}</Pill>}
-                  {diff.heard > diff.ok && <Pill tone="slate">{t("bien entendu, mal écrit")} : {diff.heard - diff.ok}</Pill>}
-                </div>
-                <SentenceDiff diff={diff} />
-                <div className="mt-6">
-                  <Btn icon={ArrowRight} onClick={d.next}>{last ? t("Voir mon résultat") : t("Phrase suivante")}</Btn>
-                </div>
-              </>
-            ) : (
-              <>
-                <label htmlFor="dictee-input" className={`block text-sm font-semibold mb-2 ${c.text}`}>
-                  {t("Votre transcription")}
-                </label>
-                <div className={`rounded-2xl border ${c.border} ${c.card} overflow-hidden`}>
+            <label htmlFor="dictee-input" className={`block text-sm font-semibold mb-2 ${c.text}`}>
+              {t("Votre transcription")}
+            </label>
+            <div className={`rounded-2xl border ${c.border} ${c.card} overflow-hidden`}>
                   {/* The same on-screen French keys as the Expression écrite
                       workshop, for candidates without a FR keyboard. In a
                       dictée they are not a convenience but a condition of
@@ -308,14 +289,14 @@ function Workspace({ d }) {
                     placeholder={t("Tapez la phrase que vous venez d'entendre…")}
                     className={`w-full px-5 py-4 bg-transparent ${c.text} text-base leading-relaxed resize-none outline-none`}
                   />
-                </div>
-                <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <Btn icon={CheckCircle2} disabled={!d.draft.trim()} onClick={d.validate}>{t("Valider la phrase")}</Btn>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <Btn icon={CheckCircle2} disabled={!d.draft.trim()} onClick={d.validate}>
+                {d.index + 1 >= d.sentenceCount ? t("Terminer et voir ma correction") : t("Valider la phrase")}
+              </Btn>
                   <Btn small variant="ghost" icon={Flag} onClick={d.finish}>{t("Terminer ici")}</Btn>
-                  <span className={`text-xs ${c.faint}`}>{t("Entrée pour valider")}</span>
-                </div>
-              </>
-            )}
+              <span className={`text-xs ${c.faint}`}>{t("Entrée pour valider")}</span>
+            </div>
           </div>
         </Card>
 
