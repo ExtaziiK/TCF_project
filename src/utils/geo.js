@@ -4,7 +4,7 @@
 //   1. guessCountry() — the browser's own timezone/locale. Synchronous, so the
 //      very first paint is already right for most Algerian visitors and no tab
 //      is seen flipping a moment after the page appears.
-//   2. detectCountry() — /api/geo, i.e. the edge's reading of the request IP.
+//   2. detectCountry() — /api/public/geo, i.e. the edge's reading of the request IP.
 //      Authoritative, and the only source that gets it right when the device
 //      disagrees with where it is (a phone set to fr-FR being used in Alger).
 //
@@ -46,7 +46,7 @@ export async function detectCountry() {
   const cached = readCache();
   if (cached) return cached;
   try {
-    const res = await fetch("/api/geo", { headers: { Accept: "application/json" } });
+    const res = await fetch("/api/public/geo", { headers: { Accept: "application/json" } });
     if (!res.ok) return null;
     // A static preview (or `vite dev`) has no serverless functions and rewrites
     // this path to index.html, so the body may well be HTML — .json() throws

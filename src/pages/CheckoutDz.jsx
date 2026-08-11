@@ -89,7 +89,7 @@ export function CheckoutDz() {
   const amount = promo?.percentOff ? applyPercentOff(fullAmount, promo.percentOff) : fullAmount;
   const waUrl = cfg?.whatsappGroupUrl || "";
 
-  // Same validation the Tarifs page runs (api/promo-validate), with the same
+  // Same validation the Tarifs page runs (api/public/promo-validate), with the same
   // dinar rule: a fixed-amount Stripe coupon is denominated in USD and cannot
   // honestly be subtracted from a dinar total, so only a percentage is kept.
   const applyCoupon = async () => {

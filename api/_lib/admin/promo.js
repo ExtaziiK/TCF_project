@@ -13,7 +13,13 @@ import { HttpError } from "../groq.js";
 //   POST /api/admin/promo { action: "toggle", id, active }
 //   POST /api/admin/promo { action: "delete", id }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Built on first use, not at import. This handler shares ONE serverless
+// function with every other admin route (api/admin/[resource].js), so a
+// client constructed at module scope throws for users, stats, usage and
+// sujets too — none of which touch Stripe — the moment STRIPE_SECRET_KEY is
+// missing or the constructor changes its mind about a bad key.
+let client = null;
+const stripe = () => (client ||= new Stripe(process.env.STRIPE_SECRET_KEY));
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
 });
@@ -83,7 +89,7 @@ async function handleCreate(req, res, actor) {
   const months = Number(durationInMonths) || 0;
   if (duration === "repeating" && (months < 1 || months > 36)) throw new HttpError(400, "Durée en mois requise (1 à 36).");
 
-  const coupon = await stripe.coupons.create({
+  const coupon = await stripe().coupons.create({
     name: code,
     duration,
     ...(duration === "repeating" ? { duration_in_months: months } : {}),
@@ -92,7 +98,7 @@ async function handleCreate(req, res, actor) {
 
   let promo;
   try {
-    promo = await stripe.promotionCodes.create({
+    promo = await stripe().promotionCodes.create({
       // Since API 2025+, the coupon is nested under `promotion` (a top-level
       // `coupon` now errors with "Received unknown parameter: coupon").
       promotion: { type: "coupon", coupon: coupon.id },
@@ -103,7 +109,7 @@ async function handleCreate(req, res, actor) {
     });
   } catch (err) {
     // Don't leave an orphaned coupon behind (e.g. duplicate code name).
-    await stripe.coupons.del(coupon.id).catch(() => {});
+    await stripe().coupons.del(coupon.id).catch(() => {});
     throw new HttpError(400, err.message || "Création du code refusée par Stripe.");
   }
 
@@ -123,7 +129,7 @@ export default async function handler(req, res) {
     const actor = await requireAdmin(req);
 
     if (req.method === "GET") {
-      const { data } = await stripe.promotionCodes.list({ limit: 100, expand: ["data.promotion.coupon"] });
+      const { data } = await stripe().promotionCodes.list({ limit: 100, expand: ["data.promotion.coupon"] });
       return res.status(200).json({ codes: data.filter(isLive).map(toRow) });
     }
 
@@ -133,7 +139,7 @@ export default async function handler(req, res) {
       if (action === "toggle") {
         const { id, active } = req.body;
         if (!id) throw new HttpError(400, "id requis.");
-        const promo = await stripe.promotionCodes.update(id, { active: !!active, expand: ["promotion.coupon"] });
+        const promo = await stripe().promotionCodes.update(id, { active: !!active, expand: ["promotion.coupon"] });
         await audit(actor, "toggle-promo", promo.code, { active: !!active });
         return res.status(200).json({ code: toRow(promo) });
       }
@@ -148,10 +154,10 @@ export default async function handler(req, res) {
       if (action === "delete") {
         const { id } = req.body;
         if (!id) throw new HttpError(400, "id requis.");
-        const promo = await stripe.promotionCodes.retrieve(id, { expand: ["promotion.coupon"] });
+        const promo = await stripe().promotionCodes.retrieve(id, { expand: ["promotion.coupon"] });
         const coupon = couponOf(promo);
-        if (promo.active) await stripe.promotionCodes.update(id, { active: false });
-        if (coupon && !coupon.deleted) await stripe.coupons.del(coupon.id);
+        if (promo.active) await stripe().promotionCodes.update(id, { active: false });
+        if (coupon && !coupon.deleted) await stripe().coupons.del(coupon.id);
         await audit(actor, "delete-promo", promo.code, {
           coupon_id: coupon?.id || null,
           times_redeemed: promo.times_redeemed || 0,

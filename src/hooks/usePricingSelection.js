@@ -31,7 +31,7 @@ export function usePricingSelection() {
   //   1. their own earlier choice this session, if any — it always wins;
   //   2. otherwise the browser's timezone/locale, read synchronously so the
   //      first paint is already on the right tab for most DZ visitors;
-  //   3. then /api/geo (the edge's reading of the request IP), which corrects
+  //   3. then /api/public/geo (the edge's reading of the request IP), which corrects
   //      step 2 for a device whose locale disagrees with where it is.
   //
   // Nothing here touches what is charged — only which figures are displayed.
@@ -95,7 +95,7 @@ export function usePricingSelection() {
     [plans, currency, dzPrices],
   );
 
-  // Real validation against Stripe (api/promo-validate); the applied code is
+  // Real validation against Stripe (api/public/promo-validate); the applied code is
   // then attached to the Checkout session, so the discount shown here is
   // exactly what Stripe charges.
   const applyCoupon = async () => {

@@ -47,13 +47,13 @@ export async function confirmCheckout(sessionId) {
   }
 }
 
-// Checks a promo code against Stripe (api/promo-validate) so the Pricing page
+// Checks a promo code against Stripe (api/public/promo-validate) so the Pricing page
 // can show the real discount before checkout. Fails closed: network errors or
 // the local-dev 404 read as "not valid" (with `unavailable` set for the 404
 // so the UI can explain why).
 export async function validatePromoCode(code) {
   try {
-    const res = await fetch(`/api/promo-validate?code=${encodeURIComponent(code)}`);
+    const res = await fetch(`/api/public/promo-validate?code=${encodeURIComponent(code)}`);
     // Local `vite` has no serverless routes: GET /api/* returns 404 or the raw
     // source file (200, text/javascript) — either way, not a JSON verdict.
     const isJson = (res.headers.get("content-type") || "").includes("json");
@@ -101,7 +101,7 @@ export async function fetchLivePlans(plans) {
   try {
     // Keyed by plan slug: the browser never learns a Stripe price id, and a
     // re-pricing in Stripe shows up here without a deploy.
-    const res = await fetch("/api/prices");
+    const res = await fetch("/api/public/prices");
     if (!res.ok) return mark(plans, "fallback");
     const byId = await res.json();
     return plans.map((p) => {

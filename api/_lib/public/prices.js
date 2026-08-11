@@ -1,12 +1,18 @@
 import Stripe from "stripe";
-import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { PASS_SLUGS, resolvePassPrice } from "./_lib/passes.js";
+import { enforceRateLimit } from "../ratelimit.js";
+import { PASS_SLUGS, resolvePassPrice } from "../passes.js";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Constructed on first use, not at import. These handlers now share ONE
+// serverless function (api/public/[resource].js), so a Stripe client built at
+// module scope throws "Neither apiKey nor config.authenticator provided" for
+// the whole collector when STRIPE_SECRET_KEY is absent — taking /api/public/geo,
+// which touches no payment code at all, down with it.
+let client = null;
+const stripe = () => (client ||= new Stripe(process.env.STRIPE_SECRET_KEY));
 
 // Public read-only endpoint: the live amount of each pass, keyed by PLAN SLUG.
 //
-//   GET /api/prices  →  { passeport: { amount, currency }, visa: {…}, … }
+//   GET /api/public/prices  →  { passeport: { amount, currency }, visa: {…}, … }
 //
 // It used to take a list of Stripe price ids from the querystring, which meant
 // the ids had to ship in the browser bundle and be edited on every re-pricing.
@@ -28,7 +34,7 @@ export default async function handler(req, res) {
   try {
     const entries = await Promise.all(
       PASS_SLUGS.map(async (slug) => {
-        const price = await resolvePassPrice(stripe, slug).catch(() => null);
+        const price = await resolvePassPrice(stripe(), slug).catch(() => null);
         // A pass that cannot be resolved is omitted rather than reported as
         // free: the Pricing page then keeps its hand-written figure, which is
         // wrong-but-plausible instead of "$0".
