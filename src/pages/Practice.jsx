@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ChevronLeft } from "lucide-react";
+import { ArrowRight, ChevronLeft, Ear, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -36,6 +36,33 @@ export function Practice() {
 
   return (
     <PageShell back wide eyebrow={t("Pratique gratuite")} title={t("Essayez chaque module gratuitement")} sub={t("Le premier quiz de chaque épreuve est ouvert gratuitement, dans les conditions réelles de l'examen.")}>
+      {/* La dictée is not a seventh quiz — it is the only exercise here that
+          trains the ear and the pen at once, and it is what the site has that
+          the others do not. It gets its own card rather than a tile in the
+          grid, which would file it away as one module among six. */}
+      <button onClick={() => nav("dictee")} className="text-left w-full mb-5">
+        <Card lift className="p-6 md:p-7 border-2 border-rose-600/30">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+            <span className="w-14 h-14 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-rose-600/25 shrink-0">
+              <Ear size={26} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("La dictée")}</h3>
+                <Pill tone="red"><Sparkles size={12} /> {t("Nouveau")}</Pill>
+                <Pill tone="green">{t("Gratuit")}</Pill>
+              </div>
+              <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>
+                {t("Un sujet d'expression écrite tiré au sort, son corrigé C1/C2 lu à voix haute, et vous qui l'écrivez sans aucune aide. Chaque mot manqué est expliqué : accent, homophone, terminaison ou accord.")}
+              </p>
+              <p className="mt-3 text-sm font-semibold text-rose-600 flex items-center gap-1">
+                {t("Commencer une dictée")} <ArrowRight size={14} />
+              </p>
+            </div>
+          </div>
+        </Card>
+      </button>
+
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => {
           const section = ROUTE_SECTION[f.route];

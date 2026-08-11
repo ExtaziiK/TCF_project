@@ -1,0 +1,248 @@
+import { useEffect, useRef, useState } from "react";
+import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock } from "lucide-react";
+import { useApp } from "@/context/AppContext";
+import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
+import { DicteePlayer } from "@/components/dictee/DicteePlayer";
+import { DicteeReport } from "@/components/dictee/DicteeReport";
+import { SentenceDiff } from "@/components/dictee/SentenceDiff";
+import { useDictee } from "@/hooks/useDictee";
+
+// La dictée — Expression écrite.
+//
+// A sujet is drawn from the EE archive, its C1/C2 model answer is read aloud
+// one sentence at a time, and the candidate writes down what they hear with no
+// help of any kind. It is the only exercise on the site that trains listening
+// and spelling in the same movement, and it runs on content the site already
+// owns: 476 sujets whose model answers had never been written until now.
+
+const TASKS = [
+  { n: 1, label: "Tâche 1", kind: "Message ou lettre", words: "~100 mots", level: "C1" },
+  { n: 2, label: "Tâche 2", kind: "Article, courriel ou billet", words: "~140 mots", level: "C1" },
+  { n: 3, label: "Tâche 3", kind: "Texte argumenté", words: "~200 mots", level: "C2" },
+];
+
+export function Dictee() {
+  const { c, t } = useApp();
+  const d = useDictee();
+  const [task, setTask] = useState(1);
+
+  if (d.phase === "done" && d.summary) {
+    return (
+      <PageShell back wide eyebrow={t("La dictée")} title={t("Votre dictée, corrigée")} sub={t("Mot à mot, avec la raison de chaque écart.")}>
+        <DicteeReport
+          dictee={d.dictee}
+          summary={d.summary}
+          results={d.results}
+          plays={d.plays}
+          speed={d.speed}
+          playsPerSentence={d.playsPerSentence}
+          onRestart={() => d.start(task)}
+          onNewTask={d.reset}
+        />
+      </PageShell>
+    );
+  }
+
+  if (d.phase === "typing" && d.dictee) {
+    return <Workspace d={d} />;
+  }
+
+  /* ------------------------------- the intro ------------------------------ */
+  const best = d.history.length ? Math.max(...d.history.map((s) => s.score)) : null;
+
+  return (
+    <PageShell
+      back
+      eyebrow={t("La dictée")}
+      title={t("Écrivez ce que vous entendez")}
+      sub={t("Un sujet d'expression écrite tiré au hasard, son corrigé de niveau C1 ou C2 lu à voix haute, et vous : sans texte, sans correcteur, sans aide.")}
+    >
+      <div className="grid lg:grid-cols-3 gap-5 items-start">
+        <div className="lg:col-span-2 space-y-5">
+          <Card className="p-6 md:p-7">
+            <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Choisissez la tâche")}</h3>
+            <p className={`text-sm mt-1 mb-5 ${c.sub}`}>{t("Le sujet, lui, est tiré au sort dans les quarante mois d'archives.")}</p>
+            <div className="space-y-2.5">
+              {TASKS.map((tk) => (
+                <button
+                  key={tk.n}
+                  onClick={() => setTask(tk.n)}
+                  aria-pressed={task === tk.n}
+                  className={`w-full text-left px-5 py-4 rounded-2xl border transition-all flex items-center gap-4 ${
+                    task === tk.n ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`
+                  }`}
+                >
+                  <span className={`font-display font-bold text-lg shrink-0 ${task === tk.n ? "text-blue-600" : c.faint}`}>{tk.n}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className={`block font-semibold text-sm ${c.text}`}>{t(tk.kind)}</span>
+                    <span className={`block text-xs ${c.sub}`}>{tk.words}</span>
+                  </span>
+                  <Pill tone={tk.level === "C2" ? "gold" : "blue"}>{tk.level}</Pill>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Btn icon={d.phase === "loading" ? undefined : ArrowRight} disabled={d.phase === "loading"} onClick={() => d.start(task)}>
+                {d.phase === "loading"
+                  ? <><Loader2 size={16} className="animate-spin" /> {t("Préparation de la dictée…")}</>
+                  : t("Commencer la dictée")}
+              </Btn>
+              {d.phase === "loading" && (
+                <p className={`text-xs ${c.faint}`}>
+                  {t("Si ce sujet n'a jamais été dicté, son corrigé est en train d'être rédigé et enregistré. Une fois seulement.")}
+                </p>
+              )}
+            </div>
+            {d.error && <p className="mt-4 text-sm text-rose-600">{d.error}</p>}
+          </Card>
+
+          <Card className="p-6">
+            <h4 className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}>
+              <Lock size={15} className="text-blue-600" /> {t("Les règles")}
+            </h4>
+            <ul className={`text-sm space-y-2 ${c.sub}`}>
+              <li>{t("Une phrase à la fois. Réécoutez autant que vous voulez — les écoutes sont comptées, pas limitées.")}</li>
+              <li>{t("Le correcteur orthographique, le copier-coller et la saisie automatique sont désactivés.")}</li>
+              <li>{t("La ponctuation et les majuscules ne sont pas comptées. Les accents, si : c'est ce qu'un correcteur du TCF regarde.")}</li>
+              <li>{t("Vous pouvez arrêter en cours de route : les phrases non faites comptent comme non répondues.")}</li>
+            </ul>
+          </Card>
+        </div>
+
+        <Card className="p-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-rose-600 mb-3">{t("Vos dictées")}</p>
+          {d.history.length === 0 ? (
+            <p className={`text-sm ${c.sub}`}>{t("Aucune dictée pour l'instant. La première vous dira en une minute si vos erreurs viennent de l'oreille ou du stylo.")}</p>
+          ) : (
+            <>
+              <div className="flex items-baseline gap-2">
+                <span className="font-display font-extrabold text-4xl grad-text">{best} %</span>
+                <span className={`text-sm ${c.faint}`}>{t("meilleur score")}</span>
+              </div>
+              <p className={`text-sm mt-1 ${c.sub}`}>
+                {d.history.length} {d.history.length > 1 ? t("dictées terminées") : t("dictée terminée")}
+              </p>
+              <div className={`mt-4 space-y-2 border-t ${c.border} pt-4`}>
+                {d.history.slice(0, 5).map((s, i) => (
+                  <div key={s.id || i} className="flex items-center justify-between gap-3 text-sm">
+                    <span className={c.sub}>
+                      {t("Tâche")} {s.task} · {new Date(s.completedAt).toLocaleDateString("fr-CA", { day: "numeric", month: "short" })}
+                    </span>
+                    <Pill tone={s.score >= 85 ? "green" : s.score >= 60 ? "amber" : "red"}>{s.score} %</Pill>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </Card>
+      </div>
+    </PageShell>
+  );
+}
+
+/* ------------------------------- the exercise ----------------------------- */
+
+function Workspace({ d }) {
+  const { c, t } = useApp();
+  const inputRef = useRef(null);
+  const diff = d.revealed ? d.results[d.index] : null;
+
+  // Focus follows the exercise: a new sentence puts the cursor where the
+  // candidate is about to type, so the whole dictée runs from the keyboard.
+  useEffect(() => {
+    if (!d.revealed) inputRef.current?.focus();
+  }, [d.index, d.revealed]);
+
+  const onKeyDown = (e) => {
+    if (e.key !== "Enter" || e.shiftKey) return;
+    e.preventDefault();
+    if (d.revealed) d.next();
+    else if (d.draft.trim()) d.validate();
+  };
+
+  const done = d.results.length;
+  const last = d.index + 1 >= d.sentenceCount;
+
+  return (
+    <PageShell
+      eyebrow={`${t("La dictée")} · ${t("tâche")} ${d.dictee.task}`}
+      title={t("Écrivez ce que vous entendez")}
+      sub={t("Une phrase à la fois. Rien d'autre à l'écran, c'est voulu.")}
+      tight
+    >
+      <div className="max-w-3xl mx-auto space-y-5">
+        <div>
+          <ProgressBar pct={Math.round((done / d.sentenceCount) * 100)} tone="grad" />
+          <p className={`mt-2 text-xs ${c.faint}`}>
+            {done} / {d.sentenceCount} {t("phrases validées")}
+          </p>
+        </div>
+
+        <Card className="p-6 md:p-7">
+          <DicteePlayer
+            index={d.index}
+            total={d.sentenceCount}
+            plays={d.plays}
+            playing={d.playing}
+            speed={d.speed}
+            setSpeed={d.setSpeed}
+            onPlay={d.play}
+          />
+
+          <div className={`mt-6 pt-6 border-t ${c.border}`}>
+            {diff ? (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  {diff.perfect
+                    ? <Pill tone="green"><CheckCircle2 size={12} /> {t("Phrase parfaite")}</Pill>
+                    : <Pill tone={diff.ok / diff.total >= 0.6 ? "amber" : "red"}>{diff.ok} / {diff.total} {t("mots")}</Pill>}
+                  {diff.heard > diff.ok && <Pill tone="slate">{t("bien entendu, mal écrit")} : {diff.heard - diff.ok}</Pill>}
+                </div>
+                <SentenceDiff diff={diff} />
+                <div className="mt-6">
+                  <Btn icon={ArrowRight} onClick={d.next}>{last ? t("Voir mon résultat") : t("Phrase suivante")}</Btn>
+                </div>
+              </>
+            ) : (
+              <>
+                <label htmlFor="dictee-input" className={`block text-sm font-semibold mb-2 ${c.text}`}>
+                  {t("Votre transcription")}
+                </label>
+                <textarea
+                  id="dictee-input"
+                  ref={inputRef}
+                  rows={3}
+                  value={d.draft}
+                  onChange={(e) => d.setDraft(e.target.value)}
+                  onKeyDown={onKeyDown}
+                  // "Sans aide" is the exercise, so every assistance the browser
+                  // offers is turned off: a spell-checker underlining "developpement"
+                  // would give away the single most valuable error in a dictée.
+                  spellCheck={false}
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  onPaste={(e) => e.preventDefault()}
+                  onDrop={(e) => e.preventDefault()}
+                  placeholder={t("Tapez la phrase que vous venez d'entendre…")}
+                  className={`w-full px-5 py-4 rounded-2xl border ${c.border} ${c.card} ${c.text} text-base leading-relaxed resize-none focus:outline-none focus:border-blue-600`}
+                />
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <Btn icon={CheckCircle2} disabled={!d.draft.trim()} onClick={d.validate}>{t("Valider la phrase")}</Btn>
+                  <Btn small variant="ghost" icon={Flag} onClick={d.finish}>{t("Terminer ici")}</Btn>
+                  <span className={`text-xs ${c.faint}`}>{t("Entrée pour valider")}</span>
+                </div>
+              </>
+            )}
+          </div>
+        </Card>
+
+        <p className={`text-xs text-center flex items-center justify-center gap-1.5 ${c.faint}`}>
+          <Sparkles size={12} aria-hidden="true" />
+          {t("Corrigé de niveau")} {d.dictee.level} · {t("le sujet complet vous sera montré à la fin")}
+        </p>
+      </div>
+    </PageShell>
+  );
+}

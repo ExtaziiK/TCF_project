@@ -29,6 +29,7 @@ export const NAV_LINKS = [
   { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
   // Supplementary practice, distinct from the exam épreuves.
   { l: "Pratique", menu: [
+    { l: "La dictée", r: "dictee", roles: AUTHENTICATED },
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
   ] },
@@ -60,6 +61,7 @@ export const SEARCH_INDEX = [
   { l: "Compréhension écrite", r: "reading", c: "Module" },
   { l: "Expression écrite", r: "writing", c: "Module" },
   { l: "Expression orale", r: "speaking", c: "Module" },
+  { l: "La dictée · écrire ce qu'on entend", r: "dictee", c: "Module" },
   { l: "Vocabulaire · cartes mémoire", r: "vocabulary", c: "Module" },
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },

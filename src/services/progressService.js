@@ -1,6 +1,7 @@
 import { getBank } from "@/services/bankService";
 import { levelForPct } from "@/services/examService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
 
 // Pure progress engine for the member dashboard. Everything is derived from
 // the user's stored history — practice-quiz results (quizResultsService) and
@@ -20,6 +21,10 @@ export const XP_RULES = {
   perCorrectAnswer: 2,
   perQuizCompleted: 10,
   perExamCompleted: 20,
+  // A dictée is a flat award, NOT perCorrectAnswer × words. A single tâche 3
+  // dictée is two hundred words: paying per word would hand out four hundred
+  // XP for one exercise and make every quiz in the app pointless overnight.
+  perDicteeCompleted: 15,
   perActiveDay: 5, // daily practice bonus
   perFullStreakWeek: 30, // weekly streak bonus
 };
@@ -45,7 +50,7 @@ const meetsRequirements = (min, facts) =>
 
 /* ------------------------------ main compute ----------------------------- */
 
-export function computeProgress({ results = [], attempts = [] }) {
+export function computeProgress({ results = [], attempts = [], dictees = [] }) {
   const bank = getBank();
   const exams = attempts.filter((a) => a.status === "completed" && a.score);
   const inProgressExam = attempts.find((a) => a.status === "in_progress") || null;
@@ -75,6 +80,26 @@ export function computeProgress({ results = [], attempts = [] }) {
     }),
   ].filter((e) => e.at).sort((a, b) => new Date(a.at) - new Date(b.at));
 
+  // Dictées are kept OUT of `events` on purpose. Everything downstream of it
+  // counts questions — answered, correct, average score — and a dictée's unit
+  // is the word, not the question. Folding two hundred words into
+  // `questionsAnswered` would earn the "100 bonnes réponses" badge in a single
+  // exercise and drag the CO/CE average toward a number measuring something
+  // else entirely. They join back below, for the things that ARE comparable:
+  // time spent, days practised, XP, and the activity feed.
+  const dicteeEvents = dictees
+    .filter((d) => d.completedAt)
+    .map((d) => ({
+      kind: "dictee", at: d.completedAt, pct: d.score, ok: d.correct, total: d.words,
+      task: d.task, errors: d.errors || {},
+      minutes: d.durationSec ? Math.max(1, Math.round(d.durationSec / 60)) : 1,
+    }))
+    .sort((a, b) => new Date(a.at) - new Date(b.at));
+
+  // Every practice event, in order — the timeline the streak, the study clock
+  // and the activity feed are built from.
+  const allEvents = [...events, ...dicteeEvents].sort((a, b) => new Date(a.at) - new Date(b.at));
+
   /* ---- totals ---- */
   const questionsAnswered = events.reduce((s, e) => s + (e.answered || 0), 0);
   const correctAnswers = events.reduce((s, e) => s + (e.ok || 0), 0);
@@ -85,14 +110,14 @@ export function computeProgress({ results = [], attempts = [] }) {
   );
   const quizzesCompleted = completedQuizKeys.size;
   const examsCompleted = exams.length;
-  const studyMinutes = events.reduce((s, e) => s + e.minutes, 0);
+  const studyMinutes = allEvents.reduce((s, e) => s + e.minutes, 0);
   const scored = events.filter((e) => e.total > 0);
   const avgScore = scored.length ? Math.round(scored.reduce((s, e) => s + e.pct, 0) / scored.length) : 0;
   const correctRate = questionsAnswered ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
-  const lastActivity = events.length ? events[events.length - 1].at : null;
+  const lastActivity = allEvents.length ? allEvents[allEvents.length - 1].at : null;
 
   /* ---- streaks & calendar ---- */
-  const activeDays = new Set(events.map((e) => dateKey(e.at)));
+  const activeDays = new Set(allEvents.map((e) => dateKey(e.at)));
   const streaks = computeStreaks(activeDays);
   const calendar = monthCalendar(activeDays);
 
@@ -107,11 +132,15 @@ export function computeProgress({ results = [], attempts = [] }) {
   const sections = Object.keys(bank).map((s) => sectionStats(s, bank, results));
   const sectionsPracticed = sections.filter((s) => s.quizzesCompleted > 0).length;
 
+  /* ---- dictée ---- */
+  const dicteeStats = dicteeSummary(dicteeEvents);
+
   /* ---- XP ---- */
   const xp =
     correctAnswers * XP_RULES.perCorrectAnswer +
     quizzesCompleted * XP_RULES.perQuizCompleted +
     examsCompleted * XP_RULES.perExamCompleted +
+    dicteeEvents.length * XP_RULES.perDicteeCompleted +
     activeDays.size * XP_RULES.perActiveDay +
     Math.floor(streaks.longest / 7) * XP_RULES.perFullStreakWeek;
 
@@ -132,9 +161,13 @@ export function computeProgress({ results = [], attempts = [] }) {
   const levelGated = !!nextLevel && xpRemaining === 0;
 
   /* ---- weekly slice (current week, Monday-based) ---- */
-  const week = weeklySlice(events);
+  const week = weeklySlice(allEvents);
 
   /* ---- charts ---- */
+  // scoreSeries deliberately excludes dictées: it is read as a picture of exam
+  // performance, and a dictée's percentage measures spelling under dictation,
+  // not the same thing on the same scale. Mixing them would make the curve
+  // move for reasons the candidate cannot interpret.
   const charts = {
     scoreSeries: scored.slice(-12).map((e) => ({ pct: e.pct, at: e.at, label: e.kind === "exam" ? "TCF blanc" : SECTION_LABELS[e.section] || "Quiz" })),
     weekBars: week.days, // [{label, count, xp}]
@@ -148,17 +181,18 @@ export function computeProgress({ results = [], attempts = [] }) {
   };
 
   const progress = {
-    hasData: events.length > 0,
+    hasData: allEvents.length > 0,
     totals: { completionPct, quizzesCompleted, examsCompleted, questionsAnswered, correctAnswers, correctRate, avgScore, studyMinutes, lastActivity },
     streaks: { ...streaks, calendar },
     xp: { total: xp, level: level.name, levelIdx, nextLevel: nextLevel?.name || null, xpIntoLevel, xpForNext, xpRemaining, levelGated },
     sections,
+    dictee: dicteeStats,
     charts,
     weeklyGoal,
     week,
     continueCard: continueCard(inProgressExam, results),
-    recentActivity: [...events].reverse().slice(0, 6).map(activityItem),
-    sessions: [...events].reverse().map(activityItem), // full history for the progression page
+    recentActivity: [...allEvents].reverse().slice(0, 6).map(activityItem),
+    sessions: [...allEvents].reverse().map(activityItem), // full history for the progression page
   };
   progress.achievements = achievements(progress);
   progress.recommendations = recommendations(progress, bank, results);
@@ -197,6 +231,41 @@ function monthCalendar(activeDays) {
   return { days, practiced, missed, monthLabel: now.toLocaleDateString("fr-CA", { month: "long", year: "numeric" }) };
 }
 
+// XP for a single event. Shared by the weekly bars and the activity feed so a
+// row's "+18 XP" always matches the bar it sits under — they used to carry two
+// copies of this expression, and a dictée (whose `ok` is a WORD count) would
+// have been paid two XP per word by one of them.
+function eventXp(e) {
+  if (e.kind === "dictee") return XP_RULES.perDicteeCompleted;
+  return (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted);
+}
+
+// What the candidate gets wrong across ALL their dictées — the thing a single
+// report can never show. Three sessions in, the ranked families stop being a
+// list of slips and start being a diagnosis.
+function dicteeSummary(dicteeEvents) {
+  if (!dicteeEvents.length) return { count: 0, best: null, avg: null, words: 0, high: 0, lastAt: null, topErrors: [] };
+  const scores = dicteeEvents.map((e) => e.pct);
+  const errors = {};
+  for (const e of dicteeEvents) {
+    for (const [family, n] of Object.entries(e.errors || {})) errors[family] = (errors[family] || 0) + n;
+  }
+  return {
+    count: dicteeEvents.length,
+    best: Math.max(...scores),
+    avg: Math.round(scores.reduce((s, p) => s + p, 0) / scores.length),
+    words: dicteeEvents.reduce((s, e) => s + (e.total || 0), 0),
+    // Sessions at 90 % or better — what the "Oreille fine" badge counts.
+    high: scores.filter((p) => p >= 90).length,
+    lastAt: dicteeEvents[dicteeEvents.length - 1].at,
+    topErrors: Object.entries(errors)
+      .filter(([family]) => ERROR_FAMILIES[family])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([family, count]) => ({ family, count, label: ERROR_FAMILIES[family].label })),
+  };
+}
+
 function weeklySlice(events) {
   const monday = new Date();
   monday.setHours(0, 0, 0, 0);
@@ -207,7 +276,7 @@ function weeklySlice(events) {
     d.setDate(monday.getDate() + i);
     const key = dateKey(d);
     const dayEvents = events.filter((e) => dateKey(e.at) === key);
-    const xp = dayEvents.reduce((s, e) => s + (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted), 0);
+    const xp = dayEvents.reduce((s, e) => s + eventXp(e), 0);
     const minutes = dayEvents.reduce((s, e) => s + (e.minutes || 0), 0);
     return { label, count: dayEvents.length, xp, minutes };
   });
@@ -278,11 +347,10 @@ function continueCard(inProgressExam, results) {
 
 function activityItem(e) {
   const date = new Date(e.at).toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
-  const xp = (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted);
-  const base = { date, minutes: e.minutes || 0, xp, kind: e.kind };
-  return e.kind === "exam"
-    ? { ...base, title: "TCF blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` }
-    : { ...base, title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, result: `${e.pct} %` };
+  const base = { date, minutes: e.minutes || 0, xp: eventXp(e), kind: e.kind };
+  if (e.kind === "exam") return { ...base, title: "TCF blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` };
+  if (e.kind === "dictee") return { ...base, title: `Dictée · tâche ${e.task}`, meta: `${e.ok} / ${e.total} mots · ${date}`, result: `${e.pct} %` };
+  return { ...base, title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, result: `${e.pct} %` };
 }
 
 /* ----------------------------- achievements ------------------------------ */
@@ -303,6 +371,10 @@ export function achievements(p) {
     { id: "streak-30", title: "Série de 30 jours", desc: "Pratiquer 30 jours d'affilée", earned: p.streaks.longest >= 30 },
     { id: "perfect", title: "Score parfait", desc: "Obtenir 100 % sur un quiz", earned: anyPerfect },
     { id: "marathon", title: "Marathonien", desc: "Cumuler 10 h d'étude", earned: t.studyMinutes >= 600 },
+    { id: "first-dictee", title: "Première dictée", desc: "Écrire une dictée sous la voix", earned: (p.dictee?.count || 0) >= 1 },
+    // Deliberately demanding: 90 % on a dictée means the accents too, so this
+    // badge says something a quiz score cannot.
+    { id: "sharp-ear", title: "Oreille fine", desc: "Cinq dictées à 90 % ou plus", earned: (p.dictee?.high || 0) >= 5 },
   ];
 }
 
@@ -379,6 +451,12 @@ function insights(p, events) {
   }
   if (p.streaks.current > 0 && !p.streaks.practicedToday) {
     out.push({ tone: "warn", text: `Votre série de ${p.streaks.current} jour${p.streaks.current > 1 ? "s" : ""} expire ce soir — un quiz suffit pour la garder vivante !` });
+  }
+  // One dictée shows slips; several show a habit. Only worth saying once the
+  // same family has come up repeatedly across sessions.
+  const topError = p.dictee?.topErrors?.[0];
+  if (p.dictee?.count >= 2 && topError && topError.count >= 3) {
+    out.push({ tone: "info", text: `Sur vos ${p.dictee.count} dictées, « ${topError.label.toLowerCase()} » revient ${topError.count} fois — c'est le point à traiter en premier.` });
   }
   const scoredSections = p.sections.filter((s) => s.avg !== null);
   if (scoredSections.length >= 2) {

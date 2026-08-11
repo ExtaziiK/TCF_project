@@ -147,6 +147,7 @@ export const ROUTE_META = {
   speaking: { path: "/expression-orale", title: "Expression orale — studio", noindex: true },
   vocabulary: { path: "/vocabulaire", title: "Vocabulaire — cartes mémoire", noindex: true },
   grammar: { path: "/grammaire", title: "Grammaire", noindex: true },
+  dictee: { path: "/dictee", title: "La dictée — écrire ce que l'on entend", noindex: true },
   dashboard: { path: "/tableau-de-bord", title: "Tableau de bord", noindex: true },
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
