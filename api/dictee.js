@@ -29,19 +29,39 @@ const LIBRARY_FLOOR = 5; // below this, always generate — there is nothing to 
 // inside the function's budget without opening thirty sockets at once.
 const TTS_BATCH = 4;
 
+// Every sentence must have a recording. A row with holes in it is worse than
+// one with none: the dictée would switch to the browser's robotic voice for
+// sentence five and back to the neural one for sentence six, which sounds like
+// a fault and changes the listening task mid-exercise.
+const isComplete = (audio, sentences) =>
+  Array.isArray(audio) && audio.length === sentences.length && audio.every(Boolean);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function synthesize(sentences) {
   const out = new Array(sentences.length).fill(null);
   let bytes = 0;
   let chars = 0;
+  const take = (i, tts, sentence) => {
+    if (!tts) return;
+    out[i] = tts.audio;
+    bytes += tts.bytes;
+    chars += sentence.length;
+  };
+
   for (let i = 0; i < sentences.length; i += TTS_BATCH) {
     const slice = sentences.slice(i, i + TTS_BATCH);
     const done = await Promise.all(slice.map((s) => synthesizeFrench(s)));
-    done.forEach((tts, k) => {
-      if (!tts) return;
-      out[i + k] = tts.audio;
-      bytes += tts.bytes;
-      chars += slice[k].length;
-    });
+    done.forEach((tts, k) => take(i + k, tts, slice[k]));
+  }
+
+  // Azure answers "Downstream Service Throttled" under a burst — observed while
+  // seeding, four sentences out of eight. One sequential, spaced retry recovers
+  // them; the concurrency that caused the throttle is exactly what it drops.
+  const missing = out.map((a, i) => (a ? -1 : i)).filter((i) => i >= 0);
+  for (const i of missing) {
+    await sleep(400);
+    take(i, await synthesizeFrench(sentences[i]), sentences[i]);
   }
   // All-null means Azure is unconfigured or down. Not an error: the client
   // reads the sentences with the browser's own voice instead, which is worse
@@ -69,6 +89,7 @@ export default async function handler(req, res) {
     if (!pool.length) throw new HttpError(404, "Aucun sujet disponible pour cette tâche.");
 
     /* ---- choose the sujet ---- */
+    const cached = await cachedKeysFor(task);
     let sujet;
     if (wanted) {
       sujet = pool.find((s) => s.key === wanted);
@@ -76,7 +97,6 @@ export default async function handler(req, res) {
     } else {
       const fresh = pool.filter((s) => !exclude.has(s.key));
       const candidates = fresh.length ? fresh : pool;
-      const cached = await cachedKeysFor(task);
       const known = candidates.filter((s) => cached.has(s.key));
       const unknown = candidates.filter((s) => !cached.has(s.key));
       const drawKnown = known.length >= LIBRARY_FLOOR && (!unknown.length || Math.random() > FRESH_DRAW_RATE);
@@ -94,14 +114,35 @@ export default async function handler(req, res) {
 
     if (!sentences.length) {
       const startedAt = Date.now();
-      const made = await generateText(sujet);
-      logAiUsage({ userId: user.id, endpoint: "dictee", kind: "chat", model: made.model || CHAT_MODEL_NAME, usage: made.usage, durationMs: Date.now() - startedAt });
-      ({ text, sentences, level, words } = made);
-      row = null; // nothing cached yet; the row is written below, with its audio
+      try {
+        const made = await generateText(sujet);
+        logAiUsage({ userId: user.id, endpoint: "dictee", kind: "chat", model: made.model || CHAT_MODEL_NAME, usage: made.usage, durationMs: Date.now() - startedAt });
+        ({ text, sentences, level, words } = made);
+        row = null; // nothing cached yet; the row is written below, with its audio
+      } catch (err) {
+        // Writing a NEW dictée failed — Groq saturated, rate limited, or down.
+        // That is a reason to serve a different dictée, not no dictée: the
+        // library already holds texts that cost nothing to hand out, and a
+        // candidate who came to practise should practise. Only when the
+        // library is empty too does the failure reach them.
+        const spare = [...cached].filter((k) => k !== sujet.key && !exclude.has(k));
+        if (!spare.length) throw err;
+        const key = spare[Math.floor(Math.random() * spare.length)];
+        const fallback = pool.find((s) => s.key === key);
+        row = fallback ? await readCached(key, task) : null;
+        if (!row?.sentences?.length) throw err;
+        console.warn(`dictee: generation failed (${err.message}) — served cached ${key} instead`);
+        sujet = fallback;
+        id = row.id;
+        text = row.text;
+        level = row.level;
+        words = row.words;
+        sentences = row.sentences;
+      }
     }
 
     /* ---- audio: cache, or synthesize once ---- */
-    let audio = Array.isArray(row?.audio) && row.audio.length === sentences.length ? row.audio : null;
+    let audio = isComplete(row?.audio, sentences) ? row.audio : null;
     if (!audio) {
       const ttsStart = Date.now();
       const made = await synthesize(sentences);
@@ -118,7 +159,10 @@ export default async function handler(req, res) {
         sujet_key: sujet.key, task, level, prompt: sujet.prompt.slice(0, 4000),
         text, sentences, audio, words,
       });
-    } else if (audio && !row?.audio) {
+    } else if (audio && !isComplete(row?.audio, sentences)) {
+      // Repairs a row whose recording was missing OR only partly made — a
+      // throttled synthesis leaves holes, and testing `!row.audio` alone would
+      // see a non-empty array and leave them there for good.
       await attachAudio(id, audio);
     }
 
