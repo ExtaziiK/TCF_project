@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
+import { PageShell, Card, Pill, Btn, ProgressBar, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
+import { sujetsForTask, RECENT_MONTHS } from "@/services/dicteeService";
 import { DicteePlayer } from "@/components/dictee/DicteePlayer";
 import { DicteeReport } from "@/components/dictee/DicteeReport";
 import { SentenceDiff } from "@/components/dictee/SentenceDiff";
@@ -25,6 +26,22 @@ export function Dictee() {
   const { c, t } = useApp();
   const d = useDictee();
   const [task, setTask] = useState(1);
+  const [sujetKey, setSujetKey] = useState(null);
+
+  // The sujets on offer for the chosen tâche. Changing tâche clears the
+  // selection: a key is only meaningful together with the tâche it was picked
+  // under, and silently carrying it over would start a different dictée from
+  // the one on screen.
+  const choices = useMemo(() => sujetsForTask(d.months || [], task), [d.months, task]);
+  const chosen = choices.find((s) => s.key === sujetKey) || null;
+
+  const pickTask = (n) => { setTask(n); setSujetKey(null); };
+  const pickRandom = () => {
+    if (!choices.length) return d.start(task);
+    const from = choices[Math.floor(Math.random() * choices.length)];
+    setSujetKey(from.key);
+    d.start(task, from.key);
+  };
 
   if (d.phase === "done" && d.summary) {
     return (
@@ -36,7 +53,7 @@ export function Dictee() {
           plays={d.plays}
           speed={d.speed}
           playsPerSentence={d.playsPerSentence}
-          onRestart={() => d.start(task)}
+          onRestart={pickRandom}
           onNewTask={d.reset}
         />
       </PageShell>
@@ -55,18 +72,18 @@ export function Dictee() {
       back
       eyebrow={t("La dictée")}
       title={t("Écrivez ce que vous entendez")}
-      sub={t("Un sujet d'expression écrite tiré au hasard, son corrigé de niveau C1 ou C2 lu à voix haute, et vous : sans texte, sans correcteur, sans aide.")}
+      sub={t("Un sujet d'expression écrite des deux derniers mois, son corrigé de niveau C1 ou C2 lu à voix haute, et vous : sans texte, sans correcteur, sans aide.")}
     >
       <div className="grid lg:grid-cols-3 gap-5 items-start">
         <div className="lg:col-span-2 space-y-5">
           <Card className="p-6 md:p-7">
             <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Choisissez la tâche")}</h3>
-            <p className={`text-sm mt-1 mb-5 ${c.sub}`}>{t("Le sujet, lui, est tiré au sort dans les quarante mois d'archives.")}</p>
+            <p className={`text-sm mt-1 mb-5 ${c.sub}`}>{t("Puis le sujet, parmi ceux tombés ces deux derniers mois.")}</p>
             <div className="space-y-2.5">
               {TASKS.map((tk) => (
                 <button
                   key={tk.n}
-                  onClick={() => setTask(tk.n)}
+                  onClick={() => pickTask(tk.n)}
                   aria-pressed={task === tk.n}
                   className={`w-full text-left px-5 py-4 rounded-2xl border transition-all flex items-center gap-4 ${
                     task === tk.n ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`
@@ -82,11 +99,65 @@ export function Dictee() {
               ))}
             </div>
 
+            {/* ── the sujets ─────────────────────────────────────────── */}
+            <div className={`mt-7 pt-6 border-t ${c.border}`}>
+              <div className="flex items-baseline justify-between gap-3 flex-wrap mb-4">
+                <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Choisissez le sujet")}</h3>
+                {choices.length > 0 && (
+                  <span className={`text-xs ${c.faint}`}>
+                    {choices.length} {t("sujets")} · {RECENT_MONTHS} {t("derniers mois")}
+                  </span>
+                )}
+              </div>
+
+              {d.months === null ? (
+                <p className={`text-sm ${c.faint}`}>{t("Chargement des sujets…")}</p>
+              ) : choices.length === 0 ? (
+                <p className={`text-sm ${c.sub}`}>{t("Aucun sujet disponible pour cette tâche. Utilisez le tirage au sort.")}</p>
+              ) : (
+                <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+                  {choices.map((s) => {
+                    const on = s.key === sujetKey;
+                    return (
+                      <button
+                        key={s.key}
+                        onClick={() => setSujetKey(s.key)}
+                        aria-pressed={on}
+                        className={`w-full text-left px-4 py-3 rounded-2xl border transition-all flex gap-3 ${
+                          on ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`
+                        }`}
+                      >
+                        <span className={`shrink-0 mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center ${on ? "bg-blue-600 border-blue-600 text-white" : c.border}`}>
+                          {on && <Check size={12} />}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className={`block text-[11px] font-semibold uppercase tracking-wide ${c.faint}`}>
+                            {s.month} {s.year} · {t("sujet")} {s.n}
+                          </span>
+                          {/* Clamped: a tâche 2 instruction runs to a couple of
+                              lines, and a list of full paragraphs is unreadable.
+                              The whole sujet is shown in the final report. */}
+                          <span className={`block text-sm leading-snug mt-0.5 line-clamp-2 ${c.text}`}>{s.label}</span>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Btn icon={d.phase === "loading" ? undefined : ArrowRight} disabled={d.phase === "loading"} onClick={() => d.start(task)}>
+              <Btn
+                icon={d.phase === "loading" ? undefined : ArrowRight}
+                disabled={d.phase === "loading" || (!chosen && choices.length > 0)}
+                onClick={() => d.start(task, chosen?.key || null)}
+              >
                 {d.phase === "loading"
                   ? <><Loader2 size={16} className="animate-spin" /> {t("Préparation de la dictée…")}</>
                   : t("Commencer la dictée")}
+              </Btn>
+              <Btn variant="ghost" icon={Shuffle} disabled={d.phase === "loading"} onClick={pickRandom}>
+                {t("Choisir au hasard")}
               </Btn>
               {d.phase === "loading" && (
                 <p className={`text-xs ${c.faint}`}>
@@ -209,25 +280,31 @@ function Workspace({ d }) {
                 <label htmlFor="dictee-input" className={`block text-sm font-semibold mb-2 ${c.text}`}>
                   {t("Votre transcription")}
                 </label>
-                <textarea
-                  id="dictee-input"
-                  ref={inputRef}
-                  rows={3}
-                  value={d.draft}
-                  onChange={(e) => d.setDraft(e.target.value)}
-                  onKeyDown={onKeyDown}
-                  // "Sans aide" is the exercise, so every assistance the browser
-                  // offers is turned off: a spell-checker underlining "developpement"
-                  // would give away the single most valuable error in a dictée.
-                  spellCheck={false}
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  onPaste={(e) => e.preventDefault()}
-                  onDrop={(e) => e.preventDefault()}
-                  placeholder={t("Tapez la phrase que vous venez d'entendre…")}
-                  className={`w-full px-5 py-4 rounded-2xl border ${c.border} ${c.card} ${c.text} text-base leading-relaxed resize-none focus:outline-none focus:border-blue-600`}
-                />
+                <div className={`rounded-2xl border ${c.border} ${c.card} overflow-hidden`}>
+                  {/* The same on-screen French keys as the Expression écrite
+                      workshop, for candidates without a FR keyboard. In a
+                      dictée they are not a convenience but a condition of
+                      fairness: the accents are scored, so someone who cannot
+                      type "é" would be marked down for their hardware. */}
+                  <AccentKeys onInsert={(ch) => insertAtCaret(inputRef, ch, d.draft, d.setDraft)} />
+                  <textarea
+                    id="dictee-input"
+                    ref={inputRef}
+                    rows={3}
+                    value={d.draft}
+                    onChange={(e) => d.setDraft(e.target.value)}
+                    onKeyDown={onKeyDown}
+                    // "Sans aide" is the exercise, so every assistance is turned
+                    // off — including Grammarly-style extensions, which were
+                    // injecting their widget into this very field and would
+                    // correct exactly the spelling the dictée exists to measure.
+                    {...NO_ASSIST_PROPS}
+                    onPaste={(e) => e.preventDefault()}
+                    onDrop={(e) => e.preventDefault()}
+                    placeholder={t("Tapez la phrase que vous venez d'entendre…")}
+                    className={`w-full px-5 py-4 bg-transparent ${c.text} text-base leading-relaxed resize-none outline-none`}
+                  />
+                </div>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <Btn icon={CheckCircle2} disabled={!d.draft.trim()} onClick={d.validate}>{t("Valider la phrase")}</Btn>
                   <Btn small variant="ghost" icon={Flag} onClick={d.finish}>{t("Terminer ici")}</Btn>
@@ -240,7 +317,7 @@ function Workspace({ d }) {
 
         <p className={`text-xs text-center flex items-center justify-center gap-1.5 ${c.faint}`}>
           <Sparkles size={12} aria-hidden="true" />
-          {t("Corrigé de niveau")} {d.dictee.level} · {t("le sujet complet vous sera montré à la fin")}
+          {t("Corrigé de niveau")} {d.dictee.level} · {t("la consigne complète et votre correction vous attendent à la fin")}
         </p>
       </div>
     </PageShell>

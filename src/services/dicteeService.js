@@ -1,6 +1,7 @@
 import { supabase } from "@/services/supabaseClient";
 import { postJSON } from "@/services/aiService";
 import { getActiveProfileId } from "@/utils/activeProfile";
+import { loadArchive } from "@/services/sujetsArchiveService";
 
 // The dictée's client half: fetch a dictation from the server, and keep the
 // history of what the candidate scored.
@@ -45,8 +46,59 @@ const rowToSession = (r) => ({
 // sujet keys — sent so a random draw does not hand back a text they took down
 // last week. Returns { id, sujetKey, task, level, prompt, sentences[], audio[] }
 // where audio[i] is base64 mp3 or null (null → the client voices it itself).
-export async function fetchDictee({ task, exclude = [] }) {
-  return postJSON("/api/dictee", { task, exclude });
+export async function fetchDictee({ task, sujetKey = null, exclude = [] }) {
+  return postJSON("/api/dictee", { task, sujetKey, exclude });
+}
+
+/* ------------------------- the choosable sujets --------------------------- */
+
+// How far back the picker reaches. The archive holds forty months — 1 428
+// (sujet, tâche) pairs — and offering all of them means almost every draw is a
+// sujet nobody has ever dictated, so almost every draw pays for a fresh Groq
+// generation and a fresh Azure synthesis. Two months is 30-odd pairs: enough
+// choice to never feel repetitive, few enough that the library fills quickly
+// and most sessions then cost nothing at all.
+export const RECENT_MONTHS = 2;
+
+// Read from the SHIPPED archive the browser already has (plus any admin
+// overrides), not from the API — listing subjects should not cost a request,
+// and this is the same source api/_lib/dictee.js reads server-side, so a key
+// picked here always resolves there.
+export async function listRecentSujets(months = RECENT_MONTHS) {
+  const archive = await loadArchive("ee").catch(() => ({ years: [] }));
+  const flat = [];
+  for (const y of archive.years || []) {
+    for (const m of y.months || []) {
+      flat.push({ year: y.year, monthNum: m.monthNum, month: m.month, sujets: m.data || [] });
+    }
+  }
+  // Newest first, across years — loadArchive orders months differently inside
+  // the current year and past years, so it is re-sorted rather than trusted.
+  flat.sort((a, b) => b.year - a.year || b.monthNum - a.monthNum);
+  return flat.slice(0, months);
+}
+
+// The pickable entries for one tâche: one per sujet in the recent months.
+// Tâche 3 is a themed dossier rather than a one-line instruction, so its theme
+// is what gets shown — the two documents would swamp a list.
+export function sujetsForTask(months, task) {
+  const out = [];
+  for (const m of months) {
+    for (const s of m.sujets) {
+      const key = `${m.year}-${m.monthNum}-${s.n}`;
+      if (task === 3) {
+        if (s.t3?.theme && s.t3?.doc1 && s.t3?.doc2) {
+          out.push({ key, task, n: s.n, month: m.month, year: m.year, label: s.t3.theme, theme: true });
+        }
+        continue;
+      }
+      const prompt = task === 1 ? s.t1 : s.t2;
+      if (typeof prompt === "string" && prompt.trim()) {
+        out.push({ key, task, n: s.n, month: m.month, year: m.year, label: prompt.trim(), theme: false });
+      }
+    }
+  }
+  return out;
 }
 
 /* -------------------------------- history --------------------------------- */

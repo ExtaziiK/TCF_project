@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { fetchDictee, recordDicteeSession, listDicteeSessions, recentSujetKeys, audioUrlFromBase64 } from "@/services/dicteeService";
+import { fetchDictee, recordDicteeSession, listDicteeSessions, recentSujetKeys, audioUrlFromBase64, listRecentSujets } from "@/services/dicteeService";
 import { diffSentence, summarize } from "@/utils/dicteeDiff";
 import { AiError } from "@/services/aiService";
 
@@ -31,6 +31,7 @@ export function useDictee() {
   const [plays, setPlays] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [history, setHistory] = useState([]);
+  const [months, setMonths] = useState(null); // recent EE months, for the picker
 
   const urlsRef = useRef([]); // object URLs, one per sentence
   const playerRef = useRef(null);
@@ -43,6 +44,15 @@ export function useDictee() {
     listDicteeSessions(user?.id).then(({ sessions }) => live && setHistory(sessions));
     return () => { live = false; };
   }, [user?.id]);
+
+  /* ---- the sujets on offer: the archive's most recent months ---- */
+  // Read straight from the shipped archive, so opening the page costs no
+  // request and the list is there before the candidate has chosen a tâche.
+  useEffect(() => {
+    let live = true;
+    listRecentSujets().then((m) => live && setMonths(m)).catch(() => live && setMonths([]));
+    return () => { live = false; };
+  }, []);
 
   /* ---- audio lifetime ---- */
   // Object URLs pin their blobs for as long as the tab lives, so every one
@@ -59,7 +69,11 @@ export function useDictee() {
 
   /* --------------------------------- start -------------------------------- */
 
-  const start = useCallback(async (task) => {
+  // `sujetKey` names the sujet the candidate picked. Omitting it lets the
+  // server draw one, which it does from the whole archive — so the picker
+  // always passes a key, and the serverless draw stays as the fallback for a
+  // browser that could not read the archive at all.
+  const start = useCallback(async (task, sujetKey = null) => {
     releaseAudio();
     setPhase("loading");
     setError(null);
@@ -71,7 +85,7 @@ export function useDictee() {
     setPlays(0);
     savedRef.current = false;
     try {
-      const data = await fetchDictee({ task, exclude: recentSujetKeys(history) });
+      const data = await fetchDictee({ task, sujetKey, exclude: recentSujetKeys(history) });
       urlsRef.current = (data.audio || []).map((b64) => audioUrlFromBase64(b64, data.audioMime));
       setDictee(data);
       startedAtRef.current = Date.now();
@@ -212,7 +226,7 @@ export function useDictee() {
 
   return {
     phase, dictee, error, index, draft, setDraft, results, revealed, summary, history,
-    speed, setSpeed, plays, playing,
+    months, speed, setSpeed, plays, playing,
     sentenceCount: dictee?.sentences.length || 0,
     playsPerSentence: results.length ? Math.round((plays / results.length) * 10) / 10 : 0,
     start, play, validate, next, finish, reset,
