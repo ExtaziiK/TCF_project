@@ -74,7 +74,23 @@ export async function postJSON(path, body, { retriedAuth = false } = {}) {
     const { data } = await supabase.auth.refreshSession().catch(() => ({ data: null }));
     if (data?.session) return postJSON(path, body, { retriedAuth: true });
   }
-  const data = await res.json().catch(() => ({}));
+  // A body that is not JSON means the request never reached the function: a
+  // dev server with no API routes, a preview whose build dropped them, or a
+  // gateway error page — all of which answer with HTML, sometimes with status
+  // 200. Returning {} there let the caller carry on with an empty payload and
+  // fail later, somewhere unrelated, with "cannot read sentences of undefined";
+  // letting JSON.parse's own error escape put « Unexpected token '<',
+  // "<!DOCTYPE "... » in front of the candidate. Neither is something they can
+  // act on, so it is named here instead.
+  const raw = await res.text();
+  let data = {};
+  if (raw) {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new AiError(res.status, "Le service est injoignable (réponse inattendue du serveur). Réessayez dans un instant.");
+    }
+  }
   if (!res.ok) throw new AiError(res.status, data.error || "AI request failed");
   return data;
 }
