@@ -79,6 +79,16 @@ export function updateAdminUser(payload) {
   return adminFetch("/api/admin/users", { method: "POST", body: JSON.stringify(payload) });
 }
 
+// One candidate's history, merged from the tables the platform already writes
+// (see api/_lib/admin/activity.js). Read-only, and nothing is tracked for it.
+// `summary` comes back on the first page only; pass the returned `nextOffset`
+// to append the next slice of the timeline.
+export function fetchUserActivity({ userId, offset = 0 }) {
+  const params = new URLSearchParams({ userId });
+  if (offset) params.set("offset", String(offset));
+  return adminFetch(`/api/admin/activity?${params.toString()}`);
+}
+
 /* ------------------------------ subjects import --------------------------- */
 
 // Reads the newest month of subjects published on reussir-tcfcanada.com for

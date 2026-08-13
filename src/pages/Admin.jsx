@@ -17,6 +17,7 @@ import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { RevenueTab } from "@/components/admin/Revenue";
+import { UserActivityPanel } from "@/components/admin/UserActivity";
 import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { getSocialClickStats } from "@/services/socialClicksService";
@@ -735,6 +736,7 @@ function UsersTab() {
   const [state, setState] = useState("loading");
   const [openId, setOpenId] = useState(null); // user id whose action panel is expanded
   const [confirmId, setConfirmId] = useState(null); // pending delete confirmation
+  const [activityId, setActivityId] = useState(null); // user id whose activity panel is open
   const [busy, setBusy] = useState(false);
   const [moreBusy, setMoreBusy] = useState(false); // "Charger plus" in flight
 
@@ -920,6 +922,7 @@ function UsersTab() {
                   onToggle={() => { setOpenId(openId === u.id ? null : u.id); setConfirmId(null); }}
                   onConfirmDelete={() => setConfirmId(u.id)}
                   onCancelDelete={() => setConfirmId(null)}
+                  onOpenActivity={() => setActivityId(u.id)}
                   act={act}
                   planButton={planButton}
                 />
@@ -940,11 +943,12 @@ function UsersTab() {
           </div>
         )}
       </Card>
+      {activityId && <UserActivityPanel userId={activityId} onClose={() => setActivityId(null)} />}
     </div>
   );
 }
 
-function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
+function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, onOpenActivity, act, planButton }) {
   const { c } = useApp();
   // Mirrors the server rule in api/_lib/admin/users.js: never yourself, never
   // an owner, and an admin only if you are the owner. The endpoint enforces
@@ -960,16 +964,19 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
     <>
       <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
         <td className="py-3.5 pr-4">
-          <div className="flex items-center gap-3 min-w-0">
+          {/* The identity cell opens the activity panel: what this candidate has
+              actually done is the question you ask BEFORE deciding to act on
+              the account, so it sits on the name rather than behind the gear. */}
+          <button onClick={onOpenActivity} className="flex items-center gap-3 min-w-0 text-left group" title={`Voir l'activité de ${u.email}`}>
             <span className="relative w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
               {(u.name || u.username || u.email || "?").trim()[0]?.toUpperCase()}
               {u.online && <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="En ligne" />}
             </span>
             <div className="min-w-0">
-              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
+              <p className={`font-medium truncate group-hover:text-blue-600 transition-colors ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
               <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
             </div>
-          </div>
+          </button>
         </td>
         <td className="py-3.5 pr-4">
           <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}</Pill>
