@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, RefreshCw, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { fetchAdminStatDetail } from "@/services/adminService";
+import { getBank } from "@/services/bankService";
 
 // What is behind one number on the overview. Clicking a stat card opens this
 // pop-up, which lists the accounts (or the rows) the counter is made of —
@@ -36,17 +37,35 @@ const ago = (iso) => {
 
 const initial = (s) => (s || "?").trim()[0]?.toUpperCase() || "?";
 
-function Row({ row, avatar }) {
+// question_attempts stores the bank's own question id, and that id cannot be
+// read as a label: it is bank-<section>-<exam_id ?? fileName>-<question id>
+// (src/utils/bankAdapter.js), so a CE question comes out as "bank-ce-37-1409"
+// where 37 is the source export's exam_id — not quiz 37. The browser bundles
+// the whole bank, so the quiz and the question's real position are looked up
+// rather than parsed out of the id. Built on open (admin-authored quizzes are
+// merged into the bank at app start, and again after any QMS change).
+function buildQuestionIndex() {
+  const index = new Map();
+  for (const [section, quizzes] of Object.entries(getBank())) {
+    for (const quiz of quizzes) {
+      const name = quiz.quizNumber != null ? `Quiz ${quiz.quizNumber}` : quiz.title;
+      quiz.questions.forEach((q, i) => index.set(q.id, `${section.toUpperCase()} — ${name} · question ${i + 1}`));
+    }
+  }
+  return index;
+}
+
+function Row({ row, avatar, label }) {
   const { c } = useApp();
   return (
     <li className="flex items-center gap-3 py-2.5">
       {avatar ? (
         <span className="w-8 h-8 rounded-full grad-brand text-white text-[11px] font-bold flex items-center justify-center shrink-0">
-          {initial(row.label)}
+          {initial(label)}
         </span>
       ) : null}
       <div className="min-w-0 flex-1">
-        <p className={`text-sm font-semibold truncate ${c.text}`}>{row.label || "—"}</p>
+        <p className={`text-sm font-semibold truncate ${c.text}`}>{label || "—"}</p>
         {row.sub && <p className={`text-xs truncate ${c.faint}`}>{row.sub}</p>}
       </div>
       <div className="shrink-0 text-right">
@@ -68,6 +87,8 @@ export function StatDetailModal({ statKey, fallbackTitle, onClose, go }) {
   const [data, setData] = useState(null);
   const [state, setState] = useState("loading");
   const [busy, setBusy] = useState(false);
+  // Only the answers list carries bank ids; no other pop-up pays for the index.
+  const questions = useMemo(() => (statKey === "attempts" ? buildQuestionIndex() : null), [statKey]);
 
   const load = useCallback(async (manual = false) => {
     if (manual) setBusy(true);
@@ -120,7 +141,10 @@ export function StatDetailModal({ statKey, fallbackTitle, onClose, go }) {
             data.rows.length === 0
               ? <p className={`text-sm py-6 text-center ${c.faint}`}>{data.empty || "Rien à afficher."}</p>
               : <ul className={`divide-y ${c.border}`}>
-                  {data.rows.map((row) => <Row key={row.id} row={row} avatar={!!data.avatar} />)}
+                  {data.rows.map((row) => (
+                    <Row key={row.id} row={row} avatar={!!data.avatar}
+                      label={(row.code && questions?.get(row.code)) || row.label} />
+                  ))}
                 </ul>
           )}
         </div>

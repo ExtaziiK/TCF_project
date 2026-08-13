@@ -99,12 +99,20 @@ const whoIs = (byId, userId) => {
 
 const scoreTone = (pct) => (pct == null ? "slate" : pct >= 70 ? "green" : pct >= 50 ? "amber" : "red");
 
-// "bank-co-Quiz_3_CO.json-1" → "CO — Quiz 3 · question 1". Bank ids are the
-// quiz key with the question's position appended; anything else (an
-// admin-authored question) falls through to the tidied id.
+// Fallback label for a bank question id, used when the client can't resolve it
+// against the bundled bank (admin-authored questions, a bank file since
+// removed). Ids are built as bank-<section>-<exam_id ?? fileName>-<question id>
+// in src/utils/bankAdapter.js, and the middle part is NOT reliably a quiz
+// number: CO files have no exam_id so it is the file name ("Quiz_3_CO.json"),
+// while CE files carry the source export's exam_id (Quiz 1 → 37). Printing it
+// raw claimed a "quiz 37" that does not exist, so it is only used when it
+// really does spell out a quiz number.
 function questionLabel(id = "") {
-  const m = /^(.*)-(\d+)$/.exec(String(id));
-  return m ? `${quizLabel(m[1])} · question ${m[2]}` : quizLabel(String(id));
+  const m = /^bank-(co|ce|ee|eo)-(.*)-(\d+)$/i.exec(String(id));
+  if (!m) return String(id);
+  const [, section, key, order] = m;
+  const quiz = /quiz[_\s-]*(\d+)/i.exec(key);
+  return `${section.toUpperCase()}${quiz ? ` — Quiz ${quiz[1]}` : ""} · question ${order}`;
 }
 
 async function rowsOf(query) {
@@ -282,6 +290,9 @@ const DETAILS = {
       empty: "Aucune réponse enregistrée pour le moment.",
       rows: recent.map((r) => ({
         id: `qa-${r.id}`,
+        // The browser bundles the whole question bank, so it can name the exact
+        // quiz this id belongs to; `label` is the fallback when it cannot.
+        code: r.question_id,
         label: questionLabel(r.question_id),
         sub: [whoIs(byId, r.user_id).label, r.duration_ms ? `${Math.round(r.duration_ms / 1000)} s` : null].filter(Boolean).join(" · "),
         pill: !r.answered ? "passée" : r.is_correct ? "correcte" : "incorrecte",
