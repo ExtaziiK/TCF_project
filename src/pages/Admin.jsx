@@ -18,6 +18,7 @@ import { SujetsManager } from "@/components/admin/SujetsManager";
 import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { RevenueTab } from "@/components/admin/Revenue";
 import { UserActivityPanel } from "@/components/admin/UserActivity";
+import { StatDetailModal } from "@/components/admin/StatDetail";
 import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { getSocialClickStats } from "@/services/socialClicksService";
@@ -127,17 +128,30 @@ function EmptyState({ icon: Icon, title, sub }) {
 // Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
 const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]", emerald: "bg-emerald-500/10 text-emerald-600" };
 
-function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
+// `onClick` turns the card into a button that opens the pop-up listing what the
+// number is made of (StatDetailModal). Without it the card is plain text, as
+// it was — the same component still serves both.
+function StatCard({ icon: Icon, value, label, hint, accent = "blue", onClick }) {
   const { c } = useApp();
-  return (
-    <Card className="p-5">
+  const body = (
+    <>
       <div className="flex items-start justify-between gap-3">
         <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
         {Icon && <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${STAT_ACCENTS[accent] || STAT_ACCENTS.blue}`}><Icon size={16} /></span>}
       </div>
-      <p className={`text-sm font-medium mt-1 ${c.text}`}>{label}</p>
+      <p className={`text-sm font-medium mt-1 flex items-center gap-1 ${c.text}`}>
+        {label}
+        {onClick && <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-600 shrink-0" aria-hidden="true" />}
+      </p>
       {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
-    </Card>
+    </>
+  );
+  if (!onClick) return <Card className="p-5">{body}</Card>;
+  return (
+    <button type="button" onClick={onClick} aria-label={`${label} : voir le détail`}
+      className="group text-left w-full rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+      <Card className="p-5 h-full cursor-pointer transition-colors group-hover:border-blue-600/40">{body}</Card>
+    </button>
   );
 }
 
@@ -621,6 +635,8 @@ function OverviewTab({ go }) {
   const [state, setState] = useState("loading");
   const [refreshing, setRefreshing] = useState(false);
   const [updatedAt, setUpdatedAt] = useState(null);
+  // Which stat card's detail pop-up is open: { key, label } or null.
+  const [detail, setDetail] = useState(null);
 
   const load = useCallback(async (manual = false) => {
     if (manual) setRefreshing(true);
@@ -681,14 +697,26 @@ function OverviewTab({ go }) {
         </Btn>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
-        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald" />
-        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold" />
-        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
-        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
-        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées" />
-        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter" />
+        {/* Each card opens the list behind its number (api/_lib/admin/stats.js
+            ?detail=…): who is online, which quiz was just finished, and so on. */}
+        <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null}
+          onClick={() => setDetail({ key: "users", label: "Utilisateurs inscrits" })} />
+        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald"
+          onClick={() => setDetail({ key: "online", label: "Connectés maintenant" })} />
+        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold"
+          onClick={() => setDetail({ key: "premium", label: "Abonnés Premium actifs" })} />
+        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null}
+          onClick={() => setDetail({ key: "quizzes", label: "Quiz complétés" })} />
+        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null}
+          onClick={() => setDetail({ key: "exams", label: "TCF blancs terminés" })} />
+        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées"
+          onClick={() => setDetail({ key: "attempts", label: "Réponses enregistrées" })} />
+        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter"
+          onClick={() => setDetail({ key: "messages", label: "Messages à traiter" })} />
       </div>
+      {detail && (
+        <StatDetailModal statKey={detail.key} fallbackTitle={detail.label} go={go} onClose={() => setDetail(null)} />
+      )}
       <Card className="p-4 flex items-center gap-2 flex-wrap">
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>

@@ -53,6 +53,13 @@ export function fetchAdminStats() {
   return adminFetch("/api/admin/stats");
 }
 
+// Who/what is behind ONE overview counter, for the pop-up opened by clicking
+// its card. `key` is one of: users | online | premium | quizzes | exams |
+// attempts | messages (see api/_lib/admin/stats.js).
+export function fetchAdminStatDetail(key) {
+  return adminFetch(`/api/admin/stats?detail=${encodeURIComponent(key)}`);
+}
+
 // AI (Groq) metering + Supabase consumption for the "Utilisation" tab.
 export function fetchAdminUsage() {
   return adminFetch("/api/admin/usage");

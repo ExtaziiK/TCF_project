@@ -69,7 +69,8 @@ const KIND_LABELS = {
 
 // "bank-co-Quiz_1_CO.json" → "CO — Quiz 1". Falls back to the stored section,
 // then to a tidied key, so an unrecognised naming scheme still reads.
-function quizLabel(key = "", section = null) {
+// Exported: the overview's stat detail lists label quiz rows the same way.
+export function quizLabel(key = "", section = null) {
   const m = /Quiz[_-]?(\d+)[_-]?(CO|CE|EE|EO)/i.exec(key);
   if (m) return `${m[2].toUpperCase()} — Quiz ${m[1]}`;
   const clean = String(key).replace(/^bank-/, "").replace(/\.json$/, "").replace(/[_-]+/g, " ").trim();
