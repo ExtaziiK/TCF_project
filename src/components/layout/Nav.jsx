@@ -125,7 +125,10 @@ export function Nav({ barOffset = false }) {
                         {notifications.map((nf) => (
                           <div key={nf.id} className={`group flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft} ${nf.read ? "" : "bg-blue-600/5"}`}>
                             <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${nf.read ? `${c.tint} ${c.faint}` : "bg-blue-600/10 text-blue-600"}`}><nf.icon size={16} /></span>
-                            <button onClick={() => markRead(nf.id)} className="flex-1 min-w-0 text-left">
+                            {/* Some notifications lead somewhere (an answer
+                                from the team lives on the profile page); the
+                                rest are read in place, as before. */}
+                            <button onClick={() => { markRead(nf.id); if (nf.route) go(nf.route); }} className="flex-1 min-w-0 text-left">
                               <p className={`text-sm ${c.text}`}>{t(nf.t)}</p>
                               <p className={`text-xs ${c.faint} mt-0.5`}>{t(nf.time)}</p>
                             </button>

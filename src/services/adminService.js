@@ -179,6 +179,35 @@ export async function deleteMessage(id) {
   return { ok: !error };
 }
 
+// The replies already sent, for the thread under each message. Read straight
+// from Supabase like the messages themselves (is_admin() gates the rows). A
+// missing table — the migration not applied yet — reads as "no replies" so the
+// inbox keeps working instead of going blank.
+export async function listMessageReplies(messageIds = []) {
+  if (!messageIds.length) return { ok: true, byMessage: {} };
+  const { data, error } = await supabase
+    .from("contact_replies")
+    .select("id, message_id, body, sent_by_email, emailed, created_at, read_at")
+    .in("message_id", messageIds)
+    .order("created_at", { ascending: true });
+  if (error) return { ok: false, unavailable: true, byMessage: {} };
+  const byMessage = {};
+  for (const r of data) (byMessage[r.message_id] ||= []).push(r);
+  return { ok: true, byMessage };
+}
+
+// Sends the answer. `alsoEmail` only applies to a member (a visitor with no
+// account is always emailed — it is the only way to reach them).
+export function sendMessageReply({ messageId, body, alsoEmail }) {
+  return adminFetch("/api/admin/reply", { method: "POST", body: JSON.stringify({ messageId, body, alsoEmail }) });
+}
+
+// Whether SMTP is configured, so the compose box can offer the email option
+// only when it would actually work.
+export function fetchReplyMailStatus() {
+  return adminFetch("/api/admin/reply");
+}
+
 /* -------------------------------- audit log ------------------------------- */
 
 export async function listAuditLog(limit = 100) {

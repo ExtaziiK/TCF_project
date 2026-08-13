@@ -39,6 +39,12 @@ export async function sendMail({ to, subject, html, text }) {
   });
 }
 
+// Whether SMTP credentials are present. Lets a caller offer (or withhold) the
+// email option honestly instead of finding out at send time.
+export function mailConfigured() {
+  return !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+}
+
 /* ----------------------------- email templates ---------------------------- */
 // Kept inline (no external assets) so they render in every client. French to
 // match the app. `site` is the app URL used for the renew button.
@@ -74,6 +80,33 @@ function greeting(user) {
 const renewUrl = (site) => `${site}/tarifs`;
 // The testimonial form lives on the member's profile page.
 const feedbackUrl = (site) => `${site}/profil`;
+
+// Escapes admin-typed text before it goes into an HTML email. The reply is
+// written by a trusted admin, but it is plain text by contract: a stray < in
+// "temps < 30 min" must read as a chevron, not open a tag.
+const escapeHtml = (s) =>
+  String(s).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+// The team's answer to a contact message. Quotes the original underneath so the
+// reply makes sense on its own, days later, in a crowded inbox.
+export function supportReplyEmail({ name, subject, body, original, site }) {
+  const title = subject ? `Re: ${subject}` : "Réponse à votre message";
+  const paragraphs = escapeHtml(body).split(/\n{2,}/)
+    .map((p) => `<p style="margin:0 0 14px;">${p.replace(/\n/g, "<br/>")}</p>`).join("");
+  const quoted = original
+    ? `<div style="margin:22px 0 0;padding:14px 16px;background:#f6f7fb;border-left:3px solid #d6d9e4;border-radius:8px;color:#6b7280;font-size:13px;line-height:1.6;">
+         <div style="font-weight:600;margin-bottom:6px;">Votre message${subject ? ` — ${escapeHtml(subject)}` : ""}</div>
+         ${escapeHtml(original).replace(/\n/g, "<br/>")}
+       </div>`
+    : "";
+  const html = wrap(`
+    <p style="margin:0 0 14px;">${name ? `Bonjour ${escapeHtml(name)},` : "Bonjour,"}</p>
+    ${paragraphs}
+    ${site ? `<p style="margin:22px 0 0;">${button(`${site}/profil`, "Voir la conversation sur mon compte")}</p>` : ""}
+    ${quoted}
+  `);
+  return { subject: title, html };
+}
 
 // 3-days-before reminder.
 export function expiringSoonEmail(user, daysLeft, site) {

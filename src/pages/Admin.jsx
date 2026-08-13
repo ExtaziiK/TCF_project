@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet,
+  Wallet, Reply, Send, CornerDownRight,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -26,6 +26,7 @@ import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
+  listMessageReplies, sendMessageReply, fetchReplyMailStatus,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
@@ -1860,19 +1861,124 @@ const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived",
 const MSG_TONES = { new: "amber", resolved: "green", archived: "slate" };
 const MSG_LABELS = { new: "Nouveau", resolved: "Résolu", archived: "Archivé" };
 
+const MAX_REPLY = 4000;
+
+// The answers already sent on one message, shown under it so the inbox is a
+// conversation rather than a list of things we hope were dealt with.
+function ReplyThread({ replies }) {
+  const { c } = useApp();
+  if (!replies?.length) return null;
+  return (
+    <div className="mt-3 space-y-2">
+      {replies.map((r) => (
+        <div key={r.id} className={`flex gap-2.5 pl-3 border-l-2 border-blue-600/40`}>
+          <CornerDownRight size={14} className="text-blue-600 shrink-0 mt-1" aria-hidden="true" />
+          <div className="min-w-0 flex-1">
+            <p className={`text-sm whitespace-pre-wrap ${c.sub}`}>{r.body}</p>
+            <p className={`text-xs mt-1 ${c.faint}`}>
+              Envoyé le {when(r.created_at)}
+              {r.sent_by_email ? ` par ${r.sent_by_email}` : ""}
+              {r.emailed ? " · copie par courriel" : ""}
+              {r.read_at ? ` · lu le ${when(r.read_at)}` : " · pas encore lu"}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Compose box. Which channels are available is a property of the MESSAGE, not
+// a choice: a member who wrote while signed in has an in-app inbox, a visitor
+// has only their email address.
+function ReplyBox({ message, mailReady, onSent, onCancel }) {
+  const { c, notify } = useApp();
+  const [body, setBody] = useState("");
+  const [alsoEmail, setAlsoEmail] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const hasAccount = !!message.user_id;
+  const emailOnly = !hasAccount;
+  const blocked = emailOnly && mailReady === false;
+
+  const send = async () => {
+    const text = body.trim();
+    if (!text) return notify("Écrivez la réponse avant de l'envoyer.");
+    setBusy(true);
+    const r = await sendMessageReply({ messageId: message.id, body: text, alsoEmail: hasAccount ? alsoEmail : true });
+    setBusy(false);
+    if (!r.ok) return notify(r.error || "Réponse non envoyée.");
+    const { inApp, email } = r.data.delivered;
+    notify(
+      inApp && email ? "Réponse envoyée : sur son compte et par courriel."
+        : inApp ? "Réponse envoyée sur son compte."
+          : "Réponse envoyée par courriel.",
+    );
+    // The email is the only part that can fail on its own: the reply is stored
+    // and delivered in-app either way, so this is a warning, not an error.
+    if (r.data.emailError && inApp) notify(`Copie par courriel non envoyée : ${r.data.emailError}`);
+    setBody("");
+    onSent();
+  };
+
+  return (
+    <div className={`mt-3 p-3 rounded-2xl border ${c.border}`}>
+      <textarea
+        value={body} onChange={(e) => setBody(e.target.value.slice(0, MAX_REPLY))} rows={4} autoFocus
+        placeholder={`Répondre à ${message.name}…`} aria-label="Votre réponse"
+        className={`w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 resize-y ${c.inputCls}`} />
+      <div className="flex items-center gap-3 flex-wrap mt-2.5">
+        {hasAccount ? (
+          <label className={`flex items-center gap-2 text-xs ${mailReady === false ? c.faint : c.sub}`}>
+            <input type="checkbox" checked={alsoEmail && mailReady !== false} disabled={mailReady === false}
+              onChange={(e) => setAlsoEmail(e.target.checked)} className="accent-blue-600" />
+            Envoyer aussi une copie par courriel
+          </label>
+        ) : (
+          <p className={`text-xs ${blocked ? "text-amber-500" : c.faint}`}>
+            {blocked
+              ? "Visiteur sans compte et envoi d'emails non configuré (SMTP_USER / SMTP_PASS) : impossible de répondre d'ici."
+              : `Visiteur sans compte : la réponse partira uniquement par courriel à ${message.email}.`}
+          </p>
+        )}
+        <span className={`text-xs font-mono2 ml-auto ${c.faint}`}>{body.length}/{MAX_REPLY}</span>
+        <Btn small variant="ghost" onClick={onCancel} disabled={busy}>Annuler</Btn>
+        <Btn small icon={Send} onClick={send} disabled={busy || blocked || !body.trim()}>
+          {busy ? "Envoi…" : "Envoyer"}
+        </Btn>
+      </div>
+      {hasAccount && (
+        <p className={`text-xs mt-2 ${c.faint}`}>
+          La réponse apparaîtra dans son compte (profil et cloche de notification) dès son prochain passage.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function MessagesTab({ onCount }) {
   const { c, notify } = useApp();
   const [messages, setMessages] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("new");
+  const [replies, setReplies] = useState({});
+  const [repliesMissing, setRepliesMissing] = useState(false);
+  const [replyTo, setReplyTo] = useState(null); // message id whose compose box is open
+  const [mailReady, setMailReady] = useState(null); // null while unknown
 
-  const load = () => listContactMessages().then((r) => {
+  const load = () => listContactMessages().then(async (r) => {
     setMessages(r.messages);
     setUnavailable(!r.ok);
     onCount?.((r.messages || []).filter((m) => m.status === "new").length); // keep the sidebar badge in sync
+    const threads = await listMessageReplies((r.messages || []).map((m) => m.id));
+    setReplies(threads.byMessage);
+    setRepliesMissing(!threads.ok);
   });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    // Asked once: the answer only changes with a redeploy.
+    fetchReplyMailStatus().then((r) => setMailReady(r.ok ? !!r.data.mailConfigured : false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const patch = async (id, status, msg) => {
     const r = await setMessageStatus(id, status);
@@ -1891,6 +1997,11 @@ function MessagesTab({ onCount }) {
   const list = (messages || []).filter((m) => filter === "all" || m.status === filter);
   return (
     <div className="space-y-4">
+      {repliesMissing && (
+        <UnavailableCard>
+          Les réponses nécessitent la table <span className="font-mono2">contact_replies</span> — appliquez la migration <span className="font-mono2">20260813_contact_replies.sql</span> dans Supabase (SQL Editor). En attendant, seul le courriel fonctionne.
+        </UnavailableCard>
+      )}
       <div className="flex gap-2 flex-wrap">
         {MSG_FILTERS.map(([id, l]) => (
           <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
@@ -1914,8 +2025,19 @@ function MessagesTab({ onCount }) {
                 </div>
                 {m.subject && <p className={`text-sm font-semibold ${c.text}`}>{m.subject}</p>}
                 <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{m.message}</p>
+                <ReplyThread replies={replies[m.id]} />
+                {replyTo === m.id && (
+                  <ReplyBox message={m} mailReady={mailReady}
+                    onCancel={() => setReplyTo(null)}
+                    onSent={() => { setReplyTo(null); load(); }} />
+                )}
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                  <a href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: ${m.subject || "votre message à Passerelle"}`)}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre par courriel" title="Répondre par courriel"><Mail size={15} /></a>
+                  {replyTo !== m.id && (
+                    <Btn small variant="ghost" icon={Reply} onClick={() => setReplyTo(m.id)}>
+                      {replies[m.id]?.length ? "Répondre encore" : "Répondre"}
+                    </Btn>
+                  )}
+                  <a href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: ${m.subject || "votre message à Passerelle"}`)}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre depuis ma messagerie" title="Répondre depuis ma messagerie"><Mail size={15} /></a>
                   {m.status !== "resolved" && <button onClick={() => patch(m.id, "resolved", "Message marqué résolu.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Marquer résolu" title="Marquer résolu"><Check size={16} /></button>}
                   {m.status !== "archived" && <button onClick={() => patch(m.id, "archived", "Message archivé.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Archiver" title="Archiver"><Archive size={15} /></button>}
                   {m.status !== "new" && <button onClick={() => patch(m.id, "new", "Message remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
