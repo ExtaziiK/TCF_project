@@ -36,8 +36,12 @@ export function DicteeReport({ dictee, summary, results, plays, speed, playsPerS
         <div className="text-center">
           <Trophy size={36} className="text-amber-500 mx-auto" />
           <h3 className={`font-display font-bold text-2xl mt-3 ${c.text}`}>{t("Dictée corrigée")}</h3>
+          {/* Le niveau du corrigé (C1/C2) n'apparaît pas ici : sur une page de
+              résultats il se lit comme le niveau ATTEINT par le candidat, alors
+              qu'il ne qualifie que le texte dicté. Il reste annoncé avant
+              l'exercice, où le contresens n'est pas possible. */}
           <p className={`mt-1 text-sm ${c.sub}`}>
-            {t("Tâche")} {dictee.task} · {t("niveau")} {dictee.level} · {summary.words} {t("mots")}
+            {t("Tâche")} {dictee.task} · {summary.words} {t("mots")}
           </p>
           <p className="font-display font-extrabold text-5xl mt-5 grad-text">{summary.score} %</p>
           <div className="max-w-xs mx-auto mt-4"><ProgressBar pct={summary.score} tone="grad" /></div>
