@@ -182,12 +182,14 @@ export const EN = {
   // Network names and handles stay as they are; only the labels and the
   // one-line descriptions are translated.
   "Suivez-nous": "Follow us",
-  "Groupe Facebook": "Facebook group",
+  // "Facebook" needs no entry — an untranslated string falls back to itself.
+  // Dropped 2026-08 with the move from the group to the page: "Groupe Facebook"
+  // and "Entraide entre candidats et annonces", which described the group.
   "Communauté WhatsApp": "WhatsApp community",
   "Cours, corrigés et méthode en vidéo": "Lessons, corrections and method, on video",
   "Astuces courtes et pièges de l'examen": "Quick tips and exam traps",
   "Conseils en images et actualités du TCF": "Visual tips and TCF news",
-  "Entraide entre candidats et annonces": "Peer support between candidates, plus announcements",
+  "Actualités, conseils et annonces": "News, tips and announcements",
   "Sujets du mois et réponses rapides": "This month's topics and quick answers",
 
   // ── Shared chrome ────────────────────────────────────────────────────

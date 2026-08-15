@@ -55,10 +55,20 @@ export const SOCIAL = [
   },
   {
     key: "facebook",
-    label: "Groupe Facebook",
-    handle: "Groupe Passerelle TCF Canada",
-    d: "Entraide entre candidats et annonces",
-    url: "https://www.facebook.com/groups/2760698497636775",
+    // A PAGE, not the group it used to be (2026-08). The label, the handle and
+    // the description changed with the URL: they said "Groupe" and promised
+    // "entraide entre candidats", which is what a group offers and not what a
+    // page is — and this same text is the footer icon's accessible name, so a
+    // screen reader would have announced a group that the link never opens.
+    label: "Facebook",
+    // Stands where the other networks put their @handle. The page has no
+    // vanity URL to quote (the address is a numeric profile.php?id=…, which is
+    // not link text), so it carries the site's own name — which, like an
+    // @handle, is the same in both languages: Contact.jsx renders this field
+    // raw, outside t().
+    handle: "Passerelle TCF Canada",
+    d: "Actualités, conseils et annonces",
+    url: "https://www.facebook.com/profile.php?id=100078002736992",
     tone: "bg-[#1877F2]/10",
   },
   {
