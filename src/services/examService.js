@@ -79,7 +79,7 @@ export function generateExamTasks(history = []) {
 
 /* --------------------------- the free TCF blanc --------------------------- */
 
-// A "Sans papier" account may sit exactly one TCF blanc. Its content is FIXED
+// A "Basic" account may sit exactly one TCF blanc. Its content is FIXED
 // rather than drawn from the rotation: every free candidate takes the same
 // exam, which keeps the free tier a consistent sample of the product instead
 // of a random slice of the bank.

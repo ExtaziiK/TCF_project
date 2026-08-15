@@ -34,7 +34,7 @@ export const ROUTE_META = {
     path: "/tarifs",
     title: "Tarifs et abonnements",
     description:
-      "Forfait Sans papier gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé via Stripe.",
+      "Forfait Basic gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé via Stripe.",
   },
   calculator: {
     path: "/calculateur-tcf-nclc",

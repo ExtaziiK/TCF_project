@@ -353,7 +353,7 @@ export function Mocks() {
     return () => setFreeMockAttemptId(null);
   }, [active]);
 
-  // A "Sans papier" account may sit exactly one TCF blanc, on fixed content.
+  // A "Basic" account may sit exactly one TCF blanc, on fixed content.
   // Premium (and staff) keep the rotating generator and unlimited attempts.
   // deriveRole is the one place that decides this — mapSupabaseUser exposes
   // plan/premiumUntil, not a boolean, and rolling the check by hand here is
@@ -473,7 +473,7 @@ export function Mocks() {
               <div className="max-w-lg text-center p-5 rounded-2xl bg-blue-600/10 border border-blue-600/25">
                 <p className={`font-semibold text-sm ${c.text}`}>{t("Vous avez déjà passé votre TCF blanc gratuit")}</p>
                 <p className={`mt-1.5 text-sm ${c.sub}`}>
-                  {t("Votre compte Sans papier donne droit à un TCF blanc complet, correction IA comprise. Il a été utilisé — vous pouvez toujours consulter votre résultat dans l'historique ci-dessous. Les examens suivants font partie de l'abonnement Premium.")}
+                  {t("Votre compte Basic donne droit à un TCF blanc complet, correction IA comprise. Il a été utilisé — vous pouvez toujours consulter votre résultat dans l'historique ci-dessous. Les examens suivants font partie de l'abonnement Premium.")}
                 </p>
                 <Btn variant="accent" className="mt-4" icon={Crown} onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
               </div>

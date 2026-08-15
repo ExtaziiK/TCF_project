@@ -171,7 +171,7 @@ export function UserActivityPanel({ userId, onClose }) {
           </div>
           {u && (
             <Pill tone={u.plan === "Premium" ? "gold" : "slate"}>
-              {u.plan === "Premium" ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}
+              {u.plan === "Premium" ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Basic"}
             </Pill>
           )}
           <button onClick={onClose} aria-label="Fermer" className={`p-1.5 rounded-full ${c.hoverSoft} ${c.sub}`}><X size={16} /></button>

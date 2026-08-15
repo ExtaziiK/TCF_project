@@ -112,7 +112,7 @@ export function AppProvider({ children }) {
         }
         // A purchase whose JWT never caught up (slow webhook, closed tab, a
         // refresh that collided). Premium lives in app_metadata, so the cached
-        // token keeps saying "Sans papier" through any number of reloads — only
+        // token keeps saying "Basic" through any number of reloads — only
         // a remint shows it. One attempt per load, and the flag clears itself
         // once Premium lands or after six hours.
         if (mapped && mapped.plan !== "Premium" && isPremiumPending()) {

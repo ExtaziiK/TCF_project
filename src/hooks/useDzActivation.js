@@ -6,7 +6,7 @@ import { refreshSession, mapSupabaseUser } from "@/services/authService";
 // remint the token on the spot. A DZD buyer does not: an admin approves the
 // receipt minutes or days later, with nothing to notify the browser. The plan
 // lives in app_metadata, sealed into the access token, so the app goes on
-// saying "Sans papier" through any number of reloads until that token expires
+// saying "Basic" through any number of reloads until that token expires
 // on its own — up to an hour of a paying customer being told they have not paid.
 //
 // So the client watches its own request instead. RLS already lets a buyer read

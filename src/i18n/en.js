@@ -362,14 +362,16 @@ export const EN = {
   "Plan": "Plan",
   "Découverte": "Discovery",
   "Premium": "Premium",
-  "Sans papier": "Undocumented",
-  // Only "Sans papier" and the CURRENT three tiers are reachable here:
+  "Basic": "Basic",
+  // Only "Basic" and the three paid tiers below are reachable here:
   // PlanCard/CheckoutDz always call t(plan.name)/t(plan.cta) on the live
   // src/constants/pricing.js array, never on a stored user.planLabel (that one
   // renders un-translated — see Profile.jsx/Admin.jsx). So when a tier is
   // discontinued or renamed, its old key stops being reachable the moment the
   // PLANS entry changes, not just when the string itself changes.
-  // Dropped 2026-08: "Passeport"/"Choisir Passeport" (discontinued) and
+  // Dropped 2026-08: "Sans papier" (free tier, renamed to "Basic" — the
+  // description sentence below is the one other place its old name lived) and
+  // "Passeport"/"Choisir Passeport" (discontinued), plus
   // "Visa"/"Première classe"/"VIP" + their "Choisir …" CTAs (renamed to
   // Starter/Pro/Ultimate below). "Classe économie"/"Choisir Classe économie"
   // were already dead before that, from an even earlier tier name — cleaned up
@@ -1124,7 +1126,7 @@ export const EN = {
   "Mettre à jour le mot de passe": "Update password",
   "Abonnement": "Subscription",
   "Votre forfait Premium est actif.": "Your Premium plan is active.",
-  "Vous utilisez le forfait gratuit Sans papier.": "You are on the free Sans papier plan.",
+  "Vous utilisez le forfait gratuit Basic.": "You are on the free Basic plan.",
   "Renouvellement / échéance :": "Renewal / expiry:",
   "Ouverture…": "Opening…",
   "Gérer mon abonnement": "Manage my subscription",

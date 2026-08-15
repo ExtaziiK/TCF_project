@@ -10,7 +10,7 @@ import { HttpError } from "../groq.js";
 //
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
-//     action: "set-plan"        { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
+//     action: "set-plan"        { plan: "Premium"|"Basic", days?|months?: number|null, label? }
 //             "extend-access"   { days: number }  adds/removes days on top of what is left
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
@@ -96,7 +96,7 @@ function toRow(u, profiles) {
     email: u.email,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
     username: p.username || null,
-    plan: meta.plan || "Sans papier",
+    plan: meta.plan || "Basic",
     planLabel: meta.plan_label || null,
     premiumUntil: meta.premium_until || null,
     premiumActive: premiumActive(meta),
@@ -203,7 +203,11 @@ async function handlePost(req, res, actor) {
 
   if (action === "set-plan") {
     const { plan, months, days } = req.body;
-    if (!["Premium", "Sans papier", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
+    // "Sans papier" and "Découverte" are retired free-tier names (renamed to
+    // "Basic" 2026-08 and earlier respectively) — still accepted so a stale
+    // client or an old audit-log replay never hits "Forfait inconnu.", but no
+    // current code path sends them.
+    if (!["Premium", "Basic", "Sans papier", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
     // Access window: `days` (pricing tiers: 5/15/30/90) takes precedence, else
     // `months` (legacy). Neither → no expiry (unlimited Premium).
     const durationMs = Number(days) > 0 ? Number(days) * 24 * 3600 * 1000
@@ -249,7 +253,7 @@ async function handlePost(req, res, actor) {
     // Shortened past the present: that is a revocation, so say so in the data
     // rather than leaving a Premium plan pointing at a date in the past.
     const patch = untilMs <= Date.now()
-      ? { plan: "Sans papier", plan_label: null, premium_until: null }
+      ? { plan: "Basic", plan_label: null, premium_until: null } // free tier, renamed from "Sans papier" 2026-08
       : { plan: "Premium", premium_until: new Date(untilMs).toISOString() };
 
     await patchMetadata(userId, patch);

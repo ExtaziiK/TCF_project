@@ -39,7 +39,20 @@
 // ticket, not marketing.
 export const PLANS = [
   {
-    name: "Sans papier",
+    // Renamed from "Sans papier" 2026-08. This is also the literal string
+    // written to app_metadata.plan for a free account (api/stripe-webhook.js,
+    // api/_lib/admin/users.js) and read back into user.plan everywhere the
+    // free tier is displayed — Profile.jsx, Mocks.jsx, the admin's user list
+    // and activity feed. All of those were updated alongside this card so the
+    // name is consistent everywhere it appears. EXISTING free accounts whose
+    // app_metadata.plan is still the literal string "Sans papier" (nothing
+    // rewrites already-stored values) keep showing that old name in their own
+    // UI until they next trigger a write to that field — same "old label
+    // persists for existing holders" tradeoff as the Starter/Pro/Ultimate
+    // rename; see PASSES in api/_lib/passes.js for the fuller reasoning.
+    // Functionally inert either way: every entitlement check in the app gates
+    // on `plan === "Premium"`, never on the free tier's exact spelling.
+    name: "Basic",
     price: "$0",
     per: "pour toujours",
     accent: "blue",

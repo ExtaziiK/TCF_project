@@ -218,7 +218,7 @@ function summarise({ user, quizzes, attempts, aiLog, dictees, requests, payments
       lastSignInAt: user.last_sign_in_at || null,
       // Days between signing up and the newest recorded activity, so a "signed
       // up and vanished" account is visible without reading the timeline.
-      plan: user.app_metadata?.plan || "Sans papier",
+      plan: user.app_metadata?.plan || "Basic",
       planLabel: user.app_metadata?.plan_label || null,
     },
   };
@@ -384,7 +384,7 @@ export default async function handler(req, res) {
         lastSeenAt: profile[0]?.last_seen_at || null,
         createdAt: account.created_at,
         lastSignInAt: account.last_sign_in_at || null,
-        plan: account.app_metadata?.plan || "Sans papier",
+        plan: account.app_metadata?.plan || "Basic",
         planLabel: account.app_metadata?.plan_label || null,
         premiumUntil: account.app_metadata?.premium_until || null,
         admin: account.app_metadata?.role === "admin",

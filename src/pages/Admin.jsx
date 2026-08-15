@@ -55,7 +55,7 @@ const EXTEND_DAYS = [5, 15, 30, 90];
 // holders of the discontinued plan; there is no current label to rename it to.
 const USER_FILTERS = [
   { key: "all", label: "Tous" },
-  { key: "sans-papier", label: "Sans papier" },
+  { key: "sans-papier", label: "Basic" },
   { key: "passeport", label: "Passeport" },
   { key: "visa", label: "Starter" },
   { key: "premiere-classe", label: "Pro" },
@@ -748,7 +748,7 @@ function OverviewTab({ go }) {
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
         </div>
-        {[["Premium (actif)", u.premium, "gold"], ["Sans papier", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
+        {[["Premium (actif)", u.premium, "gold"], ["Basic", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
           <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
             <Pill tone={tone}>{label}</Pill>
             <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
@@ -1014,7 +1014,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
           </button>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
         <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
@@ -1043,7 +1043,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                 ))}
               </span>
               {u.plan === "Premium" && (
-                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Sans papier" }, `${u.email} repassé en Sans papier.`)}>Retirer Premium</Btn>
+                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Basic" }, `${u.email} repassé en Basic.`)}>Retirer Premium</Btn>
               )}
               {/* Only an Owner can promote/demote admins; an Owner account is never
                   demoted from here (owner assignment is service-role only). */}
@@ -2084,7 +2084,7 @@ function AuditTab() {
   const detailText = (e) => {
     if (!e.detail) return "";
     if (e.action === "set-plan") {
-      if (e.detail.plan !== "Premium") return "Sans papier";
+      if (e.detail.plan !== "Premium") return "Basic";
       const d = e.detail;
       const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
       return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;

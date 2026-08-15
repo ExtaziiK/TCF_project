@@ -142,7 +142,7 @@ const DETAILS = {
           label: displayName(u),
           sub: [u.email, usernames[u.id] ? `@${usernames[u.id]}` : null].filter(Boolean).join(" · "),
           pill: meta.role === "owner" ? "Owner" : meta.role === "admin" ? "Admin"
-            : active ? meta.plan_label || "Premium" : "Sans papier",
+            : active ? meta.plan_label || "Premium" : "Basic",
           tone: meta.role ? "red" : active ? "gold" : "slate",
           right: "inscrit le",
           at: u.created_at,
