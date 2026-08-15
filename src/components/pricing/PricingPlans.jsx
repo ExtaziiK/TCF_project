@@ -17,13 +17,17 @@ import { CURRENCIES } from "@/utils/currency";
 // someone. The code they entered survives that signup (see setPendingPromo).
 export function PricingPlans({ s, compact = false }) {
   const { c, t, dark } = useApp();
+  // DZD is a manual transfer meant for buyers actually in Algeria — the tab
+  // itself is hidden from anyone the geo/account signals don't place there.
+  // See usePricingSelection's dzEligible for the two signals that unlock it.
+  const currencies = CURRENCIES.filter((cur) => cur.code !== "DZD" || s.dzEligible);
 
   return (
     <>
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
       <div className={`flex justify-center ${s.currency.code === "EUR" ? "mb-8" : ""}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
-          {CURRENCIES.map((cur) => {
+          {currencies.map((cur) => {
             const active = cur.code === s.currency.code;
             return (
               <button

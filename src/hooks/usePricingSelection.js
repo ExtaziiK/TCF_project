@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useApp } from "@/context/AppContext";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode } from "@/services/stripeService";
-import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, rememberedCurrency } from "@/utils/currency";
+import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, rememberedCurrency, USD } from "@/utils/currency";
 import { detectCountry, guessCountry } from "@/utils/geo";
 import { getPaymentDz } from "@/services/settingsService";
 import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
@@ -15,6 +16,7 @@ import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 //
 // The caller renders; this only decides.
 export function usePricingSelection() {
+  const { user } = useApp();
   const [coupon, setCoupon] = useState("");
   const [applied, setApplied] = useState(null); // validated promo ({ code, percentOff | amountOff… })
   const [checking, setChecking] = useState(false);
@@ -38,6 +40,9 @@ export function usePricingSelection() {
   const remembered = useMemo(() => rememberedCurrency(), []);
   const [currency, showCurrency] = useState(() => remembered || currencyForCountry(guessCountry()));
   const pickedByVisitor = useRef(!!remembered);
+  // Best guess synchronously (timezone/locale), corrected below by the edge's
+  // reading of the request IP once it answers.
+  const [country, setCountry] = useState(guessCountry);
 
   const setCurrency = useCallback((cur) => {
     pickedByVisitor.current = true; // stop the geo answer from overriding them
@@ -47,13 +52,34 @@ export function usePricingSelection() {
 
   useEffect(() => {
     let cancelled = false;
-    detectCountry().then((country) => {
-      // No country (offline, no functions deployed) means no reason to move.
-      if (cancelled || pickedByVisitor.current || !country) return;
-      showCurrency(currencyForCountry(country));
+    detectCountry().then((detected) => {
+      if (cancelled || !detected) return; // offline, blocked, or no functions deployed
+      setCountry(detected);
+      if (!pickedByVisitor.current) showCurrency(currencyForCountry(detected));
     });
     return () => { cancelled = true; };
   }, []);
+
+  // The dinar tab is a manual bank transfer meant for buyers actually in
+  // Algeria, not a convenience conversion — offered only to a detected
+  // Algerian IP or a signed-in account that gave "Algérie" as its country at
+  // registration (Onboarding.jsx / AuthPage.jsx, both from the COUNTRIES list
+  // in constants/exam.js — full French names, not ISO codes, so this compares
+  // against the name, not "DZ"). See CURRENCIES filtering in PricingPlans.jsx,
+  // which is where this actually hides the tab.
+  const dzEligible = country === "DZ" || user?.country === "Algérie";
+
+  // A DZD choice remembered from earlier this session (or picked in the brief
+  // window before detectCountry() corrected an over-eager timezone guess) must
+  // not leave the visitor stranded on a currency whose tab has just vanished.
+  useEffect(() => {
+    if (!dzEligible && currency.code === "DZD") {
+      pickedByVisitor.current = false;
+      rememberCurrency(null);
+      showCurrency(USD);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dzEligible]);
 
   // The DZD prices set by the owner in Admin → Tarifs. Loaded once so the cards
   // match exactly what the manual checkout will charge.
@@ -122,5 +148,5 @@ export function usePricingSelection() {
     setPendingPromo(null);
   };
 
-  return { plans: displayPlans, currency, setCurrency, isDzd, coupon, editCoupon, applyCoupon, applied, dzUsablePromo, checking, couponError };
+  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon, editCoupon, applyCoupon, applied, dzUsablePromo, checking, couponError };
 }
