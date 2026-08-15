@@ -71,7 +71,7 @@ export const PLANS = [
   },
   {
     name: "Starter",
-    price: "$14.99",
+    price: "$7.99", // static fallback only — useLivePlans overlays the real Stripe amount within moments; keep in sync with the admin Tarifs tab if it's edited there again
     per: "15 jours d'accès",
     days: 15,
     // "violet" was Passeport's colour — freed up when that tier was
@@ -94,7 +94,7 @@ export const PLANS = [
   },
   {
     name: "Pro",
-    price: "$24.99",
+    price: "$14.99", // static fallback only — see the note on Starter's price above
     per: "30 jours d'accès",
     days: 30,
     accent: "red",
@@ -113,7 +113,7 @@ export const PLANS = [
   },
   {
     name: "Ultimate",
-    price: "$49.99",
+    price: "$39.99", // static fallback only — see the note on Starter's price above
     per: "90 jours d'accès",
     days: 90,
     accent: "gold",

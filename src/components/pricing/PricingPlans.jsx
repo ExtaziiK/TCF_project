@@ -64,7 +64,10 @@ export function PricingPlans({ s, compact = false }) {
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
+      {/* Four plans since Passeport was discontinued (2026-08) — grid-cols-5 was
+          sized for the five original tiers and left an empty column-track of
+          dead space on wide screens once one was removed. */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
         {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>
 
