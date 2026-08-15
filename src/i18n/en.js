@@ -429,6 +429,72 @@ export const EN = {
   "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases.":
     "Themed flashcards and targeted grammar lessons to strengthen your foundations.",
   "La dictée": "Dictation",
+
+  /* --- la dictée · sales page (src/components/dictee/DicteePitch.jsx) --- */
+  "La dictée · Premium": "Dictation · Premium",
+  "L'exercice qui vous dit d'où viennent vraiment vos fautes":
+    "The exercise that tells you where your mistakes actually come from",
+  "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte, sans correcteur et sans aide. Puis le compte exact de ce que vous avez entendu, et de ce que vous avez su écrire.":
+    "A C1 or C2 model answer read aloud, which you write down with no text, no spellchecker and no help. Then the exact count of what you heard, and of what you knew how to write.",
+  "Vous écoutez": "You listen",
+  "Un corrigé de niveau C1 ou C2, écrit pour un vrai sujet d'expression écrite du TCF Canada et lu par une voix de synthèse naturelle. Rien à l'écran : seulement ce que vous entendez.":
+    "A C1 or C2 model answer, written for a real TCF Canada writing subject and read by a natural synthetic voice. Nothing on screen: only what you hear.",
+  "Vous écrivez": "You write",
+  "Vous tapez ce que vous avez entendu. Le correcteur orthographique, le copier-coller et la saisie automatique sont désactivés — c'est votre orthographe qui est mesurée, pas celle de votre navigateur.":
+    "You type what you heard. Spellcheck, copy-paste and autocomplete are all switched off — it is your spelling being measured, not your browser's.",
+  "Vous comprenez": "You understand",
+  "À la fin, le texte complet, mot à mot, avec la raison de chaque écart : accent manquant, homophone, accord, mot non entendu. Classé par fréquence, pour savoir quoi travailler en premier.":
+    "At the end, the full text, word by word, with the reason for every discrepancy: missing accent, homophone, agreement, word not heard. Ranked by frequency, so you know what to work on first.",
+  // Also the two headline stats of the end-of-dictée report
+  // (src/components/dictee/DicteeReport.jsx) — untranslated until now, so the
+  // English report showed these two labels in French. Kept identical to the
+  // wording used inside the diagnosis paragraph below.
+  "Mots reconnus": "Words recognised",
+  "Écrits sans faute": "Written correctly",
+  "Ce qu'aucun autre exercice ne vous dit": "What no other exercise tells you",
+  "Votre oreille, ou votre stylo ?": "Your ear, or your pen?",
+  "Deux candidats à soixante pour cent n'ont pas le même problème. L'un n'entend pas les mots ; l'autre les entend tous et les écrit mal. Ce sont deux chantiers différents, et travailler le mauvais ne fait rien avancer.":
+    "Two candidates at sixty per cent do not have the same problem. One cannot hear the words; the other hears them all and spells them wrong. Those are two different jobs, and working on the wrong one gets you nowhere.",
+  "La dictée sépare les deux, en deux nombres. « Mots reconnus » mesure l'oreille. « Écrits sans faute » mesure l'oreille et l'orthographe. L'écart entre les deux est votre diagnostic.":
+    "Dictation separates them, into two numbers. “Words recognised” measures the ear. “Written correctly” measures the ear and the spelling. The gap between them is your diagnosis.",
+  "Vous entendez le français. Ce n'est pas là qu'il faut travailler.":
+    "You hear French. That is not where the work is.",
+  "Vingt-sept points perdus à l'écrit seul : accents, accords, homophones.":
+    "Twenty-seven points lost on writing alone: accents, agreements, homophones.",
+  "Exemple de rapport. Vos chiffres dépendent de votre dictée.":
+    "Sample report. Your own figures depend on your dictation.",
+  "Une dictée faite comme il faut": "Dictation done properly",
+  "Pas un texte débité par un robot : chaque détail est réglé comme le ferait un formateur qui vous lirait la dictée.":
+    "Not a text rattled off by a robot: every detail is set the way a teacher reading you the dictation would set it.",
+  "Lu par groupes de sens": "Read in sense groups",
+  "La coupe tombe là où un lecteur reprend son souffle, jamais au milieu d'une idée.":
+    "The break falls where a reader takes a breath, never in the middle of an idea.",
+  "Trois longueurs d'écoute": "Three listening lengths",
+  "Un groupe à la fois pour débuter, la phrase entière comme le jour J. Et quatre vitesses.":
+    "One group at a time to start, the whole sentence like exam day. Plus four speeds.",
+  "Les accents comptent": "Accents count",
+  "Comme pour un correcteur du TCF. La ponctuation et les majuscules, non.":
+    "Just as they do for a TCF marker. Punctuation and capitals do not.",
+  "Aucune aide": "No help at all",
+  "Pas de correcteur, pas de collage, pas d'autocomplétion. L'exercice serait sans objet.":
+    "No spellchecker, no pasting, no autocomplete. The exercise would be pointless otherwise.",
+  "De vrais sujets": "Real subjects",
+  "Les corrigés sont écrits pour les sujets d'expression écrite réellement tombés en session.":
+    "The model answers are written for writing subjects that actually came up in real sessions.",
+  "Réécoutes illimitées": "Unlimited replays",
+  "Elles sont comptées, jamais bloquées — le nombre d'écoutes fait partie du diagnostic.":
+    "They are counted, never capped — how many times you listened is part of the diagnosis.",
+  "Une nouvelle dictée chaque jour": "A new dictation every day",
+  "Chaque nuit, un corrigé inédit est rédigé et enregistré pour chacune des trois tâches d'expression écrite. Et rien ne disparaît : tout ce qui a été écrit reste dans la bibliothèque, pour vous comme pour les autres. Plus vous revenez, plus il y en a.":
+    "Every night, a brand-new model answer is written and recorded for each of the three writing tasks. And nothing disappears: everything ever written stays in the library, for you and for everyone else. The more often you come back, the more there is.",
+  "La dictée fait partie de l'abonnement": "Dictation is part of the subscription",
+  "Débloquez la dictée": "Unlock dictation",
+  "Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.":
+    "It is included in every plan, along with AI simulations, timed mock exams and the eighty quizzes.",
+  "La dictée, sans limite : toute la bibliothèque": "Dictation, no limit: the whole library",
+  "Les 80 quiz débloqués, compréhension écrite et orale": "All 80 quizzes unlocked, reading and listening",
+  "TCF blancs chronométrés, notés sur 699": "Timed mock exams, scored out of 699",
+  "Correction IA de vos expressions écrite et orale": "AI feedback on your writing and speaking",
   "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte ni correcteur. Vous choisissez la longueur lue d'un coup, et le rapport final sépare ce que vous n'avez pas entendu de ce que vous avez mal orthographié.":
     "A C1 or C2 model answer read aloud, which you write down with no text and no spellchecker. You choose how much is read at a time, and the final report separates what you did not hear from what you misspelt.",
   "Suivi et score estimé": "Progress tracking and score estimate",

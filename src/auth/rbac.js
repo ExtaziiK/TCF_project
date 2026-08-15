@@ -74,12 +74,16 @@ export const PAGE_ACCESS = {
   // user gets the vocabulary decks and the grammar lessons in full.
   vocabulary: AUTHENTICATED,
   grammar: AUTHENTICATED,
-  // La dictée. Free for now, so any signed-in account gets in; api/dictee.js
-  // gates on `requireUser` to match. Making it Premium is a two-line change —
-  // PREMIUM here, and `requirePremium` for `requireAccess` in api/dictee.js —
-  // and the two must move together or the page opens onto an endpoint that
-  // refuses it.
-  dictee: AUTHENTICATED,
+  // La dictée. Premium, and api/dictee.js gates on `requirePremium` to match —
+  // these two must always move together, or the page opens onto an endpoint
+  // that refuses it (or worse, the reverse: a paywall in front of an endpoint
+  // anyone can call).
+  //
+  // The nav entry deliberately carries NO `roles`, so free accounts and
+  // visitors still SEE it and land on DicteePitch — the exercise is easier to
+  // sell once someone has read what it does than it is to sell from a menu
+  // they cannot see. That is the same pattern as "TCF blanc" and "Mes examens".
+  dictee: PREMIUM,
   // Free accounts reach the TCF blanc page and may sit exactly ONE, on fixed
   // content (examService.generateFreeExamTasks). The limit is enforced on the
   // page and, for the AI correction, server-side — not by this route policy.

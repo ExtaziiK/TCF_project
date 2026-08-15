@@ -33,7 +33,12 @@ export const NAV_LINKS = [
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
-    { l: "La dictée", r: "dictee", roles: AUTHENTICATED },
+    // NO `roles`, deliberately, and not an oversight: la dictée is Premium
+    // (rbac.js → dictee: PREMIUM) but stays visible to free accounts and to
+    // visitors, who land on its sales page instead of the exercise. Hiding it
+    // would mean nobody who has not already paid ever learns it exists. Same
+    // reasoning as "TCF blanc" and "Mes examens" above.
+    { l: "La dictée", r: "dictee", grad: true },
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Calculateur", r: "calculator" },

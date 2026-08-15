@@ -1,4 +1,4 @@
-import { requireUser } from "./_lib/auth.js";
+import { requirePremium } from "./_lib/auth.js";
 import { HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
 import { TTS_MODEL_NAME } from "./_lib/tts.js";
 import { logAiUsage, logAiFailure } from "./_lib/usage.js";
@@ -11,13 +11,19 @@ import {
 // Serves one dictée: a sujet from the Expression écrite archive, the C1/C2
 // model answer written for it, and that answer read aloud in sense groups.
 //
-// ACCESS. Any signed-in account, free or paid — the dictée sits on the free
-// Pratique tab. To make it Premium later, swap `requireUser` for
-// `requirePremium` on the line below and add `dictee: PREMIUM` to PAGE_ACCESS
-// in src/auth/rbac.js; nothing else needs to change. The rate limit stays
-// either way: it is what stops a script from driving the generator, and that
-// is a separate concern from who is allowed in.
-const requireAccess = requireUser;
+// ACCESS. Premium only. `dictee: PREMIUM` in src/auth/rbac.js is the matching
+// half and the two must never drift: this line is the one that actually holds,
+// since the route policy only decides what the browser renders and anyone can
+// call an endpoint directly.
+//
+// Free accounts and visitors still see the menu entry and land on
+// src/components/dictee/DicteePitch.jsx, which is why nothing here needs to be
+// gentle about refusing them — by the time a request reaches this handler, the
+// caller has either paid or gone around the UI.
+//
+// The rate limit is unchanged and unrelated: it is what stops a script from
+// driving the generator, which is a separate concern from who is allowed in.
+const requireAccess = requirePremium;
 
 // WHERE THE TEXTS COME FROM. Almost every request is answered out of the
 // library — api/cron/dictee-seed.js writes three new texts a night, and every

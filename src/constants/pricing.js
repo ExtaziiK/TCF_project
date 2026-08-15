@@ -58,12 +58,10 @@ export const PLANS = [
       // above — say the limit, since it is what they hit first.
       "1 sujet d'expression écrite et 1 d'expression orale, avec analyse IA",
       "Corrections détaillées et explications",
-      // Free, and listed here rather than on a paid card because that is what
-      // the code does: api/dictee.js gates on requireUser, not requirePremium.
-      // The library is shared — three new texts are written every night and
-      // every text ever written stays available to everyone, so there is no
-      // per-account quota to describe.
-      "La dictée : toute la bibliothèque, sans limite",
+      // La dictée is NOT here: it moved to the paid tiers when it became
+      // Premium (rbac.js → dictee: PREMIUM, api/dictee.js → requirePremium).
+      // A free account still sees it in the menu and lands on its sales page,
+      // which is where it gets described — not on this card.
       "Cartes de vocabulaire et leçons de grammaire, sans limite",
       "Sujets EE/EO du mois",
       "Suivi de progression",
@@ -87,6 +85,7 @@ export const PLANS = [
       "6 simulations IA par jour en expression écrite, et 6 à l'oral",
       "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
       "3 TCF blancs chronométrés par jour, notés sur 699",
+      "La dictée : toute la bibliothèque, sans limite",
       "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
       "Entretien oral simulé avec un examinateur IA qui vous répond",
       "Un nouveau sujet d'expression à chaque session",
@@ -105,6 +104,7 @@ export const PLANS = [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
       "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "La dictée : toute la bibliothèque, sans limite",
       "Accès simultané sur 2 appareils",
       "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
       "Entretien oral simulé avec un examinateur IA qui vous répond",
@@ -124,6 +124,7 @@ export const PLANS = [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
       "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+      "La dictée : toute la bibliothèque, sans limite",
       "Accès simultané sur 4 appareils",
       "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
       "Entretien oral simulé avec un examinateur IA qui vous répond",
