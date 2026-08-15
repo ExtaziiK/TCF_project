@@ -1,12 +1,15 @@
 import { requireUser } from "./_lib/auth.js";
 import { HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
-import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
+import { TTS_MODEL_NAME } from "./_lib/tts.js";
 import { logAiUsage, logAiFailure } from "./_lib/usage.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { listSujets, readCached, writeCached, attachAudio, generateText, cachedKeysFor } from "./_lib/dictee.js";
+import {
+  listSujets, readCached, patchCached, mintDictee, synthesizeGroups, isComplete,
+  splitGroups, generatedToday, DAILY_TOTAL,
+} from "./_lib/dictee.js";
 
 // Serves one dictée: a sujet from the Expression écrite archive, the C1/C2
-// model answer written for it, and that answer read aloud sentence by sentence.
+// model answer written for it, and that answer read aloud in sense groups.
 //
 // ACCESS. Any signed-in account, free or paid — the dictée sits on the free
 // Pratique tab. To make it Premium later, swap `requireUser` for
@@ -16,66 +19,29 @@ import { listSujets, readCached, writeCached, attachAudio, generateText, cachedK
 // is a separate concern from who is allowed in.
 const requireAccess = requireUser;
 
-// A random draw over all 1 428 (sujet, tâche) pairs would miss the cache almost
-// every time — every session would pay a Groq call, an Azure synthesis and ten
-// seconds of waiting, to produce a text nobody hears twice. So most draws come
-// from what has already been written, and a minority extend the library. The
-// result is that the common case is instant and free, and the collection still
-// grows for as long as people practise.
-const FRESH_DRAW_RATE = 0.2;
-const LIBRARY_FLOOR = 5; // below this, always generate — there is nothing to draw from yet
-
-// Azure is called once per sentence. Four at a time keeps a ten-sentence text
-// inside the function's budget without opening thirty sockets at once.
-const TTS_BATCH = 4;
-
-// Every sentence must have a recording. A row with holes in it is worse than
-// one with none: the dictée would switch to the browser's robotic voice for
-// sentence five and back to the neural one for sentence six, which sounds like
-// a fault and changes the listening task mid-exercise.
-const isComplete = (audio, sentences) =>
-  Array.isArray(audio) && audio.length === sentences.length && audio.every(Boolean);
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-async function synthesize(sentences) {
-  const out = new Array(sentences.length).fill(null);
-  let bytes = 0;
-  let chars = 0;
-  const take = (i, tts, sentence) => {
-    if (!tts) return;
-    out[i] = tts.audio;
-    bytes += tts.bytes;
-    chars += sentence.length;
-  };
-
-  for (let i = 0; i < sentences.length; i += TTS_BATCH) {
-    const slice = sentences.slice(i, i + TTS_BATCH);
-    const done = await Promise.all(slice.map((s) => synthesizeFrench(s)));
-    done.forEach((tts, k) => take(i + k, tts, slice[k]));
-  }
-
-  // Azure answers "Downstream Service Throttled" under a burst — observed while
-  // seeding, four sentences out of eight. One sequential, spaced retry recovers
-  // them; the concurrency that caused the throttle is exactly what it drops.
-  const missing = out.map((a, i) => (a ? -1 : i)).filter((i) => i >= 0);
-  for (const i of missing) {
-    await sleep(400);
-    take(i, await synthesizeFrench(sentences[i]), sentences[i]);
-  }
-  // All-null means Azure is unconfigured or down. Not an error: the client
-  // reads the sentences with the browser's own voice instead, which is worse
-  // but still a dictée. Returning null here tells the caller not to cache it.
-  return out.some(Boolean) ? { audio: out, bytes, chars } : null;
-}
+// WHERE THE TEXTS COME FROM. Almost every request is answered out of the
+// library — api/cron/dictee-seed.js writes three new texts a night, and every
+// text ever written stays available for ever, so the collection a candidate
+// can practise on grows by three a day and never shrinks.
+//
+// A request only ever generates when it names a sujet nobody has dictated yet
+// AND the day's budget has something left in it (see DAILY_TOTAL). That is the
+// case the intro calls "un sujet inédit": someone who has worked through
+// everything in the library can still add to it, and what they add is cached
+// and handed to everyone else exactly like a seeded text.
+//
+// This is also why nobody waits any more. Generation used to happen on a draw,
+// so whoever drew an uncached sujet paid ten seconds of Groq and Azure for the
+// privilege; now that the cron does it in the small hours, the ordinary path is
+// a single indexed read.
 
 export default async function handler(req, res) {
   let user = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
     user = await requireAccess(req);
-    // Generous, because a cache hit costs nothing and most calls are hits; low
-    // enough that a script cannot mint hundreds of fresh generations.
+    // Generous, because a library hit costs nothing and nearly every call is
+    // one; low enough that a script cannot walk the whole archive.
     await enforceRateLimit(req, { name: "dictee", limit: 20, windowSeconds: 300, userId: user.id });
 
     const task = Number(req.body?.task);
@@ -88,97 +54,108 @@ export default async function handler(req, res) {
     const pool = (await listSujets(req)).filter((s) => s.task === task);
     if (!pool.length) throw new HttpError(404, "Aucun sujet disponible pour cette tâche.");
 
-    /* ---- choose the sujet ---- */
-    const cached = await cachedKeysFor(task);
+    /* ---- the sujet ---- */
     let sujet;
     if (wanted) {
       sujet = pool.find((s) => s.key === wanted);
       if (!sujet) throw new HttpError(404, "Sujet introuvable.");
     } else {
+      // No key named: draw one the candidate has not done, preferring anything
+      // already in the library so the common case stays instant.
       const fresh = pool.filter((s) => !exclude.has(s.key));
-      const candidates = fresh.length ? fresh : pool;
-      const known = candidates.filter((s) => cached.has(s.key));
-      const unknown = candidates.filter((s) => !cached.has(s.key));
-      const drawKnown = known.length >= LIBRARY_FLOOR && (!unknown.length || Math.random() > FRESH_DRAW_RATE);
-      const from = drawKnown ? known : unknown.length ? unknown : known;
+      const from = fresh.length ? fresh : pool;
       sujet = from[Math.floor(Math.random() * from.length)];
     }
 
-    /* ---- text: cache, or write it once ---- */
     let row = await readCached(sujet.key, task);
-    let id = row?.id || null;
-    let text = row?.text || "";
-    let sentences = Array.isArray(row?.sentences) ? row.sentences : [];
-    let level = row?.level || "C1";
-    let words = row?.words || 0;
+    let groups = Array.isArray(row?.groups) ? row.groups : [];
 
-    if (!sentences.length) {
-      const startedAt = Date.now();
-      try {
-        const made = await generateText(sujet);
-        logAiUsage({ userId: user.id, endpoint: "dictee", kind: "chat", model: made.model || CHAT_MODEL_NAME, usage: made.usage, durationMs: Date.now() - startedAt });
-        ({ text, sentences, level, words } = made);
-        row = null; // nothing cached yet; the row is written below, with its audio
-      } catch (err) {
-        // Writing a NEW dictée failed — Groq saturated, rate limited, or down.
-        // That is a reason to serve a different dictée, not no dictée: the
-        // library already holds texts that cost nothing to hand out, and a
-        // candidate who came to practise should practise. Only when the
-        // library is empty too does the failure reach them.
-        const spare = [...cached].filter((k) => k !== sujet.key && !exclude.has(k));
-        if (!spare.length) throw err;
-        const key = spare[Math.floor(Math.random() * spare.length)];
-        const fallback = pool.find((s) => s.key === key);
-        row = fallback ? await readCached(key, task) : null;
-        if (!row?.sentences?.length) throw err;
-        console.warn(`dictee: generation failed (${err.message}) — served cached ${key} instead`);
-        sujet = fallback;
-        id = row.id;
-        text = row.text;
-        level = row.level;
-        words = row.words;
-        sentences = row.sentences;
+    /* ---- a row from before the dictation moved to sense groups ---- */
+    // Its text is already written, so the groups are a re-derivation and
+    // nothing more: no Groq call, no slot spent, and — the part that matters —
+    // the text stays the one anybody with this dictée in their history was
+    // actually scored against. Regenerating would have silently replaced it.
+    if (!groups.length && row?.text) {
+      const derived = splitGroups(row.text);
+      // The join is what the candidate is scored on. If it does not rebuild the
+      // stored text, the row is left alone and the mint path below handles it.
+      if (derived.length && derived.join(" ") === row.text) {
+        groups = derived;
+        await patchCached(row.id, { groups });
+      } else {
+        console.warn(`dictee: ${sujet.key} tâche ${task} — le texte en cache ne se redécoupe pas, régénération`);
       }
     }
 
-    /* ---- audio: cache, or synthesize once ---- */
-    let audio = isComplete(row?.audio, sentences) ? row.audio : null;
-    if (!audio) {
+    /* ---- not in the library at all: spend a slot, or say so ---- */
+    let justMinted = false;
+    if (!groups.length) {
+      const used = await generatedToday();
+      if (used >= DAILY_TOTAL) {
+        // Deliberately a 409 and not a 500: nothing failed. The client turns
+        // this into "revenez demain, ou choisissez dans la bibliothèque".
+        throw new HttpError(409, "Les dictées inédites du jour sont épuisées. La bibliothèque reste ouverte, et trois nouveaux textes arrivent cette nuit.");
+      }
+      const minted = await mintDictee(sujet);
+      logAiUsage({
+        userId: user.id, endpoint: "dictee", kind: "chat",
+        model: minted.chat.model || CHAT_MODEL_NAME, usage: minted.chat.usage, durationMs: minted.chat.ms,
+      });
+      if (minted.tts) {
+        // Neural TTS bills per character, so characters are what is metered.
+        logAiUsage({
+          userId: user.id, endpoint: "dictee", kind: "tts", model: TTS_MODEL_NAME,
+          usage: { total_tokens: minted.tts.chars }, audioBytes: minted.tts.bytes, durationMs: minted.tts.ms,
+        });
+      }
+      row = {
+        id: minted.row.id, level: minted.row.level, words: minted.row.words,
+        groups: minted.row.groups, groups_audio: minted.row.groupsAudio,
+      };
+      groups = minted.row.groups;
+      justMinted = true;
+    }
+
+    /* ---- recordings: cached, or made once and repaired into the row ---- */
+    let audio = isComplete(row.groups_audio, groups) ? row.groups_audio : null;
+    // `justMinted` is what stops a second full synthesis in the same request.
+    // mintDictee has already tried, and it only comes back empty when Azure is
+    // unconfigured or down — retrying twenty groups against a dead endpoint is
+    // the one thing that can push this handler past its sixty seconds, and it
+    // would fail identically. The client reads the text with the browser's own
+    // voice, and the next draw repairs the row.
+    if (!audio && !justMinted) {
       const ttsStart = Date.now();
-      const made = await synthesize(sentences);
+      const made = await synthesizeGroups(groups);
       if (made) {
         audio = made.audio;
-        // Neural TTS bills per character, so characters are what is metered.
-        logAiUsage({ userId: user.id, endpoint: "dictee", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: made.chars }, audioBytes: made.bytes, durationMs: Date.now() - ttsStart });
+        logAiUsage({
+          userId: user.id, endpoint: "dictee", kind: "tts", model: TTS_MODEL_NAME,
+          usage: { total_tokens: made.chars }, audioBytes: made.bytes, durationMs: Date.now() - ttsStart,
+        });
+        // Repairs a row whose recording was missing OR only partly made — a
+        // throttled synthesis leaves holes, and testing `!row.groups_audio`
+        // alone would see a non-empty array and leave them there for good.
+        await patchCached(row.id, { groups_audio: audio });
       }
-    }
-
-    /* ---- persist, so the next candidate pays for none of the above ---- */
-    if (!id) {
-      id = await writeCached({
-        sujet_key: sujet.key, task, level, prompt: sujet.prompt.slice(0, 4000),
-        text, sentences, audio, words,
-      });
-    } else if (audio && !isComplete(row?.audio, sentences)) {
-      // Repairs a row whose recording was missing OR only partly made — a
-      // throttled synthesis leaves holes, and testing `!row.audio` alone would
-      // see a non-empty array and leave them there for good.
-      await attachAudio(id, audio);
     }
 
     res.status(200).json({
-      id,
+      id: row.id,
       sujetKey: sujet.key,
       task,
-      level,
-      words,
+      level: row.level || "C1",
+      words: row.words || 0,
       prompt: sujet.prompt,
       theme: sujet.theme || null,
       month: { year: sujet.year, monthNum: sujet.monthNum, n: sujet.n },
-      sentences,
-      // Index-aligned with `sentences`; a null entry means "no recording for
-      // this one", and the client voices it with the browser's own speech.
-      audio: audio || sentences.map(() => null),
+      // The finest units of the text, in reading order. The client joins runs
+      // of them into whatever listening length the candidate chose — see
+      // src/utils/dicteeSegments.js.
+      groups,
+      // Index-aligned with `groups`; a null entry means "no recording for this
+      // one", and the client voices it with the browser's own speech.
+      audio: audio || groups.map(() => null),
       audioMime: "audio/mpeg",
     });
   } catch (err) {

@@ -1,7 +1,6 @@
 import { supabase } from "@/services/supabaseClient";
 import { postJSON } from "@/services/aiService";
 import { getActiveProfileId } from "@/utils/activeProfile";
-import { loadArchive } from "@/services/sujetsArchiveService";
 
 // The dictée's client half: fetch a dictation from the server, and keep the
 // history of what the candidate scored.
@@ -28,6 +27,10 @@ const rowToSession = (r) => ({
   id: r.id,
   sujetKey: r.sujet_key,
   task: r.task,
+  // Which listening length it was taken at. Null on sessions recorded before
+  // the setting existed — those were all one sentence per unit. Kept because a
+  // score is only comparable to another taken the same way.
+  segmentMode: r.segment_mode || null,
   sentences: r.sentences,
   words: r.words,
   correct: r.correct,
@@ -44,62 +47,32 @@ const rowToSession = (r) => ({
 
 // Asks the server for one dictation. `exclude` is the candidate's own recent
 // sujet keys — sent so a random draw does not hand back a text they took down
-// last week. Returns { id, sujetKey, task, level, prompt, sentences[], audio[] }
-// where audio[i] is base64 mp3 or null (null → the client voices it itself).
+// last week. Returns { id, sujetKey, task, level, prompt, groups[], audio[] }
+// where groups[] are the sense groups of the text and audio[i] is base64 mp3 or
+// null (null → the client voices that group itself). How many groups the
+// candidate hears at a time is decided in the browser: see
+// src/utils/dicteeSegments.js.
 export async function fetchDictee({ task, sujetKey = null, exclude = [] }) {
   return postJSON("/api/dictee", { task, sujetKey, exclude });
 }
 
+// What can be started right now: today's three, the library behind them, and
+// how many never-dictated sujets the day has left. Everything in either list is
+// already written and recorded, so starting one is instant.
+// POST for a read, so it goes through postJSON with the rest of them — that is
+// where the token refresh and the device-session header live, and a hand-rolled
+// fetch here would quietly skip both.
+export async function fetchDicteeLibrary() {
+  return postJSON("/api/dictee-library", {});
+}
+
 /* ------------------------- the choosable sujets --------------------------- */
 
-// How far back the picker reaches. The archive holds forty months — 1 428
-// (sujet, tâche) pairs — and offering all of them means almost every draw is a
-// sujet nobody has ever dictated, so almost every draw pays for a fresh Groq
-// generation and a fresh Azure synthesis. Two months is 30-odd pairs: enough
-// choice to never feel repetitive, few enough that the library fills quickly
-// and most sessions then cost nothing at all.
-export const RECENT_MONTHS = 2;
-
-// Read from the SHIPPED archive the browser already has (plus any admin
-// overrides), not from the API — listing subjects should not cost a request,
-// and this is the same source api/_lib/dictee.js reads server-side, so a key
-// picked here always resolves there.
-export async function listRecentSujets(months = RECENT_MONTHS) {
-  const archive = await loadArchive("ee").catch(() => ({ years: [] }));
-  const flat = [];
-  for (const y of archive.years || []) {
-    for (const m of y.months || []) {
-      flat.push({ year: y.year, monthNum: m.monthNum, month: m.month, sujets: m.data || [] });
-    }
-  }
-  // Newest first, across years — loadArchive orders months differently inside
-  // the current year and past years, so it is re-sorted rather than trusted.
-  flat.sort((a, b) => b.year - a.year || b.monthNum - a.monthNum);
-  return flat.slice(0, months);
-}
-
-// The pickable entries for one tâche: one per sujet in the recent months.
-// Tâche 3 is a themed dossier rather than a one-line instruction, so its theme
-// is what gets shown — the two documents would swamp a list.
-export function sujetsForTask(months, task) {
-  const out = [];
-  for (const m of months) {
-    for (const s of m.sujets) {
-      const key = `${m.year}-${m.monthNum}-${s.n}`;
-      if (task === 3) {
-        if (s.t3?.theme && s.t3?.doc1 && s.t3?.doc2) {
-          out.push({ key, task, n: s.n, month: m.month, year: m.year, label: s.t3.theme, theme: true });
-        }
-        continue;
-      }
-      const prompt = task === 1 ? s.t1 : s.t2;
-      if (typeof prompt === "string" && prompt.trim()) {
-        out.push({ key, task, n: s.n, month: m.month, year: m.year, label: prompt.trim(), theme: false });
-      }
-    }
-  }
-  return out;
-}
+// There is no client-side picker any more. The sujets on offer are the ones
+// already written and recorded, which only the server knows, so the list comes
+// from /api/dictee-library above — the browser cannot work it out from the
+// shipped archive, and guessing would offer sujets that cost a generation to
+// open.
 
 /* -------------------------------- history --------------------------------- */
 
@@ -122,6 +95,7 @@ export async function recordDicteeSession(userId, session) {
     dictee_id: session.dicteeId || null,
     sujet_key: session.sujetKey || null,
     task: session.task ?? null,
+    segment_mode: session.segmentMode || null,
     sentences: session.sentences,
     words: session.words,
     correct: session.correct,
@@ -145,7 +119,7 @@ export const recentSujetKeys = (sessions, limit = 40) =>
 
 /* -------------------------------- audio ----------------------------------- */
 
-// Decodes one server-synthesized sentence (base64 mp3) into a playable object
+// Decodes one server-synthesized sense group (base64 mp3) into a playable object
 // URL. A blob: URL, never a data: one — the site's Content-Security-Policy
 // allows `media-src 'self' blob: https:` and would refuse a data: source.
 export function audioUrlFromBase64(b64, mime = "audio/mpeg") {

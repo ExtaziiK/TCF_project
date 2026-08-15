@@ -2,22 +2,23 @@ import { Play, Pause, Gauge } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Pill } from "@/components/common";
 import { SPEEDS } from "@/hooks/useDictee";
+import { segmentMode } from "@/utils/dicteeSegments";
 
-// The listening half of a dictée: one button that replays the current sentence,
+// The listening half of a dictée: one button that replays the current passage,
 // and the speed control.
 //
 // Replays are UNLIMITED but counted. Capping them would only push someone to
-// restart the whole dictée to hear a sentence again, and the count is worth
-// more as feedback than as a rule: ninety per cent at one listen per sentence
+// restart the whole dictée to hear a passage again, and the count is worth
+// more as feedback than as a rule: ninety per cent at one listen per passage
 // and ninety per cent at four are different results, and the report says so.
 
-export function DicteePlayer({ index, total, plays, playing, speed, setSpeed, onPlay }) {
+export function DicteePlayer({ index, total, plays, playing, speed, setSpeed, onPlay, mode }) {
   const { c, t } = useApp();
   return (
     <div className="flex flex-wrap items-center gap-3">
       <button
         onClick={onPlay}
-        aria-label={playing ? t("Lecture en cours") : t("Écouter la phrase")}
+        aria-label={playing ? t("Lecture en cours") : t("Écouter le passage")}
         className="w-14 h-14 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25 hover:-translate-y-0.5 transition-transform shrink-0"
       >
         {playing ? <Pause size={22} /> : <Play size={22} className="ml-0.5" />}
@@ -25,10 +26,11 @@ export function DicteePlayer({ index, total, plays, playing, speed, setSpeed, on
 
       <div className="min-w-0">
         <p className={`font-semibold text-sm ${c.text}`}>
-          {t("Phrase")} {index + 1} <span className={c.faint}>/ {total}</span>
+          {t("Passage")} {index + 1} <span className={c.faint}>/ {total}</span>
         </p>
         <p className={`text-xs ${c.sub}`}>
           {plays === 0 ? t("Cliquez pour écouter") : `${plays} ${plays > 1 ? t("écoutes") : t("écoute")}`}
+          {mode && <span className={c.faint}> · {t(segmentMode(mode).label)}</span>}
         </p>
       </div>
 

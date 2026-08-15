@@ -2,6 +2,7 @@ import { Trophy, RotateCcw, Ear, PenLine, Gauge, ArrowRight, Lightbulb } from "l
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
 import { SentenceDiff } from "@/components/dictee/SentenceDiff";
+import { segmentMode } from "@/utils/dicteeSegments";
 
 // End-of-dictée report.
 //
@@ -15,7 +16,7 @@ import { SentenceDiff } from "@/components/dictee/SentenceDiff";
 
 const scoreTone = (pct) => (pct >= 85 ? "green" : pct >= 60 ? "amber" : "red");
 
-export function DicteeReport({ dictee, summary, results, plays, speed, playsPerSentence, onRestart, onNewTask }) {
+export function DicteeReport({ dictee, summary, results, plays, speed, mode, playsPerSegment, onRestart, onNewTask }) {
   const { c, nav, t } = useApp();
   const gap = summary.heardPct - summary.score;
 
@@ -64,9 +65,14 @@ export function DicteeReport({ dictee, summary, results, plays, speed, playsPerS
           <p className={`text-sm leading-relaxed ${c.sub}`}>{verdict.text}</p>
         </div>
 
+        {/* The listening length belongs next to the score, not in a settings
+            panel: the same text at "Débutant" and at "Examen" are different
+            exercises, and a percentage read without it is not comparable to
+            anything. */}
         <p className={`mt-4 text-xs flex items-center justify-center gap-1.5 ${c.faint}`}>
           <Gauge size={13} aria-hidden="true" />
-          {plays} {t("écoutes au total")} · {playsPerSentence} {t("par phrase")} · {t("vitesse")} {speed}×
+          {plays} {t("écoutes au total")} · {playsPerSegment} {t("par passage")} · {t("vitesse")} {speed}×
+          {mode && ` · ${t("écoute")} ${t(segmentMode(mode).label)}`}
         </p>
       </Card>
 
@@ -94,10 +100,10 @@ export function DicteeReport({ dictee, summary, results, plays, speed, playsPerS
         </Card>
       )}
 
-      {/* ── the text, sentence by sentence ────────────────────────────── */}
+      {/* ── the text, passage by passage ──────────────────────────────── */}
       <Card className="p-6 md:p-7">
         <h4 className={`font-semibold text-sm mb-1.5 ${c.text}`}>{t("Le texte dicté")}</h4>
-        <p className={`text-sm mb-5 ${c.sub}`}>{t("Le corrigé C1/C2 du sujet, avec vos écarts phrase par phrase.")}</p>
+        <p className={`text-sm mb-5 ${c.sub}`}>{t("Le corrigé C1/C2 du sujet, avec vos écarts passage par passage.")}</p>
         <div className="space-y-5">
           {results.map((diff, i) => (
             <div key={i} className={`pb-5 ${i < results.length - 1 ? `border-b ${c.border}` : ""}`}>

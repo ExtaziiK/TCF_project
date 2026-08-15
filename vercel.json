@@ -7,10 +7,18 @@
     "api/dictee.js": {
       "maxDuration": 60,
       "includeFiles": "public/data/sujets-ee.json"
+    },
+    "api/dictee-library.js": {
+      "includeFiles": "public/data/sujets-ee.json"
+    },
+    "api/cron/dictee-seed.js": {
+      "maxDuration": 60,
+      "includeFiles": "public/data/sujets-ee.json"
     }
   },
   "crons": [
-    { "path": "/api/cron/reminders", "schedule": "0 8 * * *" }
+    { "path": "/api/cron/reminders", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/dictee-seed", "schedule": "0 7 * * *" }
   ],
   "headers": [
     {

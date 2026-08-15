@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "@supabase/supabase-js";
 import { HttpError, groqChatJSON } from "./groq.js";
+import { synthesizeFrench } from "./tts.js";
 
 // The dictée's server half: find a sujet, write the model answer nobody has
 // written yet, and cut it into the units a candidate types one at a time.
@@ -149,7 +150,14 @@ function cutLong(sentence) {
   return [...cutLong(head), ...cutLong(tail)];
 }
 
-export function splitSentences(text) {
+// Cuts a text into whole sentences, nothing finer.
+//
+// `glue` folds a sentence too short to dictate into the one before it. That is
+// right when the SENTENCE is the unit a candidate types — nobody should be
+// made to listen to "Bien sûr." on its own — and wrong once sense groups are,
+// because a three-word group is an ordinary atom and gluing would bury a full
+// stop in the middle of one. So the legacy path glues and splitGroups doesn't.
+function sentencesOf(text, glue) {
   const clean = String(text || "").replace(/\s+/g, " ").trim();
   if (!clean) return [];
   // Terminator followed by whitespace and something that starts a new sentence.
@@ -157,12 +165,129 @@ export function splitSentences(text) {
   const raw = clean.match(/[^.!?…]+[.!?…]+(?:\s*[»"])?|\S[^.!?…]*$/g) || [clean];
   const merged = [];
   for (const piece of raw.map((s) => s.trim()).filter(Boolean)) {
-    // Too short to be a dictation unit on its own — glue it to the previous
-    // one rather than asking someone to listen to "Bien sûr."
-    if (merged.length && wordCount(piece) < MIN_WORDS) merged[merged.length - 1] += ` ${piece}`;
+    if (glue && merged.length && wordCount(piece) < MIN_WORDS) merged[merged.length - 1] += ` ${piece}`;
     else merged.push(piece);
   }
-  return merged.flatMap(cutLong);
+  return merged;
+}
+
+export function splitSentences(text) {
+  return sentencesOf(text, true).flatMap(cutLong);
+}
+
+/* -------------------------- sense-group splitting ------------------------- */
+
+// What a dictation is actually read in.
+//
+// A teacher reading a dictée does not count words — they read by GROUPES DE
+// SENS, the stretch between two breaths, and they stop where the sense allows
+// a stop. Cutting "douze mots" off a sentence lands mid-clause about half the
+// time, and a candidate asked to hold "les chercheurs affirment que les
+// enfants exposés très" has been given a memory test, not a dictation.
+//
+// So this cuts only at places a reader could breathe, ranked: the stronger the
+// boundary, the earlier it is tried. A sentence is cut at the strongest marker
+// available NEAREST ITS MIDDLE, and each half is then re-examined — which is
+// what keeps the weak markers (a preposition opening a group) from ever being
+// reached inside a stretch the strong ones could already shorten.
+//
+// The output is ATOMS: the finest units on offer. Longer settings are built by
+// the client playing consecutive atoms back to back (src/utils/dicteeSegments),
+// so one synthesis serves every length and Azure is billed once per text.
+
+const MIN_GROUP = 3; // either side of a cut; below this a group carries no sense
+const ATOM_MAX = 8; // an atom at or under this is left alone
+
+// `\b` is ASCII-only. Next to "à", "où" or "malgré" it sees no boundary at
+// all, so every accented marker written with `\b` silently never matches and
+// the splitter quietly loses half its rules — which is exactly what happened
+// the first time. These are the same idea done in Unicode.
+const OPEN = "(?<![\\p{L}\\p{N}])";
+const CLOSE = "(?![\\p{L}\\p{N}])";
+
+// Markers that open the group they introduce. `elided` forms end in their own
+// apostrophe ("qu'", "lorsqu'"), which is already a boundary — giving them the
+// closing guard would demand a non-letter after the apostrophe and match none.
+const before = (plain, elided = []) =>
+  new RegExp(
+    `${OPEN}(?:${elided.length ? `(?:${elided.join("|")})['’]|` : ""}(?:${plain.join("|")})${CLOSE})`,
+    "giu",
+  );
+
+// `where: "after"` keeps the marker with the head (punctuation ends a group);
+// `where: "before"` opens the tail with it (a conjunction belongs to the group
+// it introduces). Order is the priority order.
+const BREAKS = [
+  { where: "after", re: /[;:]\s+/g },
+  { where: "after", re: /,\s+/g },
+  // Multi-word subordinators, matched before the bare ones so that "parce que"
+  // is cut at "parce" and never left as a dangling "que".
+  {
+    where: "before",
+    re: before(["parce que", "bien que", "alors que", "tandis que", "afin que", "pour que", "de sorte que", "si bien que", "au moment où", "dès que", "pendant que", "même si"]),
+  },
+  // Bare relatives and subordinators. The lookbehind is what stops this rule
+  // from re-cutting the "que" of a multi-word subordinator above.
+  {
+    where: "before",
+    re: new RegExp(
+      `(?<!(?:parce|bien|alors|tandis|afin|pour|sorte|dès|pendant|même)\\s)${OPEN}(?:(?:qu|lorsqu|puisqu)['’]|(?:qui|que|dont|où|lorsque|quand|puisque|comme|si)${CLOSE})`,
+      "giu",
+    ),
+  },
+  { where: "before", re: before(["et", "mais", "ou", "donc", "car", "ni", "or"]) },
+  { where: "before", re: before(["dans", "pour", "avec", "sans", "sous", "sur", "après", "avant", "selon", "malgré", "depuis", "pendant", "chez", "vers", "entre", "parmi", "contre"]) },
+  // Last resort: the light prepositions, and ONLY where a determiner follows.
+  // "à la publicité télévisée" is a group a reader can open on; "à faire" and
+  // "à peine" are not, and the determiner is what tells the two apart — without
+  // it this rule would cut "commencer / à écrire" and strand an infinitive.
+  {
+    where: "before",
+    re: new RegExp(
+      `${OPEN}(?:à|de|en)\\s+(?:l['’]|(?:la|le|les|un|une|ce|cet|cette|ces|son|sa|ses|leur|leurs|nos|notre|vos|votre)${CLOSE})`,
+      "giu",
+    ),
+  },
+];
+
+// Character offsets where a tail could begin, for one rule.
+function cutPoints(sentence, rule) {
+  const out = [];
+  rule.re.lastIndex = 0;
+  for (const m of sentence.matchAll(rule.re)) {
+    // "after" consumes the trailing space, so the tail starts past the match;
+    // "before" starts the tail at the marker itself.
+    out.push(rule.where === "after" ? m.index + m[0].length : m.index);
+  }
+  return out;
+}
+
+function splitClause(sentence) {
+  if (wordCount(sentence) <= ATOM_MAX) return [sentence];
+  const mid = sentence.length / 2;
+  for (const rule of BREAKS) {
+    let best = -1;
+    for (const at of cutPoints(sentence, rule)) {
+      const head = sentence.slice(0, at).trim();
+      const tail = sentence.slice(at).trim();
+      // A cut that strands three words on either side is not a group boundary,
+      // whatever the marker says.
+      if (!head || !tail || wordCount(head) < MIN_GROUP || wordCount(tail) < MIN_GROUP) continue;
+      if (best < 0 || Math.abs(at - mid) < Math.abs(best - mid)) best = at;
+    }
+    if (best < 0) continue;
+    return [...splitClause(sentence.slice(0, best).trim()), ...splitClause(sentence.slice(best).trim())];
+  }
+  // No legal cut anywhere: a long group is worse than a butchered one.
+  return [sentence];
+}
+
+// The atoms of a whole text, in order. Joining them all back with single
+// spaces reproduces the text exactly — the client rebuilds every longer
+// setting by joining runs of them, and the correction is scored against that
+// join, so any drift here would score a candidate against a text nobody read.
+export function splitGroups(text) {
+  return sentencesOf(text, false).flatMap(splitClause);
 }
 
 /* ------------------------------- generation ------------------------------- */
@@ -208,13 +333,30 @@ export async function generateText(sujet) {
   const text = typeof json?.text === "string" ? json.text.replace(/\s+/g, " ").trim() : "";
   if (wordCount(text) < 40) throw new HttpError(502, "Le corrigé généré est inexploitable. Réessayez.");
   const sentences = splitSentences(text);
+  const groups = splitGroups(text);
   if (sentences.length < 3) throw new HttpError(502, "Le corrigé généré est inexploitable. Réessayez.");
+  // The join is what the candidate is scored against, so a text whose atoms do
+  // not rebuild it is thrown away rather than cached — a cached one would go on
+  // marking people down against words nobody read for as long as the row lives.
+  if (groups.join(" ") !== text) throw new HttpError(502, "Le découpage du corrigé a échoué. Réessayez.");
   // `model` is the one that actually answered — groqChatJSON walks a fallback
   // chain on a 429, so the first model in the list is not necessarily the one
   // that did the work, and metering the wrong one makes the admin's per-model
   // budget read as spent where it isn't.
-  return { text, sentences, level: spec.level, words: wordCount(text), usage, model };
+  return { text, sentences, groups, level: spec.level, words: wordCount(text), usage, model };
 }
+
+// What Azure is asked to SAY for one group, which is not always what the
+// candidate is scored on. Each group is synthesized as its own request, so a
+// group ending mid-clause gets the falling, finished-speaking contour Azure
+// gives any bare phrase — and three of those played back to back sound like
+// three statements instead of one sentence. A trailing comma buys the
+// continuing contour instead. It exists only in the SSML: the reference text
+// keeps the punctuation the generator actually wrote.
+export const speechFor = (group) => {
+  const s = String(group).trim();
+  return /[.,;:!?…»"]$/.test(s) ? s : `${s},`;
+};
 
 /* --------------------------------- cache ---------------------------------- */
 
@@ -227,10 +369,12 @@ export async function cachedKeysFor(task) {
   return new Set((data || []).map((r) => r.sujet_key));
 }
 
+const ROW_COLUMNS = "id, level, text, sentences, audio, groups, groups_audio, words, featured_on, created_at";
+
 export async function readCached(sujetKey, task) {
   const { data, error } = await admin()
     .from("dictee_texts")
-    .select("id, level, text, sentences, audio, words")
+    .select(ROW_COLUMNS)
     .eq("sujet_key", sujetKey)
     .eq("task", task)
     .maybeSingle();
@@ -238,6 +382,154 @@ export async function readCached(sujetKey, task) {
   // through to generating every time rather than failing the feature outright.
   if (error) return null;
   return data;
+}
+
+/* ------------------------- the daily spending cap -------------------------- */
+
+// Everything a candidate can draw is already paid for: a text is written and
+// recorded once and then served to everyone, for ever. So the lifetime bill is
+// bounded by the archive (1 428 sujet-tâche pairs) no matter what happens here
+// — what this caps is the RATE, which is what actually protects the Azure free
+// tier from a traffic spike and, more pressingly, keeps the base64 in
+// dictee_texts from arriving faster than the database can hold it.
+//
+// The cron seeds SEED texts a day; candidates may trigger BURST more between
+// them, and those are cached and handed to everyone else exactly like the
+// seeded ones. Past that the day is spent and the library — which by then holds
+// every text of every previous day — is what people practise on.
+export const DAILY_SEED = 3; // one per tâche
+export const DAILY_BURST = 3;
+export const DAILY_TOTAL = DAILY_SEED + DAILY_BURST;
+
+// UTC, matching Postgres `current_date` and the schedule Vercel Cron reads. The
+// seed runs at 07:00 UTC — the small hours in Canada — so the day's texts are
+// waiting before anyone opens the page.
+export const today = () => new Date().toISOString().slice(0, 10);
+
+// How many texts have been written today, counted from the rows themselves. No
+// counter to keep, nothing to reset at midnight, and no way for the count to
+// drift from what was actually spent.
+//
+// Two requests arriving together can both read the last remaining slot and both
+// spend it. Deliberately not locked: the overrun is one or two texts on the
+// busiest days, and the alternative is a transaction around a Groq call that
+// can take ten seconds.
+export async function generatedToday() {
+  const { count, error } = await admin()
+    .from("dictee_texts")
+    .select("id", { count: "exact", head: true })
+    .gte("created_at", `${today()}T00:00:00Z`);
+  // Table missing, or the count failed: report the day as spent. Failing
+  // closed costs a candidate one fresh text; failing open uncaps the spend.
+  if (error) return DAILY_TOTAL;
+  return count || 0;
+}
+
+/* -------------------------------- the library ------------------------------ */
+
+// Today's dictées du jour, and everything seeded before them. Both are free to
+// serve, so the picker offers them together and only a sujet in neither costs
+// anything to start.
+export async function listLibrary(limit = 80) {
+  const { data, error } = await admin()
+    .from("dictee_texts")
+    .select("sujet_key, task, level, words, featured_on, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return [];
+  return data || [];
+}
+
+// Fills in what a cached row is missing — its groups, its recordings, or both.
+// Used to repair a synthesis that came back with holes, and to bring a row
+// written before the dictation moved to sense groups up to date.
+export async function patchCached(id, patch) {
+  if (!id) return;
+  const { error } = await admin().from("dictee_texts").update(patch).eq("id", id);
+  if (error) console.warn("dictee_texts patch:", error.message);
+}
+
+/* ------------------------------- synthesis -------------------------------- */
+
+// Azure is called once per group. Four at a time keeps a twenty-group text
+// inside the function's budget without opening thirty sockets at once.
+const TTS_BATCH = 4;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Every group must have a recording. A row with holes in it is worse than one
+// with none: the dictée would switch to the browser's robotic voice for group
+// five and back to the neural one for group six, which sounds like a fault and
+// changes the listening task mid-exercise.
+export const isComplete = (audio, groups) =>
+  Array.isArray(audio) && Array.isArray(groups) && audio.length === groups.length && audio.every(Boolean);
+
+export async function synthesizeGroups(groups) {
+  const out = new Array(groups.length).fill(null);
+  let bytes = 0;
+  let chars = 0;
+  const take = (i, tts, spoken) => {
+    if (!tts) return;
+    out[i] = tts.audio;
+    bytes += tts.bytes;
+    chars += spoken.length;
+  };
+
+  for (let i = 0; i < groups.length; i += TTS_BATCH) {
+    const slice = groups.slice(i, i + TTS_BATCH).map(speechFor);
+    const done = await Promise.all(slice.map((s) => synthesizeFrench(s)));
+    done.forEach((tts, k) => take(i + k, tts, slice[k]));
+  }
+
+  // Azure answers "Downstream Service Throttled" under a burst — observed while
+  // seeding, four groups out of eight. One sequential, spaced retry recovers
+  // them; the concurrency that caused the throttle is exactly what it drops.
+  const missing = out.map((a, i) => (a ? -1 : i)).filter((i) => i >= 0);
+  for (const i of missing) {
+    await sleep(400);
+    const spoken = speechFor(groups[i]);
+    take(i, await synthesizeFrench(spoken), spoken);
+  }
+  // All-null means Azure is unconfigured or down. Not an error: the client
+  // reads the groups with the browser's own voice instead, which is worse but
+  // still a dictée. Returning null here tells the caller not to cache it.
+  return out.some(Boolean) ? { audio: out, bytes, chars } : null;
+}
+
+/* --------------------------------- minting -------------------------------- */
+
+// Writes one (sujet, tâche) into the library: the model answer, its groups and
+// their recordings, cached for everyone who ever draws it afterwards. Shared by
+// the daily cron and the on-demand burst so there is one definition of what a
+// dictée is, and it returns the meters both of them have to log.
+export async function mintDictee(sujet, { featuredOn = null } = {}) {
+  const chatStart = Date.now();
+  const made = await generateText(sujet);
+  const chatMs = Date.now() - chatStart;
+
+  const ttsStart = Date.now();
+  const tts = await synthesizeGroups(made.groups);
+  const ttsMs = Date.now() - ttsStart;
+
+  const id = await writeCached({
+    sujet_key: sujet.key,
+    task: sujet.task,
+    level: made.level,
+    prompt: sujet.prompt.slice(0, 4000),
+    text: made.text,
+    sentences: made.sentences,
+    groups: made.groups,
+    groups_audio: tts?.audio || null,
+    audio: null,
+    words: made.words,
+    featured_on: featuredOn,
+  });
+
+  return {
+    row: { id, ...made, groupsAudio: tts?.audio || null },
+    chat: { usage: made.usage, model: made.model, ms: chatMs },
+    tts: tts ? { chars: tts.chars, bytes: tts.bytes, ms: ttsMs } : null,
+  };
 }
 
 export async function writeCached(row) {
@@ -253,10 +545,6 @@ export async function writeCached(row) {
   return data?.id || null;
 }
 
-// Fills in audio for a row whose text was already cached but whose recording
-// was not (first synthesis failed, or the row predates the audio column).
-export async function attachAudio(id, audio) {
-  if (!id) return;
-  const { error } = await admin().from("dictee_texts").update({ audio }).eq("id", id);
-  if (error) console.warn("dictee_texts audio:", error.message);
-}
+// `attachAudio` used to live here, repairing the per-SENTENCE recordings in
+// `audio`. Nothing reads that column since the dictation moved to sense groups
+// — its replacement is attachGroupAudio, further up.
