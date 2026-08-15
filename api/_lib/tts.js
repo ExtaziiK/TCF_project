@@ -38,7 +38,17 @@ export async function synthesizeFrench(text) {
     });
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
-      console.warn(`azure tts (${res.status}):`, detail.slice(0, 200));
+      // Azure answers 401/403 with an EMPTY body, so the raw log line reads
+      // "azure tts (401):" and nothing else — which says only that something
+      // went wrong, not that the credentials are the thing that is wrong. The
+      // symptom downstream is silent: no audio, and the browser's own voice
+      // reading the dictée, which looks like a client bug from every angle
+      // except this one line.
+      if (res.status === 401 || res.status === 403) {
+        console.warn(`azure tts (${res.status}): clé refusée — vérifiez AZURE_SPEECH_KEY et qu'elle appartient bien à la région AZURE_SPEECH_REGION (${region}). Une clé Speech n'est valable que dans sa propre région.`);
+      } else {
+        console.warn(`azure tts (${res.status}):`, detail.slice(0, 200) || "(réponse vide)");
+      }
       return null;
     }
     const buf = Buffer.from(await res.arrayBuffer());
