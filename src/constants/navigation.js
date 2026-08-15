@@ -27,11 +27,13 @@ export const NAV_LINKS = [
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
   // match sujets-actualite's PAGE_ACCESS list in rbac.js).
   { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
-  // Supplementary practice, distinct from the exam épreuves.
+  // Supplementary practice, distinct from the exam épreuves. Ordered from the
+  // building blocks up to the exercise that uses them: vocabulary and grammar
+  // are things you study, the dictée is where they are tested together.
   { l: "Pratique", menu: [
-    { l: "La dictée", r: "dictee", roles: AUTHENTICATED },
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
+    { l: "La dictée", r: "dictee", roles: AUTHENTICATED },
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Calculateur", r: "calculator" },
