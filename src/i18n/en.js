@@ -387,6 +387,7 @@ export const EN = {
   "Choisir Ultimate": "Choose Ultimate",
   "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
+  "La dictée : toute la bibliothèque, sans limite": "Dictation: the whole library, no limit",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
@@ -427,6 +428,9 @@ export const EN = {
   "Vocabulaire et grammaire": "Vocabulary and grammar",
   "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases.":
     "Themed flashcards and targeted grammar lessons to strengthen your foundations.",
+  "La dictée": "Dictation",
+  "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte ni correcteur. Vous choisissez la longueur lue d'un coup, et le rapport final sépare ce que vous n'avez pas entendu de ce que vous avez mal orthographié.":
+    "A C1 or C2 model answer read aloud, which you write down with no text and no spellchecker. You choose how much is read at a time, and the final report separates what you did not hear from what you misspelt.",
   "Suivi et score estimé": "Progress tracking and score estimate",
   "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment.":
     "Your progress saved, plus a TCF / NCLC score calculator to gauge your level anytime.",
