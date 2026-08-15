@@ -15,7 +15,7 @@ export const EN = {
 
   // ── Navigation (constants/navigation.js) ─────────────────────────────
   "Accueil": "Home",
-  "Mes examens": "My exams",
+  "Épreuves": "Exams",
   "Pratique gratuite": "Free practice",
   "Compréhension orale": "Listening comprehension",
   "Compréhension écrite": "Reading comprehension",

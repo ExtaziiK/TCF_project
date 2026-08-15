@@ -125,7 +125,7 @@ function ExamReport({ attempt, onRestart, onBack }) {
       <div className="mt-8 flex gap-3 justify-center flex-wrap">
         {onRestart && <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouveau TCF blanc")}</Btn>}
         <Btn variant="ghost" icon={BarChart3} onClick={() => nav("dashboard")}>{t("Ma progression")}</Btn>
-        <Btn variant="ghost" onClick={onBack}>{t("Mes examens")}</Btn>
+        <Btn variant="ghost" onClick={onBack}>{t("Épreuves")}</Btn>
       </div>
     </Card>
   );

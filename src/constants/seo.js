@@ -139,7 +139,7 @@ export const ROUTE_META = {
   "reset-password": { path: "/nouveau-mot-de-passe", title: "Nouveau mot de passe", noindex: true },
   "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
-  exams: { path: "/mes-examens", title: "Mes examens", noindex: true },
+  exams: { path: "/mes-examens", title: "Épreuves", noindex: true },
   mocks: { path: "/tcf-blanc", title: "TCF blanc — examen complet chronométré", noindex: true },
   listening: { path: "/comprehension-orale", title: "Compréhension orale — entraînement", noindex: true },
   reading: { path: "/comprehension-ecrite", title: "Compréhension écrite — entraînement", noindex: true },

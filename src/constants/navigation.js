@@ -13,15 +13,15 @@ import { POSTS } from "@/constants/blog";
 // entry DOES carry `roles`, keep it identical to that route's PAGE_ACCESS list
 // (reuse the same imported constant) — a narrower one hides a page the user can
 // actually open, which is how OWNER lost "Pratique". Leaving `roles` off a
-// restricted route is the deliberate opposite: "TCF blanc" and "Mes examens"
+// restricted route is the deliberate opposite: "TCF blanc" and "Épreuves"
 // stay visible to everyone so the guard can pitch register/upgrade instead.
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
-  { l: "Mes examens", r: "exams" },
-  // Mock exams get their own top-level entry, next to "Mes examens".
+  { l: "Épreuves", r: "exams" },
+  // Mock exams get their own top-level entry, next to "Épreuves".
   { l: "TCF blanc", r: "mocks", grad: true },
   // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
@@ -37,7 +37,7 @@ export const NAV_LINKS = [
     // (rbac.js → dictee: PREMIUM) but stays visible to free accounts and to
     // visitors, who land on its sales page instead of the exercise. Hiding it
     // would mean nobody who has not already paid ever learns it exists. Same
-    // reasoning as "TCF blanc" and "Mes examens" above.
+    // reasoning as "TCF blanc" and "Épreuves" above.
     { l: "La dictée", r: "dictee", grad: true },
   ] },
   { l: "Tarifs", r: "pricing" },
