@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { fetchDictee, fetchDicteeLibrary, recordDicteeSession, listDicteeSessions, recentSujetKeys, audioUrlFromBase64 } from "@/services/dicteeService";
 import { buildSegments, segmentMode, DEFAULT_SEGMENT_MODE } from "@/utils/dicteeSegments";
+import { speak, stopSpeaking } from "@/utils/speech";
 import { diffSentence, summarize } from "@/utils/dicteeDiff";
 import { AiError } from "@/services/aiService";
 
@@ -98,7 +99,7 @@ export function useDictee() {
     playerRef.current = null;
     for (const url of urlsRef.current) if (url) URL.revokeObjectURL(url);
     urlsRef.current = [];
-    if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+    stopSpeaking();
   }, []);
 
   useEffect(() => releaseAudio, [releaseAudio]);
@@ -174,21 +175,25 @@ export function useDictee() {
     // No recording for this group (Azure unconfigured, or a synthesis that
     // failed): read it with the browser's own voice rather than dropping it.
     // Worse quality, same exercise.
+    //
+    // Through `speak`, never through a bare SpeechSynthesisUtterance. Setting
+    // `lang = "fr-CA"` does NOT get you a French voice: if no voice is chosen
+    // explicitly the engine uses its default, which on most machines is
+    // English — and an English voice reading a French text is not a harder
+    // dictée, it is an impossible one. `speak` picks the best French voice
+    // installed, waits out Chrome's late `voiceschanged`, and reports back
+    // when there is no French voice at all.
     if (!url) {
-      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+      speak(dictee.groups[at], (spoken) => {
+        if (run !== runRef.current) return;
+        if (spoken) { next(); return; }
         // Nothing can voice this group. Say so — a dictée whose play button
-        // silently does nothing looks like a broken page, and the candidate
-        // would sit there pressing it.
+        // silently does nothing looks like a broken page, and unlike the oral
+        // examiner there is no text on screen to fall back on: the text is
+        // precisely what the candidate is meant to be writing down.
         setPlaying(false);
         notify(t("Aucune voix française sur ce navigateur : essayez Microsoft Edge ou installez une voix française dans votre système."));
-        return;
-      }
-      const utter = new window.SpeechSynthesisUtterance(dictee.groups[at]);
-      utter.lang = "fr-CA";
-      utter.rate = speed;
-      utter.onend = next;
-      utter.onerror = next;
-      window.speechSynthesis.speak(utter);
+      }, { rateScale: speed });
       return;
     }
 
@@ -212,7 +217,7 @@ export function useDictee() {
     const segment = segments[index];
     if (!segment) return;
     const run = ++runRef.current; // cancels whatever was playing before
-    window.speechSynthesis?.cancel();
+    stopSpeaking();
     setPlays((n) => n + 1);
     setPlaying(true);
     playQueue(segment.from, segment.to, segment.from, run);
@@ -227,7 +232,7 @@ export function useDictee() {
   const stopAudio = useCallback(() => {
     runRef.current++;
     playerRef.current?.pause();
-    window.speechSynthesis?.cancel();
+    stopSpeaking();
     setPlaying(false);
   }, []);
 
