@@ -13,24 +13,32 @@ import { POSTS } from "@/constants/blog";
 // entry DOES carry `roles`, keep it identical to that route's PAGE_ACCESS list
 // (reuse the same imported constant) — a narrower one hides a page the user can
 // actually open, which is how OWNER lost "Pratique". Leaving `roles` off a
-// restricted route is the deliberate opposite: "TCF blanc" and "Mes examens"
+// restricted route is the deliberate opposite: "TCF blanc" and "Épreuves"
 // stay visible to everyone so the guard can pitch register/upgrade instead.
 export const NAV_LINKS = [
   { l: "Accueil", r: "home" },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
-  { l: "Mes examens", r: "exams" },
-  // Mock exams get their own top-level entry, next to "Mes examens".
+  { l: "Épreuves", r: "exams" },
+  // Mock exams get their own top-level entry, next to "Épreuves".
   { l: "TCF blanc", r: "mocks", grad: true },
   // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
   // match sujets-actualite's PAGE_ACCESS list in rbac.js).
   { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED },
-  // Supplementary practice, distinct from the exam épreuves.
+  // Supplementary practice, distinct from the exam épreuves. Ordered from the
+  // building blocks up to the exercise that uses them: vocabulary and grammar
+  // are things you study, the dictée is where they are tested together.
   { l: "Pratique", menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
+    // NO `roles`, deliberately, and not an oversight: la dictée is Premium
+    // (rbac.js → dictee: PREMIUM) but stays visible to free accounts and to
+    // visitors, who land on its sales page instead of the exercise. Hiding it
+    // would mean nobody who has not already paid ever learns it exists. Same
+    // reasoning as "TCF blanc" and "Épreuves" above.
+    { l: "La dictée", r: "dictee", grad: true },
   ] },
   { l: "Tarifs", r: "pricing" },
   { l: "Calculateur", r: "calculator" },
@@ -60,6 +68,7 @@ export const SEARCH_INDEX = [
   { l: "Compréhension écrite", r: "reading", c: "Module" },
   { l: "Expression écrite", r: "writing", c: "Module" },
   { l: "Expression orale", r: "speaking", c: "Module" },
+  { l: "La dictée · écrire ce qu'on entend", r: "dictee", c: "Module" },
   { l: "Vocabulaire · cartes mémoire", r: "vocabulary", c: "Module" },
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },

@@ -34,7 +34,7 @@ export const ROUTE_META = {
     path: "/tarifs",
     title: "Tarifs et abonnements",
     description:
-      "Forfait Sans papier gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé via Stripe.",
+      "Forfait Basic gratuit ou Premium mensuel et annuel : questions illimitées, TCF blancs complets et analyse IA. Paiement sécurisé via Stripe.",
   },
   calculator: {
     path: "/calculateur-tcf-nclc",
@@ -139,7 +139,7 @@ export const ROUTE_META = {
   "reset-password": { path: "/nouveau-mot-de-passe", title: "Nouveau mot de passe", noindex: true },
   "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
-  exams: { path: "/mes-examens", title: "Mes examens", noindex: true },
+  exams: { path: "/mes-examens", title: "Épreuves", noindex: true },
   mocks: { path: "/tcf-blanc", title: "TCF blanc — examen complet chronométré", noindex: true },
   listening: { path: "/comprehension-orale", title: "Compréhension orale — entraînement", noindex: true },
   reading: { path: "/comprehension-ecrite", title: "Compréhension écrite — entraînement", noindex: true },
@@ -147,6 +147,7 @@ export const ROUTE_META = {
   speaking: { path: "/expression-orale", title: "Expression orale — studio", noindex: true },
   vocabulary: { path: "/vocabulaire", title: "Vocabulaire — cartes mémoire", noindex: true },
   grammar: { path: "/grammaire", title: "Grammaire", noindex: true },
+  dictee: { path: "/dictee", title: "La dictée — écrire ce que l'on entend", noindex: true },
   dashboard: { path: "/tableau-de-bord", title: "Tableau de bord", noindex: true },
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },

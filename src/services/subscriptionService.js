@@ -57,7 +57,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
 //
 // A DZD pass is granted by an admin long after the buyer left the checkout, and
 // nothing pushes that to their browser: the plan lives in app_metadata, sealed
-// inside the access token, so the app keeps saying "Sans papier" until the JWT
+// inside the access token, so the app keeps saying "Basic" until the JWT
 // is reminted. This read is what lets the client notice on its own.
 //
 // Uses the anon key and the buyer's own RLS policy ("subreq: own read"), so no

@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet,
+  Wallet, Reply, Send, CornerDownRight,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -17,6 +17,8 @@ import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
 import { PaymentSettingsTab, SubscriptionRequestsTab } from "@/components/admin/DzPayments";
 import { RevenueTab } from "@/components/admin/Revenue";
+import { UserActivityPanel } from "@/components/admin/UserActivity";
+import { StatDetailModal } from "@/components/admin/StatDetail";
 import { EmailTemplatesTab } from "@/components/admin/EmailTemplates";
 import { listSubscriptionRequests } from "@/services/subscriptionService";
 import { getSocialClickStats } from "@/services/socialClicksService";
@@ -24,6 +26,7 @@ import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
+  listMessageReplies, sendMessageReply, fetchReplyMailStatus,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
@@ -33,7 +36,7 @@ import {
   listTestimonialIdentities,
 } from "@/services/testimonialsService";
 import { promoLabel } from "@/services/stripeService";
-import { PLANS } from "@/constants/pricing";
+import { PLANS, currentPlanLabel } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
@@ -44,13 +47,19 @@ const EXTEND_DAYS = [5, 15, 30, 90];
 
 // Account-type chips for the Users tab. Keys match the server filter (users.js
 // TYPE_FILTERS); the whole set of account types the platform has.
+//
+// Labels reflect the 2026-08 rename (Visa/Première classe/VIP →
+// Starter/Pro/Ultimate); the KEYS are unchanged and still match either the
+// legacy or current plan_label server-side — see the TYPE_FILTERS comment in
+// users.js. "Passeport" stays visible so an admin can still find existing
+// holders of the discontinued plan; there is no current label to rename it to.
 const USER_FILTERS = [
   { key: "all", label: "Tous" },
-  { key: "sans-papier", label: "Sans papier" },
+  { key: "sans-papier", label: "Basic" },
   { key: "passeport", label: "Passeport" },
-  { key: "visa", label: "Visa" },
-  { key: "premiere-classe", label: "Première classe" },
-  { key: "vip", label: "VIP" },
+  { key: "visa", label: "Starter" },
+  { key: "premiere-classe", label: "Pro" },
+  { key: "vip", label: "Ultimate" },
   { key: "admin", label: "Admin" },
   { key: "owner", label: "Owner" },
 ];
@@ -126,17 +135,30 @@ function EmptyState({ icon: Icon, title, sub }) {
 // Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
 const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]", emerald: "bg-emerald-500/10 text-emerald-600" };
 
-function StatCard({ icon: Icon, value, label, hint, accent = "blue" }) {
+// `onClick` turns the card into a button that opens the pop-up listing what the
+// number is made of (StatDetailModal). Without it the card is plain text, as
+// it was — the same component still serves both.
+function StatCard({ icon: Icon, value, label, hint, accent = "blue", onClick }) {
   const { c } = useApp();
-  return (
-    <Card className="p-5">
+  const body = (
+    <>
       <div className="flex items-start justify-between gap-3">
         <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
         {Icon && <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${STAT_ACCENTS[accent] || STAT_ACCENTS.blue}`}><Icon size={16} /></span>}
       </div>
-      <p className={`text-sm font-medium mt-1 ${c.text}`}>{label}</p>
+      <p className={`text-sm font-medium mt-1 flex items-center gap-1 ${c.text}`}>
+        {label}
+        {onClick && <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-600 shrink-0" aria-hidden="true" />}
+      </p>
       {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
-    </Card>
+    </>
+  );
+  if (!onClick) return <Card className="p-5">{body}</Card>;
+  return (
+    <button type="button" onClick={onClick} aria-label={`${label} : voir le détail`}
+      className="group text-left w-full rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+      <Card className="p-5 h-full cursor-pointer transition-colors group-hover:border-blue-600/40">{body}</Card>
+    </button>
   );
 }
 
@@ -620,6 +642,8 @@ function OverviewTab({ go }) {
   const [state, setState] = useState("loading");
   const [refreshing, setRefreshing] = useState(false);
   const [updatedAt, setUpdatedAt] = useState(null);
+  // Which stat card's detail pop-up is open: { key, label } or null.
+  const [detail, setDetail] = useState(null);
 
   const load = useCallback(async (manual = false) => {
     if (manual) setRefreshing(true);
@@ -680,14 +704,26 @@ function OverviewTab({ go }) {
         </Btn>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null} />
-        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald" />
-        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold" />
-        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} />
-        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} />
-        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées" />
-        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter" />
+        {/* Each card opens the list behind its number (api/_lib/admin/stats.js
+            ?detail=…): who is online, which quiz was just finished, and so on. */}
+        <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null}
+          onClick={() => setDetail({ key: "users", label: "Utilisateurs inscrits" })} />
+        <StatCard icon={Radio} value={u.online ?? 0} label="Connectés maintenant" hint={u.online > 0 ? "en direct" : null} accent="emerald"
+          onClick={() => setDetail({ key: "online", label: "Connectés maintenant" })} />
+        <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold"
+          onClick={() => setDetail({ key: "premium", label: "Abonnés Premium actifs" })} />
+        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null}
+          onClick={() => setDetail({ key: "quizzes", label: "Quiz complétés" })} />
+        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null}
+          onClick={() => setDetail({ key: "exams", label: "TCF blancs terminés" })} />
+        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées"
+          onClick={() => setDetail({ key: "attempts", label: "Réponses enregistrées" })} />
+        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter"
+          onClick={() => setDetail({ key: "messages", label: "Messages à traiter" })} />
       </div>
+      {detail && (
+        <StatDetailModal statKey={detail.key} fallbackTitle={detail.label} go={go} onClose={() => setDetail(null)} />
+      )}
       <Card className="p-4 flex items-center gap-2 flex-wrap">
         <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
         <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
@@ -712,7 +748,7 @@ function OverviewTab({ go }) {
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
         </div>
-        {[["Premium (actif)", u.premium, "gold"], ["Sans papier", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
+        {[["Premium (actif)", u.premium, "gold"], ["Basic", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
           <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
             <Pill tone={tone}>{label}</Pill>
             <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
@@ -735,6 +771,7 @@ function UsersTab() {
   const [state, setState] = useState("loading");
   const [openId, setOpenId] = useState(null); // user id whose action panel is expanded
   const [confirmId, setConfirmId] = useState(null); // pending delete confirmation
+  const [activityId, setActivityId] = useState(null); // user id whose activity panel is open
   const [busy, setBusy] = useState(false);
   const [moreBusy, setMoreBusy] = useState(false); // "Charger plus" in flight
 
@@ -920,6 +957,7 @@ function UsersTab() {
                   onToggle={() => { setOpenId(openId === u.id ? null : u.id); setConfirmId(null); }}
                   onConfirmDelete={() => setConfirmId(u.id)}
                   onCancelDelete={() => setConfirmId(null)}
+                  onOpenActivity={() => setActivityId(u.id)}
                   act={act}
                   planButton={planButton}
                 />
@@ -940,11 +978,12 @@ function UsersTab() {
           </div>
         )}
       </Card>
+      {activityId && <UserActivityPanel userId={activityId} onClose={() => setActivityId(null)} />}
     </div>
   );
 }
 
-function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, act, planButton }) {
+function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, onOpenActivity, act, planButton }) {
   const { c } = useApp();
   // Mirrors the server rule in api/_lib/admin/users.js: never yourself, never
   // an owner, and an admin only if you are the owner. The endpoint enforces
@@ -960,19 +999,22 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
     <>
       <tr className={`border-t transition-colors ${c.border} ${open ? "" : c.hoverSoft}`}>
         <td className="py-3.5 pr-4">
-          <div className="flex items-center gap-3 min-w-0">
+          {/* The identity cell opens the activity panel: what this candidate has
+              actually done is the question you ask BEFORE deciding to act on
+              the account, so it sits on the name rather than behind the gear. */}
+          <button onClick={onOpenActivity} className="flex items-center gap-3 min-w-0 text-left group" title={`Voir l'activité de ${u.email}`}>
             <span className="relative w-9 h-9 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">
               {(u.name || u.username || u.email || "?").trim()[0]?.toUpperCase()}
               {u.online && <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="En ligne" />}
             </span>
             <div className="min-w-0">
-              <p className={`font-medium truncate ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
+              <p className={`font-medium truncate group-hover:text-blue-600 transition-colors ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
               <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
             </div>
-          </div>
+          </button>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Sans papier"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
         <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
@@ -1001,7 +1043,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                 ))}
               </span>
               {u.plan === "Premium" && (
-                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Sans papier" }, `${u.email} repassé en Sans papier.`)}>Retirer Premium</Btn>
+                <Btn small variant="ghost" disabled={busy} icon={RotateCcw} onClick={() => act({ action: "set-plan", userId: u.id, plan: "Basic" }, `${u.email} repassé en Basic.`)}>Retirer Premium</Btn>
               )}
               {/* Only an Owner can promote/demote admins; an Owner account is never
                   demoted from here (owner assignment is service-role only). */}
@@ -1825,19 +1867,124 @@ const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived",
 const MSG_TONES = { new: "amber", resolved: "green", archived: "slate" };
 const MSG_LABELS = { new: "Nouveau", resolved: "Résolu", archived: "Archivé" };
 
+const MAX_REPLY = 4000;
+
+// The answers already sent on one message, shown under it so the inbox is a
+// conversation rather than a list of things we hope were dealt with.
+function ReplyThread({ replies }) {
+  const { c } = useApp();
+  if (!replies?.length) return null;
+  return (
+    <div className="mt-3 space-y-2">
+      {replies.map((r) => (
+        <div key={r.id} className={`flex gap-2.5 pl-3 border-l-2 border-blue-600/40`}>
+          <CornerDownRight size={14} className="text-blue-600 shrink-0 mt-1" aria-hidden="true" />
+          <div className="min-w-0 flex-1">
+            <p className={`text-sm whitespace-pre-wrap ${c.sub}`}>{r.body}</p>
+            <p className={`text-xs mt-1 ${c.faint}`}>
+              Envoyé le {when(r.created_at)}
+              {r.sent_by_email ? ` par ${r.sent_by_email}` : ""}
+              {r.emailed ? " · copie par courriel" : ""}
+              {r.read_at ? ` · lu le ${when(r.read_at)}` : " · pas encore lu"}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Compose box. Which channels are available is a property of the MESSAGE, not
+// a choice: a member who wrote while signed in has an in-app inbox, a visitor
+// has only their email address.
+function ReplyBox({ message, mailReady, onSent, onCancel }) {
+  const { c, notify } = useApp();
+  const [body, setBody] = useState("");
+  const [alsoEmail, setAlsoEmail] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const hasAccount = !!message.user_id;
+  const emailOnly = !hasAccount;
+  const blocked = emailOnly && mailReady === false;
+
+  const send = async () => {
+    const text = body.trim();
+    if (!text) return notify("Écrivez la réponse avant de l'envoyer.");
+    setBusy(true);
+    const r = await sendMessageReply({ messageId: message.id, body: text, alsoEmail: hasAccount ? alsoEmail : true });
+    setBusy(false);
+    if (!r.ok) return notify(r.error || "Réponse non envoyée.");
+    const { inApp, email } = r.data.delivered;
+    notify(
+      inApp && email ? "Réponse envoyée : sur son compte et par courriel."
+        : inApp ? "Réponse envoyée sur son compte."
+          : "Réponse envoyée par courriel.",
+    );
+    // The email is the only part that can fail on its own: the reply is stored
+    // and delivered in-app either way, so this is a warning, not an error.
+    if (r.data.emailError && inApp) notify(`Copie par courriel non envoyée : ${r.data.emailError}`);
+    setBody("");
+    onSent();
+  };
+
+  return (
+    <div className={`mt-3 p-3 rounded-2xl border ${c.border}`}>
+      <textarea
+        value={body} onChange={(e) => setBody(e.target.value.slice(0, MAX_REPLY))} rows={4} autoFocus
+        placeholder={`Répondre à ${message.name}…`} aria-label="Votre réponse"
+        className={`w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 resize-y ${c.inputCls}`} />
+      <div className="flex items-center gap-3 flex-wrap mt-2.5">
+        {hasAccount ? (
+          <label className={`flex items-center gap-2 text-xs ${mailReady === false ? c.faint : c.sub}`}>
+            <input type="checkbox" checked={alsoEmail && mailReady !== false} disabled={mailReady === false}
+              onChange={(e) => setAlsoEmail(e.target.checked)} className="accent-blue-600" />
+            Envoyer aussi une copie par courriel
+          </label>
+        ) : (
+          <p className={`text-xs ${blocked ? "text-amber-500" : c.faint}`}>
+            {blocked
+              ? "Visiteur sans compte et envoi d'emails non configuré (SMTP_USER / SMTP_PASS) : impossible de répondre d'ici."
+              : `Visiteur sans compte : la réponse partira uniquement par courriel à ${message.email}.`}
+          </p>
+        )}
+        <span className={`text-xs font-mono2 ml-auto ${c.faint}`}>{body.length}/{MAX_REPLY}</span>
+        <Btn small variant="ghost" onClick={onCancel} disabled={busy}>Annuler</Btn>
+        <Btn small icon={Send} onClick={send} disabled={busy || blocked || !body.trim()}>
+          {busy ? "Envoi…" : "Envoyer"}
+        </Btn>
+      </div>
+      {hasAccount && (
+        <p className={`text-xs mt-2 ${c.faint}`}>
+          La réponse apparaîtra dans son compte (profil et cloche de notification) dès son prochain passage.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function MessagesTab({ onCount }) {
   const { c, notify } = useApp();
   const [messages, setMessages] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("new");
+  const [replies, setReplies] = useState({});
+  const [repliesMissing, setRepliesMissing] = useState(false);
+  const [replyTo, setReplyTo] = useState(null); // message id whose compose box is open
+  const [mailReady, setMailReady] = useState(null); // null while unknown
 
-  const load = () => listContactMessages().then((r) => {
+  const load = () => listContactMessages().then(async (r) => {
     setMessages(r.messages);
     setUnavailable(!r.ok);
     onCount?.((r.messages || []).filter((m) => m.status === "new").length); // keep the sidebar badge in sync
+    const threads = await listMessageReplies((r.messages || []).map((m) => m.id));
+    setReplies(threads.byMessage);
+    setRepliesMissing(!threads.ok);
   });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    // Asked once: the answer only changes with a redeploy.
+    fetchReplyMailStatus().then((r) => setMailReady(r.ok ? !!r.data.mailConfigured : false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const patch = async (id, status, msg) => {
     const r = await setMessageStatus(id, status);
@@ -1856,6 +2003,11 @@ function MessagesTab({ onCount }) {
   const list = (messages || []).filter((m) => filter === "all" || m.status === filter);
   return (
     <div className="space-y-4">
+      {repliesMissing && (
+        <UnavailableCard>
+          Les réponses nécessitent la table <span className="font-mono2">contact_replies</span> — appliquez la migration <span className="font-mono2">20260813_contact_replies.sql</span> dans Supabase (SQL Editor). En attendant, seul le courriel fonctionne.
+        </UnavailableCard>
+      )}
       <div className="flex gap-2 flex-wrap">
         {MSG_FILTERS.map(([id, l]) => (
           <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
@@ -1879,8 +2031,19 @@ function MessagesTab({ onCount }) {
                 </div>
                 {m.subject && <p className={`text-sm font-semibold ${c.text}`}>{m.subject}</p>}
                 <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{m.message}</p>
+                <ReplyThread replies={replies[m.id]} />
+                {replyTo === m.id && (
+                  <ReplyBox message={m} mailReady={mailReady}
+                    onCancel={() => setReplyTo(null)}
+                    onSent={() => { setReplyTo(null); load(); }} />
+                )}
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                  <a href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: ${m.subject || "votre message à Passerelle"}`)}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre par courriel" title="Répondre par courriel"><Mail size={15} /></a>
+                  {replyTo !== m.id && (
+                    <Btn small variant="ghost" icon={Reply} onClick={() => setReplyTo(m.id)}>
+                      {replies[m.id]?.length ? "Répondre encore" : "Répondre"}
+                    </Btn>
+                  )}
+                  <a href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: ${m.subject || "votre message à Passerelle"}`)}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre depuis ma messagerie" title="Répondre depuis ma messagerie"><Mail size={15} /></a>
                   {m.status !== "resolved" && <button onClick={() => patch(m.id, "resolved", "Message marqué résolu.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Marquer résolu" title="Marquer résolu"><Check size={16} /></button>}
                   {m.status !== "archived" && <button onClick={() => patch(m.id, "archived", "Message archivé.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Archiver" title="Archiver"><Archive size={15} /></button>}
                   {m.status !== "new" && <button onClick={() => patch(m.id, "new", "Message remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
@@ -1921,7 +2084,7 @@ function AuditTab() {
   const detailText = (e) => {
     if (!e.detail) return "";
     if (e.action === "set-plan") {
-      if (e.detail.plan !== "Premium") return "Sans papier";
+      if (e.detail.plan !== "Premium") return "Basic";
       const d = e.detail;
       const dur = d.days ? `${d.days} j` : d.months ? `${d.months} mois` : "illimité";
       return d.label ? `${d.label} (${dur})` : `Premium ${dur}`;

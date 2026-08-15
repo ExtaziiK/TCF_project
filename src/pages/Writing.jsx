@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
-import { Play, Sparkles, ChevronDown, Check, Loader2, Keyboard } from "lucide-react";
+import { useRef } from "react";
+import { Play, Sparkles, ChevronDown, Check, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
+import { PageShell, Card, Pill, Btn, TimerChip, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
 import { getBank } from "@/services/bankService";
 import { useWritingTask } from "@/hooks/useWritingTask";
@@ -11,12 +11,6 @@ import { AiFeedback } from "@/components/expression/AiFeedback";
 import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
-
-// Accented letters and punctuation a French exam station offers on-screen, for
-// candidates whose physical keyboard can't type them. Base = lowercase; the
-// "Maj" toggle inserts the uppercase form (JS upper-cases œ→Œ, ç→Ç, æ→Æ too).
-const ACCENT_KEYS = ["à", "â", "æ", "ç", "é", "è", "ê", "ë", "î", "ï", "ô", "œ", "ù", "û", "ü", "ÿ", "«", "»"];
-const FRKB_STORE = "passerelle.frkb"; // "0" = the candidate hid it (has a FR keyboard)
 
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
@@ -78,31 +72,6 @@ function WritingTaskPane({ task }) {
   const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, words, lo, hi } = useWritingTask(task, notify);
 
   const taRef = useRef(null);
-  const [shift, setShift] = useState(false); // "Maj": insert uppercase accents
-  const [kbOn, setKbOn] = useState(() => {
-    try { return localStorage.getItem(FRKB_STORE) !== "0"; } catch { return true; }
-  });
-  const toggleKb = () => setKbOn((v) => {
-    const next = !v;
-    try { localStorage.setItem(FRKB_STORE, next ? "1" : "0"); } catch { /* storage blocked */ }
-    return next;
-  });
-
-  // Insert a character at the caret. execCommand("insertText") keeps the native
-  // undo/redo stack and fires a real input event (so the controlled onChange
-  // runs and the caret stays put); we fall back to a manual splice if it's
-  // unavailable. The buttons preventDefault on mousedown so the textarea never
-  // loses focus, keeping the caret where the candidate left it.
-  const insertChar = (ch) => {
-    const ta = taRef.current;
-    if (!ta) return;
-    ta.focus();
-    if (document.execCommand && document.execCommand("insertText", false, ch)) return;
-    const start = ta.selectionStart ?? text.length;
-    const end = ta.selectionEnd ?? text.length;
-    onTextChange(text.slice(0, start) + ch + text.slice(end));
-    window.requestAnimationFrame(() => { ta.selectionStart = ta.selectionEnd = start + ch.length; });
-  };
 
   return (
     <div className="grid lg:grid-cols-3 gap-5 rise">
@@ -118,35 +87,14 @@ function WritingTaskPane({ task }) {
           <p className={`font-medium leading-relaxed whitespace-pre-line ${c.text}`}>{task.prompt}</p>
         </Card>
         <Card className="p-2">
-          {/* Top toolbar: the on-screen French accents (for candidates without
-              a FR keyboard) and the live word count pushed to the right. The
-              Accents toggle stays visible so anyone with a FR keyboard can hide
-              the keys (their choice is remembered). Insertion preserves undo/redo. */}
-          <div className={`flex items-center gap-1.5 px-3 py-2 border-b ${c.border} flex-wrap`}>
-            <button type="button" onClick={toggleKb} aria-pressed={kbOn} title={t("Afficher ou masquer le clavier d'accents")}
-              className={`inline-flex items-center gap-1.5 px-3 h-9 rounded-lg border text-xs font-semibold transition-colors ${kbOn ? "border-blue-600 text-blue-600 bg-blue-600/5" : `${c.border} ${c.faint} ${c.hoverSoft}`}`}>
-              <Keyboard size={14} /> {t("Accents")}{kbOn ? "" : ` · ${t("masqué")}`}
-            </button>
-            {kbOn && (
-              <>
-                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => setShift((s) => !s)} aria-pressed={shift} title={t("Majuscule")}
-                  className={`w-11 h-9 rounded-lg border text-xs font-bold transition-colors ${shift ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-                  Maj
-                </button>
-                {ACCENT_KEYS.map((base) => {
-                  const ch = shift ? base.toUpperCase() : base;
-                  return (
-                    <button key={base} type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => insertChar(ch)}
-                      aria-label={`${t("Insérer")} ${ch}`}
-                      className={`w-9 h-9 rounded-lg border text-sm font-semibold transition-all ${c.border} ${c.text} ${c.hoverSoft} hover:border-blue-600 hover:text-blue-600`}>
-                      {ch}
-                    </button>
-                  );
-                })}
-              </>
-            )}
-            <span className={`ml-auto pr-2 text-xs font-mono2 font-semibold ${words >= lo && words <= hi ? "text-emerald-500" : words > 0 ? "text-amber-500" : c.faint}`}>{words} {t(words > 1 ? "mots" : "mot")} · {t("cible")} {lo}–{hi}</span>
-          </div>
+          {/* The on-screen French accents (shared with the dictée) plus the
+              live word count pushed to the right. The Accents toggle stays
+              visible so anyone with a FR keyboard can hide the keys — their
+              choice is remembered. Insertion preserves undo/redo. */}
+          <AccentKeys
+            onInsert={(ch) => insertAtCaret(taRef, ch, text, onTextChange)}
+            right={<span className={`ml-auto pr-2 text-xs font-mono2 font-semibold ${words >= lo && words <= hi ? "text-emerald-500" : words > 0 ? "text-amber-500" : c.faint}`}>{words} {t(words > 1 ? "mots" : "mot")} · {t("cible")} {lo}–{hi}</span>}
+          />
           {/* Real-exam conditions: the browser must not help the candidate
               write. spellCheck off removes the red squiggles; autoCorrect /
               autoCapitalize / autoComplete off kill iOS/Android autocorrect,
@@ -161,13 +109,7 @@ function WritingTaskPane({ task }) {
             onChange={(e) => onTextChange(e.target.value)}
             rows={11}
             aria-label={t("Zone de rédaction")}
-            spellCheck={false}
-            autoCorrect="off"
-            autoCapitalize="off"
-            autoComplete="off"
-            data-gramm="false"
-            data-gramm_editor="false"
-            data-enable-grammarly="false"
+            {...NO_ASSIST_PROPS}
             className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text}`}
           />
         </Card>

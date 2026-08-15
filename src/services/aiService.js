@@ -2,14 +2,19 @@ import { supabase } from "@/services/supabaseClient";
 import { getDeviceSessionId } from "@/services/authService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 
-// Client for the AI evaluation endpoints (api/expression-*). The Groq key
+// Client for the AI endpoints (api/expression-*, api/dictee). The Groq key
 // lives on the server; here we just forward the request with the user's
 // Supabase session so the endpoint can authorize it.
 
 export class AiError extends Error {
-  constructor(status, message) {
+  constructor(status, message, code = null) {
     super(message);
     this.status = status; // 0 = network, 404 = endpoint missing (local `vite`)
+    // Set only by the endpoints that distinguish between several refusals with
+    // the same status — the dictée's plan limits send "dictee-daily" and
+    // "dictee-pause" with their 429s, which are shown differently. Null
+    // everywhere else, and never needed to display the message.
+    this.code = code;
   }
 }
 
@@ -47,7 +52,11 @@ async function authHeaders() {
   }
 }
 
-async function postJSON(path, body, { retriedAuth = false } = {}) {
+// Exported because every authenticated POST to an AI endpoint needs the same
+// three things — a fresh token, the device-session header, and one replay on a
+// token that died mid-flight — and a second copy of that logic in another
+// service is a second place for it to rot. Used by dicteeService.
+export async function postJSON(path, body, { retriedAuth = false } = {}) {
   let res;
   try {
     res = await fetch(path, {
@@ -70,8 +79,28 @@ async function postJSON(path, body, { retriedAuth = false } = {}) {
     const { data } = await supabase.auth.refreshSession().catch(() => ({ data: null }));
     if (data?.session) return postJSON(path, body, { retriedAuth: true });
   }
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed");
+  // A body that is not JSON means the request never reached the function: a
+  // dev server with no API routes, a preview whose build dropped them, or a
+  // gateway error page — all of which answer with HTML, sometimes with status
+  // 200. Returning {} there let the caller carry on with an empty payload and
+  // fail later, somewhere unrelated, with "cannot read sentences of undefined";
+  // letting JSON.parse's own error escape put « Unexpected token '<',
+  // "<!DOCTYPE "... » in front of the candidate. Neither is something they can
+  // act on, so it is named here instead.
+  const raw = await res.text();
+  let data = {};
+  if (raw) {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      // The status is named in the message on purpose. This failure is only
+      // ever reported second-hand, in a screenshot, and "which code came back"
+      // is the one fact that separates a missing deployment from a gateway
+      // error from an SPA fallback swallowing the route.
+      throw new AiError(res.status, `Le service est injoignable — le serveur a répondu ${res.status} au lieu du résultat attendu. Réessayez dans un instant.`);
+    }
+  }
+  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed", data.code || null);
   return data;
 }
 

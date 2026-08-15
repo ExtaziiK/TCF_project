@@ -9,6 +9,7 @@ import { DzRequestStatus } from "@/components/dashboard/DzRequestStatus";
 import { ProgressPanels } from "@/components/dashboard/ProgressPanels";
 import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
+import { listDicteeSessions } from "@/services/dicteeService";
 import { computeProgress } from "@/services/progressService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES } from "@/auth/rbac";
@@ -241,18 +242,20 @@ export function MemberHome({ eyebrow = "Votre espace" }) {
   const { user, t } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [results, setResults] = useState(null);
+  const [dictees, setDictees] = useState(null);
 
   useEffect(() => {
     let live = true;
     listAttempts(user?.id).then(({ attempts: a }) => live && setAttempts(a));
     listQuizResults(user?.id).then(({ results: r }) => live && setResults(r));
+    listDicteeSessions(user?.id).then(({ sessions: s }) => live && setDictees(s));
     return () => { live = false; };
   }, [user?.id]);
 
-  const loading = attempts === null || results === null;
+  const loading = attempts === null || results === null || dictees === null;
   const data = useMemo(
-    () => (loading ? null : computeProgress({ results, attempts })),
-    [loading, results, attempts]
+    () => (loading ? null : computeProgress({ results, attempts, dictees })),
+    [loading, results, attempts, dictees]
   );
 
   return (

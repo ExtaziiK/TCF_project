@@ -16,7 +16,13 @@ import { PASSES, PASS_SLUGS, resolvePassPrice } from "../passes.js";
 // pricing page, this panel — follows automatically with no deploy and no ids to
 // keep in sync. The old price is then archived so it can never be sold again.
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Built on first use, not at import. This handler shares ONE serverless
+// function with every other admin route (api/admin/[resource].js), so a
+// client constructed at module scope throws for users, stats, usage and
+// sujets too — none of which touch Stripe — the moment STRIPE_SECRET_KEY is
+// missing or the constructor changes its mind about a bad key.
+let client = null;
+const stripe = () => (client ||= new Stripe(process.env.STRIPE_SECRET_KEY));
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
 });
@@ -41,7 +47,7 @@ async function handleGet(res) {
   const passes = await Promise.all(
     PASS_SLUGS.map(async (slug) => {
       const pass = PASSES[slug];
-      const price = await resolvePassPrice(stripe, slug).catch(() => null);
+      const price = await resolvePassPrice(stripe(), slug).catch(() => null);
       return {
         slug,
         label: pass.label,
@@ -68,7 +74,7 @@ async function handlePost(req, res, actor) {
     throw new HttpError(400, `Montant invalide (entre ${(MIN_AMOUNT / 100).toFixed(2)} et ${(MAX_AMOUNT / 100).toFixed(0)}).`);
   }
 
-  const current = await resolvePassPrice(stripe, slug);
+  const current = await resolvePassPrice(stripe(), slug);
   if (!current) throw new HttpError(502, "Prix actuel introuvable dans Stripe.");
   if (current.unit_amount === cents) return res.status(200).json({ ok: true, amount: cents, unchanged: true });
 
@@ -81,7 +87,7 @@ async function handlePost(req, res, actor) {
     // Same product, same currency, same one-time shape — only the amount moves.
     // transfer_lookup_key is what makes this a re-pricing rather than a second
     // competing price: the key leaves the old price at this moment.
-    created = await stripe.prices.create({
+    created = await stripe().prices.create({
       product: productId,
       unit_amount: cents,
       currency: current.currency,
@@ -96,7 +102,7 @@ async function handlePost(req, res, actor) {
   // in-flight session. Best effort: the lookup key has already moved, so the
   // new price is live regardless — a failure here leaves an orphan, not a bug.
   try {
-    await stripe.prices.update(current.id, { active: false });
+    await stripe().prices.update(current.id, { active: false });
   } catch (err) {
     console.warn(`pricing: could not archive ${current.id}: ${err.message}`);
   }

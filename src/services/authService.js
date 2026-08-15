@@ -245,8 +245,8 @@ export function mapSupabaseUser(session) {
     name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
-    plan: authUser.app_metadata?.plan || "Sans papier",
-    planLabel: authUser.app_metadata?.plan_label || null, // tier name (Passeport / Visa / …)
+    plan: authUser.app_metadata?.plan || "Basic",
+    planLabel: authUser.app_metadata?.plan_label || null, // tier name (Starter / Pro / …), frozen at checkout — may show a legacy name for an older account
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
     owner: authUser.app_metadata?.role === "owner",

@@ -1,4 +1,4 @@
-import { Shield, RotateCcw, CreditCard, Layers, Sparkles, Flame, Timer, BookOpen, LineChart } from "lucide-react";
+import { Shield, RotateCcw, CreditCard, Layers, Sparkles, Flame, Timer, BookOpen, LineChart, Headphones } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell } from "@/components/common";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
@@ -12,6 +12,10 @@ const WEBSITE_FEATURES = [
   { icon: Flame, t: "Sujets EE/EO du mois", d: "Les sujets d'expression écrite et orale les plus fréquents du moment, actualisés chaque mois pour coller aux sessions récentes." },
   { icon: Timer, t: "TCF blancs chronométrés", d: "L'examen complet en conditions réelles, minuté épreuve par épreuve, pour vous entraîner comme le jour J." },
   { icon: BookOpen, t: "Vocabulaire et grammaire", d: "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases." },
+  // Premium (rbac.js → dictee: PREMIUM). It stays in this grid because the
+  // grid describes what the PLATFORM offers, which is the value behind every
+  // paid plan — the tiers that actually grant it are listed on the cards above.
+  { icon: Headphones, t: "La dictée", d: "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte ni correcteur. Vous choisissez la longueur lue d'un coup, et le rapport final sépare ce que vous n'avez pas entendu de ce que vous avez mal orthographié." },
   { icon: LineChart, t: "Suivi et score estimé", d: "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment." },
 ];
 import { usePricingSelection } from "@/hooks/usePricingSelection";

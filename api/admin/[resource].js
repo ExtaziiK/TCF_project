@@ -1,10 +1,12 @@
 import users from "../_lib/admin/users.js";
+import activity from "../_lib/admin/activity.js";
 import stats from "../_lib/admin/stats.js";
 import usage from "../_lib/admin/usage.js";
 import promo from "../_lib/admin/promo.js";
 import vercel from "../_lib/admin/vercel.js";
 import pricing from "../_lib/admin/pricing.js";
 import sujets from "../_lib/admin/sujets.js";
+import reply from "../_lib/admin/reply.js";
 
 // Single serverless function for the whole admin API. Vercel counts every
 // file under api/ as one function, and the Hobby plan caps a deployment at
@@ -14,7 +16,7 @@ import sujets from "../_lib/admin/sujets.js";
 // route belongs here rather than in a new file. The real handlers live in
 // api/_lib/admin/ (underscore-prefixed paths are not deployed as functions);
 // each still does its own requireAdmin check.
-const handlers = { users, stats, usage, promo, vercel, pricing, sujets };
+const handlers = { users, activity, stats, usage, promo, vercel, pricing, sujets, reply };
 
 export default async function handler(req, res) {
   const route = handlers[req.query.resource];

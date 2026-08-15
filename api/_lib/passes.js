@@ -14,33 +14,42 @@
 // billing period, so the access window has to come from our own table. It is
 // the single place deciding how long a purchase grants.
 //
-// The client sends a SLUG ("passeport"), never a Stripe id — so no Stripe
+// The client sends a SLUG ("visa"), never a Stripe id — so no Stripe
 // identifier ships in the browser bundle, and the server picks from this
 // allow-list rather than trusting whatever arrived.
+//
+// Passeport was discontinued 2026-08 — deliberately absent below, which is
+// what makes isPassSlug("passeport") false and refuses a NEW checkout for it
+// (create-checkout-session.js). It is not a rename: someone who already holds
+// a Passeport pass keeps it under that exact name until their 5 days run out —
+// see DAILY_SITTINGS in auth.js, which still has a "passeport" entry for
+// exactly that reason. Nothing here needs to keep tracking it once every
+// holder's pass has expired.
+//
+// visa / premiere-classe / vip were RENAMED the same day (display label only —
+// "Starter" / "Pro" / "Ultimate" in src/constants/pricing.js) without changing
+// the KEYS below. The key is the checkout slug and the Stripe lookup key's
+// stem — changing it would mean updating checkout URLs and Stripe together for
+// zero user-visible benefit, since neither is ever shown. Only `label` (what
+// gets written into a NEW purchaser's plan_label) changed. Existing holders'
+// plan_label keeps whatever string was stored at THEIR checkout time (e.g.
+// "Visa"), which is why auth.js's DAILY_SITTINGS and the device_limit_for() DB
+// function both recognise the old AND the new label — two labels, one tier.
 export const PASSES = {
-  passeport: {
-    label: "Passeport",
-    days: 5,
-    lookupKey: "pass_passeport",
-    // The price these keys were introduced against. Used only to attach the
-    // lookup key the first time (see resolvePassPrice); once attached, the key
-    // is authoritative and this is dead weight that can be deleted.
-    bootstrapPriceId: "price_1Txu9yFzf0ilrkDnvsHPE0oy",
-  },
   visa: {
-    label: "Visa",
+    label: "Starter",
     days: 15,
     lookupKey: "pass_visa",
     bootstrapPriceId: "price_1Txu9uFzf0ilrkDnXXgHJiAG",
   },
   "premiere-classe": {
-    label: "Première classe",
+    label: "Pro",
     days: 30,
     lookupKey: "pass_premiere_classe",
     bootstrapPriceId: "price_1Txu9uFzf0ilrkDni2sOGNO5",
   },
   vip: {
-    label: "VIP",
+    label: "Ultimate",
     days: 90,
     lookupKey: "pass_vip",
     bootstrapPriceId: "price_1Txu9vFzf0ilrkDnltQg1Fbc",

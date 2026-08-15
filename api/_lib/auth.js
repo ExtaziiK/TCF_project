@@ -175,13 +175,54 @@ const PACE_WINDOW_SECONDS = 10 * 60;
 const SITTING_IDLE_SECONDS = 30 * 60;
 
 // Keep in sync with the plan cards in src/constants/pricing.js. Matched on the
-// plan_label baked into app_metadata at checkout (api/_lib/passes.js).
+// plan_label baked into app_metadata at checkout (api/_lib/passes.js) — a
+// user's OWN label, frozen at their checkout time, not re-derived from the
+// current plan definitions. That is why this map carries both the legacy and
+// the current label for a tier that was renamed: "visa"/"starter" are the same
+// entitlement (2026-08 rename, same price and duration, display name only),
+// just recorded under whichever string was current when that account bought
+// it. "passeport" is kept the same way for the discontinued 5-day pass —
+// nobody can buy it anymore (absent from src/constants/pricing.js and
+// api/_lib/passes.js), but whoever already holds one keeps their correct daily
+// quota until it expires rather than silently falling through to "unlimited"
+// (see the comment on dailySittingsFor below for why an unrecognised label
+// defaults there). Safe to delete a legacy entry once you are sure no account
+// still carries that label — app_metadata.plan_label in the admin Users tab.
 const DAILY_SITTINGS = {
-  passeport: 2,
-  visa: 6,
-  "premiere classe": null, // unlimited
-  vip: null,
+  passeport: 2, // legacy, discontinued 2026-08 — kept for existing holders only
+  visa: 6, // legacy label — renamed to "Starter" 2026-08, same entitlement
+  starter: 6,
+  "premiere classe": null, // unlimited — legacy label — renamed to "Pro" 2026-08, same entitlement
+  pro: null, // unlimited
+  vip: null, // unlimited — legacy label — renamed to "Ultimate" 2026-08, same entitlement
+  ultimate: null, // unlimited
 };
+
+// The dictée's daily allowance, per tâche, by the same plan_label as
+// DAILY_SITTINGS above and with the same legacy entries for the tiers that were
+// renamed — read the comment there before touching either map.
+//
+// null = no daily cap. Pro and Ultimate are sold as unlimited and are unlimited
+// here; what they get instead is a pause after a burst, which is NOT a quota
+// and is deliberately absent from the plan cards (see DICTEE_BURST below).
+// Starter's 3 is the number printed on its card, so the two move together.
+const DAILY_DICTEES = {
+  passeport: 3, // legacy, discontinued 2026-08 — kept for existing holders only
+  visa: 3, // legacy label — renamed to "Starter" 2026-08, same entitlement
+  starter: 3,
+  "premiere classe": null, // unlimited — legacy label for "Pro"
+  pro: null, // unlimited
+  vip: null, // unlimited — legacy label for "Ultimate"
+  ultimate: null, // unlimited
+};
+
+// How many dictées an unlimited plan may draw on one tâche before being asked
+// to take a break, and how long that break lasts. Not a quota and not sold as
+// one: nothing on the site mentions it, and a candidate only ever meets it by
+// drawing five dictations of the same tâche inside a quarter of an hour —
+// which is not studying, it is churning. The message says so kindly.
+export const DICTEE_BURST = 5;
+export const DICTEE_PAUSE_MINUTES = 15;
 
 const normalizeLabel = (v) =>
   String(v || "")
@@ -198,6 +239,16 @@ export function dailySittingsFor(user) {
   if (meta.role === "admin" || meta.role === "owner") return null;
   const key = normalizeLabel(meta.plan_label);
   return key in DAILY_SITTINGS ? DAILY_SITTINGS[key] : null;
+}
+
+// null = no daily cap on dictées. Same rule as dailySittingsFor: back-office
+// roles and any paid label we do not recognise are uncapped, because refusing a
+// paying customer over a label we failed to match is the worse failure.
+export function dailyDicteesFor(user) {
+  const meta = user?.app_metadata || {};
+  if (meta.role === "admin" || meta.role === "owner") return null;
+  const key = normalizeLabel(meta.plan_label);
+  return key in DAILY_DICTEES ? DAILY_DICTEES[key] : null;
 }
 
 async function claimPaidAiUse(user, taskKey) {

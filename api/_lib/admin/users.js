@@ -10,7 +10,7 @@ import { HttpError } from "../groq.js";
 //
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
-//     action: "set-plan"        { plan: "Premium"|"Sans papier", days?|months?: number|null, label? }
+//     action: "set-plan"        { plan: "Premium"|"Basic", days?|months?: number|null, label? }
 //             "extend-access"   { days: number }  adds/removes days on top of what is left
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
@@ -22,11 +22,21 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
   auth: { persistSession: false },
 });
 
-// The four paid pricing tiers (src/constants/pricing.js). Access is still the
-// single "Premium" role — the tier only differs by access duration and is kept
-// as a display label. Whitelisted here so an admin call can't stash arbitrary
-// metadata on the account.
-const PLAN_LABELS = ["Passeport", "Visa", "Première classe", "VIP"];
+// The three paid pricing tiers currently sold (src/constants/pricing.js).
+// Access is still the single "Premium" role — the tier only differs by access
+// duration and is kept as a display label. Whitelisted here so an admin call
+// can't stash arbitrary metadata on the account.
+//
+// Passeport is deliberately absent: discontinued 2026-08, so an admin can no
+// longer assign it to an account either — this whitelist governs what CAN be
+// granted going forward, not what already exists. Existing Passeport holders
+// are untouched by that; their plan_label just isn't a value anyone can set
+// again. Visa/Première classe/VIP were renamed the same day to
+// Starter/Pro/Ultimate — only the label an admin can pick changed; the legacy
+// labels remain readable everywhere else (TYPE_FILTERS below, DAILY_SITTINGS
+// in auth.js, device_limit_for() in the DB) for accounts that already hold
+// them.
+const PLAN_LABELS = ["Starter", "Pro", "Ultimate"];
 
 // A connection counts as "online" when the app pinged last_seen_at within this
 // window (the client pings every 45s; three-plus missed pings = offline).
@@ -36,14 +46,22 @@ const RECENT_LOGINS = 8;
 // Account-type filters for the Users view. Each maps a chip the admin clicks to
 // a predicate over the account's metadata (+ whether Premium is currently
 // active). Keys are the querystring values sent by the client.
+//
+// The passeport/visa/premiere-classe/vip KEYS are unchanged since the 2026-08
+// rename (they're an internal filter id, never shown), but visa/
+// premiere-classe/vip now match EITHER the legacy label or the current one —
+// an admin filtering for "Starter" needs to see accounts bought as "Visa"
+// too, since that account's plan_label was never rewritten. passeport keeps
+// matching only its one (now legacy-only) label: the plan is discontinued, so
+// there is no current label for it to also match.
 const TYPE_FILTERS = {
   all: () => true,
   "sans-papier": (meta, active) => !active && meta.role !== "admin" && meta.role !== "owner",
   premium: (meta, active) => active,
   passeport: (meta, active) => active && meta.plan_label === "Passeport",
-  visa: (meta, active) => active && meta.plan_label === "Visa",
-  "premiere-classe": (meta, active) => active && meta.plan_label === "Première classe",
-  vip: (meta, active) => active && meta.plan_label === "VIP",
+  visa: (meta, active) => active && (meta.plan_label === "Visa" || meta.plan_label === "Starter"),
+  "premiere-classe": (meta, active) => active && (meta.plan_label === "Première classe" || meta.plan_label === "Pro"),
+  vip: (meta, active) => active && (meta.plan_label === "VIP" || meta.plan_label === "Ultimate"),
   admin: (meta) => meta.role === "admin",
   owner: (meta) => meta.role === "owner",
 };
@@ -78,7 +96,7 @@ function toRow(u, profiles) {
     email: u.email,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
     username: p.username || null,
-    plan: meta.plan || "Sans papier",
+    plan: meta.plan || "Basic",
     planLabel: meta.plan_label || null,
     premiumUntil: meta.premium_until || null,
     premiumActive: premiumActive(meta),
@@ -185,7 +203,11 @@ async function handlePost(req, res, actor) {
 
   if (action === "set-plan") {
     const { plan, months, days } = req.body;
-    if (!["Premium", "Sans papier", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
+    // "Sans papier" and "Découverte" are retired free-tier names (renamed to
+    // "Basic" 2026-08 and earlier respectively) — still accepted so a stale
+    // client or an old audit-log replay never hits "Forfait inconnu.", but no
+    // current code path sends them.
+    if (!["Premium", "Basic", "Sans papier", "Découverte"].includes(plan)) throw new HttpError(400, "Forfait inconnu.");
     // Access window: `days` (pricing tiers: 5/15/30/90) takes precedence, else
     // `months` (legacy). Neither → no expiry (unlimited Premium).
     const durationMs = Number(days) > 0 ? Number(days) * 24 * 3600 * 1000
@@ -231,7 +253,7 @@ async function handlePost(req, res, actor) {
     // Shortened past the present: that is a revocation, so say so in the data
     // rather than leaving a Premium plan pointing at a date in the past.
     const patch = untilMs <= Date.now()
-      ? { plan: "Sans papier", plan_label: null, premium_until: null }
+      ? { plan: "Basic", plan_label: null, premium_until: null } // free tier, renamed from "Sans papier" 2026-08
       : { plan: "Premium", premium_until: new Date(untilMs).toISOString() };
 
     await patchMetadata(userId, patch);

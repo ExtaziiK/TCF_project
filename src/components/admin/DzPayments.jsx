@@ -154,7 +154,7 @@ export function SubscriptionRequestsTab({ onCount }) {
       amount_received_dzd: req.amount_received_dzd ?? parseDzd(req.amount_dzd),
     });
     // No forced sign-out here. It used to be necessary — app_metadata is baked
-    // into the JWT, so the buyer's session still carried "Sans papier" claims —
+    // into the JWT, so the buyer's session still carried "Basic" claims —
     // but it greeted someone who had just paid with "Reconnexion nécessaire"
     // and an eight-second countdown. useDzActivation now watches the buyer's
     // own request and remints their token within seconds of this approval, on

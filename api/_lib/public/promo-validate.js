@@ -1,7 +1,11 @@
 import Stripe from "stripe";
-import { enforceRateLimit } from "./_lib/ratelimit.js";
+import { enforceRateLimit } from "../ratelimit.js";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Lazy for the same reason as prices.js: this handler shares one serverless
+// function with geo and prices, and a client built at import time would fail
+// all three whenever STRIPE_SECRET_KEY is missing.
+let client = null;
+const stripe = () => (client ||= new Stripe(process.env.STRIPE_SECRET_KEY));
 
 // Public promo-code check for the Pricing page: returns the discount a code
 // grants so the UI can show it before checkout. Promo codes are meant to be
@@ -22,7 +26,7 @@ export default async function handler(req, res) {
   if (!code || code.length > 30) return res.status(400).json({ valid: false });
 
   try {
-    const { data } = await stripe.promotionCodes.list({ code, active: true, limit: 1, expand: ["data.promotion.coupon"] });
+    const { data } = await stripe().promotionCodes.list({ code, active: true, limit: 1, expand: ["data.promotion.coupon"] });
     const pc = data[0];
     const exhausted = pc?.max_redemptions && pc.times_redeemed >= pc.max_redemptions;
     const expired = pc?.expires_at && pc.expires_at * 1000 < Date.now();

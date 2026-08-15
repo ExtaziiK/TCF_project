@@ -2,7 +2,21 @@ import { CheckCircle2, Lock, Crown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { AuthPage } from "@/components/auth/AuthPage";
+import { DicteePitch } from "@/components/dictee/DicteePitch";
 import { deniedReason } from "@/auth/rbac";
+
+// Routes that argue their own case instead of showing the generic gate.
+//
+// "Ce module fait partie de l'abonnement Premium" is enough for a module whose
+// worth is obvious from its name — everyone knows what a mock exam is for. It
+// is not enough for the dictée: nobody arrives already knowing why a dictation
+// would tell them anything about their French, so the door has to explain what
+// is behind it. Add a route here only when that is true of it; the generic gate
+// is the right default for everything else.
+//
+// The pitch receives `reason`, because a visitor with no account and a free
+// account that needs a forfait are two different asks.
+const PITCH_PAGES = { dictee: DicteePitch };
 
 // Landing shown to visitors who try to open the free practice (or any
 // registered-only content): explains the benefits of a free account.
@@ -73,6 +87,12 @@ export function RouteGuard({ route, children }) {
   if (!authReady) return null; // avoid flashing a gate while the session loads
   const reason = deniedReason(role, route);
   if (!reason) return children;
+  // A route with its own sales page handles both "you need an account" and
+  // "you need a forfait" itself — it is the same argument either way, only the
+  // button at the end differs. "login" and "forbidden" are never pitched: one
+  // is an account page, the other a 403.
+  const Pitch = PITCH_PAGES[route];
+  if (Pitch && (reason === "register" || reason === "upgrade")) return <Pitch reason={reason} />;
   if (reason === "register") return <RegisterGate />;
   if (reason === "login") return <AuthPage mode="login" />;
   if (reason === "upgrade") return <UpgradeGate />;

@@ -7,6 +7,7 @@ import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
+import { currentPlanLabel } from "@/constants/pricing";
 
 // What fits in the nav chip: the first word only, capped at 9 characters.
 // "Abdelkadir Mehri" was wide enough to push "Accueil" into the logo. The full
@@ -125,7 +126,10 @@ export function Nav({ barOffset = false }) {
                         {notifications.map((nf) => (
                           <div key={nf.id} className={`group flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft} ${nf.read ? "" : "bg-blue-600/5"}`}>
                             <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${nf.read ? `${c.tint} ${c.faint}` : "bg-blue-600/10 text-blue-600"}`}><nf.icon size={16} /></span>
-                            <button onClick={() => markRead(nf.id)} className="flex-1 min-w-0 text-left">
+                            {/* Some notifications lead somewhere (an answer
+                                from the team lives on the profile page); the
+                                rest are read in place, as before. */}
+                            <button onClick={() => { markRead(nf.id); if (nf.route) go(nf.route); }} className="flex-1 min-w-0 text-left">
                               <p className={`text-sm ${c.text}`}>{t(nf.t)}</p>
                               <p className={`text-xs ${c.faint} mt-0.5`}>{t(nf.time)}</p>
                             </button>
@@ -152,7 +156,7 @@ export function Nav({ barOffset = false }) {
                     <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{chipName(activeProfile?.name || user.name)}</span>
                     {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
                       : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
-                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>
+                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{currentPlanLabel(user.planLabel) || "Premium"}</span>
                       : null}
                   </span>
                 </button>

@@ -78,7 +78,12 @@ function whenVoicesReady(cb) {
 // receives `spoken`: false means no audio was produced. When the browser has
 // NO French voice at all we deliberately stay silent — an English voice
 // mangling French sounds broken, and the question is on screen anyway.
-export function speak(text, onEnd) {
+//
+// `rateScale` multiplies the rate this picks for the voice rather than
+// replacing it: the dictée's speed control has to compose with the slowdown a
+// robotic voice needs, not throw it away, so 0.8× on a robotic voice is
+// 0.8 × 0.92 and on a neural one is 0.8 × 1.
+export function speak(text, onEnd, { rateScale = 1 } = {}) {
   const cleaned = canSpeak() ? cleanForSpeech(text || "") : "";
   if (!cleaned) { onEnd?.(false); return; }
   const synth = window.speechSynthesis;
@@ -96,7 +101,7 @@ export function speak(text, onEnd) {
     u.lang = voice.lang || "fr-FR";
     // Neural voices sound best at natural speed; robotic ones gain a lot of
     // intelligibility from a slight slowdown.
-    u.rate = scoreVoice(voice) >= 5 ? 1 : 0.92;
+    u.rate = (scoreVoice(voice) >= 5 ? 1 : 0.92) * rateScale;
     u.onend = () => finish(true);
     u.onerror = () => finish(false);
     try { synth.speak(u); } catch { finish(false); }

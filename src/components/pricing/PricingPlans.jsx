@@ -17,13 +17,17 @@ import { CURRENCIES } from "@/utils/currency";
 // someone. The code they entered survives that signup (see setPendingPromo).
 export function PricingPlans({ s, compact = false }) {
   const { c, t, dark } = useApp();
+  // DZD is a manual transfer meant for buyers actually in Algeria — the tab
+  // itself is hidden from anyone the geo/account signals don't place there.
+  // See usePricingSelection's dzEligible for the two signals that unlock it.
+  const currencies = CURRENCIES.filter((cur) => cur.code !== "DZD" || s.dzEligible);
 
   return (
     <>
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
       <div className={`flex justify-center ${s.currency.code === "EUR" ? "mb-8" : ""}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
-          {CURRENCIES.map((cur) => {
+          {currencies.map((cur) => {
             const active = cur.code === s.currency.code;
             return (
               <button
@@ -64,7 +68,15 @@ export function PricingPlans({ s, compact = false }) {
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
+      {/* Four plans since Passeport was discontinued (2026-08) — grid-cols-5 was
+          sized for the five original tiers and left an empty column-track of
+          dead space on wide screens once one was removed.
+          `mt-8` is for the "Le plus populaire" badge, which hangs above the
+          featured card's top edge — and hangs further on wide screens, where
+          that card is also scaled up about its centre. The notice above ("Tous
+          les paiements sont effectués en dollars US") ended up with about three
+          pixels of clearance, so the badge sat on the sentence. */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mt-8">
         {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>
 

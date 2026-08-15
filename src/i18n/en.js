@@ -15,7 +15,7 @@ export const EN = {
 
   // ── Navigation (constants/navigation.js) ─────────────────────────────
   "Accueil": "Home",
-  "Mes examens": "My exams",
+  "Épreuves": "Exams",
   "Pratique gratuite": "Free practice",
   "Compréhension orale": "Listening comprehension",
   "Compréhension écrite": "Reading comprehension",
@@ -182,12 +182,14 @@ export const EN = {
   // Network names and handles stay as they are; only the labels and the
   // one-line descriptions are translated.
   "Suivez-nous": "Follow us",
-  "Groupe Facebook": "Facebook group",
+  // "Facebook" needs no entry — an untranslated string falls back to itself.
+  // Dropped 2026-08 with the move from the group to the page: "Groupe Facebook"
+  // and "Entraide entre candidats et annonces", which described the group.
   "Communauté WhatsApp": "WhatsApp community",
   "Cours, corrigés et méthode en vidéo": "Lessons, corrections and method, on video",
   "Astuces courtes et pièges de l'examen": "Quick tips and exam traps",
   "Conseils en images et actualités du TCF": "Visual tips and TCF news",
-  "Entraide entre candidats et annonces": "Peer support between candidates, plus announcements",
+  "Actualités, conseils et annonces": "News, tips and announcements",
   "Sujets du mois et réponses rapides": "This month's topics and quick answers",
 
   // ── Shared chrome ────────────────────────────────────────────────────
@@ -278,11 +280,8 @@ export const EN = {
   "C2 obtenu": "Achieved C2",
   "Vous avez passé le TCF avec Passerelle ?": "Took the TCF with Passerelle?",
   "Partagez votre histoire": "Share your story",
-  // Testimonials carousel controls (components/home/TestimonialsCarousel.jsx)
+  // Testimonials marquee (components/home/TestimonialsCarousel.jsx)
   "carrousel": "carousel",
-  "Témoignages précédents": "Previous testimonials",
-  "Témoignages suivants": "Next testimonials",
-  "Aller à la page": "Go to page",
   "En 8 semaines, je suis passée de B1 à C1 en compréhension orale. Les TCF blancs m'ont enlevé tout le stress le jour J.":
     "In 8 weeks I went from B1 to C1 in listening. The mock exams took away all the stress on test day.",
   "Le suivi de progression m'a montré exactement où je perdais des points. J'ai obtenu les 50 points d'Entrée express qu'il me fallait.":
@@ -365,25 +364,46 @@ export const EN = {
   "Plan": "Plan",
   "Découverte": "Discovery",
   "Premium": "Premium",
-  "Sans papier": "Undocumented",
-  "Passeport": "Passport",
-  "Visa": "Visa",
-  "Classe économie": "Economy class",
-  "Première classe": "First class",
-  "VIP": "VIP",
+  "Basic": "Basic",
+  // Only "Basic" and the three paid tiers below are reachable here:
+  // PlanCard/CheckoutDz always call t(plan.name)/t(plan.cta) on the live
+  // src/constants/pricing.js array, never on a stored user.planLabel (that one
+  // renders un-translated — see Profile.jsx/Admin.jsx). So when a tier is
+  // discontinued or renamed, its old key stops being reachable the moment the
+  // PLANS entry changes, not just when the string itself changes.
+  // Dropped 2026-08: "Sans papier" (free tier, renamed to "Basic" — the
+  // description sentence below is the one other place its old name lived) and
+  // "Passeport"/"Choisir Passeport" (discontinued), plus
+  // "Visa"/"Première classe"/"VIP" + their "Choisir …" CTAs (renamed to
+  // Starter/Pro/Ultimate below). "Classe économie"/"Choisir Classe économie"
+  // were already dead before that, from an even earlier tier name — cleaned up
+  // while in this block. "5 jours d'accès" was Passeport's own duration text.
+  "Starter": "Starter",
+  "Pro": "Pro",
+  "Ultimate": "Ultimate",
   "pour toujours": "forever",
-  "5 jours d'accès": "5-day access",
   "15 jours d'accès": "15-day access",
   "30 jours d'accès": "30-day access",
   "90 jours d'accès": "90-day access",
   "Créer un compte": "Create an account",
-  "Choisir Passeport": "Choose Passport",
-  "Choisir Visa": "Choose Visa",
-  "Choisir Classe économie": "Choose Economy class",
-  "Choisir Première classe": "Choose First class",
-  "Choisir VIP": "Choose VIP",
+  "Choisir Starter": "Choose Starter",
+  "Choisir Pro": "Choose Pro",
+  "Choisir Ultimate": "Choose Ultimate",
   "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
+  "La dictée : toute la bibliothèque, sans limite": "Dictation: the whole library, no limit",
+  // Starter's capped version of the line above (3 per tâche per day).
+  "La dictée : 3 par tâche et par jour, dans toute la bibliothèque":
+    "Dictation: 3 per task per day, from the whole library",
+  // Starter's device line. Its two counterparts ("Accès simultané sur 2/4
+  // appareils") are above; this one completes the 1 / 2 / 4 progression the
+  // three paid cards are read across.
+  "Un seul appareil à la fois": "One device at a time",
+
+  // The heading a paid card's list runs under. The tiers share most of their
+  // content, so the lines that differ are listed first and named, or the prices
+  // look arbitrary. See the header of src/constants/pricing.js.
+  "Ce qui change": "What changes",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
@@ -424,6 +444,75 @@ export const EN = {
   "Vocabulaire et grammaire": "Vocabulary and grammar",
   "Cartes mémoire thématiques et leçons de grammaire ciblées pour consolider vos bases.":
     "Themed flashcards and targeted grammar lessons to strengthen your foundations.",
+  "La dictée": "Dictation",
+
+  /* --- la dictée · sales page (src/components/dictee/DicteePitch.jsx) --- */
+  "La dictée · Premium": "Dictation · Premium",
+  "L'exercice qui vous dit d'où viennent vraiment vos fautes":
+    "The exercise that tells you where your mistakes actually come from",
+  "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte, sans correcteur et sans aide. Puis le compte exact de ce que vous avez entendu, et de ce que vous avez su écrire.":
+    "A C1 or C2 model answer read aloud, which you write down with no text, no spellchecker and no help. Then the exact count of what you heard, and of what you knew how to write.",
+  "Vous écoutez": "You listen",
+  "Un corrigé de niveau C1 ou C2, écrit pour un vrai sujet d'expression écrite du TCF Canada et lu par une voix de synthèse naturelle. Rien à l'écran : seulement ce que vous entendez.":
+    "A C1 or C2 model answer, written for a real TCF Canada writing subject and read by a natural synthetic voice. Nothing on screen: only what you hear.",
+  "Vous écrivez": "You write",
+  "Vous tapez ce que vous avez entendu. Le correcteur orthographique, le copier-coller et la saisie automatique sont désactivés — c'est votre orthographe qui est mesurée, pas celle de votre navigateur.":
+    "You type what you heard. Spellcheck, copy-paste and autocomplete are all switched off — it is your spelling being measured, not your browser's.",
+  "Vous comprenez": "You understand",
+  "À la fin, le texte complet, mot à mot, avec la raison de chaque écart : accent manquant, homophone, accord, mot non entendu. Classé par fréquence, pour savoir quoi travailler en premier.":
+    "At the end, the full text, word by word, with the reason for every discrepancy: missing accent, homophone, agreement, word not heard. Ranked by frequency, so you know what to work on first.",
+  // Also the two headline stats of the end-of-dictée report
+  // (src/components/dictee/DicteeReport.jsx) — untranslated until now, so the
+  // English report showed these two labels in French. Kept identical to the
+  // wording used inside the diagnosis paragraph below.
+  "Mots reconnus": "Words recognised",
+  "Écrits sans faute": "Written correctly",
+  "Ce qu'aucun autre exercice ne vous dit": "What no other exercise tells you",
+  "Votre oreille, ou votre stylo ?": "Your ear, or your pen?",
+  "Deux candidats à soixante pour cent n'ont pas le même problème. L'un n'entend pas les mots ; l'autre les entend tous et les écrit mal. Ce sont deux chantiers différents, et travailler le mauvais ne fait rien avancer.":
+    "Two candidates at sixty per cent do not have the same problem. One cannot hear the words; the other hears them all and spells them wrong. Those are two different jobs, and working on the wrong one gets you nowhere.",
+  "La dictée sépare les deux, en deux nombres. « Mots reconnus » mesure l'oreille. « Écrits sans faute » mesure l'oreille et l'orthographe. L'écart entre les deux est votre diagnostic.":
+    "Dictation separates them, into two numbers. “Words recognised” measures the ear. “Written correctly” measures the ear and the spelling. The gap between them is your diagnosis.",
+  "Vous entendez le français. Ce n'est pas là qu'il faut travailler.":
+    "You hear French. That is not where the work is.",
+  "Vingt-sept points perdus à l'écrit seul : accents, accords, homophones.":
+    "Twenty-seven points lost on writing alone: accents, agreements, homophones.",
+  "Exemple de rapport. Vos chiffres dépendent de votre dictée.":
+    "Sample report. Your own figures depend on your dictation.",
+  "Une dictée faite comme il faut": "Dictation done properly",
+  "Pas un texte débité par un robot : chaque détail est réglé comme le ferait un formateur qui vous lirait la dictée.":
+    "Not a text rattled off by a robot: every detail is set the way a teacher reading you the dictation would set it.",
+  "Lu par groupes de sens": "Read in sense groups",
+  "La coupe tombe là où un lecteur reprend son souffle, jamais au milieu d'une idée.":
+    "The break falls where a reader takes a breath, never in the middle of an idea.",
+  "Trois longueurs d'écoute": "Three listening lengths",
+  "Un groupe à la fois pour débuter, la phrase entière comme le jour J. Et quatre vitesses.":
+    "One group at a time to start, the whole sentence like exam day. Plus four speeds.",
+  "Les accents comptent": "Accents count",
+  "Comme pour un correcteur du TCF. La ponctuation et les majuscules, non.":
+    "Just as they do for a TCF marker. Punctuation and capitals do not.",
+  "Aucune aide": "No help at all",
+  "Pas de correcteur, pas de collage, pas d'autocomplétion. L'exercice serait sans objet.":
+    "No spellchecker, no pasting, no autocomplete. The exercise would be pointless otherwise.",
+  "De vrais sujets": "Real subjects",
+  "Les corrigés sont écrits pour les sujets d'expression écrite réellement tombés en session.":
+    "The model answers are written for writing subjects that actually came up in real sessions.",
+  "Réécoutes illimitées": "Unlimited replays",
+  "Elles sont comptées, jamais bloquées — le nombre d'écoutes fait partie du diagnostic.":
+    "They are counted, never capped — how many times you listened is part of the diagnosis.",
+  "Une nouvelle dictée chaque jour": "A new dictation every day",
+  "Chaque nuit, un corrigé inédit est rédigé et enregistré pour chacune des trois tâches d'expression écrite. Et rien ne disparaît : tout ce qui a été écrit reste dans la bibliothèque, pour vous comme pour les autres. Plus vous revenez, plus il y en a.":
+    "Every night, a brand-new model answer is written and recorded for each of the three writing tasks. And nothing disappears: everything ever written stays in the library, for you and for everyone else. The more often you come back, the more there is.",
+  "La dictée fait partie de l'abonnement": "Dictation is part of the subscription",
+  "Débloquez la dictée": "Unlock dictation",
+  "Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.":
+    "It is included in every plan, along with AI simulations, timed mock exams and the eighty quizzes.",
+  "La dictée : toute la bibliothèque, dès le premier forfait": "Dictation: the whole library, from the entry plan up",
+  "Les 80 quiz débloqués, compréhension écrite et orale": "All 80 quizzes unlocked, reading and listening",
+  "TCF blancs chronométrés, notés sur 699": "Timed mock exams, scored out of 699",
+  "Correction IA de vos expressions écrite et orale": "AI feedback on your writing and speaking",
+  "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte ni correcteur. Vous choisissez la longueur lue d'un coup, et le rapport final sépare ce que vous n'avez pas entendu de ce que vous avez mal orthographié.":
+    "A C1 or C2 model answer read aloud, which you write down with no text and no spellchecker. You choose how much is read at a time, and the final report separates what you did not hear from what you misspelt.",
   "Suivi et score estimé": "Progress tracking and score estimate",
   "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment.":
     "Your progress saved, plus a TCF / NCLC score calculator to gauge your level anytime.",
@@ -713,8 +802,8 @@ export const EN = {
     "You undertake to provide accurate information when registering and to keep it up to date. You are responsible for keeping your password confidential and for all activity carried out from your account. Tell us without delay at {courriel} if you suspect unauthorised access.",
   "Un compte est strictement personnel et ne peut être partagé, prêté, revendu ni utilisé par plusieurs personnes. Le partage d'identifiants entraîne la suspension du compte sans remboursement.":
     "An account is strictly personal and may not be shared, lent, resold or used by several people. Sharing credentials results in suspension of the account without refund.",
-  "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et les pass Passeport et Visa, deux pour Première classe, quatre pour VIP. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.":
-    "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Passeport and Visa passes, two for Première classe, four for VIP. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
+  "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et le pass Starter, deux pour Pro, quatre pour Ultimate. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.":
+    "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Starter pass, two for Pro, four for Ultimate. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
   "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.":
     "You may sign in with an email address and password, or through a Google account. In the latter case, Google sends us only the information needed to create the account.",
   "Nous pouvons exiger la vérification de l'adresse électronique avant l'accès à certaines fonctionnalités du Service.":
@@ -1051,7 +1140,7 @@ export const EN = {
   "Mettre à jour le mot de passe": "Update password",
   "Abonnement": "Subscription",
   "Votre forfait Premium est actif.": "Your Premium plan is active.",
-  "Vous utilisez le forfait gratuit Sans papier.": "You are on the free Sans papier plan.",
+  "Vous utilisez le forfait gratuit Basic.": "You are on the free Basic plan.",
   "Renouvellement / échéance :": "Renewal / expiry:",
   "Ouverture…": "Opening…",
   "Gérer mon abonnement": "Manage my subscription",

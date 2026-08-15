@@ -1,6 +1,6 @@
 // The TCF blanc a free account is currently sitting.
 //
-// A "Sans papier" user is entitled to one mock exam WITH the AI correction, and
+// A "Basic" user is entitled to one mock exam WITH the AI correction, and
 // the server proves that entitlement from the attempt itself: the AI endpoints
 // accept a non-Premium caller only when the attempt named in the request is
 // theirs, is flagged as the free mock, and is still in progress

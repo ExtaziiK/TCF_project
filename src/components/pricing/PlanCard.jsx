@@ -6,8 +6,8 @@ import { startCheckout, promoLabel } from "@/services/stripeService";
 import { setDzCheckoutPlan, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getLaunchDiscount } from "@/services/settingsService";
 
-// Accents grade along the brand gradient, from blue up through red, then gold
-// for the top VIP tier. `grad` drives the price text, the "popular" badge and
+// Accents grade along the brand gradient: blue (free) → violet → red → gold
+// for the top Ultimate tier. `grad` drives the price text, the "popular" badge and
 // the CTA; `solid` drives the eyebrow, border, checks and the hover glow.
 // (Inline styles, so the ramp isn't tied to a Tailwind palette.)
 export const ACCENTS = {
@@ -133,7 +133,19 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           )}
           <div className="relative z-10 flex flex-col flex-1">
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
-          <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
+          {/* The name carries the tier's own colour ramp, like the price and the
+              CTA below it, so each card reads as one object rather than a grey
+              heading over a coloured one. `metal-text` opts it into the same
+              hover shimmer as the price (see .plan-card:hover .metal-text) —
+              safe here because nothing else sets an `animation` on this span,
+              which is the trap the price had to be split in two to avoid. */}
+          <h3 className="font-display font-extrabold text-2xl leading-tight">
+            <span className="metal-text" style={gradText}>{t(p.name)}</span>
+          </h3>
+          {/* Short gradient rule under the name: gives the eye a fixed place to
+              stop before the price on all four cards, whatever the name's
+              length. */}
+          <span className="block mt-2 h-[3px] w-9 rounded-full" style={{ background: a.grad }} aria-hidden="true" />
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
             {/* Two spans, not one: the entrance `.rise` and the hover shimmer
                 both set the `animation` shorthand, so on one element the more
@@ -149,21 +161,43 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
               </span>
             )}
             {!priceLoading && struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
-            <span className={`text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
+            {/* `w-full` puts the duration on its own line under the figure, on
+                every card. It used to sit beside the price and wrap only when
+                it did not fit, so "15 jours d'accès" trailed Starter's short
+                price while the longer ones dropped below — the one line a buyer
+                compares across four cards, landing in a different place on
+                each. */}
+            <span className={`w-full text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
           </p>
           {!priceLoading && priceBadge && (
             <p className="mt-1.5">
               <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
             </p>
           )}
-          <ul className="mt-6 space-y-3 flex-1">
-            {p.feats.slice(0, compact ? 4 : 99).map((f) => (
-              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
-                <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
-                <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
-              </li>
-            ))}
-          </ul>
+          {/* ONE list, uniformly styled — the differences first, then what every
+              paid plan grants alike. The two used to be separated by a second
+              heading and set in a quieter type; the split was doing the work
+              twice, since `feats` already leads with what changes and the
+              heading above it says so. The shared lines are ordinary features
+              and now read like ordinary features.
+              The heading itself is for the full page only: the landing page's
+              compact cards show the four differences alone, where a heading
+              over a four-line list is more furniture than help. */}
+          <div className="mt-6 flex-1">
+            {!compact && p.also?.length > 0 && (
+              <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: a.solid }}>
+                {t("Ce qui change")}
+              </p>
+            )}
+            <ul className="space-y-3">
+              {(compact ? p.feats.slice(0, 4) : [...p.feats, ...(p.also || [])]).map((f) => (
+                <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
+                  <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
+                  <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
           <Btn
             // Fixed height + tight leading so one- and two-line labels
             // (e.g. "Choisir Première classe") render at exactly the same size —

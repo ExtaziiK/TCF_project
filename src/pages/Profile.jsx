@@ -6,6 +6,7 @@ import {
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { ROLES, isStaff } from "@/auth/rbac";
+import { currentPlanLabel } from "@/constants/pricing";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -14,6 +15,7 @@ import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import {
   listMyTestimonials, submitTestimonial, deleteTestimonial, MIN_BODY, MAX_BODY,
 } from "@/services/testimonialsService";
+import { listMyThreads, markRepliesRead } from "@/services/supportService";
 
 const fmtDate = (iso) => (iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" }) : "—");
 
@@ -111,7 +113,7 @@ export function Profile() {
             <h2 className={`font-display font-bold text-xl ${c.text}`}>{user.name}</h2>
             {user.owner && <Pill tone="amber"><Shield size={12} /> Owner</Pill>}
             {user.admin && <Pill tone="blue"><Shield size={12} /> Admin</Pill>}
-            {isPremium ? <Pill tone="blue"><Crown size={12} /> {user.planLabel || "Premium"}</Pill> : <Pill tone="slate">{t("Sans papier")}</Pill>}
+            {isPremium ? <Pill tone="blue"><Crown size={12} /> {currentPlanLabel(user.planLabel) || "Premium"}</Pill> : <Pill tone="slate">{t("Basic")}</Pill>}
           </div>
           {initialUsername && <p className={`text-sm ${c.sub}`}>@{initialUsername}</p>}
           <p className={`text-sm ${c.faint}`}>{user.email}</p>
@@ -174,11 +176,11 @@ export function Profile() {
         </ProfileSection>
 
         {/* subscription */}
-        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Sans papier.")}>
+        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Basic.")}>
           {isPremium ? (
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>
-                <p className={`font-semibold ${c.text} flex items-center gap-2`}><Crown size={16} className="text-blue-600" /> {user.planLabel || "Premium"}</p>
+                <p className={`font-semibold ${c.text} flex items-center gap-2`}><Crown size={16} className="text-blue-600" /> {currentPlanLabel(user.planLabel) || "Premium"}</p>
                 {user.premiumUntil && <p className={`text-sm mt-1 ${c.sub}`}>{t("Fin de votre accès :")} {t(fmtDate(user.premiumUntil))}</p>}
               </div>
               {/* No billing-portal button: a pass is a single purchase (CGU s.6)
@@ -214,11 +216,81 @@ export function Profile() {
           </div>
         </ProfileSection>
 
+        {/* conversations with the team — only rendered when there are any */}
+        <div className="lg:col-span-2"><SupportSection /></div>
+
         {/* success story — submitted here, published on the landing page only
             once an admin approves it */}
         <div className="lg:col-span-2"><TestimonialSection /></div>
       </div>
     </PageShell>
+  );
+}
+
+/* --------------------------- messages with the team ----------------------- */
+
+const fmtDateTime = (iso) =>
+  iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
+
+// The member's own contact threads: what they wrote to us, and what we
+// answered. Only messages sent while signed in appear here — one sent as a
+// visitor belongs to no account and is answered by email (see supportService).
+//
+// The section renders nothing at all when there is no conversation: an empty
+// "Mes messages" card on every profile would be noise for the vast majority of
+// members, who never write to us.
+function SupportSection() {
+  const { c, user, t } = useApp();
+  const [threads, setThreads] = useState(null);
+
+  useEffect(() => {
+    let live = true;
+    listMyThreads(user?.id).then((r) => {
+      if (!live) return;
+      setThreads(r.threads);
+      // Opening the page IS reading them. Marking here (rather than on a click)
+      // is what clears the nav bell, and the bell is what brought them here.
+      const unread = r.threads.flatMap((th) => th.replies.filter((rep) => !rep.readAt).map((rep) => rep.id));
+      if (unread.length) markRepliesRead(unread);
+    });
+    return () => { live = false; };
+  }, [user?.id]);
+
+  if (!threads?.length) return null;
+
+  return (
+    <div id="mes-messages">
+      <ProfileSection icon={Mail} title={t("Mes messages")} desc={t("Vos échanges avec notre équipe.")}>
+        <div className="space-y-4">
+          {threads.map((th) => (
+            <div key={th.id} className={`rounded-2xl border ${c.border} p-4`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                {th.subject && <p className={`text-sm font-semibold ${c.text}`}>{th.subject}</p>}
+                <span className={`text-xs ${c.faint}`}>{t(fmtDateTime(th.createdAt))}</span>
+                {th.replies.some((r) => !r.readAt) && <Pill tone="blue">{t("Nouvelle réponse")}</Pill>}
+              </div>
+              <p className={`text-sm mt-1.5 whitespace-pre-wrap ${c.sub}`}>{th.message}</p>
+
+              {th.replies.length === 0 ? (
+                <p className={`text-xs mt-3 ${c.faint}`}>
+                  {t("Message bien reçu. Notre équipe vous répond ici même, et par courriel.")}
+                </p>
+              ) : (
+                <div className="mt-3 space-y-3">
+                  {th.replies.map((r) => (
+                    <div key={r.id} className="pl-3 border-l-2 border-blue-600/50">
+                      <p className={`text-xs font-semibold text-blue-600`}>{t("Réponse de l'équipe Passerelle TCF")}</p>
+                      <p className={`text-sm mt-1 whitespace-pre-wrap ${c.text}`}>{r.body}</p>
+                      <p className={`text-xs mt-1 ${c.faint}`}>{t(fmtDateTime(r.createdAt))}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </ProfileSection>
+    </div>
   );
 }
 

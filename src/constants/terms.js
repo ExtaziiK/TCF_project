@@ -7,14 +7,22 @@
 // one.
 //
 // ─────────────────────────────────────────────────────────────────────────────
-// IN FORCE since 30 July 2026 (version 1.0).
+// IN FORCE since 9 August 2026 (version 1.1).
+//
+// 1.1 (9 Aug 2026): section 4's device-limit sentence named the pricing tiers
+// directly — "Passeport et Visa", "Première classe", "VIP" — and those three
+// were renamed the same day (Starter / Pro / Ultimate; Passeport discontinued,
+// see src/constants/pricing.js). Wording changed, so the version bumps per the
+// rule above it; substance did not — the device counts per tier are identical,
+// only what a tier is CALLED changed. TERMS_REACCEPTANCE stays false: nothing
+// here is the "modification substantielle" section 2 reserves that gate for.
 //
 // The section-6 divergence is CLOSED: the code was brought to the contract
 // rather than the other way round. Checkout now uses Stripe `payment` mode with
 // one-time prices only, and the access window comes from api/_lib/passes.js
 // (5 / 15 / 30 / 90 days) instead of a billing period, so nothing renews. The
-// wording did not change, so TERMS_VERSION stays at 1.0 — see the migration
-// note in 20260731 for the section-7 half of the same review.
+// wording did not change, so TERMS_VERSION stayed at 1.0 at the time — see the
+// migration note in 20260731 for the section-7 half of the same review.
 //
 // Legacy recurring subscriptions sold before the switch are still honoured by
 // the webhook until they lapse; they are the one population for whom section 6
@@ -45,8 +53,8 @@ export function fillOperator(text) {
 // Bumped whenever the wording changes: every acceptance is recorded against
 // this string (terms_acceptances, 20260730 migration), which is what lets you
 // tell later who agreed to which text. Keep each published version in git.
-export const TERMS_VERSION = "1.0";
-export const TERMS_UPDATED = "30 juillet 2026";
+export const TERMS_VERSION = "1.1";
+export const TERMS_UPDATED = "9 août 2026";
 
 // Flips the "still being written" notice on the page and in the dialog, and
 // the noindex on both legal pages. False since the documents went into force;
@@ -101,7 +109,7 @@ export const TERMS_SECTIONS = [
     p: [
       "Vous vous engagez à fournir des informations exactes à l'inscription et à les tenir à jour. Vous êtes responsable de la confidentialité de votre mot de passe et de toute activité effectuée depuis votre compte. Prévenez-nous sans délai à {courriel} si vous suspectez un accès non autorisé.",
       "Un compte est strictement personnel et ne peut être partagé, prêté, revendu ni utilisé par plusieurs personnes. Le partage d'identifiants entraîne la suspension du compte sans remboursement.",
-      "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et les pass Passeport et Visa, deux pour Première classe, quatre pour VIP. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.",
+      "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et le pass Starter, deux pour Pro, quatre pour Ultimate. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.",
       "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.",
       "Nous pouvons exiger la vérification de l'adresse électronique avant l'accès à certaines fonctionnalités du Service.",
     ],

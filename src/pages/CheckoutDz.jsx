@@ -89,7 +89,7 @@ export function CheckoutDz() {
   const amount = promo?.percentOff ? applyPercentOff(fullAmount, promo.percentOff) : fullAmount;
   const waUrl = cfg?.whatsappGroupUrl || "";
 
-  // Same validation the Tarifs page runs (api/promo-validate), with the same
+  // Same validation the Tarifs page runs (api/public/promo-validate), with the same
   // dinar rule: a fixed-amount Stripe coupon is denominated in USD and cannot
   // honestly be subtracted from a dinar total, so only a percentage is kept.
   const applyCoupon = async () => {
@@ -177,8 +177,12 @@ export function CheckoutDz() {
             <p className="font-display font-extrabold text-lg">{t(plan.name)}</p>
             <p className="text-sm text-white/85">{plan.days} {t("jours d'accès")}</p>
           </div>
+          {/* Both lists, run together. On the pricing cards `feats` and `also`
+              are split so the tiers can be COMPARED; here the tier is already
+              chosen and the buyer is checking what they are about to transfer
+              money for, so the summary is simply everything the pass grants. */}
           <ul className="mt-5 space-y-2.5">
-            {plan.feats.map((f) => (
+            {[...plan.feats, ...(plan.also || [])].map((f) => (
               <li key={f} className={`flex gap-2 text-sm ${c.sub}`}><Check size={16} className="text-emerald-500 shrink-0 mt-0.5" /><span>{t(f)}</span></li>
             ))}
           </ul>
