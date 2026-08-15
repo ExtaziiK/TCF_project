@@ -38,11 +38,47 @@
 // Pro → 2 simultaneous devices, Ultimate → 4, other plans → 1. Over the
 // limit, the newest login wins and the oldest device is signed out — a login is
 // never refused for this reason.
-// Feature lists are ordered deliberately: PlanCard shows only the FIRST FOUR
-// on the landing page (compact mode), so each plan leads with what it grants
-// that the free tier does not. The quantities match what api/_lib/auth.js
-// actually enforces — a card promising more than the code grants is a support
-// ticket, not marketing.
+// TWO LISTS PER PLAN, and the split is the whole point of the page.
+//
+// `feats` holds ONLY what differs between the tiers; `also` holds what every
+// paid tier grants identically. Read across the three paid cards and `feats`
+// lines up axis by axis, in the same order every time — AI simulations, mock
+// exams, dictée, devices — so "6 par jour / illimitées / illimitées" and
+// "1 / 2 / 4 appareils" can be compared by moving the eye sideways instead of
+// re-reading three near-identical lists. That was the actual problem: the tiers
+// share most of their content, so a single mixed list made $7.99, $19.99 and
+// $49.99 look like three prices for the same thing.
+//
+// Everything shared therefore moves to `also`, shown once per card under its
+// own quieter heading — still there, still promised, just not competing with
+// the four lines that decide the purchase. It is IDENTICAL across the three
+// paid plans and a test holds it that way (tests/pricing-cards.test.mjs): the
+// moment one card's shared block drifts, the comparison silently stops being
+// one. `tagline` names the tier's position in a single line above the price.
+//
+// The free tier has no `also`: it is the baseline the paid `feats` differ
+// FROM, so its list stays whole and PlanCard drops the headings for it.
+//
+// PlanCard shows only the FIRST FOUR `feats` on the landing page (compact
+// mode) — which, now that `feats` is the differences, is exactly the four
+// lines worth showing there. Duration is not in either list: it sits next to
+// the price ("30 jours d'accès"), which is where a buyer looks for it.
+//
+// The quantities match what api/_lib/auth.js actually enforces — a card
+// promising more than the code grants is a support ticket, not marketing.
+
+// What every paid tier grants identically. One array referenced by all three
+// rather than three copies: three copies is how a line gets edited on one card
+// and left stale on the others, and a shared block that is not word-for-word
+// shared is worse than no shared block at all — it puts a difference in front
+// of the reader where there is none.
+const SHARED_PAID_FEATS = [
+  "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+  "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
+  "Entretien oral simulé avec un examinateur IA qui vous répond",
+  "Un nouveau sujet d'expression à chaque session",
+];
+
 export const PLANS = [
   {
     // Renamed from "Sans papier" 2026-08. This is also the literal string
@@ -61,6 +97,7 @@ export const PLANS = [
     name: "Basic",
     price: "$0",
     per: "pour toujours",
+    tagline: "De quoi vous faire une idée",
     accent: "blue",
     cta: "Créer un compte",
     featured: false,
@@ -99,21 +136,27 @@ export const PLANS = [
     accent: "violet",
     cta: "Choisir Starter",
     featured: false,
+    // The one tier with daily quotas, so the tagline says exactly that: it is
+    // what the buyer is trading away for the lower price, and finding it out
+    // after paying is how a refund request starts.
+    tagline: "Tout est ouvert, avec un quota par jour",
     slug: "visa", // internal slug unchanged on rename — see the note above the array
     feats: [
       "6 simulations IA par jour en expression écrite, et 6 à l'oral",
-      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
       "3 TCF blancs chronométrés par jour, notés sur 699",
       // Enforced, per tâche and per day, in api/_lib/auth.js:DAILY_DICTEES —
-      // change one and change the other. The three paid cards differ only on
-      // this line: Starter is capped, Pro and Ultimate are not (and their
-      // fifteen-minute anti-churn pause is deliberately not advertised, being a
-      // pause and not an allowance — see api/_lib/dictee-quota.js).
+      // change one and change the other. (Pro and Ultimate's fifteen-minute
+      // anti-churn pause is deliberately not advertised, being a pause and not
+      // an allowance — see api/_lib/dictee-quota.js.)
       "La dictée : 3 par tâche et par jour, dans toute la bibliothèque",
-      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
-      "Entretien oral simulé avec un examinateur IA qui vous répond",
-      "Un nouveau sujet d'expression à chaque session",
+      // Enforced by device_limit_for() and stated in the CGU (terms.js §4):
+      // one device for free accounts and Starter, two for Pro, four for
+      // Ultimate. Listed here even though it is a limit rather than a grant —
+      // without it the 1 / 2 / 4 progression has a hole in its first column
+      // and the reader cannot tell whether Starter has no limit or no mention.
+      "Un seul appareil à la fois",
     ],
+    also: SHARED_PAID_FEATS,
   },
   {
     name: "Pro",
@@ -123,17 +166,17 @@ export const PLANS = [
     accent: "red",
     cta: "Choisir Pro",
     featured: true,
+    // Same tools as Starter, minus the ceilings — which is the only thing the
+    // extra money buys on this step, so it is the only thing the line claims.
+    tagline: "Les mêmes outils, sans aucun quota",
     slug: "premiere-classe", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
-      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
       "La dictée : toute la bibliothèque, sans limite",
       "Accès simultané sur 2 appareils",
-      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
-      "Entretien oral simulé avec un examinateur IA qui vous répond",
-      "Un nouveau sujet d'expression à chaque session",
     ],
+    also: SHARED_PAID_FEATS,
   },
   {
     name: "Ultimate",
@@ -143,17 +186,20 @@ export const PLANS = [
     accent: "gold",
     cta: "Choisir Ultimate",
     featured: false,
+    // Ultimate and Pro are the SAME entitlements but for the device count:
+    // what the extra money buys is three months instead of one. Saying so is
+    // what stops the price looking arbitrary next to Pro's — and PlanCard
+    // works out the per-day saving from the live prices to back it up
+    // (src/utils/planValue.js).
+    tagline: "Le forfait Pro, sur trois mois",
     slug: "vip", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
-      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
       "La dictée : toute la bibliothèque, sans limite",
       "Accès simultané sur 4 appareils",
-      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
-      "Entretien oral simulé avec un examinateur IA qui vous répond",
-      "Un nouveau sujet d'expression à chaque session",
     ],
+    also: SHARED_PAID_FEATS,
   },
 ];
 

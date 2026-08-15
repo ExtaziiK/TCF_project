@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Sparkles, Check } from "lucide-react";
+import { Sparkles, Check, TrendingDown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
@@ -61,7 +61,7 @@ function discounted(price, promo) {
   return price.replace(m[0], Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2));
 }
 
-export function PlanCard({ p, compact, promo, index = 0, currency }) {
+export function PlanCard({ p, compact, promo, index = 0, currency, valueNote }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
   // The launch "−50 %" badge is admin-toggled (Tarifs → Prix). Starts null
@@ -134,6 +134,11 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           <div className="relative z-10 flex flex-col flex-1">
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
           <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
+          {/* One line naming where this tier sits, above the price rather than
+              below it: it is what makes the figure underneath mean something,
+              and a buyer scanning four cards reads the small bold line and the
+              big number, in that order, before anything else. */}
+          {p.tagline && <p className={`mt-1 text-sm font-semibold ${c.sub}`}>{t(p.tagline)}</p>}
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
             {/* Two spans, not one: the entrance `.rise` and the hover shimmer
                 both set the `animation` shorthand, so on one element the more
@@ -156,14 +161,53 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
               <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
             </p>
           )}
-          <ul className="mt-6 space-y-3 flex-1">
-            {p.feats.slice(0, compact ? 4 : 99).map((f) => (
-              <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
-                <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
-                <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
-              </li>
-            ))}
-          </ul>
+          {/* The arithmetic a buyer would otherwise have to do to see why the
+              longest pass costs the most — see src/utils/planValue.js. Only
+              ever present on a plan that really is cheaper by the day than the
+              featured one, and only once its live price has arrived. */}
+          {!priceLoading && valueNote && (
+            <p className="mt-1.5 text-xs font-semibold text-emerald-600 flex items-center gap-1.5">
+              <TrendingDown size={13} aria-hidden="true" />
+              {valueNote.percent} % {t("moins cher par jour qu'en")} {t(valueNote.reference)}
+            </p>
+          )}
+
+          {/* Two blocks, and the split is the page's whole argument: what
+              CHANGES between the tiers first, in the plan's own colour, then
+              what every paid plan grants alike, quieter. The headings are for
+              the full page only — the landing page's compact cards show the
+              four differences alone, where a heading over a four-line list
+              would be more furniture than help. */}
+          <div className="mt-6 flex-1">
+            {!compact && p.also?.length > 0 && (
+              <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: a.solid }}>
+                {t("Ce qui change")}
+              </p>
+            )}
+            <ul className="space-y-3">
+              {p.feats.slice(0, compact ? 4 : 99).map((f) => (
+                <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
+                  <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
+                  <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
+                </li>
+              ))}
+            </ul>
+            {!compact && p.also?.length > 0 && (
+              <>
+                <p className={`text-[11px] font-bold uppercase tracking-widest mt-6 mb-3 ${c.faint}`}>
+                  {t("Inclus aussi, dans tous les forfaits")}
+                </p>
+                <ul className="space-y-2.5">
+                  {p.also.map((f) => (
+                    <li key={f} className={`flex gap-2.5 text-[13px] ${c.faint}`}>
+                      <Check size={14} className="shrink-0 mt-0.5 opacity-70" />
+                      <span>{t(f)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
           <Btn
             // Fixed height + tight leading so one- and two-line labels
             // (e.g. "Choisir Première classe") render at exactly the same size —

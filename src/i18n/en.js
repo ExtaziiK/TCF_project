@@ -393,6 +393,24 @@ export const EN = {
   // Starter's capped version of the line above (3 per tâche per day).
   "La dictée : 3 par tâche et par jour, dans toute la bibliothèque":
     "Dictation: 3 per task per day, from the whole library",
+  // Starter's device line. Its two counterparts ("Accès simultané sur 2/4
+  // appareils") are above; this one completes the 1 / 2 / 4 progression the
+  // three paid cards are read across.
+  "Un seul appareil à la fois": "One device at a time",
+
+  // The two headings PlanCard splits a paid card's list under, and the taglines
+  // that sit above each price. Both exist for the same reason: the tiers share
+  // most of their content, so what differs has to be pulled out and named or
+  // the prices look arbitrary. See the header of src/constants/pricing.js.
+  "Ce qui change": "What changes",
+  "Inclus aussi, dans tous les forfaits": "Also included, in every plan",
+  "De quoi vous faire une idée": "Enough to get a feel for it",
+  "Tout est ouvert, avec un quota par jour": "Everything is open, with a daily quota",
+  "Les mêmes outils, sans aucun quota": "The same tools, with no quota at all",
+  "Le forfait Pro, sur trois mois": "The Pro plan, over three months",
+  // Composed with a percentage and a plan name around it, e.g. "17 % moins
+  // cher par jour qu'en Pro" (src/utils/planValue.js).
+  "moins cher par jour qu'en": "cheaper per day than",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
