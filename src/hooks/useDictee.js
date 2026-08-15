@@ -231,11 +231,19 @@ export function useDictee() {
     if (playerRef.current) playerRef.current.playbackRate = speed;
   }, [speed]);
 
-  // Each new passage reads itself, the way a dictation actually runs: the
-  // reader moves on when you have finished writing, and you do not ask them to
-  // begin. Making someone reach for the play button between every passage —
-  // thirty-three times, in "Débutant" — turns a dictée into a clicking
-  // exercise. Replays stay manual and stay unlimited.
+  // Every passage AFTER the first reads itself, the way a dictation actually
+  // runs: the reader moves on when you have finished writing, and you do not
+  // ask them to begin. Making someone reach for the play button between every
+  // passage — thirty-three times, in "Débutant" — turns a dictée into a
+  // clicking exercise. Replays stay manual and stay unlimited.
+  //
+  // The FIRST one waits. The page has just loaded, the candidate is still
+  // settling in and finding the accent keys, and a passage that starts reading
+  // into an empty room is one they have to replay anyway — it would be counted
+  // against them in the écoutes total for nothing. Starting it is also the
+  // gesture that gives the tab its user activation, which is what makes every
+  // automatic play after it reliable rather than at the mercy of the browser's
+  // autoplay policy.
   //
   // `startedRef` (declared with the other refs) holds the last index this fired
   // for, so the effect can depend on `play` — whose identity changes with speed
@@ -243,7 +251,8 @@ export function useDictee() {
   // reading. It is reset on every new dictée, otherwise passage 0 of the next
   // one looks like one that has already played.
   useEffect(() => {
-    if (phase !== "typing" || !segments.length || startedRef.current === index) return;
+    if (phase !== "typing" || !segments.length || index === 0) return;
+    if (startedRef.current === index) return;
     startedRef.current = index;
     // A beat before it begins. Instant playback treads on the keystroke that
     // validated the previous passage, and a real reader pauses here too.
