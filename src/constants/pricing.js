@@ -49,20 +49,24 @@
 // share most of their content, so a single mixed list made $7.99, $19.99 and
 // $49.99 look like three prices for the same thing.
 //
-// Everything shared therefore moves to `also`, shown once per card under its
-// own quieter heading — still there, still promised, just not competing with
-// the four lines that decide the purchase. It is IDENTICAL across the three
-// paid plans and a test holds it that way (tests/pricing-cards.test.mjs): the
-// moment one card's shared block drifts, the comparison silently stops being
-// one. `tagline` names the tier's position in a single line above the price.
+// Everything shared therefore moves to `also`. It is IDENTICAL across the
+// three paid plans and a test holds it that way (tests/pricing-cards.test.mjs):
+// the moment one card's shared block drifts, the comparison silently stops
+// being one.
+//
+// The two are ORDER, not styling. PlanCard renders them as a single uniform
+// list under one "Ce qui change" heading — the differences simply come first,
+// which is all the emphasis they need. (They were briefly a second block in
+// smaller, greyer type under a heading of their own; that said the same thing
+// three times and made half of every paid card look like a footnote.)
 //
 // The free tier has no `also`: it is the baseline the paid `feats` differ
-// FROM, so its list stays whole and PlanCard drops the headings for it.
+// FROM, so its list stays whole and PlanCard drops the heading for it.
 //
 // PlanCard shows only the FIRST FOUR `feats` on the landing page (compact
 // mode) — which, now that `feats` is the differences, is exactly the four
-// lines worth showing there. Duration is not in either list: it sits next to
-// the price ("30 jours d'accès"), which is where a buyer looks for it.
+// lines worth showing there. Duration is in neither list: it sits under the
+// price ("30 jours d'accès"), which is where a buyer looks for it.
 //
 // The quantities match what api/_lib/auth.js actually enforces — a card
 // promising more than the code grants is a support ticket, not marketing.
@@ -97,7 +101,6 @@ export const PLANS = [
     name: "Basic",
     price: "$0",
     per: "pour toujours",
-    tagline: "De quoi vous faire une idée",
     accent: "blue",
     cta: "Créer un compte",
     featured: false,
@@ -136,10 +139,6 @@ export const PLANS = [
     accent: "violet",
     cta: "Choisir Starter",
     featured: false,
-    // The one tier with daily quotas, so the tagline says exactly that: it is
-    // what the buyer is trading away for the lower price, and finding it out
-    // after paying is how a refund request starts.
-    tagline: "Tout est ouvert, avec un quota par jour",
     slug: "visa", // internal slug unchanged on rename — see the note above the array
     feats: [
       "6 simulations IA par jour en expression écrite, et 6 à l'oral",
@@ -166,9 +165,6 @@ export const PLANS = [
     accent: "red",
     cta: "Choisir Pro",
     featured: true,
-    // Same tools as Starter, minus the ceilings — which is the only thing the
-    // extra money buys on this step, so it is the only thing the line claims.
-    tagline: "Les mêmes outils, sans aucun quota",
     slug: "premiere-classe", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
@@ -187,11 +183,8 @@ export const PLANS = [
     cta: "Choisir Ultimate",
     featured: false,
     // Ultimate and Pro are the SAME entitlements but for the device count:
-    // what the extra money buys is three months instead of one. Saying so is
-    // what stops the price looking arbitrary next to Pro's — and PlanCard
-    // works out the per-day saving from the live prices to back it up
-    // (src/utils/planValue.js).
-    tagline: "Le forfait Pro, sur trois mois",
+    // what the extra money buys is three months instead of one, which is what
+    // "90 jours d'accès" under the price is there to say.
     slug: "vip", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",

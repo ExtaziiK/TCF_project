@@ -4,7 +4,6 @@ import { Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { promoLabel } from "@/services/stripeService";
 import { CURRENCIES } from "@/utils/currency";
-import { perDayValueNotes } from "@/utils/planValue";
 
 // The pricing controls: currency switch, the plan cards, and the promo field.
 // Rendered identically by the Tarifs page and by the landing page's pricing
@@ -22,7 +21,6 @@ export function PricingPlans({ s, compact = false }) {
   // itself is hidden from anyone the geo/account signals don't place there.
   // See usePricingSelection's dzEligible for the two signals that unlock it.
   const currencies = CURRENCIES.filter((cur) => cur.code !== "DZD" || s.dzEligible);
-  const valueNotes = perDayValueNotes(s.plans);
 
   return (
     <>
@@ -74,22 +72,7 @@ export function PricingPlans({ s, compact = false }) {
           sized for the five original tiers and left an empty column-track of
           dead space on wide screens once one was removed. */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-        {s.plans.map((p, i) => (
-          <PlanCard
-            key={p.name}
-            p={p}
-            promo={s.dzUsablePromo}
-            compact={compact}
-            index={i}
-            currency={s.currency}
-            // Worked out here and not in the card: it is a comparison BETWEEN
-            // plans, and only this component holds them all. Recomputed on
-            // every render on purpose — the prices it divides arrive from
-            // Stripe a beat after the first paint and change again with the
-            // currency tab.
-            valueNote={valueNotes[p.name]}
-          />
-        ))}
+        {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>
 
       <Card className="mt-10 max-w-xl mx-auto p-6">
