@@ -60,6 +60,7 @@ export function useDictee() {
   const urlsRef = useRef([]); // object URLs, one per sense group
   const playerRef = useRef(null);
   const runRef = useRef(0); // cancels an in-flight playback queue
+  const startedRef = useRef(-1); // last segment index the autoplay fired for
   const startedAtRef = useRef(null);
   const savedRef = useRef(false);
 
@@ -130,6 +131,7 @@ export function useDictee() {
     setDraft("");
     setPlays(0);
     savedRef.current = false;
+    startedRef.current = -1;
     try {
       const data = await fetchDictee({ task, sujetKey, exclude: recentSujetKeys(history) });
       urlsRef.current = (data.audio || []).map((b64) => audioUrlFromBase64(b64, data.audioMime));
@@ -229,6 +231,26 @@ export function useDictee() {
     if (playerRef.current) playerRef.current.playbackRate = speed;
   }, [speed]);
 
+  // Each new passage reads itself, the way a dictation actually runs: the
+  // reader moves on when you have finished writing, and you do not ask them to
+  // begin. Making someone reach for the play button between every passage —
+  // thirty-three times, in "Débutant" — turns a dictée into a clicking
+  // exercise. Replays stay manual and stay unlimited.
+  //
+  // `startedRef` (declared with the other refs) holds the last index this fired
+  // for, so the effect can depend on `play` — whose identity changes with speed
+  // and with the segment — without restarting a passage that is already
+  // reading. It is reset on every new dictée, otherwise passage 0 of the next
+  // one looks like one that has already played.
+  useEffect(() => {
+    if (phase !== "typing" || !segments.length || startedRef.current === index) return;
+    startedRef.current = index;
+    // A beat before it begins. Instant playback treads on the keystroke that
+    // validated the previous passage, and a real reader pauses here too.
+    const timer = setTimeout(play, 400);
+    return () => clearTimeout(timer);
+  }, [phase, index, segments.length, play]);
+
   const stopAudio = useCallback(() => {
     runRef.current++;
     playerRef.current?.pause();
@@ -275,6 +297,7 @@ export function useDictee() {
     setIndex(0);
     setDraft("");
     setPlays(0);
+    startedRef.current = -1;
   }, [releaseAudio]);
 
   /* -------------------------------- scoring ------------------------------- */
