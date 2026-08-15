@@ -363,22 +363,28 @@ export const EN = {
   "Découverte": "Discovery",
   "Premium": "Premium",
   "Sans papier": "Undocumented",
-  "Passeport": "Passport",
-  "Visa": "Visa",
-  "Classe économie": "Economy class",
-  "Première classe": "First class",
-  "VIP": "VIP",
+  // Only "Sans papier" and the CURRENT three tiers are reachable here:
+  // PlanCard/CheckoutDz always call t(plan.name)/t(plan.cta) on the live
+  // src/constants/pricing.js array, never on a stored user.planLabel (that one
+  // renders un-translated — see Profile.jsx/Admin.jsx). So when a tier is
+  // discontinued or renamed, its old key stops being reachable the moment the
+  // PLANS entry changes, not just when the string itself changes.
+  // Dropped 2026-08: "Passeport"/"Choisir Passeport" (discontinued) and
+  // "Visa"/"Première classe"/"VIP" + their "Choisir …" CTAs (renamed to
+  // Starter/Pro/Ultimate below). "Classe économie"/"Choisir Classe économie"
+  // were already dead before that, from an even earlier tier name — cleaned up
+  // while in this block. "5 jours d'accès" was Passeport's own duration text.
+  "Starter": "Starter",
+  "Pro": "Pro",
+  "Ultimate": "Ultimate",
   "pour toujours": "forever",
-  "5 jours d'accès": "5-day access",
   "15 jours d'accès": "15-day access",
   "30 jours d'accès": "30-day access",
   "90 jours d'accès": "90-day access",
   "Créer un compte": "Create an account",
-  "Choisir Passeport": "Choose Passport",
-  "Choisir Visa": "Choose Visa",
-  "Choisir Classe économie": "Choose Economy class",
-  "Choisir Première classe": "Choose First class",
-  "Choisir VIP": "Choose VIP",
+  "Choisir Starter": "Choose Starter",
+  "Choisir Pro": "Choose Pro",
+  "Choisir Ultimate": "Choose Ultimate",
   "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
@@ -710,8 +716,8 @@ export const EN = {
     "You undertake to provide accurate information when registering and to keep it up to date. You are responsible for keeping your password confidential and for all activity carried out from your account. Tell us without delay at {courriel} if you suspect unauthorised access.",
   "Un compte est strictement personnel et ne peut être partagé, prêté, revendu ni utilisé par plusieurs personnes. Le partage d'identifiants entraîne la suspension du compte sans remboursement.":
     "An account is strictly personal and may not be shared, lent, resold or used by several people. Sharing credentials results in suspension of the account without refund.",
-  "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et les pass Passeport et Visa, deux pour Première classe, quatre pour VIP. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.":
-    "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Passeport and Visa passes, two for Première classe, four for VIP. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
+  "Le nombre d'appareils pouvant être connectés simultanément dépend du forfait : un appareil pour les comptes gratuits et le pass Starter, deux pour Pro, quatre pour Ultimate. Au-delà, la connexion la plus récente est acceptée et l'appareil connecté le plus anciennement est déconnecté automatiquement : vous n'êtes jamais bloqué hors de votre propre compte, mais vos sessions les plus anciennes prennent fin.":
+    "The number of devices that may be signed in at the same time depends on the plan: one device for free accounts and the Starter pass, two for Pro, four for Ultimate. Beyond that, the most recent sign-in is accepted and the device signed in longest ago is disconnected automatically: you are never locked out of your own account, but your oldest sessions end.",
   "La connexion peut se faire par courriel et mot de passe, ou via un compte Google. Dans ce dernier cas, seules les informations nécessaires à la création du compte nous sont transmises par Google.":
     "You may sign in with an email address and password, or through a Google account. In the latter case, Google sends us only the information needed to create the account.",
   "Nous pouvons exiger la vérification de l'adresse électronique avant l'accès à certaines fonctionnalités du Service.":

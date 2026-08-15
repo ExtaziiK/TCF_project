@@ -1,14 +1,27 @@
 // Access passes, priced in USD. `accent` grades along the brand gradient from
-// blue up through red, then gold for the top VIP tier. `price` / `per` are
+// blue up through red, then gold for the top Ultimate tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
+//
+// Passeport (the former 5-day entry pass) was discontinued 2026-08 and is
+// deliberately ABSENT from this array: PAID_PLANS everywhere derives from it,
+// so removing the object here is what stops it being sold anywhere in the app
+// (pricing page, checkout, the admin's manual DZD-payment plan picker). It is
+// NOT gone from the backend — api/_lib/passes.js, auth.js's DAILY_SITTINGS and
+// the device_limit_for() DB function all still recognise the slug/label so
+// whoever already holds one keeps their entitlement until it naturally
+// expires. Visa/Première classe/VIP were renamed to Starter/Pro/Ultimate the
+// same day — same tiers, same prices, same durations, cosmetic rename only;
+// see those same three files for why a plan's INTERNAL slug never changed
+// even though its display name did.
+//
 // NOTE: the per-day AI-SIMULATION quotas below are now enforced, per épreuve,
-// against the plan_label baked into app_metadata at checkout — Passeport 2,
-// Visa 6, Première classe and VIP unlimited (api/_lib/auth.js:DAILY_SITTINGS,
-// counted in public.ai_sittings). A "simulation" is one sitting: it opens on
-// the first AI analysis and stays open while the candidate works, so a whole
-// Expression écrite counts once. Paid accounts are additionally paced at 3
-// analyses per tâche per 10 minutes. Keep these numbers in sync with the cards.
+// against the plan_label baked into app_metadata at checkout — Starter 6,
+// Pro and Ultimate unlimited (api/_lib/auth.js:DAILY_SITTINGS, counted in
+// public.ai_sittings). A "simulation" is one sitting: it opens on the first AI
+// analysis and stays open while the candidate works, so a whole Expression
+// écrite counts once. Paid accounts are additionally paced at 3 analyses per
+// tâche per 10 minutes. Keep these numbers in sync with the cards.
 // The per-day MOCK-EXAM quotas are still marketing copy: nothing enforces them.
 // The quiz counts, by contrast, now describe what actually
 // happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
@@ -16,7 +29,7 @@
 // sync with src/bank if the bank grows.
 // The DEVICE limits are likewise enforced, via the active-session
 // mechanism (profiles.active_session_ids + claim_device_session):
-// Première classe → 2 simultaneous devices, VIP → 4, other plans → 1. Over the
+// Pro → 2 simultaneous devices, Ultimate → 4, other plans → 1. Over the
 // limit, the newest login wins and the oldest device is signed out — a login is
 // never refused for this reason.
 // Feature lists are ordered deliberately: PlanCard shows only the FIRST FOUR
@@ -51,32 +64,14 @@ export const PLANS = [
     ],
   },
   {
-    name: "Passeport",
-    price: "$7.99",
-    per: "5 jours d'accès",
-    days: 5,
-    accent: "violet",
-    cta: "Choisir Passeport",
-    featured: false,
-    slug: "passeport",
-    feats: [
-      "2 simulations IA par jour en expression écrite, et 2 à l'oral",
-      "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
-      "1 TCF blanc chronométré par jour, noté sur 699",
-      "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
-      "Entretien oral simulé avec un examinateur IA qui vous répond",
-      "Un nouveau sujet d'expression à chaque session",
-    ],
-  },
-  {
-    name: "Visa",
+    name: "Starter",
     price: "$14.99",
     per: "15 jours d'accès",
     days: 15,
     accent: "rose",
-    cta: "Choisir Visa",
+    cta: "Choisir Starter",
     featured: false,
-    slug: "visa",
+    slug: "visa", // internal slug unchanged on rename — see the note above the array
     feats: [
       "6 simulations IA par jour en expression écrite, et 6 à l'oral",
       "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
@@ -87,14 +82,14 @@ export const PLANS = [
     ],
   },
   {
-    name: "Première classe",
+    name: "Pro",
     price: "$24.99",
     per: "30 jours d'accès",
     days: 30,
     accent: "red",
-    cta: "Choisir Première classe",
+    cta: "Choisir Pro",
     featured: true,
-    slug: "premiere-classe",
+    slug: "premiere-classe", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
@@ -106,14 +101,14 @@ export const PLANS = [
     ],
   },
   {
-    name: "VIP",
+    name: "Ultimate",
     price: "$49.99",
     per: "90 jours d'accès",
     days: 90,
     accent: "gold",
-    cta: "Choisir VIP",
+    cta: "Choisir Ultimate",
     featured: false,
-    slug: "vip",
+    slug: "vip", // internal slug unchanged on rename — see the note above the array
     feats: [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",

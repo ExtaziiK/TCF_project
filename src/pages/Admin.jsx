@@ -47,13 +47,19 @@ const EXTEND_DAYS = [5, 15, 30, 90];
 
 // Account-type chips for the Users tab. Keys match the server filter (users.js
 // TYPE_FILTERS); the whole set of account types the platform has.
+//
+// Labels reflect the 2026-08 rename (Visa/Première classe/VIP →
+// Starter/Pro/Ultimate); the KEYS are unchanged and still match either the
+// legacy or current plan_label server-side — see the TYPE_FILTERS comment in
+// users.js. "Passeport" stays visible so an admin can still find existing
+// holders of the discontinued plan; there is no current label to rename it to.
 const USER_FILTERS = [
   { key: "all", label: "Tous" },
   { key: "sans-papier", label: "Sans papier" },
   { key: "passeport", label: "Passeport" },
-  { key: "visa", label: "Visa" },
-  { key: "premiere-classe", label: "Première classe" },
-  { key: "vip", label: "VIP" },
+  { key: "visa", label: "Starter" },
+  { key: "premiere-classe", label: "Pro" },
+  { key: "vip", label: "Ultimate" },
   { key: "admin", label: "Admin" },
   { key: "owner", label: "Owner" },
 ];

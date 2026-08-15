@@ -175,12 +175,27 @@ const PACE_WINDOW_SECONDS = 10 * 60;
 const SITTING_IDLE_SECONDS = 30 * 60;
 
 // Keep in sync with the plan cards in src/constants/pricing.js. Matched on the
-// plan_label baked into app_metadata at checkout (api/_lib/passes.js).
+// plan_label baked into app_metadata at checkout (api/_lib/passes.js) — a
+// user's OWN label, frozen at their checkout time, not re-derived from the
+// current plan definitions. That is why this map carries both the legacy and
+// the current label for a tier that was renamed: "visa"/"starter" are the same
+// entitlement (2026-08 rename, same price and duration, display name only),
+// just recorded under whichever string was current when that account bought
+// it. "passeport" is kept the same way for the discontinued 5-day pass —
+// nobody can buy it anymore (absent from src/constants/pricing.js and
+// api/_lib/passes.js), but whoever already holds one keeps their correct daily
+// quota until it expires rather than silently falling through to "unlimited"
+// (see the comment on dailySittingsFor below for why an unrecognised label
+// defaults there). Safe to delete a legacy entry once you are sure no account
+// still carries that label — app_metadata.plan_label in the admin Users tab.
 const DAILY_SITTINGS = {
-  passeport: 2,
-  visa: 6,
-  "premiere classe": null, // unlimited
-  vip: null,
+  passeport: 2, // legacy, discontinued 2026-08 — kept for existing holders only
+  visa: 6, // legacy label — renamed to "Starter" 2026-08, same entitlement
+  starter: 6,
+  "premiere classe": null, // unlimited — legacy label — renamed to "Pro" 2026-08, same entitlement
+  pro: null, // unlimited
+  vip: null, // unlimited — legacy label — renamed to "Ultimate" 2026-08, same entitlement
+  ultimate: null, // unlimited
 };
 
 const normalizeLabel = (v) =>

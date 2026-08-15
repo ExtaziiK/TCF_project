@@ -5,13 +5,22 @@ import { deriveRole, ROLES } from "@/auth/rbac";
 
 // How many profiles each plan may hold. Mirrors the device counts already sold
 // on the pricing cards, and MUST agree with max_learner_profiles() in
-// 20260804_learner_profiles.sql — that function is what actually enforces it;
-// this one only decides whether to offer an "Ajouter" tile.
+// 20260804_learner_profiles.sql (as amended by 20260809_plan_rename_entitlements.sql)
+// — that function is what actually enforces it; this one only decides whether
+// to offer an "Ajouter" tile.
+//
+// Matches BOTH the legacy and the 2026-08-09 renamed label for each tier
+// (Première classe/Pro, VIP/Ultimate): planLabel is frozen on a user at their
+// checkout time, so an account that bought before the rename still carries the
+// old string forever, and a UI check that only recognised the new one would
+// wrongly hide the "Ajouter" tile from someone who is still entitled to it.
 export function maxProfilesFor(user) {
   if (!user) return 1;
   if (user.admin || user.owner) return 4;
   if (deriveRole(user) !== ROLES.PREMIUM_USER) return 1;
-  return user.planLabel === "VIP" ? 4 : user.planLabel === "Première classe" ? 2 : 1;
+  if (user.planLabel === "VIP" || user.planLabel === "Ultimate") return 4;
+  if (user.planLabel === "Première classe" || user.planLabel === "Pro") return 2;
+  return 1;
 }
 
 // Loads the account's profiles and decides whether the chooser is needed.
