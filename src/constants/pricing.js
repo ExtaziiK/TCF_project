@@ -145,3 +145,36 @@ export const PLANS = [
     ],
   },
 ];
+
+// Normalizes a STORED plan_label to its CURRENT display name, for anywhere
+// that shows one to a signed-in user (Profile.jsx, Nav.jsx, the admin's user
+// list and activity panel, a post-purchase toast).
+//
+// A purchaser's plan_label is frozen at their checkout time and nothing ever
+// rewrites it — see the note on PASSES in api/_lib/passes.js. When a tier is
+// renamed, existing holders keep the old string in app_metadata forever, which
+// is correct for COMPARISONS (TYPE_FILTERS server-side, maxProfilesFor in
+// useProfiles.js both match old-or-new on purpose) but wrong for DISPLAY: a
+// "Première classe" holder is a Pro subscriber, and every surface naming their
+// plan back to them should say so, not repeat whatever it was called when they
+// bought it.
+//
+// Hand-maintained rather than derived from PLANS above, because PLANS only
+// ever knows the CURRENT name per slug — there is no data structure anywhere
+// that remembers what a tier used to be called, so the old -> new pairs have
+// to be written down somewhere. This is that somewhere for the client; the
+// server keeps its own copy in api/_lib/planLabel.js (api/ never imports from
+// src/, by design) — update both if a tier is ever renamed again.
+//
+// "Passeport" is deliberately absent: it was discontinued, not renamed, so
+// there is no current name to map it to. It passes through unchanged, which
+// is the accurate thing to show.
+const LEGACY_LABELS = {
+  Visa: "Starter",
+  "Première classe": "Pro",
+  VIP: "Ultimate",
+};
+
+export function currentPlanLabel(label) {
+  return LEGACY_LABELS[label] || label;
+}

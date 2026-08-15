@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { currentPlanLabel } from "./planLabel.js";
 
 // Transactional email over the Hostinger mailbox (contact@tcfpasserelle.com).
 // Server-side only: SMTP_USER / SMTP_PASS are the mailbox's own credentials and
@@ -110,7 +111,7 @@ export function supportReplyEmail({ name, subject, body, original, site }) {
 
 // 3-days-before reminder.
 export function expiringSoonEmail(user, daysLeft, site) {
-  const plan = user.app_metadata?.plan_label || "Premium";
+  const plan = currentPlanLabel(user.app_metadata?.plan_label) || "Premium";
   const d = Math.max(1, Math.round(daysLeft));
   const dayWord = d === 1 ? "jour" : "jours";
   const subject = `Votre accès ${plan} expire dans ${d} ${dayWord}`;
@@ -130,7 +131,7 @@ export function expiringSoonEmail(user, daysLeft, site) {
 // renewal: the story is worth more while the exam is still fresh, and the
 // submission form (Profil) moderates everything before it reaches the site.
 export function expiredEmail(user, site) {
-  const plan = user.app_metadata?.plan_label || "Premium";
+  const plan = currentPlanLabel(user.app_metadata?.plan_label) || "Premium";
   const subject = `Votre accès ${plan} a expiré`;
   const html = wrap(`
     <p style="margin:0 0 14px;">${greeting(user)}</p>

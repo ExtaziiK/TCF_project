@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { latestApprovedRequest } from "@/services/subscriptionService";
 import { refreshSession, mapSupabaseUser } from "@/services/authService";
+import { currentPlanLabel } from "@/constants/pricing";
 
 // A Stripe buyer comes back through a success URL, so the app can grant and
 // remint the token on the spot. A DZD buyer does not: an admin approves the
@@ -45,7 +46,7 @@ export function useDzActivation({ user, setUser, notify }) {
       if (cancelled || !mapped) return;
       setUser(mapped);
       if (mapped.plan === "Premium") {
-        notify(`Votre paiement a été validé. Votre accès ${mapped.planLabel || "Premium"} est actif.`);
+        notify(`Votre paiement a été validé. Votre accès ${currentPlanLabel(mapped.planLabel) || "Premium"} est actif.`);
       }
     };
 

@@ -7,6 +7,7 @@ import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
+import { currentPlanLabel } from "@/constants/pricing";
 
 // What fits in the nav chip: the first word only, capped at 9 characters.
 // "Abdelkadir Mehri" was wide enough to push "Accueil" into the logo. The full
@@ -155,7 +156,7 @@ export function Nav({ barOffset = false }) {
                     <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{chipName(activeProfile?.name || user.name)}</span>
                     {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
                       : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
-                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{user.planLabel || "Premium"}</span>
+                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{currentPlanLabel(user.planLabel) || "Premium"}</span>
                       : null}
                   </span>
                 </button>

@@ -36,7 +36,7 @@ import {
   listTestimonialIdentities,
 } from "@/services/testimonialsService";
 import { promoLabel } from "@/services/stripeService";
-import { PLANS } from "@/constants/pricing";
+import { PLANS, currentPlanLabel } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
 
 // The four paid pricing tiers, offered as one-click grants in the Users tab.
@@ -1014,7 +1014,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
           </button>
         </td>
         <td className="py-3.5 pr-4">
-          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Basic"}</Pill>
+          <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
         <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>

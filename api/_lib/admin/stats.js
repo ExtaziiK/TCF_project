@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { quizLabel } from "./activity.js";
+import { currentPlanLabel } from "../planLabel.js";
 
 // Platform stats for the admin overview. Server-side because account data
 // (auth.users) is only reachable with the service-role key; activity counts
@@ -142,7 +143,7 @@ const DETAILS = {
           label: displayName(u),
           sub: [u.email, usernames[u.id] ? `@${usernames[u.id]}` : null].filter(Boolean).join(" · "),
           pill: meta.role === "owner" ? "Owner" : meta.role === "admin" ? "Admin"
-            : active ? meta.plan_label || "Premium" : "Basic",
+            : active ? currentPlanLabel(meta.plan_label) || "Premium" : "Basic",
           tone: meta.role ? "red" : active ? "gold" : "slate",
           right: "inscrit le",
           at: u.created_at,
@@ -207,7 +208,7 @@ const DETAILS = {
           id: u.id,
           label: displayName(u),
           sub: u.email,
-          pill: meta.plan_label || "Premium",
+          pill: currentPlanLabel(meta.plan_label) || "Premium",
           tone: "gold",
           right: meta.premium_until ? "expire le" : "sans expiration",
           at: meta.premium_until || null,

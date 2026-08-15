@@ -14,6 +14,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { PASSES, PASS_SLUGS, isPassSlug } from "../api/_lib/passes.js";
+import { currentPlanLabel as currentPlanLabelServer } from "../api/_lib/planLabel.js";
+import { currentPlanLabel as currentPlanLabelClient } from "../src/constants/pricing.js";
 
 test("passeport is not a purchasable slug anymore", () => {
   assert.equal(isPassSlug("passeport"), false);
@@ -37,3 +39,31 @@ test("every remaining pass still has a lookup key and a valid access window (no 
     assert.ok(Number.isInteger(PASSES[slug].days) && PASSES[slug].days > 0, `${slug} is missing a valid access window`);
   }
 });
+
+// currentPlanLabel() exists in TWO places by design (api/ never imports from
+// src/) — the server copy (api/_lib/planLabel.js, used by mailer.js and the
+// admin API) and the client copy (src/constants/pricing.js, used by
+// Profile.jsx, Nav.jsx and the admin UI). Run the same cases against both so
+// they can never quietly drift apart.
+for (const [where, currentPlanLabel] of [["server", currentPlanLabelServer], ["client", currentPlanLabelClient]]) {
+  test(`currentPlanLabel (${where}) maps every renamed tier's legacy label to its current name`, () => {
+    assert.equal(currentPlanLabel("Visa"), "Starter");
+    assert.equal(currentPlanLabel("Première classe"), "Pro");
+    assert.equal(currentPlanLabel("VIP"), "Ultimate");
+  });
+
+  test(`currentPlanLabel (${where}) passes an already-current label through unchanged`, () => {
+    assert.equal(currentPlanLabel("Starter"), "Starter");
+    assert.equal(currentPlanLabel("Pro"), "Pro");
+    assert.equal(currentPlanLabel("Ultimate"), "Ultimate");
+  });
+
+  test(`currentPlanLabel (${where}) leaves a discontinued tier's label alone — there is no current name to map it to`, () => {
+    assert.equal(currentPlanLabel("Passeport"), "Passeport");
+  });
+
+  test(`currentPlanLabel (${where}) passes null/undefined through so the caller's own "|| \\"Premium\\"" fallback still applies`, () => {
+    assert.equal(currentPlanLabel(null), null);
+    assert.equal(currentPlanLabel(undefined), undefined);
+  });
+}

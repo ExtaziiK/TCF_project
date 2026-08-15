@@ -7,6 +7,7 @@ import {
 import { useApp } from "@/context/AppContext";
 import { Btn, Pill } from "@/components/common";
 import { fetchUserActivity } from "@/services/adminService";
+import { currentPlanLabel } from "@/constants/pricing";
 
 // What one candidate has actually done, read from the tables the platform
 // already writes (api/_lib/admin/activity.js). A slide-over rather than a
@@ -171,7 +172,7 @@ export function UserActivityPanel({ userId, onClose }) {
           </div>
           {u && (
             <Pill tone={u.plan === "Premium" ? "gold" : "slate"}>
-              {u.plan === "Premium" ? <><Crown size={11} /> {u.planLabel || "Premium"}</> : "Basic"}
+              {u.plan === "Premium" ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}
             </Pill>
           )}
           <button onClick={onClose} aria-label="Fermer" className={`p-1.5 rounded-full ${c.hoverSoft} ${c.sub}`}><X size={16} /></button>
