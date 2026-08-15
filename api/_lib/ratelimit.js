@@ -32,18 +32,51 @@ function bumpInMemory(key, windowSeconds, limit) {
   return rec.count <= limit;
 }
 
-// Throws 429 once the caller exceeds `limit` calls per `windowSeconds`.
-// Scope by authenticated user id when there is one (a shared IP — campus,
-// CGNAT — shouldn't lock out neighbours), by IP otherwise.
-export async function enforceRateLimit(req, { name, limit, windowSeconds, userId }) {
-  const key = `${name}|${userId || clientIp(req)}`;
-  let allowed;
+// The counter itself: bumps `key` and reports whether the caller is still
+// inside `limit` per `windowSeconds`. Exported because a quota that has to
+// EXPLAIN itself — the dictée's per-tâche plan limits, which name the plan and
+// tell the candidate when to come back — needs the answer rather than the
+// generic 429 that enforceRateLimit throws on it.
+export async function bumpLimit({ key, limit, windowSeconds }) {
   const { data, error } = await admin.rpc("bump_rate_limit", {
     p_key: key,
     p_window_seconds: windowSeconds,
     p_max: limit,
   });
-  if (error) allowed = bumpInMemory(key, windowSeconds, limit); // migration not applied yet
-  else allowed = data !== false;
+  if (error) return bumpInMemory(key, windowSeconds, limit); // migration not applied yet
+  return data !== false;
+}
+
+// Turns a fixed window into a real cooldown.
+//
+// bump_rate_limit never extends a live window, so "5 per 15 minutes" reached in
+// four minutes only holds the caller for the eleven that are left. Where the
+// pause IS the point — the dictée asks the candidate to go away for fifteen
+// minutes, not for whatever remains of a window they cannot see — this restarts
+// the window at the first refusal, making the wait the full `windowSeconds`
+// from there.
+//
+// `count = limit + 1` is what identifies that first refusal: the bump that was
+// just refused wrote exactly that, and every later attempt leaves a higher
+// count. So the update matches once and someone retrying can never push their
+// own pause further out.
+//
+// Best effort: if it does not land the caller simply gets the shorter,
+// ordinary fixed-window pause.
+export async function holdWindow({ key, limit }) {
+  const { error } = await admin
+    .from("rate_limits")
+    .update({ window_start: new Date().toISOString() })
+    .eq("key", key)
+    .eq("count", limit + 1);
+  if (error) console.warn("holdWindow:", error.message);
+}
+
+// Throws 429 once the caller exceeds `limit` calls per `windowSeconds`.
+// Scope by authenticated user id when there is one (a shared IP — campus,
+// CGNAT — shouldn't lock out neighbours), by IP otherwise.
+export async function enforceRateLimit(req, { name, limit, windowSeconds, userId }) {
+  const key = `${name}|${userId || clientIp(req)}`;
+  const allowed = await bumpLimit({ key, limit, windowSeconds });
   if (!allowed) throw new HttpError(429, "Trop de requêtes. Réessayez dans un instant.");
 }

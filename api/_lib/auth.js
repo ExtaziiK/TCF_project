@@ -198,6 +198,32 @@ const DAILY_SITTINGS = {
   ultimate: null, // unlimited
 };
 
+// The dictée's daily allowance, per tâche, by the same plan_label as
+// DAILY_SITTINGS above and with the same legacy entries for the tiers that were
+// renamed — read the comment there before touching either map.
+//
+// null = no daily cap. Pro and Ultimate are sold as unlimited and are unlimited
+// here; what they get instead is a pause after a burst, which is NOT a quota
+// and is deliberately absent from the plan cards (see DICTEE_BURST below).
+// Starter's 3 is the number printed on its card, so the two move together.
+const DAILY_DICTEES = {
+  passeport: 3, // legacy, discontinued 2026-08 — kept for existing holders only
+  visa: 3, // legacy label — renamed to "Starter" 2026-08, same entitlement
+  starter: 3,
+  "premiere classe": null, // unlimited — legacy label for "Pro"
+  pro: null, // unlimited
+  vip: null, // unlimited — legacy label for "Ultimate"
+  ultimate: null, // unlimited
+};
+
+// How many dictées an unlimited plan may draw on one tâche before being asked
+// to take a break, and how long that break lasts. Not a quota and not sold as
+// one: nothing on the site mentions it, and a candidate only ever meets it by
+// drawing five dictations of the same tâche inside a quarter of an hour —
+// which is not studying, it is churning. The message says so kindly.
+export const DICTEE_BURST = 5;
+export const DICTEE_PAUSE_MINUTES = 15;
+
 const normalizeLabel = (v) =>
   String(v || "")
     .normalize("NFD")
@@ -213,6 +239,16 @@ export function dailySittingsFor(user) {
   if (meta.role === "admin" || meta.role === "owner") return null;
   const key = normalizeLabel(meta.plan_label);
   return key in DAILY_SITTINGS ? DAILY_SITTINGS[key] : null;
+}
+
+// null = no daily cap on dictées. Same rule as dailySittingsFor: back-office
+// roles and any paid label we do not recognise are uncapped, because refusing a
+// paying customer over a label we failed to match is the worse failure.
+export function dailyDicteesFor(user) {
+  const meta = user?.app_metadata || {};
+  if (meta.role === "admin" || meta.role === "owner") return null;
+  const key = normalizeLabel(meta.plan_label);
+  return key in DAILY_DICTEES ? DAILY_DICTEES[key] : null;
 }
 
 async function claimPaidAiUse(user, taskKey) {

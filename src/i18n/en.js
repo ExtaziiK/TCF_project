@@ -390,6 +390,9 @@ export const EN = {
   "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
   "La dictée : toute la bibliothèque, sans limite": "Dictation: the whole library, no limit",
+  // Starter's capped version of the line above (3 per tâche per day).
+  "La dictée : 3 par tâche et par jour, dans toute la bibliothèque":
+    "Dictation: 3 per task per day, from the whole library",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
   "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
@@ -493,7 +496,7 @@ export const EN = {
   "Débloquez la dictée": "Unlock dictation",
   "Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.":
     "It is included in every plan, along with AI simulations, timed mock exams and the eighty quizzes.",
-  "La dictée, sans limite : toute la bibliothèque": "Dictation, no limit: the whole library",
+  "La dictée : toute la bibliothèque, dès le premier forfait": "Dictation: the whole library, from the entry plan up",
   "Les 80 quiz débloqués, compréhension écrite et orale": "All 80 quizzes unlocked, reading and listening",
   "TCF blancs chronométrés, notés sur 699": "Timed mock exams, scored out of 699",
   "Correction IA de vos expressions écrite et orale": "AI feedback on your writing and speaking",

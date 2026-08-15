@@ -161,7 +161,12 @@ export function DicteePitch({ reason }) {
             {t("Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.")}
           </p>
           <ul className="mt-6 max-w-md mx-auto space-y-2.5 text-left">
-            {["La dictée, sans limite : toute la bibliothèque", "Les 80 quiz débloqués, compréhension écrite et orale", "TCF blancs chronométrés, notés sur 699", "Correction IA de vos expressions écrite et orale"].map((p) => (
+            {/* "Toute la bibliothèque" and not "sans limite": every paid plan
+                opens the whole library, but Starter is capped at three
+                dictations per tâche per day (api/_lib/auth.js → DAILY_DICTEES),
+                and this page is read by someone about to choose the cheapest
+                one. The cards say which plan lifts the cap. */}
+            {["La dictée : toute la bibliothèque, dès le premier forfait", "Les 80 quiz débloqués, compréhension écrite et orale", "TCF blancs chronométrés, notés sur 699", "Correction IA de vos expressions écrite et orale"].map((p) => (
               <li key={p} className={`flex items-start gap-3 text-sm ${c.sub}`}>
                 <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />{t(p)}
               </li>

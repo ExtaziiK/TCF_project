@@ -7,9 +7,14 @@ import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 // Supabase session so the endpoint can authorize it.
 
 export class AiError extends Error {
-  constructor(status, message) {
+  constructor(status, message, code = null) {
     super(message);
     this.status = status; // 0 = network, 404 = endpoint missing (local `vite`)
+    // Set only by the endpoints that distinguish between several refusals with
+    // the same status — the dictée's plan limits send "dictee-daily" and
+    // "dictee-pause" with their 429s, which are shown differently. Null
+    // everywhere else, and never needed to display the message.
+    this.code = code;
   }
 }
 
@@ -95,7 +100,7 @@ export async function postJSON(path, body, { retriedAuth = false } = {}) {
       throw new AiError(res.status, `Le service est injoignable — le serveur a répondu ${res.status} au lieu du résultat attendu. Réessayez dans un instant.`);
     }
   }
-  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed");
+  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed", data.code || null);
   return data;
 }
 

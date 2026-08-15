@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones } from "lucide-react";
+import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones, Coffee, CalendarDays } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { DicteePlayer } from "@/components/dictee/DicteePlayer";
@@ -214,6 +214,7 @@ export function Dictee() {
                 {t("Si ce sujet n'a jamais été dicté, son corrigé est en train d'être rédigé et enregistré. Une fois seulement.")}
               </p>
             )}
+            {d.notice && <PlanNotice notice={d.notice} />}
             {d.error && <p className="mt-4 text-sm text-rose-600">{d.error}</p>}
           </Card>
 
@@ -262,6 +263,36 @@ export function Dictee() {
         </Card>
       </div>
     </PageShell>
+  );
+}
+
+/* ---------------------------- the plan's limits --------------------------- */
+
+// What the server said when it would not hand out another dictation right now.
+// Amber and not rose, because neither case is a fault: one is a forfait's daily
+// allowance spent, the other is the site telling someone who has just done five
+// dictations on one tâche to go and have a coffee. The wording is the server's
+// (api/_lib/dictee-quota.js) — it is the half that knows the plan, the tâche
+// and the numbers.
+function PlanNotice({ notice }) {
+  const { c, t, nav } = useApp();
+  const pause = notice.code === "dictee-pause";
+  const Icon = pause ? Coffee : CalendarDays;
+  return (
+    <div className="mt-4 p-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 flex gap-3">
+      <Icon size={18} className="text-amber-500 shrink-0 mt-0.5" aria-hidden="true" />
+      <div className="min-w-0">
+        <p className={`text-sm leading-relaxed ${c.text}`}>{notice.message}</p>
+        {/* Only on the daily limit: the pause is not something to buy your way
+            out of, and offering an upgrade there would turn a piece of study
+            advice into a sales pitch. */}
+        {!pause && (
+          <Btn small variant="ghost" className="mt-3" onClick={() => nav("pricing")}>
+            {t("Voir les forfaits")}
+          </Btn>
+        )}
+      </div>
+    </div>
   );
 }
 

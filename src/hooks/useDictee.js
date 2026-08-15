@@ -47,6 +47,12 @@ export function useDictee() {
   const [phase, setPhase] = useState("idle"); // idle | loading | typing | done
   const [dictee, setDictee] = useState(null);
   const [error, setError] = useState(null);
+  // A plan limit rather than a failure: { code, message }. Kept apart from
+  // `error` because the two read completely differently — one says something
+  // broke, the other says the day's dictées are done or that it is time for a
+  // break, and painting the second in red would make a normal, expected
+  // moment look like a fault. See api/_lib/dictee-quota.js.
+  const [notice, setNotice] = useState(null);
   const [index, setIndex] = useState(0);
   const [draft, setDraft] = useState("");
   const [results, setResults] = useState([]); // diffSentence() per validated segment
@@ -125,6 +131,7 @@ export function useDictee() {
     releaseAudio();
     setPhase("loading");
     setError(null);
+    setNotice(null);
     setDictee(null);
     setResults([]);
     setIndex(0);
@@ -142,6 +149,17 @@ export function useDictee() {
       // row — both of which the intro shows.
       loadLibrary();
     } catch (err) {
+      // The plan's own limits: the day's dictées are used up, or an unlimited
+      // plan has drawn five on this tâche and is being asked to take fifteen
+      // minutes. Neither is an error, and neither is worth a toast that flies
+      // past — the page says it, in its own tone, and leaves it on screen.
+      const code = err instanceof AiError ? err.code : null;
+      if (code === "dictee-daily" || code === "dictee-pause") {
+        setNotice({ code, message: err.message });
+        setPhase("idle");
+        loadLibrary();
+        return;
+      }
       // A local `vite dev` has no serverless routes, so the endpoint 404s.
       // Say so plainly instead of blaming the candidate's connection.
       const msg = err instanceof AiError && err.status === 404
@@ -341,7 +359,7 @@ export function useDictee() {
   }, [phase, summary, dictee, plays, speed, mode, results.length, user?.id, releaseAudio]);
 
   return {
-    phase, dictee, error, index, draft, setDraft, results, summary, history,
+    phase, dictee, error, notice, index, draft, setDraft, results, summary, history,
     library, speed, setSpeed, mode, setMode, plays, playing, segments,
     segmentCount: segments.length,
     playsPerSegment: results.length ? Math.round((plays / results.length) * 10) / 10 : 0,

@@ -23,6 +23,12 @@
 // écrite counts once. Paid accounts are additionally paced at 3 analyses per
 // tâche per 10 minutes. Keep these numbers in sync with the cards.
 // The per-day MOCK-EXAM quotas are still marketing copy: nothing enforces them.
+// The DICTÉE line on each paid card is enforced, per tâche and per day, off the
+// same plan_label — Starter 3 per tâche per day, Pro and Ultimate uncapped
+// (api/_lib/auth.js:DAILY_DICTEES, counted in public.rate_limits). Pro and
+// Ultimate are additionally asked to take a fifteen-minute break after five
+// draws on one tâche; that is an anti-churn pause and not an allowance, so it
+// is deliberately absent from these cards — see api/_lib/dictee-quota.js.
 // The quiz counts, by contrast, now describe what actually
 // happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
 // BankExplorer only locks quizzes for ROLES.FREE_USER. Keep the counts in
@@ -98,7 +104,12 @@ export const PLANS = [
       "6 simulations IA par jour en expression écrite, et 6 à l'oral",
       "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
       "3 TCF blancs chronométrés par jour, notés sur 699",
-      "La dictée : toute la bibliothèque, sans limite",
+      // Enforced, per tâche and per day, in api/_lib/auth.js:DAILY_DICTEES —
+      // change one and change the other. The three paid cards differ only on
+      // this line: Starter is capped, Pro and Ultimate are not (and their
+      // fifteen-minute anti-churn pause is deliberately not advertised, being a
+      // pause and not an allowance — see api/_lib/dictee-quota.js).
+      "La dictée : 3 par tâche et par jour, dans toute la bibliothèque",
       "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
       "Entretien oral simulé avec un examinateur IA qui vous répond",
       "Un nouveau sujet d'expression à chaque session",

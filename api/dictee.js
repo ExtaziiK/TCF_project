@@ -7,6 +7,7 @@ import {
   listSujets, readCached, patchCached, mintDictee, synthesizeGroups, isComplete,
   splitGroups, listLibrary, generatedToday, today, DAILY_TOTAL,
 } from "./_lib/dictee.js";
+import { claimDicteeDraw } from "./_lib/dictee-quota.js";
 
 // Serves one dictée: a sujet from the Expression écrite archive, the C1/C2
 // model answer written for it, and that answer read aloud in sense groups.
@@ -176,15 +177,25 @@ export default async function handler(req, res) {
       }
     }
 
-    /* ---- not in the library at all: spend a slot, or say so ---- */
+    /* ---- not in the library at all: is there a slot to spend? ---- */
+    // Asked BEFORE the candidate's own allowance is claimed, so a draw that
+    // cannot be served does not cost a Starter one of their three dictées.
+    const needsMint = !groups.length;
+    if (needsMint && (await generatedToday()) >= DAILY_TOTAL) {
+      // Deliberately a 409 and not a 500: nothing failed. The client turns
+      // this into "revenez demain, ou choisissez dans la bibliothèque".
+      throw new HttpError(409, "Les dictées inédites du jour sont épuisées. La bibliothèque reste ouverte, et trois nouveaux textes arrivent cette nuit.");
+    }
+
+    /* ---- the candidate's own allowance for this tâche ---- */
+    // Starter: 3 a day, the number printed on its plan card. Pro and Ultimate:
+    // uncapped, but paused for a quarter of an hour after five draws on one
+    // tâche. See api/_lib/dictee-quota.js — both rules throw 429 from here.
+    await claimDicteeDraw(user, task);
+
+    /* ---- write it, if nobody ever has ---- */
     let justMinted = false;
-    if (!groups.length) {
-      const used = await generatedToday();
-      if (used >= DAILY_TOTAL) {
-        // Deliberately a 409 and not a 500: nothing failed. The client turns
-        // this into "revenez demain, ou choisissez dans la bibliothèque".
-        throw new HttpError(409, "Les dictées inédites du jour sont épuisées. La bibliothèque reste ouverte, et trois nouveaux textes arrivent cette nuit.");
-      }
+    if (needsMint) {
       const minted = await mintDictee(sujet);
       logAiUsage({
         userId: user.id, endpoint: "dictee", kind: "chat",
@@ -262,6 +273,14 @@ export default async function handler(req, res) {
         request: err.requestPayload,
       });
     }
-    res.status(err.status || 500).json({ error: err.message || "La dictée n'a pas pu être préparée." });
+    // `code` is only set by the plan limits above ("dictee-daily",
+    // "dictee-pause"). It travels so the browser can show a break as
+    // encouragement rather than in the red it paints failures in — the message
+    // is the same either way, and a client that ignores the code still says
+    // exactly the right thing.
+    res.status(err.status || 500).json({
+      error: err.message || "La dictée n'a pas pu être préparée.",
+      ...(err.code ? { code: err.code } : {}),
+    });
   }
 }
