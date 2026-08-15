@@ -70,8 +70,13 @@ export function PricingPlans({ s, compact = false }) {
 
       {/* Four plans since Passeport was discontinued (2026-08) — grid-cols-5 was
           sized for the five original tiers and left an empty column-track of
-          dead space on wide screens once one was removed. */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+          dead space on wide screens once one was removed.
+          `mt-8` is for the "Le plus populaire" badge, which hangs above the
+          featured card's top edge — and hangs further on wide screens, where
+          that card is also scaled up about its centre. The notice above ("Tous
+          les paiements sont effectués en dollars US") ended up with about three
+          pixels of clearance, so the badge sat on the sentence. */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mt-8">
         {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>
 

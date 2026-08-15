@@ -133,7 +133,19 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           )}
           <div className="relative z-10 flex flex-col flex-1">
           <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
-          <h3 className={`font-display font-bold text-lg ${c.text}`}>{t(p.name)}</h3>
+          {/* The name carries the tier's own colour ramp, like the price and the
+              CTA below it, so each card reads as one object rather than a grey
+              heading over a coloured one. `metal-text` opts it into the same
+              hover shimmer as the price (see .plan-card:hover .metal-text) —
+              safe here because nothing else sets an `animation` on this span,
+              which is the trap the price had to be split in two to avoid. */}
+          <h3 className="font-display font-extrabold text-2xl leading-tight">
+            <span className="metal-text" style={gradText}>{t(p.name)}</span>
+          </h3>
+          {/* Short gradient rule under the name: gives the eye a fixed place to
+              stop before the price on all four cards, whatever the name's
+              length. */}
+          <span className="block mt-2 h-[3px] w-9 rounded-full" style={{ background: a.grad }} aria-hidden="true" />
           <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
             {/* Two spans, not one: the entrance `.rise` and the hover shimmer
                 both set the `animation` shorthand, so on one element the more
