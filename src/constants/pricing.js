@@ -1,5 +1,5 @@
-// Access passes, priced in USD. `accent` grades along the brand gradient from
-// blue up through red, then gold for the top Ultimate tier. `price` / `per` are
+// Access passes, priced in USD. `accent` grades along the brand gradient: blue
+// (free) → violet → red → gold for the top Ultimate tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
 //
@@ -74,7 +74,12 @@ export const PLANS = [
     price: "$14.99",
     per: "15 jours d'accès",
     days: 15,
-    accent: "rose",
+    // "violet" was Passeport's colour — freed up when that tier was
+    // discontinued (2026-08). Moved here so the three remaining paid tiers
+    // spread evenly across the full brand ramp (blue → violet → red → gold)
+    // instead of bunching into rose/red, which read too close together once
+    // violet dropped out.
+    accent: "violet",
     cta: "Choisir Starter",
     featured: false,
     slug: "visa", // internal slug unchanged on rename — see the note above the array
