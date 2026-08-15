@@ -8,9 +8,6 @@
       "maxDuration": 60,
       "includeFiles": "public/data/sujets-ee.json"
     },
-    "api/dictee-library.js": {
-      "includeFiles": "public/data/sujets-ee.json"
-    },
     "api/cron/dictee-seed.js": {
       "maxDuration": 60,
       "includeFiles": "public/data/sujets-ee.json"

@@ -59,18 +59,20 @@ export async function fetchDictee({ task, sujetKey = null, exclude = [] }) {
 // What can be started right now: today's three, the library behind them, and
 // how many never-dictated sujets the day has left. Everything in either list is
 // already written and recorded, so starting one is instant.
-// POST for a read, so it goes through postJSON with the rest of them — that is
-// where the token refresh and the device-session header live, and a hand-rolled
-// fetch here would quietly skip both.
+// Same route as the draw, behind an action: the Hobby plan allows twelve
+// serverless functions and a second file for this listing was the thirteenth.
+// POST rather than GET so it goes through postJSON with the rest of them —
+// that is where the token refresh and the device-session header live, and a
+// hand-rolled fetch here would quietly skip both.
 export async function fetchDicteeLibrary() {
-  return postJSON("/api/dictee-library", {});
+  return postJSON("/api/dictee", { action: "library" });
 }
 
 /* ------------------------- the choosable sujets --------------------------- */
 
 // There is no client-side picker any more. The sujets on offer are the ones
 // already written and recorded, which only the server knows, so the list comes
-// from /api/dictee-library above — the browser cannot work it out from the
+// from fetchDicteeLibrary above — the browser cannot work it out from the
 // shipped archive, and guessing would offer sujets that cost a generation to
 // open.
 
