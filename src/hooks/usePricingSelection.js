@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { isStaff } from "@/auth/rbac";
 import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode } from "@/services/stripeService";
 import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, rememberedCurrency, USD } from "@/utils/currency";
@@ -16,7 +17,7 @@ import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 //
 // The caller renders; this only decides.
 export function usePricingSelection() {
-  const { user } = useApp();
+  const { user, role } = useApp();
   const [coupon, setCoupon] = useState("");
   const [applied, setApplied] = useState(null); // validated promo ({ code, percentOff | amountOff… })
   const [checking, setChecking] = useState(false);
@@ -65,9 +66,11 @@ export function usePricingSelection() {
   // Algerian IP or a signed-in account that gave "Algérie" as its country at
   // registration (Onboarding.jsx / AuthPage.jsx, both from the COUNTRIES list
   // in constants/exam.js — full French names, not ISO codes, so this compares
-  // against the name, not "DZ"). See CURRENCIES filtering in PricingPlans.jsx,
+  // against the name, not "DZ"). Staff (admin/owner) always see it too — they
+  // need it to check the manual-payment flow itself, regardless of where they
+  // happen to be signed in from. See CURRENCIES filtering in PricingPlans.jsx,
   // which is where this actually hides the tab.
-  const dzEligible = country === "DZ" || user?.country === "Algérie";
+  const dzEligible = country === "DZ" || user?.country === "Algérie" || isStaff(role);
 
   // A DZD choice remembered from earlier this session (or picked in the brief
   // window before detectCountry() corrected an over-eager timezone guess) must
