@@ -4,6 +4,7 @@
 // let them open. One definition, no drift.
 import { AUTHENTICATED, ADMIN_ONLY } from "@/auth/rbac";
 import { POSTS } from "@/constants/blog";
+import { CONJUGATION_TENSES } from "@/constants/conjugation";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
 // array; entries without one are visible to everyone (including visitors).
@@ -38,6 +39,7 @@ export const NAV_LINKS = [
   { l: "Pratique", roles: AUTHENTICATED, menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
+    { l: "Conjugaison", r: "conjugation", roles: AUTHENTICATED },
     // NO `roles`, deliberately, and not an oversight: la dictée is Premium
     // (rbac.js → dictee: PREMIUM) but stays visible to free accounts, who land
     // on its sales page instead of the exercise. Hiding it would mean nobody
@@ -78,6 +80,9 @@ export const SEARCH_INDEX = [
   { l: "Vocabulaire · cartes mémoire", r: "vocabulary", c: "Module" },
   { l: "Grammaire · le subjonctif", r: "grammar", c: "Leçon" },
   { l: "Grammaire · les articles", r: "grammar", c: "Leçon" },
+  // Generated from the bank rather than hand-listed, so a tense added to
+  // src/constants/conjugation/ is searchable the day it lands.
+  ...CONJUGATION_TENSES.map((tp) => ({ l: `Conjugaison · ${tp.t.toLowerCase()}`, r: "conjugation", c: "Leçon" })),
   { l: "TCF blancs TCF Canada", r: "mocks", c: "Examens" },
   { l: "Sujets EE/EO du mois", r: "sujets-actualite", c: "Ressources" },
   { l: "Anciens sujets · Expression écrite", r: "sujets-ee", c: "Ressources" },

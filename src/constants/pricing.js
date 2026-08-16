@@ -81,6 +81,10 @@ const SHARED_PAID_FEATS = [
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
   "Entretien oral simulé avec un examinateur IA qui vous répond",
   "Un nouveau sujet d'expression à chaque session",
+  // The other side of the free card's "10 minutes d'exercices par jour". It
+  // belongs in every paid tier, so it lives here rather than being repeated
+  // three times and drifting on the fourth.
+  "Conjugaison illimitée : les 9 temps, sans chronomètre",
 ];
 
 export const PLANS = [
@@ -122,6 +126,12 @@ export const PLANS = [
       // A free account still sees it in the menu and lands on its sales page,
       // which is where it gets described — not on this card.
       "Cartes de vocabulaire et leçons de grammaire, sans limite",
+      // Same honesty rule as the TCF blanc above. The LESSONS of the
+      // conjugation tab (règles, tableaux, irréguliers) are never metered —
+      // only the exercises are, by useConjugationQuota. Saying "10 minutes"
+      // rather than "limitée" is deliberate: it is the exact number the meter
+      // counts down, so the card and the page can never disagree.
+      "Conjugaison : leçons illimitées, 10 minutes d'exercices par jour",
       "Sujets EE/EO du mois",
       "Suivi de progression",
     ],

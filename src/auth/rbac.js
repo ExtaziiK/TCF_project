@@ -74,6 +74,7 @@ export const PAGE_ACCESS = {
   // user gets the vocabulary decks and the grammar lessons in full.
   vocabulary: AUTHENTICATED,
   grammar: AUTHENTICATED,
+  conjugation: AUTHENTICATED,
   // La dictée. Premium, and api/dictee.js gates on `requirePremium` to match —
   // these two must always move together, or the page opens onto an endpoint
   // that refuses it (or worse, the reverse: a paywall in front of an endpoint

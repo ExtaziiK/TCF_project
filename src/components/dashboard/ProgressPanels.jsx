@@ -1,4 +1,5 @@
-import { GraduationCap, BookOpen } from "lucide-react";
+import { GraduationCap, BookOpen, Repeat2 } from "lucide-react";
+import { RouteLink } from "@/components/common";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar } from "@/components/common";
 import { ScoreSparkline } from "@/components/dashboard/charts";
@@ -98,6 +99,11 @@ export function ProgressPanels({ data }) {
         </div>
       </Card>
 
+      {/* conjugation — its own panel rather than a row in "Par épreuve",
+          because a drill on the subjonctif is not an épreuve and is
+          deliberately kept out of the averages above (see progressService). */}
+      <ConjugationPanel data={data.conjugation} />
+
       {/* history */}
       <Card className="p-6">
         <h3 className={`font-display font-bold mb-4 ${c.text}`}>{t("Historique des sessions")}</h3>
@@ -112,7 +118,7 @@ export function ProgressPanels({ data }) {
                   <tr key={i} className={`border-t ${c.border}`}>
                     <td className={`py-3 pr-4 font-medium ${c.text}`}>
                       <span className="inline-flex items-center gap-2">
-                        {h.kind === "exam" ? <GraduationCap size={14} className="text-blue-600 shrink-0" /> : <BookOpen size={14} className="text-blue-600 shrink-0" />}
+                        {h.kind === "exam" ? <GraduationCap size={14} className="text-blue-600 shrink-0" /> : h.kind === "conj" ? <Repeat2 size={14} className="text-blue-600 shrink-0" /> : <BookOpen size={14} className="text-blue-600 shrink-0" />}
                         {t(h.title)}
                       </span>
                     </td>
@@ -127,5 +133,54 @@ export function ProgressPanels({ data }) {
         )}
       </Card>
     </div>
+  );
+}
+
+// Conjugation coverage: how many of the eight tenses have been touched, and
+// which ones hold up. Empty state is an invitation rather than a blank card —
+// this panel is most users' first sight of the tab.
+function ConjugationPanel({ data }) {
+  const { c, t } = useApp();
+  if (!data || data.count === 0) {
+    return (
+      <Card className="p-6 flex flex-col">
+        <h3 className={`font-display font-bold mb-1 ${c.text}`}>{t("Conjugaison")}</h3>
+        <p className={`text-sm ${c.faint}`}>{t("Aucune série terminée pour l'instant.")}</p>
+        <RouteLink r="conjugation" className="mt-auto pt-6 text-sm font-semibold text-blue-600 inline-flex items-center gap-1.5">
+          <Repeat2 size={15} aria-hidden="true" /> {t("Choisir un temps à travailler")}
+        </RouteLink>
+      </Card>
+    );
+  }
+  const covered = Math.round((data.tensesPracticed / data.tensesTotal) * 100);
+  return (
+    <Card className="p-6">
+      <div className="flex items-baseline justify-between gap-2 mb-1">
+        <h3 className={`font-display font-bold ${c.text}`}>{t("Conjugaison")}</h3>
+        <span className={`text-sm font-mono2 font-semibold ${c.sub}`}>{data.avg} % {t("de moyenne")}</span>
+      </div>
+      <p className={`text-sm ${c.faint} mb-4`}>
+        {data.count} {t(data.count > 1 ? "séries terminées" : "série terminée")} · {data.tensesPracticed}/{data.tensesTotal} {t("temps travaillés")}
+      </p>
+      <ProgressBar pct={covered} tone="grad" />
+
+      <div className="mt-5 space-y-3">
+        {data.byTense.slice(0, 5).map((row) => (
+          <div key={row.tenseId}>
+            <div className="flex justify-between items-center text-sm mb-1.5">
+              <span className={`font-medium ${c.text}`}>{t(row.title)}</span>
+              <span className={`font-mono2 font-semibold ${c.sub}`}>{row.avg} %</span>
+            </div>
+            <ProgressBar pct={row.avg} />
+          </div>
+        ))}
+      </div>
+
+      {data.weakest && (
+        <p className={`mt-5 text-xs ${c.faint}`}>
+          {t("À revoir en priorité :")} <strong className={c.sub}>{t(data.weakest.title)}</strong> ({data.weakest.avg} %).
+        </p>
+      )}
+    </Card>
   );
 }

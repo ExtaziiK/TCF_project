@@ -11,6 +11,7 @@ import { Writing } from "@/pages/Writing";
 import { Speaking } from "@/pages/Speaking";
 import { Vocabulary } from "@/pages/Vocabulary";
 import { Grammar } from "@/pages/Grammar";
+import { Conjugation } from "@/pages/Conjugation";
 import { Dictee } from "@/pages/Dictee";
 import { Mocks } from "@/pages/Mocks";
 import { Calculator } from "@/pages/Calculator";
@@ -61,6 +62,7 @@ export const PAGES = {
   speaking: Speaking,
   vocabulary: Vocabulary,
   grammar: Grammar,
+  conjugation: Conjugation,
   dictee: Dictee,
   mocks: Mocks,
   calculator: Calculator,
