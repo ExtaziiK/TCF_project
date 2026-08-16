@@ -192,41 +192,48 @@ export async function setPaymentDz(cfg) {
   return { ok: !error, error: error?.message };
 }
 
-/* ── Launch "−50 %" badge on the pricing page ───────────────────────────────
- * { enabled }. When on, each paid plan card shows a struck-through price at
- * double the real one and a "−50 %" badge. Purely presentational: it does not
+/* ── Launch "−N %" badge on the pricing page ────────────────────────────────
+ * { enabled, percent }. When on, each paid plan card shows a struck-through
+ * "before" price computed backwards from `percent` (so the real, displayed
+ * price never moves) and a "−N %" badge. Purely presentational: it does not
  * touch what Stripe charges.
  *
- * Defaults to ON so behaviour is unchanged until an admin turns it off, and a
- * read failure (migration missing, offline) degrades to ON for the same reason.
+ * Defaults to ON at 50 so behaviour is unchanged until an admin edits it, and
+ * a read failure (migration missing, offline) degrades to the same default.
  *
  * Memoized: every plan card on the page asks, and they should share one
  * request. setLaunchDiscount() clears it so the next read is fresh. */
 
 const LAUNCH_DISCOUNT = "launch_discount";
+const DEFAULT_LAUNCH_DISCOUNT = { enabled: true, percent: 50 };
+// 0 would show no discount and 100+ divides by zero/negative in beforePrice()
+// (PlanCard.jsx) — clamp to a range where the struck-through price is always
+// sane and strictly higher than the real one.
+const clampPercent = (v) => Math.min(95, Math.max(1, Math.round(Number(v)) || DEFAULT_LAUNCH_DISCOUNT.percent));
 let launchDiscountPromise = null;
 
 export async function getLaunchDiscount() {
   if (!launchDiscountPromise) {
     launchDiscountPromise = (async () => {
       const { data, error } = await supabase.from("site_settings").select("value").eq("key", LAUNCH_DISCOUNT).maybeSingle();
-      if (error || !data?.value) return { enabled: true };
+      if (error || !data?.value) return { ...DEFAULT_LAUNCH_DISCOUNT };
       try {
         const parsed = JSON.parse(data.value);
-        return { enabled: parsed?.enabled !== false };
-      } catch { return { enabled: true }; }
+        return { enabled: parsed?.enabled !== false, percent: clampPercent(parsed?.percent) };
+      } catch { return { ...DEFAULT_LAUNCH_DISCOUNT }; }
     })();
   }
   return launchDiscountPromise;
 }
 
 // Admin-only (enforced by RLS). Returns { ok, error? }.
-export async function setLaunchDiscount(enabled) {
+export async function setLaunchDiscount(enabled, percent) {
   launchDiscountPromise = null; // force the next read to hit the table
+  const clean = { enabled: !!enabled, percent: clampPercent(percent) };
   const { data } = await supabase.auth.getUser();
   const { error } = await supabase
     .from("site_settings")
-    .upsert({ key: LAUNCH_DISCOUNT, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+    .upsert({ key: LAUNCH_DISCOUNT, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
 
