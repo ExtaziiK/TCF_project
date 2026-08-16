@@ -1466,6 +1466,22 @@ export const EN = {
   "Donner un ordre, un conseil, une instruction ou une invitation.":
     "Giving an order, a piece of advice, an instruction or an invitation.",
 
+  // Daily free-tier meter and paywall
+  "Il vous reste 5 minutes de conjugaison aujourd'hui.": "You have 5 minutes of conjugation left today.",
+  "Temps de pratique restant aujourd'hui": "Practice time left today",
+  // Suffix of the countdown chip ("7:12 restantes"). Not the bare word
+  // "aujourd'hui", which is already a shared key meaning plain "today".
+  "restantes": "left today",
+  "Vos 10 minutes du jour sont écoulées": "Your 10 minutes for today are up",
+  "La leçon reste ouverte à côté — révisez les règles et les tableaux autant que vous voulez.":
+    "The lesson stays open beside it — review the rules and tables as much as you like.",
+  "Conjugaison sans limite de temps, tous les temps, tous les jours":
+    "Unlimited conjugation practice, every tense, every day",
+  "La dictée, les TCF blancs complets et l'analyse IA": "The dictation, full mock TCF exams and AI analysis",
+  "Les quatre épreuves au format officiel": "All four test sections in the official format",
+  "Aller à la grammaire": "Go to grammar",
+  "Vos 10 minutes reviennent à": "Your 10 minutes come back at",
+
   // Dashboard panel + achievements
   "Aucune série terminée pour l'instant.": "No set completed yet.",
   "Choisir un temps à travailler": "Pick a tense to work on",

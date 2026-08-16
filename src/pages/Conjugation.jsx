@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, Table2, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { ConjugationExercise } from "@/components/conjugation/ConjugationExercise";
 import { ConjugationQuiz, ModeToggle } from "@/components/conjugation/ConjugationQuiz";
 import { ConjugationTable, IrregularList } from "@/components/conjugation/ConjugationTable";
+import { ConjugationQuotaWall, QuotaMeter } from "@/components/conjugation/ConjugationQuotaWall";
+import { useConjugationQuota } from "@/hooks/useConjugationQuota";
 import { CONJUGATION_TENSES } from "@/constants/conjugation";
 
 // Warm-up exercises shown on the tense page before the scored session is
@@ -14,7 +16,7 @@ const PREVIEW_EXERCISES = 3;
 const LEVEL_TONE = { A1: "green", A2: "green", B1: "blue", B2: "amber", C1: "red" };
 
 export function Conjugation() {
-  const { c, t } = useApp();
+  const { c, t, role, user, notify } = useApp();
   const [tenseId, setTenseId] = useState(null);
   const [mode, setMode] = useState("lessons"); // index: "lessons" | "quiz"
   const [tenseMode, setTenseMode] = useState("practice"); // per-tense: "practice" | "quiz"
@@ -23,8 +25,36 @@ export function Conjugation() {
   // again on the next lesson.
   const [answerMode, setAnswerMode] = useState("write");
 
+  // The free tier's ten minutes a day. Premium, admin and owner get
+  // `metered: false` and never see a meter, a warning or a wall.
+  const quota = useConjugationQuota(role, user?.id);
+
+  // Whether a scored set is live right now. The paywall is only ever raised at
+  // a boundary — this is what tells the page it is not standing at one.
+  const [sessionOpen, setSessionOpen] = useState(false);
+  const openSession = useCallback(() => setSessionOpen(true), []);
+  // Leaving the exercises, switching tense or switching mode all end the set,
+  // so the next render is a boundary again.
+  const closeSession = () => setSessionOpen(false);
+
+  // Practice is withheld only when the budget is spent AND no set is running.
+  // `ready` keeps a not-yet-loaded zero from flashing a wall at somebody who
+  // still has nine minutes.
+  const practiceLocked = quota.metered && quota.ready && quota.exhausted && !sessionOpen;
+
+  // One warning, the first time the last five minutes are crossed. Destructured
+  // so this depends on a boolean and a stable callback rather than on the whole
+  // quota object, which changes identity every second as the clock ticks.
+  const { shouldWarn, markWarned } = quota;
+  useEffect(() => {
+    if (!shouldWarn) return;
+    notify(t("Il vous reste 5 minutes de conjugaison aujourd'hui."));
+    markWarned();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldWarn, markWarned]);
+
   const tense = CONJUGATION_TENSES.find((x) => x.id === tenseId);
-  const openTense = (id) => { setTenseId(id); setTenseMode("practice"); };
+  const openTense = (id) => { setTenseId(id); setTenseMode("practice"); closeSession(); };
 
   if (tense) {
     const inQuiz = tenseMode === "quiz";
@@ -79,16 +109,26 @@ export function Conjugation() {
                   ? <><Zap size={18} className="text-rose-600" aria-hidden="true" /> {t("Série notée")}</>
                   : <><PenLine size={18} className="text-rose-600" aria-hidden="true" /> {t("À vous de jouer")}</>}
               </h3>
-              <button
-                onClick={() => setTenseMode(inQuiz ? "practice" : "quiz")}
-                className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}
-              >
-                {inQuiz ? <><PenLine size={14} /> {t("Exercices")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
-              </button>
+              <div className="flex items-center gap-2">
+                {quota.metered && quota.ready && !practiceLocked && <QuotaMeter left={quota.left} limit={quota.limit} />}
+                {!practiceLocked && (
+                  <button
+                    onClick={() => { setTenseMode(inQuiz ? "practice" : "quiz"); closeSession(); }}
+                    className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}
+                  >
+                    {inQuiz ? <><PenLine size={14} /> {t("Exercices")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+                  </button>
+                )}
+              </div>
             </div>
 
-            {inQuiz ? (
-              <ConjugationQuiz tense={tense} mode={answerMode} onModeChange={setAnswerMode} />
+            {practiceLocked ? (
+              <ConjugationQuotaWall resetAt={quota.resetAt} />
+            ) : inQuiz ? (
+              <ConjugationQuiz
+                tense={tense} mode={answerMode} onModeChange={setAnswerMode}
+                blocked={quota.exhausted} resetAt={quota.resetAt} onSessionOpen={openSession}
+              />
             ) : (
               <>
                 <div className="flex justify-end">
@@ -120,9 +160,10 @@ export function Conjugation() {
       title={t("Un temps à la fois, jusqu'à ce qu'il soit acquis")}
       sub={t("Choisissez le temps que vous voulez travailler : la leçon d'abord, les exercices ensuite — à écrire ou à choisir.")}
     >
-      <div className="flex justify-end mb-6">
+      <div className="flex justify-end items-center gap-2 mb-6">
+        {quota.metered && quota.ready && !practiceLocked && <QuotaMeter left={quota.left} limit={quota.limit} />}
         <button
-          onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")}
+          onClick={() => { setMode(mode === "quiz" ? "lessons" : "quiz"); closeSession(); }}
           className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}
         >
           {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
@@ -130,14 +171,21 @@ export function Conjugation() {
       </div>
 
       {mode === "quiz" ? (
-        <>
-          <p className={`text-center text-sm mb-6 ${c.sub}`}>
-            {t("Tous les temps mélangés, dix exercices par série. Chaque réponse est expliquée.")}
-          </p>
-          <div className="max-w-xl mx-auto">
-            <ConjugationQuiz mode={answerMode} onModeChange={setAnswerMode} />
-          </div>
-        </>
+        <div className="max-w-xl mx-auto">
+          {practiceLocked ? (
+            <ConjugationQuotaWall resetAt={quota.resetAt} />
+          ) : (
+            <>
+              <p className={`text-center text-sm mb-6 ${c.sub}`}>
+                {t("Tous les temps mélangés, dix exercices par série. Chaque réponse est expliquée.")}
+              </p>
+              <ConjugationQuiz
+                mode={answerMode} onModeChange={setAnswerMode}
+                blocked={quota.exhausted} resetAt={quota.resetAt} onSessionOpen={openSession}
+              />
+            </>
+          )}
+        </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CONJUGATION_TENSES.map((tp, i) => (

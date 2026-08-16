@@ -3,6 +3,7 @@ import { ArrowRight, RotateCcw, Trophy, PenLine, ListChecks, Flag } from "lucide
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { ConjugationExercise } from "@/components/conjugation/ConjugationExercise";
+import { ConjugationQuotaWall } from "@/components/conjugation/ConjugationQuotaWall";
 import { ALL_CONJUGATION_QS, CONJ_SECTION, conjQuizKey } from "@/constants/conjugation";
 import { recordQuizResult } from "@/services/quizResultsService";
 
@@ -26,7 +27,14 @@ const shuffle = (arr) => {
 // bank quiz — same table, same localStorage fallback — under section "conj",
 // which is what lets progressService keep conjugation out of the CO/CE
 // averages while still counting it for the streak and the study clock.
-export function ConjugationQuiz({ tense, mode, onModeChange }) {
+//
+// `blocked` means a free account ran out of daily minutes DURING this session.
+// The set is deliberately allowed to finish and be scored anyway — the page
+// only ever puts the paywall up at a session boundary, so nobody loses seven
+// answered questions to a clock. The wall then appears under the score, in
+// place of "Nouvelle série". `onSessionOpen` tells the page a set is live, so
+// it knows this is not a boundary.
+export function ConjugationQuiz({ tense, mode, onModeChange, blocked = false, resetAt, onSessionOpen }) {
   const { c, t, user } = useApp();
   const pool = useMemo(
     () => (tense ? tense.qs.map((q) => ({ ...q, tense: tense.t })) : ALL_CONJUGATION_QS),
@@ -49,6 +57,11 @@ export function ConjugationQuiz({ tense, mode, onModeChange }) {
     setScore(0);
     startedAt.current = Date.now();
   }, [draw]);
+
+  // Mounting is the page's signal that a set is under way. It only ever
+  // mounts this component at a boundary it has already cleared, so there is
+  // nothing to un-signal on the way out.
+  useEffect(() => { onSessionOpen?.(); }, [onSessionOpen]);
 
   const item = items[index];
   const finished = index >= items.length;
@@ -82,7 +95,7 @@ export function ConjugationQuiz({ tense, mode, onModeChange }) {
     setRound((r) => r + 1);
   };
 
-  if (finished) return <SessionReport score={score} total={items.length} onRestart={restart} />;
+  if (finished) return <SessionReport score={score} total={items.length} onRestart={restart} blocked={blocked} resetAt={resetAt} />;
 
   const pct = Math.round((index / items.length) * 100);
 
@@ -141,7 +154,7 @@ export function ModeToggle({ mode, onChange }) {
   );
 }
 
-function SessionReport({ score, total, onRestart }) {
+function SessionReport({ score, total, onRestart, blocked, resetAt }) {
   const { c, t } = useApp();
   const pct = Math.round((score / total) * 100);
   const verdict =
@@ -151,14 +164,21 @@ function SessionReport({ score, total, onRestart }) {
           : { tone: "red", msg: "À retravailler : reprenez la leçon avant de refaire une série." };
 
   return (
-    <Card className="p-8 text-center rise">
-      <Trophy size={32} className="mx-auto text-amber-500" aria-hidden="true" />
-      <p className={`mt-4 font-display font-black text-4xl ${c.text}`}>{pct} %</p>
-      <p className={`mt-1 text-sm ${c.sub}`}>{score} / {total} {t("bonnes réponses")}</p>
-      <div className="mt-4 flex justify-center"><Pill tone={verdict.tone}>{t(verdict.msg)}</Pill></div>
-      <div className="mt-6 flex justify-center">
-        <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouvelle série")}</Btn>
-      </div>
-    </Card>
+    <div className="space-y-4">
+      <Card className="p-8 text-center rise">
+        <Trophy size={32} className="mx-auto text-amber-500" aria-hidden="true" />
+        <p className={`mt-4 font-display font-black text-4xl ${c.text}`}>{pct} %</p>
+        <p className={`mt-1 text-sm ${c.sub}`}>{score} / {total} {t("bonnes réponses")}</p>
+        <div className="mt-4 flex justify-center"><Pill tone={verdict.tone}>{t(verdict.msg)}</Pill></div>
+        {/* The score is shown either way. Only the invitation to go again is
+            withheld — the set that was already under way was never in doubt. */}
+        {!blocked && (
+          <div className="mt-6 flex justify-center">
+            <Btn icon={RotateCcw} onClick={onRestart}>{t("Nouvelle série")}</Btn>
+          </div>
+        )}
+      </Card>
+      {blocked && <ConjugationQuotaWall resetAt={resetAt} />}
+    </div>
   );
 }
