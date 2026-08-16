@@ -46,7 +46,16 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
         {done ? q.a : "…"}
       </span>
       {q.s.split("___")[1]}
-      <span className={`ml-2 text-sm font-mono2 ${c.faint}`}>({q.inf})</span>
+      {/* The infinitive is the task, not a footnote: without it the exercise
+          cannot be answered at all. It used to render in `c.faint`, which is
+          slate-400 on white — 2.6:1, well under the 4.5:1 WCAG AA floor — at
+          the smallest size on the line, and candidates reported not being able
+          to read it. Now it carries the same blue as the gap it fills, so the
+          eye pairs the two, and `whitespace-nowrap` keeps it from being split
+          off onto its own line on a narrow screen. */}
+      <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-lg bg-blue-600/10 text-blue-600 text-[15px] font-mono2 font-bold whitespace-nowrap">
+        {q.inf}
+      </span>
     </p>
   ) : (
     <p className={`flex items-center gap-2 flex-wrap ${c.text}`}>
