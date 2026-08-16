@@ -48,11 +48,26 @@ export const NO_ASSIST_PROPS = {
 // `onInsert` receives the character to place at the caret. `right` renders at
 // the far end of the toolbar (the word count in Expression écrite, nothing in
 // the dictée).
-export function AccentKeys({ onInsert, right = null }) {
+//
+// `defaultOn` is the state before the candidate has ever expressed a choice,
+// and it differs by context on purpose. The dictée and Expression écrite are
+// full-page writing surfaces where three rows of keys cost nothing and being
+// able to type an accent is the whole exercise, so they keep the keys open.
+// A conjugation exercise is a small card whose input is one word long — there
+// the open keyboard was taller than the exercise itself and pushed the
+// question off-screen, so it starts collapsed and opens on request.
+//
+// An EXPLICIT choice still overrides the default and is still shared across
+// all three, which is the original point of FRKB_STORE: a candidate who opened
+// the keys in one place should not have to open them again in the next.
+export function AccentKeys({ onInsert, right = null, defaultOn = true }) {
   const { c, t } = useApp();
   const [shift, setShift] = useState(false);
   const [on, setOn] = useState(() => {
-    try { return localStorage.getItem(FRKB_STORE) !== "0"; } catch { return true; }
+    try {
+      const stored = localStorage.getItem(FRKB_STORE);
+      return stored === null ? defaultOn : stored !== "0";
+    } catch { return defaultOn; }
   });
 
   const toggle = () => setOn((v) => {

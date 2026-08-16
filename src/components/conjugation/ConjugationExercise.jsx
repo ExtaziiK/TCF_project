@@ -14,7 +14,7 @@ import { checkAnswer, isCorrect, missingAccents, filledSentence } from "@/utils/
 // the correction block below is identical for both — only the way the answer
 // is collected differs.
 export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = false }) {
-  const { c, t } = useApp();
+  const { c, t, dark } = useApp();
   const [typed, setTyped] = useState("");
   const [verdict, setVerdict] = useState(null); // "correct" | "accent" | "wrong"
   const [chosen, setChosen] = useState(null);
@@ -39,27 +39,43 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
 
   // The prompt: a sentence with its gap, or — for a bare drill — the
   // infinitive and the pronoun on their own.
+  //
+  // The infinitive sits directly ABOVE the gap rather than trailing at the end
+  // of the sentence. It is the task — without it the exercise has no possible
+  // answer — and candidates reported missing it entirely when it was a faint
+  // parenthetical at the far right, especially once the sentence wrapped and
+  // put it on a line of its own, away from the blank it describes. Stacked on
+  // the blank, the two read as one unit: "this verb, in this slot".
+  //
+  // Gold, in the amber pair the pricing notice already uses, because slate is
+  // what the rest of the line is: the point is that this one element is not
+  // part of the sentence but an instruction about it. The light shade is
+  // amber-700 (≈5:1 on white) rather than the brand's #b8860b (3.3:1), which
+  // would have put the label back under the WCAG AA floor it was just lifted
+  // out of.
+  //
+  // `leading-[2.4]` on the paragraph is what reserves room for the stacked
+  // label; without it the label of a wrapped second line collides with the
+  // line above.
+  const gold = dark ? "text-amber-400" : "text-amber-700";
   const prompt = q.s ? (
-    <p className={`text-[15px] leading-relaxed ${c.text}`}>
+    <p className={`text-[15px] leading-[2.4] ${c.text}`}>
       {q.s.split("___")[0]}
-      <span className="inline-flex items-center justify-center min-w-[72px] mx-1 px-2 border-b-2 border-dashed border-blue-500/60 text-blue-600 font-semibold align-baseline">
-        {done ? q.a : "…"}
+      <span className="inline-block align-bottom mx-1.5 text-center">
+        <span className={`block text-sm font-mono2 font-bold leading-none pb-1 whitespace-nowrap ${gold}`}>
+          {q.inf}
+        </span>
+        <span className="block min-w-[84px] px-2 border-b-2 border-dashed border-blue-500/60 text-blue-600 font-semibold leading-snug">
+          {done ? q.a : "…"}
+        </span>
       </span>
       {q.s.split("___")[1]}
-      {/* The infinitive is the task, not a footnote: without it the exercise
-          cannot be answered at all. It used to render in `c.faint`, which is
-          slate-400 on white — 2.6:1, well under the 4.5:1 WCAG AA floor — at
-          the smallest size on the line, and candidates reported not being able
-          to read it. Now it carries the same blue as the gap it fills, so the
-          eye pairs the two, and `whitespace-nowrap` keeps it from being split
-          off onto its own line on a narrow screen. */}
-      <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-lg bg-blue-600/10 text-blue-600 text-[15px] font-mono2 font-bold whitespace-nowrap">
-        {q.inf}
-      </span>
     </p>
   ) : (
     <p className={`flex items-center gap-2 flex-wrap ${c.text}`}>
-      <span className="font-display font-bold text-lg">{q.inf}</span>
+      {/* Gold here too: the verb to conjugate is always the gold word, whether
+          it heads a drill or sits over a gap. */}
+      <span className={`font-display font-bold text-lg ${gold}`}>{q.inf}</span>
       <span className={c.faint}>·</span>
       <span className={`font-mono2 text-sm ${c.sub}`}>{q.p}</span>
       <span className={c.faint}>→</span>
@@ -73,7 +89,7 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
 
       {mode === "write" ? (
         <div className={`mt-4 rounded-xl border overflow-hidden ${done ? c.border : "border-blue-600/40"}`}>
-          {!done && <AccentKeys onInsert={(ch) => insertAtCaret(inputRef, ch, typed, setTyped)} />}
+          {!done && <AccentKeys defaultOn={false} onInsert={(ch) => insertAtCaret(inputRef, ch, typed, setTyped)} />}
           <div className="flex items-stretch">
             <input
               ref={inputRef}
