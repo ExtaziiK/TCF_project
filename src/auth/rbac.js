@@ -79,10 +79,12 @@ export const PAGE_ACCESS = {
   // that refuses it (or worse, the reverse: a paywall in front of an endpoint
   // anyone can call).
   //
-  // The nav entry deliberately carries NO `roles`, so free accounts and
-  // visitors still SEE it and land on DicteePitch — the exercise is easier to
-  // sell once someone has read what it does than it is to sell from a menu
-  // they cannot see. That is the same pattern as "TCF blanc" and "Épreuves".
+  // The nav entry deliberately carries NO `roles`, so free accounts still SEE
+  // it and land on DicteePitch — the exercise is easier to sell once someone
+  // has read what it does than it is to sell from a menu they cannot see.
+  // Visitors are the exception: the parent "Pratique" menu is signed-in only,
+  // so they never see the entry, but the route stays public and a direct
+  // /dictee link still opens the pitch.
   dictee: PREMIUM,
   // Free accounts reach the TCF blanc page and may sit exactly ONE, on fixed
   // content (examService.generateFreeExamTasks). The limit is enforced on the

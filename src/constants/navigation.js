@@ -30,14 +30,20 @@ export const NAV_LINKS = [
   // Supplementary practice, distinct from the exam épreuves. Ordered from the
   // building blocks up to the exercise that uses them: vocabulary and grammar
   // are things you study, the dictée is where they are tested together.
-  { l: "Pratique", menu: [
+  //
+  // Gated as a whole, unlike "TCF blanc" and "Épreuves": for a visitor both
+  // study entries were filtered out and the menu opened onto the single
+  // remaining item, which reads as a broken dropdown rather than as an offer.
+  // Visitors are pitched by the home page and the route guard instead.
+  { l: "Pratique", roles: AUTHENTICATED, menu: [
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED },
     // NO `roles`, deliberately, and not an oversight: la dictée is Premium
-    // (rbac.js → dictee: PREMIUM) but stays visible to free accounts and to
-    // visitors, who land on its sales page instead of the exercise. Hiding it
-    // would mean nobody who has not already paid ever learns it exists. Same
-    // reasoning as "TCF blanc" and "Épreuves" above.
+    // (rbac.js → dictee: PREMIUM) but stays visible to free accounts, who land
+    // on its sales page instead of the exercise. Hiding it would mean nobody
+    // who has not already paid ever learns it exists. Visitors no longer reach
+    // it here — the parent menu is signed-in only — but the route itself stays
+    // public, so a shared /dictee link still opens the pitch.
     { l: "La dictée", r: "dictee", grad: true },
   ] },
   { l: "Tarifs", r: "pricing" },
