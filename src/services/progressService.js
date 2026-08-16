@@ -2,6 +2,7 @@ import { getBank } from "@/services/bankService";
 import { levelForPct } from "@/services/examService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
+import { CONJ_SECTION, CONJUGATION_TENSES, tenseIdFromQuizKey } from "@/constants/conjugation";
 
 // Pure progress engine for the member dashboard. Everything is derived from
 // the user's stored history — practice-quiz results (quizResultsService) and
@@ -25,6 +26,10 @@ export const XP_RULES = {
   // dictée is two hundred words: paying per word would hand out four hundred
   // XP for one exercise and make every quiz in the app pointless overnight.
   perDicteeCompleted: 15,
+  // A conjugation série is ten short drills, not a quiz on exam material — a
+  // flat award, below perQuizCompleted, so grinding the tenses can never be a
+  // faster road to a level than the épreuves it is meant to support.
+  perConjugationSession: 8,
   perActiveDay: 5, // daily practice bonus
   perFullStreakWeek: 30, // weekly streak bonus
 };
@@ -55,11 +60,17 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
   const exams = attempts.filter((a) => a.status === "completed" && a.score);
   const inProgressExam = attempts.find((a) => a.status === "in_progress") || null;
 
+  // Conjugation sessions share the quiz_results table with the bank quizzes,
+  // so they arrive mixed into `results` and have to be separated here — see
+  // the note above `conjEvents` for why they are not left in.
+  const conjRows = results.filter((r) => r.section === CONJ_SECTION);
+  const quizRows = results.filter((r) => r.section !== CONJ_SECTION);
+
   /* ---- flatten history into one chronological event list ---- */
   // `answered` = questions the user actually selected an answer for. Rows
   // predating the column report null → treated as fully answered.
   const events = [
-    ...results.map((r) => ({
+    ...quizRows.map((r) => ({
       kind: "quiz", at: r.completedAt, section: r.section, ok: r.ok, total: r.total, pct: r.pct,
       answered: r.answered ?? r.total, quizKey: r.quizKey,
       minutes: r.durationSec ? Math.max(1, Math.round(r.durationSec / 60)) : 1,
@@ -96,9 +107,27 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
     }))
     .sort((a, b) => new Date(a.at) - new Date(b.at));
 
+  // Conjugation séries are held out of `events` for the same reason dictées
+  // are, and the reason is worth stating because it is NOT the dictée's: a
+  // conjugation exercise really is a question, so folding it in would type-check
+  // fine and quietly change what two headline numbers mean. `avgScore` is read
+  // as "how am I doing on the épreuves", and a drill on the subjonctif is not
+  // an épreuve; `quizzesCompleted` gates the user levels, and eight tenses
+  // would hand out a level for practice that never touched CO or CE. They come
+  // back below for everything that IS comparable — days practised, time spent,
+  // XP and the activity feed — plus a block of their own.
+  const conjEvents = conjRows
+    .filter((r) => r.completedAt && r.total > 0)
+    .map((r) => ({
+      kind: "conj", at: r.completedAt, ok: r.ok, total: r.total, pct: r.pct,
+      tenseId: tenseIdFromQuizKey(r.quizKey),
+      minutes: r.durationSec ? Math.max(1, Math.round(r.durationSec / 60)) : 1,
+    }))
+    .sort((a, b) => new Date(a.at) - new Date(b.at));
+
   // Every practice event, in order — the timeline the streak, the study clock
   // and the activity feed are built from.
-  const allEvents = [...events, ...dicteeEvents].sort((a, b) => new Date(a.at) - new Date(b.at));
+  const allEvents = [...events, ...dicteeEvents, ...conjEvents].sort((a, b) => new Date(a.at) - new Date(b.at));
 
   /* ---- totals ---- */
   const questionsAnswered = events.reduce((s, e) => s + (e.answered || 0), 0);
@@ -106,7 +135,7 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
   // Count a quiz only once, and only when every question was answered (no
   // skips). Rows without an `answered` value count as fully answered.
   const completedQuizKeys = new Set(
-    results.filter((r) => r.total > 0 && (r.answered ?? r.total) >= r.total).map((r) => r.quizKey)
+    quizRows.filter((r) => r.total > 0 && (r.answered ?? r.total) >= r.total).map((r) => r.quizKey)
   );
   const quizzesCompleted = completedQuizKeys.size;
   const examsCompleted = exams.length;
@@ -125,15 +154,18 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
   const bankKeys = new Set(
     Object.values(bank).flat().filter((q) => q.kind !== "prompt").map((q) => `bank-${q.id}`)
   );
-  const attemptedKeys = new Set(results.map((r) => r.quizKey).filter((k) => bankKeys.has(k)));
+  const attemptedKeys = new Set(quizRows.map((r) => r.quizKey).filter((k) => bankKeys.has(k)));
   const completionPct = bankKeys.size ? Math.round((attemptedKeys.size / bankKeys.size) * 100) : 0;
 
   /* ---- per-section stats ---- */
-  const sections = Object.keys(bank).map((s) => sectionStats(s, bank, results));
+  const sections = Object.keys(bank).map((s) => sectionStats(s, bank, quizRows));
   const sectionsPracticed = sections.filter((s) => s.quizzesCompleted > 0).length;
 
   /* ---- dictée ---- */
   const dicteeStats = dicteeSummary(dicteeEvents);
+
+  /* ---- conjugaison ---- */
+  const conjugationStats = conjugationSummary(conjEvents);
 
   /* ---- XP ---- */
   const xp =
@@ -141,6 +173,7 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
     quizzesCompleted * XP_RULES.perQuizCompleted +
     examsCompleted * XP_RULES.perExamCompleted +
     dicteeEvents.length * XP_RULES.perDicteeCompleted +
+    conjEvents.length * XP_RULES.perConjugationSession +
     activeDays.size * XP_RULES.perActiveDay +
     Math.floor(streaks.longest / 7) * XP_RULES.perFullStreakWeek;
 
@@ -187,15 +220,16 @@ export function computeProgress({ results = [], attempts = [], dictees = [] }) {
     xp: { total: xp, level: level.name, levelIdx, nextLevel: nextLevel?.name || null, xpIntoLevel, xpForNext, xpRemaining, levelGated },
     sections,
     dictee: dicteeStats,
+    conjugation: conjugationStats,
     charts,
     weeklyGoal,
     week,
-    continueCard: continueCard(inProgressExam, results),
+    continueCard: continueCard(inProgressExam, quizRows),
     recentActivity: [...allEvents].reverse().slice(0, 6).map(activityItem),
     sessions: [...allEvents].reverse().map(activityItem), // full history for the progression page
   };
   progress.achievements = achievements(progress);
-  progress.recommendations = recommendations(progress, bank, results);
+  progress.recommendations = recommendations(progress, bank, quizRows);
   progress.insights = insights(progress, events);
   return progress;
 }
@@ -237,7 +271,52 @@ function monthCalendar(activeDays) {
 // have been paid two XP per word by one of them.
 function eventXp(e) {
   if (e.kind === "dictee") return XP_RULES.perDicteeCompleted;
+  // Flat too, and for the same reason: paying perCorrectAnswer on top would
+  // make a ten-drill série worth more than the quiz it is supposed to support.
+  if (e.kind === "conj") return XP_RULES.perConjugationSession;
   return (e.ok || 0) * XP_RULES.perCorrectAnswer + (e.kind === "exam" ? XP_RULES.perExamCompleted : XP_RULES.perQuizCompleted);
+}
+
+// What the candidate has covered across the tenses — the thing a single série
+// cannot show. `weakest` is what the dashboard turns into a "revoir ce temps"
+// nudge, and it only appears once a tense has been practised twice, so one bad
+// first run does not brand a temps as the problem.
+function conjugationSummary(conjEvents) {
+  if (!conjEvents.length) return { count: 0, avg: null, best: null, tensesPracticed: 0, tensesTotal: CONJUGATION_TENSES.length, lastAt: null, byTense: [], weakest: null };
+
+  const byId = {};
+  for (const e of conjEvents) {
+    const row = (byId[e.tenseId] ||= { tenseId: e.tenseId, runs: 0, pctSum: 0, best: 0 });
+    row.runs++;
+    row.pctSum += e.pct;
+    row.best = Math.max(row.best, e.pct);
+  }
+  // "mixte" is the all-tenses série: it counts as practice but names no temps,
+  // so it must never be reported as a strong or weak tense.
+  const byTense = Object.values(byId)
+    .filter((r) => CONJUGATION_TENSES.some((tp) => tp.id === r.tenseId))
+    .map((r) => ({
+      tenseId: r.tenseId,
+      title: CONJUGATION_TENSES.find((tp) => tp.id === r.tenseId).t,
+      runs: r.runs,
+      avg: Math.round(r.pctSum / r.runs),
+      best: r.best,
+    }))
+    .sort((a, b) => b.avg - a.avg);
+
+  const scores = conjEvents.map((e) => e.pct);
+  const repeated = byTense.filter((r) => r.runs >= 2 && r.avg < 70);
+  return {
+    count: conjEvents.length,
+    avg: Math.round(scores.reduce((s, p) => s + p, 0) / scores.length),
+    best: Math.max(...scores),
+    tensesPracticed: byTense.length,
+    tensesTotal: CONJUGATION_TENSES.length,
+    lastAt: conjEvents[conjEvents.length - 1].at,
+    byTense,
+    strongest: byTense[0] || null,
+    weakest: repeated.length ? repeated[repeated.length - 1] : null,
+  };
 }
 
 // What the candidate gets wrong across ALL their dictées — the thing a single
@@ -350,6 +429,10 @@ function activityItem(e) {
   const base = { date, minutes: e.minutes || 0, xp: eventXp(e), kind: e.kind };
   if (e.kind === "exam") return { ...base, title: "TCF blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` };
   if (e.kind === "dictee") return { ...base, title: `Dictée · tâche ${e.task}`, meta: `${e.ok} / ${e.total} mots · ${date}`, result: `${e.pct} %` };
+  if (e.kind === "conj") {
+    const tense = CONJUGATION_TENSES.find((tp) => tp.id === e.tenseId);
+    return { ...base, title: `Conjugaison · ${tense ? tense.t.toLowerCase() : "tous les temps"}`, meta: `${e.ok} / ${e.total} · ${date}`, result: `${e.pct} %` };
+  }
   return { ...base, title: `Quiz ${SECTION_LABELS[e.section] || "de pratique"} terminé`, meta: `${e.pct} % · ${date}`, result: `${e.pct} %` };
 }
 
@@ -375,6 +458,10 @@ export function achievements(p) {
     // Deliberately demanding: 90 % on a dictée means the accents too, so this
     // badge says something a quiz score cannot.
     { id: "sharp-ear", title: "Oreille fine", desc: "Cinq dictées à 90 % ou plus", earned: (p.dictee?.high || 0) >= 5 },
+    { id: "first-conjugation", title: "Première série", desc: "Terminer une série de conjugaison", earned: (p.conjugation?.count || 0) >= 1 },
+    // Deliberately about breadth, not score: the point of the tab is to stop
+    // avoiding the tenses one finds hard.
+    { id: "all-tenses", title: "Tous les temps", desc: "Travailler tous les temps au moins une fois", earned: (p.conjugation?.tensesPracticed || 0) >= (p.conjugation?.tensesTotal || CONJUGATION_TENSES.length) },
   ];
 }
 
@@ -457,6 +544,12 @@ function insights(p, events) {
   const topError = p.dictee?.topErrors?.[0];
   if (p.dictee?.count >= 2 && topError && topError.count >= 3) {
     out.push({ tone: "info", text: `Sur vos ${p.dictee.count} dictées, « ${topError.label.toLowerCase()} » revient ${topError.count} fois — c'est le point à traiter en premier.` });
+  }
+  // Same logic as the dictée insight: one weak série is noise, a weak average
+  // over two or more runs on the SAME temps is a diagnosis worth acting on.
+  const weakTense = p.conjugation?.weakest;
+  if (weakTense) {
+    out.push({ tone: "info", text: `« ${weakTense.title} » reste à ${weakTense.avg} % de moyenne sur ${weakTense.runs} séries — relisez la leçon avant de réessayer.` });
   }
   const scoredSections = p.sections.filter((s) => s.avg !== null);
   if (scoredSections.length >= 2) {

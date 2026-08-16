@@ -1390,6 +1390,94 @@ export const EN = {
   "Les adverbes": "Adverbs",
   "Formation en -ment, place et adverbes d'intensité.": "Formation in -ment, position and adverbs of intensity.",
 
+  // ── Conjugation ──────────────────────────────────────────────────────
+  // Lesson bullets, tables and per-exercise explanations are deliberately NOT
+  // listed: like the grammar lessons, they are rendered raw. Translating a
+  // rule about French accents into English would help nobody.
+  "Conjugaison": "Conjugation",
+  "Un temps à la fois, jusqu'à ce qu'il soit acquis": "One tense at a time, until you own it",
+  "Choisissez le temps que vous voulez travailler : la leçon d'abord, les exercices ensuite — à écrire ou à choisir.":
+    "Pick the tense you want to work on: the lesson first, then the exercises — type them or choose them.",
+  "Tous les temps": "All tenses",
+  "Quand l'utiliser ?": "When is it used?",
+  "Les tableaux": "Conjugation tables",
+  "À mémoriser": "Learn by heart",
+  "Série notée": "Scored set",
+  "S'entraîner sur ce temps en série notée": "Practice this tense as a scored set",
+  "Tous les temps mélangés, dix exercices par série. Chaque réponse est expliquée.":
+    "All tenses mixed together, ten exercises per set. Every answer is explained.",
+
+  // Practice modes
+  "Mode de réponse": "Answer mode",
+  "Écrire": "Type it",
+  "Choisir": "Choose",
+  "Écrivez la forme conjuguée": "Write the conjugated form",
+  "Vérifier": "Check",
+  "Presque : il manque un accent.": "Almost — an accent is missing.",
+  "La forme attendue est": "The expected form is",
+  "vous avez oublié": "you left out",
+  "Question": "Question",
+  "Voir le résultat": "See the result",
+  "Nouvelle série": "New set",
+  "Excellent — ce temps est acquis.": "Excellent — this tense is yours.",
+  "Bon niveau. Encore quelques formes à fixer.": "Good level. A few forms left to lock in.",
+  "En progrès. Relisez la leçon, puis recommencez.": "Getting there. Re-read the lesson, then try again.",
+  "À retravailler : reprenez la leçon avant de refaire une série.":
+    "Needs work: go back to the lesson before running another set.",
+
+  // Tense names and descriptions (the grid cards and each lesson's header)
+  "Le présent de l'indicatif": "The present indicative",
+  "Le temps de base : ce qui est vrai maintenant, ce qui se répète, ce qui dure.":
+    "The base tense: what is true now, what repeats, what lasts.",
+  "Une action en cours, une habitude, une vérité générale.": "An ongoing action, a habit, a general truth.",
+  "Le passé composé": "The passé composé",
+  "L'action passée, terminée, datée : « hier, j'ai fini ».": "A past action, finished and dated: “yesterday I finished”.",
+  "Une action passée et achevée, souvent ponctuelle.": "A completed past action, often a one-off.",
+  "L'imparfait": "The imparfait",
+  "Le décor du passé : habitudes, descriptions, actions en cours.":
+    "The backdrop of the past: habits, descriptions, actions in progress.",
+  "Une habitude passée, une description, une action non achevée.":
+    "A past habit, a description, an unfinished action.",
+  "Le plus-que-parfait": "The pluperfect",
+  "Le passé avant le passé : « j'avais déjà mangé quand il est arrivé ».":
+    "The past before the past: “I had already eaten when he arrived”.",
+  "Une action antérieure à une autre action passée.": "An action that came before another past action.",
+  "Le futur proche": "The near future",
+  "« Je vais partir » : le futur immédiat, celui de l'oral.": "“Je vais partir”: the immediate future, the spoken one.",
+  "Une action sur le point d'arriver, ou un futur présenté comme certain.":
+    "An action about to happen, or a future presented as certain.",
+  "Le futur simple": "The simple future",
+  "« Je partirai » : le futur de l'écrit, des projets et des promesses.":
+    "“Je partirai”: the written future, for plans and promises.",
+  "Un projet, une prévision, une promesse — surtout à l'écrit.":
+    "A plan, a forecast, a promise — above all in writing.",
+  "Le conditionnel présent": "The present conditional",
+  "« Je voudrais » : la politesse, l'hypothèse, le souhait.": "“Je voudrais”: politeness, hypothesis, wishes.",
+  "Une demande polie, un souhait, une hypothèse, une information non confirmée.":
+    "A polite request, a wish, a hypothesis, an unconfirmed report.",
+  "Le subjonctif présent": "The present subjunctive",
+  "« Il faut que je parte » : le mode du souhait, du doute et de l'obligation.":
+    "“Il faut que je parte”: the mood of wishes, doubt and obligation.",
+  "Après une expression de volonté, d'émotion, de doute ou d'obligation.":
+    "After an expression of will, emotion, doubt or obligation.",
+  "L'impératif": "The imperative",
+  "« Écoutez ! » : l'ordre, le conseil, la consigne — trois personnes seulement.":
+    "“Écoutez!”: orders, advice and instructions — three persons only.",
+  "Donner un ordre, un conseil, une instruction ou une invitation.":
+    "Giving an order, a piece of advice, an instruction or an invitation.",
+
+  // Dashboard panel + achievements
+  "Aucune série terminée pour l'instant.": "No set completed yet.",
+  "Choisir un temps à travailler": "Pick a tense to work on",
+  "de moyenne": "average",
+  "série terminée": "set completed",
+  "séries terminées": "sets completed",
+  "temps travaillés": "tenses practiced",
+  "À revoir en priorité :": "Review first:",
+  "Première série": "First set",
+  "Terminer une série de conjugaison": "Complete one conjugation set",
+  "Travailler tous les temps au moins une fois": "Practice every tense at least once",
+
   // ── Vocabulary ───────────────────────────────────────────────────────
   "Le lexique de votre nouvelle vie": "The vocabulary of your new life",
   "Cartes mémoire rédigées en contexte canadien. Cliquez une carte pour la retourner ; ajoutez vos mots difficiles aux favoris.":
