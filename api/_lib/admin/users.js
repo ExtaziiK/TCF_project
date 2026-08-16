@@ -11,7 +11,9 @@ import { HttpError } from "../groq.js";
 //   GET  /api/admin/users?search=&page=1        → { users, total, page, perPage }
 //   POST /api/admin/users { action, userId, … } → { ok: true }
 //     action: "set-plan"        { plan: "Premium"|"Basic", days?|months?: number|null, label? }
-//             "extend-access"   { days: number }  adds/removes days on top of what is left
+//             "extend-access"   { days: number }  adds/removes days on top of what is
+//                                     left, keeping the live pass's tier; an account
+//                                     with none opens on DEFAULT_EXTEND_LABEL
 //             "set-role"        { role: "admin"|null }   (owner only; not your own role)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
 //             "disconnect"      {}    signs the account out on every device, now
@@ -37,6 +39,17 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 // in auth.js, device_limit_for() in the DB) for accounts that already hold
 // them.
 const PLAN_LABELS = ["Starter", "Pro", "Ultimate"];
+
+// The tier an "extend-access" grant lands on when the account has no live pass
+// to add to. Entitlements are matched on plan_label (DAILY_SITTINGS and
+// DAILY_DICTEES in auth.js, max_learner_profiles() in the DB), and an
+// unrecognised label falls through to UNLIMITED there on purpose — that
+// fallback exists so a paying customer on a label we failed to match is never
+// wrongly locked out. A goodwill grant off a Basic account used to land in that
+// same branch by accident, handing out uncapped AI on a free gesture. Naming
+// the cheapest sold tier keeps the grant inside a plan the site actually
+// describes.
+const DEFAULT_EXTEND_LABEL = "Starter";
 
 // A connection counts as "online" when the app pinged last_seen_at within this
 // window (the client pings every 45s; three-plus missed pings = offline).
@@ -250,16 +263,34 @@ async function handlePost(req, res, actor) {
     const base = hasTimeLeft ? current : Date.now();
     const untilMs = base + days * 24 * 3600 * 1000;
 
+    // Which tier the extended window belongs to.
+    //
+    // A live pass keeps its own label untouched — including a legacy one
+    // (Visa/Première classe/VIP/Passeport), which is why this tests for any
+    // label rather than PLAN_LABELS membership: those accounts are still
+    // entitled to what they bought, and rewriting the string would change
+    // their quotas.
+    //
+    // Everything else opens on DEFAULT_EXTEND_LABEL. That covers the two cases
+    // an admin sees as "Basic" in the row: no label at all, and a label left
+    // over from a pass that has already run out — an expired Ultimate is not
+    // an entitlement, and silently resurrecting it would grant a tier that is
+    // nowhere on screen at the moment of the click. It also covers an active
+    // Premium with no label (an account extended before this rule existed),
+    // which is exactly the accidental-unlimited case above.
+    const label = (hasTimeLeft && meta.plan_label) || DEFAULT_EXTEND_LABEL;
+
     // Shortened past the present: that is a revocation, so say so in the data
     // rather than leaving a Premium plan pointing at a date in the past.
     const patch = untilMs <= Date.now()
       ? { plan: "Basic", plan_label: null, premium_until: null } // free tier, renamed from "Sans papier" 2026-08
-      : { plan: "Premium", premium_until: new Date(untilMs).toISOString() };
+      : { plan: "Premium", plan_label: label, premium_until: new Date(untilMs).toISOString() };
 
     await patchMetadata(userId, patch);
     await audit(actor, "extend-access", email, {
       days,
       from: hasTimeLeft ? new Date(current).toISOString() : null,
+      label: patch.plan_label,
       premium_until: patch.premium_until,
     });
     return res.status(200).json({ ok: true, premiumUntil: patch.premium_until });
