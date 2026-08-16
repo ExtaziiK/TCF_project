@@ -1037,7 +1037,9 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                 {EXTEND_DAYS.map((d) => (
                   <Btn key={d} small variant="ghost" disabled={busy}
                     onClick={() => act({ action: "extend-access", userId: u.id, days: d }, `${u.email} prolongé de ${d} jours.`)}
-                    title={u.premiumActive ? `Ajoute ${d} jours à l'accès en cours` : `Ouvre un accès de ${d} jours à partir d'aujourd'hui`}>
+                    title={u.premiumActive
+                      ? `Ajoute ${d} jours à l'accès en cours${u.planLabel ? ` (${currentPlanLabel(u.planLabel)} conservé)` : ""}`
+                      : `Ouvre un accès Starter de ${d} jours à partir d'aujourd'hui`}>
                     +{d} j
                   </Btn>
                 ))}
@@ -2094,7 +2096,11 @@ function AuditTab() {
       const sign = d.days > 0 ? `+${d.days}` : `${d.days}`;
       // No premium_until after the change means it was shortened past today,
       // which revokes rather than extends — worth naming in the log.
-      return d.premium_until ? `${sign} j → ${dateOnly(d.premium_until)}` : `${sign} j → accès retiré`;
+      if (!d.premium_until) return `${sign} j → accès retiré`;
+      // The tier is only in the detail for grants made after the label rule
+      // landed; older entries have no `label` and just show the date.
+      const tier = d.label ? `${currentPlanLabel(d.label)} ` : "";
+      return `${sign} j → ${tier}jusqu'au ${dateOnly(d.premium_until)}`;
     }
     if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : "rôle retiré";
     return "";
