@@ -2,7 +2,7 @@
 // to declare its own role list that omitted OWNER, so an owner saw no
 // "Pratique" menu (and no account links on mobile) for pages the guard happily
 // let them open. One definition, no drift.
-import { AUTHENTICATED, ADMIN_ONLY } from "@/auth/rbac";
+import { AUTHENTICATED, ADMIN_ONLY, PRIVATE_ROUTE_EMAILS, canAccess } from "@/auth/rbac";
 import { POSTS } from "@/constants/blog";
 import { CONJUGATION_TENSES } from "@/constants/conjugation";
 
@@ -56,17 +56,34 @@ export const NAV_LINKS = [
 export const ACCOUNT_LINKS = [
   { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED },
   { l: "Mon profil", r: "profile", roles: AUTHENTICATED },
+  // Person-scoped, not a tier: hidden from everyone except the candidate it
+  // belongs to and staff (rbac.PRIVATE_ROUTE_EMAILS). It sits among the account
+  // links rather than in "Pratique" because it is not study material — it is
+  // one person's exam-date watch.
+  { l: "Veille TCF", r: "veille-tcf", roles: AUTHENTICATED },
   { l: "Administration", r: "admin", roles: ADMIN_ONLY },
 ];
 
-const visible = (item, role) => !item.roles || item.roles.includes(role);
+// An entry is visible when its `roles` pass and — for the handful of routes
+// that belong to a named PERSON rather than to a tier — canAccess agrees.
+//
+// The person check is deliberately narrowed to routes listed in
+// PRIVATE_ROUTE_EMAILS instead of running canAccess over everything. Consulting
+// PAGE_ACCESS here would look tidier and would be wrong: "La dictée" carries no
+// `roles` on purpose so that free accounts still SEE it and land on its sales
+// page, while PAGE_ACCESS.dictee is PREMIUM. A blanket canAccess would hide the
+// entry from exactly the people it exists to convert.
+const visible = (item, role, user) =>
+  (!item.roles || item.roles.includes(role))
+  && (!item.r || !PRIVATE_ROUTE_EMAILS[item.r] || canAccess(role, item.r, user));
 
 // Returns the nav tree filtered for a role. Menus keep only the entries the
 // role may see; a menu with no visible entries is dropped entirely.
-export function navLinksForRole(links, role) {
+// `user` is only consulted for person-scoped routes.
+export function navLinksForRole(links, role, user = null) {
   return links
-    .filter((n) => visible(n, role))
-    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role)) } : n))
+    .filter((n) => visible(n, role, user))
+    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role, user)) } : n))
     .filter((n) => !n.menu || n.menu.length > 0);
 }
 

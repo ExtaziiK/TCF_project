@@ -49,8 +49,8 @@ export function Nav({ barOffset = false }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const navLinks = navLinksForRole(NAV_LINKS, role);
-  const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
+  const navLinks = navLinksForRole(NAV_LINKS, role, user);
+  const accountLinks = navLinksForRole(ACCOUNT_LINKS, role, user);
   const mobileLinks = [
     ...navLinks.flatMap((n) => (n.menu ? n.menu : [n])),
     ...accountLinks,
