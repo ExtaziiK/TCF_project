@@ -19,7 +19,7 @@ export function ExamSetup({ onStart, onCancel, busy }) {
   const submit = () => {
     const payload = { mode };
     window.scrollTo({ top: 0 }); // so the exam mounts already at the top, no leftover scroll offset
-    // The countdown intro is a Mode Test ritual (real-exam pressure before the
+    // The countdown intro is a Mode Réaliste ritual (real-exam pressure before the
     // first audio auto-plays). Mode Entraînement is a relaxed practice run, so
     // it skips straight into the session.
     if (mode !== "test") { onStart(payload); return; }
@@ -59,13 +59,20 @@ export function ExamSetup({ onStart, onCancel, busy }) {
         <div className="grid md:grid-cols-2 gap-4">
           {EXAM_MODES.map((m) => {
             const active = m.id === mode;
-            const accent = m.badgeTone === "red";
+            // Mode Réaliste is the one candidates should default to, so it
+            // carries its own red accent (border, tinted background, glow)
+            // whether or not it's the one currently picked — Mode
+            // Entraînement only picks up its (blue) accent once selected,
+            // so the contrast between the two stays obvious either way.
+            const realistic = m.id === "test";
             return (
               <button key={m.id} onClick={() => setMode(m.id)} aria-pressed={active}
                 className={`text-left p-5 rounded-3xl border-2 transition-all relative
-                ${active ? (accent ? "border-rose-500 bg-rose-500/5" : "border-amber-500 bg-amber-500/5") : `${c.border} ${c.hoverSoft}`}`}>
+                ${realistic
+                  ? `border-rose-500 bg-gradient-to-br from-rose-500/10 to-red-500/5 shadow-lg shadow-rose-500/10 ${active ? "from-rose-500/15 to-red-500/10" : ""}`
+                  : active ? "border-blue-500 bg-blue-500/5" : `${c.border} ${c.hoverSoft}`}`}>
                 <span className="absolute top-4 right-4"><Pill tone={m.badgeTone}>{t(m.badge)}</Pill></span>
-                <span className={`w-11 h-11 rounded-2xl flex items-center justify-center ${accent ? "bg-rose-500/10 text-rose-600" : "bg-amber-500/10 text-amber-600"}`}><m.icon size={20} /></span>
+                <span className={`w-11 h-11 rounded-2xl flex items-center justify-center ${realistic ? "bg-rose-500/20 text-rose-600" : "bg-blue-500/10 text-blue-600"}`}><m.icon size={20} /></span>
                 <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t(m.name)}</p>
                 <p className={`text-xs font-semibold uppercase tracking-wide mt-0.5 ${c.faint}`}>{t(m.tagline)}</p>
                 <ul className="mt-4 space-y-2">
@@ -81,7 +88,7 @@ export function ExamSetup({ onStart, onCancel, busy }) {
         <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>
           {t(busy ? "Génération…" : mode === "test" ? "Commencer le test" : "Commencer l'entraînement")}
         </Btn>
-        {/* Mode Test runs on a countdown per épreuve; Mode Entraînement is
+        {/* Mode Réaliste runs on a countdown per épreuve; Mode Entraînement is
             untimed (Quiz's `untimed` prop) — saying "le chronomètre démarre"
             under that mode would be a promise the exam runner does not keep. */}
         <p className={`text-xs text-center mt-3 ${c.faint}`}>
@@ -91,7 +98,7 @@ export function ExamSetup({ onStart, onCancel, busy }) {
         </p>
       </Card>
 
-      {/* Countdown intro (Mode Test only): blocks interaction for a beat before
+      {/* Countdown intro (Mode Réaliste only): blocks interaction for a beat before
           the exam mounts, so the candidate has a moment to settle before the
           timer and the first audio start automatically. Rendered through a
           portal to <body> so `fixed inset-0` is measured against the viewport —

@@ -268,7 +268,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   // by itself. Only in test mode, and only for the audio-driven CO épreuve.
   // Audio presence must also consider the `sign` descriptor: in signed-media
   // mode (VITE_SIGNED_MEDIA) questions carry audio: null until the quiz opens,
-  // and testing only qq.audio silently degraded Mode Test to free navigation.
+  // and testing only qq.audio silently degraded Mode Réaliste to free navigation.
   const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio || qq.sign?.audio);
   // An auto-advanced CO épreuve paces itself: every question costs exactly its
   // clip plus the answer window, and the candidate can neither replay, skip nor

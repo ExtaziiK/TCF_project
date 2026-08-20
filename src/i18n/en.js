@@ -2214,7 +2214,7 @@ export const EN = {
   // ── TCF blanc setup: mode + candidate (components/exam, constants/exam.js)
   "Avant de commencer": "Before you start",
   "Deux façons de passer le TCF blanc : conditions réelles, ou entraînement sans pression.": "Two ways to take the TCF blanc: real conditions, or pressure-free practice.",
-  "Mode Test": "Test mode",
+  "Mode Réaliste": "Realistic mode",
   "Conditions d'examen réelles": "Real exam conditions",
   "Recommandé pour l'examen": "Recommended for the exam",
   "Audio joué une seule fois": "Audio played only once",
