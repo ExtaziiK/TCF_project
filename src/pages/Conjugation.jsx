@@ -187,7 +187,7 @@ export function Conjugation() {
           )}
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-tour="conjugation-tenses">
           {CONJUGATION_TENSES.map((tp, i) => (
             <button key={tp.id} onClick={() => openTense(tp.id)} className="text-left">
               <Card lift className="p-6 h-full flex flex-col">

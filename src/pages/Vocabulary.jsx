@@ -135,7 +135,7 @@ export function Vocabulary() {
         </Card>
       ) : card ? (
         <div className="max-w-2xl mx-auto">
-          <div className="fwrap h-[26rem]">
+          <div className="fwrap h-[26rem]" data-tour="vocab-card">
             <div className={`fcard relative w-full h-full ${revealed ? "flipped" : ""}`}>
               <button onClick={tapCard} className={`fface absolute inset-0 rounded-3xl border ${c.border} ${c.card} p-10 flex flex-col items-center justify-center text-center card-lift`} aria-label={`${t("Voir la définition de")} ${card.fr}`}>
                 <Pill tone="slate" className="absolute top-5 left-5">{t(card.cat)}</Pill>

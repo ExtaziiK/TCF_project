@@ -2249,10 +2249,26 @@ export const EN = {
   "Bienvenue sur Passerelle !": "Welcome to Passerelle!",
   "Commençons par « Épreuves » : les quatre compétences du TCF Canada, chacune avec ses propres quiz. Un premier quiz est offert dans chaque épreuve.":
     "Let's start with \"Épreuves\": the four TCF Canada skills, each with its own quizzes. A first quiz is free in every skill.",
+  "Des quiz audio, dans le format officiel. Écoutez, répondez, et votre score se calcule automatiquement à la fin.":
+    "Audio quizzes, in the official format. Listen, answer, and your score is calculated automatically at the end.",
+  "Des textes suivis de questions, comme à l'examen. La difficulté progresse au fil des quiz — avancez à votre rythme.":
+    "Texts followed by questions, just like the exam. Difficulty ramps up quiz after quiz — go at your own pace.",
+  "Un atelier de pratique : vous vous enregistrez sur un vrai sujet, puis une correction IA détaillée évalue votre niveau CECRL.":
+    "A practice workshop: you record yourself on a real topic, then detailed AI feedback rates your CEFR level.",
+  "Le même principe à l'écrit : vous rédigez sur un sujet réel, et l'IA vous renvoie votre niveau, vos points à corriger et une version réécrite.":
+    "Same idea in writing: you write on a real topic, and the AI hands back your level, what to fix, and a rewritten version.",
   "La Pratique": "Practice",
-  "Le TCF blanc": "The TCF blanc",
   "Vocabulaire, grammaire, conjugaison et dictée : de quoi retravailler une notion précise, à votre rythme et sans limite de temps.":
     "Vocabulary, grammar, conjugation and dictation: material to revisit one specific point, at your own pace and with no time limit.",
+  "Une carte à la fois : cliquez pour révéler la définition, puis passez au mot suivant. Marquez vos favoris pour les retrouver plus tard.":
+    "One card at a time: click to reveal the definition, then move to the next word. Mark favourites to find them again later.",
+  "Des leçons courtes, un sujet à la fois : la règle, puis des exercices corrigés immédiatement. Dix minutes suffisent.":
+    "Short lessons, one topic at a time: the rule, then exercises corrected right away. Ten minutes is enough.",
+  "Neuf temps à travailler, chacun avec sa leçon et ses exercices. Choisissez d'écrire la réponse ou de la sélectionner — comme vous préférez.":
+    "Nine tenses to work through, each with its own lesson and exercises. Type the answer or pick it — whichever you prefer.",
+  "Un texte de niveau C1/C2 lu à voix haute, que vous écrivez sans aide. La correction vous dit précisément d'où viennent vos fautes.":
+    "A C1/C2-level text read aloud, which you write down with no help. The correction tells you exactly where your mistakes come from.",
+  "Le TCF blanc": "The TCF blanc",
   "Le test complet, dans les conditions de l'examen et noté sur 699. Prêt à découvrir votre niveau ?":
     "The full test, under exam conditions and scored out of 699. Ready to find out your level?",
 };

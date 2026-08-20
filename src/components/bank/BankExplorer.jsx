@@ -14,6 +14,7 @@ import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES } from "@/auth/rbac";
+import { TOUR_STEPS } from "@/constants/tour";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
 
@@ -235,9 +236,18 @@ function GuideAside({ section, open, onClose }) {
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
 export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back, workshops }) {
-  const { c, user, role, nav, notify, t } = useApp();
+  const { c, user, role, nav, notify, t, tourStep } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
+  // The guided tour walks through each épreuve in turn (constants/tour.js:
+  // `section` on the co/ce/eo/ee steps) and needs to switch this component's
+  // own tab state to match, the same way it force-opens Nav's "Pratique"
+  // dropdown — there is no external control for `section` otherwise.
+  const tourSection = tourStep != null ? TOUR_STEPS[tourStep]?.section : null;
+  useEffect(() => {
+    if (tourSection && sections.includes(tourSection)) setSection(tourSection);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tourSection]);
   const [quiz, setQuiz] = useState(null);
   const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
   const [guideOpen, setGuideOpen] = useState(false); // épreuve guide popup on the open-quiz view
@@ -322,7 +332,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       {sections.length > 1 && (
         <div className="flex gap-2 flex-wrap mb-8">
           {sections.map((s) => (
-            <button key={s} onClick={() => { setSection(s); setGuideOpen(false); }} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            <button key={s} data-tour={`bank-${s}`} onClick={() => { setSection(s); setGuideOpen(false); }} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
               {t(SECTION_LABELS[s])}
               <span className={`text-xs font-mono2 ${section === s ? "opacity-80" : c.faint}`}>{workshops?.[s] ? "" : bank[s].length}</span>
             </button>
@@ -350,7 +360,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             </div>
           )}
           <div className="flex items-start gap-6">
-            <div className="flex-1 min-w-0">{workshop}</div>
+            <div className="flex-1 min-w-0" data-tour={`bank-${section}`}>{workshop}</div>
             {GUIDE_PANELS[section] && <GuideAside section={section} open={guideOpen} onClose={() => setGuideOpen(false)} />}
           </div>
         </ExpressionTaskProvider>
@@ -366,17 +376,20 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             const locked = freeTier && idx > 0;
             const best = bestScores[`bank-${qz.id}`];
             const reviewAttempt = reviewableAttempts[`bank-${qz.id}`];
-            return (
-              <QuizCard
-                key={qz.id}
-                quiz={qz}
-                number={idx + 1}
-                locked={locked}
-                best={best}
-                reviewAttempt={reviewAttempt}
-                onOpen={() => (locked ? goUpgrade() : setQuiz(qz))}
-                onReview={() => setReview({ quiz: qz, attempt: reviewAttempt })}
-              />
+            const cardProps = {
+              quiz: qz, number: idx + 1, locked, best, reviewAttempt,
+              onOpen: () => (locked ? goUpgrade() : setQuiz(qz)),
+              onReview: () => setReview({ quiz: qz, attempt: reviewAttempt }),
+            };
+            // The tour spotlights the first quiz of whichever épreuve is
+            // active — it's the one card that's always genuinely playable,
+            // even on the free tier. Only this one tile gets the extra
+            // wrapper (h-full so it still stretches like a normal grid
+            // item), so every other card's DOM is exactly what it was.
+            return idx === 0 ? (
+              <div key={qz.id} data-tour={`bank-${section}`} className="h-full"><QuizCard {...cardProps} /></div>
+            ) : (
+              <QuizCard key={qz.id} {...cardProps} />
             );
           })}
         </div>

@@ -69,7 +69,7 @@ export function Grammar() {
           <GrammarQuiz />
         </>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-tour="grammar-topics">
           {GRAMMAR_TOPICS.map((tp, i) => (
             <button key={tp.id} onClick={() => openTopic(tp.id)} className="text-left">
               <Card lift className="p-6 h-full">
