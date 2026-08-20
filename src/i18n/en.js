@@ -149,6 +149,7 @@ export const EN = {
   "Vos 4 épreuves atteignent le seuil NCLC 7.": "Your 4 skills reach the NCLC 7 threshold.",
   "Atteignez le niveau CLB 9+ !": "Reach CLB 9+ !",
   "Entraînez-vous avec nos simulations réalistes": "Practice with our realistic simulations",
+  "Testez votre niveau gratuitement": "Test your level for free",
   "Accéder à mon espace": "Go to my dashboard",
   "Seuils atteints pour ce profil": "Thresholds met for this profile",
   "Seuils non atteints — continuez à progresser": "Thresholds not met — keep improving",
