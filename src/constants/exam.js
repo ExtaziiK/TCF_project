@@ -14,8 +14,7 @@ export const EXAM_MODES = [
     feats: [
       "Audio joué une seule fois",
       "Pas de retour en arrière",
-      "Progression séquentielle",
-      "Évaluation authentique",
+      "Chronométré comme le jour J",
     ],
   },
   {
@@ -28,8 +27,7 @@ export const EXAM_MODES = [
     feats: [
       "Réécouter l'audio",
       "Navigation libre",
-      "Contrôle total",
-      "Apprentissage en profondeur",
+      "Sans limite de temps",
     ],
   },
 ];

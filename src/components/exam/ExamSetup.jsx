@@ -55,11 +55,6 @@ export function ExamSetup({ onStart, onCancel, busy }) {
       <button onClick={onCancel} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-6"><ChevronLeft size={15} /> {t("Retour")}</button>
 
       <Card className="p-6 md:p-8">
-        <div className="text-center mb-7">
-          <h3 className={`font-display font-bold text-xl ${c.text}`}>{t("Choisissez votre mode")}</h3>
-          <p className={`text-sm mt-1 ${c.sub}`}>{t("Sélectionnez le mode qui correspond à vos besoins.")}</p>
-        </div>
-
         {/* Mode cards */}
         <div className="grid md:grid-cols-2 gap-4">
           {EXAM_MODES.map((m) => {
@@ -83,8 +78,17 @@ export function ExamSetup({ onStart, onCancel, busy }) {
           })}
         </div>
 
-        <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>{t(busy ? "Génération…" : "Commencer le test")}</Btn>
-        <p className={`text-xs text-center mt-3 ${c.faint}`}>{t("Le chronomètre démarre dès la première question. Score calculé automatiquement.")}</p>
+        <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>
+          {t(busy ? "Génération…" : mode === "test" ? "Commencer le test" : "Commencer l'entraînement")}
+        </Btn>
+        {/* Mode Test runs on a countdown per épreuve; Mode Entraînement is
+            untimed (Quiz's `untimed` prop) — saying "le chronomètre démarre"
+            under that mode would be a promise the exam runner does not keep. */}
+        <p className={`text-xs text-center mt-3 ${c.faint}`}>
+          {t(mode === "test"
+            ? "Le chronomètre démarre dès la première question. Score calculé automatiquement."
+            : "Aucune limite de temps : avancez à votre rythme. Score calculé automatiquement à la fin.")}
+        </p>
       </Card>
 
       {/* Countdown intro (Mode Test only): blocks interaction for a beat before

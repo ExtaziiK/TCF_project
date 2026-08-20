@@ -412,8 +412,12 @@ export function Mocks() {
   }
 
   if (setup) {
+    // No `back` here: ExamSetup already renders its own "Retour" (onCancel,
+    // which returns to the attempts list below rather than leaving the TCF
+    // blanc section entirely) — PageShell's own back button called goBack()
+    // instead, stacking two "Retour" links that did different things.
     return (
-      <PageShell back wide eyebrow={t("TCF blanc")} title={t("Vos informations")} sub={t("Choisissez votre mode et renseignez vos informations avant de démarrer.")}>
+      <PageShell wide eyebrow={t("TCF blanc")} title={t("Avant de commencer")} sub={t("Deux façons de passer le TCF blanc : conditions réelles, ou entraînement sans pression.")}>
         <ExamSetup onStart={start} onCancel={() => setSetup(false)} busy={starting} />
       </PageShell>
     );
