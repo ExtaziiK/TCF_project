@@ -2236,6 +2236,25 @@ export const EN = {
   "Le TCF blanc commence dans…": "The TCF blanc starts in…",
   "L'entraînement commence dans…": "The practice session starts in…",
   "Préparez-vous : le premier document audio sera joué automatiquement.": "Get ready: the first audio document will play automatically.",
+
+  // ── First-login guided tour (components/tour/TourOverlay.jsx, constants/tour.js)
+  // "Visite guidée" alone already means something else (the marketing demo
+  // video's label, near line 121) — this one is disambiguated at the French
+  // source level too, since t() matches on the exact FR string.
+  "Visite guidée de l'application": "App guided tour",
+  "Fermer la visite": "Close the tour",
+  "Passer la visite": "Skip the tour",
+  "Suivant": "Next",
+  "Terminer": "Done",
+  "Bienvenue sur Passerelle !": "Welcome to Passerelle!",
+  "Commençons par « Épreuves » : les quatre compétences du TCF Canada, chacune avec ses propres quiz. Un premier quiz est offert dans chaque épreuve.":
+    "Let's start with \"Épreuves\": the four TCF Canada skills, each with its own quizzes. A first quiz is free in every skill.",
+  "La Pratique": "Practice",
+  "Le TCF blanc": "The TCF blanc",
+  "Vocabulaire, grammaire, conjugaison et dictée : de quoi retravailler une notion précise, à votre rythme et sans limite de temps.":
+    "Vocabulary, grammar, conjugation and dictation: material to revisit one specific point, at your own pace and with no time limit.",
+  "Le test complet, dans les conditions de l'examen et noté sur 699. Prêt à découvrir votre niveau ?":
+    "The full test, under exam conditions and scored out of 699. Ready to find out your level?",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

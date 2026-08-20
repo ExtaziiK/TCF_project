@@ -321,7 +321,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
 /* --------------------------------- lobby --------------------------------- */
 
 export function Mocks() {
-  const { c, nav, user, notify, t } = useApp();
+  const { c, nav, user, notify, t, tourStep, endTour } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
@@ -483,9 +483,16 @@ export function Mocks() {
               </div>
             ) : (
               <>
-                <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>
-                  {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
-                </Btn>
+                {/* Wrapped rather than tagged directly on Btn: Btn doesn't
+                    forward arbitrary props, and this is the guided tour's last
+                    step's target (see constants/tour.js) — clicking it ends
+                    the tour, since it's the very thing the tour was inviting
+                    the candidate to do. */}
+                <span data-tour="mocks-start" className="inline-block">
+                  <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => { setSetup(true); if (tourStep != null) endTour(); }}>
+                    {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
+                  </Btn>
+                </span>
                 {isFreeTier && !freeAttempt && (
                   <p className={`text-xs text-center max-w-md ${c.sub}`}>
                     {t("Votre compte gratuit donne droit à un TCF blanc complet — les quatre épreuves, avec la correction IA de l'écrit et de l'oral. Un seul, alors prenez votre temps.")}

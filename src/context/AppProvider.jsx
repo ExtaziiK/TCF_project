@@ -17,6 +17,7 @@ import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
+import { TOUR_STEPS } from "@/constants/tour";
 
 // Why this device was signed out, in the user's words. "revoked" is an admin
 // disconnect from the Users panel; anything else is the device-limit eviction
@@ -52,6 +53,11 @@ export function AppProvider({ children }) {
   // persisted: a preview you can forget you left on is a support ticket about
   // the admin link having vanished.
   const [visitorPreview, setVisitorPreview] = useState(false);
+  // The first-login guided tour (TourOverlay.jsx): null while inactive, else
+  // an index into TOUR_STEPS. Started once, right after a brand-new account's
+  // very first sign-in — see startTour() below and its call sites in
+  // AuthPage.jsx / completeOnboarding.
+  const [tourStep, setTourStep] = useState(null);
   const forcingOut = useRef(false);
 
   const { toast, notify } = useToast();
@@ -338,8 +344,27 @@ export function AppProvider({ children }) {
   };
 
   // Finish a brand-new Google registration (username + country saved) and enter
-  // the app at the first-login landing page.
-  const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); };
+  // the app at the first-login landing page. Every completion is a brand-new
+  // account by construction — Onboarding only ever renders for one (see
+  // isNewlyCreatedUser in authService.js) — so the tour always starts here,
+  // unlike the email/password paths in AuthPage.jsx which gate it on
+  // consumeFirstLogin().
+  const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); startTour(); };
+
+  // startTour()/nextTourStep()/endTour() are the only surface the rest of the
+  // app touches; TourOverlay.jsx owns everything about how a step is shown.
+  // nextTourStep navigates BEFORE advancing so TourOverlay's target search
+  // never starts on the wrong page — done here rather than as a side effect
+  // inside a setTourStep updater, which React may invoke more than once.
+  const startTour = () => setTourStep(0);
+  const endTour = () => setTourStep(null);
+  const nextTourStep = () => {
+    const next = (tourStep ?? -1) + 1;
+    if (next >= TOUR_STEPS.length) { setTourStep(null); return; }
+    const step = TOUR_STEPS[next];
+    if (step.route && step.route !== route) nav(step.route);
+    setTourStep(next);
+  };
 
   // Derived on every render so a premium_until expiry takes effect
   // immediately, without waiting for an auth event.
@@ -368,6 +393,7 @@ export function AppProvider({ children }) {
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
     pendingOnboarding, completeOnboarding,
     resolvingOAuth,
+    tourStep, startTour, nextTourStep, endTour,
     c,
     toast, notify,
     bookmarks, toggleBookmark,

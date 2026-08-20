@@ -8,6 +8,7 @@ import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigatio
 import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
+import { TOUR_STEPS } from "@/constants/tour";
 
 // What fits in the nav chip: the first word only, capped at 9 characters.
 // "Abdelkadir Mehri" was wide enough to push "Accueil" into the logo. The full
@@ -19,10 +20,28 @@ const chipName = (full) => {
   return first.length > CHIP_MAX ? `${first.slice(0, CHIP_MAX - 1)}…` : first;
 };
 
+// The routes behind "Pratique" (see NAV_LINKS in constants/navigation.js) —
+// needed here because navLinksForRole's flattened mobileLinks array loses the
+// parent grouping, so the tour step for "Pratique" has to recognise its four
+// children by route instead.
+const PRATIQUE_ROUTES = ["vocabulary", "grammar", "conjugation", "dictee"];
+
 export function Nav({ barOffset = false }) {
-  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles } = useApp();
+  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles, tourStep } = useApp();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
+  // The guided tour force-opens "Pratique" for its step rather than waiting
+  // on a real hover — see TourOverlay.jsx and constants/tour.js.
+  const tourTarget = tourStep != null ? TOUR_STEPS[tourStep]?.target : null;
+  const pratiqueForcedOpen = tourTarget === "nav-pratique";
+  // Below xl the desktop nav (and its "Pratique" dropdown) is `hidden`, so a
+  // nav-chrome tour step has nothing to spotlight unless the mobile panel is
+  // open too. Forcing `open` here is harmless above xl — that panel stays
+  // `xl:hidden` regardless, it just mounts with a zero rect the tour's own
+  // measurement already filters out.
+  useEffect(() => {
+    if (tourTarget === "nav-exams" || tourTarget === "nav-pratique") setOpen(true);
+  }, [tourTarget]);
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -67,15 +86,22 @@ export function Nav({ barOffset = false }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
           <Logo onNavigate={closeAll} />
           <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
-            {navLinks.map((n) =>
-              n.menu ? (
-                <div key={n.l} className="relative" onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
-                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${c.sub} ${c.hoverSoft}`} aria-expanded={openMenu === n.l}>
-                    {t(n.l)} <ChevronDown size={14} className={`transition-transform ${openMenu === n.l ? "rotate-180" : ""}`} />
+            {navLinks.map((n) => {
+              const isPratique = n.l === "Pratique";
+              const pratiqueOpen = openMenu === n.l || (isPratique && pratiqueForcedOpen);
+              return n.menu ? (
+                <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
+                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${c.sub} ${c.hoverSoft}`} aria-expanded={pratiqueOpen}>
+                    {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
                   </button>
-                  {openMenu === n.l && (
+                  {pratiqueOpen && (
                     <div className={`absolute top-full left-0 pt-2 w-60`}>
-                      <div className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
+                      {/* Also tagged nav-pratique: a position:relative wrapper's
+                          own rect doesn't grow to include this absolutely
+                          positioned panel, so the tour needs both boxes to
+                          spotlight the trigger AND the open menu together —
+                          see the union logic in TourOverlay's useTourTarget. */}
+                      <div data-tour={isPratique ? "nav-pratique" : undefined} className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
                         {n.menu.map((m) => (
                           <RouteLink key={m.r + m.l} r={m.r} onNavigate={closeAll} className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm ${c.text} ${c.hoverSoft} flex items-center justify-between group`}>
                             {t(m.l)}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
@@ -86,13 +112,13 @@ export function Nav({ barOffset = false }) {
                   )}
                 </div>
               ) : n.grad ? (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold whitespace-nowrap shrink-0 ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : undefined} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold whitespace-nowrap shrink-0 ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
                   <span className="grad-text">{t(n.l)}</span>
                 </RouteLink>
               ) : (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
-              )
-            )}
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : undefined} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
+              );
+            })}
           </nav>
           <div className="flex items-center gap-1.5">
             {isStaff(role) && (
@@ -177,7 +203,14 @@ export function Nav({ barOffset = false }) {
         {open && (
           <div className={`xl:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
             {mobileLinks.map((m) => (
-              <RouteLink key={m.l} r={m.r} onNavigate={closeAll} className={`block w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${m.grad ? "font-bold" : c.text} ${c.hoverSoft}`}>
+              <RouteLink key={m.l} r={m.r} onNavigate={closeAll}
+                // The mobile menu has no single "Pratique" entry to point at —
+                // navLinksForRole flattens its dropdown into these four routes
+                // (see NAV_LINKS in constants/navigation.js) — so all four
+                // share the nav-pratique tag; the tour's union-rect measurement
+                // spotlights the whole group together instead of just one.
+                data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
+                className={`block w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${m.grad ? "font-bold" : c.text} ${c.hoverSoft}`}>
                 {m.grad ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
               </RouteLink>
             ))}

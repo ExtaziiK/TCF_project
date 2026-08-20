@@ -9,6 +9,7 @@ import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Onboarding } from "@/components/auth/Onboarding";
 import { TermsGate } from "@/components/auth/TermsGate";
 import { ProfileGate } from "@/components/profile/ProfileGate";
+import { TourOverlay } from "@/components/tour/TourOverlay";
 import { Toast } from "@/components/common";
 import { useTermsGate } from "@/hooks/useTermsGate";
 import { ROLES } from "@/auth/rbac";
@@ -92,6 +93,7 @@ function AppShell() {
       <Footer />
       <VisitorPreviewBar />
       <Toast />
+      <TourOverlay />
       {/* Vercel Web Analytics — auto-tracks route changes via the History API;
           the numbers surface in the admin dashboard's "Trafic" tab. */}
       <Analytics />

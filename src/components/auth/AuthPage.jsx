@@ -20,7 +20,7 @@ function GoogleIcon(props) {
 }
 
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t, user } = useApp();
+  const { c, nav, notify, t, user, startTour } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -58,6 +58,19 @@ export function AuthPage({ mode }) {
 
   const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
 
+  // Where a fresh sign-in lands, and whether it's the very first one for this
+  // account — shared by login, register (no email confirmation needed) and
+  // enter() (register WITH confirmation, once the code is verified), so the
+  // three can't drift apart on where "first login" actually routes to.
+  // Staff always land on "admin" regardless, and never start the tour — an
+  // admin/owner account is never the brand-new candidate it's written for.
+  const landAfterAuth = (authUser) => {
+    const isStaffUser = authUser?.admin || authUser?.owner;
+    const firstLogin = consumeFirstLogin(authUser?.id);
+    nav(isStaffUser ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+    if (firstLogin && !isStaffUser) startTour();
+  };
+
   const submit = async (e) => {
     e?.preventDefault();
     setBusy(true);
@@ -72,8 +85,7 @@ export function AuthPage({ mode }) {
         }
         setLockMsg(""); setNotice("");
         notify(t("Bon retour parmi nous !"));
-        const firstLogin = consumeFirstLogin(r.user?.id);
-        nav(r.user?.admin || r.user?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
+        landAfterAuth(r.user);
       } else if (view === "register") {
         if (!isValidName(name)) return notify(t("Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés)."), "error");
         if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."), "error");
@@ -86,11 +98,7 @@ export function AuthPage({ mode }) {
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country, acceptedTerms: true });
         if (error) return notify(authErrorMessage(error), "error");
         if (needsEmailConfirmation) setVerify(true);
-        else {
-          const newUser = mapSupabaseUser(data.session);
-          const firstLogin = consumeFirstLogin(newUser?.id);
-          nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
-        }
+        else landAfterAuth(mapSupabaseUser(data.session));
       } else {
         const { error } = await resetPassword(email);
         if (error) return notify(authErrorMessage(error), "error");
@@ -102,11 +110,7 @@ export function AuthPage({ mode }) {
   };
 
   // Signing in lands the new account exactly where a normal signup would.
-  const enter = (session) => {
-    const newUser = mapSupabaseUser(session);
-    const firstLogin = consumeFirstLogin(newUser?.id);
-    nav(newUser?.admin || newUser?.owner ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
-  };
+  const enter = (session) => landAfterAuth(mapSupabaseUser(session));
 
   const runVerify = async (value) => {
     if (busy || value.length !== CONFIRM_CODE_LENGTH) return;
