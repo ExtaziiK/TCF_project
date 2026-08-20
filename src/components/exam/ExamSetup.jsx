@@ -11,12 +11,15 @@ const COUNTDOWN_FROM = 5;
 // entraînement) and start. No identity is collected — the exam is scored
 // automatically and nothing is e-mailed.
 export function ExamSetup({ onStart, onCancel, busy }) {
-  const { c, t } = useApp();
+  const { c, t, tourStep, endTour } = useApp();
   const [mode, setMode] = useState("test");
   const [countdown, setCountdown] = useState(null); // null = not counting down; 5..0 while the intro plays
   const pendingRef = useRef(null); // payload handed to onStart once the countdown ends
 
   const submit = () => {
+    // The guided tour's last step ends here — this button is the very thing
+    // it was inviting the candidate to click, not a separate "next".
+    if (tourStep != null) endTour();
     const payload = { mode };
     window.scrollTo({ top: 0 }); // so the exam mounts already at the top, no leftover scroll offset
     // The countdown intro is a Mode Réaliste ritual (real-exam pressure before the
@@ -54,7 +57,11 @@ export function ExamSetup({ onStart, onCancel, busy }) {
     <div className="max-w-3xl mx-auto">
       <button onClick={onCancel} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-6"><ChevronLeft size={15} /> {t("Retour")}</button>
 
-      <Card className="p-6 md:p-8">
+      {/* The guided tour's last step (constants/tour.js: "exam-modes") spotlights
+          this whole panel — mode cards and the real "Commencer" button together —
+          reached by Mocks.jsx forcing `setup` true rather than the tour
+          auto-starting an attempt itself. */}
+      <Card className="p-6 md:p-8" data-tour="exam-modes">
         {/* Mode cards */}
         <div className="grid md:grid-cols-2 gap-4">
           {EXAM_MODES.map((m) => {

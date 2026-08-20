@@ -138,7 +138,12 @@ export function TourOverlay() {
 
   const isLast = tourStep === TOUR_STEPS.length - 1;
   const placement = spot ? placeCard(spot, cardSize) : null;
-  const dim = "fixed z-[80] bg-slate-950/78";
+  // /80, not an arbitrary value like /78: Tailwind's color-opacity modifier
+  // only accepts its preset scale (…70, 75, 80, 85…) without bracket syntax
+  // (bg-slate-950/[78%] would be needed for a true one-off) — an off-scale
+  // number is silently dropped, no error, and the panels render fully
+  // transparent while everything else about them still works.
+  const dim = "fixed z-[80] bg-slate-950/80";
   const cardCls = `rounded-2xl border ${c.border} ${c.card} shadow-2xl`;
 
   const card = (

@@ -10,12 +10,19 @@
 //   - nav-exams / nav-pratique live in Nav.jsx (global chrome, mounted on
 //     every route)
 //   - bank-co / bank-ce / bank-eo / bank-ee live in BankExplorer.jsx — its
-//     `section` state has no external control otherwise, so these steps also
-//     carry a `section`, which BankExplorer reads back via tourStep to force
-//     the matching tab open (the same way Nav force-opens "Pratique")
+//     `section` (and, for CO/CE, `quiz`) state has no external control
+//     otherwise, so these steps carry a `section` (and `openQuiz`), which
+//     BankExplorer reads back via tourStep to force the matching tab open —
+//     and, for CO/CE, to open quiz 1 for real, so the step can explain the
+//     actual answer/navigation controls rather than just point at a closed
+//     card. It's a genuine, freely-retakeable practice quiz, not a metered
+//     attempt, so opening it costs the candidate nothing.
 //   - vocab-card, grammar-topics, conjugation-tenses, dictee-steps each live
 //     on their own Pratique page
-//   - mocks-start lives on the Mocks.jsx lobby
+//   - exam-modes lives on ExamSetup.jsx, reached by Mocks.jsx forcing its
+//     `setup` state the same way — the tour stops there rather than
+//     auto-starting the exam itself, since that would spend the free tier's
+//     one TCF blanc attempt without the candidate having chosen to
 //
 // `route`, when set, is where AppProvider.nextTourStep() navigates before
 // that step's target is searched for.
@@ -23,69 +30,71 @@ export const TOUR_STEPS = [
   {
     target: "nav-exams",
     title: "Bienvenue sur Passerelle !",
-    body: "Commençons par « Épreuves » : les quatre compétences du TCF Canada, chacune avec ses propres quiz. Un premier quiz est offert dans chaque épreuve.",
+    body: "Quatre épreuves, chacune avec ses quiz. Un premier quiz est offert partout.",
   },
   {
     target: "bank-co",
     section: "co",
+    openQuiz: true,
     route: "exams",
     title: "Compréhension orale",
-    body: "Des quiz audio, dans le format officiel. Écoutez, répondez, et votre score se calcule automatiquement à la fin.",
+    body: "Écoutez, répondez, puis Suivante. Le score s'affiche à la fin.",
   },
   {
     target: "bank-ce",
     section: "ce",
+    openQuiz: true,
     route: "exams",
     title: "Compréhension écrite",
-    body: "Des textes suivis de questions, comme à l'examen. La difficulté progresse au fil des quiz — avancez à votre rythme.",
+    body: "Lisez le texte, répondez, puis Suivante.",
   },
   {
     target: "bank-eo",
     section: "eo",
     route: "exams",
     title: "Expression orale",
-    body: "Un atelier de pratique : vous vous enregistrez sur un vrai sujet, puis une correction IA détaillée évalue votre niveau CECRL.",
+    body: "Enregistrez-vous sur un vrai sujet : l'IA évalue votre niveau.",
   },
   {
     target: "bank-ee",
     section: "ee",
     route: "exams",
     title: "Expression écrite",
-    body: "Le même principe à l'écrit : vous rédigez sur un sujet réel, et l'IA vous renvoie votre niveau, vos points à corriger et une version réécrite.",
+    body: "Rédigez sur un vrai sujet : l'IA vous renvoie votre niveau et une version corrigée.",
   },
   {
     target: "nav-pratique",
     title: "La Pratique",
-    body: "Vocabulaire, grammaire, conjugaison et dictée : de quoi retravailler une notion précise, à votre rythme et sans limite de temps.",
+    body: "Vocabulaire, grammaire, conjugaison, dictée — à votre rythme, sans chrono.",
   },
   {
     target: "vocab-card",
     route: "vocabulary",
     title: "Vocabulaire",
-    body: "Une carte à la fois : cliquez pour révéler la définition, puis passez au mot suivant. Marquez vos favoris pour les retrouver plus tard.",
+    body: "Cliquez pour révéler la définition, puis passez au mot suivant.",
   },
   {
     target: "grammar-topics",
     route: "grammar",
     title: "Grammaire",
-    body: "Des leçons courtes, un sujet à la fois : la règle, puis des exercices corrigés immédiatement. Dix minutes suffisent.",
+    body: "Une leçon courte, puis des exercices corrigés aussitôt.",
   },
   {
     target: "conjugation-tenses",
     route: "conjugation",
     title: "Conjugaison",
-    body: "Neuf temps à travailler, chacun avec sa leçon et ses exercices. Choisissez d'écrire la réponse ou de la sélectionner — comme vous préférez.",
+    body: "Neuf temps à travailler, chacun avec sa leçon et ses exercices.",
   },
   {
     target: "dictee-steps",
     route: "dictee",
     title: "La dictée",
-    body: "Un texte de niveau C1/C2 lu à voix haute, que vous écrivez sans aide. La correction vous dit précisément d'où viennent vos fautes.",
+    body: "Un texte lu à voix haute, que vous écrivez sans aide.",
   },
   {
-    target: "mocks-start",
+    target: "exam-modes",
     route: "mocks",
     title: "Le TCF blanc",
-    body: "Le test complet, dans les conditions de l'examen et noté sur 699. Prêt à découvrir votre niveau ?",
+    body: "Réaliste pour les conditions d'examen, Entraînement pour vous exercer sans chrono. Cliquez sur Commencer quand vous êtes prêt.",
   },
 ];

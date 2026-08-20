@@ -239,16 +239,26 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const { c, user, role, nav, notify, t, tourStep } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
+  const [quiz, setQuiz] = useState(null);
   // The guided tour walks through each épreuve in turn (constants/tour.js:
   // `section` on the co/ce/eo/ee steps) and needs to switch this component's
   // own tab state to match, the same way it force-opens Nav's "Pratique"
-  // dropdown — there is no external control for `section` otherwise.
-  const tourSection = tourStep != null ? TOUR_STEPS[tourStep]?.section : null;
+  // dropdown — there is no external control for `section` otherwise. For
+  // CO/CE it also opens quiz 1 (`openQuiz`), so the step can explain the
+  // real answer/navigation controls instead of just pointing at a closed
+  // card — a genuine, freely-retakeable practice quiz, not a metered
+  // attempt, so opening it for the tour costs the candidate nothing.
   useEffect(() => {
-    if (tourSection && sections.includes(tourSection)) setSection(tourSection);
+    if (tourStep == null) return;
+    const step = TOUR_STEPS[tourStep];
+    if (!step?.section || !sections.includes(step.section)) return;
+    setSection(step.section);
+    if (step.openQuiz) {
+      const qz = bank[step.section]?.[0];
+      if (qz) setQuiz(qz);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tourSection]);
-  const [quiz, setQuiz] = useState(null);
+  }, [tourStep]);
   const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
   const [guideOpen, setGuideOpen] = useState(false); // épreuve guide popup on the open-quiz view
   const [bestScores, setBestScores] = useState({});
@@ -302,7 +312,10 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             the panel slides in — no separate transition needed on the quiz. */}
         <div className="flex items-start gap-6">
           <div className="flex-1 min-w-0">
-            <div className="max-w-3xl mx-auto">
+            {/* Tagged for the tour's CO/CE steps, which open this quiz for
+                real rather than just pointing at its closed card — see
+                `openQuiz` in constants/tour.js. */}
+            <div className="max-w-3xl mx-auto" data-tour={`bank-${quiz.section}`}>
               <Quiz
                 key={quiz.id}
                 questions={quiz.questions}

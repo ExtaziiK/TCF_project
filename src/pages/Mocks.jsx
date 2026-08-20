@@ -21,6 +21,7 @@ import { ExamFeedbackDialog } from "@/components/exam/ExamFeedbackDialog";
 import { hasReviewed } from "@/services/testimonialsService";
 import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
+import { TOUR_STEPS } from "@/constants/tour";
 
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 
@@ -321,7 +322,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
 /* --------------------------------- lobby --------------------------------- */
 
 export function Mocks() {
-  const { c, nav, user, notify, t, tourStep, endTour } = useApp();
+  const { c, nav, user, notify, t, tourStep } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
@@ -338,6 +339,16 @@ export function Mocks() {
     reload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
+
+  // The guided tour's last step lives on ExamSetup (mode cards + the real
+  // "Commencer" button), not this lobby — it stops there rather than
+  // auto-starting an attempt, which would spend the free tier's one TCF
+  // blanc without the candidate having chosen to. `setup` has no external
+  // control otherwise, so this forces it the same way BankExplorer forces
+  // its own tab/quiz state.
+  useEffect(() => {
+    if (tourStep != null && TOUR_STEPS[tourStep]?.target === "exam-modes") setSetup(true);
+  }, [tourStep]);
 
   // Jump to the top when the exam runner mounts (new attempt or resumed one) —
   // this swaps the whole panel in place (no route change), so without this
@@ -483,16 +494,9 @@ export function Mocks() {
               </div>
             ) : (
               <>
-                {/* Wrapped rather than tagged directly on Btn: Btn doesn't
-                    forward arbitrary props, and this is the guided tour's last
-                    step's target (see constants/tour.js) — clicking it ends
-                    the tour, since it's the very thing the tour was inviting
-                    the candidate to do. */}
-                <span data-tour="mocks-start" className="inline-block">
-                  <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => { setSetup(true); if (tourStep != null) endTour(); }}>
-                    {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
-                  </Btn>
-                </span>
+                <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>
+                  {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
+                </Btn>
                 {isFreeTier && !freeAttempt && (
                   <p className={`text-xs text-center max-w-md ${c.sub}`}>
                     {t("Votre compte gratuit donne droit à un TCF blanc complet — les quatre épreuves, avec la correction IA de l'écrit et de l'oral. Un seul, alors prenez votre temps.")}
