@@ -1396,6 +1396,14 @@ export const EN = {
   "Les questions difficiles, réponses affichées": "The hard questions, answers shown",
   "Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles.":
     "Questions 20 to 39 of every quiz — the harder half — with the correct answer and the explanation already showing.",
+  "Les questions difficiles, à vous de répondre": "The hard questions — your turn",
+  "Les mêmes questions, réponses masquées : choisissez, la correction et l'explication s'affichent aussitôt.":
+    "The same questions with the answers hidden: choose, and the correction and explanation appear at once.",
+  "Mode": "Mode",
+  "Lire les corrigés": "Read the answers",
+  "S'entraîner": "Practice",
+  "encore à faire": "still to go",
+  "Choisissez une réponse — la correction s'affiche aussitôt.": "Pick an answer — the correction appears at once.",
   "Chercher dans les réponses et les explications…": "Search the answers and explanations…",
   "Chercher dans les réponses et les explications": "Search the answers and explanations",
   "Difficulté": "Difficulty",
