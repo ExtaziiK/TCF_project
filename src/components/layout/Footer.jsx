@@ -6,7 +6,7 @@ import { Logo } from "@/components/layout/Logo";
 import { canAccess } from "@/auth/rbac";
 
 export function Footer() {
-  const { c, t, role, user } = useApp();
+  const { c, t, role } = useApp();
   // Footer columns are declared in full and filtered by the SAME canAccess the
   // route guard uses, so an entry can never advertise a page its reader would
   // be refused. Only entries that opt in with `gated: true` are checked —
@@ -40,7 +40,7 @@ export function Footer() {
           <div key={col.h}>
             <h3 className={`text-sm font-bold mb-4 ${c.text}`}>{t(col.h)}</h3>
             <ul className="space-y-2.5">
-              {col.links.filter(([, r, gated]) => !gated || canAccess(role, r, user)).map(([l, r]) => (
+              {col.links.filter(([, r, gated]) => !gated || canAccess(role, r)).map(([l, r]) => (
                 <li key={l}><RouteLink r={r} className={`text-sm ${c.sub} hover:text-blue-600 transition-colors link-anim`}>{t(l)}</RouteLink></li>
               ))}
             </ul>
