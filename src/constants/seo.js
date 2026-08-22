@@ -157,6 +157,7 @@ export const ROUTE_META = {
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
+  revision: { path: "/revision", title: "Révision — questions difficiles", noindex: true },
 
   // Public and stable — a visitor accepts these before creating an account, so
   // the text must stay readable at a fixed URL (the signup dialog links out to

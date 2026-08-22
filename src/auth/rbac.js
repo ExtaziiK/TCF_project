@@ -95,6 +95,10 @@ export const PAGE_ACCESS = {
   // A visitor is sent to the register gate (see deniedReason).
   "sujets-actualite": AUTHENTICATED,
   bank: ADMIN_ONLY,
+  // Révision : la moitié difficile de chaque quiz, réponses affichées.
+  // Admin-only pour l'instant — élargir ici suffira à l'ouvrir plus largement,
+  // le lien de pied de page étant filtré par ce même canAccess.
+  revision: ADMIN_ONLY,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,

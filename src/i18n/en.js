@@ -1391,6 +1391,24 @@ export const EN = {
   "Les adverbes": "Adverbs",
   "Formation en -ment, place et adverbes d'intensité.": "Formation in -ment, position and adverbs of intensity.",
 
+  // ── Révision (admin) ─────────────────────────────────────────
+  "Révision": "Revision",
+  "Les questions difficiles, réponses affichées": "The hard questions, answers shown",
+  "Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles.":
+    "Questions 20 to 39 of every quiz — the harder half — with the correct answer and the explanation already showing.",
+  "Chercher dans les réponses et les explications…": "Search the answers and explanations…",
+  "Chercher dans les réponses et les explications": "Search the answers and explanations",
+  "Difficulté": "Difficulty",
+  "Aller au quiz…": "Go to quiz…",
+  "Aller au quiz": "Go to quiz",
+  "Quiz": "Quiz",
+  "Aucune question ne correspond.": "No question matches.",
+  "Effacer les filtres": "Clear filters",
+  "Effacer": "Clear",
+  "question trouvée": "question found",
+  "questions trouvées": "questions found",
+  "premières sont affichées, affinez votre recherche": "shown, refine your search",
+
   // ── Conjugation ──────────────────────────────────────────────────────
   // Lesson bullets, tables and per-exercise explanations are deliberately NOT
   // listed: like the grammar lessons, they are rendered raw. Translating a
