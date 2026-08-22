@@ -12,7 +12,6 @@ import { Speaking } from "@/pages/Speaking";
 import { Vocabulary } from "@/pages/Vocabulary";
 import { Grammar } from "@/pages/Grammar";
 import { Conjugation } from "@/pages/Conjugation";
-import { TcfWatch } from "@/pages/TcfWatch";
 import { Revision } from "@/pages/Revision";
 import { Dictee } from "@/pages/Dictee";
 import { Mocks } from "@/pages/Mocks";
@@ -82,7 +81,6 @@ export const PAGES = {
   blog: Blog,
   dashboard: Dashboard,
   profile: Profile,
-  "veille-tcf": TcfWatch,
   admin: Admin,
   bank: QuestionBank,
   revision: Revision,

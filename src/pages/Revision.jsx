@@ -59,7 +59,7 @@ export function Revision() {
   const { c, t } = useApp();
   const [section, setSection] = useState("co");
   const [query, setQuery] = useState("");
-  const [minPoints, setMinPoints] = useState(0);
+  const [level, setLevel] = useState("all");
   const [openQuiz, setOpenQuiz] = useState(null);
   // "read": the revision sheet, everything already showing.
   // "practice": the same bank, answers withheld until you choose.
@@ -80,24 +80,53 @@ export function Revision() {
 
   const allQuestions = useMemo(() => quizzes.flatMap((q) => q.questions), [quizzes]);
 
-  const pointsInPlay = useMemo(() => {
-    const pts = allQuestions.map((q) => q.points).filter((p) => Number.isFinite(p));
-    return pts.length ? [Math.min(...pts), Math.max(...pts)] : [0, 0];
+  // The difficulty filter is built from the data rather than from fixed
+  // thresholds, because the two épreuves do not carry difficulty the same way.
+  //
+  // CO questions have `points` — and only three distinct values in this range
+  // (21, 26, 33), so exact buttons beat "25+ / 29+" ranges that were guessing
+  // at boundaries the data already states.
+  //
+  // CE questions have NO points at all. Rather than show a filter that can
+  // never match anything, fall back to the question number, which carries the
+  // same signal: the TCF ramps difficulty with position, which is exactly why
+  // CO's points climb with it too.
+  const levels = useMemo(() => {
+    const pts = [...new Set(allQuestions.map((q) => q.points).filter((p) => Number.isFinite(p)))].sort((a, b) => a - b);
+    if (pts.length) {
+      return pts.map((p) => ({
+        id: `p${p}`,
+        label: `${p} pts`,
+        count: allQuestions.filter((q) => q.points === p).length,
+        test: (q) => q.points === p,
+      }));
+    }
+    const bands = [[20, 26], [27, 32], [33, 39]];
+    return bands.map(([from, to]) => ({
+      id: `r${from}`,
+      label: `Q${from}–${to}`,
+      count: allQuestions.filter((q) => q.order >= from && q.order <= to).length,
+      test: (q) => q.order >= from && q.order <= to,
+    })).filter((l) => l.count > 0);
   }, [allQuestions]);
 
+  const activeLevel = levels.find((l) => l.id === level) || null;
+
   const matches = useCallback((q) => {
-    if (minPoints > 0 && Number.isFinite(q.points) && q.points < minPoints) return false;
+    if (activeLevel && !activeLevel.test(q)) return false;
     if (!query.trim()) return true;
     // Options and explanation are the only real text on a question — `q.q` is a
     // placeholder, so searching it would match every card or none.
     const hay = norm([...(q.opts || []), q.exp].join(" "));
     return norm(query).split(/\s+/).filter(Boolean).every((term) => hay.includes(term));
-  }, [query, minPoints]);
+  }, [query, activeLevel]);
 
-  const filtering = query.trim().length > 0 || minPoints > 0;
+  const filtering = query.trim().length > 0 || activeLevel != null;
   const results = useMemo(() => (filtering ? allQuestions.filter(matches) : []), [filtering, allQuestions, matches]);
 
-  const switchSection = (s) => { setSection(s); setOpenQuiz(null); };
+  // The levels are per-section, so a CO points filter cannot survive a jump to
+  // CE — it would match nothing and read as an empty épreuve.
+  const switchSection = (s) => { setSection(s); setOpenQuiz(null); setLevel("all"); };
   // Changing mode closes the open quiz so the list remounts: answers given in
   // practice must not linger, greyed out, behind the reading view.
   const switchMode = (m) => { setMode(m); setOpenQuiz(null); };
@@ -143,14 +172,13 @@ export function Revision() {
 
       <Toolbar
         query={query} setQuery={setQuery}
-        minPoints={minPoints} setMinPoints={setMinPoints}
-        pointsInPlay={pointsInPlay}
+        levels={levels} level={level} setLevel={setLevel}
         quizzes={quizzes} openQuiz={openQuiz} setOpenQuiz={setOpenQuiz}
         total={allQuestions.length}
       />
 
       {filtering ? (
-        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setMinPoints(0); }} />
+        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setLevel("all"); }} />
       ) : (
         <div className="space-y-3">
           {quizzes.map((quiz) => (
@@ -169,12 +197,9 @@ export function Revision() {
   );
 }
 
-function Toolbar({ query, setQuery, minPoints, setMinPoints, pointsInPlay, quizzes, openQuiz, setOpenQuiz, total }) {
+function Toolbar({ query, setQuery, levels, level, setLevel, quizzes, openQuiz, setOpenQuiz, total }) {
   const { c, t } = useApp();
-  const [lo, hi] = pointsInPlay;
-  // A handful of thresholds rather than a free slider: points are only a proxy
-  // for difficulty here, and "the very hardest" is the one cut anyone wants.
-  const steps = [0, Math.round(lo + (hi - lo) * 0.34), Math.round(lo + (hi - lo) * 0.67)];
+  const options = [{ id: "all", label: t("Toutes"), count: total }, ...levels];
   return (
     <div className={`p-4 rounded-2xl border ${c.border} mb-5 flex flex-wrap items-center gap-3`}>
       <div className={`flex items-center gap-2 flex-1 min-w-[220px] px-3 py-2 rounded-xl border ${c.border}`}>
@@ -192,14 +217,15 @@ function Toolbar({ query, setQuery, minPoints, setMinPoints, pointsInPlay, quizz
         )}
       </div>
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5 flex-wrap">
         <span className={`text-xs font-semibold ${c.faint}`}>{t("Difficulté")}</span>
-        {steps.map((p, i) => (
+        {options.map((o) => (
           <button
-            key={p} onClick={() => setMinPoints(p)} aria-pressed={minPoints === p}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${minPoints === p ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+            key={o.id} onClick={() => setLevel(o.id)} aria-pressed={level === o.id}
+            title={`${o.count} ${t("questions")}`}
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${level === o.id ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
           >
-            {i === 0 ? t("Toutes") : `${p}+ pts`}
+            {o.label} <span className={level === o.id ? "opacity-70" : c.faint}>{o.count}</span>
           </button>
         ))}
       </div>

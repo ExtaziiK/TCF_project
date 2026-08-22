@@ -83,11 +83,9 @@ function ForbiddenGate() {
 // (see App.jsx), so authorization is enforced in exactly one place. Hiding
 // a nav item is cosmetic; this is what actually blocks the route.
 export function RouteGuard({ route, children }) {
-  const { role, user, authReady } = useApp();
+  const { role, authReady } = useApp();
   if (!authReady) return null; // avoid flashing a gate while the session loads
-  // `user` is passed for the person-scoped routes (rbac.PRIVATE_ROUTE_EMAILS);
-  // every role-gated route ignores it.
-  const reason = deniedReason(role, route, user);
+  const reason = deniedReason(role, route);
   if (!reason) return children;
   // A route with its own sales page handles both "you need an account" and
   // "you need a forfait" itself — it is the same argument either way, only the
