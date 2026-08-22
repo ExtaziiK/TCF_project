@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { ChevronDown, Search, Headphones, BookOpen, Check, Lightbulb, X } from "lucide-react";
+import { ChevronDown, Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -7,11 +7,18 @@ import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 
-// Révision — the hard half of every bank quiz, with its answers showing.
+// Révision — the hard half of every bank quiz, read or rehearsed.
 //
-// A deliberate inversion of the quiz engine: nothing is hidden, nothing is
-// scored, nothing is recorded. It exists to be READ, so the correct option is
-// already green and the explanation is already open.
+// Two modes over one bank. "Lire les corrigés" is a revision sheet: the correct
+// option is already green and the explanation already open, because the page is
+// there to be READ. "S'entraîner" withholds both until a choice is made, then
+// corrects on the spot.
+//
+// Neither records anything. That is the point rather than an omission: these
+// are the questions 20-39 of quizzes a candidate can also sit properly, with
+// the answers one toggle away, so a score here would say nothing about exam
+// performance — and folding it into quiz_results would quietly flatter the
+// dashboard averages that do.
 //
 // Two facts about the bank drive the whole layout, and neither is obvious from
 // the data model:
@@ -54,6 +61,12 @@ export function Revision() {
   const [query, setQuery] = useState("");
   const [minPoints, setMinPoints] = useState(0);
   const [openQuiz, setOpenQuiz] = useState(null);
+  // "read": the revision sheet, everything already showing.
+  // "practice": the same bank, answers withheld until you choose.
+  // Deliberately NOT recorded to quiz_results: this is the hard tail of every
+  // quiz with its answers a click away, so scoring it would flatter the
+  // dashboard averages that are supposed to describe exam performance.
+  const [mode, setMode] = useState("read");
 
   const bank = getBank();
 
@@ -85,13 +98,18 @@ export function Revision() {
   const results = useMemo(() => (filtering ? allQuestions.filter(matches) : []), [filtering, allQuestions, matches]);
 
   const switchSection = (s) => { setSection(s); setOpenQuiz(null); };
+  // Changing mode closes the open quiz so the list remounts: answers given in
+  // practice must not linger, greyed out, behind the reading view.
+  const switchMode = (m) => { setMode(m); setOpenQuiz(null); };
 
   return (
     <PageShell
       back wide
       eyebrow={t("Révision")}
-      title={t("Les questions difficiles, réponses affichées")}
-      sub={t("Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles.")}
+      title={t(mode === "read" ? "Les questions difficiles, réponses affichées" : "Les questions difficiles, à vous de répondre")}
+      sub={t(mode === "read"
+        ? "Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles."
+        : "Les mêmes questions, réponses masquées : choisissez, la correction et l'explication s'affichent aussitôt.")}
     >
       <div className="flex justify-center mb-6">
         <div className={`inline-flex p-1 rounded-full border ${c.border}`} role="tablist">
@@ -110,6 +128,19 @@ export function Revision() {
         </div>
       </div>
 
+      <div className="flex justify-center mb-6">
+        <div className={`inline-flex p-1 rounded-full border ${c.border}`} role="group" aria-label={t("Mode")}>
+          {[{ id: "read", label: "Lire les corrigés", Icon: Eye }, { id: "practice", label: "S'entraîner", Icon: PenLine }].map((m) => (
+            <button
+              key={m.id} onClick={() => switchMode(m.id)} aria-pressed={mode === m.id}
+              className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors ${mode === m.id ? "bg-rose-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}
+            >
+              <m.Icon size={14} aria-hidden="true" /> {t(m.label)}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <Toolbar
         query={query} setQuery={setQuery}
         minPoints={minPoints} setMinPoints={setMinPoints}
@@ -119,7 +150,7 @@ export function Revision() {
       />
 
       {filtering ? (
-        <SearchResults results={results} section={section} onClear={() => { setQuery(""); setMinPoints(0); }} />
+        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setMinPoints(0); }} />
       ) : (
         <div className="space-y-3">
           {quizzes.map((quiz) => (
@@ -127,6 +158,7 @@ export function Revision() {
               key={quiz.id}
               quiz={quiz}
               section={section}
+              mode={mode}
               open={openQuiz === quiz.id}
               onToggle={() => setOpenQuiz(openQuiz === quiz.id ? null : quiz.id)}
             />
@@ -189,7 +221,7 @@ function Toolbar({ query, setQuery, minPoints, setMinPoints, pointsInPlay, quizz
   );
 }
 
-function SearchResults({ results, section, onClear }) {
+function SearchResults({ results, section, mode, onClear }) {
   const { c, t } = useApp();
   if (results.length === 0) {
     return (
@@ -208,12 +240,12 @@ function SearchResults({ results, section, onClear }) {
           <span className={c.faint}> · {t("les")} {SEARCH_LIMIT} {t("premières sont affichées, affinez votre recherche")}</span>
         )}
       </p>
-      <QuestionList questions={shown} section={section} />
+      <QuestionList questions={shown} section={section} mode={mode} />
     </div>
   );
 }
 
-function QuizAccordion({ quiz, section, open, onToggle }) {
+function QuizAccordion({ quiz, section, mode, open, onToggle }) {
   const { c, t } = useApp();
   return (
     <Card className="overflow-hidden">
@@ -236,7 +268,7 @@ function QuizAccordion({ quiz, section, open, onToggle }) {
           defers signing the quiz's media until someone actually looks at it. */}
       {open && (
         <div className={`px-5 pb-5 pt-1 border-t ${c.border}`}>
-          <QuestionList questions={quiz.questions} section={section} />
+          <QuestionList questions={quiz.questions} section={section} mode={mode} />
         </div>
       )}
     </Card>
@@ -246,17 +278,58 @@ function QuizAccordion({ quiz, section, open, onToggle }) {
 // Signing happens here rather than per card: useSignedQuestions batches one
 // request for the whole list, and `questions` is referentially stable because
 // it comes from the memoised slice above.
-function QuestionList({ questions, section }) {
+//
+// In practice mode this also owns the answers, so the score belongs to the list
+// you are working through (one quiz, or one set of search results) rather than
+// to the page. Switching quiz or mode unmounts it and the slate is clean —
+// which is the intended behaviour: nothing here is a record, only a rehearsal.
+function QuestionList({ questions, section, mode }) {
+  const { c, t } = useApp();
   const signed = useSignedQuestions(questions);
+  const [answers, setAnswers] = useState({});
+
+  const answer = useCallback((id, choice) => {
+    // First answer only — this is a rehearsal, not a retry loop.
+    setAnswers((prev) => (prev[id] != null ? prev : { ...prev, [id]: choice }));
+  }, []);
+
+  const done = Object.keys(answers).length;
+  const right = signed.filter((q) => answers[q.id] != null && answers[q.id] === q.a).length;
+
   return (
-    <div className="space-y-4 mt-4">
-      {signed.map((q) => <QuestionCard key={q.id} q={q} section={section} />)}
+    <div className="mt-4">
+      {mode === "practice" && (
+        <div className={`flex items-center justify-between gap-3 mb-4 px-4 py-2.5 rounded-xl ${c.hoverSoft}`}>
+          <span className={`text-sm font-semibold ${c.text}`}>
+            {done > 0
+              ? <>{right} / {done} {t("bonnes réponses")}{done < signed.length && <span className={c.faint}> · {signed.length - done} {t("encore à faire")}</span>}</>
+              : <span className={c.sub}>{t("Choisissez une réponse — la correction s'affiche aussitôt.")}</span>}
+          </span>
+          {done > 0 && (
+            <button onClick={() => setAnswers({})} className="text-sm font-semibold text-blue-600 shrink-0">
+              {t("Recommencer")}
+            </button>
+          )}
+        </div>
+      )}
+      <div className="space-y-4">
+        {signed.map((q) => (
+          <QuestionCard
+            key={q.id} q={q} section={section} mode={mode}
+            chosen={answers[q.id]} onAnswer={(i) => answer(q.id, i)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
-function QuestionCard({ q, section }) {
+function QuestionCard({ q, section, mode, chosen, onAnswer }) {
   const { c, t } = useApp();
+  // Reading mode shows everything from the outset; practice mode holds the
+  // answer and the explanation back until a choice is made. `chosen` is the
+  // index picked, or undefined while the question is still open.
+  const revealed = mode === "read" || chosen != null;
   // Shown only when it carries meaning. CE's placeholder ("Compréhension
   // écrite – Quiz 1 – Question 39") merely repeats the header and is dropped;
   // CO's instruction ("Écoutez le document sonore…") tells the reader what to do.
@@ -277,22 +350,45 @@ function QuestionCard({ q, section }) {
 
       <ul className="mt-4 space-y-2">
         {(q.opts || []).map((o, i) => {
-          const right = i === q.a;
-          return (
-            <li
-              key={i}
-              className={`flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl border text-sm ${right ? "border-emerald-500 bg-emerald-500/10 text-emerald-700 font-semibold" : `${c.border} ${c.sub}`}`}
-            >
-              <span className={`font-mono2 text-xs mt-0.5 ${right ? "" : c.faint}`}>{String.fromCharCode(65 + i)}</span>
+          const isRight = i === q.a;
+          const isPick = chosen === i;
+          // Four states, and only after an answer: the right one, the wrong one
+          // that was picked, and the rest dimmed. Before answering every option
+          // looks alike, or the shape of the card would give the answer away.
+          const tone = !revealed ? "idle"
+            : isRight ? "right"
+              : isPick ? "wrong" : "dim";
+          const cls = {
+            idle: `${c.border} ${c.text} hover:border-blue-600 hover:bg-blue-600/5 cursor-pointer`,
+            right: "border-emerald-500 bg-emerald-500/10 text-emerald-700 font-semibold",
+            wrong: "border-rose-500 bg-rose-500/10 text-rose-700 font-semibold",
+            dim: `${c.border} ${c.sub} opacity-60`,
+          }[tone];
+          const body = (
+            <>
+              <span className={`font-mono2 text-xs mt-0.5 ${tone === "right" || tone === "wrong" ? "" : c.faint}`}>{String.fromCharCode(65 + i)}</span>
               <span className="flex-1">{o}</span>
-              {right && <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" aria-hidden="true" />}
+              {tone === "right" && <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" aria-hidden="true" />}
+              {tone === "wrong" && <X size={15} className="text-rose-600 shrink-0 mt-0.5" aria-hidden="true" />}
+            </>
+          );
+          const shared = `w-full flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl border text-sm text-left transition-all ${cls}`;
+          return (
+            <li key={i}>
+              {mode === "practice" && !revealed ? (
+                <button type="button" onClick={() => onAnswer(i)} className={shared}>{body}</button>
+              ) : (
+                <div className={shared}>{body}</div>
+              )}
             </li>
           );
         })}
       </ul>
 
-      {q.exp && (
-        <p className={`mt-3 flex gap-2 text-sm leading-relaxed ${c.sub}`}>
+      {/* Held back with the answer: showing why before the choice is made would
+          hand over the answer in prose. */}
+      {revealed && q.exp && (
+        <p className={`mt-3 flex gap-2 text-sm leading-relaxed rise ${c.sub}`}>
           <Lightbulb size={15} className="text-amber-500 shrink-0 mt-0.5" aria-hidden="true" />
           <span>{q.exp}</span>
         </p>
