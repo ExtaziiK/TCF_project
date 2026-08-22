@@ -5,17 +5,19 @@ import { Trophy, GraduationCap } from "lucide-react";
 // runner's behaviour (audio replay, navigation) — see Mocks.jsx / Quiz.jsx.
 export const EXAM_MODES = [
   {
+    // `id` stays "test" — it drives the exam runner's actual behaviour
+    // (oneWay / autoAdvance in Mocks.jsx, untimed in Quiz.jsx) and is stored
+    // on past attempts, so only the display name changed on rename.
     id: "test",
     icon: Trophy,
-    name: "Mode Test",
+    name: "Mode Réaliste",
     tagline: "Conditions d'examen réelles",
     badge: "Recommandé pour l'examen",
     badgeTone: "red",
     feats: [
       "Audio joué une seule fois",
       "Pas de retour en arrière",
-      "Progression séquentielle",
-      "Évaluation authentique",
+      "Chronométré comme le jour J",
     ],
   },
   {
@@ -24,12 +26,11 @@ export const EXAM_MODES = [
     name: "Mode Entraînement",
     tagline: "Apprentissage flexible",
     badge: "Idéal pour la préparation",
-    badgeTone: "amber",
+    badgeTone: "blue",
     feats: [
       "Réécouter l'audio",
       "Navigation libre",
-      "Contrôle total",
-      "Apprentissage en profondeur",
+      "Sans limite de temps",
     ],
   },
 ];

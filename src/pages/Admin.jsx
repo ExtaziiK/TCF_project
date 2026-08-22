@@ -549,22 +549,41 @@ function PricesTab() {
   const [draft, setDraft] = useState({});      // slug -> string being typed
   const [savingSlug, setSavingSlug] = useState(null);
   const [unavailable, setUnavailable] = useState(false);
-  const [badge, setBadge] = useState(null);       // launch "−50 %" toggle
+  const [badge, setBadge] = useState(null);       // launch "−N %" toggle
   const [badgeBusy, setBadgeBusy] = useState(false);
+  const [percent, setPercent] = useState(50);      // saved value, from the server
+  const [percentDraft, setPercentDraft] = useState("50"); // what the admin is typing
+  const [percentBusy, setPercentBusy] = useState(false);
 
   const load = () => listPassPrices().then((r) => {
     if (r.ok) { setPasses(r.data.passes); setDraft({}); } else setUnavailable(!!r.unavailable);
   });
-  useEffect(() => { load(); getLaunchDiscount().then((d) => setBadge(d.enabled)); }, []);
+  useEffect(() => {
+    load();
+    getLaunchDiscount().then((d) => { setBadge(d.enabled); setPercent(d.percent); setPercentDraft(String(d.percent)); });
+  }, []);
 
   const toggleBadge = async () => {
     const next = !badge;
     setBadgeBusy(true);
-    const r = await setLaunchDiscount(next);
+    const r = await setLaunchDiscount(next, percent);
     setBadgeBusy(false);
     if (!r.ok) return notify(r.error || "Changement refusé.", "error");
     setBadge(next);
-    notify(next ? "Badge −50 % affiché sur la page Tarifs." : "Badge −50 % masqué.");
+    notify(next ? `Badge −${percent} % affiché sur la page Tarifs.` : "Badge masqué.");
+  };
+
+  const savePercent = async () => {
+    const value = Math.round(Number(percentDraft));
+    if (!Number.isFinite(value) || value < 1 || value > 95) return notify("Entrez un pourcentage entre 1 et 95.", "error");
+    if (value === percent) return;
+    setPercentBusy(true);
+    const r = await setLaunchDiscount(badge, value);
+    setPercentBusy(false);
+    if (!r.ok) return notify(r.error || "Changement refusé.", "error");
+    setPercent(value);
+    setPercentDraft(String(value));
+    notify(`Badge de lancement réglé sur −${value} %.`);
   };
 
   const save = async (pass) => {
@@ -593,14 +612,27 @@ function PricesTab() {
         Le montant est lu dans Stripe et appliqué immédiatement, sans redéploiement. L&apos;ancien prix est archivé : les
         achats déjà payés ne changent pas.
       </p>
-      {/* Presentational only: the struck-through price is double the real one
-          and nothing about it reaches Stripe. */}
+      {/* Presentational only: the struck-through price is computed backwards
+          from the percentage below, and nothing about it reaches Stripe. */}
       <div className={`flex items-center gap-3 flex-wrap p-4 mb-5 rounded-2xl border ${c.border}`}>
         <div className="min-w-[14rem]">
-          <p className={`font-semibold text-sm ${c.text}`}>Badge « −50 % » de lancement</p>
-          <p className={`text-xs ${c.faint}`}>Affiche un prix barré au double du prix réel sur chaque forfait payant.</p>
+          <p className={`font-semibold text-sm ${c.text}`}>Badge « −{percent} % » de lancement</p>
+          <p className={`text-xs ${c.faint}`}>Affiche un prix barré au-dessus du prix réel sur chaque forfait payant, réduit du pourcentage choisi.</p>
         </div>
-        <Btn small variant="ghost" className="ml-auto" disabled={badge === null || badgeBusy}
+        <div className="flex items-center gap-1.5">
+          <input
+            type="number" min={1} max={95} value={percentDraft}
+            onChange={(e) => setPercentDraft(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") savePercent(); }}
+            aria-label="Pourcentage du badge de lancement"
+            className={`w-16 px-2.5 py-2 rounded-xl border text-sm font-mono2 text-center outline-none focus:border-blue-600 ${c.inputCls}`}
+          />
+          <span className={`text-sm ${c.sub}`}>%</span>
+          <Btn small variant="ghost" disabled={percentBusy || percentDraft === String(percent)} onClick={savePercent}>
+            {percentBusy ? "…" : "Régler"}
+          </Btn>
+        </div>
+        <Btn small variant="ghost" className="ml-auto sm:ml-0" disabled={badge === null || badgeBusy}
           icon={badge ? Eye : EyeOff} onClick={toggleBadge}>
           {badge === null ? "…" : badge ? "Affiché — masquer" : "Masqué — afficher"}
         </Btn>

@@ -178,7 +178,7 @@ export function ScoreCalculator() {
             <p className={`font-display font-bold ${c.text}`}>{t("Atteignez le niveau CLB 9+ !")}</p>
           </div>
           <p className={`text-sm mb-4 ${c.sub}`}>{t("Entraînez-vous avec nos simulations réalistes")}</p>
-          <Btn variant="accent" className="w-full" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
+          <Btn variant="accent" className="w-full" icon={ArrowRight} onClick={() => nav("mocks")}>{t("Testez votre niveau gratuitement")}</Btn>
         </div>
       </Card>
 

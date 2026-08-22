@@ -105,7 +105,7 @@ export function DicteePitch({ reason }) {
     >
       <div className="max-w-5xl mx-auto space-y-6">
         {/* ── how it works ────────────────────────────────────────────── */}
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4" data-tour="dictee-steps">
           {STEPS.map((s, i) => (
             <Card key={s.t} className="p-6">
               <div className="flex items-center gap-3">

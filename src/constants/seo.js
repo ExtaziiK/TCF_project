@@ -148,11 +148,16 @@ export const ROUTE_META = {
   vocabulary: { path: "/vocabulaire", title: "Vocabulaire — cartes mémoire", noindex: true },
   grammar: { path: "/grammaire", title: "Grammaire", noindex: true },
   conjugation: { path: "/conjugaison", title: "Conjugaison — leçons et exercices par temps", noindex: true },
+  // Person-scoped (rbac.PRIVATE_ROUTE_EMAILS): one candidate's exam-date watch,
+  // not a product page. noindex like every other gated route — a crawler here
+  // only ever sees the 403.
+  "veille-tcf": { path: "/veille-tcf", title: "Veille TCF Moncton", noindex: true },
   dictee: { path: "/dictee", title: "La dictée — écrire ce que l'on entend", noindex: true },
   dashboard: { path: "/tableau-de-bord", title: "Tableau de bord", noindex: true },
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
+  revision: { path: "/revision", title: "Révision — questions difficiles", noindex: true },
 
   // Public and stable — a visitor accepts these before creating an account, so
   // the text must stay readable at a fixed URL (the signup dialog links out to

@@ -95,16 +95,47 @@ export const PAGE_ACCESS = {
   // A visitor is sent to the register gate (see deniedReason).
   "sujets-actualite": AUTHENTICATED,
   bank: ADMIN_ONLY,
+  // Révision : la moitié difficile de chaque quiz, réponses affichées.
+  // Admin-only pour l'instant — élargir ici suffira à l'ouvrir plus largement,
+  // le lien de pied de page étant filtré par ce même canAccess.
+  revision: ADMIN_ONLY,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,
   profile: AUTHENTICATED,
   admin: ADMIN_ONLY,
+  // Signed-in is only half the rule — see PRIVATE_ROUTE_EMAILS below, which
+  // narrows this one to a single candidate plus staff.
+  "veille-tcf": AUTHENTICATED,
 };
 
-export function canAccess(role, route) {
+// Routes that belong to specific PEOPLE rather than to a role. Everything else
+// in this file gates on what someone IS (free, premium, staff); this gates on
+// who they are, which is a different question and deliberately kept separate
+// so it cannot be mistaken for a tier.
+//
+// "veille-tcf" is one candidate's private exam-date watch, not a product
+// feature — it is listed here rather than given a role because there is no
+// role that means "this person". Staff keep access, as they do everywhere.
+//
+// This hides the nav entry and blocks the route, both of which are CLIENT-side
+// and therefore cosmetic. The real gate is the row-level security policy on
+// tcf_watch_checks (20260820_tcf_watch.sql), which applies the same email rule
+// in the database — so bypassing the UI reveals nothing. Keep the two in step.
+export const PRIVATE_ROUTE_EMAILS = {
+  "veille-tcf": ["elouchtati@gmail.com"],
+};
+
+const emailOf = (user) => String(user?.email || "").trim().toLowerCase();
+
+// `user` is optional: routes without a PRIVATE_ROUTE_EMAILS entry never look at
+// it, so every existing caller keeps working unchanged.
+export function canAccess(role, route, user = null) {
   const allowed = PAGE_ACCESS[route];
-  return !allowed || allowed.includes(role);
+  if (allowed && !allowed.includes(role)) return false;
+  const people = PRIVATE_ROUTE_EMAILS[route];
+  if (people) return isStaff(role) || people.includes(emailOf(user));
+  return true;
 }
 
 // What to show instead when access is denied:
@@ -112,11 +143,15 @@ export function canAccess(role, route) {
 // - "login":    account pages that just need authentication
 // - "upgrade":  premium content, shown to free users
 // - "forbidden": admin-only surface, shown to authenticated non-admins
-export function deniedReason(role, route) {
-  if (canAccess(role, route)) return null;
+export function deniedReason(role, route, user = null) {
+  if (canAccess(role, route, user)) return null;
   if (role === ROLES.VISITOR) {
     return route === "dashboard" || route === "profile" ? "login" : "register";
   }
   if (PAGE_ACCESS[route] === ADMIN_ONLY) return "forbidden";
+  // A person-scoped route is not something anyone can buy their way into, so
+  // an upgrade pitch would be a lie. Signed in but not the right person is a
+  // 403, exactly like the admin surface.
+  if (PRIVATE_ROUTE_EMAILS[route]) return "forbidden";
   return "upgrade";
 }

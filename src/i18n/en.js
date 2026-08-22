@@ -149,6 +149,7 @@ export const EN = {
   "Vos 4 épreuves atteignent le seuil NCLC 7.": "Your 4 skills reach the NCLC 7 threshold.",
   "Atteignez le niveau CLB 9+ !": "Reach CLB 9+ !",
   "Entraînez-vous avec nos simulations réalistes": "Practice with our realistic simulations",
+  "Testez votre niveau gratuitement": "Test your level for free",
   "Accéder à mon espace": "Go to my dashboard",
   "Seuils atteints pour ce profil": "Thresholds met for this profile",
   "Seuils non atteints — continuez à progresser": "Thresholds not met — keep improving",
@@ -1390,6 +1391,24 @@ export const EN = {
   "Les adverbes": "Adverbs",
   "Formation en -ment, place et adverbes d'intensité.": "Formation in -ment, position and adverbs of intensity.",
 
+  // ── Révision (admin) ─────────────────────────────────────────
+  "Révision": "Revision",
+  "Les questions difficiles, réponses affichées": "The hard questions, answers shown",
+  "Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles.":
+    "Questions 20 to 39 of every quiz — the harder half — with the correct answer and the explanation already showing.",
+  "Chercher dans les réponses et les explications…": "Search the answers and explanations…",
+  "Chercher dans les réponses et les explications": "Search the answers and explanations",
+  "Difficulté": "Difficulty",
+  "Aller au quiz…": "Go to quiz…",
+  "Aller au quiz": "Go to quiz",
+  "Quiz": "Quiz",
+  "Aucune question ne correspond.": "No question matches.",
+  "Effacer les filtres": "Clear filters",
+  "Effacer": "Clear",
+  "question trouvée": "question found",
+  "questions trouvées": "questions found",
+  "premières sont affichées, affinez votre recherche": "shown, refine your search",
+
   // ── Conjugation ──────────────────────────────────────────────────────
   // Lesson bullets, tables and per-exercise explanations are deliberately NOT
   // listed: like the grammar lessons, they are rendered raw. Translating a
@@ -2211,35 +2230,59 @@ export const EN = {
   "Entraînez-vous à lire des articles de presse français chaque jour.": "Practise reading French news articles every day.",
 
   // ── TCF blanc setup: mode + candidate (components/exam, constants/exam.js)
-  "Vos informations": "Your details",
-  "Choisissez votre mode et renseignez vos informations avant de démarrer.": "Choose your mode and enter your details before starting.",
-  "Choisissez votre mode": "Choose your mode",
-  "Sélectionnez le mode qui correspond à vos besoins.": "Select the mode that fits your needs.",
-  "Mode Test": "Test mode",
+  "Avant de commencer": "Before you start",
+  "Deux façons de passer le TCF blanc : conditions réelles, ou entraînement sans pression.": "Two ways to take the TCF blanc: real conditions, or pressure-free practice.",
+  "Mode Réaliste": "Realistic mode",
   "Conditions d'examen réelles": "Real exam conditions",
   "Recommandé pour l'examen": "Recommended for the exam",
   "Audio joué une seule fois": "Audio played only once",
   "Pas de retour en arrière": "No going back",
-  "Progression séquentielle": "Sequential progression",
-  "Évaluation authentique": "Authentic assessment",
+  "Chronométré comme le jour J": "Timed like exam day",
   "Mode Entraînement": "Practice mode",
   "Apprentissage flexible": "Flexible learning",
   "Idéal pour la préparation": "Ideal for preparation",
   "Réécouter l'audio": "Replay the audio",
   "Navigation libre": "Free navigation",
-  "Contrôle total": "Full control",
-  "Apprentissage en profondeur": "In-depth learning",
-  "Renseignez vos informations pour recevoir votre score par e-mail à la fin du test.": "Enter your details to receive your score by email at the end of the test.",
-  "E-mail": "Email",
+  "Sans limite de temps": "No time limit",
   "Pays": "Country",
   "Sélectionnez votre pays": "Select your country",
-  "Entrez votre nom pour continuer.": "Enter your name to continue.",
   "Sélectionnez votre pays pour continuer.": "Select your country to continue.",
   "Commencer le test": "Start the test",
+  "Commencer l'entraînement": "Start the practice session",
   "Le chronomètre démarre dès la première question. Score calculé automatiquement.": "The timer starts on the first question. Score calculated automatically.",
+  "Aucune limite de temps : avancez à votre rythme. Score calculé automatiquement à la fin.": "No time limit: move at your own pace. Score calculated automatically at the end.",
   "Le TCF blanc commence dans…": "The TCF blanc starts in…",
   "L'entraînement commence dans…": "The practice session starts in…",
   "Préparez-vous : le premier document audio sera joué automatiquement.": "Get ready: the first audio document will play automatically.",
+
+  // ── First-login guided tour (components/tour/TourOverlay.jsx, constants/tour.js)
+  // "Visite guidée" alone already means something else (the marketing demo
+  // video's label, near line 121) — this one is disambiguated at the French
+  // source level too, since t() matches on the exact FR string.
+  "Visite guidée de l'application": "App guided tour",
+  "Fermer la visite": "Close the tour",
+  "Passer la visite": "Skip the tour",
+  "Suivant": "Next",
+  "Terminer": "Done",
+  "Bienvenue sur Passerelle !": "Welcome to Passerelle!",
+  "Quatre épreuves, chacune avec ses quiz. Un premier quiz est offert partout.":
+    "Four skills, each with its own quizzes. A first quiz is free everywhere.",
+  "Écoutez, répondez, puis Suivante. Le score s'affiche à la fin.":
+    "Listen, answer, then Next. The score shows up at the end.",
+  "Lisez le texte, répondez, puis Suivante.": "Read the text, answer, then Next.",
+  "Enregistrez-vous sur un vrai sujet : l'IA évalue votre niveau.": "Record yourself on a real topic: the AI rates your level.",
+  "Rédigez sur un vrai sujet : l'IA vous renvoie votre niveau et une version corrigée.":
+    "Write on a real topic: the AI hands back your level and a corrected version.",
+  "La Pratique": "Practice",
+  "Vocabulaire, grammaire, conjugaison, dictée — à votre rythme, sans chrono.":
+    "Vocabulary, grammar, conjugation, dictation — at your own pace, no clock.",
+  "Cliquez pour révéler la définition, puis passez au mot suivant.": "Click to reveal the definition, then move to the next word.",
+  "Une leçon courte, puis des exercices corrigés aussitôt.": "A short lesson, then exercises corrected right away.",
+  "Neuf temps à travailler, chacun avec sa leçon et ses exercices.": "Nine tenses to work through, each with its own lesson and exercises.",
+  "Un texte lu à voix haute, que vous écrivez sans aide.": "A text read aloud, which you write down with no help.",
+  "Le TCF blanc": "The TCF blanc",
+  "Réaliste pour les conditions d'examen, Entraînement pour vous exercer sans chrono. Cliquez sur Commencer quand vous êtes prêt.":
+    "Réaliste for exam conditions, Entraînement to practice with no clock. Click Commencer when you're ready.",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

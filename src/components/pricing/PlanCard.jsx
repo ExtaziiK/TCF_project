@@ -25,16 +25,18 @@ function boldNumbers(text, cls) {
   return text.split(NUM).map((part, i) => (/^\d/.test(part) ? <strong key={i} className={cls}>{part}</strong> : part || null));
 }
 
-// The shown price is a launch offer at 50% off; the crossed-out "before" price
-// is simply double it. Doubles the numeric part while keeping whatever currency
-// formatting the string already carries ("$4.99" → "$9.98"). Null for free/$0.
-function beforePrice(price) {
+// The shown price is a launch offer at `percent` % off (admin-set, Tarifs →
+// Prix); the crossed-out "before" price is what it was discounted FROM, so a
+// shown price P at `percent` % off means before = P / (1 - percent/100).
+// Keeps whatever currency formatting the string already carries ("$4.99" at
+// 50% → "$9.98"). Null for free/$0 or a nonsensical percent (>=100).
+function beforePrice(price, percent) {
   const m = String(price).match(/\d+([.,]\d+)?/);
   if (!m) return null;
   const n = parseFloat(m[0].replace(",", "."));
-  if (!n) return null;
-  const doubled = n * 2;
-  return price.replace(m[0], Number.isInteger(doubled) ? String(doubled) : doubled.toFixed(2));
+  if (!n || !(percent > 0) || percent >= 100) return null;
+  const before = n * (100 / (100 - percent));
+  return price.replace(m[0], Number.isInteger(before) ? String(before) : before.toFixed(2));
 }
 
 // Applies a validated promo to the plan price so the page can preview what the
@@ -64,25 +66,25 @@ function discounted(price, promo) {
 export function PlanCard({ p, compact, promo, index = 0, currency }) {
   const { c, nav, user, notify, t } = useApp();
   const [busy, setBusy] = useState(false);
-  // The launch "−50 %" badge is admin-toggled (Tarifs → Prix). Starts null
-  // rather than true so a disabled badge never flashes on screen before the
-  // setting arrives; the cost is that an enabled one appears a beat late,
-  // which is the harmless direction to be wrong in. The getter is memoized,
-  // so the cards on a page share one request.
-  const [showLaunchBadge, setShowLaunchBadge] = useState(null);
-  useEffect(() => { getLaunchDiscount().then((d) => setShowLaunchBadge(d.enabled)); }, []);
+  // The launch "−N %" badge is admin-toggled and its percentage admin-set
+  // (Tarifs → Prix). Starts null rather than enabled so a disabled badge
+  // never flashes on screen before the setting arrives; the cost is that an
+  // enabled one appears a beat late, which is the harmless direction to be
+  // wrong in. The getter is memoized, so the cards on a page share one request.
+  const [launchDiscount, setLaunchDiscountState] = useState(null);
+  useEffect(() => { getLaunchDiscount().then(setLaunchDiscountState); }, []);
   // DZD is paid on-site (CCP / BaridiMob), never through Stripe.
   const isDzd = currency?.code === "DZD";
   const a = ACCENTS[p.accent] || ACCENTS.blue;
   const paid = !!p.slug;
-  const oldPrice = paid && showLaunchBadge === true ? beforePrice(p.price) : null;
+  const oldPrice = paid && launchDiscount?.enabled ? beforePrice(p.price, launchDiscount.percent) : null;
   // With a promo applied, preview the post-discount price: it becomes the big
-  // number, the (pre-promo) plan price is struck through, and the launch −50 %
+  // number, the (pre-promo) plan price is struck through, and the launch −N %
   // marketing badge is replaced by the promo's own discount label.
   const promoPrice = paid ? discounted(p.price, promo) : null;
   const mainPrice = promoPrice || p.price;
   const struckPrice = promoPrice ? p.price : oldPrice;
-  const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? "−50 %" : null);
+  const priceBadge = promoPrice ? promoLabel(promo) : (oldPrice ? `−${launchDiscount.percent} %` : null);
   // Never print a paid price we are not sure of. The static figure in
   // constants/pricing.js is only a fallback, and since prices became
   // admin-editable it can be out of date — showing it would advertise an

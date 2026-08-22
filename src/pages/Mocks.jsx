@@ -21,6 +21,7 @@ import { ExamFeedbackDialog } from "@/components/exam/ExamFeedbackDialog";
 import { hasReviewed } from "@/services/testimonialsService";
 import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
+import { TOUR_STEPS } from "@/constants/tour";
 
 const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 
@@ -268,7 +269,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   // by itself. Only in test mode, and only for the audio-driven CO épreuve.
   // Audio presence must also consider the `sign` descriptor: in signed-media
   // mode (VITE_SIGNED_MEDIA) questions carry audio: null until the quiz opens,
-  // and testing only qq.audio silently degraded Mode Test to free navigation.
+  // and testing only qq.audio silently degraded Mode Réaliste to free navigation.
   const autoAdvance = mode === "test" && task.section === "co" && quiz.questions.some((qq) => qq.audio || qq.sign?.audio);
   // An auto-advanced CO épreuve paces itself: every question costs exactly its
   // clip plus the answer window, and the candidate can neither replay, skip nor
@@ -321,7 +322,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
 /* --------------------------------- lobby --------------------------------- */
 
 export function Mocks() {
-  const { c, nav, user, notify, t } = useApp();
+  const { c, nav, user, notify, t, tourStep } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [backend, setBackend] = useState("supabase");
   const [active, setActive] = useState(null);
@@ -338,6 +339,16 @@ export function Mocks() {
     reload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
+
+  // The guided tour's last step lives on ExamSetup (mode cards + the real
+  // "Commencer" button), not this lobby — it stops there rather than
+  // auto-starting an attempt, which would spend the free tier's one TCF
+  // blanc without the candidate having chosen to. `setup` has no external
+  // control otherwise, so this forces it the same way BankExplorer forces
+  // its own tab/quiz state.
+  useEffect(() => {
+    if (tourStep != null && TOUR_STEPS[tourStep]?.target === "exam-modes") setSetup(true);
+  }, [tourStep]);
 
   // Jump to the top when the exam runner mounts (new attempt or resumed one) —
   // this swaps the whole panel in place (no route change), so without this
@@ -412,8 +423,12 @@ export function Mocks() {
   }
 
   if (setup) {
+    // No `back` here: ExamSetup already renders its own "Retour" (onCancel,
+    // which returns to the attempts list below rather than leaving the TCF
+    // blanc section entirely) — PageShell's own back button called goBack()
+    // instead, stacking two "Retour" links that did different things.
     return (
-      <PageShell back wide eyebrow={t("TCF blanc")} title={t("Vos informations")} sub={t("Choisissez votre mode et renseignez vos informations avant de démarrer.")}>
+      <PageShell wide eyebrow={t("TCF blanc")} title={t("Avant de commencer")} sub={t("Deux façons de passer le TCF blanc : conditions réelles, ou entraînement sans pression.")}>
         <ExamSetup onStart={start} onCancel={() => setSetup(false)} busy={starting} />
       </PageShell>
     );
