@@ -95,10 +95,12 @@ export const PAGE_ACCESS = {
   // A visitor is sent to the register gate (see deniedReason).
   "sujets-actualite": AUTHENTICATED,
   bank: ADMIN_ONLY,
-  // Révision : la moitié difficile de chaque quiz, réponses affichées.
-  // Admin-only pour l'instant — élargir ici suffira à l'ouvrir plus largement,
-  // le lien de pied de page étant filtré par ce même canAccess.
-  revision: ADMIN_ONLY,
+  // Révision : la moitié difficile de chaque quiz — 1600 questions avec leur
+  // corrigé — en lecture ou en entraînement. Réservée aux abonnés : c'est la
+  // banque entière, réponses comprises, ce qui en fait un avantage payant et
+  // non un échantillon. Un compte gratuit qui ouvre l'URL tombe sur la page
+  // d'abonnement (deniedReason renvoie "upgrade" pour toute route PREMIUM).
+  revision: PREMIUM,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,
