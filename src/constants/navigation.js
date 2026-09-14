@@ -60,13 +60,15 @@ export const NAV_LINKS = [
 ];
 
 // Extra entries that only exist in the mobile menu for signed-in users.
-// "Tableau de bord" sits in the top group rather than under "Mon compte": for
-// someone signed in it is the landing page, the mobile twin of "Accueil", not
-// a piece of account admin.
+// All three sit in the top group, above the study sections and under no
+// heading: they are the "where am I / who am I" block, the part of the drawer
+// someone reaches for between sessions rather than while revising. A separate
+// "Mon compte" section at the bottom put them the furthest possible scroll
+// from the identity card that introduces them.
 export const ACCOUNT_LINKS = [
   { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED, icon: LayoutDashboard, group: "start" },
-  { l: "Mon profil", r: "profile", roles: AUTHENTICATED, icon: User, group: "account" },
-  { l: "Administration", r: "admin", roles: ADMIN_ONLY, icon: Shield, group: "account" },
+  { l: "Mon profil", r: "profile", roles: AUTHENTICATED, icon: User, group: "start" },
+  { l: "Administration", r: "admin", roles: ADMIN_ONLY, icon: Shield, group: "start" },
 ];
 
 // Reachable from the footer on every screen, so it only needs adding here.
@@ -83,13 +85,12 @@ const MOBILE_ONLY_LINKS = [
 // dropdown to express that hierarchy; it has to be spelled out.
 //
 // `l: null` means the section renders with no heading — the first group is
-// simply where you land, and a label over two obvious links is noise.
+// where you land and who you are, and a label over links that obvious is noise.
 export const MOBILE_GROUPS = [
   { id: "start", l: null },
   { id: "prep", l: "Préparer l'examen" },
   { id: "train", l: "S'entraîner" },
   { id: "tools", l: "Outils & tarifs" },
-  { id: "account", l: "Mon compte" },
 ];
 
 const visible = (item, role) => !item.roles || item.roles.includes(role);
@@ -106,7 +107,8 @@ export function navLinksForRole(links, role) {
 const GROUP_IDS = new Set(MOBILE_GROUPS.map((g) => g.id));
 
 // The mobile drawer's links, grouped and filtered for a role. Sections that end
-// up empty are dropped, so a visitor never sees a bare "Mon compte" heading.
+// up empty are dropped, so a visitor never sees a heading with nothing under it
+// ("S'entraîner" is signed-in only, and would otherwise sit there bare).
 //
 // Role filtering stays entirely in navLinksForRole() — this function only
 // arranges what that one already decided is visible, so the two can't disagree
