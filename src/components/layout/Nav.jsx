@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
-import { NAV_LINKS, ACCOUNT_LINKS, navLinksForRole } from "@/constants/navigation";
+import { NAV_LINKS, navLinksForRole, mobileNavForRole } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
@@ -21,10 +21,15 @@ const chipName = (full) => {
 };
 
 // The routes behind "Pratique" (see NAV_LINKS in constants/navigation.js) —
-// needed here because navLinksForRole's flattened mobileLinks array loses the
-// parent grouping, so the tour step for "Pratique" has to recognise its four
-// children by route instead.
+// needed here because the mobile drawer has no single "Pratique" row to point
+// at, so the tour step has to recognise its four children by route instead.
+// They are contiguous in the drawer's "S'entraîner" section, so the tour's
+// union rect lands on that group rather than on a scattered set of rows.
 const PRATIQUE_ROUTES = ["vocabulary", "grammar", "conjugation", "dictee"];
+
+// Below this width the mobile drawer is the one that renders (`xl:hidden`
+// everywhere in this file), which is what the body-scroll lock keys off.
+const XL = 1280;
 
 export function Nav({ barOffset = false }) {
   const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles, tourStep } = useApp();
@@ -68,13 +73,37 @@ export function Nav({ barOffset = false }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  // Escape closes the drawer, and the page behind it stops scrolling: a phone
+  // has no visible scrollbar, so a swipe meant for the menu used to drag the
+  // page underneath instead and the menu appeared to slide away on its own.
+  //
+  // Keyed on the width at open time rather than on `open` alone, because the
+  // guided tour force-opens the drawer at every width (see the effect above).
+  // Above xl the drawer is `xl:hidden` and nothing is covering the page, so
+  // locking the body there would freeze the tour's own scrolling for no reason.
+  useEffect(() => {
+    if (!open || window.innerWidth >= XL) return;
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
   const navLinks = navLinksForRole(NAV_LINKS, role);
-  const accountLinks = navLinksForRole(ACCOUNT_LINKS, role);
-  const mobileLinks = [
-    ...navLinks.flatMap((n) => (n.menu ? n.menu : [n])),
-    ...accountLinks,
-    { l: "Contact", r: "contact" },
-  ];
+  const mobileGroups = mobileNavForRole(role);
+  // The identity line at the top of the drawer. The desktop nav shows plan and
+  // name in a chip that is `hidden md:flex`, so on an actual phone there was
+  // nowhere at all to see which account — or which plan — you were signed in
+  // with. Free accounts get a label too, where the chip showed nothing: it is
+  // the honest place to tell someone why half the site is locked.
+  const planBadge = !user ? null
+    : role === ROLES.OWNER ? { l: "Owner", cls: "text-amber-600" }
+    : role === ROLES.ADMIN ? { l: "Admin", cls: "text-rose-600" }
+    : role === ROLES.PREMIUM_USER ? { l: currentPlanLabel(user.planLabel) || "Premium", cls: "text-blue-600" }
+    : { l: t("Compte gratuit"), cls: c.faint };
   return (
     <>
       {/* At the top of the page the bar is fully transparent so the hero shows
@@ -197,34 +226,81 @@ export function Nav({ barOffset = false }) {
                 <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
               </div>
             )}
-            <button onClick={() => setOpen(!open)} aria-label="Menu" className={`xl:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
+            <button onClick={() => setOpen(!open)} aria-label={open ? t("Fermer le menu") : "Menu"} aria-expanded={open} aria-controls="mobile-nav" className={`xl:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
           </div>
         </div>
         {open && (
-          <div className={`xl:hidden border-t ${c.navBorder} ${c.card} px-4 py-4 max-h-[75vh] overflow-y-auto rise`}>
-            {mobileLinks.map((m) => (
-              <RouteLink key={m.l} r={m.r} onNavigate={closeAll}
-                // The mobile menu has no single "Pratique" entry to point at —
-                // navLinksForRole flattens its dropdown into these four routes
-                // (see NAV_LINKS in constants/navigation.js) — so all four
-                // share the nav-pratique tag; the tour's union-rect measurement
-                // spotlights the whole group together instead of just one.
-                data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
-                className={`block w-full text-left px-3 py-3 rounded-xl text-sm font-medium ${m.grad ? "font-bold" : c.text} ${c.hoverSoft}`}>
-                {m.grad ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
-              </RouteLink>
-            ))}
-            {user && (maxProfiles > 1 || profiles.length > 1) && (
-              <button onClick={() => { setOpen(false); switchProfile(); }} className={`flex items-center gap-2 py-2.5 text-sm font-semibold ${c.sub}`}>
-                <Users size={16} /> {t("Changer de profil")}
-              </button>
-            )}
-            <div className="flex gap-2 pt-3">
-              {user ? <Btn small variant="ghost" className="flex-1" onClick={() => { signOut(); go("home"); }}>{t("Se déconnecter")}</Btn> : (<><Btn small variant="ghost" className="flex-1" onClick={() => go("login")}>{t("Connexion")}</Btn><Btn small className="flex-1" onClick={() => go("register")}>{t("S'inscrire")}</Btn></>)}
+          <div id="mobile-nav" className={`xl:hidden border-t ${c.navBorder} ${c.card} max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rise`}>
+            <div className="px-4 py-4 space-y-5">
+              {/* Who you are, or how to become someone — first thing in the
+                  drawer either way. For a visitor the two buttons are the whole
+                  point of the menu, and they used to sit under fourteen links
+                  where a phone screen could not reach them without scrolling. */}
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <RouteLink r="profile" onNavigate={closeAll} className={`flex-1 min-w-0 flex items-center gap-3 p-2 rounded-2xl border ${c.border} ${c.hoverSoft}`}>
+                    <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
+                    <span className="min-w-0 leading-tight">
+                      <span className={`block text-sm font-semibold truncate ${c.text}`}>{activeProfile?.name || user.name}</span>
+                      <span className={`block text-[11px] font-bold ${planBadge.cls}`}>{planBadge.l}</span>
+                    </span>
+                  </RouteLink>
+                  {(maxProfiles > 1 || profiles.length > 1) && (
+                    <button onClick={() => { setOpen(false); switchProfile(); }} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-3 rounded-2xl border shrink-0 ${c.border} ${c.sub} ${c.hoverSoft}`}><Users size={18} /></button>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <Btn small variant="ghost" onClick={() => go("login")}>{t("Connexion")}</Btn>
+                  <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
+                </div>
+              )}
+              {mobileGroups.map((g) => (
+                <div key={g.id}>
+                  {g.l && <p className={`px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider ${c.faint}`}>{t(g.l)}</p>}
+                  <div className="space-y-0.5">
+                    {g.items.map((m) => {
+                      const active = route === m.r;
+                      const Icon = m.icon;
+                      return (
+                        <RouteLink key={m.r} r={m.r} onNavigate={closeAll}
+                          // All four "Pratique" routes share the nav-pratique
+                          // tag (see PRATIQUE_ROUTES above); the tour's
+                          // union-rect measurement spotlights the group.
+                          data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
+                          aria-current={active ? "page" : undefined}
+                          className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${c.sub}`}`}>
+                            {Icon && <Icon size={17} />}
+                          </span>
+                          {/* An active gradient label would be unreadable
+                              against the blue tint, so the highlight wins and
+                              the gradient steps aside for that one row. */}
+                          <span className={`flex-1 text-[15px] ${m.grad ? "font-bold" : "font-medium"} ${active ? "text-blue-600" : c.text}`}>
+                            {m.grad && !active ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
+                          </span>
+                          <ChevronRight size={15} className={c.faint} />
+                        </RouteLink>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+              {user && (
+                <Btn small variant="ghost" className="w-full" onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }}>{t("Se déconnecter")}</Btn>
+              )}
             </div>
           </div>
         )}
       </header>
+      {/* Tapping the page closes the drawer — the reflex on a phone, where the
+          only way out before was reaching back up to the X. Rendered outside
+          the header so it sits *below* it (z-30 against the header's z-40) and
+          the drawer itself stays clickable on top. */}
+      {open && (
+        <button type="button" aria-label={t("Fermer le menu")} onClick={() => setOpen(false)}
+          className="xl:hidden fixed inset-0 z-30 bg-slate-950/30 cursor-default" />
+      )}
       {searchOpen && isStaff(role) && <SearchOverlay close={() => setSearchOpen(false)} />}
     </>
   );
