@@ -21,10 +21,12 @@ import {
 // restricted route is the deliberate opposite: "TCF blanc" and "Épreuves"
 // stay visible to everyone so the guard can pitch register/upgrade instead.
 //
-// `icon` and `group` are read only by the mobile drawer (see MOBILE_GROUPS and
-// mobileNavForRole below); the desktop bar ignores both.
+// `icon`, `group` and `order` are read only by the mobile drawer (see
+// MOBILE_GROUPS and mobileNavForRole below); the desktop bar ignores all three.
+// In particular "Accueil" must stay FIRST here for the desktop bar, so the
+// drawer expresses its own order through `order` rather than by moving entries.
 export const NAV_LINKS = [
-  { l: "Accueil", r: "home", icon: Home, group: "start" },
+  { l: "Accueil", r: "home", icon: Home, group: "start", order: 3 },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
@@ -65,10 +67,15 @@ export const NAV_LINKS = [
 // someone reaches for between sessions rather than while revising. A separate
 // "Mon compte" section at the bottom put them the furthest possible scroll
 // from the identity card that introduces them.
+//
+// "Mon profil" then "Administration" lead the block, ahead of Accueil and
+// Tableau de bord: for the people who actually open this menu daily — staff —
+// those are the two destinations, and they sit directly under the identity
+// card that names the account they act on.
 export const ACCOUNT_LINKS = [
-  { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED, icon: LayoutDashboard, group: "start" },
-  { l: "Mon profil", r: "profile", roles: AUTHENTICATED, icon: User, group: "start" },
-  { l: "Administration", r: "admin", roles: ADMIN_ONLY, icon: Shield, group: "start" },
+  { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED, icon: LayoutDashboard, group: "start", order: 4 },
+  { l: "Mon profil", r: "profile", roles: AUTHENTICATED, icon: User, group: "start", order: 1 },
+  { l: "Administration", r: "admin", roles: ADMIN_ONLY, icon: Shield, group: "start", order: 2 },
 ];
 
 // Reachable from the footer on every screen, so it only needs adding here.
@@ -123,7 +130,17 @@ export function mobileNavForRole(role) {
   ];
   const bucket = (item) => (GROUP_IDS.has(item.group) ? item.group : "tools");
   return MOBILE_GROUPS
-    .map((g) => ({ ...g, items: flat.filter((item) => bucket(item) === g.id) }))
+    .map((g) => ({
+      ...g,
+      // `order` sorts WITHIN a group only, never across groups, and defaults to
+      // 0 so a group whose entries don't use it keeps the order they are
+      // declared in — Array#sort is stable, so that fallback is a real
+      // guarantee and not luck. It exists because the flat list is a
+      // concatenation (NAV_LINKS, then ACCOUNT_LINKS), which fixes "Accueil"
+      // ahead of every account link; the drawer wants the opposite, and moving
+      // "Accueil" out of first place in NAV_LINKS would reorder the desktop bar.
+      items: flat.filter((item) => bucket(item) === g.id).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    }))
     .filter((g) => g.items.length > 0);
 }
 
