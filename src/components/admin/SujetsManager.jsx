@@ -40,20 +40,44 @@ export function SujetsManager() {
   const yearObj = years.find((y) => y.year === year) || years[0] || null;
   const monthObj = yearObj?.months.find((m) => m.key === mkey) || yearObj?.months[0] || null;
 
+  // Every write goes through here. `busy` is released in a `finally` and the
+  // refetch is awaited before it is: a throw (an expired session makes
+  // supabase.auth.getUser() reject) used to leave `busy` stuck true, which
+  // disables every button on the tab until the page is reloaded — with no
+  // message explaining why nothing responds any more.
   const run = async (fn, okMsg) => {
     setBusy(true);
-    const r = await fn();
-    setBusy(false);
-    if (!r?.ok) return notify(r?.error ? `Échec : ${r.error}` : "Action refusée. Migration sujets_archive appliquée et compte admin ?");
-    if (okMsg) notify(okMsg);
-    reload();
-    return r;
+    try {
+      const r = await fn();
+      if (!r?.ok) {
+        notify(r?.error ? `Échec : ${r.error}` : "Action refusée. Migration sujets_archive appliquée et compte admin ?");
+        return { ok: false, error: r?.error };
+      }
+      if (okMsg) notify(okMsg);
+      await reload();
+      return r;
+    } catch (e) {
+      notify(`Échec : ${e?.message || e}`);
+      return { ok: false, error: String(e?.message || e) };
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const addMonth = (y, mn) => run(() => saveMonth(section, y, mn, []), `${monthLabel(mn)} ${y} ajouté.`).then(() => { setYear(y); setMkey(`${y}-${String(mn).padStart(2, "0")}`); });
-  const removeMonth = (m) => run(() => deleteMonth(section, yearObj.year, m.monthNum), `${m.month} ${yearObj.year} supprimé.`);
-
   const select = (y, mn) => { setYear(y); setMkey(`${y}-${String(mn).padStart(2, "0")}`); };
+  const monthExists = (y, mn) => (years.find((x) => x.year === y)?.months || []).some((m) => m.monthNum === mn);
+
+  // Creating a month writes an EMPTY payload, so it must never touch a month
+  // that already exists — in the DB or in the shipped base. The picker defaults
+  // to the current month, which is usually one of those, so "Créer" used to
+  // blank the month on screen instead of adding a new one. Selecting it is what
+  // the admin wanted anyway.
+  const addMonth = async (y, mn) => {
+    if (monthExists(y, mn)) { select(y, mn); return notify(`${monthLabel(mn)} ${y} existe déjà — mois sélectionné.`); }
+    const r = await run(() => saveMonth(section, y, mn, []), `${monthLabel(mn)} ${y} ajouté.`);
+    if (r?.ok) select(y, mn); // only on success — otherwise we'd select a month that was never created
+  };
+  const removeMonth = (m) => run(() => deleteMonth(section, yearObj.year, m.monthNum), `${m.month} ${yearObj.year} supprimé.`);
 
   // Fetch + reword the newest month published by the source. Nothing is saved:
   // the result lands in `proposal` for review.
@@ -325,6 +349,7 @@ function AddMonth({ onAdd, busy, c, inp }) {
 const EMPTY_EE = { t1: "", t2: "", theme: "", doc1: "", doc2: "" };
 
 function EEEditor({ month, q, onAdd, onRemove, busy, c, inp }) {
+  const { notify } = useApp();
   const [form, setForm] = useState(EMPTY_EE);
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const ql = q.trim().toLowerCase();
@@ -332,7 +357,8 @@ function EEEditor({ month, q, onAdd, onRemove, busy, c, inp }) {
   const ta = `w-full px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const submit = () => {
-    if (!form.t1.trim() && !form.t2.trim()) return;
+    // Was a silent no-op: filling only the tâche 3 fields looked like a dead button.
+    if (!form.t1.trim() && !form.t2.trim()) return notify("Renseignez au moins la tâche 1 ou la tâche 2.");
     onAdd({ t1: form.t1.trim(), t2: form.t2.trim(), t3: { theme: form.theme.trim(), doc1: form.doc1.trim(), doc2: form.doc2.trim() } });
     setForm(EMPTY_EE);
   };
@@ -367,12 +393,13 @@ function EEEditor({ month, q, onAdd, onRemove, busy, c, inp }) {
 }
 
 function EOEditor({ month, q, onAdd, onRemove, busy, c, inp }) {
+  const { notify } = useApp();
   const [form, setForm] = useState({ tache: 2, partie: 1, text: "" });
   const ql = q.trim().toLowerCase();
   const ta = `w-full px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const submit = () => {
-    if (!form.text.trim()) return;
+    if (!form.text.trim()) return notify("Saisissez l'énoncé du sujet.");
     onAdd({ tache: Number(form.tache), partie: Number(form.partie), text: form.text.trim() });
     setForm({ ...form, text: "" });
   };
