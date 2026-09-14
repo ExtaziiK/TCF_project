@@ -6,7 +6,7 @@ import { Quiz } from "@/components/quiz";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { FEATURES } from "@/constants/home";
 import { getBank } from "@/services/bankService";
-import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 
 // Only these modules are backed by the real question bank (co/ce/ee/eo);
 // vocabulaire and grammaire are lesson-based, not quiz-based.
@@ -24,7 +24,7 @@ export function Practice() {
         <Quiz
           key={openQuiz.id}
           questions={openQuiz.questions}
-          duration={openQuiz.questions.length * 55}
+          duration={quizDurationSec(openQuiz.section, openQuiz.questions.length)}
           storageKey={`bank-${openQuiz.id}`}
           deferResults
           renderAbove={(q) => <BankQuestionMedia question={q} />}

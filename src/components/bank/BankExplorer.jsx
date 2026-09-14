@@ -9,7 +9,7 @@ import { CO_GUIDE_PANEL, CE_GUIDE_PANEL } from "@/pages/GuideComprehension";
 import { EE_GUIDE_PANEL } from "@/pages/GuideExpressionEcrite";
 import { EO_GUIDE_PANEL } from "@/pages/GuideExpressionOrale";
 import { getBank } from "@/services/bankService";
-import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
@@ -41,7 +41,7 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
   const answered = best?.answered ?? best?.total;
   const partial = done && !!best.total && answered < best.total;
   const canReview = !!reviewAttempt;
-  const minutes = Math.max(1, Math.round((count * 55) / 60));
+  const minutes = Math.max(1, Math.round(quizDurationSec(quiz.section, count) / 60));
 
   const badge = locked ? (
     <span className="w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
@@ -319,7 +319,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
               <Quiz
                 key={quiz.id}
                 questions={quiz.questions}
-                duration={quiz.questions.length * 55}
+                duration={quizDurationSec(quiz.section, quiz.questions.length)}
                 storageKey={`bank-${quiz.id}`}
                 deferResults
                 renderAbove={(q) => <BankQuestionMedia question={q} />}
