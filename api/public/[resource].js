@@ -1,6 +1,7 @@
 import geo from "../_lib/public/geo.js";
 import prices from "../_lib/public/prices.js";
 import promoValidate from "../_lib/public/promo-validate.js";
+import gift from "../_lib/public/gift.js";
 
 // Single serverless function for the small unauthenticated endpoints, exactly
 // as api/admin/[resource].js does for the back office.
@@ -15,11 +16,15 @@ import promoValidate from "../_lib/public/promo-validate.js";
 //
 // Each handler keeps its own method check, rate limit and cache headers — this
 // dispatcher adds no policy of its own, so moving a route in or out of it
-// changes nothing about how that route behaves.
+// changes nothing about how that route behaves. "gift" is the one exception
+// to "unauthenticated": its GET is public (code preview) but its POST
+// (redeeming one) requires a signed-in user — enforced inside the handler,
+// same as every other rule here.
 const handlers = {
   geo,
   prices,
   "promo-validate": promoValidate,
+  gift,
 };
 
 export default async function handler(req, res) {

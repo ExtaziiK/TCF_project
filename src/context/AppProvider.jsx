@@ -9,7 +9,9 @@ import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
+import { stashPendingGiftCode } from "@/services/giftLinkService";
 import { useDzActivation } from "@/hooks/useDzActivation";
+import { useGiftRedemption } from "@/hooks/useGiftRedemption";
 import { useProfiles } from "@/hooks/useProfiles";
 import { usePlanSync } from "@/hooks/usePlanSync";
 import { syncSiteContent } from "@/services/questionsService";
@@ -189,6 +191,27 @@ export function AppProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
+  // A shareable "?gift=CODE" link (Admin → Tarifs → Liens cadeaux) is stashed
+  // for redemption the moment there's an account to grant it to — a fresh
+  // visitor has none yet, so this can't be validated or redeemed here, only
+  // remembered. Read once on load and scrubbed from the URL immediately,
+  // like the Stripe "?checkout=" flag below; declared BEFORE useGiftRedemption
+  // so a visitor who is already signed in when the link opens gets it stashed
+  // in time for that hook's very first check, in the same commit.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("gift");
+    if (!code) return;
+    url.searchParams.delete("gift");
+    window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    stashPendingGiftCode(code.trim().toUpperCase());
+  }, []);
+
+  // Turns a stashed gift code into an actual grant as soon as `user` is set —
+  // right after registering, right after logging in, or immediately above if
+  // a session was already open. See the hook for the one-attempt-per-code rule.
+  useGiftRedemption({ user, setUser, notify });
+
   // A DZD pass is granted by an admin, not by a redirect the buyer comes back
   // through, so nothing tells their browser. This watches their own request and
   // remints the token once it is approved — see the hook for why the JWT is the
@@ -353,10 +376,20 @@ export function AppProvider({ children }) {
 
   // startTour()/nextTourStep()/endTour() are the only surface the rest of the
   // app touches; TourOverlay.jsx owns everything about how a step is shown.
-  // nextTourStep navigates BEFORE advancing so TourOverlay's target search
+  // Both navigate BEFORE setting the step so TourOverlay's target search
   // never starts on the wrong page — done here rather than as a side effect
   // inside a setTourStep updater, which React may invoke more than once.
-  const startTour = () => setTourStep(0);
+  //
+  // startTour() navigating to TOUR_STEPS[0]'s own route matters even though
+  // every call site already navigates somewhere itself (AuthPage.jsx's
+  // landAfterAuth sends a first login to "exams"; DevTourTrigger.jsx doesn't
+  // navigate at all) — without this, the tour's first step could open on
+  // whatever page happened to be showing, not the one it actually describes.
+  const startTour = () => {
+    const step = TOUR_STEPS[0];
+    if (step.route && step.route !== route) nav(step.route);
+    setTourStep(0);
+  };
   const endTour = () => setTourStep(null);
   const nextTourStep = () => {
     const next = (tourStep ?? -1) + 1;

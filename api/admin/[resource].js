@@ -3,6 +3,7 @@ import activity from "../_lib/admin/activity.js";
 import stats from "../_lib/admin/stats.js";
 import usage from "../_lib/admin/usage.js";
 import promo from "../_lib/admin/promo.js";
+import giftLinks from "../_lib/admin/giftLinks.js";
 import vercel from "../_lib/admin/vercel.js";
 import pricing from "../_lib/admin/pricing.js";
 import sujets from "../_lib/admin/sujets.js";
@@ -17,7 +18,7 @@ import reply from "../_lib/admin/reply.js";
 // route belongs here rather than in a new file. The real handlers live in
 // api/_lib/admin/ (underscore-prefixed paths are not deployed as functions);
 // each still does its own requireAdmin check.
-const handlers = { users, activity, stats, usage, promo, vercel, pricing, sujets, reply, "sujet-answers": sujetAnswers };
+const handlers = { users, activity, stats, usage, promo, "gift-links": giftLinks, vercel, pricing, sujets, reply, "sujet-answers": sujetAnswers };
 
 export default async function handler(req, res) {
   const route = handlers[req.query.resource];

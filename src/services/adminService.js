@@ -156,6 +156,30 @@ export function deletePromoCode(id) {
   return adminFetch("/api/admin/promo", { method: "POST", body: JSON.stringify({ action: "delete", id }) });
 }
 
+/* -------------------------------- gift links ------------------------------- */
+// Shareable links that grant a chosen plan for free, capped at N accounts —
+// see api/_lib/admin/giftLinks.js. Redemption itself is public/self-serve
+// (src/services/giftLinkService.js); this is only the admin CRUD.
+
+export function listGiftLinks() {
+  return adminFetch("/api/admin/gift-links");
+}
+
+// { planSlug, maxRedemptions, code?, note?, expiresAt? }
+export function createGiftLink(payload) {
+  return adminFetch("/api/admin/gift-links", { method: "POST", body: JSON.stringify({ action: "create", ...payload }) });
+}
+
+export function toggleGiftLink(id, active) {
+  return adminFetch("/api/admin/gift-links", { method: "POST", body: JSON.stringify({ action: "toggle", id, active }) });
+}
+
+// Stops future redemptions; accounts that already redeemed keep their plan.
+// Use toggleGiftLink(id, false) instead to merely pause a link.
+export function deleteGiftLink(id) {
+  return adminFetch("/api/admin/gift-links", { method: "POST", body: JSON.stringify({ action: "delete", id }) });
+}
+
 /* ---------------------------- contact messages ---------------------------- */
 
 // Public form submission (Contact page) — RLS allows anyone to insert.
