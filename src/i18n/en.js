@@ -347,6 +347,7 @@ export const EN = {
   "Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.":
     "Payment in Algerian dinars by CCP or BaridiMob, activated once the receipt has been checked.",
   // ── New-account welcome offer (components/pricing/WelcomeOffer.jsx) ──
+  "Comparer tous les forfaits en détail": "Compare every plan in detail",
   "Offre de bienvenue": "Welcome offer",
   "sur tous nos forfaits": "on every plan",
   "Déjà appliqué — rien à saisir. Il expire 24 h après votre inscription.":

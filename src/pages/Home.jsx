@@ -1,6 +1,6 @@
 import { Leaf, ArrowRight, ChevronRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill, Btn, SectionHead, StarRating } from "@/components/common";
+import { Card, Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
@@ -184,6 +184,23 @@ function Landing() {
               All of it works signed out — only the purchase itself needs an
               account, and the code entered here survives that signup. */}
           <PricingPlans s={pricing} compact />
+          {/* This block is a PREVIEW — four differences per card, enough to
+              compare prices and pick a direction — and until now it was also a
+              dead end: nothing in it led to the full list of what each pass
+              grants. The only route to /tarifs was the top nav, which is not
+              where someone reading a pricing card is looking, so the visitor
+              who wanted more detail had to go hunting for it or give up.
+              A real <a href> (RouteLink), so it opens in a new tab like a link
+              should and crawlers find /tarifs from the landing page. */}
+          <div className="mt-10 flex justify-center">
+            <RouteLink
+              r="pricing"
+              className={`group inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl border font-bold text-sm transition ${c.border} ${c.card} ${c.hoverSoft} ${c.text}`}
+            >
+              {t("Comparer tous les forfaits en détail")}
+              <ArrowRight size={16} className="text-blue-600 transition-transform group-hover:translate-x-0.5" />
+            </RouteLink>
+          </div>
         </div>
       </section>
 
