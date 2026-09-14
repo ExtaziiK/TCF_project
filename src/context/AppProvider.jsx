@@ -384,6 +384,28 @@ export function AppProvider({ children }) {
   const startVisitorPreview = () => { if (canPreviewAsVisitor) setVisitorPreview(true); };
   const exitVisitorPreview = () => setVisitorPreview(false);
 
+  // Signed in, "/" is not a page of its own: it used to render the dashboard
+  // under a second name ("Votre espace"), so one screen sat behind two
+  // addresses and the nav offered two doors into the same room. It now sends
+  // them to the dashboard's own URL, and Home renders nothing in the meantime.
+  //
+  // This lives HERE, and after the history-seeding effect above, for a reason
+  // worth keeping: child effects run before a parent's, so the same redirect
+  // written inside Home fired first and was then overwritten by that effect —
+  // which replaceState's the canonical path for the route captured on the
+  // FIRST render ("home"). The result was the dashboard rendering while the
+  // address bar said "/". Declared here, the seed happens first and this
+  // replaces it, which is the order that makes both true.
+  //
+  // `replace`, so Back leaves the site instead of returning to "/" and being
+  // bounced here again. Staff previewing as a visitor are the exception: that
+  // mode exists precisely to see the landing page while signed in.
+  useEffect(() => {
+    if (authReady && user && !previewing && route === "home") nav("dashboard", { replace: true });
+    // nav is redefined every render; the four values above are what decide this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authReady, user, previewing, route]);
+
   const value = {
     dark, setDark,
     lang, setLang, t,

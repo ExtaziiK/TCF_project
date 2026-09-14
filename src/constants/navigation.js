@@ -2,7 +2,7 @@
 // to declare its own role list that omitted OWNER, so an owner saw no
 // "Pratique" menu (and no account links on mobile) for pages the guard happily
 // let them open. One definition, no drift.
-import { AUTHENTICATED, ADMIN_ONLY } from "@/auth/rbac";
+import { AUTHENTICATED, ADMIN_ONLY, ROLES } from "@/auth/rbac";
 import { POSTS } from "@/constants/blog";
 import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
@@ -26,7 +26,13 @@ import {
 // In particular "Accueil" must stay FIRST here for the desktop bar, so the
 // drawer expresses its own order through `order` rather than by moving entries.
 export const NAV_LINKS = [
-  { l: "Accueil", r: "home", icon: Home, group: "start", order: 3 },
+  // Visitors only. Signed in, "/" redirects to the dashboard (Home.jsx), so an
+  // "Accueil" entry would be a second label for "Tableau de bord" — the same
+  // room behind two doors, which is what this merge removed. This is the
+  // narrow-`roles` case the note above warns about, and it is deliberate
+  // rather than an oversight: the landing page really is unreachable for them
+  // (staff excepted, and they reach it through the logo, not through here).
+  { l: "Accueil", r: "home", roles: [ROLES.VISITOR], icon: Home, group: "start", order: 3 },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).

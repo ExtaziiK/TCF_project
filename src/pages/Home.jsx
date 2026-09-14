@@ -7,7 +7,6 @@ import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
-import { MemberHome } from "@/components/dashboard/MemberHome";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
@@ -23,7 +22,10 @@ import { MOCK_SECTIONS } from "@/constants/mocks";
 export function Home() {
   const { user, authReady, visitorPreview } = useApp();
   if (!authReady) return null; // avoid a landing flash while the session loads
-  if (user && !visitorPreview) return <MemberHome />;
+  // Signed in, they belong on the dashboard and AppProvider is already sending
+  // them there — rendering the landing page for that one frame would show a
+  // "Créez un compte gratuit" pitch to someone who has an account.
+  if (user && !visitorPreview) return null;
   return <Landing />;
 }
 

@@ -238,7 +238,9 @@ export function DashboardView({ data }) {
 
 /* ------------------------- data-fetching wrapper ------------------------- */
 
-export function MemberHome({ eyebrow = "Votre espace" }) {
+// One caller since the logged-in "/" was merged into the dashboard route, so
+// the eyebrow is no longer a prop: the page has one name, and this is it.
+export function MemberHome() {
   const { user, t } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [results, setResults] = useState(null);
@@ -259,7 +261,7 @@ export function MemberHome({ eyebrow = "Votre espace" }) {
   );
 
   return (
-    <PageShell wide eyebrow={t(eyebrow)} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
+    <PageShell wide eyebrow={t("Tableau de bord")} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
       <DzRequestStatus />
       {loading ? <Skeleton /> : <DashboardView data={data} />}
     </PageShell>
