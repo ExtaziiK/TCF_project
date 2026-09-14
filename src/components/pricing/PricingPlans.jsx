@@ -2,6 +2,7 @@ import { Gift, CheckCircle2, XCircle, Info } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
+import { WelcomeOffer } from "@/components/pricing/WelcomeOffer";
 import { promoLabel } from "@/services/stripeService";
 import { CURRENCIES } from "@/utils/currency";
 
@@ -24,6 +25,16 @@ export function PricingPlans({ s, compact = false }) {
 
   return (
     <>
+      {/* The new-account offer, above everything else: it changes every figure
+          below it, so a visitor who meets the prices first and the reason they
+          are lower second has already done the comparison twice. Shown against
+          `dzUsablePromo` rather than the raw applied code, because that is the
+          promo the cards are actually previewing — a fixed-amount coupon on the
+          dinar tab buys nothing, and the promo card below says why. */}
+      {s.welcome && s.dzUsablePromo && (
+        <WelcomeOffer welcome={s.welcome} promo={s.dzUsablePromo} onExpire={s.expireWelcome} />
+      )}
+
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
       <div className={`flex justify-center ${s.currency.code === "EUR" ? "mb-8" : ""}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>

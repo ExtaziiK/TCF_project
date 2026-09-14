@@ -7,6 +7,7 @@ import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, reme
 import { detectCountry, guessCountry } from "@/utils/geo";
 import { getPaymentDz } from "@/services/settingsService";
 import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
+import { WELCOME_PROMO_CODE, welcomeOfferEndsAt } from "@/utils/welcomeOffer";
 
 // Everything the pricing UI needs to decide what to show: the live plans, the
 // display currency, and a validated promo. Owned by a hook rather than by a
@@ -17,12 +18,14 @@ import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 //
 // The caller renders; this only decides.
 export function usePricingSelection() {
-  const { user, role } = useApp();
+  const { user, role, authReady } = useApp();
   const [coupon, setCoupon] = useState("");
   const [applied, setApplied] = useState(null); // validated promo ({ code, percentOff | amountOff… })
   const [checking, setChecking] = useState(false);
   const [couponError, setCouponError] = useState("");
   const [dzPrices, setDzPrices] = useState({}); // owner's per-plan DZD overrides
+  const [welcome, setWelcome] = useState(null); // the new-account offer, once Stripe has confirmed the code ({ code, endsAt })
+  const chosenByVisitor = useRef(false); // they typed in the promo field, so stop offering them ours
   const plans = useLivePlans();
 
   // Which currency tab is open. USD is what Stripe charges, so it stays the
@@ -106,6 +109,52 @@ export function usePricingSelection() {
     return () => { cancelled = true; };
   }, []);
 
+  // The welcome offer: a new account does not have to find, type or even know
+  // the code — it is filled in and applied for them, on every plan, and the
+  // banner above the cards counts the 24 hours down (see WelcomeOffer).
+  //
+  // Three things gate it, in this order:
+  //   1. `authReady` — until the session has resolved, `user` is null and an
+  //      account created last year is indistinguishable from a brand-new
+  //      visitor. Waiting costs a beat; not waiting flashes a new-customer
+  //      offer at an existing one, which is the version they remember.
+  //   2. a code they brought themselves always wins, whether it is saved from
+  //      before a signup (getPendingPromo) or typed just now (editCoupon).
+  //   3. Stripe. The code is validated like any other before it is shown, so
+  //      the banner cannot advertise a discount checkout would refuse, and
+  //      deleting TCF30 in Admin → Codes promo ends the campaign by itself.
+  //
+  // Deliberately NOT written to setPendingPromo: it is re-derived on every
+  // mount from the account's creation date, so there is no stored copy to
+  // outlive the 24 hours it promises.
+  useEffect(() => {
+    if (!authReady || chosenByVisitor.current || getPendingPromo()) return;
+    const endsAt = welcomeOfferEndsAt(user);
+    if (!endsAt) return;
+    let cancelled = false;
+    validatePromoCode(WELCOME_PROMO_CODE).then((r) => {
+      if (cancelled || !r.valid || chosenByVisitor.current) return;
+      setWelcome({ code: r.code, endsAt });
+      setApplied((cur) => cur || r); // never stomp a code applied in the meantime
+      setCoupon((cur) => cur || r.code);
+    });
+    return () => { cancelled = true; };
+    // The identity of `user` changes on every session refresh; only these two
+    // fields decide the offer, and re-running on the object would re-validate
+    // the code (and re-fill a field they may have just cleared) for nothing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authReady, user?.id, user?.createdAt]);
+
+  // Midnight of the offer, reached with the page still open. The clock running
+  // out has to take the discount with it: leaving the code applied while the
+  // banner says it expired would charge a price the page no longer claims.
+  const expireWelcome = useCallback(() => {
+    const isOurs = (code) => String(code || "").toUpperCase() === WELCOME_PROMO_CODE;
+    setWelcome(null);
+    setApplied((cur) => (isOurs(cur?.code) ? null : cur));
+    setCoupon((cur) => (isOurs(cur) ? "" : cur));
+  }, []);
+
   // Prices are stored/charged in USD; this rewrites the displayed figure into
   // the visitor's currency. For DZD, the owner's explicit price wins (falling
   // back to the auto-converted amount); other currencies are indicative
@@ -145,11 +194,15 @@ export function usePricingSelection() {
   };
 
   const editCoupon = (value) => {
+    // Touching the field is them taking the wheel: from here on this page, our
+    // welcome code neither re-applies nor keeps its banner up.
+    chosenByVisitor.current = true;
+    setWelcome(null);
     setCoupon(value.toUpperCase());
     setApplied(null);
     setCouponError("");
     setPendingPromo(null);
   };
 
-  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon, editCoupon, applyCoupon, applied, dzUsablePromo, checking, couponError };
+  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon, editCoupon, applyCoupon, applied, dzUsablePromo, checking, couponError, welcome, expireWelcome };
 }
