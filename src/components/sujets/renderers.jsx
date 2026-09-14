@@ -60,7 +60,7 @@ function AnswerCta({ year, monthNum, n }) {
       className={`mt-5 flex items-center gap-2.5 rounded-2xl border border-blue-600/30 bg-blue-600/[0.06] px-4 py-3 text-sm font-semibold text-blue-700 dark:text-blue-400 transition-all md:opacity-80 md:group-hover:opacity-100 md:group-hover:border-blue-600/60 hover:bg-blue-600/10 ${c.hoverSoft}`}
     >
       <Sparkles size={15} className="shrink-0" />
-      <span className="flex-1">{t("Voir un modèle de réponse pour ce sujet")}</span>
+      <span className="flex-1">{t("Voir un modèle de réponse pour cette combinaison")}</span>
       <ArrowRight size={15} className="shrink-0 transition-transform md:group-hover:translate-x-0.5" />
     </RouteLink>
   );

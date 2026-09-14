@@ -97,6 +97,61 @@ function usableKeywords(list, body) {
   return out;
 }
 
+// Which tâches this combinaison actually poses. A subject missing one is
+// normal; a subject that HAS one and gets no answer is a failure we must not
+// paper over — see the `written`/`expected` contract in the handler.
+const inRange = (tache, words) => words >= RANGE[tache][0] && words <= RANGE[tache][1];
+
+// How far outside its range a text sits (0 when inside). Used to decide whether
+// a rewrite is an improvement worth keeping.
+const distance = (tache, words) => {
+  const [lo, hi] = RANGE[tache];
+  return words < lo ? lo - words : words > hi ? words - hi : 0;
+};
+
+// Pulls the three tâches out of one model reply, already cleaned and counted.
+function collect(json) {
+  const out = {};
+  for (const tache of [1, 2, 3]) {
+    const body = clean(json?.[`t${tache}`]?.body);
+    if (!body) continue;
+    out[tache] = { body, words: countWords(body), keywords: json?.[`t${tache}`]?.keywords };
+  }
+  return out;
+}
+
+// Asks for a rewrite of just the tâches that came back wrong, quoting the real
+// count back at the model. Stating the measured number is what makes this work:
+// the model cannot count its own output, but it can hit a target when told how
+// far off it was.
+function repairPrompt(broken, drafts) {
+  const lines = broken.map((k) => {
+    const [lo, hi] = RANGE[k];
+    const aim = TASKS[k].target;
+    if (!drafts[k]) return `- Tâche ${k} : tu ne l'as pas rédigée. Rédige-la entièrement, en ${aim} mots environ (${lo} à ${hi}).`;
+    const w = drafts[k].words;
+    const way = w > hi ? `trop longue (${w} mots)` : `trop courte (${w} mots)`;
+    return `- Tâche ${k} : ta réponse est ${way}. Réécris-la en ${aim} mots environ (${lo} à ${hi} impérativement), en gardant le même contenu et le même niveau.`;
+  });
+  return `Ta réponse précédente ne respecte pas les consignes de longueur. Corrige UNIQUEMENT les tâches listées ci-dessous :
+${lines.join("\n")}
+
+Renvoie le même JSON, en n'incluant QUE ces tâches (avec leurs keywords). Compte les mots avant de répondre.`;
+}
+
+function expectedTaches({ t1, t2, t3 }) {
+  const out = [];
+  if (t1) out.push(1);
+  if (t2) out.push(2);
+  if (t3?.theme || t3?.doc1 || t3?.doc2) out.push(3);
+  return out;
+}
+
+// How far into the request we still consider a repair pass affordable.
+// api/admin is capped at 60s (vercel.json); a repair that starts after this
+// risks timing out and losing the answers we already have.
+const REPAIR_DEADLINE_MS = 32_000;
+
 function buildPrompt({ t1, t2, t3 }) {
   const docs = [t3?.doc1, t3?.doc2].filter(Boolean);
   const spec = (n, consigne) =>
@@ -138,35 +193,77 @@ export default async function handler(req, res) {
 
     logAiUsage({ userId: user.id, endpoint: "admin/sujet-answers", kind: "chat", model, usage, durationMs });
 
-    const rows = [];
-    const warnings = [];
-    for (const tache of [1, 2, 3]) {
-      const body = clean(json?.[`t${tache}`]?.body);
-      if (!body) continue;
-      const words = countWords(body);
-      const [lo, hi] = RANGE[tache];
-      // Recorded, not rejected: a corrigé eight words over is still worth
-      // having, and the admin sees which ones are worth re-generating.
-      if (words < lo || words > hi) warnings.push(`Tâche ${tache} : ${words} mots (attendu ${lo}–${hi}).`);
-      rows.push({
+    const expected = expectedTaches({ t1, t2, t3 });
+    const drafts = collect(json);
+
+    // The models overshoot the word ranges often enough to matter — measured at
+    // ~35% of tâches on the first pass — and a corrigé outside the range teaches
+    // exactly the mistake the guide warns about. So anything out of range, or
+    // missing altogether, gets ONE targeted rewrite with its real word count fed
+    // back. Only the offending tâches are re-requested, which keeps the second
+    // call short enough to fit the remaining budget.
+    const needsWork = () => [
+      ...expected.filter((k) => !drafts[k]),
+      ...expected.filter((k) => drafts[k] && !inRange(k, drafts[k].words)),
+    ];
+    let broken = needsWork();
+    if (broken.length && Date.now() - started < REPAIR_DEADLINE_MS) {
+      try {
+        const repair = await groqChatJSON(
+          [
+            { role: "system", content: SYSTEM },
+            { role: "user", content: buildPrompt({ t1, t2, t3 }) },
+            { role: "user", content: repairPrompt(broken, drafts) },
+          ],
+          { maxTokens: 3000, temperature: 0.5 },
+        );
+        const fixed = collect(repair.json);
+        for (const k of broken) {
+          // Keep the rewrite only when it is actually better: in range, or at
+          // least closer to it. A worse retry is discarded, never published.
+          if (!fixed[k]) continue;
+          if (!drafts[k] || inRange(k, fixed[k].words) || distance(k, fixed[k].words) < distance(k, drafts[k].words)) {
+            drafts[k] = fixed[k];
+          }
+        }
+        logAiUsage({ userId: user.id, endpoint: "admin/sujet-answers", kind: "chat", model: repair.model, usage: repair.usage, durationMs: Date.now() - started });
+      } catch {
+        // A failed repair must not cost us the first pass: keep what we have.
+      }
+      broken = needsWork();
+    }
+
+    const rows = expected
+      .filter((k) => drafts[k])
+      .map((k) => ({
         section,
         year,
         month_num: monthNum,
         n,
-        tache,
-        body,
-        keywords: usableKeywords(json?.[`t${tache}`]?.keywords, body),
+        tache: k,
+        body: drafts[k].body,
+        keywords: usableKeywords(drafts[k].keywords, drafts[k].body),
         model,
         generated_at: new Date().toISOString(),
         updated_by: user.id,
-      });
-    }
+      }));
     if (!rows.length) throw new HttpError(502, "L'IA n'a renvoyé aucun texte exploitable.");
 
     const { error } = await admin.from("sujets_answers").upsert(rows, { onConflict: "section,year,month_num,n,tache" });
     if (error) throw new HttpError(500, `Enregistrement impossible : ${error.message}`);
 
-    res.status(200).json({ n, taches: rows.map((r) => r.tache), warnings });
+    const written = rows.map((r) => r.tache);
+    // `expected` vs `written` is the caller's completeness check: it must not
+    // advertise a corrigé on the public page unless every tâche of the subject
+    // actually got one. A combinaison whose tâche 3 silently vanished used to
+    // be flagged as done anyway.
+    res.status(200).json({
+      n,
+      expected,
+      written,
+      warnings: broken.filter((k) => drafts[k]).map((k) => `Tâche ${k} : ${drafts[k].words} mots (attendu ${RANGE[k][0]}–${RANGE[k][1]}).`),
+      missing: expected.filter((k) => !written.includes(k)),
+    });
   } catch (err) {
     res.status(err.status || 500).json({ error: err.message || "La génération du modèle de réponse a échoué." });
   }

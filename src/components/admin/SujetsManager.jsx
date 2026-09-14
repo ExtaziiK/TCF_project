@@ -171,8 +171,17 @@ export function SujetsManager() {
     try {
       for (const { s, n } of todo) {
         const r = await generateSujetAnswers({ section: "ee", year: y, monthNum, n, t1: s.t1, t2: s.t2, t3: s.t3 });
-        if (r?.ok === false || r?.error) failed.push(`${n} : ${r.error || "échec"}`);
-        else { done.push(n); if (r?.warnings?.length) warnings.push(...r.warnings.map((w) => `Combinaison ${n} — ${w}`)); }
+        if (r?.ok === false || r?.error) {
+          failed.push(`${n} : ${r.error || "échec"}`);
+        } else if (r?.missing?.length) {
+          // Some tâches of this subject produced nothing. Do NOT mark it as
+          // answered: the public link would promise a full corrigé and the page
+          // would show a hole. It stays in the "à compléter" set for a re-run.
+          failed.push(`${n} : tâche(s) ${r.missing.join(", ")} manquante(s)`);
+        } else {
+          done.push(n);
+          if (r?.warnings?.length) warnings.push(...r.warnings.map((w) => `Combinaison ${n} — ${w}`));
+        }
         setAnswering((p) => ({ ...p, done: p.done + 1 }));
       }
     } finally {
@@ -186,8 +195,10 @@ export function SujetsManager() {
     }
     notify(
       failed.length
-        ? `${done.length} modèle(s) écrit(s), ${failed.length} en échec (${failed[0]}).`
-        : `${done.length} modèle(s) de réponse publié(s) pour ${monthObj.month} ${y}.`,
+        ? `${done.length} modèle(s) écrit(s), ${failed.length} incomplet(s) — ${failed[0]}. Relancez « Compléter ».`
+        : warnings.length
+          ? `${done.length} modèle(s) publié(s) pour ${monthObj.month} ${y} — ${warnings.length} hors fourchette de mots.`
+          : `${done.length} modèle(s) de réponse publié(s) pour ${monthObj.month} ${y}.`,
     );
     if (warnings.length) console.warn("Modèles hors fourchette de mots :", warnings);
   };
