@@ -11,38 +11,50 @@
 export const WELCOME_PROMO_CODE = "TCF30";
 export const WELCOME_WINDOW_MS = 24 * 60 * 60 * 1000;
 
-// Stamped the first time a signed-out visitor reaches a page that offers
-// plans. localStorage, not session: closing the tab and coming back an hour
-// later must not restart the 24 hours.
+// The start of the window for a visitor who has no account yet.
+//
+// Re-stamped once the stored one has lapsed, so someone who comes back a week
+// later is offered the 24 hours again rather than meeting a dead banner. What
+// does NOT restart is a window they are already inside: moving from the
+// landing page to Tarifs, or reloading, keeps counting the same deadline down
+// instead of snapping back to 24:00:00 — a clock that resets under the visitor
+// is the one thing that makes a countdown read as theatre.
+//
+// Once they register this stops being consulted at all. The account's own
+// creation date takes over (welcomeOfferEndsAt), and that window is one-shot:
+// nothing the browser does can restart it.
 const FIRST_SEEN_KEY = "passerelle.firstSeen";
 
-function firstSeenAt() {
+function visitorWindowStart() {
+  const now = Date.now();
   try {
     const saved = Number(localStorage.getItem(FIRST_SEEN_KEY));
-    if (Number.isFinite(saved) && saved > 0) return saved;
-    const now = Date.now();
+    if (Number.isFinite(saved) && saved > 0 && now - saved < WELCOME_WINDOW_MS) return saved;
     localStorage.setItem(FIRST_SEEN_KEY, String(now));
     return now;
   } catch {
-    // Private mode: every visit looks like the first one, so the offer keeps
-    // showing. That is the harmless direction to be wrong in — Stripe's own
-    // redemption limits on the code are what actually cap it, and they follow
-    // the customer, not the browser.
-    return Date.now();
+    // Private mode: every visit looks like a first one. That is the harmless
+    // direction to be wrong in — Stripe's own redemption limits on the code
+    // are what actually cap it, and they follow the customer, not the browser.
+    return now;
   }
 }
 
 // When the welcome window closes for this visitor, or null if it already has.
 //
-// A signed-in account is anchored to its creation date: that is server truth,
-// it survives a cleared browser, and it cannot be reset by wiping
-// localStorage. Only a visitor with no account yet falls back to the local
-// first-visit stamp — and once they register, the account's own clock takes
-// over, which is what makes this an offer for new USERS rather than for new
-// browsers.
+// Two clocks, and which one is running is the whole design:
+//
+//   - signed out — 24 hours from this visit, restarted if a previous one has
+//     already lapsed. Nobody is being charged yet, so this is an invitation,
+//     not a commitment.
+//   - signed in — 24 hours from the account's creation, full stop. That is
+//     server truth: it survives a cleared browser, a private window and a
+//     second device, and it cannot be restarted. So the deadline that decides
+//     what someone actually pays is the one that cannot be gamed, by them or
+//     by us.
 export function welcomeOfferEndsAt(user) {
   const created = Date.parse(user?.createdAt || "");
-  const start = Number.isFinite(created) ? created : firstSeenAt();
+  const start = Number.isFinite(created) ? created : visitorWindowStart();
   const endsAt = start + WELCOME_WINDOW_MS;
   return endsAt > Date.now() ? endsAt : null;
 }
