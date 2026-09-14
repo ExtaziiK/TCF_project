@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet, Reply, Send, CornerDownRight,
+  Wallet, Reply, Send, CornerDownRight, Gift, Copy,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -28,6 +28,7 @@ import {
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
   listMessageReplies, sendMessageReply, fetchReplyMailStatus,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
+  listGiftLinks, createGiftLink, toggleGiftLink, deleteGiftLink,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
 import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials } from "@/services/settingsService";
@@ -526,12 +527,13 @@ function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
 // manual-payment settings.
 function TarifsSection() {
   const [sub, setSub] = useState("prices");
-  const subs = [{ id: "prices", label: "Prix" }, { id: "promos", label: "Promos" }, { id: "dzd", label: "DZD" }];
+  const subs = [{ id: "prices", label: "Prix" }, { id: "promos", label: "Promos" }, { id: "gift", label: "Liens cadeaux" }, { id: "dzd", label: "DZD" }];
   return (
     <div className="space-y-5">
       <SubTabs tabs={subs} active={sub} onSelect={setSub} />
       {sub === "prices" && <PricesTab />}
       {sub === "promos" && <PromosTab />}
+      {sub === "gift" && <GiftLinksTab />}
       {sub === "dzd" && <PaymentSettingsTab />}
     </div>
   );
@@ -1288,6 +1290,187 @@ function PromosTab() {
                   </td>
                 </tr>
               ))}
+            </tbody>
+          </table>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+const EMPTY_GIFT_FORM = { planSlug: PAID_PLANS[0]?.slug || "", maxRedemptions: "", code: "", note: "", expiresAt: "" };
+
+// Builds the shareable URL for a gift code — the landing page reads it back
+// via the `?gift=` param (see AppProvider's capture effect) and stashes it
+// for redemption the moment the visitor has an account.
+const giftUrl = (code) => `${window.location.origin}/?gift=${code}`;
+
+function GiftLinksTab() {
+  const { c, notify } = useApp();
+  const [links, setLinks] = useState(null);
+  const [state, setState] = useState("loading");
+  const [form, setForm] = useState(EMPTY_GIFT_FORM);
+  const [formError, setFormError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [confirmingId, setConfirmingId] = useState(null);
+  const set = (k) => (e) => { setForm({ ...form, [k]: e.target.value }); setFormError(""); };
+  const inp = `px-3.5 py-2.5 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  const load = () => {
+    listGiftLinks().then((r) => {
+      if (r.ok) { setLinks(r.data.links); setState("ready"); }
+      else setState(r.unavailable ? "unavailable" : "error");
+    });
+  };
+  useEffect(load, []);
+
+  const create = async () => {
+    if (!form.planSlug) return setFormError("Choisissez le forfait offert.");
+    if (!(Number(form.maxRedemptions) > 0)) return setFormError("Indiquez pour combien de comptes ce lien est valable.");
+    setBusy(true);
+    const r = await createGiftLink({
+      planSlug: form.planSlug,
+      maxRedemptions: Number(form.maxRedemptions),
+      code: form.code.trim().toUpperCase() || undefined,
+      note: form.note.trim() || null,
+      expiresAt: form.expiresAt ? `${form.expiresAt}T23:59:59` : null,
+    });
+    setBusy(false);
+    if (!r.ok) return setFormError(r.error || "Création refusée.");
+    notify(`Lien ${r.data.link.code} créé.`);
+    setForm(EMPTY_GIFT_FORM);
+    load();
+  };
+
+  const copy = async (link) => {
+    try {
+      await navigator.clipboard.writeText(giftUrl(link.code));
+      notify("Lien copié dans le presse-papiers.");
+    } catch {
+      notify(giftUrl(link.code));
+    }
+  };
+
+  const toggle = async (link) => {
+    setBusy(true);
+    const r = await toggleGiftLink(link.id, !link.active);
+    setBusy(false);
+    if (!r.ok) return notify(r.error || "Action refusée.");
+    notify(link.active ? `Lien ${link.code} désactivé.` : `Lien ${link.code} réactivé.`);
+    load();
+  };
+
+  const remove = async (link) => {
+    setBusy(true);
+    const r = await deleteGiftLink(link.id);
+    setBusy(false);
+    setConfirmingId(null);
+    if (!r.ok) return notify(r.error || "Suppression refusée.");
+    notify(`Lien ${link.code} supprimé.`);
+    load();
+  };
+
+  if (state === "unavailable") {
+    return <UnavailableCard>La gestion des liens cadeaux passe par les fonctions serverless (<span className="font-mono2">/api/admin</span>), absentes en dev local <span className="font-mono2">vite</span>.</UnavailableCard>;
+  }
+  if (state === "error") return <UnavailableCard>Impossible de charger les liens cadeaux. Vérifiez que la migration 20260914_gift_links.sql a été appliquée.</UnavailableCard>;
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-6">
+        <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Créer un lien cadeau</h3>
+        <p className={`text-sm mb-5 ${c.sub}`}>
+          Partagez le lien sur les réseaux sociaux : quiconque l'ouvre et crée un compte (ou en a déjà un) reçoit le
+          forfait choisi gratuitement, aucun paiement requis — jusqu'à ce que le nombre de comptes fixé soit atteint.
+          Un compte ne peut utiliser qu'un seul lien cadeau, une seule fois.
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-plan">Forfait offert</label>
+            <select id="gift-plan" value={form.planSlug} onChange={set("planSlug")} className={`w-full ${inp}`}>
+              {PAID_PLANS.map((p) => <option key={p.slug} value={p.slug}>{p.name} — {p.days} jours</option>)}
+            </select>
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-max">Valable pour</label>
+            <input id="gift-max" type="number" min="1" value={form.maxRedemptions} onChange={set("maxRedemptions")} placeholder="Nombre de comptes" className={`w-full ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-code">Code <span className="normal-case font-medium">(optionnel, sinon généré)</span></label>
+            <input id="gift-code" value={form.code} onChange={set("code")} placeholder="INSTAGRAM2026" className={`w-full font-mono2 ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-note">Note <span className="normal-case font-medium">(usage interne, optionnel)</span></label>
+            <input id="gift-note" value={form.note} onChange={set("note")} placeholder="Campagne Instagram sept." className={`w-full ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-exp">Expire le <span className="normal-case font-medium">(optionnel)</span></label>
+            <input id="gift-exp" type="date" value={form.expiresAt} onChange={set("expiresAt")} className={`w-full ${inp}`} />
+          </div>
+          <div className="flex items-end">
+            <Btn icon={Plus} disabled={busy} onClick={create} className="w-full">{busy ? "Création…" : "Créer le lien"}</Btn>
+          </div>
+        </div>
+        {formError && <p className="mt-3 text-sm text-rose-600 flex items-center gap-1.5"><XCircle size={15} /> {formError}</p>}
+      </Card>
+
+      <Card className="p-6 overflow-x-auto">
+        <h3 className={`font-display font-bold mb-4 ${c.text}`}>Liens existants</h3>
+        {state === "loading" || links === null ? (
+          <SkeletonRows n={4} className="h-10" />
+        ) : links.length === 0 ? (
+          <EmptyState icon={Gift} title="Aucun lien cadeau pour l'instant" sub="Créez-en un ci-dessus — il sera utilisable immédiatement." />
+        ) : (
+          <table className="w-full text-sm min-w-[820px]">
+            <thead>
+              <tr className={`text-left text-xs uppercase tracking-wider ${c.faint}`}>
+                <th className="pb-3 pr-4 font-semibold">Code</th>
+                <th className="pb-3 pr-4 font-semibold">Offre</th>
+                <th className="pb-3 pr-4 font-semibold">Comptes</th>
+                <th className="pb-3 pr-4 font-semibold">Note</th>
+                <th className="pb-3 pr-4 font-semibold">Expire</th>
+                <th className="pb-3 pr-4 font-semibold">Statut</th>
+                <th className="pb-3 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {links.map((g) => {
+                const exhausted = g.timesRedeemed >= g.maxRedemptions;
+                return (
+                  <tr key={g.id} className={`border-t ${c.border}`}>
+                    <td className={`py-3 pr-4 font-mono2 font-semibold ${c.text}`}>{g.code}</td>
+                    <td className="py-3 pr-4"><Pill tone="blue">{g.planLabel}</Pill></td>
+                    <td className={`py-3 pr-4 text-xs font-mono2 ${exhausted ? "text-amber-600" : c.sub}`}>{g.timesRedeemed} / {g.maxRedemptions}</td>
+                    <td className={`py-3 pr-4 text-xs truncate max-w-[160px] ${c.sub}`} title={g.note || ""}>{g.note || "—"}</td>
+                    <td className={`py-3 pr-4 text-xs ${c.sub}`}>{g.expiresAt ? dateOnly(g.expiresAt) : "—"}</td>
+                    <td className="py-3 pr-4">
+                      <Pill tone={!g.active ? "slate" : exhausted ? "amber" : "green"}>
+                        {!g.active ? "Inactif" : exhausted ? "Épuisé" : "Actif"}
+                      </Pill>
+                    </td>
+                    <td className="py-3">
+                      {confirmingId === g.id ? (
+                        <span className="flex items-center gap-2">
+                          <span className="text-xs font-semibold text-rose-600">Supprimer définitivement ce lien ?</span>
+                          <Btn small variant="ghost" className="text-rose-600" disabled={busy} icon={Trash2} onClick={() => remove(g)}>Confirmer</Btn>
+                          <Btn small variant="ghost" disabled={busy} onClick={() => setConfirmingId(null)}>Annuler</Btn>
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <Btn small variant="ghost" icon={Copy} onClick={() => copy(g)}>Copier</Btn>
+                          <Btn small variant="ghost" disabled={busy} className={g.active ? "text-rose-600" : ""} onClick={() => toggle(g)}>
+                            {g.active ? "Désactiver" : "Réactiver"}
+                          </Btn>
+                          <Btn small variant="ghost" className="text-rose-600" disabled={busy} icon={Trash2} onClick={() => setConfirmingId(g.id)}
+                            title="Suppression définitive — pour une pause réversible, utilisez Désactiver">
+                            Supprimer
+                          </Btn>
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
