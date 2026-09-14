@@ -8,7 +8,7 @@ import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { ExamSetup } from "@/components/exam/ExamSetup";
 import { WritingWorkshopBody } from "@/pages/Writing";
 import { SpeakingStudioBody } from "@/pages/Speaking";
-import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
@@ -259,7 +259,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   const savedPicks = attempt.progress.picks?.[order] || {};
   const savedIndex = attempt.progress.indexAt?.[order] || 0;
   const savedLeft = attempt.progress.timeLeft?.[order];
-  const duration = savedLeft ?? quiz.questions.length * 55;
+  const duration = savedLeft ?? quizDurationSec(task.section, quiz.questions.length);
   const candidatePanel = {
     pays: user?.country, // from the account (chosen at registration); row() hides it if unset
     type: t(SECTION_LABELS[task.section]),

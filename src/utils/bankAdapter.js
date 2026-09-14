@@ -7,6 +7,16 @@ export const SECTION_LABELS = {
   eo: "Expression orale",
 };
 
+// Per-question pacing for the timed quiz clock (practice, bank explorer and
+// TCF blanc). Tuned so a full bank quiz lands on the épreuve's official TCF
+// Canada duration: CO's 55 s/question gives ~35-38 min for the ~39-41
+// question CO banks (moot in the real exam anyway, since autoAdvance lets
+// the audio itself pace that épreuve — see Mocks.jsx); CE is a fixed 60 min
+// regardless of question count, matching the real Compréhension écrite
+// timing rather than scaling off CO's per-question rate.
+const SECTION_DURATION_SEC = { co: (count) => count * 55, ce: () => 60 * 60 };
+export const quizDurationSec = (section, count) => (SECTION_DURATION_SEC[section] || SECTION_DURATION_SEC.co)(count);
+
 // File-name prefix used by the media naming convention:
 // Comprehension_Orale_quiz_1_question_24.mp3
 const SECTION_PREFIX = {
