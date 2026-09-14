@@ -24,6 +24,7 @@ import { GuideComprehensionOrale, GuideComprehensionEcrite } from "@/pages/Guide
 import { SujetsExpressionEcrite } from "@/pages/SujetsExpressionEcrite";
 import { SujetsExpressionOrale } from "@/pages/SujetsExpressionOrale";
 import { SujetsActualite } from "@/pages/SujetsActualite";
+import { SujetModeleReponse } from "@/pages/SujetModeleReponse";
 import { Contact } from "@/pages/Contact";
 import { FAQ } from "@/pages/FAQ";
 import { Blog } from "@/pages/Blog";
@@ -76,6 +77,7 @@ export const PAGES = {
   "sujets-ee": SujetsExpressionEcrite,
   "sujets-eo": SujetsExpressionOrale,
   "sujets-actualite": SujetsActualite,
+  "sujet-reponse": SujetModeleReponse,
   contact: Contact,
   faq: FAQ,
   blog: Blog,

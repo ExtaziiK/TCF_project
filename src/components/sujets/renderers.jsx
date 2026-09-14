@@ -1,6 +1,7 @@
-import { FileText, MessagesSquare } from "lucide-react";
+import { FileText, MessagesSquare, Sparkles, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill } from "@/components/common";
+import { Card, Pill, RouteLink } from "@/components/common";
+import { hasAnswer } from "@/services/sujetsAnswersService";
 
 // Shared leaf renderers for the subject pages (Anciens sujets + Sujets
 // d'actualité). EE = 3-task combinaisons; EO = tâches → parties → sujets.
@@ -42,20 +43,50 @@ function TaskThree({ data }) {
   );
 }
 
-// One combinaison card (three tasks a candidate may receive together).
-export function EECombinaison({ s, i }) {
+// Offer to open the model answer for this combinaison. Shown to EVERYONE, not
+// just subscribers: it is what tells a visitor the corrigés exist. The page
+// behind it is Premium (PAGE_ACCESS in src/auth/rbac.js), so a free account
+// lands on the upgrade pitch rather than on the text.
+//
+// Not hover-only. `opacity` lifts on hover for the pointer case, but the link
+// stays in the layout and fully reachable at all times — a hover-gated control
+// is invisible on touch, and most of this site's traffic is on a phone.
+function AnswerCta({ year, monthNum, n }) {
   const { c, t } = useApp();
+  const route = `sujet-reponse/${year}-${String(monthNum).padStart(2, "0")}/${n}`;
   return (
-    <Card className="p-6 md:p-7">
+    <RouteLink
+      r={route}
+      className={`mt-5 flex items-center gap-2.5 rounded-2xl border border-blue-600/30 bg-blue-600/[0.06] px-4 py-3 text-sm font-semibold text-blue-700 dark:text-blue-400 transition-all md:opacity-80 md:group-hover:opacity-100 md:group-hover:border-blue-600/60 hover:bg-blue-600/10 ${c.hoverSoft}`}
+    >
+      <Sparkles size={15} className="shrink-0" />
+      <span className="flex-1">{t("Voir un modèle de réponse pour ce sujet")}</span>
+      <ArrowRight size={15} className="shrink-0 transition-transform md:group-hover:translate-x-0.5" />
+    </RouteLink>
+  );
+}
+
+// One combinaison card (three tasks a candidate may receive together).
+//
+// `year`/`month` are optional: the Sujets d'actualité page renders the same
+// card without them, and a card that does not know where it sits simply shows
+// no link to its corrigé.
+export function EECombinaison({ s, i, year, month }) {
+  const { c, t } = useApp();
+  const n = s.n ?? i + 1;
+  const offerAnswer = hasAnswer(s) && year != null && month?.monthNum != null;
+  return (
+    <Card className={`p-6 md:p-7 ${offerAnswer ? "group" : ""}`}>
       <div className="flex items-center gap-3 mb-5">
-        <span className="w-10 h-10 rounded-2xl grad-brand text-white flex items-center justify-center font-display font-extrabold shrink-0">{s.n ?? i + 1}</span>
-        <h2 className={`font-display font-bold text-lg ${c.text}`}>{t("Combinaison")} {s.n ?? i + 1}</h2>
+        <span className="w-10 h-10 rounded-2xl grad-brand text-white flex items-center justify-center font-display font-extrabold shrink-0">{n}</span>
+        <h2 className={`font-display font-bold text-lg ${c.text}`}>{t("Combinaison")} {n}</h2>
       </div>
       <div className="space-y-5">
         {s.t1 && <Task n={1} words="60–120 mots">{s.t1}</Task>}
         {s.t2 && <><div className={`border-t ${c.border}`} /><Task n={2} words="120–150 mots">{s.t2}</Task></>}
         {s.t3 && <><div className={`border-t ${c.border}`} /><TaskThree data={s.t3} /></>}
       </div>
+      {offerAnswer && <AnswerCta year={year} monthNum={month.monthNum} n={n} />}
     </Card>
   );
 }

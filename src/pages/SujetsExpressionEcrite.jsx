@@ -20,7 +20,7 @@ export function SujetsExpressionEcrite() {
         <Pill tone="green">{t("3 tâches par sujet")}</Pill>
       </div>
       <div className="space-y-5">
-        {m.data.map((s, i) => <EECombinaison key={i} s={s} i={i} />)}
+        {m.data.map((s, i) => <EECombinaison key={i} s={s} i={i} year={y.year} month={m} />)}
       </div>
     </>
   );
