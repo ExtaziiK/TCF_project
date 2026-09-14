@@ -119,6 +119,18 @@ export const ROUTE_META = {
     description:
       "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
   },
+  // Base entry for the model answers. The real pages are sub-routes carrying
+  // the month and combinaison ("sujet-reponse/2026-09/3"), resolved by
+  // DYNAMIC_ROUTES below — they cannot be enumerated at build time the way blog
+  // posts are, because which ones exist depends on the database. noindex: the
+  // corrigés are Premium, so there is nothing here for a crawler to keep.
+  "sujet-reponse": {
+    path: "/modele-de-reponse",
+    title: "Modèle de réponse — expression écrite",
+    description:
+      "Un modèle de réponse rédigé au niveau C1-C2 pour chacune des trois tâches du sujet, avec les expressions à mémoriser mises en évidence.",
+    noindex: true,
+  },
   "sujets-eo": {
     path: "/anciens-sujets-expression-orale",
     title: "Anciens sujets d'expression orale — archive par mois",
@@ -219,6 +231,12 @@ for (const post of POSTS) {
   };
 }
 
+// Routes whose tail is data, not a fixed page: "/modele-de-reponse/2026-09/3"
+// is the route "sujet-reponse/2026-09/3". Blog posts do not need this because
+// POSTS is known at build time; these depend on what has been generated, so the
+// prefix is matched at runtime instead of enumerated.
+const DYNAMIC_ROUTES = [{ base: "sujet-reponse", prefix: "/modele-de-reponse" }];
+
 // Pathless routes (the 404) are skipped: there is no URL to map back from.
 const PATH_TO_ROUTE = Object.fromEntries(
   Object.entries(ROUTE_META).filter(([, m]) => m.path).map(([route, m]) => [m.path, route]),
@@ -229,7 +247,12 @@ export function pathForRoute(route) {
   // right answer for every caller: history.pushState/replaceState read a null
   // URL as "leave the current one", and <a href={null}> renders no href.
   if (route === "notfound") return null;
-  return ROUTE_META[route]?.path || "/";
+  if (ROUTE_META[route]?.path) return ROUTE_META[route].path;
+  // A sub-route of a dynamic base keeps its tail: the tail IS the address.
+  for (const { base, prefix } of DYNAMIC_ROUTES) {
+    if (route.startsWith(`${base}/`)) return `${prefix}/${route.slice(base.length + 1)}`;
+  }
+  return "/";
 }
 
 // Trailing slashes are tolerated ("/tarifs/" -> pricing); anything unknown is
@@ -238,7 +261,16 @@ export function pathForRoute(route) {
 // exist, which wastes crawl budget and hides broken links).
 export function routeFromPath(pathname) {
   const clean = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-  return PATH_TO_ROUTE[clean] || "notfound";
+  if (PATH_TO_ROUTE[clean]) return PATH_TO_ROUTE[clean];
+  for (const { base, prefix } of DYNAMIC_ROUTES) {
+    if (clean.startsWith(`${prefix}/`)) {
+      const tail = clean.slice(prefix.length + 1);
+      // Only a well-formed tail resolves; anything else is a genuine 404 rather
+      // than a page that renders empty.
+      if (/^\d{4}-\d{2}\/\d{1,3}$/.test(tail)) return `${base}/${tail}`;
+    }
+  }
+  return "notfound";
 }
 
 /* ----------------------------- head management ---------------------------- */

@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic, Sparkles, ExternalLink, AlertTriangle, Info, UploadCloud, Loader2 } from "lucide-react";
+import { Plus, Trash2, Search, XCircle, CalendarPlus, FileText, Mic, Sparkles, ExternalLink, AlertTriangle, Info, UploadCloud, Loader2, BookOpen, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 import { saveMonth, deleteMonth, monthLabel, MONTH_LABELS, SECTION_LABEL } from "@/services/sujetsArchiveService";
-import { generateSujetsFromSource } from "@/services/adminService";
+import { generateSujetsFromSource, generateSujetAnswers } from "@/services/adminService";
+import { hasAnswer, markAnswered } from "@/services/sujetsAnswersService";
 
 const YEAR_NOW = new Date().getFullYear();
 const YEAR_CHOICES = Array.from({ length: 8 }, (_, i) => YEAR_NOW + 1 - i); // next year → 6 years back
@@ -35,10 +36,15 @@ export function SujetsManager() {
   // "Publier" — see the note on api/_lib/admin/sujets.js.
   const [proposal, setProposal] = useState(null);
   const [importing, setImporting] = useState(false);
+  // Model-answer generation walks the month one combinaison at a time; this is
+  // the live progress, or null when nothing is running.
+  const [answering, setAnswering] = useState(null);
   const inp = `px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const yearObj = years.find((y) => y.year === year) || years[0] || null;
   const monthObj = yearObj?.months.find((m) => m.key === mkey) || yearObj?.months[0] || null;
+  const answeredCount = section === "ee" ? (monthObj?.data || []).filter(hasAnswer).length : 0;
+  const allAnswered = !!monthObj?.data.length && answeredCount === monthObj.data.length;
 
   // Every write goes through here. `busy` is released in a `finally` and the
   // refetch is awaited before it is: a throw (an expired session makes
@@ -138,6 +144,54 @@ export function SujetsManager() {
     return run(() => saveMonth(section, yearObj.year, monthObj.monthNum, data), "Sujet supprimé.");
   };
 
+  // Writes the C1-C2 model answers for the month on screen. One request per
+  // combinaison: api/admin runs under a 60s cap and a month is ~21 answers, so
+  // a single call could never finish. Combinaisons that already have answers
+  // are skipped unless `redo` is set, which makes a re-run after a partial
+  // failure cheap instead of billing the whole month again.
+  //
+  // The `a` flag that lights up the public "Voir un modèle de réponse" link is
+  // written once at the end, in a single saveMonth, rather than per combinaison
+  // — one write, and the archive payload is never left half-marked.
+  const generateAnswers = async (redo = false) => {
+    if (section !== "ee" || !monthObj) return;
+    const todo = monthObj.data
+      .map((s, i) => ({ s, n: s.n ?? i + 1 }))
+      .filter(({ s }) => redo || !hasAnswer(s));
+    if (!todo.length) return notify("Toutes les combinaisons de ce mois ont déjà un modèle de réponse.");
+
+    const { year: y, monthNum } = { year: yearObj.year, monthNum: monthObj.monthNum };
+    const done = [];
+    const failed = [];
+    const warnings = [];
+    setAnswering({ done: 0, total: todo.length });
+    // `busy` too, not just `answering`: the run takes minutes, and without it
+    // the month could be deleted or edited underneath the loop.
+    setBusy(true);
+    try {
+      for (const { s, n } of todo) {
+        const r = await generateSujetAnswers({ section: "ee", year: y, monthNum, n, t1: s.t1, t2: s.t2, t3: s.t3 });
+        if (r?.ok === false || r?.error) failed.push(`${n} : ${r.error || "échec"}`);
+        else { done.push(n); if (r?.warnings?.length) warnings.push(...r.warnings.map((w) => `Combinaison ${n} — ${w}`)); }
+        setAnswering((p) => ({ ...p, done: p.done + 1 }));
+      }
+    } finally {
+      setAnswering(null);
+      setBusy(false);
+    }
+
+    if (done.length) {
+      // Re-read nothing: mark the copy we generated from, then let run() reload.
+      await run(() => saveMonth(section, y, monthNum, markAnswered(monthObj.data, done)));
+    }
+    notify(
+      failed.length
+        ? `${done.length} modèle(s) écrit(s), ${failed.length} en échec (${failed[0]}).`
+        : `${done.length} modèle(s) de réponse publié(s) pour ${monthObj.month} ${y}.`,
+    );
+    if (warnings.length) console.warn("Modèles hors fourchette de mots :", warnings);
+  };
+
   return (
     <div className="space-y-5">
       {/* Section tabs */}
@@ -180,6 +234,34 @@ export function SujetsManager() {
           {importing ? "Reformulation… (~1 min)" : "Générer"}
         </Btn>
       </Card>
+
+      {/* Model answers — Expression écrite only. */}
+      {section === "ee" && monthObj && (
+        <Card className="p-4 flex flex-wrap items-center gap-3">
+          <span className="w-9 h-9 rounded-xl bg-emerald-600/10 text-emerald-600 flex items-center justify-center shrink-0"><BookOpen size={17} /></span>
+          <div className="flex-1 min-w-[220px]">
+            <p className={`text-sm font-semibold ${c.text}`}>Modèles de réponse · {monthObj.month} {yearObj.year}</p>
+            <p className={`text-xs ${c.sub}`}>
+              Rédige un corrigé C1-C2 pour les trois tâches de chaque combinaison, avec les expressions à mémoriser, et le publie pour les abonnés Premium.
+              {answeredCount > 0 && ` ${answeredCount}/${monthObj.data.length} déjà fait(s).`}
+            </p>
+          </div>
+          {answering ? (
+            <span className={`text-sm font-semibold ${c.sub} flex items-center gap-2`}>
+              <Loader2 size={15} className="animate-spin" /> {answering.done}/{answering.total} — ~{Math.max(1, Math.round((answering.total - answering.done) * 0.4))} min
+            </span>
+          ) : (
+            <div className="flex items-center gap-2">
+              {answeredCount > 0 && (
+                <Btn small variant="ghost" disabled={busy} onClick={() => generateAnswers(true)}>Tout refaire</Btn>
+              )}
+              <Btn small icon={allAnswered ? Check : Sparkles} disabled={busy || allAnswered} onClick={() => generateAnswers(false)}>
+                {allAnswered ? "À jour" : answeredCount > 0 ? "Compléter" : "Générer les réponses"}
+              </Btn>
+            </div>
+          )}
+        </Card>
+      )}
 
       {proposal && <ImportPreview p={proposal} busy={busy} c={c} onPublish={publish} onCancel={() => setProposal(null)} />}
 

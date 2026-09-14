@@ -53,7 +53,7 @@ export function SujetsActualite() {
           </div>
 
           {section === "ee" ? (
-            <div className="space-y-5">{latest.data.map((s, i) => <EECombinaison key={i} s={s} i={i} />)}</div>
+            <div className="space-y-5">{latest.data.map((s, i) => <EECombinaison key={i} s={s} i={i} year={year} month={latest} />)}</div>
           ) : (
             <div className="space-y-8">{latest.data.map((tache) => <EOTacheBlock key={tache.tache} tache={tache} />)}</div>
           )}

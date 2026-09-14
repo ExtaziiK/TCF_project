@@ -106,11 +106,24 @@ export const PAGE_ACCESS = {
   dashboard: AUTHENTICATED,
   profile: AUTHENTICATED,
   admin: ADMIN_ONLY,
+  // Model answers for the Expression écrite subjects. The subjects themselves
+  // stay public (and indexed); the corrigés are the paid product. The teaser on
+  // the archive page is shown to everyone — this gate is what the CTA leads to,
+  // and it is backed by RLS on sujets_answers so the rows are unreadable to a
+  // non-Premium account even outside the app.
+  "sujet-reponse": PREMIUM,
 };
 
+// A policy set on a base route covers its sub-routes ("sujet-reponse/2026-09/3"
+// is governed by "sujet-reponse"), matching how App.jsx resolves the page
+// component for the same route id. Exact entries still win.
 export function canAccess(role, route) {
-  const allowed = PAGE_ACCESS[route];
+  const allowed = policyFor(route);
   return !allowed || allowed.includes(role);
+}
+
+function policyFor(route) {
+  return PAGE_ACCESS[route] || PAGE_ACCESS[String(route).split("/")[0]];
 }
 
 // What to show instead when access is denied:
@@ -123,6 +136,6 @@ export function deniedReason(role, route) {
   if (role === ROLES.VISITOR) {
     return route === "dashboard" || route === "profile" ? "login" : "register";
   }
-  if (PAGE_ACCESS[route] === ADMIN_ONLY) return "forbidden";
+  if (policyFor(route) === ADMIN_ONLY) return "forbidden";
   return "upgrade";
 }

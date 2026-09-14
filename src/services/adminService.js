@@ -112,6 +112,17 @@ export function generateSujetsFromSource(section, known = []) {
   return adminFetch("/api/admin/sujets", { method: "POST", body: JSON.stringify({ section, known }) });
 }
 
+// Writes the three model answers for ONE Expression écrite combinaison and
+// stores them. One combinaison per call on purpose — the whole month would run
+// past the serverless time limit; the caller loops. See
+// api/_lib/admin/sujetAnswers.js.
+export function generateSujetAnswers({ section, year, monthNum, n, t1, t2, t3 }) {
+  return adminFetch("/api/admin/sujet-answers", {
+    method: "POST",
+    body: JSON.stringify({ section, year, monthNum, n, t1, t2, t3 }),
+  });
+}
+
 /* ------------------------------- promo codes ------------------------------ */
 
 // Pass prices, read from Stripe by lookup key (api/_lib/admin/pricing.js).
