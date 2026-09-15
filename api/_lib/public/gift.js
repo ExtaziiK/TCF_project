@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireUser } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { enforceRateLimit } from "../ratelimit.js";
-import { PASSES, isPassSlug, passExpiryISO } from "../passes.js";
+import { PASSES, isPassSlug, daysExpiryISO } from "../passes.js";
 
 // Public side of "gift links" — see api/_lib/admin/giftLinks.js for how an
 // admin creates one, and the migration (20260914_gift_links.sql) for the
@@ -56,7 +56,8 @@ async function handleValidate(req, res) {
   const link = await loadLink(code);
   if (statusOf(link) !== "ok") return res.status(200).json({ valid: false });
   const pass = PASSES[link.plan_slug];
-  return res.status(200).json({ valid: true, planSlug: link.plan_slug, planLabel: pass.label, days: pass.days });
+  // A link's own `days`, when the admin set one, overrides the plan's default.
+  return res.status(200).json({ valid: true, planSlug: link.plan_slug, planLabel: pass.label, days: link.days || pass.days });
 }
 
 async function handleRedeem(req, res) {
@@ -98,8 +99,9 @@ async function handleRedeem(req, res) {
 
   // Same idempotent "never shorten access" rule as a Stripe purchase
   // (passPatchForSession in api/_lib/passes.js): someone who already holds
-  // more time than this gift grants keeps what they have.
-  const fresh = passExpiryISO(link.plan_slug);
+  // more time than this gift grants keeps what they have. `link.days`, when
+  // the admin set one, overrides the plan's own default duration.
+  const fresh = daysExpiryISO(link.days || pass.days);
   const existing = currentMeta.premium_until ? Date.parse(currentMeta.premium_until) : NaN;
   const until = Number.isFinite(existing) && existing > Date.parse(fresh) ? currentMeta.premium_until : fresh;
 

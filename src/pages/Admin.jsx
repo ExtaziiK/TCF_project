@@ -1298,7 +1298,7 @@ function PromosTab() {
   );
 }
 
-const EMPTY_GIFT_FORM = { planSlug: PAID_PLANS[0]?.slug || "", maxRedemptions: "", code: "", note: "", expiresAt: "" };
+const EMPTY_GIFT_FORM = { planSlug: PAID_PLANS[0]?.slug || "", maxRedemptions: "", days: "", code: "", note: "", expiresAt: "" };
 
 // Builds the shareable URL for a gift code — the landing page reads it back
 // via the `?gift=` param (see AppProvider's capture effect) and stashes it
@@ -1315,6 +1315,7 @@ function GiftLinksTab() {
   const [confirmingId, setConfirmingId] = useState(null);
   const set = (k) => (e) => { setForm({ ...form, [k]: e.target.value }); setFormError(""); };
   const inp = `px-3.5 py-2.5 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const selectedPlan = PAID_PLANS.find((p) => p.slug === form.planSlug);
 
   const load = () => {
     listGiftLinks().then((r) => {
@@ -1331,6 +1332,7 @@ function GiftLinksTab() {
     const r = await createGiftLink({
       planSlug: form.planSlug,
       maxRedemptions: Number(form.maxRedemptions),
+      days: form.days ? Number(form.days) : null,
       code: form.code.trim().toUpperCase() || undefined,
       note: form.note.trim() || null,
       expiresAt: form.expiresAt ? `${form.expiresAt}T23:59:59` : null,
@@ -1382,7 +1384,8 @@ function GiftLinksTab() {
         <p className={`text-sm mb-5 ${c.sub}`}>
           Partagez le lien sur les réseaux sociaux : quiconque l'ouvre et crée un compte (ou en a déjà un) reçoit le
           forfait choisi gratuitement, aucun paiement requis — jusqu'à ce que le nombre de comptes fixé soit atteint.
-          Un compte ne peut utiliser qu'un seul lien cadeau, une seule fois.
+          La durée suit celle du forfait sauf si vous la personnalisez ci-dessous. Un compte ne peut utiliser qu'un
+          seul lien cadeau, une seule fois.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <div>
@@ -1394,6 +1397,10 @@ function GiftLinksTab() {
           <div>
             <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-max">Valable pour</label>
             <input id="gift-max" type="number" min="1" value={form.maxRedemptions} onChange={set("maxRedemptions")} placeholder="Nombre de comptes" className={`w-full ${inp}`} />
+          </div>
+          <div>
+            <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-days">Durée <span className="normal-case font-medium">(optionnel)</span></label>
+            <input id="gift-days" type="number" min="1" max="3650" value={form.days} onChange={set("days")} placeholder={selectedPlan ? `${selectedPlan.days} jours (défaut)` : "jours"} className={`w-full ${inp}`} />
           </div>
           <div>
             <label className={`block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`} htmlFor="gift-code">Code <span className="normal-case font-medium">(optionnel, sinon généré)</span></label>
@@ -1439,7 +1446,10 @@ function GiftLinksTab() {
                 return (
                   <tr key={g.id} className={`border-t ${c.border}`}>
                     <td className={`py-3 pr-4 font-mono2 font-semibold ${c.text}`}>{g.code}</td>
-                    <td className="py-3 pr-4"><Pill tone="blue">{g.planLabel}</Pill></td>
+                    <td className="py-3 pr-4">
+                      <Pill tone="blue">{g.planLabel}</Pill>
+                      <span className={`ml-1.5 text-xs font-mono2 ${c.faint}`}>{g.effectiveDays} j.{g.days ? " (perso.)" : ""}</span>
+                    </td>
                     <td className={`py-3 pr-4 text-xs font-mono2 ${exhausted ? "text-amber-600" : c.sub}`}>{g.timesRedeemed} / {g.maxRedemptions}</td>
                     <td className={`py-3 pr-4 text-xs truncate max-w-[160px] ${c.sub}`} title={g.note || ""}>{g.note || "—"}</td>
                     <td className={`py-3 pr-4 text-xs ${c.sub}`}>{g.expiresAt ? dateOnly(g.expiresAt) : "—"}</td>
