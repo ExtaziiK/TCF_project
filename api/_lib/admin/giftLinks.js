@@ -44,6 +44,11 @@ const toRow = (row) => ({
   timesRedeemed: row.times_redeemed,
   active: row.active,
   note: row.note,
+  // `days` is the admin's override, null when the link just uses the plan's
+  // own duration; `effectiveDays` is what redemption actually grants either
+  // way, so the panel never has to re-derive it from PASSES itself.
+  days: row.days,
+  effectiveDays: row.days || PASSES[row.plan_slug]?.days || null,
   expiresAt: row.expires_at,
   createdAt: row.created_at,
 });
@@ -57,12 +62,24 @@ async function handleCreate(req, res, actor) {
   }
   if (maxRedemptions > 100000) throw new HttpError(400, "Nombre de comptes trop élevé.");
 
+  // Optional: overrides the plan's own duration (Starter 15 / Pro 30 /
+  // Ultimate 90). Left empty, redemption grants the plan's default — see
+  // api/_lib/public/gift.js.
+  let days = null;
+  if (req.body.days !== undefined && req.body.days !== null && req.body.days !== "") {
+    days = Number(req.body.days);
+    if (!Number.isInteger(days) || days < 1 || days > 3650) {
+      throw new HttpError(400, "Durée invalide : indiquez un nombre de jours entre 1 et 3650, ou laissez vide pour la durée par défaut du forfait.");
+    }
+  }
+
   const code = String(req.body.code || "").trim().toUpperCase();
   if (code && !CODE_RE.test(code)) throw new HttpError(400, "Code invalide : 3 à 30 caractères (A-Z, 0-9, tirets).");
 
   const row = {
     plan_slug: planSlug,
     max_redemptions: maxRedemptions,
+    days,
     note: note ? String(note).trim().slice(0, 200) : null,
     expires_at: expiresAt || null,
     created_by: actor.id,
@@ -79,6 +96,7 @@ async function handleCreate(req, res, actor) {
       await audit(actor, "create-gift-link", candidate, {
         plan_slug: planSlug,
         max_redemptions: maxRedemptions,
+        days,
         expires_at: expiresAt || null,
       });
       return res.status(200).json({ link: toRow(data) });

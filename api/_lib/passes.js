@@ -95,11 +95,19 @@ export async function resolvePassPrice(stripe, slug) {
   }
 }
 
+// `from` plus a plain number of days — the arithmetic passExpiryISO does off
+// a pass's own `days`, factored out so a caller with a day count that ISN'T a
+// pass's default (a gift link's admin-chosen override, see
+// api/_lib/public/gift.js) can reuse it without a fake PASSES entry.
+export function daysExpiryISO(days, from = Date.now()) {
+  return new Date(from + days * 24 * 60 * 60 * 1000).toISOString();
+}
+
 // When a pass bought at `from` should expire.
 export function passExpiryISO(slug, from = Date.now()) {
   const pass = PASSES[slug];
   if (!pass) return null;
-  return new Date(from + pass.days * 24 * 60 * 60 * 1000).toISOString();
+  return daysExpiryISO(pass.days, from);
 }
 
 // The app_metadata patch granting a completed Checkout session's pass.
