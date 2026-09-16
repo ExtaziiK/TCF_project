@@ -5,7 +5,7 @@ import { useLivePlans } from "@/hooks/useLivePlans";
 import { validatePromoCode } from "@/services/stripeService";
 import { convertPrice, currencyForCountry, planDzdAmount, rememberCurrency, rememberedCurrency, USD } from "@/utils/currency";
 import { detectCountry, guessCountry } from "@/utils/geo";
-import { getPaymentDz } from "@/services/settingsService";
+import { getPaymentDz, getWelcomeOffer } from "@/services/settingsService";
 import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 import { WELCOME_PROMO_CODE, welcomeOfferEndsAt } from "@/utils/welcomeOffer";
 
@@ -113,7 +113,7 @@ export function usePricingSelection() {
   // the code — it is filled in and applied for them, on every plan, and the
   // banner above the cards counts the 24 hours down (see WelcomeOffer).
   //
-  // Three things gate it, in this order:
+  // Four things gate it, in this order:
   //   1. `authReady` — until the session has resolved, `user` is null and an
   //      account created last year is indistinguishable from a brand-new
   //      visitor. Waiting costs a beat; not waiting flashes a new-customer
@@ -127,16 +127,24 @@ export function usePricingSelection() {
   // Deliberately NOT written to setPendingPromo: it is re-derived on every
   // mount from the account's creation date, so there is no stored copy to
   // outlive the 24 hours it promises.
+  //   0. the owner's switch (Admin -> Tarifs). Off, none of the rest runs: no
+  //      banner, and — the half that actually matters — no code pre-filled in
+  //      the promo field. Leaving the field pre-filled while hiding the banner
+  //      would be worse than either, since a visitor typing the code they were
+  //      given appends it to the invisible one and is told it is invalid.
   useEffect(() => {
     if (!authReady || chosenByVisitor.current || getPendingPromo()) return;
     const endsAt = welcomeOfferEndsAt(user);
     if (!endsAt) return;
     let cancelled = false;
-    validatePromoCode(WELCOME_PROMO_CODE).then((r) => {
-      if (cancelled || !r.valid || chosenByVisitor.current) return;
-      setWelcome({ code: r.code, endsAt });
-      setApplied((cur) => cur || r); // never stomp a code applied in the meantime
-      setCoupon((cur) => cur || r.code);
+    getWelcomeOffer().then(({ enabled }) => {
+      if (cancelled || !enabled) return;
+      return validatePromoCode(WELCOME_PROMO_CODE).then((r) => {
+        if (cancelled || !r.valid || chosenByVisitor.current) return;
+        setWelcome({ code: r.code, endsAt });
+        setApplied((cur) => cur || r); // never stomp a code applied in the meantime
+        setCoupon((cur) => cur || r.code);
+      });
     });
     return () => { cancelled = true; };
     // The identity of `user` changes on every session refresh; only these two

@@ -269,3 +269,47 @@ export async function setHomeTestimonials(enabled) {
     .upsert({ key: HOME_TESTIMONIALS, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
+
+/* ── New-account welcome offer (TCF30) ──────────────────────────────────────
+ * { enabled }. Off, the pricing page shows no countdown banner AND stops
+ * pre-filling the code — the two go together, because the banner is only the
+ * visible half. The half that matters is that the promo field arrives already
+ * containing TCF30: someone typing a different code lands it on top of that
+ * one, sends "TCF30TCF50", and is told their code is invalid.
+ *
+ * Unlike every other setting in this file, this one defaults to OFF, and a
+ * read failure degrades to OFF too. The asymmetry is deliberate: the other
+ * switches fall back to "the page as it has always been", while this one
+ * decides whether a discount is handed out. A settings table that is briefly
+ * unreachable should not start giving away 30 % — the safe direction to fail
+ * in is the one that charges full price, which the visitor can still fix by
+ * typing a code themselves.
+ *
+ * Turning it back on writes the row; there is nothing to deploy either way.
+ * Deleting TCF30 in Stripe still ends the campaign independently of this. */
+
+const WELCOME_OFFER = "welcome_offer";
+let welcomeOfferPromise = null;
+
+export async function getWelcomeOffer() {
+  if (!welcomeOfferPromise) {
+    welcomeOfferPromise = (async () => {
+      const { data, error } = await supabase.from("site_settings").select("value").eq("key", WELCOME_OFFER).maybeSingle();
+      if (error || !data?.value) return { enabled: false };
+      try {
+        return { enabled: JSON.parse(data.value)?.enabled === true };
+      } catch { return { enabled: false }; }
+    })();
+  }
+  return welcomeOfferPromise;
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setWelcomeOffer(enabled) {
+  welcomeOfferPromise = null; // force the next read to hit the table
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: WELCOME_OFFER, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}

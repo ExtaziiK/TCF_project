@@ -31,7 +31,7 @@ import {
   listGiftLinks, createGiftLink, toggleGiftLink, deleteGiftLink,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
-import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials } from "@/services/settingsService";
+import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials, getWelcomeOffer, setWelcomeOffer } from "@/services/settingsService";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
   listTestimonialIdentities,
@@ -556,6 +556,8 @@ function PricesTab() {
   const [percent, setPercent] = useState(50);      // saved value, from the server
   const [percentDraft, setPercentDraft] = useState("50"); // what the admin is typing
   const [percentBusy, setPercentBusy] = useState(false);
+  const [welcome, setWelcome] = useState(null);   // offre de bienvenue TCF30
+  const [welcomeBusy, setWelcomeBusy] = useState(false);
 
   const load = () => listPassPrices().then((r) => {
     if (r.ok) { setPasses(r.data.passes); setDraft({}); } else setUnavailable(!!r.unavailable);
@@ -563,6 +565,7 @@ function PricesTab() {
   useEffect(() => {
     load();
     getLaunchDiscount().then((d) => { setBadge(d.enabled); setPercent(d.percent); setPercentDraft(String(d.percent)); });
+    getWelcomeOffer().then((w) => setWelcome(w.enabled));
   }, []);
 
   const toggleBadge = async () => {
@@ -573,6 +576,18 @@ function PricesTab() {
     if (!r.ok) return notify(r.error || "Changement refusé.", "error");
     setBadge(next);
     notify(next ? `Badge −${percent} % affiché sur la page Tarifs.` : "Badge masqué.");
+  };
+
+  const toggleWelcome = async () => {
+    const next = !welcome;
+    setWelcomeBusy(true);
+    const r = await setWelcomeOffer(next);
+    setWelcomeBusy(false);
+    if (!r.ok) return notify(r.error || "Changement refusé.", "error");
+    setWelcome(next);
+    notify(next
+      ? "Offre de bienvenue réactivée : TCF30 est de nouveau pré-rempli pendant 24 h."
+      : "Offre de bienvenue arrêtée. Le champ promo part vide.");
   };
 
   const savePercent = async () => {
@@ -637,6 +652,23 @@ function PricesTab() {
         <Btn small variant="ghost" className="ml-auto sm:ml-0" disabled={badge === null || badgeBusy}
           icon={badge ? Eye : EyeOff} onClick={toggleBadge}>
           {badge === null ? "…" : badge ? "Affiché — masquer" : "Masqué — afficher"}
+        </Btn>
+      </div>
+
+      {/* Contrairement au badge ci-dessus, celui-ci ne change pas seulement
+          l'affichage : il décide si TCF30 est appliqué pour le visiteur. */}
+      <div className={`flex items-center gap-3 flex-wrap p-4 mb-5 rounded-2xl border ${c.border}`}>
+        <div className="min-w-[14rem] flex-1">
+          <p className={`font-semibold text-sm ${c.text}`}>Offre de bienvenue « TCF30 »</p>
+          <p className={`text-xs ${c.faint}`}>
+            Pendant 24 h après l&apos;inscription, la page Tarifs affiche un compte à rebours et
+            <strong> remplit le champ promo</strong> avec TCF30. Arrêtée, le champ part vide — indispensable
+            quand vous diffusez un autre code, sinon les deux se collent et le visiteur lit « code invalide ».
+          </p>
+        </div>
+        <Btn small variant="ghost" className="ml-auto" disabled={welcome === null || welcomeBusy}
+          icon={welcome ? Eye : EyeOff} onClick={toggleWelcome}>
+          {welcome === null ? "…" : welcome ? "Active — arrêter" : "Arrêtée — réactiver"}
         </Btn>
       </div>
 
