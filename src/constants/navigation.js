@@ -8,6 +8,7 @@ import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
+  ListChecks,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -62,6 +63,11 @@ export const NAV_LINKS = [
     // it here — the parent menu is signed-in only — but the route itself stays
     // public, so a shared /dictee link still opens the pitch.
     { l: "La dictée", r: "dictee", grad: true, icon: PenLine, group: "train" },
+    // Même cas que la dictée, et pour la même raison : "revision" est Premium
+    // (rbac.js), mais sans `roles` ici un compte gratuit voit l'entrée et tombe
+    // sur la page de vente plutôt que sur un menu qui ne mentionne jamais ce
+    // qu'il pourrait acheter. Le garde de route décide de l'accès, pas le menu.
+    { l: "Révision", r: "revision", icon: ListChecks, group: "train" },
   ] },
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },

@@ -59,7 +59,10 @@ export function Revision() {
   const { c, t } = useApp();
   const [section, setSection] = useState("co");
   const [query, setQuery] = useState("");
-  const [level, setLevel] = useState("all");
+  // Les niveaux cochés. Liste vide = « Toutes » : c'est l'absence de filtre
+  // qui vaut « tout », et non un identifiant « all » qui se retrouverait à
+  // devoir être retiré de la liste à chaque fois qu'un autre est coché.
+  const [levelIds, setLevelIds] = useState([]);
   const [openQuiz, setOpenQuiz] = useState(null);
   // "read": the revision sheet, everything already showing.
   // "practice": the same bank, answers withheld until you choose.
@@ -110,23 +113,28 @@ export function Revision() {
     })).filter((l) => l.count > 0);
   }, [allQuestions]);
 
-  const activeLevel = levels.find((l) => l.id === level) || null;
+  // Filtrés depuis `levels` plutôt que lus tels quels : un identifiant qui ne
+  // correspond plus à rien (changement d'épreuve, données rechargées) est
+  // ignoré au lieu de vider la liste des résultats sans explication.
+  const activeLevels = useMemo(() => levels.filter((l) => levelIds.includes(l.id)), [levels, levelIds]);
 
   const matches = useCallback((q) => {
-    if (activeLevel && !activeLevel.test(q)) return false;
+    // Une question porte un seul niveau : cocher « 21 pts » et « 33 pts » doit
+    // donc donner les deux lots réunis. Un ET ne ramènerait jamais rien.
+    if (activeLevels.length && !activeLevels.some((l) => l.test(q))) return false;
     if (!query.trim()) return true;
     // Options and explanation are the only real text on a question — `q.q` is a
     // placeholder, so searching it would match every card or none.
     const hay = norm([...(q.opts || []), q.exp].join(" "));
     return norm(query).split(/\s+/).filter(Boolean).every((term) => hay.includes(term));
-  }, [query, activeLevel]);
+  }, [query, activeLevels]);
 
-  const filtering = query.trim().length > 0 || activeLevel != null;
+  const filtering = query.trim().length > 0 || activeLevels.length > 0;
   const results = useMemo(() => (filtering ? allQuestions.filter(matches) : []), [filtering, allQuestions, matches]);
 
   // The levels are per-section, so a CO points filter cannot survive a jump to
   // CE — it would match nothing and read as an empty épreuve.
-  const switchSection = (s) => { setSection(s); setOpenQuiz(null); setLevel("all"); };
+  const switchSection = (s) => { setSection(s); setOpenQuiz(null); setLevelIds([]); };
   // Changing mode closes the open quiz so the list remounts: answers given in
   // practice must not linger, greyed out, behind the reading view.
   const switchMode = (m) => { setMode(m); setOpenQuiz(null); };
@@ -172,13 +180,13 @@ export function Revision() {
 
       <Toolbar
         query={query} setQuery={setQuery}
-        levels={levels} level={level} setLevel={setLevel}
+        levels={levels} levelIds={levelIds} setLevelIds={setLevelIds}
         quizzes={quizzes} openQuiz={openQuiz} setOpenQuiz={setOpenQuiz}
         total={allQuestions.length}
       />
 
       {filtering ? (
-        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setLevel("all"); }} />
+        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setLevelIds([]); }} />
       ) : (
         <div className="space-y-3">
           {quizzes.map((quiz) => (
@@ -197,9 +205,17 @@ export function Revision() {
   );
 }
 
-function Toolbar({ query, setQuery, levels, level, setLevel, quizzes, openQuiz, setOpenQuiz, total }) {
+function Toolbar({ query, setQuery, levels, levelIds, setLevelIds, quizzes, openQuiz, setOpenQuiz, total }) {
   const { c, t } = useApp();
-  const options = [{ id: "all", label: t("Toutes"), count: total }, ...levels];
+  const aucun = levelIds.length === 0;
+  // Coché / décoché, sans jamais retirer le dernier de force : décocher le seul
+  // niveau restant revient simplement à « Toutes », qui est l'état sans filtre.
+  const basculer = (id) =>
+    setLevelIds((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
+  // Le compte affiché sur « Toutes » suit la sélection : à côté de niveaux
+  // cochés, il annonce ce que donnerait un retour à l'état sans filtre.
+  const choisi = (o) => levelIds.includes(o.id);
+  const styleActif = "border-blue-600 bg-blue-600/10 text-blue-600";
   return (
     <div className={`p-4 rounded-2xl border ${c.border} mb-5 flex flex-wrap items-center gap-3`}>
       <div className={`flex items-center gap-2 flex-1 min-w-[220px] px-3 py-2 rounded-xl border ${c.border}`}>
@@ -217,15 +233,25 @@ function Toolbar({ query, setQuery, levels, level, setLevel, quizzes, openQuiz, 
         )}
       </div>
 
-      <div className="flex items-center gap-1.5 flex-wrap">
+      <div className="flex items-center gap-1.5 flex-wrap" role="group" aria-label={t("Difficulté")}>
         <span className={`text-xs font-semibold ${c.faint}`}>{t("Difficulté")}</span>
-        {options.map((o) => (
+        {/* « Toutes » n'est pas un niveau de plus : c'est la remise à zéro. Le
+            garder dans la même liste que les autres ferait cocher « Toutes »
+            ET « 33 pts » en même temps, ce qui ne veut rien dire. */}
+        <button
+          onClick={() => setLevelIds([])} aria-pressed={aucun}
+          title={`${total} ${t("questions")}`}
+          className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${aucun ? styleActif : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+        >
+          {t("Toutes")} <span className={aucun ? "opacity-70" : c.faint}>{total}</span>
+        </button>
+        {levels.map((o) => (
           <button
-            key={o.id} onClick={() => setLevel(o.id)} aria-pressed={level === o.id}
+            key={o.id} onClick={() => basculer(o.id)} aria-pressed={choisi(o)}
             title={`${o.count} ${t("questions")}`}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${level === o.id ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${choisi(o) ? styleActif : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
           >
-            {o.label} <span className={level === o.id ? "opacity-70" : c.faint}>{o.count}</span>
+            {o.label} <span className={choisi(o) ? "opacity-70" : c.faint}>{o.count}</span>
           </button>
         ))}
       </div>
