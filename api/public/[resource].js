@@ -2,6 +2,7 @@ import geo from "../_lib/public/geo.js";
 import prices from "../_lib/public/prices.js";
 import promoValidate from "../_lib/public/promo-validate.js";
 import gift from "../_lib/public/gift.js";
+import account from "../_lib/public/account.js";
 
 // Single serverless function for the small unauthenticated endpoints, exactly
 // as api/admin/[resource].js does for the back office.
@@ -19,12 +20,14 @@ import gift from "../_lib/public/gift.js";
 // changes nothing about how that route behaves. "gift" is the one exception
 // to "unauthenticated": its GET is public (code preview) but its POST
 // (redeeming one) requires a signed-in user — enforced inside the handler,
-// same as every other rule here.
+// same as every other rule here. "account" (self-service deletion) is
+// signed-in only throughout, for the same function-count reason.
 const handlers = {
   geo,
   prices,
   "promo-validate": promoValidate,
   gift,
+  account,
 };
 
 export default async function handler(req, res) {

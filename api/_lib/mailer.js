@@ -146,3 +146,40 @@ export function expiredEmail(user, site) {
   `);
   return { subject, html };
 }
+
+const fmtLongDate = (iso) =>
+  new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Toronto" });
+
+// Sent the moment a member asks to delete their account from the profile page
+// (api/_lib/public/account.js). The account is deactivated, not gone yet.
+export function deletionScheduledEmail(user, scheduledFor, site) {
+  const subject = "Votre compte a été désactivé";
+  const html = wrap(`
+    <p style="margin:0 0 14px;">${greeting(user)}</p>
+    <p style="margin:0 0 14px;">Nous avons bien reçu votre demande de suppression. Votre compte
+      <strong>${BRAND}</strong> est désactivé et vous avez été déconnecté·e de tous vos appareils.</p>
+    <p style="margin:0 0 14px;">Votre compte et toutes ses données (progression, résultats, historique)
+      seront <strong>définitivement supprimés le ${fmtLongDate(scheduledFor)}</strong>.</p>
+    <p style="margin:0 0 20px;">Vous avez changé d'avis&nbsp;? Il suffit de vous reconnecter avant cette date&nbsp;:
+      la suppression sera annulée et vous retrouverez tout comme avant.</p>
+    <p style="margin:0 0 22px;">${button(`${site}/connexion`, "Me reconnecter")}</p>
+    <p style="margin:0;color:#6b7280;font-size:13px;">Si vous n'êtes pas à l'origine de cette demande,
+      reconnectez-vous et changez votre mot de passe, puis répondez à ce message.</p>
+  `);
+  return { subject, html };
+}
+
+// Sent by the daily cron just before the account is actually erased — the last
+// moment its email address is still known.
+export function accountDeletedEmail(user) {
+  const subject = "Votre compte a été supprimé";
+  const html = wrap(`
+    <p style="margin:0 0 14px;">${greeting(user)}</p>
+    <p style="margin:0 0 14px;">Comme vous l'avez demandé, votre compte <strong>${BRAND}</strong> et toutes
+      les données qui y étaient associées ont été définitivement supprimés.</p>
+    <p style="margin:0 0 14px;">Vous pouvez recréer un compte à tout moment avec la même adresse courriel,
+      mais votre ancienne progression ne pourra pas être récupérée.</p>
+    <p style="margin:0;color:#6b7280;font-size:13px;">Merci d'avoir préparé votre TCF avec nous, et bonne chance pour la suite&nbsp;!</p>
+  `);
+  return { subject, html };
+}

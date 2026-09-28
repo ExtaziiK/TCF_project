@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   User, AtSign, Mail, Lock, Eye, EyeOff, Crown, CreditCard, Moon, Sun,
-  CalendarDays, LogOut, Check, Shield, Quote, X,
+  CalendarDays, LogOut, Check, Shield, Quote, X, Trash2, AlertTriangle,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
@@ -222,8 +223,77 @@ export function Profile() {
         {/* success story — submitted here, published on the landing page only
             once an admin approves it */}
         <div className="lg:col-span-2"><TestimonialSection /></div>
+
+        <div className="lg:col-span-2"><DeleteAccountSection /></div>
       </div>
     </PageShell>
+  );
+}
+
+/* ------------------------------ delete account ---------------------------- */
+
+// Facebook-style: deleting deactivates the account now and erases it 7 days
+// later unless the member signs back in (api/_lib/public/account.js). Typing a
+// word rather than the password, because Google accounts don't have one.
+const CONFIRM_WORD = "SUPPRIMER";
+
+function DeleteAccountSection() {
+  const { c, user, deactivateAccount, notify, t } = useApp();
+  const [open, setOpen] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [busy, setBusy] = useState(false);
+  const staff = user.admin || user.owner;
+
+  const close = () => { if (busy) return; setOpen(false); setTyped(""); };
+  const confirm = async () => {
+    setBusy(true);
+    const r = await deactivateAccount();
+    // On success the page is already gone (signed out, back home), so only a
+    // failure needs handling here.
+    if (!r.ok) { setBusy(false); notify(t(r.error)); }
+  };
+
+  return (
+    <ProfileSection icon={Trash2} title={t("Supprimer mon compte")} desc={t("Votre compte sera désactivé immédiatement, puis supprimé définitivement après 7 jours.")}>
+      {staff ? (
+        <p className={`text-sm ${c.sub}`}>{t("Un compte administrateur ne peut pas être supprimé depuis le profil.")}</p>
+      ) : (
+        <div className="space-y-3">
+          <p className={`text-sm ${c.sub}`}>{t("Votre progression, vos résultats et votre historique seront effacés. Si vous vous reconnectez dans les 7 jours, la suppression est annulée.")}</p>
+          <Btn small variant="ghost" icon={Trash2} className="text-rose-600" onClick={() => setOpen(true)}>{t("Supprimer mon compte")}</Btn>
+        </div>
+      )}
+
+      {open && createPortal(
+        <div role="dialog" aria-modal="true" aria-labelledby="delete-title" onClick={close} className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div onClick={(e) => e.stopPropagation()} className={`w-full max-w-md rounded-3xl border ${c.border} ${c.card} p-7 shadow-2xl rise`}>
+            <span className="w-14 h-14 rounded-full bg-rose-600/10 text-rose-600 flex items-center justify-center mx-auto"><AlertTriangle size={26} /></span>
+            <h3 id="delete-title" className={`mt-4 text-center font-display font-bold text-lg ${c.text}`}>{t("Supprimer votre compte ?")}</h3>
+            <ul className={`mt-3 space-y-1.5 text-sm ${c.sub} list-disc pl-5`}>
+              <li>{t("Votre compte est désactivé tout de suite et vous êtes déconnecté·e de tous vos appareils.")}</li>
+              <li>{t("Il sera supprimé définitivement dans 7 jours, avec toutes vos données.")}</li>
+              <li>{t("Vous reconnecter avant cette date annule la suppression.")}</li>
+              {user.plan === "Premium" && <li>{t("Votre accès Premium en cours sera perdu.")}</li>}
+            </ul>
+            <label className={`block mt-4 text-xs font-semibold ${c.sub}`}>
+              {t("Pour confirmer, tapez")} <span className="font-mono2 text-rose-600">{CONFIRM_WORD}</span>
+            </label>
+            <input
+              autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} aria-label={t("Confirmation")}
+              className={`mt-1.5 w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-rose-600 ${c.inputCls}`}
+            />
+            <div className="mt-5 flex gap-3">
+              <Btn small variant="ghost" className="flex-1" disabled={busy} onClick={close}>{t("Annuler")}</Btn>
+              <button
+                disabled={busy || typed.trim().toUpperCase() !== CONFIRM_WORD} onClick={confirm}
+                className="flex-1 px-4 py-2 rounded-full bg-rose-600 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+              >{t(busy ? "Suppression…" : "Supprimer mon compte")}</button>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
+    </ProfileSection>
   );
 }
 

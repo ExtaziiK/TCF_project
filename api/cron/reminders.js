@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { sendMail, expiringSoonEmail, expiredEmail } from "../_lib/mailer.js";
+import { sendMail, mailConfigured, expiringSoonEmail, expiredEmail, accountDeletedEmail } from "../_lib/mailer.js";
+import { withoutDeletion } from "../_lib/public/account.js";
 
 // Daily cron (see vercel.json → crons). Scans every account's Premium expiry
 // (app_metadata.premium_until, the same field the admin API and rbac read) and
@@ -15,6 +16,14 @@ import { sendMail, expiringSoonEmail, expiredEmail } from "../_lib/mailer.js";
 // renewal changes premium_until, which re-arms both reminders automatically —
 // no extra table, no RLS to reason about. Metadata is merged, never replaced,
 // so plan/role/stripe fields survive (same rule as the Stripe webhook).
+//
+// It also finishes self-service account deletions (api/_lib/public/account.js)
+// — it lives here rather than in a cron of its own because the Hobby plan caps
+// a project at two. An account whose deletion_scheduled_for has passed gets the
+// "account deleted" email, then is erased (every table cascades or nulls its
+// user_id). One that signed in AFTER asking is reactivated instead: the app
+// normally clears the request on sign-in, this catches the case where that
+// call never landed.
 //
 // Security: Vercel Cron sends `Authorization: Bearer $CRON_SECRET` when the env
 // var is set. We reject anything else so the endpoint can't be triggered by the
@@ -44,6 +53,40 @@ async function patchMetadata(user, patch) {
   });
 }
 
+export async function processDeletions(users, now, summary) {
+  for (const user of users) {
+    const meta = user.app_metadata || {};
+    if (!meta.deletion_scheduled_for) continue;
+    const due = Date.parse(meta.deletion_scheduled_for);
+    if (!Number.isFinite(due) || due > now) continue;
+    if (meta.role === "admin" || meta.role === "owner") continue;
+    try {
+      const requested = Date.parse(meta.deletion_requested_at);
+      const lastSignIn = Date.parse(user.last_sign_in_at);
+      if (Number.isFinite(requested) && Number.isFinite(lastSignIn) && lastSignIn > requested) {
+        await admin.auth.admin.updateUserById(user.id, { app_metadata: withoutDeletion(meta) });
+        summary.deletionsCancelled++;
+        continue;
+      }
+      // Email first: once the account is gone, so is the address.
+      if (user.email && mailConfigured()) {
+        try {
+          const { subject, html } = accountDeletedEmail(user);
+          await sendMail({ to: user.email, subject, html });
+        } catch (err) {
+          console.error(`reminders: deleted-account email to ${user.email} failed:`, err.message);
+        }
+      }
+      const { error } = await admin.auth.admin.deleteUser(user.id);
+      if (error) throw new Error(error.message);
+      summary.accountsDeleted++;
+    } catch (err) {
+      summary.errors++;
+      console.error(`reminders: deletion of ${user.email || user.id}:`, err.message);
+    }
+  }
+}
+
 export default async function handler(req, res) {
   const secret = process.env.CRON_SECRET;
   if (secret && req.headers.authorization !== `Bearer ${secret}`) {
@@ -51,13 +94,16 @@ export default async function handler(req, res) {
   }
 
   const now = Date.now();
-  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, errors: 0 };
+  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, accountsDeleted: 0, deletionsCancelled: 0, errors: 0 };
 
   try {
     const users = await listAllUsers();
+    await processDeletions(users, now, summary);
     for (const user of users) {
       const meta = user.app_metadata || {};
       if (meta.plan !== "Premium" || !meta.premium_until || !user.email) continue;
+      // Deactivated, awaiting deletion: no "renew your pass" nudges.
+      if (meta.deletion_scheduled_for) continue;
       if (meta.role === "admin" || meta.role === "owner") continue;
 
       const until = Date.parse(meta.premium_until);

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, UserX } from "lucide-react";
 import { AppContext } from "@/context/AppContext";
 import { useTheme } from "@/hooks/useTheme";
 import { useToast } from "@/hooks/useToast";
 import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
-import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending } from "@/services/authService";
+import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending, requestAccountDeletion, cancelAccountDeletion } from "@/services/authService";
 import { confirmCheckout } from "@/services/stripeService";
 import { stashPendingGiftCode } from "@/services/giftLinkService";
 import { useDzActivation } from "@/hooks/useDzActivation";
@@ -61,6 +61,8 @@ export function AppProvider({ children }) {
   // AuthPage.jsx / completeOnboarding.
   const [tourStep, setTourStep] = useState(null);
   const forcingOut = useRef(false);
+  // { scheduledFor, emailed } while the "account deactivated" popup is showing (right after a self-service deletion request).
+  const [deletionNotice, setDeletionNotice] = useState(null);
 
   const { toast, notify } = useToast();
   const { customListen, addListeningQuestions, removeListeningQuestion, clearListeningQuestions } = useCustomListening(notify);
@@ -190,6 +192,25 @@ export function AppProvider({ children }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
+
+  // Signing back in during the 7-day grace period cancels a pending deletion —
+  // any sign-in method, since this keys off the session rather than the login
+  // form. The flag rides in app_metadata, so the token is reminted afterwards
+  // to drop it. The daily cron also cancels on last_sign_in_at, should this
+  // call fail.
+  const reactivating = useRef(false);
+  useEffect(() => {
+    if (!user?.deletionScheduledFor || reactivating.current) return;
+    reactivating.current = true;
+    cancelAccountDeletion().then(async (r) => {
+      if (r.ok) {
+        const { session } = await refreshSession();
+        if (session) setUser(mapSupabaseUser(session));
+        notify("Bon retour ! La suppression de votre compte a été annulée.");
+      }
+    }).finally(() => { reactivating.current = false; });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.deletionScheduledFor]);
 
   // A shareable "?gift=CODE" link (Admin → Tarifs → Liens cadeaux) is stashed
   // for redemption the moment there's an account to grant it to — a fresh
@@ -351,6 +372,27 @@ export function AppProvider({ children }) {
     setPendingOnboarding(false);
   };
 
+  // Self-service deletion from the profile page. The server deactivates the
+  // account and stamps the admin-disconnect marker so every OTHER device signs
+  // out; this one signs out right here. forcingOut is held for the duration so
+  // this device's own heartbeat can't catch that marker first and show the
+  // unrelated "reconnexion nécessaire" popup over the confirmation.
+  const deactivateAccount = async () => {
+    forcingOut.current = true;
+    try {
+      const r = await requestAccountDeletion();
+      if (!r.ok) return r;
+      await authSignOut();
+      setUser(null);
+      setPendingOnboarding(false);
+      nav("home", { replace: true });
+      setDeletionNotice({ scheduledFor: r.scheduledFor, emailed: !!r.emailed });
+      return r;
+    } finally {
+      forcingOut.current = false;
+    }
+  };
+
   // Show the grace popup once; the modal signs the device out when its 5s
   // countdown ends (or the user clicks through sooner).
   const triggerForcedLogout = () => {
@@ -443,7 +485,7 @@ export function AppProvider({ children }) {
     dark, setDark,
     lang, setLang, t,
     route, nav, back,
-    user, setUser, authReady, signOut, role,
+    user, setUser, authReady, signOut, deactivateAccount, role,
     ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
     pendingOnboarding, completeOnboarding,
@@ -460,6 +502,7 @@ export function AppProvider({ children }) {
     <AppContext.Provider value={value}>
       {children}
       {forcedLogout && <ForcedLogoutModal onDone={finishForcedLogout} t={t} c={c} />}
+      {deletionNotice && <AccountDeactivatedModal {...deletionNotice} onClose={() => setDeletionNotice(null)} t={t} c={c} />}
     </AppContext.Provider>
   );
 }
@@ -484,6 +527,25 @@ function ForcedLogoutModal({ onDone, t, c }) {
         <p className={`mt-2 text-sm ${c.sub}`}>{t("Votre accès a été mis à jour. Reconnectez-vous pour l'activer.")}</p>
         <p className={`mt-3 text-xs ${c.faint}`}>{t("Déconnexion automatique dans")} {left}s</p>
         <button onClick={onDone} className="mt-5 w-full px-5 py-3 rounded-full grad-brand text-white font-semibold shadow-lg shadow-blue-600/30">{t("Se reconnecter")}</button>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+// Shown once the account has been deactivated from the profile page (the
+// device is already signed out underneath it).
+function AccountDeactivatedModal({ scheduledFor, emailed, onClose, t, c }) {
+  const date = new Date(scheduledFor).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
+  return createPortal(
+    <div role="alertdialog" aria-modal="true" aria-labelledby="deactivated-title" className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className={`w-full max-w-sm rounded-3xl border ${c.border} ${c.card} p-7 text-center shadow-2xl rise`}>
+        <span className="w-14 h-14 rounded-full bg-rose-600/10 text-rose-600 flex items-center justify-center mx-auto"><UserX size={26} /></span>
+        <h3 id="deactivated-title" className={`mt-4 font-display font-bold text-lg ${c.text}`}>{t("Compte désactivé")}</h3>
+        <p className={`mt-2 text-sm ${c.sub}`}>{t("Votre compte et toutes ses informations sont désactivés. Ils seront définitivement supprimés le")} <strong className={c.text}>{t(date)}</strong>.</p>
+        <p className={`mt-3 text-sm ${c.sub}`}>{t("Vous avez changé d'avis ? Reconnectez-vous avant cette date pour annuler la suppression.")}</p>
+        {emailed && <p className={`mt-3 text-xs ${c.faint}`}>{t("Un courriel de confirmation vous a été envoyé.")}</p>}
+        <button autoFocus onClick={onClose} className="mt-5 w-full px-5 py-3 rounded-full grad-brand text-white font-semibold shadow-lg shadow-blue-600/30">{t("J'ai compris")}</button>
       </div>
     </div>,
     document.body,

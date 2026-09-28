@@ -251,6 +251,10 @@ export function mapSupabaseUser(session) {
     admin: authUser.app_metadata?.role === "admin",
     owner: authUser.app_metadata?.role === "owner",
     createdAt: authUser.created_at || null,
+    // Set while a self-service deletion is pending (api/_lib/public/account.js).
+    // A session carrying it means the user just signed back in — see
+    // useAccountReactivation.
+    deletionScheduledFor: authUser.app_metadata?.deletion_scheduled_for || null,
   };
 }
 
@@ -549,6 +553,33 @@ export async function signOut() {
   setDeviceSessionId(null); // next login re-claims cleanly
   return supabase.auth.signOut();
 }
+
+// Self-service account deletion (api/public/account). "delete" deactivates the
+// account and schedules its erasure; "reactivate" cancels that. Both return
+// the parsed JSON plus `ok`, never throw.
+async function accountAction(action) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) return { ok: false, error: "Session expirée. Reconnectez-vous." };
+  const sid = getDeviceSessionId();
+  try {
+    const res = await fetch("/api/public/account", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        ...(sid ? { "X-Device-Session": sid } : {}),
+      },
+      body: JSON.stringify({ action }),
+    });
+    const json = await res.json().catch(() => ({}));
+    return res.ok ? { ...json, ok: true } : { ok: false, error: json.error || "La demande a échoué. Réessayez." };
+  } catch {
+    return { ok: false, error: "Connexion impossible. Vérifiez votre réseau et réessayez." };
+  }
+}
+export const requestAccountDeletion = () => accountAction("delete");
+export const cancelAccountDeletion = () => accountAction("reactivate");
 
 // A Supabase auth error turned into something worth showing a user.
 //
