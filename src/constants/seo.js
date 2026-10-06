@@ -164,6 +164,7 @@ export const ROUTE_META = {
   dashboard: { path: "/tableau-de-bord", title: "Tableau de bord", noindex: true },
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
+  moderation: { path: "/moderation", title: "Modération", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
   revision: { path: "/revision", title: "Révision — questions difficiles", noindex: true },
 

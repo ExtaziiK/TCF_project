@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet, Reply, Send, CornerDownRight, Gift, Copy,
+  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -63,6 +63,7 @@ const USER_FILTERS = [
   { key: "vip", label: "Ultimate" },
   { key: "admin", label: "Admin" },
   { key: "owner", label: "Owner" },
+  { key: "moderator", label: "Modérateur" },
 ];
 
 const when = (iso) =>
@@ -869,7 +870,8 @@ function UsersTab() {
     const r = await updateAdminUser(payload);
     setBusy(false);
     if (!r.ok) return notify(r.error || "Action refusée.");
-    notify(done);
+    // `done` may read the response (naming a moderator reports who it replaced).
+    notify(typeof done === "function" ? done(r.data) : done);
     setOpenId(null);
     setConfirmId(null);
     setPage(1);
@@ -1083,7 +1085,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
           <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
-        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
+        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : u.moderator ? <Pill tone="green"><BadgeCheck size={11} /> Modérateur</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
         <td className="py-3.5">
@@ -1120,6 +1122,16 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                   onClick={() => act({ action: "set-role", userId: u.id, role: u.admin ? null : "admin" }, u.admin ? `Rôle admin retiré à ${u.email}.` : `${u.email} est maintenant admin.`)}
                   title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : undefined}>
                   {u.admin ? "Retirer admin" : "Nommer admin"}
+                </Btn>
+              )}
+              {/* Moderator = may approve DZD payment requests (its own
+                  "Modération" page), nothing else. Not offered on an admin row:
+                  it would silently demote them. */}
+              {canManageAdmins && !u.owner && !u.admin && (
+                <Btn small variant="ghost" disabled={busy || isSelf} icon={BadgeCheck}
+                  onClick={() => act({ action: "set-role", userId: u.id, role: u.moderator ? null : "moderator" }, u.moderator ? `Rôle modérateur retiré à ${u.email}.` : (d) => `${u.email} est maintenant le modérateur${d?.replaced?.length ? ` (remplace ${d.replaced.join(", ")})` : ""}. Effectif à sa prochaine connexion.`)}
+                  title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : "Un seul modérateur : le nommer retire le rôle au modérateur actuel. Il peut uniquement approuver les demandes CCP / BaridiMob."}>
+                  {u.moderator ? "Retirer modérateur" : "Nommer modérateur"}
                 </Btn>
               )}
               <Btn small variant="ghost" disabled={busy} icon={Smartphone}
@@ -2329,6 +2341,7 @@ const AUDIT_LABELS = {
   "create-promo": ["Code promo créé", "green"],
   "toggle-promo": ["Code promo modifié", "slate"],
   "delete-promo": ["Code promo supprimé", "amber"],
+  "approve-request": ["Demande approuvée", "green"],
 };
 
 function AuditTab() {
@@ -2359,7 +2372,11 @@ function AuditTab() {
       const tier = d.label ? `${currentPlanLabel(d.label)} ` : "";
       return `${sign} j → ${tier}jusqu'au ${dateOnly(d.premium_until)}`;
     }
-    if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : "rôle retiré";
+    if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : e.detail.role === "moderator" ? "nommé modérateur" : "rôle retiré";
+    if (e.action === "approve-request") {
+      const d = e.detail;
+      return `${d.plan}${d.days ? ` (${d.days} j)` : ""}${d.by === "moderator" ? " · par un modérateur" : ""}`;
+    }
     return "";
   };
   return (

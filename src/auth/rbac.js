@@ -23,6 +23,18 @@ export const ROLES = {
 export const STAFF_ROLES = [ROLES.ADMIN, ROLES.OWNER];
 export const isStaff = (role) => STAFF_ROLES.includes(role);
 
+// Moderation is a PERMISSION, not a role. A moderator (app_metadata.role ===
+// "moderator") is otherwise an ordinary account — free or paying, with the
+// role deriveRole gives them — that may also approve DZD payment requests on
+// the "moderation" page. Making it a role would have taken them out of
+// FREE_USER / PREMIUM_USER, which a dozen screens compare against. Staff can
+// moderate too (their "Demandes" tab is the same queue). The server enforces
+// this independently: api/_lib/admin/moderation.js → requireModerator.
+export const canModerate = (user) => !!user && (user.moderator || user.admin || user.owner);
+
+// Routes gated by a permission on the account rather than by role.
+const CAPABILITY_ACCESS = { moderation: canModerate };
+
 // A subscription is active when the plan is Premium and, if an expiry is
 // set (app_metadata.premium_until, ISO date), it is still in the future.
 // Expiry is re-evaluated on every render, so access drops the moment the
@@ -117,7 +129,9 @@ export const PAGE_ACCESS = {
 // A policy set on a base route covers its sub-routes ("sujet-reponse/2026-09/3"
 // is governed by "sujet-reponse"), matching how App.jsx resolves the page
 // component for the same route id. Exact entries still win.
-export function canAccess(role, route) {
+export function canAccess(role, route, user) {
+  const capability = CAPABILITY_ACCESS[route];
+  if (capability) return capability(user);
   const allowed = policyFor(route);
   return !allowed || allowed.includes(role);
 }
@@ -131,8 +145,9 @@ function policyFor(route) {
 // - "login":    account pages that just need authentication
 // - "upgrade":  premium content, shown to free users
 // - "forbidden": admin-only surface, shown to authenticated non-admins
-export function deniedReason(role, route) {
-  if (canAccess(role, route)) return null;
+export function deniedReason(role, route, user) {
+  if (canAccess(role, route, user)) return null;
+  if (CAPABILITY_ACCESS[route]) return role === ROLES.VISITOR ? "login" : "forbidden";
   if (role === ROLES.VISITOR) {
     return route === "dashboard" || route === "profile" ? "login" : "register";
   }

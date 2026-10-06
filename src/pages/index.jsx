@@ -32,6 +32,7 @@ import { Dashboard } from "@/pages/Dashboard";
 import { Profile } from "@/pages/Profile";
 import { ResetPassword } from "@/pages/ResetPassword";
 import { Admin } from "@/pages/Admin";
+import { Moderation } from "@/pages/Moderation";
 import { QuestionBank } from "@/pages/QuestionBank";
 import { NotFound } from "@/pages/NotFound";
 import { Terms } from "@/pages/Terms";
@@ -84,6 +85,7 @@ export const PAGES = {
   dashboard: Dashboard,
   profile: Profile,
   admin: Admin,
+  moderation: Moderation,
   bank: QuestionBank,
   revision: Revision,
   terms: Terms,

@@ -6,9 +6,9 @@ import {
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
-import { planDzdAmount, parseDzd } from "@/utils/currency";
+import { planDzdAmount } from "@/utils/currency";
 import { getPaymentDz, setPaymentDz } from "@/services/settingsService";
-import { updateAdminUser } from "@/services/adminService";
+import { approveSubscriptionRequest } from "@/services/adminService";
 import {
   listSubscriptionRequests, signReceiptUrl, setRequestStatus, deleteSubscriptionRequest,
 } from "@/services/subscriptionService";
@@ -143,24 +143,15 @@ export function SubscriptionRequestsTab({ onCount }) {
 
   const approve = async (req) => {
     setBusyId(req.id);
-    // Grant the plan through the same admin endpoint the Users tab uses.
-    const g = await updateAdminUser({ action: "set-plan", userId: req.user_id, plan: "Premium", days: req.plan_days, label: req.plan });
-    if (!g.ok) { setBusyId(null); return notify(g.error || (g.unavailable ? "Activation indisponible en local (fonctions serverless absentes)." : "Activation refusée.")); }
-    // Stamp the sale as it closes: this approval is what the Revenus tab counts,
-    // dated now and valued at the amount asked at checkout (already discounted
-    // if a promo was used). An amount corrected by hand earlier is kept.
-    await setRequestStatus(req.id, "approved", {
-      approved_at: new Date().toISOString(),
-      amount_received_dzd: req.amount_received_dzd ?? parseDzd(req.amount_dzd),
-    });
-    // No forced sign-out here. It used to be necessary — app_metadata is baked
-    // into the JWT, so the buyer's session still carried "Basic" claims —
-    // but it greeted someone who had just paid with "Reconnexion nécessaire"
-    // and an eight-second countdown. useDzActivation now watches the buyer's
-    // own request and remints their token within seconds of this approval, on
-    // every device they have open, so the disconnect only did harm.
+    // One approval path for staff and moderators (api/_lib/admin/moderation.js):
+    // the server grants the plan the request was made for, then marks it
+    // approved and stamps the sale for the Revenus tab (keeping an amount
+    // corrected by hand earlier). No forced sign-out: useDzActivation remints
+    // the buyer's token within seconds of the row turning approved.
+    const g = await approveSubscriptionRequest(req.id);
     setBusyId(null);
-    notify(`${req.plan} activé pour ${req.email || "le client"} — il devra se reconnecter pour y accéder.`);
+    if (!g.ok) return notify(g.error || (g.unavailable ? "Activation indisponible en local (fonctions serverless absentes)." : "Activation refusée."));
+    notify(`${req.plan} activé pour ${req.email || "le client"}.`);
     load();
   };
   const reject = async (req, reason) => {

@@ -250,6 +250,7 @@ export function mapSupabaseUser(session) {
     premiumUntil: authUser.app_metadata?.premium_until || null,
     admin: authUser.app_metadata?.role === "admin",
     owner: authUser.app_metadata?.role === "owner",
+    moderator: authUser.app_metadata?.role === "moderator",
     createdAt: authUser.created_at || null,
     // Set while a self-service deletion is pending (api/_lib/public/account.js).
     // A session carrying it means the user just signed back in — see

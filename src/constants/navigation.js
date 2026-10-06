@@ -8,7 +8,7 @@ import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks,
+  ListChecks, BadgeCheck,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -88,6 +88,10 @@ export const ACCOUNT_LINKS = [
   { l: "Tableau de bord", r: "dashboard", roles: AUTHENTICATED, icon: LayoutDashboard, group: "start", order: 4 },
   { l: "Mon profil", r: "profile", roles: AUTHENTICATED, icon: User, group: "start", order: 1 },
   { l: "Administration", r: "admin", roles: ADMIN_ONLY, icon: Shield, group: "start", order: 2 },
+  // Moderators only — staff approve the same queue from Administration →
+  // Demandes. `can` gates on the account rather than the role (see
+  // canModerate in rbac.js for why moderation is not a role).
+  { l: "Modération", r: "moderation", can: (user) => !!user?.moderator, icon: BadgeCheck, group: "start", order: 2 },
 ];
 
 // Reachable from the footer on every screen, so it only needs adding here.
@@ -112,14 +116,14 @@ export const MOBILE_GROUPS = [
   { id: "tools", l: "Outils & tarifs" },
 ];
 
-const visible = (item, role) => !item.roles || item.roles.includes(role);
+const visible = (item, role, user) => (!item.roles || item.roles.includes(role)) && (!item.can || item.can(user));
 
 // Returns the nav tree filtered for a role. Menus keep only the entries the
 // role may see; a menu with no visible entries is dropped entirely.
-export function navLinksForRole(links, role) {
+export function navLinksForRole(links, role, user) {
   return links
-    .filter((n) => visible(n, role))
-    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role)) } : n))
+    .filter((n) => visible(n, role, user))
+    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role, user)) } : n))
     .filter((n) => !n.menu || n.menu.length > 0);
 }
 
@@ -134,10 +138,10 @@ const GROUP_IDS = new Set(MOBILE_GROUPS.map((g) => g.id));
 // about who sees what. An entry whose `group` is missing or misspelt falls into
 // "tools" instead of vanishing: a typo should cost a link its placement, never
 // its existence.
-export function mobileNavForRole(role) {
+export function mobileNavForRole(role, user) {
   const flat = [
     ...navLinksForRole(NAV_LINKS, role).flatMap((n) => (n.menu ? n.menu : [n])),
-    ...navLinksForRole(ACCOUNT_LINKS, role),
+    ...navLinksForRole(ACCOUNT_LINKS, role, user),
     ...MOBILE_ONLY_LINKS,
   ];
   const bucket = (item) => (GROUP_IDS.has(item.group) ? item.group : "tools");

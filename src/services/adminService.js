@@ -96,6 +96,27 @@ export function fetchUserActivity({ userId, offset = 0 }) {
   return adminFetch(`/api/admin/activity?${params.toString()}`);
 }
 
+/* ------------------------------- moderation ------------------------------- */
+
+// The DZD payment-request queue (api/_lib/admin/moderation.js), open to the
+// moderator role as well as staff. Pending + approved requests only, with
+// `has_receipt` in place of the storage path.
+export function listModerationQueue() {
+  return adminFetch("/api/admin/moderation");
+}
+
+// Short-lived signed URL for one request's receipt, asked for by request id.
+export function moderationReceiptUrl(requestId) {
+  return adminFetch(`/api/admin/moderation?receipt=${encodeURIComponent(requestId)}`);
+}
+
+// Grants the plan the request was made for and marks it approved, server-side,
+// in that order. The only input is the id: plan, duration and account come
+// from the row itself.
+export function approveSubscriptionRequest(requestId) {
+  return adminFetch("/api/admin/moderation", { method: "POST", body: JSON.stringify({ action: "approve", requestId }) });
+}
+
 /* ------------------------------ subjects import --------------------------- */
 
 // Reads the newest month of subjects published on reussir-tcfcanada.com for

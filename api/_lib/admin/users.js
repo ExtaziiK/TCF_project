@@ -14,7 +14,8 @@ import { HttpError } from "../groq.js";
 //             "extend-access"   { days: number }  adds/removes days on top of what is
 //                                     left, keeping the live pass's tier; an account
 //                                     with none opens on DEFAULT_EXTEND_LABEL
-//             "set-role"        { role: "admin"|null }   (owner only; not your own role)
+//             "set-role"        { role: "admin"|"moderator"|null }   (owner only; not your own role;
+//                                     one moderator at most — naming one replaces the last)
 //             "reset-sessions"  {}    clears active device slots (unblocks a locked-out user)
 //             "disconnect"      {}    signs the account out on every device, now
 //             "delete"          {}    not yourself, never an owner, and an
@@ -38,7 +39,7 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 // labels remain readable everywhere else (TYPE_FILTERS below, DAILY_SITTINGS
 // in auth.js, device_limit_for() in the DB) for accounts that already hold
 // them.
-const PLAN_LABELS = ["Starter", "Pro", "Ultimate"];
+export const PLAN_LABELS = ["Starter", "Pro", "Ultimate"];
 
 // The tier an "extend-access" grant lands on when the account has no live pass
 // to add to. Entitlements are matched on plan_label (DAILY_SITTINGS and
@@ -77,6 +78,7 @@ const TYPE_FILTERS = {
   vip: (meta, active) => active && (meta.plan_label === "VIP" || meta.plan_label === "Ultimate"),
   admin: (meta) => meta.role === "admin",
   owner: (meta) => meta.role === "owner",
+  moderator: (meta) => meta.role === "moderator",
 };
 
 const PER_PAGE = 5;
@@ -115,6 +117,7 @@ function toRow(u, profiles) {
     premiumActive: premiumActive(meta),
     admin: meta.role === "admin",
     owner: meta.role === "owner",
+    moderator: meta.role === "moderator",
     createdAt: u.created_at,
     lastSignInAt: u.last_sign_in_at || null,
     lastSeenAt: p.last_seen_at || null,
@@ -122,7 +125,7 @@ function toRow(u, profiles) {
   };
 }
 
-async function audit(actor, action, target, detail) {
+export async function audit(actor, action, target, detail) {
   await admin.from("admin_audit_log").insert({
     actor_id: actor.id,
     actor_email: actor.email,
@@ -134,7 +137,7 @@ async function audit(actor, action, target, detail) {
 
 // Merges (never replaces) app_metadata so unrelated fields survive an edit —
 // same rule as the Stripe webhook.
-async function patchMetadata(userId, patch) {
+export async function patchMetadata(userId, patch) {
   const { data, error } = await admin.auth.admin.getUserById(userId);
   if (error || !data?.user) throw new HttpError(404, "Utilisateur introuvable.");
   const { error: updateError } = await admin.auth.admin.updateUserById(userId, {
@@ -304,14 +307,27 @@ async function handlePost(req, res, actor) {
     // An admin can never edit their own role: demoting yourself locks you out,
     // and self-service promotion paths are how privilege bugs are born.
     if (userId === actor.id) throw new HttpError(400, "Vous ne pouvez pas modifier votre propre rôle.");
-    // This endpoint only toggles the admin role; an owner is created solely via
+    // This endpoint only sets admin / moderator (or clears the role); an owner is created solely via
     // the service role, so it must never be demoted through here by accident.
     const { data: targetData } = await admin.auth.admin.getUserById(userId);
     if (targetData?.user?.app_metadata?.role === "owner") throw new HttpError(400, "Le rôle propriétaire ne peut pas être modifié ici.");
-    const role = req.body.role === "admin" ? "admin" : null;
+    const role = ["admin", "moderator"].includes(req.body.role) ? req.body.role : null;
+    // There is only ever ONE moderator. Naming a new one strips the role from
+    // whoever held it, first, so there is no moment with two. It bites at once
+    // on the server: requireModerator re-reads the account from Auth on every
+    // call, so the old moderator's still-valid token approves nothing more.
+    const replaced = [];
+    if (role === "moderator") {
+      for (const u of await listAllUsers()) {
+        if (u.id === userId || u.app_metadata?.role !== "moderator") continue;
+        await patchMetadata(u.id, { role: null });
+        await audit(actor, "set-role", u.email, { role: null, replacedBy: userId });
+        replaced.push(u.email);
+      }
+    }
     const user = await patchMetadata(userId, { role });
     await audit(actor, "set-role", user.email, { role });
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, replaced });
   }
 
   if (action === "reset-sessions") {

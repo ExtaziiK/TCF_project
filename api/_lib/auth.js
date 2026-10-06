@@ -348,6 +348,16 @@ export async function requireAdmin(req) {
   return user;
 }
 
+// requireUser + a role allowed to approve DZD payment requests: the moderator
+// (whose ONLY back-office power this is — see api/_lib/admin/moderation.js),
+// plus admin and owner. A moderator never passes requireAdmin or is_admin().
+export async function requireModerator(req) {
+  const user = await requireUser(req);
+  const role = user.app_metadata?.role;
+  if (role !== "moderator" && role !== "admin" && role !== "owner") throw new HttpError(403, "Réservé à la modération.");
+  return user;
+}
+
 // requireUser + the owner role. The owner is the only account allowed to
 // assign or revoke admins, so admin-management actions gate on this.
 export async function requireOwner(req) {
