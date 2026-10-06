@@ -105,6 +105,11 @@ export function listModerationQueue() {
   return adminFetch("/api/admin/moderation");
 }
 
+// How many requests are waiting, for the badge on the validateur's nav button.
+export function countPendingValidations() {
+  return adminFetch("/api/admin/moderation?count=1");
+}
+
 // Short-lived signed URL for one request's receipt, asked for by request id.
 export function moderationReceiptUrl(requestId) {
   return adminFetch(`/api/admin/moderation?receipt=${encodeURIComponent(requestId)}`);

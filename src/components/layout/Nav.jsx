@@ -6,6 +6,7 @@ import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { NAV_LINKS, navLinksForRole, mobileNavForRole } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
+import { usePendingValidations } from "@/hooks/usePendingValidations";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { TOUR_STEPS } from "@/constants/tour";
@@ -51,6 +52,8 @@ export function Nav({ barOffset = false }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id, route);
+  // Requests waiting for the validateur, shown on their Validation button.
+  const pendingValidations = usePendingValidations(!!user?.moderator);
   const notifRef = useRef(null);
   const closeAll = () => { setOpen(false); setOpenMenu(null); setNotifOpen(false); };
   const go = (r) => { nav(r); closeAll(); };
@@ -207,7 +210,12 @@ export function Nav({ barOffset = false }) {
                   <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full shrink-0 ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
                 {user.moderator && (
-                  <button onClick={() => go("moderation")} aria-label={t("Validation")} title={t("Validation des paiements")} className={`p-2.5 rounded-full shrink-0 ${route === "moderation" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><BadgeCheck size={18} /></button>
+                  <button onClick={() => go("moderation")} aria-label={t("Validation")} title={t("Validation des paiements")} className={`relative p-2.5 rounded-full shrink-0 ${route === "moderation" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>
+                    <BadgeCheck size={18} />
+                    {pendingValidations > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold leading-none flex items-center justify-center">{pendingValidations > 9 ? "9+" : pendingValidations}</span>
+                    )}
+                  </button>
                 )}
                 <button onClick={() => go("profile")} aria-label={t("Mon profil")} title={activeProfile?.name || user.name} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border shrink-0 ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
@@ -284,6 +292,9 @@ export function Nav({ barOffset = false }) {
                           <span className={`flex-1 text-[15px] ${m.grad ? "font-bold" : "font-medium"} ${active ? "text-blue-600" : c.text}`}>
                             {m.grad && !active ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
                           </span>
+                          {m.r === "moderation" && pendingValidations > 0 && (
+                            <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-600 text-white text-[11px] font-bold leading-none flex items-center justify-center">{pendingValidations > 9 ? "9+" : pendingValidations}</span>
+                          )}
                           <ChevronRight size={15} className={c.faint} />
                         </RouteLink>
                       );

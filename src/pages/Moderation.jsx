@@ -3,6 +3,7 @@ import { Inbox, Check, ExternalLink, FileText, Crown, CloudOff, RefreshCw } from
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { listModerationQueue, moderationReceiptUrl, approveSubscriptionRequest } from "@/services/adminService";
+import { PENDING_VALIDATIONS_EVENT } from "@/hooks/usePendingValidations";
 
 // The moderator's page: the DZD payment requests (CCP / BaridiMob), and one
 // action — approve. A moderator has no other back-office access; refusing or
@@ -33,6 +34,8 @@ export function Moderation() {
     }
     setError(null);
     setRequests(r.data.requests || []);
+    // Keep the nav badge in step with what this page just loaded.
+    window.dispatchEvent(new window.Event(PENDING_VALIDATIONS_EVENT));
   };
   useEffect(() => { load(); }, []);
 

@@ -8,6 +8,7 @@ import { patchMetadata, audit, PLAN_LABELS } from "./users.js";
 //
 //   GET  /api/admin/moderation                          → { requests }
 //   GET  /api/admin/moderation?receipt=<requestId>      → { url }
+//   GET  /api/admin/moderation?count=1                  → { count } (pending, for the nav badge)
 //   POST /api/admin/moderation { action: "approve", requestId } → { ok }
 //
 // A moderator's whole back-office power is this file. They hold no database
@@ -40,6 +41,14 @@ function parseDzd(value) {
 const LIST_COLUMNS = "id, user_id, name, email, plan, plan_days, method, amount_dzd, reference, notes, receipt_path, status, created_at";
 
 async function handleGet(req, res) {
+  if (req.query.count) {
+    const { count, error } = await admin
+      .from("subscription_requests")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "new");
+    if (error) throw new HttpError(502, "Demandes indisponibles.");
+    return res.status(200).json({ count: count || 0 });
+  }
   if (req.query.receipt) {
     const { data: row } = await admin
       .from("subscription_requests")
