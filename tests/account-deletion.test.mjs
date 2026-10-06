@@ -78,3 +78,15 @@ test("offer email: {encadre} becomes the TCF50 box with its GIF, and it says how
   assert.ok(!html.includes("{encadre}"));
   assert.ok(!renderEmail("offer", { promoCode: "" }, { site: SITE }).html.includes("code-promo"));
 });
+
+test("CCP / BaridiMob are named to Algerian accounts only", async () => {
+  const { paymentPhrase } = await import("../api/_lib/emailTemplates.js");
+  assert.equal(paymentPhrase({ user_metadata: { country: "Algérie" } }), "par carte ou par CCP / BaridiMob");
+  assert.equal(paymentPhrase({ user_metadata: { country: "algerie" } }), "par carte ou par CCP / BaridiMob");
+  assert.equal(paymentPhrase({ user_metadata: { country: "Maroc" } }), "par carte bancaire");
+  assert.equal(paymentPhrase({ user_metadata: {} }), "par carte bancaire");
+  const dz = renderEmail("offer", null, { vars: { paiement: paymentPhrase({ user_metadata: { country: "Algérie" } }) }, site: SITE }).html;
+  const other = renderEmail("offer", null, { vars: { paiement: paymentPhrase({ user_metadata: { country: "France" } }) }, site: SITE }).html;
+  assert.match(dz, /BaridiMob/);
+  assert.ok(!/BaridiMob|CCP/.test(other));
+});

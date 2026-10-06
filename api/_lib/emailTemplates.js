@@ -62,13 +62,14 @@ export const EMAIL_TEMPLATES = {
   offer: {
     key: "email_offer",
     title: "Offre -50 % (comptes actifs)",
-    when: "Envoyé à la main, avec le bouton ci-dessous, aux comptes qui ont utilisé le site au moins 2 jours différents sans jamais payer. Une seule fois par compte ; ceux qui ont reçu TCF50 en septembre sont exclus.",
+    when: "Envoyé à la main, avec le bouton ci-dessous, aux comptes qui ont utilisé le site au moins 2 jours différents sans jamais payer. Une seule fois par compte ; ceux qui ont reçu TCF50 en septembre sont exclus. {paiement} devient « par carte ou par CCP / BaridiMob » pour les comptes d'Algérie, « par carte bancaire » pour les autres.",
     audience: true,
     promo: { code: "TCF50", text: "Votre code : **-50 %** sur votre premier forfait" },
-    placeholders: {},
+    // Filled per recipient by paymentPhrase(); the sample is the non-Algerian one.
+    placeholders: { paiement: "par carte bancaire" },
     defaults: {
       subject: "Vous progressez : -50 % pour aller plus loin",
-      body: "Vous vous êtes entraîné·e plusieurs fois sur **TCF Passerelle** ces dernières semaines, et c'est exactement comme ça qu'on progresse au TCF Canada.\n\nPour aller plus loin — toute la banque de questions avec les corrigés, plus de TCF blancs et les simulations d'expression écrite et orale corrigées par IA —, voici **-50 %** sur votre premier forfait :\n\n{encadre}\n\n[Voir les forfaits](tarifs)\n\nLe code s'applique au premier paiement, par carte ou par CCP / BaridiMob.\n\nBonne préparation,\n\nVous ne souhaitez plus recevoir nos offres ? Répondez simplement « STOP » à ce courriel.",
+      body: "Vous vous êtes entraîné·e plusieurs fois sur **TCF Passerelle** ces dernières semaines, et c'est exactement comme ça qu'on progresse au TCF Canada.\n\nPour aller plus loin — toute la banque de questions avec les corrigés, plus de TCF blancs et les simulations d'expression écrite et orale corrigées par IA —, voici **-50 %** sur votre premier forfait :\n\n{encadre}\n\n[Voir les forfaits](tarifs)\n\nLe code s'applique au premier paiement, {paiement}.\n\nBonne préparation,\n\nVous ne souhaitez plus recevoir nos offres ? Répondez simplement « STOP » à ce courriel.",
     },
   },
   accountDeleted: {
@@ -82,6 +83,16 @@ export const EMAIL_TEMPLATES = {
     },
   },
 };
+
+// CCP / BaridiMob are Algerian payment methods, offered on the DZD tab only to
+// visitors from Algeria (src/hooks/usePricingSelection.js) — so an email names
+// them to an Algerian account and nobody else. The country is the one chosen
+// at signup ("Algérie", see src/constants/exam.js), accent-insensitive.
+export const isAlgerianAccount = (user) =>
+  /^alg[eé]rie$|^algeria$/i.test(String(user?.user_metadata?.country || "").trim());
+
+export const paymentPhrase = (user) =>
+  isAlgerianAccount(user) ? "par carte ou par CCP / BaridiMob" : "par carte bancaire";
 
 export function normalizeEmail(id, raw) {
   const t = EMAIL_TEMPLATES[id];

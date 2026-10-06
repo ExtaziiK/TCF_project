@@ -1,6 +1,6 @@
 import { sendMail, mailConfigured } from "./mailer.js";
 import { loadEmail } from "./emails.js";
-import { renderEmail } from "./emailTemplates.js";
+import { renderEmail, paymentPhrase } from "./emailTemplates.js";
 import { firstNameOf } from "./emailLayout.js";
 
 // The "-50 %" offer (EMAIL_TEMPLATES.offer), sent by hand from Administration →
@@ -79,7 +79,7 @@ export async function sendOffer(admin, user, cfg, site) {
   const { error } = await stamp(new Date().toISOString());
   if (error) throw new Error(error.message);
   try {
-    const { subject, html } = renderEmail("offer", cfg, { firstName: firstNameOf(user), site });
+    const { subject, html } = renderEmail("offer", cfg, { firstName: firstNameOf(user), vars: { paiement: paymentPhrase(user) }, site });
     await sendMail({ to: user.email, subject, html });
   } catch (err) {
     await stamp(null);

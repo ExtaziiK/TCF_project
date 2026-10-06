@@ -1,14 +1,17 @@
+import { useEffect, useState } from "react";
 import { Gift, PlayCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PROMO_GIFS } from "../../api/_lib/welcomeTemplate.js";
+import { detectCountry, guessCountry } from "@/utils/geo";
 
 // "Comment utiliser votre code promo" — where the welcome email's promo box
 // links to (/code-promo?code=TCF30). Public: the reader arrives from their
 // inbox, often signed out. The same gesture as the TCF50 campaign of 2026-09
 // (enquete/email-campagne.md), with the GIF re-recorded on TCF30.
 
-// The full walkthrough down to the BaridiMob / CCP page (recorded with TCF50).
+// The full walkthrough down to the BaridiMob / CCP page (recorded with TCF50),
+// so it is offered to visitors from Algeria only, like everything CCP.
 const VIDEO = "https://youtube.com/shorts/fE_bYYI8sc4";
 
 const codeFromUrl = () => {
@@ -19,20 +22,26 @@ const codeFromUrl = () => {
 };
 
 export function CodePromo() {
-  const { c, nav } = useApp();
+  const { c, nav, user } = useApp();
   const code = codeFromUrl();
+  // Same rule as the DZD tab on Tarifs (usePricingSelection): an Algerian
+  // connection, or an account that gave Algérie as its country. CCP and
+  // BaridiMob are mentioned to them and to nobody else.
+  const [country, setCountry] = useState(guessCountry);
+  useEffect(() => { detectCountry().then((d) => { if (d) setCountry(d); }); }, []);
+  const dz = country === "DZ" || user?.country === "Algérie";
   const shown = code || "VOTRECODE";
   const gif = PROMO_GIFS[code]; // only for the code it shows
   const steps = [
     <>Ouvrez la page <strong>Tarifs</strong>.</>,
-    <>Vous payez en dinars ? Choisissez l&apos;onglet <strong>DZD</strong> (CCP / BaridiMob). Sinon, gardez votre devise.</>,
+    dz && <>Vous payez en dinars ? Choisissez l&apos;onglet <strong>DZD</strong> (CCP / BaridiMob). Sinon, gardez votre devise.</>,
     <>Dans l&apos;encadré <strong>« Vous avez un code promo ? »</strong>, effacez ce qui s&apos;y trouve déjà, puis tapez <strong className="font-mono2">{shown}</strong>.</>,
     <>Appuyez sur <strong>Appliquer</strong> : un message confirme la remise et les prix baissent.</>,
-    <>Choisissez votre forfait : la remise vous suit jusqu&apos;au paiement, par carte ou par CCP / BaridiMob.</>,
-  ];
+    <>Choisissez votre forfait : la remise vous suit jusqu&apos;au paiement, {dz ? "par carte ou par CCP / BaridiMob" : "par carte bancaire"}.</>,
+  ].filter(Boolean);
 
   return (
-    <PageShell back eyebrow="Code promo" title="Comment utiliser votre code promo" sub="Cinq étapes, moins d'une minute.">
+    <PageShell back eyebrow="Code promo" title="Comment utiliser votre code promo" sub={`${steps.length === 5 ? "Cinq" : "Quatre"} étapes, moins d'une minute.`}>
       <div className="grid lg:grid-cols-[minmax(0,1fr)_420px] gap-6 items-start">
         <Card className="p-6 md:p-8">
           {code && (
@@ -51,9 +60,9 @@ export function CodePromo() {
           </ol>
           <div className="mt-7 flex items-center gap-3 flex-wrap">
             <Btn onClick={() => nav("pricing")}>Aller à la page Tarifs</Btn>
-            <a href={VIDEO} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:underline">
+            {dz && <a href={VIDEO} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:underline">
               <PlayCircle size={16} /> Voir la vidéo jusqu&apos;au paiement CCP / BaridiMob (1 min 38)
-            </a>
+            </a>}
           </div>
           <p className={`mt-4 text-xs ${c.faint}`}>
             Le code s&apos;applique au premier paiement. Si le message « code invalide » apparaît, vérifiez que le champ ne contenait pas déjà un autre code.
