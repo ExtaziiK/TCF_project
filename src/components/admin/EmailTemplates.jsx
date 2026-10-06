@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Mail, Save, Send, Users, RotateCcw, CloudOff } from "lucide-react";
 import { AccountEmailEditor } from "@/components/admin/AccountEmailEditor";
+import { SendProgress } from "@/components/admin/SendProgress";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { getWelcomeEmail, setWelcomeEmail, getEmailTemplate } from "@/services/settingsService";
@@ -70,6 +71,7 @@ function WelcomeEmailEditor({ onEnabled }) {
   const [saved, setSaved] = useState(null);
   const [status, setStatus] = useState(null);
   const [busy, setBusy] = useState(null); // "save" | "test" | "send"
+  const [progress, setProgress] = useState(null); // manual send: { done, total, sent, failed, finished }
 
   const loadStatus = () => fetchWelcomeEmailStatus().then((r) => setStatus(r.ok ? r.data : { unavailable: true }));
   useEffect(() => {
@@ -116,6 +118,8 @@ function WelcomeEmailEditor({ onEnabled }) {
     setBusy("send");
     let total = 0;
     const failed = [];
+    const start = status?.pending || 0;
+    setProgress({ done: 0, total: start, sent: 0, failed: 0, finished: false });
     // Batches of 10 server-side; stop when done or when a batch sends nothing
     // (only failures left), so a broken address cannot loop forever.
     for (let i = 0; i < 50; i++) {
@@ -123,9 +127,11 @@ function WelcomeEmailEditor({ onEnabled }) {
       if (!r.ok) { notify(r.error || "Envoi refusé."); break; }
       total += r.data.sent;
       failed.push(...r.data.failed);
+      setProgress({ done: total + failed.length, total: Math.max(start, total + failed.length), sent: total, failed: failed.length, finished: false });
       if (r.data.remaining <= 0 || r.data.sent === 0) break;
     }
     setBusy(null);
+    setProgress((p) => p && { ...p, finished: true });
     if (total || failed.length) notify(`${total} courriel(s) envoyé(s)${failed.length ? ` · ${failed.length} échec(s)` : ""}.`);
     loadStatus();
   };
@@ -169,6 +175,7 @@ function WelcomeEmailEditor({ onEnabled }) {
                 {busy === "send" ? "Envoi…" : `Leur envoyer maintenant`}
               </Btn>
             )}
+            <SendProgress progress={progress} />
           </div>
         )}
       </Card>

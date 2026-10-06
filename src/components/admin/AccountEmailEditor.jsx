@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { getEmailTemplate, setEmailTemplate } from "@/services/settingsService";
 import { sendEmailTest, fetchOfferStatus, sendOfferBatch } from "@/services/adminService";
+import { SendProgress } from "@/components/admin/SendProgress";
 import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, LINK_TARGETS, renderEmail } from "../../../api/_lib/emailTemplates.js";
 
 // Editor for one of the automatic account emails (reminder, expired,
@@ -16,6 +17,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
   const [cfg, setCfg] = useState(null);
   const [saved, setSaved] = useState(null);
   const [busy, setBusy] = useState(null); // "save" | "test" | "send"
+  const [progress, setProgress] = useState(null); // manual send: { done, total, sent, failed, finished }
   const [audience, setAudience] = useState(null); // offer only: { pending, minDays, mailConfigured }
 
   const loadAudience = () => fetchOfferStatus().then((r) => setAudience(r.ok ? r.data : { unavailable: true, error: r.error }));
@@ -62,14 +64,18 @@ export function AccountEmailEditor({ id, onEnabled }) {
     setBusy("send");
     let total = 0;
     const failed = [];
+    const start = audience?.pending || 0;
+    setProgress({ done: 0, total: start, sent: 0, failed: 0, finished: false });
     for (let i = 0; i < 50; i++) {
       const r = await sendOfferBatch();
       if (!r.ok) { notify(r.error || "Envoi refusé."); break; }
       total += r.data.sent;
       failed.push(...r.data.failed);
+      setProgress({ done: total + failed.length, total: Math.max(start, total + failed.length), sent: total, failed: failed.length, finished: false });
       if (r.data.remaining <= 0 || r.data.sent === 0) break;
     }
     setBusy(null);
+    setProgress((p) => p && { ...p, finished: true });
     if (total || failed.length) notify(`${total} courriel(s) envoyé(s)${failed.length ? ` · ${failed.length} échec(s)` : ""}.`);
     loadAudience();
   };
@@ -111,6 +117,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
                 {busy === "send" ? "Envoi…" : "Leur envoyer maintenant"}
               </Btn>
             )}
+            <SendProgress progress={progress} />
           </div>
         )}
       </Card>
