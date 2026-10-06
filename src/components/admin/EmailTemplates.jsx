@@ -12,7 +12,8 @@ import { DEFAULT_WELCOME, WELCOME_MAX_CHARS, WELCOME_WINDOW_DAYS, renderWelcome 
 // chips at the top. The welcome email has its own richer form (below); the
 // others share AccountEmailEditor. Support replies are not listed — their text
 // is written per message, from the Messages tab.
-const ORDER = ["welcome", ...Object.keys(EMAIL_TEMPLATES)];
+// The automatic emails first, then the ones sent by hand (`audience`).
+const ORDER = ["welcome", ...Object.keys(EMAIL_TEMPLATES).sort((x, y) => !!EMAIL_TEMPLATES[x].audience - !!EMAIL_TEMPLATES[y].audience)];
 const TITLES = { welcome: "Bienvenue", ...Object.fromEntries(Object.entries(EMAIL_TEMPLATES).map(([k, t]) => [k, t.title])) };
 
 export function EmailTemplatesTab() {

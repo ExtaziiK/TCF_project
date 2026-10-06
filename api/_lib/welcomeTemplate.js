@@ -10,23 +10,15 @@
 // separate paragraphs and **double asterisks** make bold. Everything else is
 // escaped.
 
-import { FONT, escapeHtml, inline, paragraphs, button, signedLetter, greetingLine, firstNameOf } from "./emailLayout.js";
+import { FONT, inline, paragraphs, button, signedLetter, greetingLine, firstNameOf, promoBox, PROMO_GIFS, promoHelpUrl } from "./emailLayout.js";
 
-export { firstNameOf };
+export { firstNameOf, PROMO_GIFS, promoHelpUrl };
 
 export const WELCOME_EMAIL_KEY = "welcome_email";
 export const WELCOME_MAX_CHARS = 2000;
 // Accounts created within this many days get it (automatically on their first
 // sign-in, or from the admin's "send to recent signups" button).
 export const WELCOME_WINDOW_DAYS = 7;
-
-// Animations of a code being typed and applied on the Tarifs page, by code.
-// Shown in the welcome email and on /code-promo only for the code they show,
-// so changing the promo code never pairs it with a GIF of another one.
-export const PROMO_GIFS = { TCF30: { src: "/promo-tcf30.gif", width: 400, height: 193 } };
-
-// The page that walks through using a code (src/pages/CodePromo.jsx).
-export const promoHelpUrl = (site, code) => `${site}/code-promo?code=${encodeURIComponent(code)}`;
 
 export const DEFAULT_WELCOME = {
   enabled: true,
@@ -72,23 +64,12 @@ export function renderWelcome(cfg, { firstName = "", site }) {
         ${steps.map((s, i) => `<strong style="color:#2563eb;">${i + 1}.</strong> ${inline(s)}`).join("<br>")}
       </td></tr>
     </table>` : "";
-  const gif = PROMO_GIFS[c.promoCode];
-  const help = promoHelpUrl(site, c.promoCode);
-  const promoBox = c.promoCode ? `
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;background:#eff6ff;border:2px dashed #2563eb;border-radius:12px;">
-      <tr><td style="padding:16px 18px;text-align:center;font-family:${FONT};font-size:15px;line-height:24px;color:#334155;">
-        ${c.promoText.trim() ? `${inline(c.promoText.trim())}<br>` : ""}
-        <span style="display:inline-block;margin:8px 0 6px 0;padding:6px 16px;background:#ffffff;border-radius:8px;font-size:22px;font-weight:800;letter-spacing:2px;color:#1d4ed8;">${escapeHtml(c.promoCode)}</span><br>
-        ${gif ? `<a href="${help}" style="text-decoration:none;"><img src="${site}${gif.src}" width="${gif.width}" height="${gif.height}" alt="Le code ${escapeHtml(c.promoCode)} tapé dans la page Tarifs, puis appliqué" style="display:block;margin:10px auto 8px auto;border:1px solid #dbe4f5;border-radius:10px;width:100%;max-width:${gif.width}px;height:auto;"></a>` : ""}
-        <span style="font-size:13px;color:#64748b;">À saisir dans le champ «&nbsp;Vous avez un code promo&nbsp;?&nbsp;» de la page <a href="${site}/tarifs" style="color:#2563eb;">Tarifs</a>.</span><br>
-        <a href="${help}" style="display:inline-block;margin-top:6px;font-size:14px;font-weight:600;color:#2563eb;text-decoration:none;">Comment utiliser le code&nbsp;? Voir les étapes&nbsp;→</a>
-      </td></tr>
-    </table>` : "";
+  const promo = promoBox(site, c.promoCode, c.promoText);
   const html = signedLetter(site, `
     ${greetingLine(firstName)}
     ${paragraphs(c.intro, { last: "14px" })}
     ${stepsBox}
-    ${promoBox}
+    ${promo}
     ${c.buttonLabel.trim() ? `<p style="margin:0 0 22px 0;text-align:center;">${button(`${site}/mes-examens`, c.buttonLabel.trim())}</p>` : ""}
     ${paragraphs(c.outro, { last: "4px" })}
   `);

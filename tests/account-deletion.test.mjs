@@ -67,3 +67,14 @@ test("brand name reads TCF Passerelle", () => {
   assert.match(html, /L'équipe TCF Passerelle/);
   assert.ok(!/Passerelle TCF/.test(html + subject));
 });
+
+test("offer email: {encadre} becomes the TCF50 box with its GIF, and it says how to opt out", () => {
+  const { subject, html } = renderEmail("offer", null, { firstName: "Leila", site: SITE });
+  assert.match(subject, /-50/);
+  assert.match(html, /TCF50/);
+  assert.match(html, /promo-tcf50\.gif/);
+  assert.match(html, /code-promo\?code=TCF50/);
+  assert.match(html, /STOP/);
+  assert.ok(!html.includes("{encadre}"));
+  assert.ok(!renderEmail("offer", { promoCode: "" }, { site: SITE }).html.includes("code-promo"));
+});

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Mail, Save, Send, RotateCcw } from "lucide-react";
+import { Mail, Save, Send, RotateCcw, Users } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { getEmailTemplate, setEmailTemplate } from "@/services/settingsService";
-import { sendEmailTest } from "@/services/adminService";
+import { sendEmailTest, fetchOfferStatus, sendOfferBatch } from "@/services/adminService";
 import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, LINK_TARGETS, renderEmail } from "../../../api/_lib/emailTemplates.js";
 
 // Editor for one of the automatic account emails (reminder, expired,
@@ -15,9 +15,14 @@ export function AccountEmailEditor({ id, onEnabled }) {
   const t = EMAIL_TEMPLATES[id];
   const [cfg, setCfg] = useState(null);
   const [saved, setSaved] = useState(null);
-  const [busy, setBusy] = useState(null); // "save" | "test"
+  const [busy, setBusy] = useState(null); // "save" | "test" | "send"
+  const [audience, setAudience] = useState(null); // offer only: { pending, minDays, mailConfigured }
 
-  useEffect(() => { getEmailTemplate(id).then((r) => { setCfg(r.cfg); setSaved(r.cfg); }); }, [id]);
+  const loadAudience = () => fetchOfferStatus().then((r) => setAudience(r.ok ? r.data : { unavailable: true, error: r.error }));
+  useEffect(() => {
+    getEmailTemplate(id).then((r) => { setCfg(r.cfg); setSaved(r.cfg); });
+    if (t.audience) loadAudience();
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const preview = useMemo(() => (cfg ? renderEmail(id, cfg, { firstName: (user?.name || "").split(" ")[0], site: "https://www.tcfpasserelle.com" }) : null), [id, cfg, user?.name]);
   const dirty = cfg && saved && JSON.stringify(cfg) !== JSON.stringify(saved);
@@ -51,6 +56,24 @@ export function AccountEmailEditor({ id, onEnabled }) {
     notify(r.ok ? `Test envoyé à ${r.data.to}.` : r.error || (r.unavailable ? "Indisponible en local." : "Envoi refusé."));
   };
 
+  // Batches of 10 server-side; stops when done or when a batch sends nothing
+  // (only failures left), so a broken address cannot loop forever.
+  const sendAll = async () => {
+    setBusy("send");
+    let total = 0;
+    const failed = [];
+    for (let i = 0; i < 50; i++) {
+      const r = await sendOfferBatch();
+      if (!r.ok) { notify(r.error || "Envoi refusé."); break; }
+      total += r.data.sent;
+      failed.push(...r.data.failed);
+      if (r.data.remaining <= 0 || r.data.sent === 0) break;
+    }
+    setBusy(null);
+    if (total || failed.length) notify(`${total} courriel(s) envoyé(s)${failed.length ? ` · ${failed.length} échec(s)` : ""}.`);
+    loadAudience();
+  };
+
   if (!cfg) return <Card className="p-6"><div aria-hidden="true" className={`h-40 animate-pulse rounded-2xl ${c.track}`} /></Card>;
 
   const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
@@ -71,6 +94,25 @@ export function AccountEmailEditor({ id, onEnabled }) {
         <p className={`text-sm ${c.sub}`}>
           {t.when} {saved.enabled ? <strong className="text-emerald-600">Activé.</strong> : <strong className="text-amber-600">Désactivé — aucun envoi.</strong>}
         </p>
+        {t.audience && audience?.unavailable && (
+          <p className={`mt-3 text-sm ${c.faint}`}>Liste indisponible ici{audience.error ? ` (${audience.error})` : " (fonctions serverless absentes en local)"}.</p>
+        )}
+        {t.audience && audience && !audience.unavailable && (
+          <div className={`mt-4 p-4 rounded-2xl border flex items-center gap-3 flex-wrap ${c.border}`}>
+            <Users size={17} className="text-blue-600 shrink-0" />
+            <p className={`text-sm flex-1 min-w-[12rem] ${c.text}`}>
+              {audience.pending > 0
+                ? <><strong>{audience.pending}</strong> compte(s) actif(s) au moins {audience.minDays} jours, sans abonnement, ne l&apos;ont pas encore reçu.</>
+                : <>Aucun compte en attente : tous les comptes concernés l&apos;ont déjà reçu.</>}
+            </p>
+            {audience.pending > 0 && (
+              <Btn small icon={Send} disabled={busy !== null || !saved.enabled || dirty || !audience.mailConfigured} onClick={sendAll}
+                title={!saved.enabled ? "Activez d'abord le courriel" : dirty ? "Enregistrez d'abord vos modifications" : undefined}>
+                {busy === "send" ? "Envoi…" : "Leur envoyer maintenant"}
+              </Btn>
+            )}
+          </div>
+        )}
       </Card>
 
       <div className="grid xl:grid-cols-2 gap-4 items-start">
@@ -80,12 +122,25 @@ export function AccountEmailEditor({ id, onEnabled }) {
             {names.length > 0 && (
               <p>Remplacés à l&apos;envoi : {names.map((n) => <span key={n} className={`${code} mr-1`}>{`{${n}}`}</span>)} <span>(exemple dans l&apos;aperçu)</span></p>
             )}
+            {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes »).</p>}
             <p>Bouton : un paragraphe seul de la forme <span className={code}>[Texte](lien)</span>, où lien = {Object.keys(LINK_TARGETS).map((k) => <span key={k} className={`${code} mr-1`}>{k}</span>)}</p>
           </div>
           <div>
             <label className={label} htmlFor={`${id}-subject`}>Objet</label>
             <input id={`${id}-subject`} value={cfg.subject} onChange={(e) => setCfg({ ...cfg, subject: e.target.value })} className={inp} />
           </div>
+          {t.promo && (
+            <div className="grid sm:grid-cols-[10rem_minmax(0,1fr)] gap-3">
+              <div>
+                <label className={label} htmlFor={`${id}-code`}>Code promo</label>
+                <input id={`${id}-code`} value={cfg.promoCode} onChange={(e) => setCfg({ ...cfg, promoCode: e.target.value.toUpperCase() })} className={`${inp} font-mono2 uppercase`} />
+              </div>
+              <div>
+                <label className={label} htmlFor={`${id}-promotext`}>Texte au-dessus du code</label>
+                <input id={`${id}-promotext`} value={cfg.promoText} onChange={(e) => setCfg({ ...cfg, promoText: e.target.value })} className={inp} />
+              </div>
+            </div>
+          )}
           <div>
             <label className={label} htmlFor={`${id}-body`}>Message</label>
             <textarea id={`${id}-body`} rows={14} value={cfg.body} onChange={(e) => setCfg({ ...cfg, body: e.target.value })} className={inp} />
@@ -94,7 +149,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
           <div className="flex items-center gap-2 flex-wrap">
             <Btn icon={Save} disabled={busy !== null || !dirty || size > EMAIL_MAX_CHARS} onClick={save}>{busy === "save" ? "Enregistrement…" : "Enregistrer"}</Btn>
             <Btn variant="ghost" icon={Send} disabled={busy !== null} onClick={test}>{busy === "test" ? "Envoi…" : "M'envoyer un test"}</Btn>
-            <Btn variant="ghost" icon={RotateCcw} disabled={busy !== null} onClick={() => setCfg({ ...t.defaults, enabled: cfg.enabled })}>Texte par défaut</Btn>
+            <Btn variant="ghost" icon={RotateCcw} disabled={busy !== null} onClick={() => setCfg({ ...t.defaults, ...(t.promo ? { promoCode: t.promo.code, promoText: t.promo.text } : {}), enabled: cfg.enabled })}>Texte par défaut</Btn>
           </div>
         </Card>
 

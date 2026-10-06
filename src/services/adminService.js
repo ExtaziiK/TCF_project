@@ -119,6 +119,19 @@ export function sendWelcomeToRecent() {
   return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "send-recent" }) });
 }
 
+/* ------------------------------- -50 % offer ------------------------------ */
+
+// { pending, minDays, mailConfigured } — engaged accounts that never paid and
+// have not had the offer yet (decided server-side, api/_lib/offer.js).
+export function fetchOfferStatus() {
+  return adminFetch("/api/admin/email-offer");
+}
+
+// One batch of the saved offer → { sent, failed, remaining }.
+export function sendOfferBatch() {
+  return adminFetch("/api/admin/email-offer", { method: "POST", body: JSON.stringify({ action: "send" }) });
+}
+
 /* ------------------------------- moderation ------------------------------- */
 
 // The DZD payment-request queue (api/_lib/admin/moderation.js), open to the

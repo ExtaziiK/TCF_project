@@ -24,10 +24,13 @@ export const button = (href, label) =>
 
 // Blank-line-separated paragraphs. A paragraph that is only `[Label](target)`
 // becomes a centred button, when `links` knows the target (a short name such
-// as "tarifs" mapped to a URL); an unknown target stays as plain text.
-export function paragraphs(s, { last = "20px", links = {} } = {}) {
+// as "tarifs" mapped to a URL); an unknown target stays as plain text. A
+// paragraph that is exactly a key of `custom` (e.g. "{encadre}") is replaced
+// by that ready-made HTML.
+export function paragraphs(s, { last = "20px", links = {}, custom = {} } = {}) {
   const blocks = String(s).split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   return blocks.map((p, i) => {
+    if (custom[p] !== undefined) return custom[p];
     const margin = i === blocks.length - 1 ? last : "14px";
     const btn = p.match(/^\[([^\]]+)\]\(\s*([a-z-]+)\s*\)$/i);
     if (btn && links[btn[2].toLowerCase()]) {
@@ -74,4 +77,36 @@ export function signedLetter(site, inner) {
   </td></tr>
 </table>
 </div>`;
+}
+
+/* ------------------------------- promo code box ---------------------------- */
+
+// Animations of a code being typed and applied on the Tarifs page, by code.
+// Shown in emails and on /code-promo only for the code they show, so changing
+// the promo code never pairs it with a GIF of another one. A new code gets its
+// GIF the way promo-tcf30.gif was made (modeled on ads/capture-promo-dz.mjs).
+export const PROMO_GIFS = {
+  TCF30: { src: "/promo-tcf30.gif", width: 400, height: 193 },
+  TCF50: { src: "/promo-tcf50.gif", width: 400, height: 229 }, // the 2026-09 campaign's
+};
+
+// The page that walks through using a code (src/pages/CodePromo.jsx).
+export const promoHelpUrl = (site, code) => `${site}/code-promo?code=${encodeURIComponent(code)}`;
+
+// The dashed box: the code, its GIF and the "how to" link. "" without a code.
+export function promoBox(site, code, text) {
+  const c = String(code || "").trim().toUpperCase();
+  if (!c) return "";
+  const gif = PROMO_GIFS[c];
+  const help = promoHelpUrl(site, c);
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;background:#eff6ff;border:2px dashed #2563eb;border-radius:12px;">
+      <tr><td style="padding:16px 18px;text-align:center;font-family:${FONT};font-size:15px;line-height:24px;color:#334155;">
+        ${String(text || "").trim() ? `${inline(String(text).trim())}<br>` : ""}
+        <span style="display:inline-block;margin:8px 0 6px 0;padding:6px 16px;background:#ffffff;border-radius:8px;font-size:22px;font-weight:800;letter-spacing:2px;color:#1d4ed8;">${escapeHtml(c)}</span><br>
+        ${gif ? `<a href="${help}" style="text-decoration:none;"><img src="${site}${gif.src}" width="${gif.width}" height="${gif.height}" alt="Le code ${escapeHtml(c)} tapé dans la page Tarifs, puis appliqué" style="display:block;margin:10px auto 8px auto;border:1px solid #dbe4f5;border-radius:10px;width:100%;max-width:${gif.width}px;height:auto;"></a>` : ""}
+        <span style="font-size:13px;color:#64748b;">À saisir dans le champ «&nbsp;Vous avez un code promo&nbsp;?&nbsp;» de la page <a href="${site}/tarifs" style="color:#2563eb;">Tarifs</a>.</span><br>
+        <a href="${help}" style="display:inline-block;margin-top:6px;font-size:14px;font-weight:600;color:#2563eb;text-decoration:none;">Comment utiliser le code&nbsp;? Voir les étapes&nbsp;→</a>
+      </td></tr>
+    </table>`;
 }

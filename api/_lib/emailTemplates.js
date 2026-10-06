@@ -1,4 +1,4 @@
-import { paragraphs, signedLetter, greetingLine } from "./emailLayout.js";
+import { paragraphs, signedLetter, greetingLine, promoBox } from "./emailLayout.js";
 
 // The automatic account emails other than the welcome email (which has its own
 // richer form, see welcomeTemplate.js). Each is editable from Administration →
@@ -9,7 +9,12 @@ import { paragraphs, signedLetter, greetingLine } from "./emailLayout.js";
 //   - a blank line separates paragraphs; **double asterisks** make bold;
 //   - {placeholders} are filled when sending (the ones each email lists);
 //   - a paragraph that is only [Text](target) becomes a button, the target
-//     being one of LINK_TARGETS.
+//     being one of LINK_TARGETS;
+//   - in an email with a promo code (`promo`), a paragraph that is only
+//     {encadre} becomes the code box (code, GIF, "how to" link).
+//
+// `audience` marks an email sent by hand to a segment from the admin tab
+// (api/_lib/offer.js) rather than by an event.
 //
 // Pure (no Node or browser APIs): shared by the senders and the preview.
 
@@ -54,6 +59,18 @@ export const EMAIL_TEMPLATES = {
       body: "Nous avons bien reçu votre demande de suppression. Votre compte **TCF Passerelle** est désactivé et vous avez été déconnecté·e de tous vos appareils.\n\nVotre compte et toutes ses données (progression, résultats, historique) seront **définitivement supprimés le {date}**.\n\nVous avez changé d'avis ? Il suffit de vous reconnecter avant cette date : la suppression sera annulée et vous retrouverez tout comme avant.\n\n[Me reconnecter](connexion)\n\nSi vous n'êtes pas à l'origine de cette demande, reconnectez-vous et changez votre mot de passe, puis répondez à ce message.",
     },
   },
+  offer: {
+    key: "email_offer",
+    title: "Offre -50 % (comptes actifs)",
+    when: "Envoyé à la main, avec le bouton ci-dessous, aux comptes qui ont utilisé le site au moins 2 jours différents sans jamais payer. Une seule fois par compte ; ceux qui ont reçu TCF50 en septembre sont exclus.",
+    audience: true,
+    promo: { code: "TCF50", text: "Votre code : **-50 %** sur votre premier forfait" },
+    placeholders: {},
+    defaults: {
+      subject: "Vous progressez : -50 % pour aller plus loin",
+      body: "Vous vous êtes entraîné·e plusieurs fois sur **TCF Passerelle** ces dernières semaines, et c'est exactement comme ça qu'on progresse au TCF Canada.\n\nPour aller plus loin — toute la banque de questions avec les corrigés, plus de TCF blancs et les simulations d'expression écrite et orale corrigées par IA —, voici **-50 %** sur votre premier forfait :\n\n{encadre}\n\n[Voir les forfaits](tarifs)\n\nLe code s'applique au premier paiement, par carte ou par CCP / BaridiMob.\n\nBonne préparation,\n\nVous ne souhaitez plus recevoir nos offres ? Répondez simplement « STOP » à ce courriel.",
+    },
+  },
   accountDeleted: {
     key: "email_account_deleted",
     title: "Compte supprimé",
@@ -69,11 +86,16 @@ export const EMAIL_TEMPLATES = {
 export function normalizeEmail(id, raw) {
   const t = EMAIL_TEMPLATES[id];
   const src = raw && typeof raw === "object" ? raw : {};
-  return {
+  const out = {
     enabled: src.enabled === undefined ? true : src.enabled === true,
     subject: typeof src.subject === "string" ? src.subject : t.defaults.subject,
     body: typeof src.body === "string" ? src.body : t.defaults.body,
   };
+  if (t.promo) {
+    out.promoCode = (typeof src.promoCode === "string" ? src.promoCode : t.promo.code).trim().toUpperCase();
+    out.promoText = typeof src.promoText === "string" ? src.promoText : t.promo.text;
+  }
+  return out;
 }
 
 export function parseEmail(id, value) {
@@ -93,7 +115,7 @@ export function renderEmail(id, cfg, { firstName = "", vars, site }) {
   const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
   const html = signedLetter(site, `
     ${greetingLine(firstName)}
-    ${paragraphs(fill(c.body, v), { last: "4px", links })}
+    ${paragraphs(fill(c.body, v), { last: "4px", links, custom: t.promo ? { "{encadre}": promoBox(site, c.promoCode, c.promoText) } : {} })}
   `);
   return { subject: fill(c.subject.trim() || t.defaults.subject, v), html };
 }
