@@ -31,8 +31,9 @@ export const EN = {
   "Tableau de bord": "Dashboard",
   "Mon profil": "My profile",
   "Administration": "Admin",
-  "Modération": "Moderation",
-  "Modérateur": "Moderator",
+  "Validation": "Validation",
+  "Validation des paiements": "Payment validation",
+  "Validateur": "Validator",
 
   // ── Nav bar ──────────────────────────────────────────────────────────
   "Navigation principale": "Main navigation",

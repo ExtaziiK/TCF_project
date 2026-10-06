@@ -354,7 +354,7 @@ export async function requireAdmin(req) {
 export async function requireModerator(req) {
   const user = await requireUser(req);
   const role = user.app_metadata?.role;
-  if (role !== "moderator" && role !== "admin" && role !== "owner") throw new HttpError(403, "Réservé à la modération.");
+  if (role !== "moderator" && role !== "admin" && role !== "owner") throw new HttpError(403, "Réservé au validateur des paiements.");
   return user;
 }
 

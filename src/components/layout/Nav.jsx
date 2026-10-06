@@ -102,7 +102,7 @@ export function Nav({ barOffset = false }) {
   const planBadge = !user ? null
     : role === ROLES.OWNER ? { l: "Owner", cls: "text-amber-600" }
     : role === ROLES.ADMIN ? { l: "Admin", cls: "text-rose-600" }
-    : user.moderator ? { l: t("Modérateur"), cls: "text-emerald-600" }
+    : user.moderator ? { l: t("Validateur"), cls: "text-emerald-600" }
     : role === ROLES.PREMIUM_USER ? { l: currentPlanLabel(user.planLabel) || "Premium", cls: "text-blue-600" }
     : { l: t("Compte gratuit"), cls: c.faint };
   return (
@@ -207,7 +207,7 @@ export function Nav({ barOffset = false }) {
                   <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full shrink-0 ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
                 )}
                 {user.moderator && (
-                  <button onClick={() => go("moderation")} aria-label={t("Modération")} title={t("Modération")} className={`p-2.5 rounded-full shrink-0 ${route === "moderation" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><BadgeCheck size={18} /></button>
+                  <button onClick={() => go("moderation")} aria-label={t("Validation")} title={t("Validation des paiements")} className={`p-2.5 rounded-full shrink-0 ${route === "moderation" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><BadgeCheck size={18} /></button>
                 )}
                 <button onClick={() => go("profile")} aria-label={t("Mon profil")} title={activeProfile?.name || user.name} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border shrink-0 ${c.border} ${c.hoverSoft}`}>
                   <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
@@ -215,7 +215,7 @@ export function Nav({ barOffset = false }) {
                     <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{chipName(activeProfile?.name || user.name)}</span>
                     {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
                       : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
-                      : user.moderator ? <span className="text-[10px] font-bold text-emerald-600">{t("Modérateur")}</span>
+                      : user.moderator ? <span className="text-[10px] font-bold text-emerald-600">{t("Validateur")}</span>
                       : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{currentPlanLabel(user.planLabel) || "Premium"}</span>
                       : null}
                   </span>

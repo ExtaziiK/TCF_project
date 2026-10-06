@@ -63,7 +63,7 @@ const USER_FILTERS = [
   { key: "vip", label: "Ultimate" },
   { key: "admin", label: "Admin" },
   { key: "owner", label: "Owner" },
-  { key: "moderator", label: "Modérateur" },
+  { key: "moderator", label: "Validateur" },
 ];
 
 const when = (iso) =>
@@ -1085,7 +1085,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
           <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
         </td>
-        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : u.moderator ? <Pill tone="green"><BadgeCheck size={11} /> Modérateur</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
+        <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : u.moderator ? <Pill tone="green"><BadgeCheck size={11} /> Validateur</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
         <td className="py-3.5">
@@ -1125,13 +1125,13 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
                 </Btn>
               )}
               {/* Moderator = may approve DZD payment requests (its own
-                  "Modération" page), nothing else. Not offered on an admin row:
+                  "Validation" page), nothing else. Not offered on an admin row:
                   it would silently demote them. */}
               {canManageAdmins && !u.owner && !u.admin && (
                 <Btn small variant="ghost" disabled={busy || isSelf} icon={BadgeCheck}
-                  onClick={() => act({ action: "set-role", userId: u.id, role: u.moderator ? null : "moderator" }, u.moderator ? `Rôle modérateur retiré à ${u.email}.` : (d) => `${u.email} est maintenant le modérateur${d?.replaced?.length ? ` (remplace ${d.replaced.join(", ")})` : ""}. Effectif à sa prochaine connexion.`)}
-                  title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : "Un seul modérateur : le nommer retire le rôle au modérateur actuel. Il peut uniquement approuver les demandes CCP / BaridiMob."}>
-                  {u.moderator ? "Retirer modérateur" : "Nommer modérateur"}
+                  onClick={() => act({ action: "set-role", userId: u.id, role: u.moderator ? null : "moderator" }, u.moderator ? `Rôle validateur retiré à ${u.email}.` : (d) => `${u.email} est maintenant le validateur${d?.replaced?.length ? ` (remplace ${d.replaced.join(", ")})` : ""}. Effectif à sa prochaine connexion.`)}
+                  title={isSelf ? "Vous ne pouvez pas modifier votre propre rôle" : "Un seul validateur : le nommer retire le rôle au validateur actuel. Il peut uniquement approuver les demandes CCP / BaridiMob."}>
+                  {u.moderator ? "Retirer validateur" : "Nommer validateur"}
                 </Btn>
               )}
               <Btn small variant="ghost" disabled={busy} icon={Smartphone}
@@ -2372,10 +2372,10 @@ function AuditTab() {
       const tier = d.label ? `${currentPlanLabel(d.label)} ` : "";
       return `${sign} j → ${tier}jusqu'au ${dateOnly(d.premium_until)}`;
     }
-    if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : e.detail.role === "moderator" ? "nommé modérateur" : "rôle retiré";
+    if (e.action === "set-role") return e.detail.role === "admin" ? "promu admin" : e.detail.role === "moderator" ? "nommé validateur" : "rôle retiré";
     if (e.action === "approve-request") {
       const d = e.detail;
-      return `${d.plan}${d.days ? ` (${d.days} j)` : ""}${d.by === "moderator" ? " · par un modérateur" : ""}`;
+      return `${d.plan}${d.days ? ` (${d.days} j)` : ""}${d.by === "moderator" ? " · par le validateur" : ""}`;
     }
     return "";
   };

@@ -59,7 +59,7 @@ export function Moderation() {
   const list = (requests || []).filter((r) => filter === "all" || r.status === filter);
 
   return (
-    <PageShell back eyebrow="Modération" title="Demandes de paiement" sub="Vérifiez le reçu, puis approuvez pour activer l'abonnement du client.">
+    <PageShell back eyebrow="Validation des paiements" title="Demandes de paiement" sub="Vérifiez le reçu, puis approuvez pour activer l'abonnement du client.">
       <div className="space-y-4">
         <div className="flex gap-2 flex-wrap items-center">
           {FILTERS.map(([id, l]) => (

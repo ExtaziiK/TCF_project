@@ -91,7 +91,7 @@ export const ACCOUNT_LINKS = [
   // Moderators only — staff approve the same queue from Administration →
   // Demandes. `can` gates on the account rather than the role (see
   // canModerate in rbac.js for why moderation is not a role).
-  { l: "Modération", r: "moderation", can: (user) => !!user?.moderator, icon: BadgeCheck, group: "start", order: 2 },
+  { l: "Validation", r: "moderation", can: (user) => !!user?.moderator, icon: BadgeCheck, group: "start", order: 2 },
 ];
 
 // Reachable from the footer on every screen, so it only needs adding here.
