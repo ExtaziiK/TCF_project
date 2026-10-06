@@ -90,3 +90,11 @@ test("CCP / BaridiMob are named to Algerian accounts only", async () => {
   assert.match(dz, /BaridiMob/);
   assert.ok(!/BaridiMob|CCP/.test(other));
 });
+
+test("default welcome: no promo box, and it presents the tools", () => {
+  const { html } = renderWelcome(null, { site: SITE });
+  assert.ok(!html.includes("code-promo"));
+  assert.ok(!html.includes("TCF30"));
+  for (const word of ["Sujets du mois", "La dictée", "Révision", "Calculateur NCLC", "modèle de réponse"]) assert.match(html, new RegExp(word));
+  assert.match(renderWelcome({ promoCode: "TCF30" }, { site: SITE }).html, /code-promo\?code=TCF30/);
+});

@@ -30,13 +30,27 @@ export const DEFAULT_WELCOME = {
     "Passez votre **TCF blanc gratuit** : un examen complet et chronométré, comme le jour J.",
     "Essayez l'**expression écrite et orale** avec la correction par IA, sur un sujet d'essai.",
   ].join("\n"),
-  promoCode: "TCF30",
+  // What else the platform offers. Each claim must stay true of the product:
+  // free vs Premium follows src/auth/rbac.js PAGE_ACCESS (dictee, revision and
+  // sujet-reponse are PREMIUM; sujets-actualite, vocabulary, grammar,
+  // conjugation are open to any account; the calculator is public).
+  toolsTitle: "Et pour aller plus loin",
+  tools: [
+    "**Sujets du mois** : les sujets d'expression écrite et orale qui circulent ce mois-ci au TCF Canada, en accès libre — et pour l'expression écrite, un **modèle de réponse de niveau C1-C2** pour chaque tâche (Premium).",
+    "**La dictée** : un texte de niveau C1-C2 lu à voix haute, que vous écrivez, puis corrigé mot à mot avec la raison de chaque erreur (Premium).",
+    "**Révision** : les 1 600 questions les plus difficiles de la banque, avec leur corrigé, à lire ou à refaire (Premium).",
+    "**Vocabulaire, grammaire et conjugaison** : cartes mémoire, leçons et exercices, en accès libre.",
+    "**Calculateur NCLC** : convertissez vos scores TCF en niveaux NCLC pour votre dossier d'immigration.",
+  ].join("\n"),
+  // No promo code by default; type one in the admin tab (e.g. TCF30) and the
+  // code box comes back with this text above it.
+  promoCode: "",
   promoText: "Cadeau de bienvenue : **-30 %** sur votre premier forfait avec le code",
   buttonLabel: "Commencer ma préparation",
-  outro: "Le vocabulaire, la grammaire et la conjugaison sont aussi en accès libre, depuis le menu **S'entraîner**.\n\nUne question ? Répondez simplement à ce courriel, nous vous répondrons.\n\nBonne préparation,",
+  outro: "Le contenu marqué Premium se débloque avec un forfait, depuis la page **Tarifs**.\n\nUne question ? Répondez simplement à ce courriel, nous vous répondrons.\n\nBonne préparation,",
 };
 
-const TEXT_FIELDS = ["subject", "intro", "stepsTitle", "steps", "promoCode", "promoText", "buttonLabel", "outro"];
+const TEXT_FIELDS = ["subject", "intro", "stepsTitle", "steps", "toolsTitle", "tools", "promoCode", "promoText", "buttonLabel", "outro"];
 
 // Whatever was stored (or sent by the admin form), coerced to the full shape.
 // A missing field falls back to the default; an empty string is kept, which
@@ -64,11 +78,21 @@ export function renderWelcome(cfg, { firstName = "", site }) {
         ${steps.map((s, i) => `<strong style="color:#2563eb;">${i + 1}.</strong> ${inline(s)}`).join("<br>")}
       </td></tr>
     </table>` : "";
+  const tools = c.tools.split("\n").map((s) => s.trim()).filter(Boolean);
+  const toolsBox = tools.length ? `
+    ${c.toolsTitle.trim() ? `<p style="margin:0 0 10px 0;"><strong>${inline(c.toolsTitle.trim())}</strong></p>` : ""}
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;">
+      ${tools.map((s) => `<tr>
+        <td width="18" valign="top" style="padding:0 0 10px 0;font-family:${FONT};font-size:15px;line-height:24px;color:#2563eb;font-weight:700;">•</td>
+        <td valign="top" style="padding:0 0 10px 0;font-family:${FONT};font-size:15px;line-height:24px;color:#334155;">${inline(s)}</td>
+      </tr>`).join("")}
+    </table>` : "";
   const promo = promoBox(site, c.promoCode, c.promoText);
   const html = signedLetter(site, `
     ${greetingLine(firstName)}
     ${paragraphs(c.intro, { last: "14px" })}
     ${stepsBox}
+    ${toolsBox}
     ${promo}
     ${c.buttonLabel.trim() ? `<p style="margin:0 0 22px 0;text-align:center;">${button(`${site}/mes-examens`, c.buttonLabel.trim())}</p>` : ""}
     ${paragraphs(c.outro, { last: "4px" })}

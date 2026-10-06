@@ -56,6 +56,8 @@ const FIELDS = [
   ["intro", "Introduction", 3],
   ["stepsTitle", "Titre des étapes", 1],
   ["steps", "Étapes (une par ligne)", 4],
+  ["toolsTitle", "Titre de la liste des outils", 1],
+  ["tools", "Outils (un par ligne)", 6],
   ["promoCode", "Code promo (vide = pas d'encadré promo)", 1],
   ["promoText", "Texte au-dessus du code", 2],
   ["buttonLabel", "Texte du bouton (mène à Épreuves)", 1],
