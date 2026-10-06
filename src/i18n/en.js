@@ -555,24 +555,98 @@ export const EN = {
   // ── FAQ ──────────────────────────────────────────────────────────────
   "Foire aux questions": "Frequently asked questions",
   "Tout ce qu'il faut savoir avant de commencer": "Everything you need to know before you start",
-  "Qu'est-ce que le TCF Canada exactement ?": "What exactly is the TCF Canada?",
+  "Qu'est-ce que le TCF Canada exactement ?":
+    "What exactly is the TCF Canada?",
   "Le TCF Canada est un test de français reconnu par Immigration, Réfugiés et Citoyenneté Canada (IRCC) pour les demandes de résidence permanente et de citoyenneté. Il évalue quatre compétences : compréhension orale, compréhension écrite, expression orale et expression écrite.":
     "The TCF Canada is a French test recognized by Immigration, Refugees and Citizenship Canada (IRCC) for permanent residence and citizenship applications. It assesses four skills: listening, reading, speaking and writing.",
-  "Combien de temps les résultats sont-ils valables ?": "How long are the results valid?",
+  "Combien de temps les résultats sont-ils valables ?":
+    "How long are the results valid?",
   "Les attestations du TCF Canada sont valables deux ans à compter de la date de passation. Pensez à planifier votre test en fonction du dépôt de votre dossier d'immigration.":
     "TCF Canada certificates are valid for two years from the test date. Plan your test around the date you intend to submit your immigration application.",
-  "Quel niveau dois-je viser pour Entrée express ?": "What level should I aim for in Express Entry?",
-  "Cela dépend de votre profil. Un niveau B2 (NCLC 7) dans les quatre compétences débloque les points francophones ; un niveau C1 (NCLC 9 et plus) maximise vos points de capital humain. Notre test de niveau gratuit vous aide à définir une cible réaliste.":
-    "It depends on your profile. A B2 level (NCLC 7) in all four skills unlocks the francophone points; a C1 level (NCLC 9 and above) maximizes your human-capital points. Our free placement test helps you set a realistic target.",
-  "La plateforme fonctionne-t-elle sur mobile ?": "Does the platform work on mobile?",
-  "Oui. Passerelle est conçue en priorité pour mobile : vous pouvez réviser vos cartes de vocabulaire dans l'autobus et faire un TCF blanc complet sur ordinateur.":
-    "Yes. Passerelle is designed mobile-first: you can review your vocabulary cards on the bus and take a full mock exam on your computer.",
-  "Puis-je annuler mon abonnement à tout moment ?": "Can I cancel my subscription at any time?",
-  "Oui, en deux clics depuis votre tableau de bord. L'abonnement annuel bénéficie en plus d'une garantie satisfait ou remboursé de 30 jours.":
-    "Yes, in two clicks from your dashboard. The annual plan also comes with a 30-day money-back guarantee.",
-  "Les corrections d'expression écrite sont-elles faites par de vrais enseignants ?": "Are the writing corrections done by real teachers?",
-  "L'analyse instantanée est assistée par IA. Les abonnés Premium Annuel reçoivent en plus deux corrections humaines par mois, réalisées par des enseignants de FLE certifiés.":
-    "The instant analysis is AI-assisted. Premium Annual subscribers also receive two human corrections per month, done by certified French teachers.",
+  "Quel niveau dois-je viser pour Entrée express ?":
+    "What level should I aim for in Express Entry?",
+  "Cela dépend de votre profil. Un niveau B2 (NCLC 7) dans les quatre compétences ouvre les tirages réservés aux francophones et les points bonus ; un niveau C1 (NCLC 9 et plus) maximise vos points de capital humain. Pour savoir où vous en êtes, passez le TCF blanc gratuit, puis convertissez vos scores avec le calculateur NCLC.":
+    "It depends on your profile. A B2 level (NCLC 7) in all four skills opens the draws reserved for French speakers and the bonus points; a C1 level (NCLC 9 and above) maximizes your human-capital points. To see where you stand, take the free mock exam, then convert your scores with the NCLC calculator.",
+  "Ouvrir le calculateur NCLC":
+    "Open the NCLC calculator",
+  "Qu'est-ce qui est gratuit, et qu'apporte un forfait ?":
+    "What is free, and what does a plan add?",
+  "Avec un compte gratuit : un quiz dans chaque épreuve, un TCF blanc complet, un sujet d'essai en expression écrite et orale avec correction par IA, les cartes de vocabulaire, la grammaire, la conjugaison et les sujets du mois. Un forfait débloque toute la banque de questions, la Révision (les questions les plus difficiles avec leur corrigé), la dictée, les modèles de réponse des sujets du mois et davantage de TCF blancs et de simulations IA.":
+    "With a free account: one quiz in each test section, one full mock exam, a trial subject in writing and speaking with AI correction, vocabulary cards, grammar, conjugation and the subjects of the month. A plan unlocks the whole question bank, Revision (the hardest questions with their answers), the dictation, the model answers for the subjects of the month, and more mock exams and AI simulations.",
+  "Comparer les forfaits":
+    "Compare the plans",
+  "Est-ce un abonnement qui se renouvelle ?":
+    "Is it a subscription that renews?",
+  "Non. Les forfaits Starter (15 jours), Pro (30 jours) et Ultimate (90 jours) se paient une seule fois, sans renouvellement automatique : rien n'est prélevé à la fin. Vous recevez un rappel par courriel 3 jours avant l'échéance ; votre compte et votre progression restent ensuite disponibles en accès gratuit. Un forfait commencé n'est pas remboursable, sauf double paiement ou erreur de notre part.":
+    "No. The Starter (15 days), Pro (30 days) and Ultimate (90 days) plans are paid once, with no automatic renewal: nothing is charged at the end. You get an email reminder 3 days before it ends; afterwards your account and progress stay available with free access. A plan that has started is not refundable, except for a double payment or an error on our side.",
+  "Comment sont corrigées l'expression écrite et l'expression orale ?":
+    "How are writing and speaking corrected?",
+  "Par intelligence artificielle, en quelques secondes : une note estimée, les critères de l'examen, vos erreurs expliquées et des pistes pour progresser. Le compte gratuit permet de l'essayer sur un sujet d'essai ; le forfait Starter en donne 6 par jour à l'écrit et 6 à l'oral, Pro et Ultimate sont illimités.":
+    "By artificial intelligence, in a few seconds: an estimated score, the exam criteria, your mistakes explained and ways to improve. The free account lets you try it on a trial subject; the Starter plan gives 6 a day in writing and 6 in speaking, Pro and Ultimate are unlimited.",
+  "Comment utiliser un code promo ?":
+    "How do I use a promo code?",
+  "Le code s'ajoute sur la page Tarifs, avant de choisir votre forfait. La remise s'applique au premier paiement.":
+    "The code is added on the Pricing page, before you choose your plan. The discount applies to the first payment.",
+  "Ouvrez la page Tarifs.":
+    "Open the Pricing page.",
+  "Dans « Vous avez un code promo ? », effacez ce qui s'y trouve déjà, puis tapez votre code.":
+    "In “Have a promo code?”, clear whatever is already there, then type your code.",
+  "Appuyez sur Appliquer : un message confirme la remise et les prix baissent.":
+    "Tap Apply: a message confirms the discount and the prices go down.",
+  "Choisissez votre forfait : la remise vous suit jusqu'au paiement.":
+    "Choose your plan: the discount follows you to the payment.",
+  "Aller à la page Tarifs":
+    "Go to the Pricing page",
+  "Un code promo tapé dans « Vous avez un code promo ? », puis appliqué":
+    "A promo code typed in “Have a promo code?”, then applied",
+  "Comment s'abonner et payer par CCP ou BaridiMob ?":
+    "How do I subscribe and pay by CCP or BaridiMob?",
+  "Depuis l'Algérie, vous pouvez payer en dinars, par virement CCP ou versement BaridiMob. Votre accès est activé dès que votre reçu est vérifié, en général en moins de 15 minutes.":
+    "From Algeria, you can pay in dinars, by CCP transfer or BaridiMob payment. Your access is activated as soon as your receipt is checked, usually in under 15 minutes.",
+  "Sur la page Tarifs, choisissez l'onglet DZD.":
+    "On the Pricing page, choose the DZD tab.",
+  "Appuyez sur « Choisir » sous le forfait qui vous convient.":
+    "Tap “Choose” under the plan that suits you.",
+  "Choisissez BaridiMob ou CCP, puis envoyez le montant affiché vers le compte indiqué (le bouton Copier copie le numéro).":
+    "Choose BaridiMob or CCP, then send the amount shown to the account given (the Copy button copies the number).",
+  "Ajoutez une capture ou une photo de votre reçu, ou envoyez-le sur WhatsApp, puis indiquez votre numéro de téléphone.":
+    "Add a screenshot or a photo of your receipt, or send it on WhatsApp, then enter your phone number.",
+  "Appuyez sur « Envoyer ma demande d'abonnement ». Votre forfait s'active tout seul après vérification, sans avoir à vous reconnecter.":
+    "Tap “Send my subscription request”. Your plan activates by itself after the check, without signing in again.",
+  "Voir les tarifs en dinars":
+    "See the prices in dinars",
+  "Le paiement en dinars : onglet DZD, choix du forfait, BaridiMob ou CCP, reçu et envoi de la demande":
+    "Paying in dinars: DZD tab, choosing the plan, BaridiMob or CCP, receipt and sending the request",
+  "Comment ajouter un deuxième profil ?":
+    "How do I add a second profile?",
+  "Les forfaits Pro et Ultimate permettent de partager le compte en famille : 2 profils avec Pro, 4 avec Ultimate. Chaque profil garde sa propre progression, et peut être protégé par un code à quatre chiffres.":
+    "The Pro and Ultimate plans let you share the account with your family: 2 profiles with Pro, 4 with Ultimate. Each profile keeps its own progress, and can be protected by a four-digit code.",
+  "Ouvrez le menu, puis appuyez sur l'icône « Changer de profil » à côté de votre nom.":
+    "Open the menu, then tap the “Switch profile” icon next to your name.",
+  "Appuyez sur « Ajouter ».":
+    "Tap “Add”.",
+  "Tapez le prénom, choisissez une couleur et, si vous le souhaitez, un code à quatre chiffres.":
+    "Type the first name, pick a colour and, if you like, a four-digit code.",
+  "Appuyez sur « Créer le profil ». À chaque connexion, choisissez qui apprend aujourd'hui.":
+    "Tap “Create profile”. At each sign-in, choose who is learning today.",
+  "Le menu, « Changer de profil », « Ajouter », puis le nouveau profil créé":
+    "The menu, “Switch profile”, “Add”, then the new profile created",
+  "Comment supprimer mon compte ?":
+    "How do I delete my account?",
+  "Vous pouvez le faire vous-même depuis votre profil. Votre compte est désactivé tout de suite, puis supprimé définitivement après 7 jours, avec toutes vos données. Si vous vous reconnectez pendant ces 7 jours, la suppression est annulée.":
+    "You can do it yourself from your profile. Your account is deactivated right away, then permanently deleted after 7 days, with all your data. If you sign in again during those 7 days, the deletion is cancelled.",
+  "Ouvrez le menu, puis « Mon profil ».":
+    "Open the menu, then “My profile”.",
+  "Tout en bas de la page, appuyez sur « Supprimer mon compte ».":
+    "At the very bottom of the page, tap “Delete my account”.",
+  "Tapez SUPPRIMER pour confirmer, puis appuyez sur « Supprimer mon compte ».":
+    "Type SUPPRIMER to confirm, then tap “Delete my account”.",
+  "Mon profil, « Supprimer mon compte », puis la confirmation en tapant SUPPRIMER":
+    "My profile, “Delete my account”, then the confirmation by typing SUPPRIMER",
+  "La plateforme fonctionne-t-elle sur mobile ?":
+    "Does the platform work on mobile?",
+  "Oui, dans le navigateur de votre téléphone, sans application à installer : vous pouvez réviser vos cartes de vocabulaire dans l'autobus. Pour un TCF blanc complet, un ordinateur reste plus confortable, avec un micro pour l'expression orale.":
+    "Yes, in your phone's browser, with no app to install: you can review your vocabulary cards on the bus. For a full mock exam, a computer is more comfortable, with a microphone for the speaking part.",
 
   // ── About ────────────────────────────────────────────────────────────
   "Un seul objectif : que vous arriviez prêt le jour du TCF": "One goal: to have you ready on TCF day",

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { Gift, PlayCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PROMO_GIFS } from "../../api/_lib/welcomeTemplate.js";
-import { detectCountry, guessCountry } from "@/utils/geo";
+import { useIsAlgeria } from "@/hooks/useIsAlgeria";
 
 // "Comment utiliser votre code promo" — where the welcome email's promo box
 // links to (/code-promo?code=TCF30). Public: the reader arrives from their
@@ -22,14 +21,9 @@ const codeFromUrl = () => {
 };
 
 export function CodePromo() {
-  const { c, nav, user } = useApp();
+  const { c, nav } = useApp();
   const code = codeFromUrl();
-  // Same rule as the DZD tab on Tarifs (usePricingSelection): an Algerian
-  // connection, or an account that gave Algérie as its country. CCP and
-  // BaridiMob are mentioned to them and to nobody else.
-  const [country, setCountry] = useState(guessCountry);
-  useEffect(() => { detectCountry().then((d) => { if (d) setCountry(d); }); }, []);
-  const dz = country === "DZ" || user?.country === "Algérie";
+  const dz = useIsAlgeria(); // CCP / BaridiMob are mentioned to Algeria only
   const shown = code || "VOTRECODE";
   const gif = PROMO_GIFS[code]; // only for the code it shows
   const steps = [
