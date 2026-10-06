@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, CONFIRM_CODE_LENGTH } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { TermsConsent } from "@/components/auth/TermsConsent";
 import { CodeInput } from "@/components/auth/CodeInput";
@@ -35,6 +35,11 @@ export function AuthPage({ mode }) {
   const [verify, setVerify] = useState(false); // awaiting the emailed 6-digit code
   const [code, setCode] = useState("");
   const [cooldown, setCooldown] = useState(0); // seconds before "resend" re-arms
+  // The username of a sign-up abandoned with "Modifier mon adresse". If the
+  // server could not remove that first attempt, it still holds the username;
+  // signing up again is then allowed anyway (the profile trigger dedupes it)
+  // instead of telling the candidate their own username is taken.
+  const [abandoned, setAbandoned] = useState("");
   const [busy, setBusy] = useState(false);
   const [lockMsg, setLockMsg] = useState("");
   const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
@@ -94,7 +99,7 @@ export function AuthPage({ mode }) {
         if (!pwCheck.ok) return notify(t(pwCheck.error), "error");
         if (password !== confirm) return notify(t("Les deux mots de passe ne correspondent pas."), "error");
         if (!accepted) return notify(t("Vous devez lire et accepter les conditions générales pour créer un compte."), "error");
-        if (!(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
+        if (username !== abandoned && !(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
         const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country, acceptedTerms: true });
         if (error) return notify(authErrorMessage(error), "error");
         if (needsEmailConfirmation) setVerify(true);
@@ -127,6 +132,20 @@ export function AuthPage({ mode }) {
   };
 
   const submitCode = (e) => { e.preventDefault(); runVerify(code); };
+
+  // Mistyped the address? Drop the pending sign-up and go back to the form,
+  // every field still filled in, so only the address needs retyping.
+  const changeEmail = async () => {
+    setBusy(true);
+    await abandonPendingSignup(email, password);
+    setBusy(false);
+    setAbandoned(username);
+    setVerify(false);
+    setCode("");
+    setCooldown(0);
+    notify(t("Corrigez votre adresse, puis créez votre compte à nouveau."));
+    setTimeout(() => document.getElementById("register-email")?.focus(), 50);
+  };
 
   const resend = async () => {
     if (cooldown > 0 || busy) return;
@@ -195,6 +214,12 @@ export function AuthPage({ mode }) {
               {cooldown > 0 ? `${t("Renvoyer le code dans")} ${cooldown} s` : t("Je n'ai rien reçu — renvoyer le code")}
             </button>
             <p className={`mt-3 text-xs ${c.faint}`}>{t("Pensez à regarder dans vos courriels indésirables.")}</p>
+            <p className={`mt-4 pt-4 border-t text-sm ${c.border} ${c.sub}`}>
+              {t("Ce n'est pas la bonne adresse ?")}{" "}
+              <button type="button" onClick={changeEmail} disabled={busy} className="font-semibold text-blue-600 hover:underline disabled:opacity-50">
+                {t("Modifier mon adresse")}
+              </button>
+            </p>
           </form>
         ) : resetSent ? (
           <div className="text-center py-6 rise">
@@ -244,7 +269,7 @@ export function AuthPage({ mode }) {
             ) : (
               <div className="relative">
                 <Mail size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder={t("Courriel")} aria-label={t("Courriel")} type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
+                <input id="register-email" placeholder={t("Courriel")} aria-label={t("Courriel")} type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
             {view !== "reset" && (

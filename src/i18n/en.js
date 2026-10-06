@@ -682,6 +682,9 @@ export const EN = {
   // ── Auth ─────────────────────────────────────────────────────────────
   "Bon retour !": "Welcome back!",
   "Créer votre compte": "Create your account",
+  "Ce n'est pas la bonne adresse ?": "Not the right address?",
+  "Modifier mon adresse": "Change my address",
+  "Corrigez votre adresse, puis créez votre compte à nouveau.": "Fix your address, then create your account again.",
   "Réinitialiser le mot de passe": "Reset your password",
   "Reprenez votre préparation là où vous l'avez laissée.": "Pick up your preparation right where you left off.",
   "Gratuit, sans carte bancaire. Prêt en 30 secondes.": "Free, no credit card. Ready in 30 seconds.",

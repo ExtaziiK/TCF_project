@@ -580,6 +580,25 @@ async function accountAction(action) {
   }
 }
 export const requestAccountDeletion = () => accountAction("delete");
+
+// "Wrong address?" on the confirmation-code screen: removes the account that
+// sign-up just created with the mistyped address, so signing up again with the
+// right one is not refused for a username the first attempt still holds. No
+// session exists yet; the server checks the password instead (see
+// handleAbandonSignup in api/_lib/public/account.js). Never throws.
+export async function abandonPendingSignup(email, password) {
+  try {
+    const res = await fetch("/api/public/account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "abandon-signup", email, password }),
+    });
+    const json = await res.json().catch(() => ({}));
+    return { ok: res.ok, removed: !!json.removed };
+  } catch {
+    return { ok: false, removed: false };
+  }
+}
 export const cancelAccountDeletion = () => accountAction("reactivate");
 // Asks the server for the one-time welcome email (see useWelcomeEmail).
 export const requestWelcomeEmail = () => accountAction("welcome");

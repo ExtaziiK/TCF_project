@@ -10,7 +10,8 @@ import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js
 // the account at once and schedules the real deletion GRACE_DAYS later. Any
 // sign-in during that window cancels it. Grouped with the small public routes
 // purely for the Vercel function count (see api/public/[resource].js); every
-// action here requires a signed-in user.
+// action here requires a signed-in user, except "abandon-signup" below, which
+// by nature has no session yet and proves itself with the password instead.
 //
 //   POST /api/public/account { action: "delete" }
 //        Stamps deletion_requested_at / deletion_scheduled_for on the account,
@@ -22,6 +23,12 @@ import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js
 //        Sends the welcome email, once per account (welcome_email_sent_at), to
 //        a confirmed account created in the last WELCOME_WINDOW_DAYS, unless
 //        the owner switched it off in Administration → Emails. See ../welcome.js.
+//   POST /api/public/account { action: "abandon-signup", email, password }
+//        "Wrong address?" on the confirmation-code screen. Deletes the account
+//        that sign-up just created, so the candidate can sign up again with
+//        the right address — otherwise the first attempt keeps their username
+//        reserved (handle_new_user writes the profile at once). See
+//        handleAbandonSignup for what it takes.
 //
 // The actual deletion is done by the daily cron (api/cron/reminders.js), which
 // also re-checks last_sign_in_at so a sign-in whose "reactivate" call never
@@ -31,6 +38,9 @@ import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js
 // stamps — no table, no migration. Metadata is merged, never replaced.
 
 const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+  auth: { persistSession: false },
+});
+const anon = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_ANON_KEY, {
   auth: { persistSession: false },
 });
 
@@ -105,6 +115,40 @@ async function handleWelcome(res, user) {
   return res.status(200).json({ ok: true, sent: true });
 }
 
+// Only an account that is still unconfirmed, younger than a day, and whose
+// password the caller knows. The password is checked by GoTrue itself: for an
+// unconfirmed account it answers "email_not_confirmed" ONLY when the password
+// is right (a wrong one gets "invalid_credentials" — verified 2026-10-06), so
+// a stranger who merely knows the address cannot remove someone's sign-up.
+// The answer is the same whatever happened, so it reveals nothing about which
+// addresses exist.
+const ABANDON_MAX_AGE_MS = DAY_MS;
+
+async function handleAbandonSignup(req, res) {
+  await enforceRateLimit(req, { name: "abandon-signup", limit: 10, windowSeconds: 3600 });
+  const email = String(req.body?.email || "").trim().toLowerCase().slice(0, 200);
+  const password = String(req.body?.password || "").slice(0, 200);
+  const done = (removed) => res.status(200).json({ ok: true, removed });
+  if (!email || !password) return done(false);
+
+  const { error } = await anon.auth.signInWithPassword({ email, password });
+  if (error?.code !== "email_not_confirmed") return done(false);
+
+  for (let page = 1; page <= 20; page++) {
+    const { data, error: listError } = await admin.auth.admin.listUsers({ page, perPage: 1000 });
+    if (listError) return done(false);
+    const user = data.users.find((u) => (u.email || "").toLowerCase() === email);
+    if (user) {
+      const young = Date.now() - Date.parse(user.created_at) < ABANDON_MAX_AGE_MS;
+      if (user.email_confirmed_at || user.confirmed_at || !young) return done(false);
+      const { error: delError } = await admin.auth.admin.deleteUser(user.id);
+      return done(!delError);
+    }
+    if (data.users.length < 1000) break;
+  }
+  return done(false);
+}
+
 async function handleReactivate(res, user) {
   const meta = user.app_metadata || {};
   if (!meta.deletion_scheduled_for && !meta.deletion_requested_at) return res.status(200).json({ ok: true, reactivated: false });
@@ -117,6 +161,7 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
+    if (req.body?.action === "abandon-signup") return await handleAbandonSignup(req, res);
     const user = await requireUser(req);
     await enforceRateLimit(req, { name: "account", limit: 10, windowSeconds: 3600, userId: user.id });
     // getUser() returns the live record, so these stamps are current even if
