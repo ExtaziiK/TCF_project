@@ -96,6 +96,24 @@ export function fetchUserActivity({ userId, offset = 0 }) {
   return adminFetch(`/api/admin/activity?${params.toString()}`);
 }
 
+/* ------------------------------ welcome email ----------------------------- */
+
+// { pending, mailConfigured } — pending = accounts of the last 7 days that
+// should have had the welcome email and have not.
+export function fetchWelcomeEmailStatus() {
+  return adminFetch("/api/admin/welcome-email");
+}
+
+// Sends the current draft (saved or not) to the admin's own address.
+export function sendWelcomeTest(draft) {
+  return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "test", draft }) });
+}
+
+// One batch of the saved email to the pending accounts → { sent, failed, remaining }.
+export function sendWelcomeToRecent() {
+  return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "send-recent" }) });
+}
+
 /* ------------------------------- moderation ------------------------------- */
 
 // The DZD payment-request queue (api/_lib/admin/moderation.js), open to the

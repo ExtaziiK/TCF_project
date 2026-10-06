@@ -581,6 +581,8 @@ async function accountAction(action) {
 }
 export const requestAccountDeletion = () => accountAction("delete");
 export const cancelAccountDeletion = () => accountAction("reactivate");
+// Asks the server for the one-time welcome email (see useWelcomeEmail).
+export const requestWelcomeEmail = () => accountAction("welcome");
 
 // A Supabase auth error turned into something worth showing a user.
 //

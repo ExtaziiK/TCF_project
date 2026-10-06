@@ -183,3 +183,4 @@ export function accountDeletedEmail(user) {
   `);
   return { subject, html };
 }
+

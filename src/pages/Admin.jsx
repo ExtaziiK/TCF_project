@@ -2342,6 +2342,7 @@ const AUDIT_LABELS = {
   "toggle-promo": ["Code promo modifié", "slate"],
   "delete-promo": ["Code promo supprimé", "amber"],
   "approve-request": ["Demande approuvée", "green"],
+  "welcome-send": ["Courriels de bienvenue", "green"],
 };
 
 function AuditTab() {

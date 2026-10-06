@@ -1,4 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
+import { WELCOME_EMAIL_KEY, WELCOME_MAX_CHARS, normalizeWelcome, parseWelcome } from "../../api/_lib/welcomeTemplate.js";
 import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
 
 // Admin-editable, publicly-readable site settings (site_settings table + RLS,
@@ -311,5 +312,25 @@ export async function setWelcomeOffer(enabled) {
   const { error } = await supabase
     .from("site_settings")
     .upsert({ key: WELCOME_OFFER, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}
+
+/* ── Welcome email (Administration → Emails) ──────────────────────────────────
+ * The text and on/off switch of the email a new account receives once signed
+ * up. Read by the server when sending (api/_lib/welcome.js); the shape and the
+ * defaults live in api/_lib/welcomeTemplate.js, shared with the preview. */
+export async function getWelcomeEmail() {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", WELCOME_EMAIL_KEY).maybeSingle();
+  return { ok: !error, cfg: parseWelcome(error ? null : data?.value) };
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setWelcomeEmail(cfg) {
+  const value = JSON.stringify(normalizeWelcome(cfg));
+  if (value.length > WELCOME_MAX_CHARS) return { ok: false, error: `Texte trop long (${value.length}/${WELCOME_MAX_CHARS} caractères). Raccourcissez-le un peu.` };
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: WELCOME_EMAIL_KEY, value, updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }

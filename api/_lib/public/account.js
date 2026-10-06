@@ -3,6 +3,7 @@ import { requireUser } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { enforceRateLimit } from "../ratelimit.js";
 import { sendMail, mailConfigured, deletionScheduledEmail } from "../mailer.js";
+import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js";
 
 // Self-service account deletion, Facebook-style: asking to delete DEACTIVATES
 // the account at once and schedules the real deletion GRACE_DAYS later. Any
@@ -16,6 +17,10 @@ import { sendMail, mailConfigured, deletionScheduledEmail } from "../mailer.js";
 //   POST /api/public/account { action: "reactivate" }
 //        Clears both stamps. The app calls this as soon as a session shows up
 //        carrying them — i.e. on the next sign-in, whatever the method.
+//   POST /api/public/account { action: "welcome" }
+//        Sends the welcome email, once per account (welcome_email_sent_at), to
+//        a confirmed account created in the last WELCOME_WINDOW_DAYS, unless
+//        the owner switched it off in Administration → Emails. See ../welcome.js.
 //
 // The actual deletion is done by the daily cron (api/cron/reminders.js), which
 // also re-checks last_sign_in_at so a sign-in whose "reactivate" call never
@@ -78,6 +83,22 @@ async function handleDelete(req, res, user) {
   return res.status(200).json({ ok: true, scheduledFor, emailed });
 }
 
+async function handleWelcome(res, user) {
+  const reason = welcomeSkipReason(user);
+  if (reason) return res.status(200).json({ ok: true, sent: false, reason });
+  const cfg = await loadWelcomeConfig(admin);
+  // Switched off by the owner: nothing is stamped, so an account still inside
+  // the window gets it if the email is switched back on.
+  if (!cfg.enabled) return res.status(200).json({ ok: true, sent: false, reason: "disabled" });
+  try {
+    await sendWelcome(admin, user, cfg);
+  } catch (err) {
+    console.error(`account: welcome email to ${user.email} failed:`, err.message);
+    throw new HttpError(502, "Envoi du courriel de bienvenue impossible.");
+  }
+  return res.status(200).json({ ok: true, sent: true });
+}
+
 async function handleReactivate(res, user) {
   const meta = user.app_metadata || {};
   if (!meta.deletion_scheduled_for && !meta.deletion_requested_at) return res.status(200).json({ ok: true, reactivated: false });
@@ -97,6 +118,7 @@ export default async function handler(req, res) {
     const action = req.body?.action;
     if (action === "delete") return await handleDelete(req, res, user);
     if (action === "reactivate") return await handleReactivate(res, user);
+    if (action === "welcome") return await handleWelcome(res, user);
     throw new HttpError(400, "Action inconnue.");
   } catch (err) {
     return res.status(err.status || 500).json({ error: err.message || "Requête refusée." });

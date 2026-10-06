@@ -87,7 +87,7 @@ const PER_PAGE = 5;
 // the loaded window and the UI shows the true total.
 const MAX_SCAN = 5000;
 
-async function listAllUsers() {
+export async function listAllUsers() {
   const users = [];
   for (let page = 1; users.length < MAX_SCAN; page++) {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 1000 });

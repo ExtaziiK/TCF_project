@@ -14,6 +14,7 @@ import { useDzActivation } from "@/hooks/useDzActivation";
 import { useGiftRedemption } from "@/hooks/useGiftRedemption";
 import { useProfiles } from "@/hooks/useProfiles";
 import { usePlanSync } from "@/hooks/usePlanSync";
+import { useWelcomeEmail } from "@/hooks/useWelcomeEmail";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole, isStaff } from "@/auth/rbac";
 import { loadLang, saveLang, translate } from "@/i18n";
@@ -243,6 +244,9 @@ export function AppProvider({ children }) {
   // extending or revoking access, above all - since none of those pass through
   // a checkout the browser is watching.
   usePlanSync({ user, setUser });
+
+  // The welcome email, once, as a brand-new account first signs in.
+  useWelcomeEmail(user);
 
   // Profiles inside one account (Première classe 2, VIP 4). An account with a
   // single unlocked profile never sees the chooser, so plans without profiles
