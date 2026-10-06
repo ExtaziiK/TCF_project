@@ -1,5 +1,6 @@
 import { supabase } from "@/services/supabaseClient";
 import { WELCOME_EMAIL_KEY, WELCOME_MAX_CHARS, normalizeWelcome, parseWelcome } from "../../api/_lib/welcomeTemplate.js";
+import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, normalizeEmail, parseEmail } from "../../api/_lib/emailTemplates.js";
 import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
 
 // Admin-editable, publicly-readable site settings (site_settings table + RLS,
@@ -332,5 +333,24 @@ export async function setWelcomeEmail(cfg) {
   const { error } = await supabase
     .from("site_settings")
     .upsert({ key: WELCOME_EMAIL_KEY, value, updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}
+
+/* ── The other account emails (Administration → Emails) ───────────────────────
+ * Reminder, expired, deactivated, deleted: on/off + subject + body each, one
+ * site_settings row per email. Shape and defaults: api/_lib/emailTemplates.js. */
+export async function getEmailTemplate(id) {
+  const { data, error } = await supabase.from("site_settings").select("value").eq("key", EMAIL_TEMPLATES[id].key).maybeSingle();
+  return { ok: !error, cfg: parseEmail(id, error ? null : data?.value) };
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setEmailTemplate(id, cfg) {
+  const value = JSON.stringify(normalizeEmail(id, cfg));
+  if (value.length > EMAIL_MAX_CHARS) return { ok: false, error: `Texte trop long (${value.length}/${EMAIL_MAX_CHARS} caractères). Raccourcissez-le un peu.` };
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ key: EMAIL_TEMPLATES[id].key, value, updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }

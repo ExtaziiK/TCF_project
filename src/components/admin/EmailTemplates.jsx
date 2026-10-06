@@ -1,12 +1,50 @@
 import { useEffect, useMemo, useState } from "react";
 import { Mail, Save, Send, Users, RotateCcw, CloudOff } from "lucide-react";
+import { AccountEmailEditor } from "@/components/admin/AccountEmailEditor";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { getWelcomeEmail, setWelcomeEmail } from "@/services/settingsService";
+import { getWelcomeEmail, setWelcomeEmail, getEmailTemplate } from "@/services/settingsService";
+import { EMAIL_TEMPLATES } from "../../../api/_lib/emailTemplates.js";
 import { fetchWelcomeEmailStatus, sendWelcomeTest, sendWelcomeToRecent } from "@/services/adminService";
 import { DEFAULT_WELCOME, WELCOME_MAX_CHARS, WELCOME_WINDOW_DAYS, renderWelcome } from "../../../api/_lib/welcomeTemplate.js";
 
-// Admin › Emails. Holds the welcome email: on/off, its wording, a live preview
+// Admin › Emails: every email the site sends on its own, picked from the row of
+// chips at the top. The welcome email has its own richer form (below); the
+// others share AccountEmailEditor. Support replies are not listed — their text
+// is written per message, from the Messages tab.
+const ORDER = ["welcome", ...Object.keys(EMAIL_TEMPLATES)];
+const TITLES = { welcome: "Bienvenue", ...Object.fromEntries(Object.entries(EMAIL_TEMPLATES).map(([k, t]) => [k, t.title])) };
+
+export function EmailTemplatesTab() {
+  const { c } = useApp();
+  const [sel, setSel] = useState("welcome");
+  const [enabled, setEnabled] = useState({}); // id → on/off, for the chips
+  useEffect(() => {
+    getWelcomeEmail().then((r) => setEnabled((p) => ({ ...p, welcome: r.cfg.enabled })));
+    for (const id of Object.keys(EMAIL_TEMPLATES)) getEmailTemplate(id).then((r) => setEnabled((p) => ({ ...p, [id]: r.cfg.enabled })));
+  }, []);
+  const onEnabled = (id) => (v) => setEnabled((p) => ({ ...p, [id]: v }));
+
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Courriels">
+        {ORDER.map((id) => (
+          <button key={id} role="tab" aria-selected={sel === id} onClick={() => setSel(id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sel === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            <span aria-hidden="true" className={`w-2 h-2 rounded-full ${enabled[id] === undefined ? "bg-slate-400" : enabled[id] ? "bg-emerald-500" : "bg-rose-500"}`} />
+            {TITLES[id]}
+            <span className="sr-only">{enabled[id] ? "(activé)" : "(désactivé)"}</span>
+          </button>
+        ))}
+      </div>
+      {sel === "welcome"
+        ? <WelcomeEmailEditor onEnabled={onEnabled("welcome")} />
+        : <AccountEmailEditor key={sel} id={sel} onEnabled={onEnabled(sel)} />}
+    </div>
+  );
+}
+
+// The welcome email: on/off, its wording, a live preview
 // (rendered by the very function the server sends with, so what is shown is
 // what goes out), a test send to yourself, and a catch-up send to the recent
 // signups who never got it. The account emails sent by Supabase itself
@@ -23,7 +61,7 @@ const FIELDS = [
   ["outro", "Fin du message", 5],
 ];
 
-export function EmailTemplatesTab() {
+function WelcomeEmailEditor({ onEnabled }) {
   const { c, notify, user } = useApp();
   const [cfg, setCfg] = useState(null);
   const [saved, setSaved] = useState(null);
@@ -60,6 +98,7 @@ export function EmailTemplatesTab() {
     if (!r.ok) return notify(r.error || "Enregistrement refusé.");
     setSaved({ ...saved, enabled });
     setCfg((p) => ({ ...p, enabled }));
+    onEnabled?.(enabled);
     notify(enabled ? "Courriel de bienvenue activé." : "Courriel de bienvenue désactivé.");
   };
 

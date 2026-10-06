@@ -109,6 +109,11 @@ export function sendWelcomeTest(draft) {
   return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "test", draft }) });
 }
 
+// Same, for one of the other account emails (api/_lib/emailTemplates.js).
+export function sendEmailTest(template, draft) {
+  return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "test", template, draft }) });
+}
+
 // One batch of the saved email to the pending accounts → { sent, failed, remaining }.
 export function sendWelcomeToRecent() {
   return adminFetch("/api/admin/welcome-email", { method: "POST", body: JSON.stringify({ action: "send-recent" }) });

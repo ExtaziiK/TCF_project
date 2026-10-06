@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-import { sendMail, mailConfigured, expiringSoonEmail, expiredEmail, accountDeletedEmail } from "../_lib/mailer.js";
+import { sendMail, mailConfigured } from "../_lib/mailer.js";
+import { composeEmail } from "../_lib/emails.js";
+import { currentPlanLabel } from "../_lib/planLabel.js";
 import { withoutDeletion } from "../_lib/public/account.js";
 
 // Daily cron (see vercel.json → crons). Scans every account's Premium expiry
@@ -9,7 +11,9 @@ import { withoutDeletion } from "../_lib/public/account.js";
 //   • "expired"        when -3 <= daysLeft <= 0  (only recently expired, so old
 //                      accounts aren't spammed the first time this ever runs)
 //
-// The wording of both lives in api/_lib/mailer.js.
+// The wording of every email here is edited in Administration → Emails
+// (api/_lib/emailTemplates.js). One switched off there is skipped WITHOUT its
+// stamp, so switching it back on still reaches accounts inside the window.
 //
 // De-duplication lives on the account itself: reminder_expiring_at /
 // reminder_expired_at store the premium_until value they were sent for. A
@@ -47,13 +51,15 @@ async function listAllUsers() {
   return users;
 }
 
+const planOf = (meta) => currentPlanLabel(meta.plan_label) || "Premium";
+
 async function patchMetadata(user, patch) {
   await admin.auth.admin.updateUserById(user.id, {
     app_metadata: { ...user.app_metadata, ...patch },
   });
 }
 
-export async function processDeletions(users, now, summary) {
+export async function processDeletions(users, now, summary, cache = new Map()) {
   for (const user of users) {
     const meta = user.app_metadata || {};
     if (!meta.deletion_scheduled_for) continue;
@@ -71,8 +77,8 @@ export async function processDeletions(users, now, summary) {
       // Email first: once the account is gone, so is the address.
       if (user.email && mailConfigured()) {
         try {
-          const { subject, html } = accountDeletedEmail(user);
-          await sendMail({ to: user.email, subject, html });
+          const mail = await composeEmail(admin, "accountDeleted", user, {}, SITE, cache);
+          if (mail) await sendMail({ to: user.email, subject: mail.subject, html: mail.html });
         } catch (err) {
           console.error(`reminders: deleted-account email to ${user.email} failed:`, err.message);
         }
@@ -98,7 +104,8 @@ export default async function handler(req, res) {
 
   try {
     const users = await listAllUsers();
-    await processDeletions(users, now, summary);
+    const cache = new Map(); // each email's saved settings, read once per run
+    await processDeletions(users, now, summary, cache);
     for (const user of users) {
       const meta = user.app_metadata || {};
       if (meta.plan !== "Premium" || !meta.premium_until || !user.email) continue;
@@ -114,17 +121,22 @@ export default async function handler(req, res) {
       try {
         // Expiring within 3 days (and not yet expired), once per premium_until.
         if (daysLeft > 0 && daysLeft <= 3 && meta.reminder_expiring_at !== meta.premium_until) {
-          const { subject, html } = expiringSoonEmail(user, daysLeft, SITE);
-          await sendMail({ to: user.email, subject, html });
-          await patchMetadata(user, { reminder_expiring_at: meta.premium_until });
-          summary.expiringSent++;
+          const d = Math.max(1, Math.round(daysLeft));
+          const mail = await composeEmail(admin, "expiring", user, { forfait: planOf(meta), jours: `${d} ${d === 1 ? "jour" : "jours"}` }, SITE, cache);
+          if (mail) {
+            await sendMail({ to: user.email, subject: mail.subject, html: mail.html });
+            await patchMetadata(user, { reminder_expiring_at: meta.premium_until });
+            summary.expiringSent++;
+          }
         }
         // Recently expired, once per premium_until.
         else if (daysLeft <= 0 && daysLeft >= -3 && meta.reminder_expired_at !== meta.premium_until) {
-          const { subject, html } = expiredEmail(user, SITE);
-          await sendMail({ to: user.email, subject, html });
-          await patchMetadata(user, { reminder_expired_at: meta.premium_until });
-          summary.expiredSent++;
+          const mail = await composeEmail(admin, "expired", user, { forfait: planOf(meta) }, SITE, cache);
+          if (mail) {
+            await sendMail({ to: user.email, subject: mail.subject, html: mail.html });
+            await patchMetadata(user, { reminder_expired_at: meta.premium_until });
+            summary.expiredSent++;
+          }
         }
       } catch (err) {
         summary.errors++;

@@ -33,6 +33,7 @@ import { Profile } from "@/pages/Profile";
 import { ResetPassword } from "@/pages/ResetPassword";
 import { Admin } from "@/pages/Admin";
 import { Moderation } from "@/pages/Moderation";
+import { CodePromo } from "@/pages/CodePromo";
 import { QuestionBank } from "@/pages/QuestionBank";
 import { NotFound } from "@/pages/NotFound";
 import { Terms } from "@/pages/Terms";
@@ -86,6 +87,7 @@ export const PAGES = {
   profile: Profile,
   admin: Admin,
   moderation: Moderation,
+  "code-promo": CodePromo,
   bank: QuestionBank,
   revision: Revision,
   terms: Terms,

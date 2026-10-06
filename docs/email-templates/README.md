@@ -122,7 +122,7 @@ Email clients are not browsers. When changing these files:
 - **Tables for layout.** No flex, no grid, no external CSS or web fonts.
 - **Keep the plain-text link.** Corporate filters rewrite or strip buttons.
 - **Keep the image `alt` text.** Many clients block images by default; with them
-  off, the header must still read "Passerelle TCF Canada".
+  off, the header must still read "TCF Passerelle".
 - **Gradients need a solid fallback.** Outlook (Word rendering engine) ignores
   `linear-gradient`, so every gradient element also carries a `bgcolor`.
 

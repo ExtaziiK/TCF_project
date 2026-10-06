@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
-import { currentPlanLabel } from "./planLabel.js";
+import { escapeHtml, button, signedLetter } from "./emailLayout.js";
+
+const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://www.tcfpasserelle.com").replace(/\/$/, "");
 
 // Transactional email over the Hostinger mailbox (contact@tcfpasserelle.com).
 // Server-side only: SMTP_USER / SMTP_PASS are the mailbox's own credentials and
@@ -11,7 +13,7 @@ import { currentPlanLabel } from "./planLabel.js";
 
 const SMTP_HOST = process.env.SMTP_HOST || "smtp.hostinger.com";
 const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
-const FROM_NAME = process.env.MAIL_FROM_NAME || "Passerelle TCF";
+const FROM_NAME = process.env.MAIL_FROM_NAME || "TCF Passerelle";
 // The address users see and can reply to. Defaults to the login mailbox.
 const FROM_ADDR = process.env.MAIL_FROM_ADDR || process.env.SMTP_USER;
 
@@ -46,47 +48,11 @@ export function mailConfigured() {
   return !!(process.env.SMTP_USER && process.env.SMTP_PASS);
 }
 
-/* ----------------------------- email templates ---------------------------- */
-// Kept inline (no external assets) so they render in every client. French to
-// match the app. `site` is the app URL used for the renew button.
-
-const BRAND = "Passerelle TCF";
-const wrap = (inner) => `
-<div style="margin:0;padding:24px;background:#0b1020;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
-  <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e6e8f0;">
-    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);padding:24px 28px;">
-      <div style="color:#fff;font-size:20px;font-weight:700;letter-spacing:.2px;">${BRAND}</div>
-    </div>
-    <div style="padding:28px;color:#1f2430;font-size:15px;line-height:1.6;">
-      ${inner}
-    </div>
-    <div style="padding:18px 28px;background:#f6f7fb;color:#6b7280;font-size:12px;line-height:1.5;">
-      Vous recevez cet email car vous avez un compte sur ${BRAND}.<br/>
-      Une question&nbsp;? Répondez directement à ce message.
-    </div>
-  </div>
-</div>`;
-
-const button = (href, label, color = "#2563eb") =>
-  `<a href="${href}" style="display:inline-block;background:${color};color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px;font-size:15px;">${label}</a>`;
-
-function greeting(user) {
-  const name = user.user_metadata?.name || user.user_metadata?.full_name || "";
-  return name ? `Bonjour ${name},` : "Bonjour,";
-}
-
-// The renew CTA points at /tarifs — the real path of the pricing page (see
-// src/constants/seo.js). It used to say /pricing, which is not a route: every
-// renewal link landed on the homepage, and would now hit the 404 page.
-const renewUrl = (site) => `${site}/tarifs`;
-// The testimonial form lives on the member's profile page.
-const feedbackUrl = (site) => `${site}/profil`;
-
-// Escapes admin-typed text before it goes into an HTML email. The reply is
-// written by a trusted admin, but it is plain text by contract: a stray < in
-// "temps < 30 min" must read as a chevron, not open a tag.
-const escapeHtml = (s) =>
-  String(s).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+/* ------------------------------ support reply ----------------------------- */
+// The automatic account emails are editable from Administration → Emails and
+// live in emailTemplates.js / welcomeTemplate.js. The support reply is not a
+// template — its text is written by the admin for each message — so only its
+// frame is here, the same signed letter as every other email.
 
 // The team's answer to a contact message. Quotes the original underneath so the
 // reply makes sense on its own, days later, in a crowded inbox.
@@ -100,87 +66,11 @@ export function supportReplyEmail({ name, subject, body, original, site }) {
          ${escapeHtml(original).replace(/\n/g, "<br/>")}
        </div>`
     : "";
-  const html = wrap(`
+  const html = signedLetter(SITE, `
     <p style="margin:0 0 14px;">${name ? `Bonjour ${escapeHtml(name)},` : "Bonjour,"}</p>
     ${paragraphs}
-    ${site ? `<p style="margin:22px 0 0;">${button(`${site}/profil`, "Voir la conversation sur mon compte")}</p>` : ""}
+    ${site ? `<p style="margin:22px 0;text-align:center;">${button(`${site}/profil`, "Voir la conversation sur mon compte")}</p>` : ""}
     ${quoted}
   `);
   return { subject: title, html };
 }
-
-// 3-days-before reminder.
-export function expiringSoonEmail(user, daysLeft, site) {
-  const plan = currentPlanLabel(user.app_metadata?.plan_label) || "Premium";
-  const d = Math.max(1, Math.round(daysLeft));
-  const dayWord = d === 1 ? "jour" : "jours";
-  const subject = `Votre accès ${plan} expire dans ${d} ${dayWord}`;
-  const html = wrap(`
-    <p style="margin:0 0 14px;">${greeting(user)}</p>
-    <p style="margin:0 0 14px;">Petit rappel amical&nbsp;: votre abonnement <strong>${plan}</strong>
-      arrive à échéance dans <strong>${d} ${dayWord}</strong>.</p>
-    <p style="margin:0 0 20px;">Pour continuer sans interruption vos quiz, simulations IA et TCF blancs,
-      renouvelez dès maintenant&nbsp;:</p>
-    <p style="margin:0 0 22px;">${button(renewUrl(site), "Renouveler mon accès")}</p>
-    <p style="margin:0;color:#6b7280;font-size:13px;">Si vous avez déjà renouvelé, ignorez ce message&nbsp;— merci&nbsp;!</p>
-  `);
-  return { subject, html };
-}
-
-// Sent once, just after expiry. Asks for a testimonial before inviting a
-// renewal: the story is worth more while the exam is still fresh, and the
-// submission form (Profil) moderates everything before it reaches the site.
-export function expiredEmail(user, site) {
-  const plan = currentPlanLabel(user.app_metadata?.plan_label) || "Premium";
-  const subject = `Votre accès ${plan} a expiré`;
-  const html = wrap(`
-    <p style="margin:0 0 14px;">${greeting(user)}</p>
-    <p style="margin:0 0 14px;">Votre abonnement <strong>${plan}</strong> vient d'expirer.
-      Votre compte est toujours là&nbsp;: votre progression et votre historique sont conservés.</p>
-    <p style="margin:0 0 20px;">Comment s'est passée votre préparation&nbsp;? Votre témoignage aide les
-      prochains candidats — après validation, il apparaîtra sur notre page d'accueil.</p>
-    <p style="margin:0 0 22px;">${button(feedbackUrl(site), "Partager mon témoignage", "#7c3aed")}</p>
-    <p style="margin:0 0 20px;">Envie de reprendre votre préparation au TCF&nbsp;? Réactivez votre accès en un clic&nbsp;:</p>
-    <p style="margin:0 0 22px;">${button(renewUrl(site), "Renouveler mon accès")}</p>
-    <p style="margin:0;color:#6b7280;font-size:13px;">Merci d'avoir préparé votre TCF avec nous. À très bientôt&nbsp;!</p>
-  `);
-  return { subject, html };
-}
-
-const fmtLongDate = (iso) =>
-  new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Toronto" });
-
-// Sent the moment a member asks to delete their account from the profile page
-// (api/_lib/public/account.js). The account is deactivated, not gone yet.
-export function deletionScheduledEmail(user, scheduledFor, site) {
-  const subject = "Votre compte a été désactivé";
-  const html = wrap(`
-    <p style="margin:0 0 14px;">${greeting(user)}</p>
-    <p style="margin:0 0 14px;">Nous avons bien reçu votre demande de suppression. Votre compte
-      <strong>${BRAND}</strong> est désactivé et vous avez été déconnecté·e de tous vos appareils.</p>
-    <p style="margin:0 0 14px;">Votre compte et toutes ses données (progression, résultats, historique)
-      seront <strong>définitivement supprimés le ${fmtLongDate(scheduledFor)}</strong>.</p>
-    <p style="margin:0 0 20px;">Vous avez changé d'avis&nbsp;? Il suffit de vous reconnecter avant cette date&nbsp;:
-      la suppression sera annulée et vous retrouverez tout comme avant.</p>
-    <p style="margin:0 0 22px;">${button(`${site}/connexion`, "Me reconnecter")}</p>
-    <p style="margin:0;color:#6b7280;font-size:13px;">Si vous n'êtes pas à l'origine de cette demande,
-      reconnectez-vous et changez votre mot de passe, puis répondez à ce message.</p>
-  `);
-  return { subject, html };
-}
-
-// Sent by the daily cron just before the account is actually erased — the last
-// moment its email address is still known.
-export function accountDeletedEmail(user) {
-  const subject = "Votre compte a été supprimé";
-  const html = wrap(`
-    <p style="margin:0 0 14px;">${greeting(user)}</p>
-    <p style="margin:0 0 14px;">Comme vous l'avez demandé, votre compte <strong>${BRAND}</strong> et toutes
-      les données qui y étaient associées ont été définitivement supprimés.</p>
-    <p style="margin:0 0 14px;">Vous pouvez recréer un compte à tout moment avec la même adresse courriel,
-      mais votre ancienne progression ne pourra pas être récupérée.</p>
-    <p style="margin:0;color:#6b7280;font-size:13px;">Merci d'avoir préparé votre TCF avec nous, et bonne chance pour la suite&nbsp;!</p>
-  `);
-  return { subject, html };
-}
-

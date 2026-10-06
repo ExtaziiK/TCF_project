@@ -3,6 +3,7 @@ import { requireAdmin } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { sendMail, mailConfigured } from "../mailer.js";
 import { normalizeWelcome, renderWelcome, firstNameOf } from "../welcomeTemplate.js";
+import { EMAIL_TEMPLATES, renderEmail } from "../emailTemplates.js";
 import { SITE, loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js";
 import { listAllUsers, audit } from "./users.js";
 
@@ -11,9 +12,11 @@ import { listAllUsers, audit } from "./users.js";
 // this route covers what needs the SMTP mailbox or the account list.
 //
 //   GET  /api/admin/welcome-email                       → { pending, mailConfigured }
-//   POST /api/admin/welcome-email { action: "test", draft }
+//   POST /api/admin/welcome-email { action: "test", draft, template? }
 //        Sends the draft (saved or not) to the admin's own address. Nothing
-//        is stamped: a test is not the account's welcome.
+//        is stamped: a test is not the account's welcome. `template` picks one
+//        of the other account emails (api/_lib/emailTemplates.js), rendered
+//        with its sample values; omitted = the welcome email.
 //   POST /api/admin/welcome-email { action: "send-recent" }
 //        Sends the SAVED email to accounts that should have had it and did not
 //        (confirmed, created in the window, never sent). BATCH per call so a
@@ -36,7 +39,11 @@ async function handlePost(req, res, actor) {
 
   if (action === "test") {
     if (!mailConfigured()) throw new HttpError(503, "Email non configuré (SMTP).");
-    const { subject, html } = renderWelcome(normalizeWelcome(req.body.draft), { firstName: firstNameOf(actor), site: SITE });
+    const id = req.body.template;
+    if (id && !EMAIL_TEMPLATES[id]) throw new HttpError(400, "Modèle inconnu.");
+    const { subject, html } = id
+      ? renderEmail(id, req.body.draft, { firstName: firstNameOf(actor), site: SITE })
+      : renderWelcome(normalizeWelcome(req.body.draft), { firstName: firstNameOf(actor), site: SITE });
     await sendMail({ to: actor.email, subject: `[Test] ${subject}`, html });
     return res.status(200).json({ ok: true, to: actor.email });
   }

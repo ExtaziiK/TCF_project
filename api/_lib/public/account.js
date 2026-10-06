@@ -2,7 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { requireUser } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { enforceRateLimit } from "../ratelimit.js";
-import { sendMail, mailConfigured, deletionScheduledEmail } from "../mailer.js";
+import { sendMail, mailConfigured } from "../mailer.js";
+import { composeEmail } from "../emails.js";
 import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js";
 
 // Self-service account deletion, Facebook-style: asking to delete DEACTIVATES
@@ -34,6 +35,9 @@ const admin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_S
 });
 
 export const GRACE_DAYS = 7;
+
+const fmtLongDate = (iso) =>
+  new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Toronto" });
 const DAY_MS = 24 * 60 * 60 * 1000;
 const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://www.tcfpasserelle.com").replace(/\/$/, "");
 
@@ -73,9 +77,11 @@ async function handleDelete(req, res, user) {
   let emailed = false;
   if (user.email && mailConfigured()) {
     try {
-      const { subject, html } = deletionScheduledEmail(user, scheduledFor, SITE);
-      await sendMail({ to: user.email, subject, html });
-      emailed = true;
+      const mail = await composeEmail(admin, "deletionScheduled", user, { date: fmtLongDate(scheduledFor) }, SITE);
+      if (mail) {
+        await sendMail({ to: user.email, subject: mail.subject, html: mail.html });
+        emailed = true;
+      }
     } catch (err) {
       console.error(`account: deletion email to ${user.email} failed:`, err.message);
     }
