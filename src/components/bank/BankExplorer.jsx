@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -13,7 +13,8 @@ import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { ROLES } from "@/auth/rbac";
+import { ROLES, isStaff } from "@/auth/rbac";
+import { isUnderReview } from "@/constants/quizReview";
 import { TOUR_STEPS } from "@/constants/tour";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
@@ -33,17 +34,26 @@ const GUIDE_PANELS = { co: CO_GUIDE_PANEL, ce: CE_GUIDE_PANEL, ee: EE_GUIDE_PANE
 // necessarily the best-scoring one on the card, and hidden until such a
 // reviewable attempt exists) and "Refaire" (retake the quiz) — plus a caption
 // clarifying that the "ok/total" figure is correct answers, not answered.
-function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked }) {
+//
+// `review` = the quiz is pulled for correction (constants/quizReview.js).
+// Members get a greyed card whose hover/focus says why it is closed; staff
+// keep the normal card, marked so they know members cannot see it.
+function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked, review, staff }) {
   const { c, t } = useApp();
   const prompt = isPrompt(quiz);
   const count = quiz.questions.length;
-  const done = !prompt && !!best;
+  // A member's past score on a quiz under review was graded against the wrong
+  // answers, so it is not shown as a result; the card only says it is closed.
+  const closed = review && !staff;
+  const done = !prompt && !!best && !closed;
   const answered = best?.answered ?? best?.total;
   const partial = done && !!best.total && answered < best.total;
   const canReview = !!reviewAttempt;
   const minutes = Math.max(1, Math.round(quizDurationSec(quiz.section, count) / 60));
 
-  const badge = locked ? (
+  const badge = closed ? (
+    <span className="w-7 h-7 rounded-full bg-orange-500/15 text-orange-600 flex items-center justify-center shrink-0"><Wrench size={13} /></span>
+  ) : locked ? (
     <span className="w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0"><Lock size={14} /></span>
   ) : partial ? (
     <span className="w-7 h-7 rounded-full bg-orange-500/15 text-orange-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
@@ -60,13 +70,14 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
         tabIndex={0}
         onClick={onOpen}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
-        aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
+        aria-label={prompt ? t(quiz.title) : `${t("Quizz")} ${number}${closed ? ` — ${t("En révision")}` : ""}`}
+        aria-describedby={review ? `review-note-${quiz.id}` : undefined}
         className="text-left w-full h-full block cursor-pointer"
       >
-        <Card lift={!locked} className={`p-3.5 h-full flex gap-2.5 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked ? "opacity-60" : ""}`}>
+        <Card lift={!locked && !closed} className={`p-3.5 h-full flex gap-2.5 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked || closed ? "opacity-60" : ""} ${review && staff ? "!border-orange-500/50 border-dashed" : ""}`}>
           <div className="flex-1 min-w-0 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
-              <h3 className={`font-display font-bold text-sm leading-snug ${locked ? c.sub : c.text}`}>
+              <h3 className={`font-display font-bold text-sm leading-snug ${locked || closed ? c.sub : c.text}`}>
                 {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
               </h3>
               {badge}
@@ -79,7 +90,11 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
               <span className={c.faint}>
                 {prompt ? `${count} ${t(count > 1 ? "consignes" : "consigne")}` : `${count} ${t("questions")}`}
               </span>
-              {done ? (
+              {closed ? (
+                <span className="text-orange-600">{t("En révision")}</span>
+              ) : review && staff && !done ? (
+                <span className="text-orange-600">{t("Masqué aux membres")}</span>
+              ) : done ? (
                 // "ok/total" is correct answers over total questions — not the
                 // number answered; the title + hover overlay spell that out.
                 <span className={`inline-flex items-center gap-1 ${partial ? "text-orange-600" : "text-emerald-600"}`} title={`${best.ok} ${t("bonnes réponses sur")} ${best.total}`}>
@@ -106,6 +121,18 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked 
       {/* Completed cards reveal their actions on hover/focus: review the past
           attempt (when one carries per-question detail) and/or retake the quiz.
           The caption clarifies that "3/39" is correct answers, not answered. */}
+      {/* Why the quiz is closed (members) or hidden (staff), on hover/focus.
+          A bubble above the card rather than an overlay, so it never covers
+          the staff card's own result actions. */}
+      {review && (
+        <div id={`review-note-${quiz.id}`} role="tooltip"
+          className="absolute z-20 left-1/2 -translate-x-1/2 bottom-full mb-2 w-60 rounded-xl bg-slate-900 text-white text-[11px] leading-snug font-medium px-3 py-2 shadow-xl
+            opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+          {closed
+            ? t("Ce quiz est en cours de révision par notre équipe. Il sera de nouveau disponible très bientôt.")
+            : t("En révision : masqué aux membres, visible uniquement par l'équipe.")}
+        </div>
+      )}
       {done && !locked && (
         <div className="absolute inset-0 rounded-3xl bg-slate-900/65 opacity-0 pointer-events-none transition-opacity
           group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto
@@ -268,6 +295,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   // locked and route to the upgrade page. Premium/admin never hit this.
   const freeTier = role === ROLES.FREE_USER;
   const goUpgrade = () => { notify(t("Ce quiz fait partie de l'abonnement Premium.")); nav("pricing"); };
+  const staff = isStaff(role);
 
   const reloadScores = () => {
     listQuizResults(user?.id).then(({ results }) => {
@@ -387,11 +415,16 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
           {quizzes.map((qz, idx) => {
             const locked = freeTier && idx > 0;
+            const review = isUnderReview(qz);
             const best = bestScores[`bank-${qz.id}`];
             const reviewAttempt = reviewableAttempts[`bank-${qz.id}`];
             const cardProps = {
-              quiz: qz, number: idx + 1, locked, best, reviewAttempt,
-              onOpen: () => (locked ? goUpgrade() : setQuiz(qz)),
+              quiz: qz, number: idx + 1, locked, best, reviewAttempt, review, staff,
+              // Under review beats the Premium lock: sending a free member to
+              // the pricing page for a quiz no one can open would be a lie.
+              onOpen: () => (review && !staff
+                ? notify(t("Ce quiz est en cours de révision par notre équipe. Il sera de nouveau disponible très bientôt."))
+                : locked ? goUpgrade() : setQuiz(qz)),
               onReview: () => setReview({ quiz: qz, attempt: reviewAttempt }),
             };
             // The tour spotlights the first quiz of whichever épreuve is

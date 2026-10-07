@@ -1,5 +1,6 @@
 import { levelForPct } from "../../api/_lib/scoreBands.js";
 import { getBank } from "@/services/bankService";
+import { isUnderReview } from "@/constants/quizReview";
 import { supabase } from "@/services/supabaseClient";
 import { getActiveProfileId } from "@/utils/activeProfile";
 
@@ -54,7 +55,9 @@ export function generateExamTasks(history = []) {
   const tasks = [];
   // only quizzes the MCQ engine can run — "prompt" bank entries (admin
   // consignes for EE/EO) are practiced through the built-in experiences
-  const mcq = (section) => (bank[section] || []).filter((q) => q.kind !== "prompt");
+  // Quizzes under review (constants/quizReview.js) are never drawn: their
+  // grading is known to be wrong until the fix ships.
+  const mcq = (section) => (bank[section] || []).filter((q) => q.kind !== "prompt" && !isUnderReview(q));
   const pickQuiz = (section) => {
     let pool = mcq(section).filter((q) => !used.has(q.id));
     if (pool.length === 0) pool = mcq(section); // section exhausted: allow repeats rather than fail

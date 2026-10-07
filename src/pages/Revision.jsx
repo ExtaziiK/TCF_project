@@ -6,6 +6,8 @@ import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { getBank } from "@/services/bankService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
+import { isStaff } from "@/auth/rbac";
+import { isUnderReview } from "@/constants/quizReview";
 
 // Révision — the hard half of every bank quiz, read or rehearsed.
 //
@@ -56,7 +58,8 @@ function sliceQuiz(quiz) {
 }
 
 export function Revision() {
-  const { c, t } = useApp();
+  const { c, t, role } = useApp();
+  const staff = isStaff(role);
   const [section, setSection] = useState("co");
   const [query, setQuery] = useState("");
   // Les niveaux cochés. Liste vide = « Toutes » : c'est l'absence de filtre
@@ -75,10 +78,12 @@ export function Revision() {
 
   const quizzes = useMemo(
     () => (bank[section] || [])
-      .filter((q) => q.kind !== "prompt")
+      // A quiz under review has known-wrong answers; members don't get to
+      // revise from them (staff still do, to check the fix).
+      .filter((q) => q.kind !== "prompt" && (staff || !isUnderReview(q)))
       .map((q) => ({ number: q.quizNumber, title: q.title, id: q.id, questions: sliceQuiz(q) }))
       .filter((q) => q.questions.length > 0),
-    [bank, section],
+    [bank, section, staff],
   );
 
   const allQuestions = useMemo(() => quizzes.flatMap((q) => q.questions), [quizzes]);
