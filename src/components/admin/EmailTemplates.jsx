@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Mail, Save, Send, Users, RotateCcw, CloudOff } from "lucide-react";
+import { Mail, Save, Send, Users, RotateCcw, CloudOff, PenSquare } from "lucide-react";
 import { AccountEmailEditor } from "@/components/admin/AccountEmailEditor";
+import { ComposeEmail } from "@/components/admin/ComposeEmail";
 import { SendProgress } from "@/components/admin/SendProgress";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
@@ -12,7 +13,8 @@ import { DEFAULT_WELCOME, WELCOME_MAX_CHARS, WELCOME_WINDOW_DAYS, renderWelcome 
 // Admin › Emails: every email the site sends on its own, picked from the row of
 // chips at the top. The welcome email has its own richer form (below); the
 // others share AccountEmailEditor. Support replies are not listed — their text
-// is written per message, from the Messages tab.
+// is written per message, from the Messages tab. « Nouveau courriel » writes a
+// one-off email to one address (ComposeEmail).
 // The automatic emails first, then the ones sent by hand (`audience`).
 const ORDER = ["welcome", ...Object.keys(EMAIL_TEMPLATES).sort((x, y) => !!EMAIL_TEMPLATES[x].audience - !!EMAIL_TEMPLATES[y].audience)];
 const TITLES = { welcome: "Bienvenue", ...Object.fromEntries(Object.entries(EMAIL_TEMPLATES).map(([k, t]) => [k, t.title])) };
@@ -30,6 +32,10 @@ export function EmailTemplatesTab() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Courriels">
+        <button role="tab" aria-selected={sel === "compose"} onClick={() => setSel("compose")}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sel === "compose" ? "bg-blue-600 text-white" : "border border-blue-600 text-blue-600 hover:bg-blue-600/10"}`}>
+          <PenSquare size={15} aria-hidden="true" /> Nouveau courriel
+        </button>
         {ORDER.map((id) => (
           <button key={id} role="tab" aria-selected={sel === id} onClick={() => setSel(id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${sel === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
@@ -39,7 +45,8 @@ export function EmailTemplatesTab() {
           </button>
         ))}
       </div>
-      {sel === "welcome"
+      {sel === "compose" ? <ComposeEmail />
+        : sel === "welcome"
         ? <WelcomeEmailEditor onEnabled={onEnabled("welcome")} />
         : <AccountEmailEditor key={sel} id={sel} onEnabled={onEnabled(sel)} />}
     </div>

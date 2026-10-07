@@ -26,7 +26,7 @@ import { DayBars } from "@/components/dashboard/charts";
 import {
   fetchAdminStats, fetchAdminUsage, fetchAdminVercel, listAdminUsers, updateAdminUser,
   listContactMessages, setMessageStatus, deleteMessage, listAuditLog,
-  listMessageReplies, sendMessageReply, fetchReplyMailStatus,
+  listMessageReplies, sendMessageReply, fetchReplyMailStatus, listSentEmails,
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listGiftLinks, createGiftLink, toggleGiftLink, deleteGiftLink,
   listPassPrices, setPassPrice,
@@ -2134,7 +2134,9 @@ function VercelTraffic() {
 
 /* --------------------------------- messages ------------------------------- */
 
-const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived", "Archivés"], ["all", "Tous"]];
+// "sent" is not a status: it lists the emails written from Emails → « Nouveau
+// courriel » (admin_audit_log, action "send-email"), not contact messages.
+const MSG_FILTERS = [["new", "Nouveaux"], ["resolved", "Résolus"], ["archived", "Archivés"], ["all", "Tous"], ["sent", "Envoyés"]];
 const MSG_TONES = { new: "amber", resolved: "green", archived: "slate" };
 const MSG_LABELS = { new: "Nouveau", resolved: "Résolu", archived: "Archivé" };
 
@@ -2232,6 +2234,29 @@ function ReplyBox({ message, mailReady, onSent, onCancel }) {
   );
 }
 
+// Emails sent from Emails → « Nouveau courriel », newest first.
+function SentEmails({ emails }) {
+  const { c } = useApp();
+  if (emails === null) return <SkeletonRows n={4} className="h-24" />;
+  if (!emails.length) return <EmptyState icon={Send} title="Aucun courriel envoyé." sub="Les courriels écrits depuis Emails → Nouveau courriel apparaîtront ici." />;
+  return (
+    <div className="space-y-2">
+      {emails.map((e) => (
+        <div key={e.id} className={`p-4 rounded-2xl border ${c.border}`}>
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <Pill tone="blue">Envoyé</Pill>
+            <span className={`text-sm font-semibold ${c.text}`}>{e.target}</span>
+            <span className={`text-xs ${c.faint}`}>{when(e.created_at)}{e.actor_email ? ` · par ${e.actor_email}` : ""}</span>
+          </div>
+          <p className={`text-sm font-semibold ${c.text}`}>{e.detail?.subject}</p>
+          {e.detail?.firstName && <p className={`text-sm mt-1 ${c.sub}`}>Bonjour {e.detail.firstName},</p>}
+          <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>{e.detail?.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function MessagesTab({ onCount }) {
   const { c, notify } = useApp();
   const [messages, setMessages] = useState(null);
@@ -2241,6 +2266,7 @@ function MessagesTab({ onCount }) {
   const [repliesMissing, setRepliesMissing] = useState(false);
   const [replyTo, setReplyTo] = useState(null); // message id whose compose box is open
   const [mailReady, setMailReady] = useState(null); // null while unknown
+  const [sent, setSent] = useState(null); // emails from « Nouveau courriel »
 
   const load = () => listContactMessages().then(async (r) => {
     setMessages(r.messages);
@@ -2252,6 +2278,7 @@ function MessagesTab({ onCount }) {
   });
   useEffect(() => {
     load();
+    listSentEmails().then((r) => setSent(r.emails));
     // Asked once: the answer only changes with a redeploy.
     fetchReplyMailStatus().then((r) => setMailReady(r.ok ? !!r.data.mailConfigured : false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2282,12 +2309,14 @@ function MessagesTab({ onCount }) {
       <div className="flex gap-2 flex-wrap">
         {MSG_FILTERS.map(([id, l]) => (
           <button key={id} onClick={() => setFilter(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-            {l}{id !== "all" && messages ? ` · ${messages.filter((m) => m.status === id).length}` : ""}
+            {l}{id === "sent" ? (sent ? ` · ${sent.length}` : "") : id !== "all" && messages ? ` · ${messages.filter((m) => m.status === id).length}` : ""}
           </button>
         ))}
       </div>
       <Card className="p-6">
-        {messages === null ? (
+        {filter === "sent" ? (
+          <SentEmails emails={sent} />
+        ) : messages === null ? (
           <SkeletonRows n={4} className="h-24" />
         ) : list.length === 0 ? (
           <EmptyState icon={Inbox} title={filter === "new" ? "File de modération vide. Beau travail !" : "Aucun message dans cette catégorie."} sub={filter === "new" ? "Les nouveaux messages du formulaire de contact apparaîtront ici." : null} />
@@ -2344,6 +2373,7 @@ const AUDIT_LABELS = {
   "approve-request": ["Demande approuvée", "green"],
   "welcome-send": ["Courriels de bienvenue", "green"],
   "offer-send": ["Offre -50 % envoyée", "green"],
+  "send-email": ["Courriel envoyé", "green"],
 };
 
 function AuditTab() {

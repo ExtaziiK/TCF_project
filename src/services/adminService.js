@@ -247,6 +247,27 @@ export function deleteGiftLink(id) {
   return adminFetch("/api/admin/gift-links", { method: "POST", body: JSON.stringify({ action: "delete", id }) });
 }
 
+/* ------------------------------ composed email ----------------------------- */
+
+// « Nouveau courriel »: one email to one address typed by hand. action "test"
+// → to the admin themself; "send" → to `to`, logged for Messages → Envoyés.
+export function sendComposedEmail(action, { to, firstName, subject, body }) {
+  return adminFetch("/api/admin/compose-email", { method: "POST", body: JSON.stringify({ action, to, firstName, subject, body }) });
+}
+
+// The emails sent from « Nouveau courriel », newest first (admin_audit_log,
+// action "send-email"; the text is in `detail`).
+export async function listSentEmails(limit = 200) {
+  const { data, error } = await supabase
+    .from("admin_audit_log")
+    .select("id, actor_email, target, detail, created_at")
+    .eq("action", "send-email")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return { ok: false, emails: [] };
+  return { ok: true, emails: data };
+}
+
 /* ---------------------------- contact messages ---------------------------- */
 
 // Public form submission (Contact page) — RLS allows anyone to insert.

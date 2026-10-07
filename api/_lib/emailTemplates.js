@@ -203,3 +203,24 @@ export function renderEmail(id, cfg, { firstName = "", vars, site }) {
   `);
   return { subject: fill(c.subject.trim() || t.defaults.subject, v), html };
 }
+
+// A one-off email written from Administration → Emails → « Nouveau courriel »,
+// to one address typed by hand. Same letter as the templates above (logo,
+// greeting, signature, [Texte](lien) buttons), but no placeholders: the
+// greeting's first name is typed next to the address, so the preview is
+// exactly what goes out. Sent copies are kept in admin_audit_log
+// (action "send-email") and listed under Messages → Envoyés.
+export const COMPOSE_MAX_BODY = 4000;
+export const COMPOSE_DEFAULTS = {
+  subject: "",
+  body: "Votre message ici.\n\n[Voir les forfaits](tarifs)\n\nBonne préparation,",
+};
+
+export function renderComposed({ subject, body }, { firstName = "", site }) {
+  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
+  const html = signedLetter(site, `
+    ${greetingLine(firstName)}
+    ${paragraphs(String(body || ""), { last: "4px", links })}
+  `);
+  return { subject: String(subject || "").trim(), html };
+}
