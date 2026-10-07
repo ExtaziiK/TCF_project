@@ -85,7 +85,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
   const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
   const label = `block text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`;
   const code = `font-mono2 text-[12px] px-1.5 py-0.5 rounded-md ${c.hoverSoft} ${c.text}`;
-  const names = Object.keys(t.placeholders);
+  const names = Object.keys(t.placeholders).filter((n) => !n.startsWith("_")); // "_" = data, not text
 
   return (
     <div className="space-y-4">
@@ -130,6 +130,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
             {names.length > 0 && (
               <p>Remplacés à l&apos;envoi : {names.map((n) => <span key={n} className={`${code} mr-1`}>{`{${n}}`}</span>)} <span>(exemple dans l&apos;aperçu)</span></p>
             )}
+            {"_score" in t.placeholders && <p>Résultats : un paragraphe seul <span className={code}>{"{resultats}"}</span> (score, niveau et NCLC par épreuve).</p>}
             {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes »).</p>}
             <p>Bouton : un paragraphe seul de la forme <span className={code}>[Texte](lien)</span>, où lien = {Object.keys(LINK_TARGETS).map((k) => <span key={k} className={`${code} mr-1`}>{k}</span>)}</p>
           </div>

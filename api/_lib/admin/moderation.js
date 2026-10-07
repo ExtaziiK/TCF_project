@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireModerator } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { patchMetadata, audit, PLAN_LABELS } from "./users.js";
+import { sendDzActivated } from "../planEmails.js";
 
 // The DZD payment-request queue, for the moderator role (and admins, whose
 // "Demandes" tab approves through here too, so there is one approval path).
@@ -119,7 +120,10 @@ async function approve(req, res, actor) {
   await audit(actor, "approve-request", row.email || row.user_id, {
     requestId: row.id, plan: row.plan, days: days || null, premium_until: premiumUntil, by: actor.app_metadata?.role,
   });
-  return res.status(200).json({ ok: true });
+  // "Votre forfait est activé" — the buyer paid by transfer and is waiting;
+  // the site updates on its own, but only if they have it open. Never throws.
+  const emailed = await sendDzActivated(admin, row.user_id, row.method);
+  return res.status(200).json({ ok: true, emailed });
 }
 
 export default async function handler(req, res) {

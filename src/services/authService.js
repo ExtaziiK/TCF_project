@@ -558,7 +558,7 @@ export async function signOut() {
 // Self-service account deletion (api/public/account). "delete" deactivates the
 // account and schedules its erasure; "reactivate" cancels that. Both return
 // the parsed JSON plus `ok`, never throw.
-async function accountAction(action) {
+async function accountAction(action, extra = {}) {
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
   if (!token) return { ok: false, error: "Session expirée. Reconnectez-vous." };
@@ -571,7 +571,7 @@ async function accountAction(action) {
         Authorization: `Bearer ${token}`,
         ...(sid ? { "X-Device-Session": sid } : {}),
       },
-      body: JSON.stringify({ action }),
+      body: JSON.stringify({ action, ...extra }),
     });
     const json = await res.json().catch(() => ({}));
     return res.ok ? { ...json, ok: true } : { ok: false, error: json.error || "La demande a échoué. Réessayez." };
@@ -602,6 +602,9 @@ export async function abandonPendingSignup(email, password) {
 export const cancelAccountDeletion = () => accountAction("reactivate");
 // Asks the server for the one-time welcome email (see useWelcomeEmail).
 export const requestWelcomeEmail = () => accountAction("welcome");
+// "Vos résultats du TCF blanc", after the free exam. Fire and forget: the
+// server checks the attempt and sends at most once per account.
+export const requestMockResultsEmail = (attemptId) => accountAction("mock-results", { attemptId });
 
 // A Supabase auth error turned into something worth showing a user.
 //

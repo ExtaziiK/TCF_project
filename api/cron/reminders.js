@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { sendMail, mailConfigured } from "../_lib/mailer.js";
 import { composeEmail } from "../_lib/emails.js";
 import { currentPlanLabel } from "../_lib/planLabel.js";
+import { processNudges } from "../_lib/nudge.js";
 import { withoutDeletion } from "../_lib/public/account.js";
 
 // Daily cron (see vercel.json → crons). Scans every account's Premium expiry
@@ -20,6 +21,10 @@ import { withoutDeletion } from "../_lib/public/account.js";
 // renewal changes premium_until, which re-arms both reminders automatically —
 // no extra table, no RLS to reason about. Metadata is merged, never replaced,
 // so plan/role/stripe fields survive (same rule as the Stripe webhook).
+//
+// It also sends the 3-day "Votre TCF blanc gratuit vous attend" nudge to new
+// accounts that have done nothing yet (api/_lib/nudge.js) — here for the same
+// two-cron reason as the deletions below.
 //
 // It also finishes self-service account deletions (api/_lib/public/account.js)
 // — it lives here rather than in a cron of its own because the Hobby plan caps
@@ -100,12 +105,18 @@ export default async function handler(req, res) {
   }
 
   const now = Date.now();
-  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, accountsDeleted: 0, deletionsCancelled: 0, errors: 0 };
+  const summary = { scanned: 0, expiringSent: 0, expiredSent: 0, nudgesSent: 0, accountsDeleted: 0, deletionsCancelled: 0, errors: 0 };
 
   try {
     const users = await listAllUsers();
     const cache = new Map(); // each email's saved settings, read once per run
     await processDeletions(users, now, summary, cache);
+    try {
+      await processNudges(admin, users, now, summary, cache, SITE);
+    } catch (err) {
+      summary.errors++;
+      console.error("reminders: nudges:", err.message); // the reminders below still run
+    }
     for (const user of users) {
       const meta = user.app_metadata || {};
       if (meta.plan !== "Premium" || !meta.premium_until || !user.email) continue;

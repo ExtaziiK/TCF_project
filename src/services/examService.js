@@ -1,3 +1,4 @@
+import { levelForPct } from "../../api/_lib/scoreBands.js";
 import { getBank } from "@/services/bankService";
 import { supabase } from "@/services/supabaseClient";
 import { getActiveProfileId } from "@/utils/activeProfile";
@@ -132,9 +133,8 @@ export function resolveTasks(tasks) {
 
 // Shared by the overall exam score and each task's own score, so the report
 // never shows two different scales for what looks like the same metric.
-export function levelForPct(pct) {
-  return pct >= 85 ? "C1" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
-}
+// Shared with the server (TCF blanc results email): api/_lib/scoreBands.js.
+export { levelForPct };
 
 export function scoreExam(taskResults) {
   const ok = taskResults.reduce((s, r) => s + r.ok, 0);

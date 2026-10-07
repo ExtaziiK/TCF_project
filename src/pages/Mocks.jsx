@@ -18,6 +18,7 @@ import {
 } from "@/services/examService";
 import { setFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { ExamFeedbackDialog } from "@/components/exam/ExamFeedbackDialog";
+import { requestMockResultsEmail } from "@/services/authService";
 import { hasReviewed } from "@/services/testimonialsService";
 import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
@@ -197,6 +198,10 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
       const score = { ...scoreExam(perTask), perTask };
       const done = await completeAttempt(user?.id, { ...attempt, progress: { ...attempt.progress, results } }, score);
       setJustFinished(done);
+      // The free TCF blanc: its results also go out by email (score, level,
+      // NCLC, the section to work on). The server re-reads the attempt and
+      // sends once per account; nothing to wait for here.
+      if (isFreeAttempt(done)) requestMockResultsEmail(done.id);
       // Ask for a review on the first exam a candidate ever finishes, and again
       // after a later one if they answered "Plus tard" — up to MAX_ASKS in all.
       // Never if they have already left one, or closed the dialog outright.

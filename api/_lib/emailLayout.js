@@ -110,3 +110,29 @@ export function promoBox(site, code, text) {
       </td></tr>
     </table>`;
 }
+
+/* ------------------------------ TCF blanc results -------------------------- */
+
+// The results card of the "Vos résultats du TCF blanc" email, from
+// summarizeScore() (api/_lib/mockResults.js).
+export function resultsBox(summary) {
+  const nclcText = (n) => (n == null ? "" : n === 0 ? "sous NCLC 4" : `NCLC ${n}`);
+  const rows = summary.sections.map((x) => `
+      <tr>
+        <td style="padding:9px 0;border-top:1px solid #e2e8f0;font-family:${FONT};font-size:14px;color:#0f172a;font-weight:600;">${escapeHtml(x.name)}</td>
+        <td align="right" style="padding:9px 0;border-top:1px solid #e2e8f0;font-family:${FONT};font-size:14px;color:#334155;">
+          ${x.selfAssessed ? `<span style="color:#64748b;">auto-évaluée</span>` : `${x.ok}&nbsp;/&nbsp;${x.total} · ${x.level}${x.nclc != null ? ` · <strong style="color:#1d4ed8;">${nclcText(x.nclc)}</strong>` : ""}`}
+        </td>
+      </tr>`).join("");
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;">
+      <tr><td style="padding:18px 20px 6px 20px;text-align:center;font-family:${FONT};">
+        <div style="font-size:13px;color:#64748b;">Score estimé</div>
+        <div style="font-size:30px;line-height:38px;font-weight:800;color:#1d4ed8;">${summary.points}&nbsp;/&nbsp;699</div>
+        <div style="font-size:14px;color:#334155;">Niveau estimé&nbsp;: <strong>${escapeHtml(summary.level)}</strong></div>
+      </td></tr>
+      <tr><td style="padding:8px 20px 14px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">${rows}</table>
+      </td></tr>
+    </table>`;
+}

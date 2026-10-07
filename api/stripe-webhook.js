@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
+import { sendPremiumWelcome } from "./_lib/planEmails.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -94,6 +95,9 @@ export default async function handler(req, res) {
           const patch = await passPatchForSession(session, stripe, existing?.user?.app_metadata || {});
           if (!patch) { console.error("checkout.session.completed: unknown price on", session.id); break; }
           await setPremiumStatus(userId, patch);
+          // "Bienvenue dans Premium": what the pass unlocks, once per session
+          // (a redelivered webhook does not send it twice). Never throws.
+          await sendPremiumWelcome(supabaseAdmin, userId, session.id);
           break;
         }
 

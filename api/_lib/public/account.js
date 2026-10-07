@@ -5,6 +5,7 @@ import { enforceRateLimit } from "../ratelimit.js";
 import { sendMail, mailConfigured } from "../mailer.js";
 import { composeEmail } from "../emails.js";
 import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js";
+import { summarizeScore, practiceTips } from "../mockResults.js";
 
 // Self-service account deletion, Facebook-style: asking to delete DEACTIVATES
 // the account at once and schedules the real deletion GRACE_DAYS later. Any
@@ -23,6 +24,10 @@ import { loadWelcomeConfig, welcomeSkipReason, sendWelcome } from "../welcome.js
 //        Sends the welcome email, once per account (welcome_email_sent_at), to
 //        a confirmed account created in the last WELCOME_WINDOW_DAYS, unless
 //        the owner switched it off in Administration → Emails. See ../welcome.js.
+//   POST /api/public/account { action: "mock-results", attemptId }
+//        "Vos résultats du TCF blanc", right after the FREE TCF blanc, once per
+//        account (mock_results_email_sent_at). Only the attempt id comes from
+//        the browser: owner, status, "free" and the score are all read here.
 //   POST /api/public/account { action: "abandon-signup", email, password }
 //        "Wrong address?" on the confirmation-code screen. Deletes the account
 //        that sign-up just created, so the candidate can sign up again with
@@ -149,6 +154,42 @@ async function handleAbandonSignup(req, res) {
   return done(false);
 }
 
+async function handleMockResults(req, res, user) {
+  const meta = user.app_metadata || {};
+  const done = (sent, reason) => res.status(200).json({ ok: true, sent, reason });
+  if (meta.mock_results_email_sent_at) return done(false, "already");
+  if (!user.email || !mailConfigured()) return done(false, "no-mail");
+  const attemptId = String(req.body?.attemptId || "");
+  if (!attemptId) throw new HttpError(400, "TCF blanc introuvable.");
+  const { data: attempt } = await admin
+    .from("exam_attempts")
+    .select("id, user_id, status, score, progress")
+    .eq("id", attemptId)
+    .maybeSingle();
+  if (!attempt || attempt.user_id !== user.id) throw new HttpError(404, "TCF blanc introuvable.");
+  if (attempt.status !== "completed" || !attempt.progress?.free || !attempt.score?.perTask) return done(false, "not-free-or-unfinished");
+
+  const summary = summarizeScore(attempt.score);
+  const mail = await composeEmail(admin, "mockResults", user, {
+    score: `${summary.points} / 699`,
+    niveau: summary.level,
+    faible: summary.weakest?.name || "la compréhension",
+    conseils: practiceTips(summary.weakest?.key),
+    _score: attempt.score,
+  }, SITE);
+  if (!mail) return done(false, "disabled");
+  const stamp = (v) => admin.auth.admin.updateUserById(user.id, { app_metadata: { ...meta, mock_results_email_sent_at: v } });
+  await stamp(new Date().toISOString());
+  try {
+    await sendMail({ to: user.email, subject: mail.subject, html: mail.html });
+  } catch (err) {
+    await stamp(null);
+    console.error(`account: mock results email to ${user.email} failed:`, err.message);
+    throw new HttpError(502, "Envoi des résultats impossible.");
+  }
+  return done(true);
+}
+
 async function handleReactivate(res, user) {
   const meta = user.app_metadata || {};
   if (!meta.deletion_scheduled_for && !meta.deletion_requested_at) return res.status(200).json({ ok: true, reactivated: false });
@@ -170,6 +211,7 @@ export default async function handler(req, res) {
     if (action === "delete") return await handleDelete(req, res, user);
     if (action === "reactivate") return await handleReactivate(res, user);
     if (action === "welcome") return await handleWelcome(res, user);
+    if (action === "mock-results") return await handleMockResults(req, res, user);
     throw new HttpError(400, "Action inconnue.");
   } catch (err) {
     return res.status(err.status || 500).json({ error: err.message || "Requête refusée." });
