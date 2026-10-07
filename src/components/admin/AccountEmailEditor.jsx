@@ -103,13 +103,14 @@ export function AccountEmailEditor({ id, onEnabled }) {
         {t.audience && audience?.unavailable && (
           <p className={`mt-3 text-sm ${c.faint}`}>Liste indisponible ici{audience.error ? ` (${audience.error})` : " (fonctions serverless absentes en local)"}.</p>
         )}
-        {t.audience && audience && !audience.unavailable && (
+        {/* Only when someone is waiting for it (or a send is running). */}
+        {t.audience && audience && !audience.unavailable && (audience.pending > 0 || progress) && (
           <div className={`mt-4 p-4 rounded-2xl border flex items-center gap-3 flex-wrap ${c.border}`}>
             <Users size={17} className="text-blue-600 shrink-0" />
             <p className={`text-sm flex-1 min-w-[12rem] ${c.text}`}>
               {audience.pending > 0
                 ? <><strong>{audience.pending}</strong> compte(s) actif(s) au moins {audience.minDays} jours, sans abonnement, ne l&apos;ont pas encore reçu.</>
-                : <>Aucun compte en attente : tous les comptes concernés l&apos;ont déjà reçu.</>}
+                : <>Envoi terminé.</>}
             </p>
             {audience.pending > 0 && (
               <Btn small icon={Send} disabled={busy !== null || !saved.enabled || dirty || !audience.mailConfigured} onClick={sendAll}

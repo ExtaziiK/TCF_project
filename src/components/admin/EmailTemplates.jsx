@@ -161,13 +161,16 @@ function WelcomeEmailEditor({ onEnabled }) {
         {status && !status.unavailable && !status.mailConfigured && (
           <p className="mt-3 text-sm text-rose-600">La boîte d&apos;envoi (SMTP Hostinger) n&apos;est pas configurée sur le serveur : rien ne partira.</p>
         )}
-        {status && !status.unavailable && (
+        {/* Only when there is someone to catch up (or a send to watch finish):
+            the email goes out by itself at signup, so "nobody pending" is the
+            normal state and not worth a line. */}
+        {status && !status.unavailable && (status.pending > 0 || progress) && (
           <div className={`mt-4 p-4 rounded-2xl border flex items-center gap-3 flex-wrap ${c.border}`}>
             <Users size={17} className="text-blue-600 shrink-0" />
             <p className={`text-sm flex-1 min-w-[12rem] ${c.text}`}>
               {status.pending > 0
                 ? <><strong>{status.pending}</strong> compte(s) inscrit(s) ces {WELCOME_WINDOW_DAYS} derniers jours ne l&apos;ont pas encore reçu.</>
-                : <>Tous les comptes des {WELCOME_WINDOW_DAYS} derniers jours l&apos;ont reçu.</>}
+                : <>Envoi terminé.</>}
             </p>
             {status.pending > 0 && (
               <Btn small icon={Send} disabled={busy !== null || !saved.enabled || dirty} onClick={sendRecent}
