@@ -56,8 +56,13 @@ export function fetchAdminStats() {
 // Who/what is behind ONE overview counter, for the pop-up opened by clicking
 // its card. `key` is one of: users | online | premium | quizzes | exams |
 // attempts | messages (see api/_lib/admin/stats.js).
-export function fetchAdminStatDetail(key) {
-  return adminFetch(`/api/admin/stats?detail=${encodeURIComponent(key)}`);
+// `range` ({ from, to } ISO strings, either optional) narrows the users list
+// to the accounts created in that period.
+export function fetchAdminStatDetail(key, range = {}) {
+  const params = new URLSearchParams({ detail: key });
+  if (range.from) params.set("from", range.from);
+  if (range.to) params.set("to", range.to);
+  return adminFetch(`/api/admin/stats?${params}`);
 }
 
 // AI (Groq) metering + Supabase consumption for the "Utilisation" tab.

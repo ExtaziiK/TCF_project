@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, RefreshCw, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
@@ -21,6 +21,38 @@ const GO_LABELS = {
   premium: ["users", "Gérer les abonnements"],
   messages: ["messages", "Ouvrir la boîte de réception"],
 };
+
+// Period filter of the "Utilisateurs inscrits" pop-up. Day boundaries are the
+// admin's local midnight, so "Aujourd'hui" means today on their clock, not UTC.
+const PERIODS = [
+  { key: "day", label: "Aujourd'hui", days: 1 },
+  { key: "3d", label: "3 jours", days: 3 },
+  { key: "7d", label: "7 jours", days: 7 },
+  { key: "30d", label: "1 mois", days: 30 },
+  { key: "custom", label: "Personnalisé" },
+  { key: "all", label: "Tout" },
+];
+
+const startOfDay = (d) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+// <input type="date"> speaks YYYY-MM-DD in local time.
+const localDay = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const parseDay = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+
+// [from, to) for a period; "N jours" includes today, so 3 jours = today and
+// the two days before. Custom dates are inclusive on both ends.
+function periodRange(period, custom) {
+  const today = startOfDay(new Date());
+  const p = PERIODS.find((x) => x.key === period);
+  if (p?.days) return { from: addDays(today, 1 - p.days).toISOString() };
+  if (period === "custom") {
+    return {
+      from: custom.from ? parseDay(custom.from).toISOString() : undefined,
+      to: custom.to ? addDays(parseDay(custom.to), 1).toISOString() : undefined,
+    };
+  }
+  return {};
+}
 
 const dateTime = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -88,15 +120,24 @@ export function StatDetailModal({ statKey, fallbackTitle, onClose, go }) {
   const [state, setState] = useState("loading");
   const [busy, setBusy] = useState(false);
   // Only the answers list carries bank ids; no other pop-up pays for the index.
+  const filterable = statKey === "users";
+  const [period, setPeriod] = useState("all");
+  const [custom, setCustom] = useState(() => ({ from: localDay(addDays(new Date(), -6)), to: localDay(new Date()) }));
+  const range = useMemo(() => (filterable ? periodRange(period, custom) : {}), [filterable, period, custom]);
   const questions = useMemo(() => (statKey === "attempts" ? buildQuestionIndex() : null), [statKey]);
 
-  const load = useCallback(async (manual = false) => {
-    if (manual) setBusy(true);
-    const r = await fetchAdminStatDetail(statKey);
+  // Switching periods quickly fires overlapping requests; only the newest one
+  // may write, or a slow "Tout" could land after "Aujourd'hui" and win.
+  const latest = useRef(0);
+  const load = useCallback(async () => {
+    const id = ++latest.current;
+    setBusy(true);
+    const r = await fetchAdminStatDetail(statKey, range);
+    if (id !== latest.current) return;
     if (r.ok) { setData(r.data); setState("ready"); }
     else setState((s) => (s === "ready" ? s : r.unavailable ? "unavailable" : "error"));
     setBusy(false);
-  }, [statKey]);
+  }, [statKey, range]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -122,12 +163,40 @@ export function StatDetailModal({ statKey, fallbackTitle, onClose, go }) {
             </div>
             {data?.subtitle && <p className={`text-xs mt-0.5 ${c.faint}`}>{data.subtitle}</p>}
           </div>
-          <button onClick={() => load(true)} aria-label="Actualiser" disabled={busy}
+          <button onClick={() => load()} aria-label="Actualiser" disabled={busy}
             className={`p-2 rounded-full ${c.hoverSoft} ${c.faint}`}>
             <RefreshCw size={15} className={busy ? "animate-spin" : ""} />
           </button>
           <button onClick={onClose} aria-label="Fermer" className={`p-2 rounded-full ${c.hoverSoft} ${c.faint}`}><X size={16} /></button>
         </div>
+
+        {filterable && (
+          <div className={`px-5 py-3 border-b ${c.border} shrink-0 space-y-2.5`}>
+            <div className="flex items-center gap-1.5 flex-wrap" role="group" aria-label="Période d'inscription">
+              {PERIODS.map((p) => {
+                const on = period === p.key;
+                return (
+                  <button key={p.key} onClick={() => setPeriod(p.key)} aria-pressed={on}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${on ? "bg-blue-600 border-blue-600 text-white" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+            {period === "custom" && (
+              <div className="flex items-center gap-2 flex-wrap text-xs">
+                <label className={c.sub} htmlFor="signup-from">Du</label>
+                <input id="signup-from" type="date" value={custom.from} max={custom.to || localDay(new Date())}
+                  onChange={(e) => setCustom((x) => ({ ...x, from: e.target.value }))}
+                  className={`px-2.5 py-1.5 rounded-lg border text-xs outline-none focus:border-blue-600 ${c.inputCls}`} />
+                <label className={c.sub} htmlFor="signup-to">au</label>
+                <input id="signup-to" type="date" value={custom.to} min={custom.from || undefined} max={localDay(new Date())}
+                  onChange={(e) => setCustom((x) => ({ ...x, to: e.target.value }))}
+                  className={`px-2.5 py-1.5 rounded-lg border text-xs outline-none focus:border-blue-600 ${c.inputCls}`} />
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="overflow-y-auto flex-1 px-5 py-2">
           {state === "loading" && <p className={`text-sm py-6 text-center ${c.faint}`}>Chargement…</p>}

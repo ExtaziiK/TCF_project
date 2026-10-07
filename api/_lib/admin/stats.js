@@ -25,6 +25,9 @@ const ONLINE_WINDOW_MS = 3 * 60 * 1000;
 // Rows returned per detail list. The card keeps showing the true total; the
 // pop-up shows the newest slice of it and says so when it is cut off.
 const DETAIL_LIMIT = 60;
+// The signups list is the one filtered by period, so it shows more: a month
+// of signups should fit without being cut off.
+const USERS_LIMIT = 300;
 
 const dayKey = (d) => new Date(d).toISOString().slice(0, 10);
 
@@ -123,19 +126,32 @@ async function rowsOf(query) {
 
 const DETAILS = {
   // Newest accounts first — the question behind the card is "who just joined".
-  users: async () => {
+  // An optional [from, to) window (ISO timestamps, computed in the admin's own
+  // timezone by the pop-up's period filter) narrows the list to the accounts
+  // created inside it; `total` is then the count for that period.
+  users: async ({ from, to } = {}) => {
     const byId = await accountIndex();
-    const users = [...byId.values()].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
-    const [profiles] = await Promise.all([
-      rowsOf(admin.from("profiles").select("id, username").in("id", users.slice(0, DETAIL_LIMIT).map((u) => u.id))),
-    ]);
+    const fromMs = from ? Date.parse(from) : -Infinity;
+    const toMs = to ? Date.parse(to) : Infinity;
+    const users = [...byId.values()]
+      .filter((u) => { const t = Date.parse(u.created_at); return t >= fromMs && t < toMs; })
+      .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+    const shown = users.slice(0, USERS_LIMIT);
+    // Looked up in chunks: a few hundred ids in one .in() would overflow the
+    // GET URL PostgREST receives.
+    const profiles = (await Promise.all(
+      Array.from({ length: Math.ceil(shown.length / 100) }, (_, i) =>
+        rowsOf(admin.from("profiles").select("id, username").in("id", shown.slice(i * 100, i * 100 + 100).map((u) => u.id)))),
+    )).flat();
     const usernames = Object.fromEntries(profiles.map((p) => [p.id, p.username]));
+    const filtered = Number.isFinite(fromMs) || Number.isFinite(toMs);
     return {
       title: "Utilisateurs inscrits",
       subtitle: "Les comptes les plus récents en premier.",
       total: users.length,
       avatar: true,
-      rows: users.slice(0, DETAIL_LIMIT).map((u) => {
+      empty: filtered ? "Aucune inscription sur cette période." : undefined,
+      rows: shown.map((u) => {
         const meta = u.app_metadata || {};
         const active = premiumActive(meta);
         return {
@@ -336,10 +352,12 @@ export default async function handler(req, res) {
     if (detail) {
       const build = Object.prototype.hasOwnProperty.call(DETAILS, detail) ? DETAILS[detail] : null;
       if (!build) throw new HttpError(400, "Détail inconnu.");
-      const payload = await build();
+      // Only the users list reads the period; the other builders ignore it.
+      const iso = (v) => { const t = Date.parse(String(v || "")); return Number.isFinite(t) ? new Date(t).toISOString() : null; };
+      const payload = await build({ from: iso(req.query.from), to: iso(req.query.to) });
       return res.status(200).json({
         key: detail,
-        limit: DETAIL_LIMIT,
+        limit: detail === "users" ? USERS_LIMIT : DETAIL_LIMIT,
         // The card shows the true total; the list is capped, and the pop-up
         // says so rather than letting the two numbers quietly disagree.
         truncated: payload.total > payload.rows.length,
