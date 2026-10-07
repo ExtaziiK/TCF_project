@@ -77,6 +77,18 @@ export const FAQS = [
     gif: { src: "/faq/second-profil.gif", width: 320, height: 640, alt: "Le menu, « Changer de profil », « Ajouter », puis le nouveau profil créé" },
   },
   {
+    q: "Comment laisser un avis ou un témoignage ?",
+    a: "Votre expérience aide les prochains candidats. Après votre premier TCF blanc, nous vous proposons de laisser un avis ; vous pouvez aussi l'écrire à tout moment depuis votre profil. C'est le même formulaire dans les deux cas : après validation par notre équipe, votre avis est publié sur la page Avis et peut apparaître sur la page d'accueil.",
+    steps: [
+      "Ouvrez le menu, puis « Mon profil ».",
+      "Dans « Mon témoignage », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).",
+      "Si vous le souhaitez, ajoutez votre parcours (par exemple « Alger → Montréal ») et le résultat obtenu, ou masquez votre nom.",
+      "Appuyez sur « Envoyer pour validation ». Vous pourrez le retirer à tout moment depuis votre profil.",
+    ],
+    gif: { src: "/faq/temoignage.gif", width: 320, height: 640, alt: "Mon profil, « Mon témoignage » rempli, puis « Envoyer pour validation »" },
+    link: { label: "Lire les avis des candidats", route: "avis" },
+  },
+  {
     q: "Comment supprimer mon compte ?",
     a: "Vous pouvez le faire vous-même depuis votre profil. Votre compte est désactivé tout de suite, puis supprimé définitivement après 7 jours, avec toutes vos données. Si vous vous reconnectez pendant ces 7 jours, la suppression est annulée.",
     steps: [

@@ -648,6 +648,30 @@ export const EN = {
   "Oui, dans le navigateur de votre téléphone, sans application à installer : vous pouvez réviser vos cartes de vocabulaire dans l'autobus. Pour un TCF blanc complet, un ordinateur reste plus confortable, avec un micro pour l'expression orale.":
     "Yes, in your phone's browser, with no app to install: you can review your vocabulary cards on the bus. For a full mock exam, a computer is more comfortable, with a microphone for the speaking part.",
 
+  "Comment laisser un avis ou un témoignage ?":
+    "How do I leave a review or a testimonial?",
+  "Appuyez sur « Envoyer pour validation ». Vous pourrez le retirer à tout moment depuis votre profil.":
+    "Tap “Send for approval”. You can withdraw it at any time from your profile.",
+  "Mon profil, « Mon témoignage » rempli, puis « Envoyer pour validation »":
+    "My profile, “My testimonial” filled in, then “Send for approval”",
+  "Lire les avis des candidats":
+    "Read the candidates' reviews",
+
+  "Votre expérience aide les prochains candidats. Après votre premier TCF blanc, nous vous proposons de laisser un avis ; vous pouvez aussi l'écrire à tout moment depuis votre profil. C'est le même formulaire dans les deux cas : après validation par notre équipe, votre avis est publié sur la page Avis et peut apparaître sur la page d'accueil.":
+    "Your experience helps the candidates who come next. After your first mock exam, we invite you to leave a review; you can also write it at any time from your profile. It is the same form either way: once our team has approved it, your review is published on the Reviews page and may appear on the home page.",
+  "Dans « Mon témoignage », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).":
+    "In “My testimonial”, pick a rating, then tell your experience in a few sentences (10 to 600 characters).",
+  "Si vous le souhaitez, ajoutez votre parcours (par exemple « Alger → Montréal ») et le résultat obtenu, ou masquez votre nom.":
+    "If you like, add your journey (for example “Algiers → Montreal”) and the result you got, or hide your name.",
+  "Merci ! Votre avis sera publié après validation par notre équipe.":
+    "Thank you! Your review will be published once our team has approved it.",
+  "facultatif":
+    "optional",
+  "Vous venez de vivre ce que des milliers de candidats redoutent. Racontez-le en deux phrases : après validation, votre avis sera publié sur notre page Avis, et c'est souvent celui d'un candidat comme vous qui décide quelqu'un à se lancer.":
+    "You have just been through what thousands of candidates dread. Tell it in two sentences: once approved, your review will be published on our Reviews page, and it is often a candidate like you who convinces someone to get started.",
+  "Racontez votre parcours. Après validation par notre équipe, il sera publié sur la page Avis et pourra apparaître sur la page d'accueil.":
+    "Tell your story. Once our team has approved it, it will be published on the Reviews page and may appear on the home page.",
+
   // ── About ────────────────────────────────────────────────────────────
   "Un seul objectif : que vous arriviez prêt le jour du TCF": "One goal: to have you ready on TCF day",
   "Une plateforme indépendante de préparation au TCF Canada, pensée pour les candidates et candidats à l'immigration.":
