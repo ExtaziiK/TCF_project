@@ -1,21 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
-import { FAQS } from "@/constants/faq";
+import { FAQS, faqHash } from "@/constants/faq";
 import { useIsAlgeria } from "@/hooks/useIsAlgeria";
+
+// Links to one question from elsewhere on the site: goes to the FAQ with that
+// question open (its #id in the address, so the link can also be shared).
+export function openFaq(nav, id) {
+  nav("faq");
+  window.history.replaceState(window.history.state, "", window.location.pathname + faqHash(id));
+}
+
+const hashId = () => {
+  try { return decodeURIComponent(window.location.hash.slice(1)); } catch { return ""; }
+};
 
 export function FAQ() {
   const { c, t, nav } = useApp();
   const dz = useIsAlgeria();
   // The CCP / BaridiMob question is for visitors from Algeria only.
   const faqs = FAQS.filter((f) => !f.dzOnly || dz);
-  const [open, setOpen] = useState(0);
+  // /faq#<id> opens that question; otherwise the first one, as before.
+  const [open, setOpen] = useState(() => {
+    const i = faqs.findIndex((f) => f.id === hashId());
+    return i >= 0 ? i : 0;
+  });
+  // …and brings it into view, once the page has laid out. Also when only the
+  // #id changes on an FAQ already open (a second link, or the back button).
+  useEffect(() => {
+    let timer;
+    const follow = () => {
+      const id = hashId();
+      if (!id) return;
+      const i = faqs.findIndex((f) => f.id === id);
+      if (i >= 0) setOpen(i);
+      clearTimeout(timer);
+      timer = setTimeout(() => document.getElementById(`faq-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+    };
+    follow();
+    window.addEventListener("hashchange", follow);
+    return () => { clearTimeout(timer); window.removeEventListener("hashchange", follow); };
+  }, [faqs.length]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <PageShell back eyebrow={t("Foire aux questions")} title={t("Tout ce qu'il faut savoir avant de commencer")}>
       <div className="space-y-3 max-w-3xl">
         {faqs.map((f, i) => (
-          <Card key={f.q} className="overflow-hidden">
+          <Card key={f.q} id={f.id ? `faq-${f.id}` : undefined} className="overflow-hidden scroll-mt-24">
             <button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} className={`w-full flex items-center justify-between gap-4 px-6 py-5 text-left ${c.hoverSoft}`}>
               <span className={`font-semibold text-sm md:text-base ${c.text}`}>{t(f.q)}</span>
               <ChevronDown size={18} className={`shrink-0 text-blue-600 transition-transform ${open === i ? "rotate-180" : ""}`} />

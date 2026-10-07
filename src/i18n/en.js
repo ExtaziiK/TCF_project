@@ -116,7 +116,7 @@ export const EN = {
   "avis": "reviews",
   "Avis": "Reviews",
   "Ce que disent les candidats": "What candidates say",
-  "Les avis publiés ici sont laissés par des membres après leur TCF blanc, puis validés par notre équipe.": "These reviews are left by members after their mock exam, then checked by our team.",
+  "Les avis publiés ici sont laissés par des membres de la plateforme, puis validés par notre équipe.": "These reviews are left by members of the platform, then checked by our team.",
   "avis notés": "rated reviews",
   "Aucun avis pour l'instant": "No reviews yet",
   "Passez un TCF blanc et soyez le premier à donner le vôtre.": "Sit a mock exam and be the first to leave one.",
@@ -671,6 +671,11 @@ export const EN = {
     "You have just been through what thousands of candidates dread. Tell it in two sentences: once approved, your review will be published on our Reviews page, and it is often a candidate like you who convinces someone to get started.",
   "Racontez votre parcours. Après validation par notre équipe, il sera publié sur la page Avis et pourra apparaître sur la page d'accueil.":
     "Tell your story. Once our team has approved it, it will be published on the Reviews page and may appear on the home page.",
+
+  "Vous aussi, partagez votre expérience": "Share your experience too",
+  "Une note et quelques phrases : votre avis aide les prochains candidats.": "A rating and a few sentences: your review helps the candidates who come next.",
+  "Comment laisser un témoignage ?": "How to leave a testimonial?",
+  "Laisser mon avis": "Leave my review",
 
   // ── About ────────────────────────────────────────────────────────────
   "Un seul objectif : que vous arriviez prêt le jour du TCF": "One goal: to have you ready on TCF day",

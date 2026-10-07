@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, StarRating } from "@/components/common";
+import { MessageSquareQuote, HelpCircle } from "lucide-react";
+import { PageShell, Card, StarRating, Btn } from "@/components/common";
+import { openFaq } from "@/pages/FAQ";
 import { listApprovedReviews } from "@/services/testimonialsService";
 import { useRatingSummary } from "@/hooks/useRatingSummary";
 
@@ -13,7 +15,7 @@ const when = (iso) =>
 // older success stories carry no rating, so the stars are omitted for those
 // rather than shown as zero — an empty five-star row reads as "rated badly".
 export function Avis() {
-  const { c, t } = useApp();
+  const { c, t, nav, user } = useApp();
   const [items, setItems] = useState(null); // null = loading
   // Shared with the landing page, and counted over EVERY approved review rather
   // than the page's own slice, so the two never print different overall scores.
@@ -31,7 +33,7 @@ export function Avis() {
       wide
       eyebrow={t("Avis")}
       title={t("Ce que disent les candidats")}
-      sub={t("Les avis publiés ici sont laissés par des membres après leur TCF blanc, puis validés par notre équipe.")}
+      sub={t("Les avis publiés ici sont laissés par des membres de la plateforme, puis validés par notre équipe.")}
     >
       {/* The hook returns null below the threshold where an average would
           mislead, so there is no rule to repeat here. */}
@@ -42,6 +44,20 @@ export function Avis() {
           <p className={`mt-2 text-sm ${c.sub}`}>{rating.count} {t("avis notés")}</p>
         </Card>
       )}
+
+      {/* How to add one: the profile form (signed in) or an account first, and
+          the FAQ answer that walks through it with a GIF. */}
+      <Card className="p-5 mb-8 max-w-3xl mx-auto flex items-center gap-4 flex-wrap">
+        <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><MessageSquareQuote size={20} /></span>
+        <div className="flex-1 min-w-[14rem]">
+          <p className={`font-display font-bold ${c.text}`}>{t("Vous aussi, partagez votre expérience")}</p>
+          <p className={`text-sm ${c.sub}`}>{t("Une note et quelques phrases : votre avis aide les prochains candidats.")}</p>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Btn small variant="ghost" icon={HelpCircle} onClick={() => openFaq(nav, "laisser-un-avis")}>{t("Comment laisser un témoignage ?")}</Btn>
+          <Btn small onClick={() => nav(user ? "profile" : "register")}>{t("Laisser mon avis")}</Btn>
+        </div>
+      </Card>
 
       {items === null ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
