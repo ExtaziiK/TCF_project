@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { PlanCard } from "@/components/pricing/PlanCard";
 import { WelcomeOffer } from "@/components/pricing/WelcomeOffer";
+import { SaleBanner } from "@/components/pricing/SaleBanner";
 import { promoLabel } from "@/services/stripeService";
 import { CURRENCIES } from "@/utils/currency";
 
@@ -31,6 +32,8 @@ export function PricingPlans({ s, compact = false }) {
           `dzUsablePromo` rather than the raw applied code, because that is the
           promo the cards are actually previewing — a fixed-amount coupon on the
           dinar tab buys nothing, and the promo card below says why. */}
+      {/* A running sale replaces the welcome offer (the hook never sets both). */}
+      {s.sale && <SaleBanner onExpire={s.expireSale} />}
       {s.welcome && s.dzUsablePromo && (
         <WelcomeOffer welcome={s.welcome} promo={s.dzUsablePromo} onExpire={s.expireWelcome} />
       )}
@@ -91,6 +94,17 @@ export function PricingPlans({ s, compact = false }) {
         {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>
 
+      {/* During a sale the field is replaced by a note: the sale is applied for
+          everyone and no other code can be added (the server refuses it too). */}
+      {s.sale ? (
+        <Card className="mt-10 max-w-xl mx-auto p-6">
+          <p className="text-sm text-emerald-600 flex items-start gap-1.5">
+            <CheckCircle2 size={15} className="shrink-0 mt-0.5" />
+            <span><strong>{s.sale.code}</strong> : {promoLabel(s.sale)} — {t("appliqué automatiquement au paiement.")}</span>
+          </p>
+          <p className={`mt-2 text-sm ${c.sub}`}>{t("Les codes promo ne sont pas cumulables avec cette offre : aucun autre code ne peut être saisi pendant la promo.")}</p>
+        </Card>
+      ) : (
       <Card className="mt-10 max-w-xl mx-auto p-6">
         <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
         <div className="flex gap-2">
@@ -126,6 +140,7 @@ export function PricingPlans({ s, compact = false }) {
           </p>
         )}
       </Card>
+      )}
     </>
   );
 }

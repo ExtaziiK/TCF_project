@@ -11,6 +11,7 @@ import { planDzdAmount, applyPercentOff } from "@/utils/currency";
 import { getDzCheckoutPlan, getDzCheckoutPromo, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
 import { validatePromoCode, promoLabel } from "@/services/stripeService";
+import { saleActive, salePromo } from "../../api/_lib/sale.js";
 import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
 
 // The two manual methods offered to Algerian users (Stripe is never used for
@@ -84,9 +85,13 @@ export function CheckoutDz() {
   if (!plan || !user) return null;
 
   const fullAmount = cfg ? planDzdAmount(plan, cfg.prices) : planDzdAmount(plan);
+  // During a sale (api/_lib/sale.js) its discount is the only one: applied
+  // here whatever was stored, and the code field below is locked.
+  const sale = saleActive();
+  const applied = sale ? salePromo() : promo;
   // Percentage only — a fixed-amount coupon is in USD and cannot be taken off a
   // dinar total, so the Tarifs page never lets one through to here.
-  const amount = promo?.percentOff ? applyPercentOff(fullAmount, promo.percentOff) : fullAmount;
+  const amount = applied?.percentOff ? applyPercentOff(fullAmount, applied.percentOff) : fullAmount;
   const waUrl = cfg?.whatsappGroupUrl || "";
 
   // Same validation the Tarifs page runs (api/public/promo-validate), with the same
@@ -138,7 +143,7 @@ export function CheckoutDz() {
       reference, receiptFile: file,
       // The code goes in the notes so the reviewer can see why the transfer is
       // smaller than the list price, without a schema change.
-      notes: promo ? `[Code promo ${promo.code} · −${promo.percentOff} %] ${notes || ""}`.trim() : notes,
+      notes: applied ? `[Code promo ${applied.code} · −${applied.percentOff} %] ${notes || ""}`.trim() : notes,
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));
@@ -191,14 +196,14 @@ export function CheckoutDz() {
               here — so the total must stay reachable from this screen too. */}
           <div className={`mt-5 pt-4 border-t ${c.border}`}>
             <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
-            {promo ? (
+            {applied ? (
               <div className="flex items-center justify-between gap-2 rounded-2xl bg-emerald-500/10 px-4 py-3">
                 <span className="text-sm text-emerald-600 flex items-center gap-1.5 min-w-0">
                   <CheckCircle2 size={15} className="shrink-0" />
-                  <span className="font-mono2 font-semibold truncate">{promo.code}</span>
-                  <span className="shrink-0">· {promoLabel(promo)}</span>
+                  <span className="font-mono2 font-semibold truncate">{applied.code}</span>
+                  <span className="shrink-0">· {promoLabel(applied)}</span>
                 </span>
-                <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>
+                {!sale && <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>}
               </div>
             ) : (
               <div className="flex gap-2">
@@ -206,12 +211,13 @@ export function CheckoutDz() {
                 <Btn small disabled={checking || !coupon.trim()} onClick={applyCoupon}>{t(checking ? "Vérification…" : "Appliquer")}</Btn>
               </div>
             )}
+            {sale && <p className={`mt-2 text-xs ${c.faint}`}>{t("Promo appliquée automatiquement, non cumulable avec un autre code.")}</p>}
             {couponError && <p className="mt-3 text-sm text-rose-600 flex items-start gap-1.5"><XCircle size={15} className="shrink-0 mt-0.5" /> {couponError}</p>}
           </div>
           <div className={`mt-5 pt-4 border-t ${c.border} flex items-center justify-between gap-3`}>
             <span className={`text-sm font-semibold ${c.text}`}>{t("Total à payer")}</span>
             <span className="flex items-baseline gap-2 min-w-0">
-              {promo && <span className={`text-sm line-through shrink-0 ${c.faint}`}>{fullAmount}</span>}
+              {applied && <span className={`text-sm line-through shrink-0 ${c.faint}`}>{fullAmount}</span>}
               <span className="font-display font-extrabold text-2xl grad-text">{amount}</span>
             </span>
           </div>

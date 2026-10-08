@@ -372,6 +372,14 @@ export const EN = {
   // ── New-account welcome offer (components/pricing/WelcomeOffer.jsx) ──
   "Comparer tous les forfaits en détail": "Compare every plan in detail",
   "Offre de bienvenue": "Welcome offer",
+  // Sale banner (components/pricing/SaleBanner.jsx, api/_lib/sale.js)
+  "Promo Weekend33": "Weekend33 sale",
+  "sur tous les forfaits": "on every plan",
+  "Déjà appliquée : rien à saisir. Offre limitée dans le temps.": "Already applied, nothing to type. Limited-time offer.",
+  "Se termine dans": "Ends in",
+  "Voir les prix": "See prices",
+  "Les codes promo ne sont pas cumulables avec cette offre : aucun autre code ne peut être saisi pendant la promo.": "Promo codes can't be combined with this offer: no other code can be entered during the sale.",
+  "Promo appliquée automatiquement, non cumulable avec un autre code.": "Sale applied automatically, can't be combined with another code.",
   "sur tous nos forfaits": "on every plan",
   "Déjà appliqué — rien à saisir. Il expire 24 h après votre inscription.":
     "Already applied — nothing to type. It expires 24 h after you sign up.",
