@@ -200,7 +200,7 @@ export function CheckoutDz() {
               <div className="flex items-center justify-between gap-2 rounded-2xl bg-emerald-500/10 px-4 py-3">
                 <span className="text-sm text-emerald-600 flex items-center gap-1.5 min-w-0">
                   <CheckCircle2 size={15} className="shrink-0" />
-                  <span className="font-mono2 font-semibold truncate">{applied.code}</span>
+                  <span className="font-mono2 font-semibold truncate">{applied.sale ? t("Promo") : applied.code}</span>
                   <span className="shrink-0">· {promoLabel(applied)}</span>
                 </span>
                 {!sale && <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>}

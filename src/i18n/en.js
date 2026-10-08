@@ -373,7 +373,7 @@ export const EN = {
   "Comparer tous les forfaits en détail": "Compare every plan in detail",
   "Offre de bienvenue": "Welcome offer",
   // Sale banner (components/pricing/SaleBanner.jsx, api/_lib/sale.js)
-  "Promo Weekend33": "Weekend33 sale",
+  "Promo": "Sale",
   "sur tous les forfaits": "on every plan",
   "Déjà appliquée : rien à saisir. Offre limitée dans le temps.": "Already applied, nothing to type. Limited-time offer.",
   "Se termine dans": "Ends in",

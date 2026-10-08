@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Flame, ArrowRight } from "lucide-react";
+import { Flame, ArrowRight, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { SALE, saleActive } from "../../../api/_lib/sale.js";
 
@@ -34,14 +34,29 @@ function parts(ms) {
   ];
 }
 
-const GRAD = "linear-gradient(135deg,#D8354A,#ef6f7e 55%,#f6a04d)";
+// Sparkles scattered over the banner, each on its own beat (see .sale-twinkle).
+const TWINKLES = [
+  { top: "12%", left: "8%", size: 16, delay: "0s" },
+  { top: "68%", left: "30%", size: 13, delay: ".7s" },
+  { top: "18%", left: "56%", size: 18, delay: "1.3s" },
+  { top: "72%", left: "78%", size: 15, delay: ".4s" },
+  { top: "10%", left: "92%", size: 13, delay: "1.8s" },
+];
 
+function Twinkles() {
+  return TWINKLES.map((x, i) => (
+    <Sparkles key={i} size={x.size} className="sale-twinkle" style={{ top: x.top, left: x.left, animationDelay: x.delay }} aria-hidden="true" />
+  ));
+}
+
+// Each digit is keyed on its value, so a change remounts it and replays the
+// drop-in (.sale-tick); the unchanged ones stay still.
 function Clock({ left, small }) {
   return (
     <div className="flex items-center gap-1.5" aria-hidden="true">
       {parts(left).map(([n, unit]) => (
-        <span key={unit} className={`flex flex-col items-center rounded-xl bg-white/95 text-rose-700 shadow-sm ${small ? "min-w-[2.6rem] px-1.5 py-1" : "min-w-[3.4rem] px-2 py-1.5"}`}>
-          <span className={`font-mono2 font-extrabold tabular-nums leading-none ${small ? "text-base" : "text-2xl"}`}>{String(n).padStart(2, "0")}</span>
+        <span key={unit} className={`flex flex-col items-center overflow-hidden rounded-xl bg-white/95 text-rose-700 shadow-md ${small ? "min-w-[2.6rem] px-1.5 py-1" : "min-w-[3.4rem] px-2 py-1.5"}`}>
+          <span key={n} className={`sale-tick font-mono2 font-extrabold tabular-nums leading-none ${small ? "text-base" : "text-2xl"}`}>{String(n).padStart(2, "0")}</span>
           <span className="text-[10px] font-bold uppercase tracking-wider text-rose-500 mt-0.5">{unit}</span>
         </span>
       ))}
@@ -57,14 +72,16 @@ export function SaleBanner({ onExpire }) {
   if (over) return null;
   return (
     <div className="flex justify-center mb-8">
-      <div className="rise w-full max-w-4xl rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white shadow-xl shadow-rose-600/25 flex flex-col md:flex-row md:items-center gap-4 md:gap-6" style={{ background: GRAD }}>
-        <span className="shrink-0 w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center" aria-hidden="true"><Flame size={24} /></span>
-        <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-white/85">{t(SALE.name)}</p>
-          <p className="font-display font-extrabold text-2xl sm:text-3xl leading-tight mt-0.5">−{SALE.percentOff} % {t("sur tous les forfaits")}</p>
+      <div className="sale-bg rise relative w-full max-w-4xl rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+        <span className="sale-sweep" aria-hidden="true" />
+        <Twinkles />
+        <span className="relative shrink-0 w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center" aria-hidden="true"><Flame size={24} className="sale-flame" /></span>
+        <div className="relative flex-1 min-w-0">
+          <p className="text-[11px] font-bold uppercase tracking-widest text-white/85">{t("Promo")}</p>
+          <p className="font-display font-extrabold text-2xl sm:text-3xl leading-tight mt-0.5"><span className="sale-pop">−{SALE.percentOff} %</span> {t("sur tous les forfaits")}</p>
           <p className="text-sm text-white/90 mt-1">{t("Déjà appliquée : rien à saisir. Offre limitée dans le temps.")}</p>
         </div>
-        <div className="shrink-0">
+        <div className="relative shrink-0">
           <p className="text-[11px] font-bold uppercase tracking-widest text-white/85 mb-1.5">{t("Se termine dans")}</p>
           <Clock left={left} />
         </div>
@@ -80,14 +97,15 @@ export function SaleStrip() {
   if (left <= 0) return null;
   return (
     <button type="button" onClick={() => nav("pricing")}
-      className="rise group mx-auto mb-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl px-4 sm:px-5 py-3 text-white text-left shadow-lg shadow-rose-600/25 max-w-full"
-      style={{ background: GRAD }}>
-      <span className="flex items-center gap-2 font-display font-extrabold text-base sm:text-lg">
-        <Flame size={18} aria-hidden="true" /> {t(SALE.name)} : −{SALE.percentOff} % {t("sur tous les forfaits")}
+      className="sale-bg rise group relative mx-auto mb-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl px-4 sm:px-5 py-3 text-white text-left max-w-full transition-transform hover:scale-[1.02]">
+      <span className="sale-sweep" aria-hidden="true" />
+      <Twinkles />
+      <span className="relative flex items-center gap-2 font-display font-extrabold text-base sm:text-lg">
+        <Flame size={18} className="sale-flame" aria-hidden="true" /> {t("Promo")} : <span className="sale-pop">−{SALE.percentOff} %</span> {t("sur tous les forfaits")}
       </span>
-      <Clock left={left} small />
-      <span className="flex items-center gap-1 text-sm font-bold underline-offset-2 group-hover:underline">
-        {t("Voir les prix")} <ArrowRight size={15} aria-hidden="true" />
+      <span className="relative"><Clock left={left} small /></span>
+      <span className="relative flex items-center gap-1 text-sm font-bold underline-offset-2 group-hover:underline">
+        {t("Voir les prix")} <ArrowRight size={15} className="sale-nudge" aria-hidden="true" />
       </span>
     </button>
   );

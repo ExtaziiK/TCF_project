@@ -225,5 +225,5 @@ export function usePricingSelection() {
     setPendingPromo(null);
   };
 
-  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon: sale ? sale.code : coupon, editCoupon, applyCoupon, applied: promo, dzUsablePromo, checking, couponError, welcome: sale ? null : welcome, expireWelcome, sale, expireSale };
+  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon: sale ? "" : coupon, editCoupon, applyCoupon, applied: promo, dzUsablePromo, checking, couponError, welcome: sale ? null : welcome, expireWelcome, sale, expireSale };
 }

@@ -100,7 +100,7 @@ export function PricingPlans({ s, compact = false }) {
         <Card className="mt-10 max-w-xl mx-auto p-6">
           <p className="text-sm text-emerald-600 flex items-start gap-1.5">
             <CheckCircle2 size={15} className="shrink-0 mt-0.5" />
-            <span><strong>{s.sale.code}</strong> : {promoLabel(s.sale)} — {t("appliqué automatiquement au paiement.")}</span>
+            <span><strong>{t("Promo")}</strong> : {promoLabel(s.sale)} — {t("appliqué automatiquement au paiement.")}</span>
           </p>
           <p className={`mt-2 text-sm ${c.sub}`}>{t("Les codes promo ne sont pas cumulables avec cette offre : aucun autre code ne peut être saisi pendant la promo.")}</p>
         </Card>
