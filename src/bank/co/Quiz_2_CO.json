@@ -546,7 +546,7 @@
         },
         {
           "id": "D",
-          "text": "Ressembler des enfants du monde entier."
+          "text": "Rassembler des enfants du monde entier."
         }
       ],
       "correct": "B",
@@ -572,7 +572,7 @@
         },
         {
           "id": "B",
-          "text": "Remettre un vêtement du vestiaire."
+          "text": "Remettre un vêtement au vestiaire."
         },
         {
           "id": "C",
@@ -584,7 +584,7 @@
         }
       ],
       "correct": "B",
-      "correct_option_text": "Remettre un vêtement du vestiaire.",
+      "correct_option_text": "Remettre un vêtement au vestiaire.",
       "transcript": "Puis-je déposer mon manteau ? Certainement, madame. C'est à votre gauche. Cette année, c'est gratuit pour les abonnés au théâtre. Voilà une bonne nouvelle pour débuter la saison. Je vous souhaite une agréable soirée. Que souhaite faire la femme ?",
       "explanation": "La femme demande où elle peut déposer son manteau, et l'employé lui indique la direction et précise que c'est gratuit pour les abonnés au théâtre. La femme a donc déjà fait ce qu'elle voulait faire, qui était de déposer son manteau.",
       "words": [],
@@ -878,7 +878,7 @@
         },
         {
           "id": "B",
-          "text": "Le sens de la circulation été modifié."
+          "text": "Le sens de la circulation a été modifié."
         },
         {
           "id": "C",
@@ -1052,7 +1052,7 @@
         },
         {
           "id": "C",
-          "text": "De découvrir des adresses d'hôpital à l'étranger."
+          "text": "De découvrir des adresses d'hôtel à l'étranger."
         },
         {
           "id": "D",
@@ -1248,7 +1248,7 @@
       "options": [
         {
           "id": "A",
-          "text": "De l'absurdité qu'il y a valorisé leur manque de culture scientifique."
+          "text": "De l'absurdité qu'il y a à valoriser leur manque de culture scientifique."
         },
         {
           "id": "B",
@@ -1264,7 +1264,7 @@
         }
       ],
       "correct": "A",
-      "correct_option_text": "De l'absurdité qu'il y a valorisé leur manque de culture scientifique.",
+      "correct_option_text": "De l'absurdité qu'il y a à valoriser leur manque de culture scientifique.",
       "transcript": "On l'a dit, la culture générale a tous sortes de défauts, mais en plus, c'est le défaut d'ignorer les sciences. Ça, c'est assez facile à faire comme constat. Oui, assez facile à faire comme constat, mais ce qui est déplorable, c'est que ce n'est pas incorporé cette idée-là, il me semble. C'est-à-dire qu'on peut très bien aujourd'hui se prétendre cultivés, et les gens qui parlent de culture générale sont très souvent, ou typiquement des humanistes qui ont une culture littéraire, être cultivés sans avoir de connaissances scientifiques. Et j'irais même jusqu'à dire pire en méprisant ou en trouvant que ça ne pose absolument pas problème de ne pas avoir de culture scientifique, ou pour prendre un exemple que j'aime beaucoup, en se vantant de rien connaître aux mathématiques. Et là, je pense que c'est une profonde erreur. Et puis le livre se veut une défense passionnée, j'aurais dit, de l'importance d'incorporer des notions de culture scientifique. Pour l'auteur, de quoi les gens cultivés doivent-ils se rendre compte ? Sous-titrage Société Radio-Canada",
       "explanation": "L'auteur estime que la culture générale a des défauts, notamment l'ignorance des sciences, qui n'est pas prise en compte par les gens qui se prétendent cultivés. En effet, ces individus peuvent être des humanistes avec une culture littéraire mais sans connaissances scientifiques, ce qui est considéré comme une erreur. L'auteur défend l'importance d'incorporer des notions de culture scientifique pour être véritablement cultivé.",
       "words": [],
@@ -1358,7 +1358,7 @@
         },
         {
           "id": "C",
-          "text": "Un contrat privilégié avec son hôte."
+          "text": "Un contact privilégié avec son hôte."
         },
         {
           "id": "D",

@@ -1020,9 +1020,9 @@
             "question_text": "Compréhension écrite – Quiz 28 – Question 24",
             "question_type": "mcq",
             "order": 24,
-            "user_answer": "la consécration des œuvres européennes jusqu’alors remisées dans les musées.",
+            "user_answer": "La consécration des œuvres européennes jusqu’alors remisées dans les musées.",
             "user_selected_option_id": 35552,
-            "correct_answer": "le triomphe d’une opinion émise par Apollinaire, mais autrefois combattue.",
+            "correct_answer": "Le triomphe d’une opinion émise par Apollinaire, mais autrefois combattue.",
             "correct_option_id": 35550,
             "is_correct": false,
             "is_answered": true,
@@ -1034,25 +1034,25 @@
             "all_options": [
                 {
                     "id": 35549,
-                    "text": "le résultat d’une lutte menée par des gens orgueilleux et intolérants.",
+                    "text": "Le résultat d’une lutte menée par des gens orgueilleux et intolérants.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 35550,
-                    "text": "le triomphe d’une opinion émise par Apollinaire, mais autrefois combattue.",
+                    "text": "Le triomphe d’une opinion émise par Apollinaire, mais autrefois combattue.",
                     "is_correct": true,
                     "order": 2
                 },
                 {
                     "id": 35551,
-                    "text": "un miracle dû à la persévérance des archéologues sur plusieurs continents.",
+                    "text": "Un miracle dû à la persévérance des archéologues sur plusieurs continents.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 35552,
-                    "text": "la consécration des œuvres européennes jusqu’alors remisées dans les musées.",
+                    "text": "La consécration des œuvres européennes jusqu’alors remisées dans les musées.",
                     "is_correct": false,
                     "order": 4
                 }

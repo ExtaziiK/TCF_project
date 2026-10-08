@@ -289,7 +289,7 @@
             "question_text": "Compréhension écrite – Quiz 20 – Question 7",
             "question_type": "mcq",
             "order": 7,
-            "user_answer": "Ses fils sont en noir et blanc.",
+            "user_answer": "Ses films sont en noir et blanc.",
             "user_selected_option_id": 34236,
             "correct_answer": "C’est un bâtiment ancien.",
             "correct_option_id": 34233,
@@ -321,7 +321,7 @@
                 },
                 {
                     "id": 34236,
-                    "text": "Ses fils sont en noir et blanc.",
+                    "text": "Ses films sont en noir et blanc.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -788,7 +788,7 @@
                 },
                 {
                     "id": 34279,
-                    "text": "Laisser les candidats s’exprimer sans les interrompe.",
+                    "text": "Laisser les candidats s’exprimer sans les interrompre.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -862,7 +862,7 @@
             "all_options": [
                 {
                     "id": 34285,
-                    "text": "Des cours de rattrapage scolaires en sciences.",
+                    "text": "Des cours de rattrapage scolaire en sciences.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1175,7 +1175,7 @@
                 },
                 {
                     "id": 34315,
-                    "text": "Il doute se son efficacité.",
+                    "text": "Il doute de son efficacité.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1292,7 +1292,7 @@
             "all_options": [
                 {
                     "id": 34325,
-                    "text": "L’information est trio rarement contrôlé à sa source.",
+                    "text": "L’information est trop rarement contrôlée à sa source.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1304,7 +1304,7 @@
                 },
                 {
                     "id": 34327,
-                    "text": "Les fausses nouvelles facilement diffusées en ligne.",
+                    "text": "Les fausses nouvelles sont facilement diffusées en ligne.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1450,9 +1450,9 @@
             "question_text": "Compréhension écrite – Quiz 20 – Question 34",
             "question_type": "mcq",
             "order": 34,
-            "user_answer": "Lutter contre elle peut nuire à certaines libertés.",
+            "user_answer": "Lutter contre elles peut nuire à certaines libertés.",
             "user_selected_option_id": 34344,
-            "correct_answer": "Lutter contre elle peut nuire à certaines libertés.",
+            "correct_answer": "Lutter contre elles peut nuire à certaines libertés.",
             "correct_option_id": 34344,
             "is_correct": true,
             "is_answered": true,
@@ -1482,7 +1482,7 @@
                 },
                 {
                     "id": 34344,
-                    "text": "Lutter contre elle peut nuire à certaines libertés.",
+                    "text": "Lutter contre elles peut nuire à certaines libertés.",
                     "is_correct": true,
                     "order": 4
                 }
@@ -1665,9 +1665,9 @@
             "question_text": "Compréhension écrite – Quiz 20 – Question 39",
             "question_type": "mcq",
             "order": 39,
-            "user_answer": "A s’enrichir au contact de nouvelles civilisations.",
+            "user_answer": "À s’enrichir au contact de nouvelles civilisations.",
             "user_selected_option_id": 34364,
-            "correct_answer": "A échapper à la banalité du quotidien.",
+            "correct_answer": "À échapper à la banalité du quotidien.",
             "correct_option_id": 34362,
             "is_correct": false,
             "is_answered": true,
@@ -1679,25 +1679,25 @@
             "all_options": [
                 {
                     "id": 34361,
-                    "text": "A diminuer leur emprunte écologique.",
+                    "text": "À diminuer leur empreinte écologique.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 34362,
-                    "text": "A échapper à la banalité du quotidien.",
+                    "text": "À échapper à la banalité du quotidien.",
                     "is_correct": true,
                     "order": 2
                 },
                 {
                     "id": 34363,
-                    "text": "A participer à l’essor économique des pays visités.",
+                    "text": "À participer à l’essor économique des pays visités.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 34364,
-                    "text": "A s’enrichir au contact de nouvelles civilisations.",
+                    "text": "À s’enrichir au contact de nouvelles civilisations.",
                     "is_correct": false,
                     "order": 4
                 }

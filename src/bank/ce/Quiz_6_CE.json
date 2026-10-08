@@ -358,7 +358,7 @@
                 },
                 {
                     "id": 32055,
-                    "text": "Le soir-même",
+                    "text": "Le soir même",
                     "is_correct": false,
                     "order": 3
                 },
@@ -905,7 +905,7 @@
             "all_options": [
                 {
                     "id": 32105,
-                    "text": "C’est possible à la compagne",
+                    "text": "C’est possible à la campagne.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1237,7 +1237,7 @@
             "order": 29,
             "user_answer": "Le manque d’imagination des lexicologues",
             "user_selected_option_id": 32140,
-            "correct_answer": "L’ambiguïté du néologisme « chat » à l’écrire",
+            "correct_answer": "L’ambiguïté du néologisme « chat » à l’écrit.",
             "correct_option_id": 32138,
             "is_correct": false,
             "is_answered": true,
@@ -1249,13 +1249,13 @@
             "all_options": [
                 {
                     "id": 32137,
-                    "text": "L’abus d’anglicisme en langage informatique",
+                    "text": "L’abus d’anglicismes en langage informatique.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 32138,
-                    "text": "L’ambiguïté du néologisme « chat » à l’écrire",
+                    "text": "L’ambiguïté du néologisme « chat » à l’écrit.",
                     "is_correct": true,
                     "order": 2
                 },
@@ -1341,7 +1341,7 @@
                 },
                 {
                     "id": 32146,
-                    "text": "La 200 e édition d’une émission",
+                    "text": "La 200e édition d’une émission",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1513,7 +1513,7 @@
                 },
                 {
                     "id": 32162,
-                    "text": "Il voulait fouir son image d’idole des jeunes",
+                    "text": "Il voulait fuir son image d’idole des jeunes.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1550,7 +1550,7 @@
             "all_options": [
                 {
                     "id": 32165,
-                    "text": "Le coût social élevé de prise en charge des maladies gins",
+                    "text": "Le coût social élevé de prise en charge des maladies génétiques.",
                     "is_correct": false,
                     "order": 1
                 },

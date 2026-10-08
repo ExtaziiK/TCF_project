@@ -7673,7 +7673,7 @@
       "options": [
         {
           "id": "A",
-          "text": "lls abusent de repas très caloriques."
+          "text": "Ils abusent de repas très caloriques."
         },
         {
           "id": "B",
@@ -7681,7 +7681,7 @@
         },
         {
           "id": "C",
-          "text": "lls ignorent l'origine de leurs plats."
+          "text": "Ils ignorent l'origine de leurs plats."
         },
         {
           "id": "D",
@@ -7689,7 +7689,7 @@
         }
       ],
       "correct": "C",
-      "correct_option_text": "lls ignorent l'origine de leurs plats.",
+      "correct_option_text": "Ils ignorent l'origine de leurs plats.",
       "transcript": "87% des gamins ne savent pas à quoi ressemble une betterave, un tiers n'ont jamais vu de poireaux et un cinquième ne reconnaît pas un abricot. En ce qui concerne les pâtes, 72% ne savent pas ce qu'il y a dedans. Ça nous parle de nous aujourd'hui ? Oui, oui, tout à fait. C'est évidemment un des grands problèmes. Il faut redonner des repères sur les aliments, savoir d'où ils viennent, comment ils poussent, à quoi ça sert. Pour cela, il faut emmener les enfants sur les marchés, faire les courses. Il faut leur montrer quand on fait la cuisine les ingrédients que l'on met. Donc il faut réapprendre la culture alimentaire qui est quand même dans nos traditions en France. Question 24. Quel problème évoquent les interlocuteurs à propos des enfants ?",
       "explanation": "Les interlocuteurs évoquent le problème de la méconnaissance des enfants envers les aliments, notamment leur ignorance sur les ingrédients et leur origine. Ils soulignent l'importance de réapprendre la culture alimentaire traditionnelle française pour les enfants. C'est pourquoi ils suggèrent d'emmener les enfants sur les marchés et de leur montrer les ingrédients utilisés en cuisine.",
       "words": [
@@ -9063,7 +9063,7 @@
       "options": [
         {
           "id": "A",
-          "text": "lls abusent de repas très caloriques."
+          "text": "Ils abusent de repas très caloriques."
         },
         {
           "id": "B",
@@ -9071,7 +9071,7 @@
         },
         {
           "id": "C",
-          "text": "lls ignorent l'origine de leurs plats."
+          "text": "Ils ignorent l'origine de leurs plats."
         },
         {
           "id": "D",
@@ -9079,7 +9079,7 @@
         }
       ],
       "correct": "C",
-      "correct_option_text": "lls ignorent l'origine de leurs plats.",
+      "correct_option_text": "Ils ignorent l'origine de leurs plats.",
       "transcript": "87% des gamins ne savent pas quoi ressemble une betterave, un tiers n'ont jamais vu de poireaux et un cinquième ne reconnaît pas un abricot. En ce qui concerne les pâtes, 72% ne savent pas ce qu'il y a dedans. Ça nous parle de nous aujourd'hui ? Oui, oui, tout à fait. C'est évidemment un des grands problèmes. Il faut redonner des repères sur les aliments, savoir d'où ils viennent, comment ils poussent, à quoi ça sert. Pour ça, il faut emmener les enfants sur les marchés, faire les courses, il faut leur montrer quand on fait la cuisine les ingrédients que l'on met. Donc il faut réapprendre la culture alimentaire qui est quand même dans nos traditions en France. Question 24. Quel problème évoquent les interlocuteurs à propos des enfants ?",
       "explanation": "Les interlocuteurs évoquent le problème de la méconnaissance des enfants concernant les aliments, notamment leur ignorance sur la provenance, la croissance et les caractéristiques de certaines fruits et légumes. Ils soulignent également l'ignorance des enfants sur la composition des pâtes. Cela montre qu'ils considèrent que les enfants ont besoin d'une éducation alimentaire pour comprendre et apprécier les aliments.",
       "words": [
@@ -10661,7 +10661,7 @@
         },
         {
           "id": "C",
-          "text": "Il a séjourné à l'hotêl."
+          "text": "Il a séjourné à l'hôtel."
         },
         {
           "id": "D",
@@ -13236,7 +13236,7 @@
         },
         {
           "id": "C",
-          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'état."
+          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'État."
         },
         {
           "id": "D",

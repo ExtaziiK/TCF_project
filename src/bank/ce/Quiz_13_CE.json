@@ -401,7 +401,7 @@
                 },
                 {
                     "id": 33151,
-                    "text": "Une enveloppe timbre.",
+                    "text": "Une enveloppe timbrée.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -905,7 +905,7 @@
             "all_options": [
                 {
                     "id": 33197,
-                    "text": "Découvrir de recettes locales.",
+                    "text": "Découvrir des recettes locales.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1212,7 +1212,7 @@
                 },
                 {
                     "id": 33226,
-                    "text": "De la course à la compétitive.",
+                    "text": "De la course à la compétitivité.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1493,9 +1493,9 @@
             "question_text": "Compréhension écrite – Quiz 13 – Question 35",
             "question_type": "mcq",
             "order": 35,
-            "user_answer": "Aborder des œuvres réputées difficiles avec leur élevés.",
+            "user_answer": "Aborder des œuvres réputées difficiles avec leurs élèves.",
             "user_selected_option_id": 33253,
-            "correct_answer": "Aborder des œuvres réputées difficiles avec leur élevés.",
+            "correct_answer": "Aborder des œuvres réputées difficiles avec leurs élèves.",
             "correct_option_id": 33253,
             "is_correct": true,
             "is_answered": true,
@@ -1507,7 +1507,7 @@
             "all_options": [
                 {
                     "id": 33253,
-                    "text": "Aborder des œuvres réputées difficiles avec leur élevés.",
+                    "text": "Aborder des œuvres réputées difficiles avec leurs élèves.",
                     "is_correct": true,
                     "order": 1
                 },

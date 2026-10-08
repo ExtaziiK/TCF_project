@@ -3866,7 +3866,7 @@
         },
         {
           "id": "C",
-          "text": "Il a trouvé qu'il avait trop de visiteurs."
+          "text": "Il a trouvé qu'il y avait trop de visiteurs."
         },
         {
           "id": "D",
@@ -3874,7 +3874,7 @@
         }
       ],
       "correct": "C",
-      "correct_option_text": "Il a trouvé qu'il avait trop de visiteurs.",
+      "correct_option_text": "Il a trouvé qu'il y avait trop de visiteurs.",
       "transcript": "Alors, finalement, tu as vu l'exposition, Matisse ? Oui, j'y suis allée pendant les vacances. Il y avait deux heures d'attente avant de pouvoir entrer. Heureusement que j'avais un bon livre. Ah oui, c'est souvent comme ça. Mais après, tu as vu, la disposition des tableaux, l'organisation de l'espace, la lumière, c'est vraiment superbe. Oui, il y a un très bel éclairage qui met bien les étoiles en valeur. Mais dans cette foule, il faut se battre pour les voir. Très sincèrement, j'aurais été plus tranquille chez moi à feuilleter une revue d'art contemporain. Pourquoi l'un des interlocuteurs n'a-t-il pas apprécié l'exposition ?",
       "explanation": "La réponse C est correcte car l'interlocuteur exprime son mécontentement quant à l'organisation de l'exposition, notamment la longue attente et la foule qui rend difficile l'appréciation des œuvres. Il préférerait avoir une expérience plus calme et intime, comme feuilleter une revue d'art contemporain chez lui. Cette réponse montre que l'interlocuteur n'a pas apprécié l'expérience globale de l'exposition.",
       "words": [

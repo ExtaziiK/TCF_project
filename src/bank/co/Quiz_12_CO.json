@@ -12228,7 +12228,7 @@
       "options": [
         {
           "id": "A",
-          "text": "C'est un délai négligeable pour les recruteurs."
+          "text": "C'est un détail négligeable pour les recruteurs."
         },
         {
           "id": "B",
@@ -14325,7 +14325,7 @@
         },
         {
           "id": "D",
-          "text": "Les pécheurs pillent les fonds marins pour soutenir la concurrence."
+          "text": "Les pêcheurs pillent les fonds marins pour soutenir la concurrence."
         }
       ],
       "correct": "C",
@@ -16395,7 +16395,7 @@
         },
         {
           "id": "D",
-          "text": "Il est convaincu de l'efficacité des remèdes naturelle."
+          "text": "Il est convaincu de l'efficacité des remèdes naturels."
         }
       ],
       "correct": "B",

@@ -3213,7 +3213,7 @@
       "options": [
         {
           "id": "A",
-          "text": "II n'aime pas l'œuvre de ce peintre."
+          "text": "Il n'aime pas l'œuvre de ce peintre."
         },
         {
           "id": "B",
@@ -6138,7 +6138,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Il fait beau qu'hier."
+          "text": "Il fait plus beau qu'hier."
         },
         {
           "id": "B",
@@ -6154,7 +6154,7 @@
         }
       ],
       "correct": "A",
-      "correct_option_text": "Il fait beau qu'hier.",
+      "correct_option_text": "Il fait plus beau qu'hier.",
       "transcript": "Quel froid ce matin! Ouais, mais au moins, il y a du soleil. C'est sûr, à côté de hier, il a plu toute la journée. C'était l'horreur. Ah oui, j'aime mieux ce froid sec. Question 20. Quel jour fait-il aujourd'hui?",
       "explanation": "La bonne réponse est A car la conversation se déroule dans le présent et l'interlocuteur mentionne que \"il y a du soleil\" ce matin, ce qui suggère que le jour en question est celui où la conversation se déroule.",
       "words": [
@@ -7483,11 +7483,11 @@
       "options": [
         {
           "id": "A",
-          "text": "II n'y a plus de place en seconde classe."
+          "text": "Il n'y a plus de place en seconde classe."
         },
         {
           "id": "B",
-          "text": "II n'y a plus de place pour la voiture."
+          "text": "Il n'y a plus de place pour la voiture."
         },
         {
           "id": "C",
@@ -7495,11 +7495,11 @@
         },
         {
           "id": "D",
-          "text": "II n'y a plus de cabines pour quatre personnes."
+          "text": "Il n'y a plus de cabines pour quatre personnes."
         }
       ],
       "correct": "B",
-      "correct_option_text": "II n'y a plus de place pour la voiture.",
+      "correct_option_text": "Il n'y a plus de place pour la voiture.",
       "transcript": "Monsieur, bonjour. Bonjour. Je voudrais des billets pour la Corse. Le 3 août au soir, deux adultes, deux enfants, un chien, une voiture et quatre vélos. Je regrette, monsieur, mais pour cette date, ce ne sera pas possible. C'est complet pour les véhicules. Il y a une possibilité pour le 5 août, mais en cabine seulement. Va pour le 5 août en cabine. Je vous règle maintenant ? Non, vous réglerez lors de l'embarquement. Je vous rappelle qu'il faut vous présenter à la gare maritime deux heures avant et que le chien devra être tenu en laisse tout le long du trajet. C'est à quel nom, s'il vous plaît ? Périer. Voici votre réservation, monsieur. Bon séjour en Corse. Question 23. Pourquoi le voyage en Corse est-il impossible le 3 août ?",
       "explanation": "Le voyage en Corse est impossible le 3 août car il est complet pour les véhicules. Cela signifie que toutes les places réservables pour les véhicules sont déjà prises, ce qui rend impossible l'embarquement d'une voiture et de quatre vélos. Le client est alors informé qu'il peut avoir une alternative pour le 5 août, mais seulement en cabine.",
       "words": [
@@ -11975,11 +11975,11 @@
         },
         {
           "id": "D",
-          "text": "II rappelle à l'ordre un employé."
+          "text": "Il rappelle à l'ordre un employé."
         }
       ],
       "correct": "D",
-      "correct_option_text": "II rappelle à l'ordre un employé.",
+      "correct_option_text": "Il rappelle à l'ordre un employé.",
       "transcript": "N'oubliez pas que je dirige ce service et que vous devez faire ce que je demande. Je suis prêt à dialoguer avec vous à propos de l'organisation des livraisons, mais il n'est pas question de remettre en cause ma manière de travailler dans ce bureau. Question 31. Que fait ce chef de service ?",
       "explanation": "Ce chef de service donne des instructions et des directives à ses subordonnés, comme en témoigne la phrase \"je dirige ce service et que vous devez faire ce que je demande\". Il est également responsable de la gestion et de l'organisation de ses collaborateurs, comme lorsqu'il propose de discuter des livraisons.",
       "words": [
@@ -15025,7 +15025,7 @@
         },
         {
           "id": "D",
-          "text": "II souhaite l'avis de consultants extérieurs."
+          "text": "Il souhaite l'avis de consultants extérieurs."
         }
       ],
       "correct": "B",

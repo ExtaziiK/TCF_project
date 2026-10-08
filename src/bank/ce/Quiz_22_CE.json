@@ -160,7 +160,7 @@
             "question_text": "Compréhension écrite – Quiz 22 – Question 4",
             "question_type": "mcq",
             "order": 4,
-            "user_answer": "De garder les enfants.",
+            "user_answer": "De garder ses enfants.",
             "user_selected_option_id": 34536,
             "correct_answer": "De déjeuner chez lui.",
             "correct_option_id": 34535,
@@ -192,7 +192,7 @@
                 },
                 {
                     "id": 34536,
-                    "text": "De garder les enfants.",
+                    "text": "De garder ses enfants.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -260,7 +260,7 @@
             "all_options": [
                 {
                     "id": 34541,
-                    "text": "D’écrire aux invites.",
+                    "text": "D’écrire aux invités.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -549,7 +549,7 @@
             "order": 13,
             "user_answer": "Un lycéen en demande d’orientation.",
             "user_selected_option_id": 34572,
-            "correct_answer": "Un candidat a des études supérieures.",
+            "correct_answer": "Un candidat à des études supérieures.",
             "correct_option_id": 34569,
             "is_correct": false,
             "is_answered": true,
@@ -561,7 +561,7 @@
             "all_options": [
                 {
                     "id": 34569,
-                    "text": "Un candidat a des études supérieures.",
+                    "text": "Un candidat à des études supérieures.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -719,7 +719,7 @@
             "question_text": "Compréhension écrite – Quiz 22 – Question 17",
             "question_type": "mcq",
             "order": 17,
-            "user_answer": "Retirer de l’argent a un distributeur.",
+            "user_answer": "Retirer de l’argent à un distributeur.",
             "user_selected_option_id": 34588,
             "correct_answer": "Faire des courses dans un magasin.",
             "correct_option_id": 34586,
@@ -733,7 +733,7 @@
             "all_options": [
                 {
                     "id": 34585,
-                    "text": "Avoirs des réductions sur certains articles.",
+                    "text": "Avoir des réductions sur certains articles.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -751,7 +751,7 @@
                 },
                 {
                     "id": 34588,
-                    "text": "Retirer de l’argent a un distributeur.",
+                    "text": "Retirer de l’argent à un distributeur.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1538,11 +1538,11 @@
             "order": 36,
             "user_answer": "Les principes actuels d’organisation du travail.",
             "user_selected_option_id": 34664,
-            "correct_answer": "La primauté de l’apparence sur les compétences.",
-            "correct_option_id": 34661,
+            "correct_answer": "Les principes actuels d’organisation du travail.",
+            "correct_option_id": 34664,
             "is_correct": false,
             "is_answered": true,
-            "explanation": "Le texte dénonce que « l'aisance en public » soit devenue « un avantage non négligeable » qui « dévalorise l'identité des introvertis dont les capacités ne sont pas suffisamment sollicitées » : c'est la primauté de l'apparence sur les compétences qui est dénoncée.",
+            "explanation": "Le texte dénonce que « nos espaces de travail soient inadaptés » aux introvertis car « l'économie moderne exige d'interagir » : l'auteur dénonce les principes actuels d'organisation du travail.",
             "time_spent": 0,
             "flagged": false,
             "audio_url": null,
@@ -1551,12 +1551,12 @@
                 {
                     "id": 34661,
                     "text": "La primauté de l’apparence sur les compétences.",
-                    "is_correct": true,
+                    "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 34662,
-                    "text": "Le corporatisme pousse de certaines sociétés.",
+                    "text": "Le corporatisme poussé de certaines sociétés.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1569,7 +1569,7 @@
                 {
                     "id": 34664,
                     "text": "Les principes actuels d’organisation du travail.",
-                    "is_correct": false,
+                    "is_correct": true,
                     "order": 4
                 }
             ]
@@ -1605,7 +1605,7 @@
                 },
                 {
                     "id": 34667,
-                    "text": "Le résultat des recherches de Mr Van der Hert.",
+                    "text": "Le résultat des recherches de M. Van der Hent.",
                     "is_correct": false,
                     "order": 3
                 },

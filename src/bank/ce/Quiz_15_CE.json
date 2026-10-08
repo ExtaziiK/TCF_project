@@ -891,9 +891,9 @@
             "question_text": "Compréhension écrite – Quiz 15 – Question 21",
             "question_type": "mcq",
             "order": 21,
-            "user_answer": "Leur nom s’est transformé en Label de prestige.",
+            "user_answer": "Leur nom s’est transformé en label de prestige.",
             "user_selected_option_id": 33511,
-            "correct_answer": "Leur nom s’est transformé en Label de prestige.",
+            "correct_answer": "Leur nom s’est transformé en label de prestige.",
             "correct_option_id": 33511,
             "is_correct": true,
             "is_answered": true,
@@ -917,7 +917,7 @@
                 },
                 {
                     "id": 33511,
-                    "text": "Leur nom s’est transformé en Label de prestige.",
+                    "text": "Leur nom s’est transformé en label de prestige.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1095,7 +1095,7 @@
                 },
                 {
                     "id": 33528,
-                    "text": "Préparer des techniques aux dangers de la finance.",
+                    "text": "Préparer des techniciens aux dangers de la finance.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1175,7 +1175,7 @@
                 },
                 {
                     "id": 33535,
-                    "text": "Un risque d’intoxication des populations du pacifique.",
+                    "text": "Un risque d’intoxication des populations du Pacifique.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1267,7 +1267,7 @@
                 },
                 {
                     "id": 33544,
-                    "text": "Pour piége les gens visés par les enquêtes.",
+                    "text": "Pour piéger les gens visés par les enquêtes.",
                     "is_correct": false,
                     "order": 4
                 }

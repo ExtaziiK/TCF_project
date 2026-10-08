@@ -74,9 +74,9 @@
             "question_text": "Compréhension écrite – Quiz 4 – Question 2",
             "question_type": "mcq",
             "order": 2,
-            "user_answer": "• À 21 h 35",
+            "user_answer": "À 21 h 35",
             "user_selected_option_id": 31719,
-            "correct_answer": "• À 21 h 35",
+            "correct_answer": "À 21 h 35",
             "correct_option_id": 31719,
             "is_correct": true,
             "is_answered": true,
@@ -88,25 +88,25 @@
             "all_options": [
                 {
                     "id": 31717,
-                    "text": "• À 19 h 55",
+                    "text": "À 19 h 55",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 31718,
-                    "text": "• À 20 h 55",
+                    "text": "À 20 h 55",
                     "is_correct": false,
                     "order": 2
                 },
                 {
                     "id": 31719,
-                    "text": "• À 21 h 35",
+                    "text": "À 21 h 35",
                     "is_correct": true,
                     "order": 3
                 },
                 {
                     "id": 31720,
-                    "text": "• À 23 h 55",
+                    "text": "À 23 h 55",
                     "is_correct": false,
                     "order": 4
                 }
@@ -235,7 +235,7 @@
                 },
                 {
                     "id": 31732,
-                    "text": "La visite de la part Arcachon",
+                    "text": "La visite du port d’Arcachon.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -346,7 +346,7 @@
             "all_options": [
                 {
                     "id": 31741,
-                    "text": "D’acheter des plates à bon prix",
+                    "text": "D’acheter des plantes à bon prix",
                     "is_correct": false,
                     "order": 1
                 },
@@ -461,9 +461,9 @@
             "question_text": "Compréhension écrite – Quiz 4 – Question 11",
             "question_type": "mcq",
             "order": 11,
-            "user_answer": "S’informer sut le monde professionnel",
+            "user_answer": "S’informer sur le monde professionnel",
             "user_selected_option_id": 31754,
-            "correct_answer": "S’informer sut le monde professionnel",
+            "correct_answer": "S’informer sur le monde professionnel",
             "correct_option_id": 31754,
             "is_correct": true,
             "is_answered": true,
@@ -481,7 +481,7 @@
                 },
                 {
                     "id": 31754,
-                    "text": "S’informer sut le monde professionnel",
+                    "text": "S’informer sur le monde professionnel",
                     "is_correct": true,
                     "order": 2
                 },
@@ -547,9 +547,9 @@
             "question_text": "Compréhension écrite – Quiz 4 – Question 13",
             "question_type": "mcq",
             "order": 13,
-            "user_answer": "Elles ont besoin d’accompagnante",
+            "user_answer": "Elles ont besoin d’accompagnement.",
             "user_selected_option_id": 31761,
-            "correct_answer": "Elles ont besoin d’accompagnante",
+            "correct_answer": "Elles ont besoin d’accompagnement.",
             "correct_option_id": 31761,
             "is_correct": true,
             "is_answered": true,
@@ -561,7 +561,7 @@
             "all_options": [
                 {
                     "id": 31761,
-                    "text": "Elles ont besoin d’accompagnante",
+                    "text": "Elles ont besoin d’accompagnement.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -633,9 +633,9 @@
             "question_text": "Compréhension écrite – Quiz 4 – Question 15",
             "question_type": "mcq",
             "order": 15,
-            "user_answer": "Leurs curiosité",
+            "user_answer": "Leur curiosité",
             "user_selected_option_id": 31769,
-            "correct_answer": "Leurs curiosité",
+            "correct_answer": "Leur curiosité",
             "correct_option_id": 31769,
             "is_correct": true,
             "is_answered": true,
@@ -647,7 +647,7 @@
             "all_options": [
                 {
                     "id": 31769,
-                    "text": "Leurs curiosité",
+                    "text": "Leur curiosité",
                     "is_correct": true,
                     "order": 1
                 },
@@ -745,7 +745,7 @@
                 },
                 {
                     "id": 31779,
-                    "text": "Parler avec enthousiasme de ses projets",
+                    "text": "Parler avec enthousiasme de ses projets de formation.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -762,9 +762,9 @@
             "question_text": "Compréhension écrite – Quiz 4 – Question 18",
             "question_type": "mcq",
             "order": 18,
-            "user_answer": "En achetant les billets en avance",
+            "user_answer": "En achetant les billets à l’avance",
             "user_selected_option_id": 31781,
-            "correct_answer": "En achetant les billets en avance",
+            "correct_answer": "En achetant les billets à l’avance",
             "correct_option_id": 31781,
             "is_correct": true,
             "is_answered": true,
@@ -776,7 +776,7 @@
             "all_options": [
                 {
                     "id": 31781,
-                    "text": "En achetant les billets en avance",
+                    "text": "En achetant les billets à l’avance",
                     "is_correct": true,
                     "order": 1
                 },
@@ -1120,7 +1120,7 @@
             "all_options": [
                 {
                     "id": 31813,
-                    "text": "Créer des partenaires avec le milieu associatif",
+                    "text": "Créer des partenariats avec le milieu associatif.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1206,13 +1206,13 @@
             "all_options": [
                 {
                     "id": 31821,
-                    "text": "L’ambiance de l’école doit être calquée sur le modelé familial",
+                    "text": "L’ambiance de l’école doit être calquée sur le modèle familial",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 31822,
-                    "text": "L’autorité du professeur doit-être récompensée par sa gentillesse",
+                    "text": "L’autorité du professeur doit être compensée par sa gentillesse",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1298,13 +1298,13 @@
                 },
                 {
                     "id": 31830,
-                    "text": "La rareté dans offres de logement",
+                    "text": "La rareté des offres de logement.",
                     "is_correct": false,
                     "order": 2
                 },
                 {
                     "id": 31831,
-                    "text": "L’absence de l’engagement de l’état",
+                    "text": "L’absence d’engagement de l’État.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1470,7 +1470,7 @@
                 },
                 {
                     "id": 31846,
-                    "text": "La longueur de texte",
+                    "text": "La longueur du texte",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1513,7 +1513,7 @@
                 },
                 {
                     "id": 31850,
-                    "text": "En cherchant des sources d’inscription méditée",
+                    "text": "En cherchant des sources d’inspiration inédites.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1679,7 +1679,7 @@
             "all_options": [
                 {
                     "id": 31865,
-                    "text": "Former des scientifiques a la prévention des risques écologiques",
+                    "text": "Former des scientifiques à la prévention des risques écologiques",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1697,7 +1697,7 @@
                 },
                 {
                     "id": 31868,
-                    "text": "Préserver le gouvernement français lors d’une rencontre",
+                    "text": "Représenter le gouvernement français lors d’une rencontre",
                     "is_correct": false,
                     "order": 4
                 }

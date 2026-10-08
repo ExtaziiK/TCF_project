@@ -891,9 +891,9 @@
             "question_text": "Compréhension écrite – Quiz 29 – Question 21",
             "question_type": "mcq",
             "order": 21,
-            "user_answer": "imite à la perfection la voix d’un enfant.",
+            "user_answer": "Imite à la perfection la voix d’un enfant.",
             "user_selected_option_id": 35696,
-            "correct_answer": "imite à la perfection la voix d’un enfant.",
+            "correct_answer": "Imite à la perfection la voix d’un enfant.",
             "correct_option_id": 35696,
             "is_correct": true,
             "is_answered": true,
@@ -905,25 +905,25 @@
             "all_options": [
                 {
                     "id": 35693,
-                    "text": "a un timbre qui n’existe pas naturellement.",
+                    "text": "A un timbre qui n’existe pas naturellement.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 35694,
-                    "text": "se confond avec la voix de l’enfant qui joue.",
+                    "text": "Se confond avec la voix de l’enfant qui joue.",
                     "is_correct": false,
                     "order": 2
                 },
                 {
                     "id": 35695,
-                    "text": "enregistre et reproduit les voix entendues.",
+                    "text": "Enregistre et reproduit les voix entendues.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 35696,
-                    "text": "imite à la perfection la voix d’un enfant.",
+                    "text": "Imite à la perfection la voix d’un enfant.",
                     "is_correct": true,
                     "order": 4
                 }

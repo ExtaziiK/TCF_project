@@ -745,7 +745,7 @@
                 },
                 {
                     "id": 33027,
-                    "text": "Parler avec enthousiasme de ses projets de formations.",
+                    "text": "Parler avec enthousiasme de ses projets de formation.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1040,7 +1040,7 @@
                 },
                 {
                     "id": 33054,
-                    "text": "Il a toujours rêve de devenir médecin.",
+                    "text": "Il a toujours rêvé de devenir médecin.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1052,7 +1052,7 @@
                 },
                 {
                     "id": 33056,
-                    "text": "Il peine à écrire depuis quelques temps.",
+                    "text": "Il peine à écrire depuis quelque temps.",
                     "is_correct": false,
                     "order": 4
                 }

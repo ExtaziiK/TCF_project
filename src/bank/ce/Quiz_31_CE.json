@@ -1126,7 +1126,7 @@
                 },
                 {
                     "id": 36026,
-                    "text": "Il conviendrait d’améliorer les résultats des élèvés.",
+                    "text": "Il conviendrait d’améliorer les résultats des élèves.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1593,7 +1593,7 @@
             "all_options": [
                 {
                     "id": 36069,
-                    "text": "Il analyse l’établisserient d’une dynastie royale.",
+                    "text": "Il analyse l’établissement d’une dynastie royale.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1636,7 +1636,7 @@
             "all_options": [
                 {
                     "id": 36073,
-                    "text": "Des associations de consommmteurs.",
+                    "text": "Des associations de consommateurs.",
                     "is_correct": false,
                     "order": 1
                 },

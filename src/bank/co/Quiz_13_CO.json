@@ -3052,7 +3052,7 @@
         },
         {
           "id": "B",
-          "text": "D'arrêter des études"
+          "text": "D'arrêter ses études."
         },
         {
           "id": "C",
@@ -5380,7 +5380,7 @@
         },
         {
           "id": "D",
-          "text": "Comment se protège des maladies contagieuses"
+          "text": "Comment se protéger des maladies contagieuses"
         }
       ],
       "correct": "C",
@@ -9353,7 +9353,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Ecouter de la musique classique"
+          "text": "Écouter de la musique classique"
         },
         {
           "id": "B",
@@ -10678,7 +10678,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Ils espèrent obtenir une allocation de l'état"
+          "text": "Ils espèrent obtenir une allocation de l'État."
         },
         {
           "id": "B",
@@ -11186,7 +11186,7 @@
         },
         {
           "id": "C",
-          "text": "Les menus des cantines scolaires sont très mal équilibrés"
+          "text": "Les menus des cantines scolaires sont mal équilibrés."
         },
         {
           "id": "D",
@@ -11778,7 +11778,7 @@
       "options": [
         {
           "id": "A",
-          "text": "L'absence de formation à l'élaboration du budget"
+          "text": "L'absence de formation sur l'élaboration d'un budget"
         },
         {
           "id": "B",
@@ -11790,11 +11790,11 @@
         },
         {
           "id": "D",
-          "text": "Le peu d'information des banques sur les crédits"
+          "text": "Le peu d'informations des banques sur les crédits"
         }
       ],
       "correct": "A",
-      "correct_option_text": "L'absence de formation à l'élaboration du budget",
+      "correct_option_text": "L'absence de formation sur l'élaboration d'un budget",
       "transcript": "Apprendre à gérer son argent n'est pas une priorité éducative, alors que l'argent nous accompagne toute notre vie. Construire un budget, ça s'apprend, mais trop souvent le sujet est considéré tabou par les adultes, donc pas question d'en parler avec les enfants. Dans la sphère de l'école, aucune séance de travail n'est dédiée à cette question. Pourtant, chacun est concerné dans sa vie professionnelle et personnelle par les principales notions que sont les coûts, les crédits, les prêts, les taux d'intérêt, l'endettement, l'économie à l'échelle de l'individu. Voilà un domaine qui touche chaque Français sans que jamais celui-ci y soit vraiment initié. Question 29. Que dénonce cette journaliste ?",
       "explanation": "La journaliste dénonce le fait que l'apprentissage de la gestion de l'argent n'est pas une priorité éducative, malgré son importance dans la vie quotidienne. Elle souligne que les adultes considèrent souvent ce sujet comme tabou, ce qui empêche les enfants d'en apprendre. Cela conduit à un manque d'initiation des individus à des notions financières essentielles.",
       "words": [
@@ -12823,7 +12823,7 @@
       "options": [
         {
           "id": "A",
-          "text": "L'inégalité dans la répartition des taches"
+          "text": "L'inégalité dans la répartition des tâches"
         },
         {
           "id": "B",
@@ -13662,7 +13662,7 @@
         },
         {
           "id": "B",
-          "text": "Ils s'amusent dans un parc d'attraction"
+          "text": "Ils s'amusent dans un parc d'attractions."
         },
         {
           "id": "C",

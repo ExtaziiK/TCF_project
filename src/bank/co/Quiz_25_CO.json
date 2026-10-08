@@ -8513,7 +8513,7 @@
       "options": [
         {
           "id": "A",
-          "text": "lls abusent de repas très caloriques."
+          "text": "Ils abusent de repas très caloriques."
         },
         {
           "id": "B",
@@ -8521,7 +8521,7 @@
         },
         {
           "id": "C",
-          "text": "lls ignorent l'origine de leurs plats."
+          "text": "Ils ignorent l'origine de leurs plats."
         },
         {
           "id": "D",
@@ -8529,7 +8529,7 @@
         }
       ],
       "correct": "C",
-      "correct_option_text": "lls ignorent l'origine de leurs plats.",
+      "correct_option_text": "Ils ignorent l'origine de leurs plats.",
       "transcript": "87% des gamins ne savent pas à quoi ressemble une betterave, un tiers n'ont jamais vu de poireau et un cinquième ne reconnaît pas un abricot. En ce qui concerne les pâtes, 72% ne savent pas ce qu'il y a dedans. Ça nous parle de nous aujourd'hui ? Oui, oui, tout à fait. C'est évidemment un des grands problèmes. Il faut redonner des repères sur les aliments, savoir d'où ils viennent, comment ils poussent, à quoi ça sert. Pour ça, il faut emmener les enfants sur les marchés, faire Les courses, il faut leur montrer quand on fait la cuisine les ingrédients que l'on met. Donc il faut réapprendre la culture alimentaire qui est quand même dans nos traditions en France. Question 25. Quel problème évoquent les interlocuteurs à propos des enfants ?",
       "explanation": "Les interlocuteurs évoquent le problème de la méconnaissance des enfants en ce qui concerne les aliments, notamment leur ignorance sur l'origine et la composition des produits alimentaires. Ils mentionnent que 87% des enfants ne savent pas à quoi ressemble une betterave, 72% ne savent pas ce qu'il y a dans les pâtes, etc. Cela montre que les enfants ont peu de connaissances sur les aliments et que cela constitue un problème important.",
       "words": [
@@ -13031,7 +13031,7 @@
         },
         {
           "id": "C",
-          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'état."
+          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'État."
         },
         {
           "id": "D",
@@ -14923,7 +14923,7 @@
       "options": [
         {
           "id": "A",
-          "text": "ll est commun à toutes les cultures."
+          "text": "Il est commun à toutes les cultures."
         },
         {
           "id": "B",

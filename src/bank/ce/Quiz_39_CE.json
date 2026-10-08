@@ -186,7 +186,7 @@
                 },
                 {
                     "id": 37187,
-                    "text": "De rencontre des professionnels.",
+                    "text": "De rencontrer des professionnels.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -332,9 +332,9 @@
             "question_text": "Compréhension écrite – Quiz 39 – Question 8",
             "question_type": "mcq",
             "order": 8,
-            "user_answer": "Ecrire un message.",
+            "user_answer": "Écrire un message.",
             "user_selected_option_id": 37201,
-            "correct_answer": "Ecrire un message.",
+            "correct_answer": "Écrire un message.",
             "correct_option_id": 37201,
             "is_correct": true,
             "is_answered": true,
@@ -346,7 +346,7 @@
             "all_options": [
                 {
                     "id": 37201,
-                    "text": "Ecrire un message.",
+                    "text": "Écrire un message.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -450,7 +450,7 @@
                 },
                 {
                     "id": 37212,
-                    "text": "A trouver des recettes.",
+                    "text": "À trouver des recettes.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -891,7 +891,7 @@
             "question_text": "Compréhension écrite – Quiz 39 – Question 21",
             "question_type": "mcq",
             "order": 21,
-            "user_answer": "1. Informer sur de nouvelles méthodes éducatives.",
+            "user_answer": "Informer sur de nouvelles méthodes éducatives.",
             "user_selected_option_id": 37253,
             "correct_answer": "Présenter les relations familiales avec humour.",
             "correct_option_id": 37255,
@@ -905,7 +905,7 @@
             "all_options": [
                 {
                     "id": 37253,
-                    "text": "1. Informer sur de nouvelles méthodes éducatives.",
+                    "text": "Informer sur de nouvelles méthodes éducatives.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -923,7 +923,7 @@
                 },
                 {
                     "id": 37256,
-                    "text": "Proposer de solutions a des situations de crise.",
+                    "text": "Proposer des solutions à des situations de crise.",
                     "is_correct": false,
                     "order": 4
                 }

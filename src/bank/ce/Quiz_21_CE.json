@@ -334,7 +334,7 @@
             "order": 8,
             "user_answer": "S’inscrire à un jeu.",
             "user_selected_option_id": 34396,
-            "correct_answer": "Ecrire un message.",
+            "correct_answer": "Écrire un message.",
             "correct_option_id": 34393,
             "is_correct": false,
             "is_answered": true,
@@ -346,7 +346,7 @@
             "all_options": [
                 {
                     "id": 34393,
-                    "text": "Ecrire un message.",
+                    "text": "Écrire un message.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -676,7 +676,7 @@
             "question_text": "Compréhension écrite – Quiz 21 – Question 16",
             "question_type": "mcq",
             "order": 16,
-            "user_answer": "Retirer de l’argent a un distributeur.",
+            "user_answer": "Retirer de l’argent à un distributeur.",
             "user_selected_option_id": 34428,
             "correct_answer": "Faire des courses dans un magasin.",
             "correct_option_id": 34426,
@@ -690,7 +690,7 @@
             "all_options": [
                 {
                     "id": 34425,
-                    "text": "Avoirs des réductions sur certains articles.",
+                    "text": "Avoir des réductions sur certains articles.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -708,7 +708,7 @@
                 },
                 {
                     "id": 34428,
-                    "text": "Retirer de l’argent a un distributeur.",
+                    "text": "Retirer de l’argent à un distributeur.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1495,7 +1495,7 @@
             "order": 35,
             "user_answer": "Il traite les problèmes liés aux sols.",
             "user_selected_option_id": 34504,
-            "correct_answer": "Il insiste sur le pont de vue matériel.",
+            "correct_answer": "Il insiste sur le point de vue matériel.",
             "correct_option_id": 34502,
             "is_correct": false,
             "is_answered": true,
@@ -1513,7 +1513,7 @@
                 },
                 {
                     "id": 34502,
-                    "text": "Il insiste sur le pont de vue matériel.",
+                    "text": "Il insiste sur le point de vue matériel.",
                     "is_correct": true,
                     "order": 2
                 },

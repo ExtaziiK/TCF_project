@@ -2932,11 +2932,11 @@
       "options": [
         {
           "id": "A",
-          "text": "II a été très agréablement surpris."
+          "text": "Il a été très agréablement surpris."
         },
         {
           "id": "B",
-          "text": "II préfère attendre pour se prononcer."
+          "text": "Il préfère attendre pour se prononcer."
         },
         {
           "id": "C",
@@ -2948,7 +2948,7 @@
         }
       ],
       "correct": "A",
-      "correct_option_text": "II a été très agréablement surpris.",
+      "correct_option_text": "Il a été très agréablement surpris.",
       "transcript": "Alors, comment s'est passée cette première journée dans la vie active ? Plutôt bien. Les collègues ont été très accueillants. Et avec ton chef ? Tu m'avais dit qu'il était un peu froid. Ben, en fait, il a été très sympa. Il m'a présenté à toute l'équipe, fait visiter les locaux et montré mon bureau, qui est très grand. Je n'en revenais pas. Bienvenue dans le monde professionnel, Alex. Tu n'es pas au bout de tes découvertes. Quel bilan Alex tire-t-il de sa première journée de travail ?",
       "explanation": "Alex tire un bilan positif de sa première journée de travail, car il a été accueilli chaleureusement par ses collègues et son chef, qui a été plus sympa que prévu. Il a également été impressionné par son bureau grand et a pu visiter les locaux de l'entreprise. Cela suggère qu'il a été bien accueilli et qu'il se sent à l'aise dans son nouvel environnement de travail.",
       "words": [
@@ -7528,7 +7528,7 @@
         },
         {
           "id": "B",
-          "text": "IIs partent à la montagne."
+          "text": "Ils partent à la montagne."
         },
         {
           "id": "C",
@@ -7540,7 +7540,7 @@
         }
       ],
       "correct": "B",
-      "correct_option_text": "IIs partent à la montagne.",
+      "correct_option_text": "Ils partent à la montagne.",
       "transcript": "Il va faire chaud cette semaine, très chaud, la chaleur va de nouveau être difficile à supporter. Cette situation fait des affaires des professionnels du tourisme de la montagne. Là-bas, pendant la nuit, les températures vont de 12 à 15 degrés, ce qui permet de mieux se reposer. Pendant la journée, il est possible de faire des activités nautiques dans le l'eau bien fraîche, c'est ce dont tout le monde rêve actuellement. Question 26 Selon le reportage, que pointe-t-on ici pendant les grandes chaleurs ?",
       "explanation": "Pendant les grandes chaleurs, le reportage pointe vers la montagne comme un endroit idéal pour se reposer, en raison des températures plus basses pendant la nuit, allant de 12 à 15 degrés. Cela permet aux personnes de mieux se reposer.",
       "words": [],
@@ -7562,7 +7562,7 @@
         },
         {
           "id": "B",
-          "text": "IIs voient leur futur de manière positive."
+          "text": "Ils voient leur futur de manière positive."
         },
         {
           "id": "C",
@@ -7570,11 +7570,11 @@
         },
         {
           "id": "D",
-          "text": "IIs refusent d'habiter chez leurs parents."
+          "text": "Ils refusent d'habiter chez leurs parents."
         }
       ],
       "correct": "B",
-      "correct_option_text": "IIs voient leur futur de manière positive.",
+      "correct_option_text": "Ils voient leur futur de manière positive.",
       "transcript": "Comment les jeunes français envisagent-ils leur avenir ? La réponse est à lire dans le sondage publié aujourd'hui par le tout nouvel observatoire des jeunes et des familles. 1000 jeunes de 18 à 25 ans et 1000 familles ont été interrogées. Première surprise, les jeunes ont plutôt confiance en l'avenir à 52% et même si les difficultés économiques les angoissent, 8 sur 10 estiment qu'ils obtiendront ce qu'ils veulent mais les principaux obstacles seront le travail et le logement.",
       "explanation": "La bonne réponse est B car les jeunes interrogés ont confiance en l'avenir, étant donné que 52% d'entre eux ont une vision optimiste de leur avenir. Cependant, ils sont également conscients des difficultés économiques qui pourraient les empêcher d'atteindre leurs objectifs, notamment le travail et le logement.",
       "words": [
@@ -7987,7 +7987,7 @@
         },
         {
           "id": "B",
-          "text": "IIs devront descendre en gare de Valence suite à une panne."
+          "text": "Ils devront descendre en gare de Valence suite à une panne."
         },
         {
           "id": "C",
@@ -9184,7 +9184,7 @@
         },
         {
           "id": "C",
-          "text": "Elle peut surchager les branches."
+          "text": "Elle peut surcharger les branches."
         },
         {
           "id": "D",
@@ -9985,7 +9985,7 @@
         },
         {
           "id": "B",
-          "text": "IIs s'amusent dans un parc d'attractions."
+          "text": "Ils s'amusent dans un parc d'attractions."
         },
         {
           "id": "C",

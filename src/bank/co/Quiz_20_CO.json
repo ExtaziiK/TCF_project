@@ -1938,7 +1938,7 @@
       "options": [
         {
           "id": "A",
-          "text": "La publication de son cv en ligne"
+          "text": "La publication de son CV en ligne"
         },
         {
           "id": "B",
@@ -3177,7 +3177,7 @@
         },
         {
           "id": "B",
-          "text": "D'arreter ses études"
+          "text": "D'arrêter ses études."
         },
         {
           "id": "C",
@@ -4018,7 +4018,7 @@
       "options": [
         {
           "id": "A",
-          "text": "L'interet pour le cinéma"
+          "text": "L'intérêt pour le cinéma"
         },
         {
           "id": "B",
@@ -4987,7 +4987,7 @@
         },
         {
           "id": "B",
-          "text": "Pour le remplacer de son accueil"
+          "text": "Pour le remercier de son accueil."
         },
         {
           "id": "C",
@@ -7630,7 +7630,7 @@
         },
         {
           "id": "D",
-          "text": "Leur talent est défavorisé"
+          "text": "Leur talent est dévalorisé."
         }
       ],
       "correct": "B",
@@ -8688,7 +8688,7 @@
       "options": [
         {
           "id": "A",
-          "text": "il a répondu à une demande de ses patients"
+          "text": "Il a répondu à une demande de ses patients"
         },
         {
           "id": "B",
@@ -9115,7 +9115,7 @@
         },
         {
           "id": "D",
-          "text": "Introduire la planification de nouvelles espèces"
+          "text": "Introduire la plantation de nouvelles espèces"
         }
       ],
       "correct": "C",
@@ -9791,7 +9791,7 @@
         },
         {
           "id": "C",
-          "text": "D'un anniversaire surpris"
+          "text": "D'un anniversaire surprise."
         },
         {
           "id": "D",
@@ -12637,7 +12637,7 @@
         },
         {
           "id": "B",
-          "text": "D'un examen de fins d'études"
+          "text": "D'un examen de fin d'études."
         },
         {
           "id": "C",

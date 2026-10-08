@@ -3773,7 +3773,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Les conducteurs qui Klaxonnent au feu rouge."
+          "text": "Les conducteurs qui klaxonnent au feu rouge."
         },
         {
           "id": "B",
@@ -3785,11 +3785,11 @@
         },
         {
           "id": "D",
-          "text": "Les véhiculent qui circulent près de chez lui."
+          "text": "Les véhicules qui circulent près de chez lui."
         }
       ],
       "correct": "D",
-      "correct_option_text": "Les véhiculent qui circulent près de chez lui.",
+      "correct_option_text": "Les véhicules qui circulent près de chez lui.",
       "transcript": "Parce que cette tuagénaire à la retraite, le bruit est aussi une source de fatigue et de tension. Moi le bruit m'empêche de dormir absolument. J'arrive à un âge où on a peut-être besoin de moins de sommeil. Mais il est évident qu'en bordure du boulevard périphérique, je n'arrive pas à supporter ce niveau sonore qui est permanent. Entre autres, il faut aussi ne pas oublier que même si l'intensité routière diminue en nuit, on est réveillé par des bruits un petit peu exceptionnels, une moto pétaradante qui passe, ou une voiture qui passe à 200 à l'heure sur le boulevard périphérique. C'est ce qu'on constate régulièrement. Question 16. Qu'est-ce qui empêche cet homme de dormir ?",
       "explanation": "Le bruit est une source de fatigue et de tension pour la personne, et il l'empêche de dormir absolument. En effet, le niveau sonore permanent le réveille régulièrement, même en nuit, et des bruits exceptionnels comme une moto pétaradante ou une voiture qui passe à grande vitesse le réveillent également. Cela montre clairement que le bruit est la cause de son insomnie.",
       "words": [
@@ -5827,7 +5827,7 @@
         },
         {
           "id": "B",
-          "text": "D'arrêter des études."
+          "text": "D'arrêter ses études."
         },
         {
           "id": "C",
@@ -8836,11 +8836,11 @@
         },
         {
           "id": "C",
-          "text": "Il y'a de nombreux documents à l'assemblée."
+          "text": "Il y a de nombreux documents à rassembler."
         },
         {
           "id": "D",
-          "text": "Il y'a des frais de procédures élevés."
+          "text": "Il y a des frais de procédure élevés."
         }
       ],
       "correct": "B",
@@ -9582,7 +9582,7 @@
         },
         {
           "id": "B",
-          "text": "Un parcours à pied long des quais."
+          "text": "Un parcours à pied le long des quais."
         },
         {
           "id": "C",
@@ -10193,7 +10193,7 @@
       "options": [
         {
           "id": "A",
-          "text": "La répartition des taches dans le service."
+          "text": "La répartition des tâches dans le service."
         },
         {
           "id": "B",
@@ -10209,7 +10209,7 @@
         }
       ],
       "correct": "A",
-      "correct_option_text": "La répartition des taches dans le service.",
+      "correct_option_text": "La répartition des tâches dans le service.",
       "transcript": "Je pense que le chef de département a raison. Il faudrait modifier la façon dont nous fonctionnons et redéfinir clairement les missions de chacun. Oui, je suis d'accord. D'autant que nous avons eu des incompréhensions entre nous ces derniers temps. D'après moi, elles sont directement liées au fait que personne ne sait précisément où commence son rôle et surtout où il s'arrête dans le projet. Tout à fait d'accord. Moi-même, je suis un peu perdu. Si tout le monde essaie de tout faire, on ne sera jamais d'accord au sein de ce service. Sans compter que ça ne nous fait pas gagner de temps. Bien. Alors, mettons ça à l'ordre de la réunion d'équipe de demain. Question 28. Quel est l'objet de la discussion ? Sous-titrage Société Radio-Canada",
       "explanation": "La discussion porte sur la nécessité de clarifier les missions et les rôles de chaque membre de l'équipe, afin d'éviter les incompréhensions et de gagner du temps. Le chef de département propose de modifier la façon dont l'équipe fonctionne et de redéfinir clairement les missions de chacun. Cela permettra à l'équipe de travailler de manière plus efficace et d'être en accord sur les tâches à accomplir.",
       "words": [
@@ -15677,7 +15677,7 @@
         },
         {
           "id": "B",
-          "text": "La dégradation d'un site naturel rural."
+          "text": "La dégradation d'un site naturel rare."
         },
         {
           "id": "C",
@@ -15689,7 +15689,7 @@
         }
       ],
       "correct": "B",
-      "correct_option_text": "La dégradation d'un site naturel rural.",
+      "correct_option_text": "La dégradation d'un site naturel rare.",
       "transcript": "Qu'est-ce que vous avez en couverture ce mois-ci ? Ce mois-ci, on se questionne sur la présence de pétrole dans le sous-sol du Golfe Saint-Laurent. Il y a beaucoup de controverses au sujet de son exploitation, son extraction, sur les dommages potentiels que ça pourrait causer au Golfe, qui est un écosystème assez précieux et assez unique aussi au monde. Mais il y a aussi cette richesse qu'on ne soupçonnait pas. il y a une vingtaine, trentaine d'années, ce pétrole dans tout cela. Alors ça fait des débats de société assez importants ici. Question 37. Qu'est-ce qui fait polémique ?",
       "explanation": "La réponse B est correcte car la polémique fait référence aux controverses entourant l'exploitation et l'extraction du pétrole dans le sous-sol du Golfe Saint-Laurent, qui pourraient causer des dommages à cet écosystème unique. Cela est mentionné explicitement dans le texte, où il est question de \"beaucoup de controverses\" et de \"dommages potentiels\".",
       "words": [

@@ -493,7 +493,7 @@
                 },
                 {
                     "id": 31600,
-                    "text": "Répondre à un questionnaire sur tes cours",
+                    "text": "Répondre à un questionnaire sur les cours.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -590,9 +590,9 @@
             "question_text": "Compréhension écrite – Quiz 3 – Question 14",
             "question_type": "mcq",
             "order": 14,
-            "user_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "user_answer": "La nécessité de s’exiler pour pouvoir travailler.",
             "user_selected_option_id": 31610,
-            "correct_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "correct_answer": "La nécessité de s’exiler pour pouvoir travailler.",
             "correct_option_id": 31610,
             "is_correct": true,
             "is_answered": true,
@@ -604,13 +604,13 @@
             "all_options": [
                 {
                     "id": 31609,
-                    "text": "La difficulté de trouver un stage à travailler",
+                    "text": "La difficulté de trouver un stage à l’étranger.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 31610,
-                    "text": "La nécessite de s’exiler pour pouvoir travailler",
+                    "text": "La nécessité de s’exiler pour pouvoir travailler.",
                     "is_correct": true,
                     "order": 2
                 },
@@ -954,7 +954,7 @@
                 },
                 {
                     "id": 31642,
-                    "text": "Ils entrainent des comportements de type additif.",
+                    "text": "Ils entraînent des comportements de type addictif.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1218,7 +1218,7 @@
                 },
                 {
                     "id": 31667,
-                    "text": "L’uniformisation des saveurs des goûts.",
+                    "text": "L’uniformisation des saveurs et des goûts.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1421,7 +1421,7 @@
             "all_options": [
                 {
                     "id": 31685,
-                    "text": "Les familles dont opposées à toute modification.",
+                    "text": "Les familles sont opposées à toute modification.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1439,7 +1439,7 @@
                 },
                 {
                     "id": 31688,
-                    "text": "Les opinions des experts sont en tout désaccord.",
+                    "text": "Les opinions des experts sont en total désaccord.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1697,7 +1697,7 @@
                 },
                 {
                     "id": 31712,
-                    "text": "Represerver le gouvernement français lors d’une rencontre.",
+                    "text": "Représenter le gouvernement français lors d’une rencontre.",
                     "is_correct": false,
                     "order": 4
                 }

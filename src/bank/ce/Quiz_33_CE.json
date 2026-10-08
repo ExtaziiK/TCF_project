@@ -260,7 +260,7 @@
             "all_options": [
                 {
                     "id": 36257,
-                    "text": "ll accueille les élèves et leurs parents.",
+                    "text": "Il accueille les élèves et leurs parents.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -549,7 +549,7 @@
             "order": 13,
             "user_answer": "Pour répondre aux attentes de son public.",
             "user_selected_option_id": 36288,
-            "correct_answer": "il peut partager sa passion avec un public.",
+            "correct_answer": "Il peut partager sa passion avec un public.",
             "correct_option_id": 36287,
             "is_correct": false,
             "is_answered": true,
@@ -573,7 +573,7 @@
                 },
                 {
                     "id": 36287,
-                    "text": "il peut partager sa passion avec un public.",
+                    "text": "Il peut partager sa passion avec un public.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -948,7 +948,7 @@
             "all_options": [
                 {
                     "id": 36321,
-                    "text": "ll néglige les commerces dans les rues piétonnes.",
+                    "text": "Il néglige les commerces dans les rues piétonnes.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1493,9 +1493,9 @@
             "question_text": "Compréhension écrite – Quiz 33 – Question 35",
             "question_type": "mcq",
             "order": 35,
-            "user_answer": "II doute de l’intérêt des médias traditionnels.",
+            "user_answer": "Il doute de l’intérêt des médias traditionnels.",
             "user_selected_option_id": 36376,
-            "correct_answer": "II doute de l’intérêt des médias traditionnels.",
+            "correct_answer": "Il doute de l’intérêt des médias traditionnels.",
             "correct_option_id": 36376,
             "is_correct": true,
             "is_answered": true,
@@ -1507,7 +1507,7 @@
             "all_options": [
                 {
                     "id": 36373,
-                    "text": "Il contesté la fiabilité des sources d’Internet.",
+                    "text": "Il conteste la fiabilité des sources d’Internet.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1525,7 +1525,7 @@
                 },
                 {
                     "id": 36376,
-                    "text": "II doute de l’intérêt des médias traditionnels.",
+                    "text": "Il doute de l’intérêt des médias traditionnels.",
                     "is_correct": true,
                     "order": 4
                 }
@@ -1562,7 +1562,7 @@
                 },
                 {
                     "id": 36379,
-                    "text": "ll ravive l’intérêt des littéraires pour les matières scientifiques.",
+                    "text": "Il ravive l’intérêt des littéraires pour les matières scientifiques.",
                     "is_correct": false,
                     "order": 3
                 },

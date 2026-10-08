@@ -4586,11 +4586,11 @@
         },
         {
           "id": "C",
-          "text": "ll désire visiter les locaux disponibles."
+          "text": "Il désire visiter les locaux disponibles."
         },
         {
           "id": "D",
-          "text": "II souhaite participer à un congrès."
+          "text": "Il souhaite participer à un congrès."
         }
       ],
       "correct": "A",
@@ -7163,7 +7163,7 @@
       "options": [
         {
           "id": "A",
-          "text": "ll intéresse très peu les vacanciers."
+          "text": "Il intéresse très peu les vacanciers."
         },
         {
           "id": "B",
@@ -7175,7 +7175,7 @@
         },
         {
           "id": "D",
-          "text": "II souffre d'une augmentation des tarifs."
+          "text": "Il souffre d'une augmentation des tarifs."
         }
       ],
       "correct": "B",
@@ -9561,11 +9561,11 @@
         },
         {
           "id": "C",
-          "text": "lls devront patienter à leur place jusqu'à l'arrêt complet du train."
+          "text": "Ils devront patienter à leur place jusqu'à l'arrêt complet du train."
         },
         {
           "id": "D",
-          "text": "lls devront présenter leur billet à leur descente du train."
+          "text": "Ils devront présenter leur billet à leur descente du train."
         }
       ],
       "correct": "A",
@@ -10068,7 +10068,7 @@
       "options": [
         {
           "id": "A",
-          "text": "lls bénéficient d'enseignements adaptés."
+          "text": "Ils bénéficient d'enseignements adaptés."
         },
         {
           "id": "B",
@@ -11576,7 +11576,7 @@
         },
         {
           "id": "C",
-          "text": "ll a distribué des journaux aux établissements scolaires."
+          "text": "Il a distribué des journaux aux établissements scolaires."
         },
         {
           "id": "D",
@@ -14175,7 +14175,7 @@
         },
         {
           "id": "D",
-          "text": "II propose des prestations qui contribuent au développement humanitaire."
+          "text": "Il propose des prestations qui contribuent au développement humanitaire."
         }
       ],
       "correct": "A",
@@ -14896,7 +14896,7 @@
         },
         {
           "id": "C",
-          "text": "Sur des certitudes économiques,"
+          "text": "Sur des certitudes économiques."
         },
         {
           "id": "D",

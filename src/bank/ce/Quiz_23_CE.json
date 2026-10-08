@@ -805,7 +805,7 @@
             "question_text": "Compréhension écrite – Quiz 23 – Question 19",
             "question_type": "mcq",
             "order": 19,
-            "user_answer": "La vie des paysans néerlandais au XVIIIE siècle.",
+            "user_answer": "La vie des paysans néerlandais au XVIIIe siècle.",
             "user_selected_option_id": 34751,
             "correct_answer": "L’enquête policière d’une personne très rationnelle.",
             "correct_option_id": 34750,
@@ -831,7 +831,7 @@
                 },
                 {
                     "id": 34751,
-                    "text": "La vie des paysans néerlandais au XVIIIE siècle.",
+                    "text": "La vie des paysans néerlandais au XVIIIe siècle.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1642,7 +1642,7 @@
                 },
                 {
                     "id": 34826,
-                    "text": "De fonctionner dans un cadre innovent.",
+                    "text": "De fonctionner dans un cadre innovant.",
                     "is_correct": false,
                     "order": 2
                 },

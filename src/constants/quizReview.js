@@ -9,10 +9,15 @@
 //
 // To put a quiz back online: remove its number here and redeploy.
 //
-// Nothing is under review right now. Last entry: CO Quiz 26 (2026-10-07),
-// hidden after a member reported Série 25 answers over Série 26 audio, and
-// reopened once rebuilt on the real Série 26 recordings.
-export const QUIZZES_UNDER_REVIEW = {};
+// Previous entry: CO Quiz 26 (2026-10-07), hidden after a member reported
+// Série 25 answers over Série 26 audio, reopened once rebuilt.
+export const QUIZZES_UNDER_REVIEW = {
+  // One question in each plays a recording its four options don't belong to
+  // (found in the 2026-10-07 bank audit): Q34 of 13 and 33 is a report on car
+  // sound design under the options of a climate question; Q35 of 35 and 38 has
+  // garbled options for a report on the Québec forest industry.
+  co: [13, 33, 35, 38],
+};
 
 export const isUnderReview = (quiz) =>
   !!quiz && (QUIZZES_UNDER_REVIEW[quiz.section] || []).includes(quiz.quizNumber);

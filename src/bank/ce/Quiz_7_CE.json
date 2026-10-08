@@ -579,7 +579,7 @@
                 },
                 {
                     "id": 32232,
-                    "text": "Inventer une recette",
+                    "text": "D’inventer une recette",
                     "is_correct": false,
                     "order": 4
                 }
@@ -633,9 +633,9 @@
             "question_text": "Compréhension écrite – Quiz 7 – Question 15",
             "question_type": "mcq",
             "order": 15,
-            "user_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "user_answer": "La nécessité de s’exiler pour pouvoir travailler.",
             "user_selected_option_id": 32238,
-            "correct_answer": "La nécessite de s’exiler pour pouvoir travailler",
+            "correct_answer": "La nécessité de s’exiler pour pouvoir travailler.",
             "correct_option_id": 32238,
             "is_correct": true,
             "is_answered": true,
@@ -653,7 +653,7 @@
                 },
                 {
                     "id": 32238,
-                    "text": "La nécessite de s’exiler pour pouvoir travailler",
+                    "text": "La nécessité de s’exiler pour pouvoir travailler.",
                     "is_correct": true,
                     "order": 2
                 },
@@ -1034,7 +1034,7 @@
             "all_options": [
                 {
                     "id": 32273,
-                    "text": "L’urbanisation galopante des compagnes",
+                    "text": "L’urbanisation galopante des campagnes",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1493,9 +1493,9 @@
             "question_text": "Compréhension écrite – Quiz 7 – Question 35",
             "question_type": "mcq",
             "order": 35,
-            "user_answer": "De satisfaire avant tous les adultes",
+            "user_answer": "De satisfaire avant tout les adultes.",
             "user_selected_option_id": 32319,
-            "correct_answer": "De satisfaire avant tous les adultes",
+            "correct_answer": "De satisfaire avant tout les adultes.",
             "correct_option_id": 32319,
             "is_correct": true,
             "is_answered": true,
@@ -1519,7 +1519,7 @@
                 },
                 {
                     "id": 32319,
-                    "text": "De satisfaire avant tous les adultes",
+                    "text": "De satisfaire avant tout les adultes.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1667,11 +1667,11 @@
             "order": 39,
             "user_answer": "Il ouvre la voie à de prochaines réalisations",
             "user_selected_option_id": 32336,
-            "correct_answer": "Il ouvre la voie à de prochaines réalisations",
-            "correct_option_id": 32336,
+            "correct_answer": "Il fait connaître les travaux d’un écrivain",
+            "correct_option_id": 32335,
             "is_correct": true,
             "is_answered": true,
-            "explanation": "Le texte souligne la « vision originale » que ces jeunes cinéastes livrent de la poésie d'Éluard, un « combustible merveilleux » pour leur art naissant : ce travail ouvre la voie à de prochaines réalisations.",
+            "explanation": "Le texte précise que ces courts-métrages mettent « en lumière l'œuvre d'un apparenté surréaliste dont la notoriété est... réduite au seul poème Liberté » : cet ensemble fait connaître les travaux d'un écrivain.",
             "time_spent": 16,
             "flagged": false,
             "audio_url": null,
@@ -1692,13 +1692,13 @@
                 {
                     "id": 32335,
                     "text": "Il fait connaître les travaux d’un écrivain",
-                    "is_correct": false,
+                    "is_correct": true,
                     "order": 3
                 },
                 {
                     "id": 32336,
                     "text": "Il ouvre la voie à de prochaines réalisations",
-                    "is_correct": true,
+                    "is_correct": false,
                     "order": 4
                 }
             ]

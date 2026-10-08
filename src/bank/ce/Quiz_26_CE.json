@@ -76,7 +76,7 @@
             "order": 2,
             "user_answer": "Ils vont à l’université dans une autre ville.",
             "user_selected_option_id": 35152,
-            "correct_answer": "A Ils ont besoin de l’aide de leur famille.",
+            "correct_answer": "Ils ont besoin de l’aide de leur famille.",
             "correct_option_id": 35149,
             "is_correct": false,
             "is_answered": true,
@@ -88,7 +88,7 @@
             "all_options": [
                 {
                     "id": 35149,
-                    "text": "A Ils ont besoin de l’aide de leur famille.",
+                    "text": "Ils ont besoin de l’aide de leur famille.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -1108,7 +1108,7 @@
             "order": 26,
             "user_answer": "Du rapport entre les générations.",
             "user_selected_option_id": 35248,
-            "correct_answer": "De la volanté d’émancipation.",
+            "correct_answer": "De la volonté d’émancipation.",
             "correct_option_id": 35247,
             "is_correct": false,
             "is_answered": true,
@@ -1132,7 +1132,7 @@
                 },
                 {
                     "id": 35247,
-                    "text": "De la volanté d’émancipation.",
+                    "text": "De la volonté d’émancipation.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1536,9 +1536,9 @@
             "question_text": "Compréhension écrite – Quiz 26 – Question 36",
             "question_type": "mcq",
             "order": 36,
-            "user_answer": "L’auteur a imaginé différents scenarios.",
+            "user_answer": "L’auteur a imaginé différents scénarios.",
             "user_selected_option_id": 35288,
-            "correct_answer": "L’auteur a imaginé différents scenarios.",
+            "correct_answer": "L’auteur a imaginé différents scénarios.",
             "correct_option_id": 35288,
             "is_correct": true,
             "is_answered": true,
@@ -1568,7 +1568,7 @@
                 },
                 {
                     "id": 35288,
-                    "text": "L’auteur a imaginé différents scenarios.",
+                    "text": "L’auteur a imaginé différents scénarios.",
                     "is_correct": true,
                     "order": 4
                 }

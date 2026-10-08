@@ -332,9 +332,9 @@
             "question_text": "Compréhension écrite – Quiz 38 – Question 8",
             "question_type": "mcq",
             "order": 8,
-            "user_answer": "Une réduction sur des stages pendant.",
+            "user_answer": "Une réduction sur des stages pendant l’été.",
             "user_selected_option_id": 37048,
-            "correct_answer": "Une réduction sur des stages pendant.",
+            "correct_answer": "Une réduction sur des stages pendant l’été.",
             "correct_option_id": 37048,
             "is_correct": true,
             "is_answered": true,
@@ -364,7 +364,7 @@
                 },
                 {
                     "id": 37048,
-                    "text": "Une réduction sur des stages pendant.",
+                    "text": "Une réduction sur des stages pendant l’été.",
                     "is_correct": true,
                     "order": 4
                 }
@@ -375,7 +375,7 @@
             "question_text": "Compréhension écrite – Quiz 38 – Question 9",
             "question_type": "mcq",
             "order": 9,
-            "user_answer": "Voir un spectacle.",
+            "user_answer": "De voir un spectacle.",
             "user_selected_option_id": 37052,
             "correct_answer": "De tester des activités",
             "correct_option_id": 37051,
@@ -407,7 +407,7 @@
                 },
                 {
                     "id": 37052,
-                    "text": "Voir un spectacle.",
+                    "text": "De voir un spectacle.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1493,7 +1493,7 @@
             "question_text": "Compréhension écrite – Quiz 38 – Question 35",
             "question_type": "mcq",
             "order": 35,
-            "user_answer": "Son savoir-faire met en valeur des proc connus.",
+            "user_answer": "Son savoir-faire met en valeur des procédés connus.",
             "user_selected_option_id": 37156,
             "correct_answer": "Ses œuvres se fondent dans leur environnement.",
             "correct_option_id": 37154,
@@ -1525,7 +1525,7 @@
                 },
                 {
                     "id": 37156,
-                    "text": "Son savoir-faire met en valeur des proc connus.",
+                    "text": "Son savoir-faire met en valeur des procédés connus.",
                     "is_correct": false,
                     "order": 4
                 }

@@ -119,7 +119,7 @@
             "order": 3,
             "user_answer": "Elle prend un rendez-vous.",
             "user_selected_option_id": 35312,
-            "correct_answer": "Elle informé une cliente.",
+            "correct_answer": "Elle informe une cliente.",
             "correct_option_id": 35311,
             "is_correct": false,
             "is_answered": true,
@@ -143,7 +143,7 @@
                 },
                 {
                     "id": 35311,
-                    "text": "Elle informé une cliente.",
+                    "text": "Elle informe une cliente.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1278,7 +1278,7 @@
             "question_text": "Compréhension écrite – Quiz 27 – Question 30",
             "question_type": "mcq",
             "order": 30,
-            "user_answer": "Voir le violon modifie l’appréciation de l’auditeur.",
+            "user_answer": "Voir le violon modifier l’appréciation de l’auditeur.",
             "user_selected_option_id": 35420,
             "correct_answer": "Ce sont les violons récents qui sont les plus estimés.",
             "correct_option_id": 35417,
@@ -1310,7 +1310,7 @@
                 },
                 {
                     "id": 35420,
-                    "text": "Voir le violon modifie l’appréciation de l’auditeur.",
+                    "text": "Voir le violon modifier l’appréciation de l’auditeur.",
                     "is_correct": false,
                     "order": 4
                 }

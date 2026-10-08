@@ -2992,7 +2992,7 @@
         },
         {
           "id": "B",
-          "text": "D'arrêter des études"
+          "text": "D'arrêter ses études."
         },
         {
           "id": "C",
@@ -3423,7 +3423,7 @@
       "options": [
         {
           "id": "A",
-          "text": "II n'aime pas l'œuvre de ce peintre."
+          "text": "Il n'aime pas l'œuvre de ce peintre."
         },
         {
           "id": "B",
@@ -5486,11 +5486,11 @@
         },
         {
           "id": "C",
-          "text": "ll désire visiter les locaux disponibles."
+          "text": "Il désire visiter les locaux disponibles."
         },
         {
           "id": "D",
-          "text": "II souhaite participer à un congrès."
+          "text": "Il souhaite participer à un congrès."
         }
       ],
       "correct": "A",
@@ -8708,7 +8708,7 @@
       "options": [
         {
           "id": "A",
-          "text": "lls abusent de repas très caloriques."
+          "text": "Ils abusent de repas très caloriques."
         },
         {
           "id": "B",
@@ -8716,7 +8716,7 @@
         },
         {
           "id": "C",
-          "text": "lls ignorent l'origine de leurs plats."
+          "text": "Ils ignorent l'origine de leurs plats."
         },
         {
           "id": "D",
@@ -8724,7 +8724,7 @@
         }
       ],
       "correct": "C",
-      "correct_option_text": "lls ignorent l'origine de leurs plats.",
+      "correct_option_text": "Ils ignorent l'origine de leurs plats.",
       "transcript": "87% des gamins ne savent pas à quoi ressemble une betterave, un tiers n'ont jamais vu de poireau et un cinquième ne reconnaît pas un abricot. En ce qui concerne les pâtes, 72% ne savent pas ce qu'il y a dedans. Ça nous parle de nous aujourd'hui ? Oui, oui, tout à fait. C'est évidemment un des grands problèmes. Il faut redonner des repères sur les aliments, savoir d'où ils viennent, comment ils poussent, à quoi ça sert. Pour ça, il faut emmener les enfants sur les marchés, faire Les courses, il faut leur montrer quand on fait la cuisine les ingrédients que l'on met. Donc il faut réapprendre la culture alimentaire qui est quand même dans nos traditions en France. Question 25. Quel problème évoquent les interlocuteurs à propos des enfants ?",
       "explanation": "Les interlocuteurs évoquent le problème de l'ignorance des enfants concernant les aliments, en particulier leur incapacité à reconnaître des légumes et des fruits communs. Ils soulignent l'importance de réapprendre la culture alimentaire en montrant aux enfants d'où viennent les aliments, comment ils poussent et à quoi ils servent. Cela suggère que le problème évoqué est la perte de connaissances et de repères alimentaires chez les enfants.",
       "words": [
@@ -14081,7 +14081,7 @@
         },
         {
           "id": "C",
-          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'état."
+          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'État."
         },
         {
           "id": "D",
@@ -15332,7 +15332,7 @@
         },
         {
           "id": "B",
-          "text": "•B Le lien avec la forêt est bien établi grâce aux efforts continus."
+          "text": "Le lien avec la forêt est bien établi grâce aux efforts continus."
         },
         {
           "id": "C",

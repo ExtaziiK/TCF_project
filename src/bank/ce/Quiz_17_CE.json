@@ -719,9 +719,9 @@
             "question_text": "Compréhension écrite – Quiz 17 – Question 17",
             "question_type": "mcq",
             "order": 17,
-            "user_answer": "De traiter seul des affectations bénignes.",
+            "user_answer": "De traiter seul des affections bénignes.",
             "user_selected_option_id": 33808,
-            "correct_answer": "De traiter seul des affectations bénignes.",
+            "correct_answer": "De traiter seul des affections bénignes.",
             "correct_option_id": 33808,
             "is_correct": true,
             "is_answered": true,
@@ -751,7 +751,7 @@
                 },
                 {
                     "id": 33808,
-                    "text": "De traiter seul des affectations bénignes.",
+                    "text": "De traiter seul des affections bénignes.",
                     "is_correct": true,
                     "order": 4
                 }
@@ -1611,7 +1611,7 @@
                 },
                 {
                     "id": 33888,
-                    "text": "Il renforce de mythe de la bataille de Bouvines.",
+                    "text": "Il renforce le mythe de la bataille de Bouvines.",
                     "is_correct": false,
                     "order": 4
                 }

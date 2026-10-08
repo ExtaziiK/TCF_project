@@ -186,7 +186,7 @@
                 },
                 {
                     "id": 36095,
-                    "text": "Organiser une tête",
+                    "text": "Organiser une fête",
                     "is_correct": false,
                     "order": 3
                 },
@@ -315,7 +315,7 @@
                 },
                 {
                     "id": 36107,
-                    "text": "De s’inscrire a des activités",
+                    "text": "De s’inscrire à des activités",
                     "is_correct": false,
                     "order": 3
                 },
@@ -635,7 +635,7 @@
             "order": 15,
             "user_answer": "Raconter son histoire personnelle",
             "user_selected_option_id": 36140,
-            "correct_answer": "Echanger avec d’autres passionnés de tennis",
+            "correct_answer": "Échanger avec d’autres passionnés de tennis",
             "correct_option_id": 36137,
             "is_correct": false,
             "is_answered": true,
@@ -647,7 +647,7 @@
             "all_options": [
                 {
                     "id": 36137,
-                    "text": "Echanger avec d’autres passionnés de tennis",
+                    "text": "Échanger avec d’autres passionnés de tennis",
                     "is_correct": true,
                     "order": 1
                 },
@@ -1261,7 +1261,7 @@
                 },
                 {
                     "id": 36195,
-                    "text": "Le contenu des revendications présentes",
+                    "text": "Le contenu des revendications présentées",
                     "is_correct": false,
                     "order": 3
                 },

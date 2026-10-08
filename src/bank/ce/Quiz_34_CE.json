@@ -174,7 +174,7 @@
             "all_options": [
                 {
                     "id": 36405,
-                    "text": "A Pour annuler un diner.",
+                    "text": "Pour annuler un diner.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -309,7 +309,7 @@
                 },
                 {
                     "id": 36418,
-                    "text": "Des yeux.",
+                    "text": "Des jeux.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -332,7 +332,7 @@
             "question_text": "Compréhension écrite – Quiz 34 – Question 8",
             "question_type": "mcq",
             "order": 8,
-            "user_answer": "Quand elle a échangé un vêtement solde.",
+            "user_answer": "Quand elle a échangé un vêtement soldé.",
             "user_selected_option_id": 36424,
             "correct_answer": "Comment elle a acheté un article en ligne.",
             "correct_option_id": 36421,
@@ -364,7 +364,7 @@
                 },
                 {
                     "id": 36424,
-                    "text": "Quand elle a échangé un vêtement solde.",
+                    "text": "Quand elle a échangé un vêtement soldé.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -463,7 +463,7 @@
             "order": 11,
             "user_answer": "Rendre visite à monsieur Dubois.",
             "user_selected_option_id": 36436,
-            "correct_answer": "Ecrire un message à monsieur Dubois.",
+            "correct_answer": "Écrire un message à monsieur Dubois.",
             "correct_option_id": 36434,
             "is_correct": false,
             "is_answered": true,
@@ -481,7 +481,7 @@
                 },
                 {
                     "id": 36434,
-                    "text": "Ecrire un message à monsieur Dubois.",
+                    "text": "Écrire un message à monsieur Dubois.",
                     "is_correct": true,
                     "order": 2
                 },
@@ -518,7 +518,7 @@
             "all_options": [
                 {
                     "id": 36437,
-                    "text": "A Leur couleur.",
+                    "text": "Leur couleur.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -616,7 +616,7 @@
                 },
                 {
                     "id": 36447,
-                    "text": "Ils ont eu pendant les vacances.",
+                    "text": "Ils ont lieu pendant les vacances.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -954,7 +954,7 @@
                 },
                 {
                     "id": 36478,
-                    "text": "Evoquer un fait divers.",
+                    "text": "Évoquer un fait divers.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1063,9 +1063,9 @@
             "question_text": "Compréhension écrite – Quiz 34 – Question 25",
             "question_type": "mcq",
             "order": 25,
-            "user_answer": "Mieux communiquer sur L’utilisation des fonds.",
+            "user_answer": "Mieux communiquer sur l’utilisation des fonds.",
             "user_selected_option_id": 36492,
-            "correct_answer": "Mieux communiquer sur L’utilisation des fonds.",
+            "correct_answer": "Mieux communiquer sur l’utilisation des fonds.",
             "correct_option_id": 36492,
             "is_correct": true,
             "is_answered": true,
@@ -1083,7 +1083,7 @@
                 },
                 {
                     "id": 36490,
-                    "text": "Elargir le recrutement à de nouveaux bénévoles.",
+                    "text": "Élargir le recrutement à de nouveaux bénévoles.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1095,7 +1095,7 @@
                 },
                 {
                     "id": 36492,
-                    "text": "Mieux communiquer sur L’utilisation des fonds.",
+                    "text": "Mieux communiquer sur l’utilisation des fonds.",
                     "is_correct": true,
                     "order": 4
                 }
@@ -1278,9 +1278,9 @@
             "question_text": "Compréhension écrite – Quiz 34 – Question 30",
             "question_type": "mcq",
             "order": 30,
-            "user_answer": "se déroule dans un ancien monument restauré.",
+            "user_answer": "Se déroule dans un ancien monument restauré.",
             "user_selected_option_id": 36512,
-            "correct_answer": "permet de découvre les saveurs antillaises.",
+            "correct_answer": "Permet de découvrir les saveurs antillaises.",
             "correct_option_id": 36510,
             "is_correct": false,
             "is_answered": true,
@@ -1292,25 +1292,25 @@
             "all_options": [
                 {
                     "id": 36509,
-                    "text": "consiste en un grand évènement religieux.",
+                    "text": "Consiste en un grand évènement religieux.",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 36510,
-                    "text": "permet de découvre les saveurs antillaises.",
+                    "text": "Permet de découvrir les saveurs antillaises.",
                     "is_correct": true,
                     "order": 2
                 },
                 {
                     "id": 36511,
-                    "text": "se réduit à une manifestation pour touristes.",
+                    "text": "Se réduit à une manifestation pour touristes.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 36512,
-                    "text": "se déroule dans un ancien monument restauré.",
+                    "text": "Se déroule dans un ancien monument restauré.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1364,7 +1364,7 @@
             "question_text": "Compréhension écrite – Quiz 34 – Question 32",
             "question_type": "mcq",
             "order": 32,
-            "user_answer": "Evaluer régulièrement leurs acquis.",
+            "user_answer": "Évaluer régulièrement leurs acquis.",
             "user_selected_option_id": 36520,
             "correct_answer": "Développer leur esprit critique.",
             "correct_option_id": 36517,
@@ -1396,7 +1396,7 @@
                 },
                 {
                     "id": 36520,
-                    "text": "Evaluer régulièrement leurs acquis.",
+                    "text": "Évaluer régulièrement leurs acquis.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1409,7 +1409,7 @@
             "order": 33,
             "user_answer": "Son traitement est peu efficace.",
             "user_selected_option_id": 36524,
-            "correct_answer": "Son existence dot être officialisée.",
+            "correct_answer": "Son existence doit être officialisée.",
             "correct_option_id": 36523,
             "is_correct": false,
             "is_answered": true,
@@ -1433,7 +1433,7 @@
                 },
                 {
                     "id": 36523,
-                    "text": "Son existence dot être officialisée.",
+                    "text": "Son existence doit être officialisée.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1581,7 +1581,7 @@
             "order": 37,
             "user_answer": "J’éprouvais un sentiment de crainte face à ces troupeaux d’animaux sauvages.",
             "user_selected_option_id": 36540,
-            "correct_answer": "je percevais parfaitement la quiétude de cet instant.",
+            "correct_answer": "Je percevais parfaitement la quiétude de cet instant.",
             "correct_option_id": 36538,
             "is_correct": false,
             "is_answered": true,
@@ -1599,7 +1599,7 @@
                 },
                 {
                     "id": 36538,
-                    "text": "je percevais parfaitement la quiétude de cet instant.",
+                    "text": "Je percevais parfaitement la quiétude de cet instant.",
                     "is_correct": true,
                     "order": 2
                 },

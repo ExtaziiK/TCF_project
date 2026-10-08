@@ -659,7 +659,7 @@
                 },
                 {
                     "id": 32395,
-                    "text": "S’inscrire pour cours de langue",
+                    "text": "S’inscrire à un cours de langue",
                     "is_correct": false,
                     "order": 3
                 },
@@ -719,9 +719,9 @@
             "question_text": "Compréhension écrite – Quiz 8 – Question 17",
             "question_type": "mcq",
             "order": 17,
-            "user_answer": "Des enregistrements sonores d’article de journal",
+            "user_answer": "Des enregistrements sonores d’articles de journaux.",
             "user_selected_option_id": 32401,
-            "correct_answer": "Des enregistrements sonores d’article de journal",
+            "correct_answer": "Des enregistrements sonores d’articles de journaux.",
             "correct_option_id": 32401,
             "is_correct": true,
             "is_answered": true,
@@ -733,7 +733,7 @@
             "all_options": [
                 {
                     "id": 32401,
-                    "text": "Des enregistrements sonores d’article de journal",
+                    "text": "Des enregistrements sonores d’articles de journaux.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -745,13 +745,13 @@
                 },
                 {
                     "id": 32403,
-                    "text": "Des publications résumées des contenus de sites web",
+                    "text": "Des publications résumées de contenus de sites web.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 32404,
-                    "text": "Des sélections de répliques de théâtres célèbres",
+                    "text": "Des sélections de répliques de théâtre célèbres.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -794,7 +794,7 @@
                 },
                 {
                     "id": 32408,
-                    "text": "Aux personnes qui cherchent un logement",
+                    "text": "Aux personnes qui achètent un logement",
                     "is_correct": false,
                     "order": 4
                 }
@@ -936,7 +936,7 @@
             "order": 22,
             "user_answer": "Le désir de reconnaissance",
             "user_selected_option_id": 32424,
-            "correct_answer": "Le besoin d’interaction social",
+            "correct_answer": "Le besoin d’interaction sociale",
             "correct_option_id": 32423,
             "is_correct": false,
             "is_answered": true,
@@ -960,7 +960,7 @@
                 },
                 {
                     "id": 32423,
-                    "text": "Le besoin d’interaction social",
+                    "text": "Le besoin d’interaction sociale",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1206,7 +1206,7 @@
             "all_options": [
                 {
                     "id": 32445,
-                    "text": "L’affectation qu’elle portait à ses admirateurs",
+                    "text": "L’affection qu’elle portait à ses admirateurs",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1450,9 +1450,9 @@
             "question_text": "Compréhension écrite – Quiz 8 – Question 34",
             "question_type": "mcq",
             "order": 34,
-            "user_answer": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+            "user_answer": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique",
             "user_selected_option_id": 32470,
-            "correct_answer": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+            "correct_answer": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique",
             "correct_option_id": 32470,
             "is_correct": true,
             "is_answered": true,
@@ -1470,7 +1470,7 @@
                 },
                 {
                     "id": 32470,
-                    "text": "Il existerait un ordre universel de la pensée indépendamment de l’ordre linguistique",
+                    "text": "Il existerait un ordre universel de la pensée, indépendant de l’ordre linguistique",
                     "is_correct": true,
                     "order": 2
                 },
@@ -1536,9 +1536,9 @@
             "question_text": "Compréhension écrite – Quiz 8 – Question 36",
             "question_type": "mcq",
             "order": 36,
-            "user_answer": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+            "user_answer": "Il revit des souvenirs lointains dans le bureau de la maison familiale",
             "user_selected_option_id": 32477,
-            "correct_answer": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+            "correct_answer": "Il revit des souvenirs lointains dans le bureau de la maison familiale",
             "correct_option_id": 32477,
             "is_correct": true,
             "is_answered": true,
@@ -1550,7 +1550,7 @@
             "all_options": [
                 {
                     "id": 32477,
-                    "text": "Il revit les souvenirs lointains dans le bureau de la maison familiale",
+                    "text": "Il revit des souvenirs lointains dans le bureau de la maison familiale",
                     "is_correct": true,
                     "order": 1
                 },

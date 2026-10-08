@@ -5722,15 +5722,15 @@
         },
         {
           "id": "B",
-          "text": "ll cherche à joindre la directrice."
+          "text": "Il cherche à joindre la directrice."
         },
         {
           "id": "C",
-          "text": "ll désire visiter les locaux disponibles."
+          "text": "Il désire visiter les locaux disponibles."
         },
         {
           "id": "D",
-          "text": "II souhaite participer à un congrès."
+          "text": "Il souhaite participer à un congrès."
         }
       ],
       "correct": "A",
@@ -14580,7 +14580,7 @@
         },
         {
           "id": "D",
-          "text": "Les pécheurs pillent les fonds marins pour soutenir la concurrence."
+          "text": "Les pêcheurs pillent les fonds marins pour soutenir la concurrence."
         }
       ],
       "correct": "C",

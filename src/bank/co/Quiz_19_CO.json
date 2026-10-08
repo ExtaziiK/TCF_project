@@ -4328,7 +4328,7 @@
       "options": [
         {
           "id": "A",
-          "text": "A quel moment il pourra poser des congés."
+          "text": "À quel moment il pourra poser des congés."
         },
         {
           "id": "B",
@@ -4344,7 +4344,7 @@
         }
       ],
       "correct": "A",
-      "correct_option_text": "A quel moment il pourra poser des congés.",
+      "correct_option_text": "À quel moment il pourra poser des congés.",
       "transcript": "Bonjour Monique. Bonjour Olivier. Que puis-je pour vous ? Je viens vous voir au sujet de mes vacances. Je voudrais les prendre en juillet. Je sais que certains collègues seront en formation et d'autres en extérieur pour les présentations de nos produits sur les marchés d'Europe. Est-ce que cela sera possible ? Nous aurons peut-être besoin de vous, effectivement. Je vais y réfléchir et je vous donne ma réponse cette semaine. Je vous remercie. Permettez-moi juste de vous rappeler que l'été dernier, j'ai travaillé tout le mois d'août. Question 17. Que demande Olivier ? Sous-titrage ST' 501",
       "explanation": "Olivier demande si il pourra prendre ses vacances en juillet, étant donné que certains collègues seront en formation ou en extérieur pour des présentations de produits. Il suggère que son absence pourrait être nécessaire, ce qui implique qu'il a besoin de prendre des dispositions pour couvrir son travail pendant ses vacances.",
       "words": [
@@ -7668,7 +7668,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Un meilleur contrôle des repas dabs les cantines."
+          "text": "Un meilleur contrôle des repas dans les cantines."
         },
         {
           "id": "B",
@@ -8488,23 +8488,23 @@
       "options": [
         {
           "id": "A",
-          "text": "A l'époque de sa jeunesse."
+          "text": "À l'époque de sa jeunesse."
         },
         {
           "id": "B",
-          "text": "A sa passion pour un artiste."
+          "text": "À sa passion pour un artiste."
         },
         {
           "id": "C",
-          "text": "A son amour des langues."
+          "text": "À son amour des langues."
         },
         {
           "id": "D",
-          "text": "A un voyage aux Etats-Unis."
+          "text": "À un voyage aux États-Unis."
         }
       ],
       "correct": "A",
-      "correct_option_text": "A l'époque de sa jeunesse.",
+      "correct_option_text": "À l'époque de sa jeunesse.",
       "transcript": "Vous d'ailleurs vous lisez plutôt des romans anglo-saxons ? Américains ? Américains. Mais oui, mais c'est toute ma culture. Quand j'avais 20 ans, c'était une telle révolution, aussi bien au niveau de la musique que de la mode, que du cinéma, tout ça. J'étais obligé de lire des romans américains, d'autant plus que c'était les romans qui étaient importants pour moi pour me donner des directions éventuellement et pour savoir un petit peu vers quoi j'avais envie de me diriger. Question 25. À quoi sont liés les goûts littéraires de cet invité ? ...",
       "explanation": "Les goûts littéraires de cet invité sont liés à sa culture américaine, qu'il a découvert à l'âge de 20 ans, ce qui a eu un impact significatif sur ses préférences littéraires. Il a été influencé par la musique, la mode et le cinéma américains, ce qui l'a amené à lire des romans américains importants pour lui donner des directions et comprendre ses aspirations.",
       "words": [
@@ -10492,7 +10492,7 @@
         },
         {
           "id": "B",
-          "text": "Etablir un certificat médical."
+          "text": "Établir un certificat médical."
         },
         {
           "id": "C",
@@ -10504,7 +10504,7 @@
         }
       ],
       "correct": "B",
-      "correct_option_text": "Etablir un certificat médical.",
+      "correct_option_text": "Établir un certificat médical.",
       "transcript": "Bonjour docteur, je voudrais faire de l'escalade et j'ai besoin de votre autorisation pour m'inscrire dans un club de sport. De l'escalade, mais c'est très mauvais pour votre dos. Je vous conseille plutôt de faire de la natation. La natation, ce n'est pas bon pour ma peau. Et puis j'adore la montagne. Eh bien, faites plutôt de la randonnée. Ah oui, la randonnée c'est une idée. Ça peut m'aider à maigrir. Question 28. Que doit faire le médecin ?",
       "explanation": "Le médecin doit donner une réponse neutre et objective, en fonction des informations médicales disponibles. Il ne peut pas donner des conseils basés sur ses propres préférences ou opinions personnelles. Dans ce cas, le médecin devrait donner une autorisation pour l'escalade en fonction de l'état de santé du patient, sans se fier à des informations générales sur les risques associés à cette activité.",
       "words": [
@@ -13356,7 +13356,7 @@
         },
         {
           "id": "C",
-          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'Etat."
+          "text": "Sur l'acquittement de la dette par la vente du patrimoine de l'État."
         },
         {
           "id": "D",

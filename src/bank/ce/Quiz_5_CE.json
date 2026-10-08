@@ -762,9 +762,9 @@
             "question_text": "Compréhension écrite – Quiz 5 – Question 18",
             "question_type": "mcq",
             "order": 18,
-            "user_answer": "Faire de ces boitiers des moments de partage",
+            "user_answer": "Faire de ces loisirs des moments de partage.",
             "user_selected_option_id": 31938,
-            "correct_answer": "Faire de ces boitiers des moments de partage",
+            "correct_answer": "Faire de ces loisirs des moments de partage.",
             "correct_option_id": 31938,
             "is_correct": true,
             "is_answered": true,
@@ -782,7 +782,7 @@
                 },
                 {
                     "id": 31938,
-                    "text": "Faire de ces boitiers des moments de partage",
+                    "text": "Faire de ces loisirs des moments de partage.",
                     "is_correct": true,
                     "order": 2
                 },
@@ -966,7 +966,7 @@
                 },
                 {
                     "id": 31956,
-                    "text": "Pour tenir un chèque cadeau",
+                    "text": "Pour retirer un chèque cadeau.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1507,7 +1507,7 @@
             "all_options": [
                 {
                     "id": 32005,
-                    "text": "Influencer de ses contemporains",
+                    "text": "L’influence de ses contemporains.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -1593,7 +1593,7 @@
             "all_options": [
                 {
                     "id": 32013,
-                    "text": "La formation du métier de journaliste est devenue tout à fait inutile",
+                    "text": "La formation au métier de journaliste est devenue tout à fait inutile",
                     "is_correct": false,
                     "order": 1
                 },

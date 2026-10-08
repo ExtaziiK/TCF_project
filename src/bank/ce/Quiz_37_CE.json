@@ -567,7 +567,7 @@
                 },
                 {
                     "id": 36910,
-                    "text": "Echanger son article.",
+                    "text": "Échanger son article.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -590,9 +590,9 @@
             "question_text": "Compréhension écrite – Quiz 37 – Question 14",
             "question_type": "mcq",
             "order": 14,
-            "user_answer": "l’inconscience des enfants imprudents.",
+            "user_answer": "L’inconscience des enfants imprudents.",
             "user_selected_option_id": 36916,
-            "correct_answer": "les dangers des aliments mal conservés.",
+            "correct_answer": "Les dangers des aliments mal conservés.",
             "correct_option_id": 36914,
             "is_correct": false,
             "is_answered": true,
@@ -604,25 +604,25 @@
             "all_options": [
                 {
                     "id": 36913,
-                    "text": "le grand nombre de vendeurs ambulants",
+                    "text": "Le grand nombre de vendeurs ambulants",
                     "is_correct": false,
                     "order": 1
                 },
                 {
                     "id": 36914,
-                    "text": "les dangers des aliments mal conservés.",
+                    "text": "Les dangers des aliments mal conservés.",
                     "is_correct": true,
                     "order": 2
                 },
                 {
                     "id": 36915,
-                    "text": "les méfaits des collations après le bain.",
+                    "text": "Les méfaits des collations après le bain.",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 36916,
-                    "text": "l’inconscience des enfants imprudents.",
+                    "text": "L’inconscience des enfants imprudents.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1249,7 +1249,7 @@
             "all_options": [
                 {
                     "id": 36973,
-                    "text": "A Elles détruisent les cellules du cerveau.",
+                    "text": "Elles détruisent les cellules du cerveau.",
                     "is_correct": false,
                     "order": 1
                 },

@@ -203,9 +203,9 @@
             "question_text": "Compréhension écrite – Quiz 2 – Question 5",
             "question_type": "mcq",
             "order": 5,
-            "user_answer": "Elle souhaite parler à François",
+            "user_answer": "Elle souhaite parler à Françoise.",
             "user_selected_option_id": 31419,
-            "correct_answer": "Elle souhaite parler à François",
+            "correct_answer": "Elle souhaite parler à Françoise.",
             "correct_option_id": 31419,
             "is_correct": true,
             "is_answered": true,
@@ -229,7 +229,7 @@
                 },
                 {
                     "id": 31419,
-                    "text": "Elle souhaite parler à François",
+                    "text": "Elle souhaite parler à Françoise.",
                     "is_correct": true,
                     "order": 3
                 },
@@ -260,7 +260,7 @@
             "all_options": [
                 {
                     "id": 31421,
-                    "text": "Il les renseigne sur des informations",
+                    "text": "Il les renseigne sur des formations.",
                     "is_correct": false,
                     "order": 1
                 },
@@ -438,7 +438,7 @@
                 },
                 {
                     "id": 31438,
-                    "text": "Il y aura des travaux à l’extérieur.",
+                    "text": "Il y aura des travaux à l’intérieur.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -917,7 +917,7 @@
                 },
                 {
                     "id": 31483,
-                    "text": "Enregistre et reproduis les voix entendues",
+                    "text": "Enregistre et reproduit les voix entendues",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1149,9 +1149,9 @@
             "question_text": "Compréhension écrite – Quiz 2 – Question 27",
             "question_type": "mcq",
             "order": 27,
-            "user_answer": "Pour faire naitre l’envie de s’invertir dans un métier",
+            "user_answer": "Pour faire naître l’envie de s’investir dans un métier",
             "user_selected_option_id": 31507,
-            "correct_answer": "Pour faire naitre l’envie de s’invertir dans un métier",
+            "correct_answer": "Pour faire naître l’envie de s’investir dans un métier",
             "correct_option_id": 31507,
             "is_correct": true,
             "is_answered": true,
@@ -1175,7 +1175,7 @@
                 },
                 {
                     "id": 31507,
-                    "text": "Pour faire naitre l’envie de s’invertir dans un métier",
+                    "text": "Pour faire naître l’envie de s’investir dans un métier",
                     "is_correct": true,
                     "order": 3
                 },
@@ -1267,7 +1267,7 @@
                 },
                 {
                     "id": 31516,
-                    "text": "Pour saper les gens visés par les enquêtes",
+                    "text": "Pour piéger les gens visés par les enquêtes.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1298,7 +1298,7 @@
                 },
                 {
                     "id": 31518,
-                    "text": "La rareté des offres de ce logement",
+                    "text": "La rareté des offres de logement.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1439,7 +1439,7 @@
                 },
                 {
                     "id": 31532,
-                    "text": "Elle ralentit le progrès dans les états émergents",
+                    "text": "Elle ralentit le progrès dans les États émergents.",
                     "is_correct": false,
                     "order": 4
                 }

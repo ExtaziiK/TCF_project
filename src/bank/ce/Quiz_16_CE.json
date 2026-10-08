@@ -63,7 +63,7 @@
                 },
                 {
                     "id": 33588,
-                    "text": "ÀDe rester dormir.",
+                    "text": "De rester dormir.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1304,7 +1304,7 @@
                 },
                 {
                     "id": 33703,
-                    "text": "L’absence d’engagement de l’Etat.",
+                    "text": "L’absence d’engagement de l’État.",
                     "is_correct": false,
                     "order": 3
                 },

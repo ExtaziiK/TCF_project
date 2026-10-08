@@ -5141,11 +5141,11 @@
         },
         {
           "id": "C",
-          "text": "ll désire visiter les locaux disponibles."
+          "text": "Il désire visiter les locaux disponibles."
         },
         {
           "id": "D",
-          "text": "II souhaite participer à un congrès."
+          "text": "Il souhaite participer à un congrès."
         }
       ],
       "correct": "A",
@@ -6628,7 +6628,7 @@
       "options": [
         {
           "id": "A",
-          "text": "Elle va repartir avec voiture"
+          "text": "Elle va repartir avec sa voiture."
         },
         {
           "id": "B",
@@ -7722,7 +7722,7 @@
         },
         {
           "id": "B",
-          "text": "Epargner de l'argent"
+          "text": "Épargner de l'argent"
         },
         {
           "id": "C",
@@ -12097,7 +12097,7 @@
         },
         {
           "id": "B",
-          "text": "Etudier les trajectoires des déchets cosmiques"
+          "text": "Étudier les trajectoires des déchets cosmiques"
         },
         {
           "id": "C",
@@ -12109,7 +12109,7 @@
         }
       ],
       "correct": "B",
-      "correct_option_text": "Etudier les trajectoires des déchets cosmiques",
+      "correct_option_text": "Étudier les trajectoires des déchets cosmiques",
       "transcript": "Fatumata a 29 ans et termine en ce moment son doctorat d'astronomie. Elle vient aussi de passer un temps au Japon pour se préparer à son futur métier d'astronome. Et Fatumata veut être astronome, femme de ménage de l'espace. Les objets sont vraiment retombés sur Terre. Au Zimbabwe et en Arabie Saoudite, c'est arrivé. Plusieurs entreprises et agences ont proposé des solutions de nettoyage de l'espace. Mais aucune de comment a été testée dans les conditions réelles. Tout le monde se prépare à aller dans l'espace parce que la NASA prévoit qu'à l'horizon 2025, on peut un plan envoyé d'objets dans l'espace tellement ce sera. En fait, je simile des explosions et des collisions dans l'espace. Vous avez deux objets, ils rentrent en collision. Ça va être créé à 40 000 débris. Regardez comment ces 40 000 débris vont évoluer avec le temps autour de la Terre. C'est ça. C'est actuel de Fatoumata. Merci.",
       "explanation": "La bonne réponse est B car l'interviewée, Fatumata, mentionne que la NASA prévoit qu'à l'horizon 2025, des objets seront envoyés dans l'espace, ce qui suggère que l'entretien se déroule avant 2025.",
       "words": [],
@@ -14884,15 +14884,15 @@
         },
         {
           "id": "C",
-          "text": "Une plus grande équipe entre les candidats"
+          "text": "Une plus grande équité entre les candidats"
         },
         {
           "id": "D",
-          "text": "Une Protection accrue des données personnelles"
+          "text": "Une protection accrue des données personnelles"
         }
       ],
       "correct": "C",
-      "correct_option_text": "Une plus grande équipe entre les candidats",
+      "correct_option_text": "Une plus grande équité entre les candidats",
       "transcript": "Dans mon cabinet de recrutement, Internet est devenu un outil indispensable, non seulement pour repérer les candidats potentiels sur la toile, mais également pour la phase d'entretien. Grâce au logiciel de visioconférence, les cadres ne doivent plus se déplacer et parfois faire des centaines de kilomètres pour s'entendre dire, après dix minutes d'entretien, qu'ils n'ont pas le profil. De plus, l'utilisation de tel logiciel offre un autre avantage considérable. Il réduit les discriminations. Comme l'entretien peut être enregistré aussi bien par le candidat que par le recruteur, cela évite les questions déplacées. Enfin, les enregistrements peuvent être visionnés autant de fois qu'on le souhaite, ou encore être transmis à nos clients pour plus de transparence et de professionnalisme. Question 37. Selon cette personne, qu'est-ce que l'utilisation d'Internet apporte au processus de recrutement ?",
       "explanation": "L'utilisation d'Internet permet de repérer les candidats potentiels sur la toile, mais également de faciliter la phase d'entretien grâce au logiciel de visioconférence. Ce dernier permet de réduire les déplacements des cadres, de réduire les discriminations et d'augmenter la transparence et le professionnalisme du processus de recrutement.",
       "words": [

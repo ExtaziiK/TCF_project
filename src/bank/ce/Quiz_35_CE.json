@@ -1020,7 +1020,7 @@
             "question_text": "Compréhension écrite – Quiz 35 – Question 24",
             "question_type": "mcq",
             "order": 24,
-            "user_answer": "II transforme l’organisation des rayons",
+            "user_answer": "Il transforme l’organisation des rayons",
             "user_selected_option_id": 36644,
             "correct_answer": "Il facilite la lecture des étiquettes",
             "correct_option_id": 36642,
@@ -1046,13 +1046,13 @@
                 },
                 {
                     "id": 36643,
-                    "text": "II répond à une décision des fabricants",
+                    "text": "Il répond à une décision des fabricants",
                     "is_correct": false,
                     "order": 3
                 },
                 {
                     "id": 36644,
-                    "text": "II transforme l’organisation des rayons",
+                    "text": "Il transforme l’organisation des rayons",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1691,7 +1691,7 @@
                 },
                 {
                     "id": 36703,
-                    "text": "Elles se combattent mieux avec de la sincénté",
+                    "text": "Elles se combattent mieux avec de la sincérité.",
                     "is_correct": false,
                     "order": 3
                 },

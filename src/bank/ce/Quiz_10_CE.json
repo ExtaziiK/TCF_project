@@ -923,7 +923,7 @@
                 },
                 {
                     "id": 32732,
-                    "text": "Le choix des matériaux fabrication",
+                    "text": "Le choix des matériaux de fabrication.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1278,9 +1278,9 @@
             "question_text": "Compréhension écrite – Quiz 10 – Question 30",
             "question_type": "mcq",
             "order": 30,
-            "user_answer": "Demande à une cliente de payer l’intégralité de sa commande",
+            "user_answer": "Demander à une cliente de payer l’intégralité de sa commande.",
             "user_selected_option_id": 32765,
-            "correct_answer": "Demande à une cliente de payer l’intégralité de sa commande",
+            "correct_answer": "Demander à une cliente de payer l’intégralité de sa commande.",
             "correct_option_id": 32765,
             "is_correct": true,
             "is_answered": true,
@@ -1292,7 +1292,7 @@
             "all_options": [
                 {
                     "id": 32765,
-                    "text": "Demande à une cliente de payer l’intégralité de sa commande",
+                    "text": "Demander à une cliente de payer l’intégralité de sa commande.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -1310,7 +1310,7 @@
                 },
                 {
                     "id": 32768,
-                    "text": "Prévenir un client qu’elle devra payer 20 euros de frais d’envoi",
+                    "text": "Prévenir une cliente qu’elle devra payer 20 euros de frais d’envoi.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1450,9 +1450,9 @@
             "question_text": "Compréhension écrite – Quiz 10 – Question 34",
             "question_type": "mcq",
             "order": 34,
-            "user_answer": "La société actuelle accepte mal qu’un enfant élevé uniquement par son père",
+            "user_answer": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
             "user_selected_option_id": 32782,
-            "correct_answer": "La société actuelle accepte mal qu’un enfant élevé uniquement par son père",
+            "correct_answer": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
             "correct_option_id": 32782,
             "is_correct": true,
             "is_answered": true,
@@ -1470,7 +1470,7 @@
                 },
                 {
                     "id": 32782,
-                    "text": "La société actuelle accepte mal qu’un enfant élevé uniquement par son père",
+                    "text": "La société actuelle accepte mal qu’un enfant soit élevé uniquement par son père",
                     "is_correct": true,
                     "order": 2
                 },
@@ -1556,7 +1556,7 @@
                 },
                 {
                     "id": 32790,
-                    "text": "Il se rappelle une pièce de travail poussiéreuse interdit aux enfants",
+                    "text": "Il se rappelle une pièce de travail poussiéreuse interdite aux enfants.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1636,7 +1636,7 @@
             "all_options": [
                 {
                     "id": 32797,
-                    "text": "Contribue à améliorer les méthodes d’apprentissage",
+                    "text": "Il contribue à améliorer les méthodes d’apprentissage",
                     "is_correct": false,
                     "order": 1
                 },

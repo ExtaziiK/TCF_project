@@ -719,9 +719,9 @@
             "question_text": "Compréhension écrite – Quiz 19 – Question 17",
             "question_type": "mcq",
             "order": 17,
-            "user_answer": "La pression de la société,",
+            "user_answer": "La pression de la société.",
             "user_selected_option_id": 34117,
-            "correct_answer": "La pression de la société,",
+            "correct_answer": "La pression de la société.",
             "correct_option_id": 34117,
             "is_correct": true,
             "is_answered": true,
@@ -733,7 +733,7 @@
             "all_options": [
                 {
                     "id": 34117,
-                    "text": "La pression de la société,",
+                    "text": "La pression de la société.",
                     "is_correct": true,
                     "order": 1
                 },
@@ -1407,7 +1407,7 @@
             "question_text": "Compréhension écrite – Quiz 19 – Question 33",
             "question_type": "mcq",
             "order": 33,
-            "user_answer": "Le désir des vivres en communauté.",
+            "user_answer": "Le désir de vivre en communauté.",
             "user_selected_option_id": 34184,
             "correct_answer": "La précarité du monde professionnel.",
             "correct_option_id": 34183,
@@ -1439,7 +1439,7 @@
                 },
                 {
                     "id": 34184,
-                    "text": "Le désir des vivres en communauté.",
+                    "text": "Le désir de vivre en communauté.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1667,11 +1667,11 @@
             "order": 39,
             "user_answer": "Il ouvre la voie à de prochaines réalisations.",
             "user_selected_option_id": 34208,
-            "correct_answer": "Il ouvre la voie à de prochaines réalisations.",
-            "correct_option_id": 34208,
+            "correct_answer": "Il fait connaître les travaux d’un écrivain.",
+            "correct_option_id": 34207,
             "is_correct": true,
             "is_answered": true,
-            "explanation": "Le texte précise que la poésie d'Éluard est « un combustible merveilleux pour de jeunes cinéastes » : cet ensemble de courts-métrages ouvre la voie à de prochaines réalisations.",
+            "explanation": "Le texte précise que ces courts-métrages mettent « en lumière l'œuvre d'un apparenté surréaliste dont la notoriété est... réduite au seul poème Liberté » : cet ensemble fait connaître les travaux d'un écrivain.",
             "time_spent": 10,
             "flagged": false,
             "audio_url": null,
@@ -1692,13 +1692,13 @@
                 {
                     "id": 34207,
                     "text": "Il fait connaître les travaux d’un écrivain.",
-                    "is_correct": false,
+                    "is_correct": true,
                     "order": 3
                 },
                 {
                     "id": 34208,
                     "text": "Il ouvre la voie à de prochaines réalisations.",
-                    "is_correct": true,
+                    "is_correct": false,
                     "order": 4
                 }
             ]

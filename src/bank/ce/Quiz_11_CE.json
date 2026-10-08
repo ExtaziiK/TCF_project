@@ -917,7 +917,7 @@
                 },
                 {
                     "id": 32887,
-                    "text": "Participez à la vie associative.",
+                    "text": "Participer à la vie associative.",
                     "is_correct": false,
                     "order": 3
                 },
@@ -1396,7 +1396,7 @@
                 },
                 {
                     "id": 32932,
-                    "text": "Les tarifs proposés dépendant de la programmation.",
+                    "text": "Les tarifs proposés dépendent de la programmation.",
                     "is_correct": false,
                     "order": 4
                 }

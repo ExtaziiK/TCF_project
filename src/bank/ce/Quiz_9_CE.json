@@ -444,7 +444,7 @@
                 },
                 {
                     "id": 32531,
-                    "text": "Le soi-même",
+                    "text": "Le soir même",
                     "is_correct": false,
                     "order": 3
                 },
@@ -997,7 +997,7 @@
                 },
                 {
                     "id": 32582,
-                    "text": "Ils entraînent des comportements types addictifs",
+                    "text": "Ils entraînent des comportements de type addictif.",
                     "is_correct": false,
                     "order": 2
                 },
@@ -1568,7 +1568,7 @@
                 },
                 {
                     "id": 32636,
-                    "text": "Son travail post- impressionniste",
+                    "text": "Son travail post-impressionniste.",
                     "is_correct": false,
                     "order": 4
                 }
@@ -1667,11 +1667,11 @@
             "order": 39,
             "user_answer": "Il ouvre la voie à de prochaines réalisations",
             "user_selected_option_id": 32648,
-            "correct_answer": "Il ouvre la voie à de prochaines réalisations",
-            "correct_option_id": 32648,
+            "correct_answer": "Il fait connaitre les travaux d’un écrivain",
+            "correct_option_id": 32647,
             "is_correct": true,
             "is_answered": true,
-            "explanation": "La critique souligne que la « délicatesse » et la « fantaisie » d'Éluard sont « un combustible merveilleux pour de jeunes cinéastes » : ce travail ouvre la voie à de prochaines réalisations.",
+            "explanation": "Le texte précise que ces courts-métrages mettent « en lumière l'œuvre d'un apparenté surréaliste dont la notoriété est... réduite au seul poème Liberté » : cet ensemble fait connaître les travaux d'un écrivain.",
             "time_spent": 9,
             "flagged": false,
             "audio_url": null,
@@ -1692,13 +1692,13 @@
                 {
                     "id": 32647,
                     "text": "Il fait connaitre les travaux d’un écrivain",
-                    "is_correct": false,
+                    "is_correct": true,
                     "order": 3
                 },
                 {
                     "id": 32648,
                     "text": "Il ouvre la voie à de prochaines réalisations",
-                    "is_correct": true,
+                    "is_correct": false,
                     "order": 4
                 }
             ]

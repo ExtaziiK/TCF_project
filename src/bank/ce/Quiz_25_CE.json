@@ -1235,7 +1235,7 @@
             "question_text": "Compréhension écrite – Quiz 25 – Question 29",
             "question_type": "mcq",
             "order": 29,
-            "user_answer": "II véhicule des valeurs obsolètes.",
+            "user_answer": "Il véhicule des valeurs obsolètes.",
             "user_selected_option_id": 35104,
             "correct_answer": "Il appartient à une réflexion philosophique.",
             "correct_option_id": 35101,
@@ -1267,7 +1267,7 @@
                 },
                 {
                     "id": 35104,
-                    "text": "II véhicule des valeurs obsolètes.",
+                    "text": "Il véhicule des valeurs obsolètes.",
                     "is_correct": false,
                     "order": 4
                 }
