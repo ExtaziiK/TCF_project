@@ -14888,25 +14888,25 @@
       "options": [
         {
           "id": "A",
-          "text": "Un aménagement territorial en fonction des données météorologiques"
+          "text": "Pour réduire la pollution sonore dans les villes."
         },
         {
           "id": "B",
-          "text": "Un programme de réduction des différentes sources de pollution"
+          "text": "Pour remplacer les klaxons par des messages vocaux."
         },
         {
           "id": "C",
-          "text": "Une analyse comparative entre les modes de vie citadins et ruraux"
+          "text": "Pour rendre les bruits des voitures utiles et agréables."
         },
         {
           "id": "D",
-          "text": "Une proposition de prévention renforcée des grands cataclysmes"
+          "text": "Pour respecter de nouvelles normes européennes."
         }
       ],
-      "correct": "B",
-      "correct_option_text": "Un programme de réduction des différentes sources de pollution",
+      "correct": "C",
+      "correct_option_text": "Pour rendre les bruits des voitures utiles et agréables.",
       "transcript": "L'équipe d'interception vous propose de découvrir le travail d'habillage sonore qui lance aujourd'hui dans la conception des véhicules automobiles, aussi bien ceux qui sont équipés d'un moteur à explosion que des objets. Transformer les bruits que produisent les voitures en son, en son utile et agréable, c'est un métier. Ceux qui le pratiquent, la France est plutôt bien placée dans le domaine. Planche sur la mise au point d'un environnement sonore à la carte. D'un clic, tout conducteur pourra bientôt choisir le bruit de son moteur ou de ses clignotants. Et il en changera même au gré de ses humeurs. Question 34. Pourquoi développe-t-on l'habillage sonore des voitures en France ?",
-      "explanation": "La France est bien placée dans le domaine de l'habillage sonore des voitures, ce qui suggère que le pays a une expertise ou une réputation dans ce domaine. Cela implique que la France développe l'habillage sonore des voitures en raison de ses compétences et de sa réputation dans ce domaine.",
+      "explanation": "Le reportage explique que l'habillage sonore consiste à « transformer les bruits que produisent les voitures en sons utiles et agréables » ; bientôt, chaque conducteur pourra même choisir le bruit de son moteur ou de ses clignotants.",
       "words": [
         {
           "word": "L'équipe",

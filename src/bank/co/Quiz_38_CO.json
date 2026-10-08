@@ -15328,25 +15328,25 @@
       "options": [
         {
           "id": "A",
-          "text": "Problème de communication, aucun moyen de sensibiliser les écologistes."
+          "text": "La population urbaine reste éloignée du monde forestier."
         },
         {
           "id": "B",
-          "text": "Le lien avec la forêt est bien établi grâce aux efforts continus."
+          "text": "Les associations forestières sont trop nombreuses dans les régions."
         },
         {
           "id": "C",
-          "text": "Les associations forestières sont suffisamment réparties pour couvrir les besoin"
+          "text": "Les forêts québécoises sont menacées par l'exploitation industrielle."
         },
         {
           "id": "D",
-          "text": "La population urbaine est totalement engagée avec l'industrie forestière."
+          "text": "Les Montréalais s'investissent de plus en plus dans la protection des forêts."
         }
       ],
       "correct": "A",
-      "correct_option_text": "Problème de communication, aucun moyen de sensibiliser les écologistes.",
+      "correct_option_text": "La population urbaine reste éloignée du monde forestier.",
       "transcript": "Est-ce que vous pensez que la population s'est réappropriée ses forêts ou a renoué un lien de conscience avec l'industrie forestière? Je dirais que le lien n'est pas encore refait à l'heure actuelle. On a beaucoup de travail à faire, puis on met beaucoup d'espoir sur nos domaines, nos associations forestières régionales dans chacune des régions. Mais le gros point, c'est que la moitié de la population est autour de Montréal, la couronne à Montréal. Il n'y a même pas d'association forestière ici. Donc, on n'a presque aucun moyen de sensibiliser la population sur les valeurs écologiques, les valeurs économiques du milieu forestier comme tel, puis de vivre aussi de cette forêt-là. Question 35. À quelle conclusion arrive ce représentant de l'industrie forestière québécoise?",
-      "explanation": "Le représentant de l'industrie forestière québécoise arrive à la conclusion que la population n'a pas encore renoué un lien de conscience avec l'industrie forestière, en raison de la concentration de la population à Montréal, où il n'y a pas d'association forestière pour sensibiliser la population sur les valeurs écologiques et économiques du milieu forestier. Cela signifie que le représentant estime que la population est encore loin d'avoir une compréhension claire de l'industrie forestière.",
+      "explanation": "Le représentant estime que « le lien n'est pas encore refait » : la moitié de la population vit autour de Montréal, où il n'existe même pas d'association forestière pour la sensibiliser. La population urbaine reste donc éloignée du monde forestier.",
       "words": [
         {
           "word": "Est-ce",
