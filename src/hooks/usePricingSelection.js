@@ -8,6 +8,7 @@ import { detectCountry, guessCountry } from "@/utils/geo";
 import { getPaymentDz, getWelcomeOffer } from "@/services/settingsService";
 import { getPendingPromo, setPendingPromo } from "@/utils/dzCheckout";
 import { WELCOME_PROMO_CODE, welcomeOfferEndsAt } from "@/utils/welcomeOffer";
+import { SALE, saleActive, salePromo } from "../../api/_lib/sale.js";
 
 // Everything the pricing UI needs to decide what to show: the live plans, the
 // display currency, and a validated promo. Owned by a hook rather than by a
@@ -26,6 +27,12 @@ export function usePricingSelection() {
   const [dzPrices, setDzPrices] = useState({}); // owner's per-plan DZD overrides
   const [welcome, setWelcome] = useState(null); // the new-account offer, once Stripe has confirmed the code ({ code, endsAt })
   const chosenByVisitor = useRef(false); // they typed in the promo field, so stop offering them ours
+  // A running sale (api/_lib/sale.js) beats everything below: it is applied
+  // for the visitor, the promo field is locked, and no other code (theirs, a
+  // saved one, the welcome offer) is applied on top. The checkout server
+  // enforces the same rule. Null once `expireSale` runs at the deadline.
+  const [sale, setSale] = useState(() => (saleActive() ? { ...salePromo(), endsAt: SALE.endsAt } : null));
+  const saleOn = useRef(!!sale);
   const plans = useLivePlans();
 
   // Which currency tab is open. USD is what Stripe charges, so it stays the
@@ -99,7 +106,7 @@ export function usePricingSelection() {
   // trusted: the stored code is only a string, and Stripe is still the judge.
   useEffect(() => {
     const saved = getPendingPromo();
-    if (!saved) return;
+    if (!saved || saleOn.current) return;
     let cancelled = false;
     validatePromoCode(saved).then((r) => {
       if (cancelled) return;
@@ -133,7 +140,7 @@ export function usePricingSelection() {
   //      would be worse than either, since a visitor typing the code they were
   //      given appends it to the invisible one and is told it is invalid.
   useEffect(() => {
-    if (!authReady || chosenByVisitor.current || getPendingPromo()) return;
+    if (!authReady || saleOn.current || chosenByVisitor.current || getPendingPromo()) return;
     const endsAt = welcomeOfferEndsAt(user);
     if (!endsAt) return;
     let cancelled = false;
@@ -167,11 +174,16 @@ export function usePricingSelection() {
   // the visitor's currency. For DZD, the owner's explicit price wins (falling
   // back to the auto-converted amount); other currencies are indicative
   // conversions. PlanCard's −50 % and promo math still run on the string.
+  // The sale's deadline reached with the page open: back to normal prices and
+  // the promo field, in the same tick the banner disappears.
+  const expireSale = useCallback(() => { saleOn.current = false; setSale(null); }, []);
+
   const isDzd = currency.code === "DZD";
+  const promo = sale || applied;
   // DZD is paid by manual transfer, so a Stripe coupon can only be honoured
   // when it is a percentage — that arithmetic works on any currency. A
   // fixed-amount USD coupon is dropped for DZD and explained in the UI.
-  const dzUsablePromo = isDzd ? (applied?.percentOff ? applied : null) : applied;
+  const dzUsablePromo = isDzd ? (promo?.percentOff ? promo : null) : promo;
 
   const displayPlans = useMemo(
     () => plans.map((p) => ({
@@ -186,7 +198,7 @@ export function usePricingSelection() {
   // exactly what Stripe charges.
   const applyCoupon = async () => {
     const code = coupon.trim();
-    if (!code) return;
+    if (!code || sale) return;
     setChecking(true);
     setCouponError("");
     const r = await validatePromoCode(code);
@@ -202,6 +214,7 @@ export function usePricingSelection() {
   };
 
   const editCoupon = (value) => {
+    if (sale) return;
     // Touching the field is them taking the wheel: from here on this page, our
     // welcome code neither re-applies nor keeps its banner up.
     chosenByVisitor.current = true;
@@ -212,5 +225,5 @@ export function usePricingSelection() {
     setPendingPromo(null);
   };
 
-  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon, editCoupon, applyCoupon, applied, dzUsablePromo, checking, couponError, welcome, expireWelcome };
+  return { plans: displayPlans, currency, setCurrency, isDzd, dzEligible, coupon: sale ? "" : coupon, editCoupon, applyCoupon, applied: promo, dzUsablePromo, checking, couponError, welcome: sale ? null : welcome, expireWelcome, sale, expireSale };
 }

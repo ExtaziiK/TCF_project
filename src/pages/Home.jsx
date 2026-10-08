@@ -8,6 +8,7 @@ import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
+import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
@@ -50,6 +51,8 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
           {/* admin-editable announcement, shown to logged-out visitors */}
           <HomeLabel />
+          {/* A running sale (api/_lib/sale.js), with its countdown; gone by itself at the end. */}
+          <div className="flex justify-center"><SaleStrip /></div>
           {/* top: hero pitch, full width and centered */}
           <div className="max-w-3xl mx-auto text-center">
             <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>

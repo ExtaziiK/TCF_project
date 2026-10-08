@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { isPassSlug, resolvePassPrice, passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
+import { SALE, saleActive } from "./_lib/sale.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -95,8 +96,14 @@ export default async function handler(req, res) {
     // A code applied on the Pricing page is attached to the session directly;
     // otherwise Stripe's own promo-code field is enabled on the checkout page
     // (the two options are mutually exclusive in the Stripe API).
+    //
+    // During a sale (api/_lib/sale.js) neither applies: the sale coupon is
+    // attached to every session and whatever code arrived is ignored — the
+    // sale is not cumulable with anything.
     let discounts = null;
-    if (promoCode) {
+    if (saleActive()) {
+      discounts = [{ coupon: await saleCoupon() }];
+    } else if (promoCode) {
       const { data } = await stripe.promotionCodes.list({ code: String(promoCode).trim().toUpperCase(), active: true, limit: 1 });
       if (!data[0]) return res.status(400).json({ error: "invalid-promo" });
       discounts = [{ promotion_code: data[0].id }];
@@ -127,9 +134,33 @@ export default async function handler(req, res) {
     // (remove the code), not a server outage. Surfacing it as invalid-promo
     // gets them the actionable message instead of "réessayez", which would
     // never succeed.
-    if (promoCode && /coupon|promotion|currency|discount/i.test(err.message || "")) {
+    if (promoCode && !saleActive() && /coupon|promotion|currency|discount/i.test(err.message || "")) {
       return res.status(400).json({ error: "invalid-promo" });
     }
     res.status(500).json({ error: "Checkout failed." });
+  }
+}
+
+// The sale's Stripe coupon, created on first use with the sale code as its id
+// so every later session finds the same one. `redeem_by` makes Stripe refuse
+// it after the sale even if a session were still being created.
+async function saleCoupon() {
+  try {
+    return (await stripe.coupons.retrieve(SALE.code)).id;
+  } catch (err) {
+    if (err?.statusCode !== 404) throw err;
+    try {
+      return (await stripe.coupons.create({
+        id: SALE.code,
+        name: SALE.name,
+        percent_off: SALE.percentOff,
+        duration: "once",
+        redeem_by: Math.floor(SALE.endsAt / 1000),
+      })).id;
+    } catch (createErr) {
+      // Two buyers at the same instant: the other request created it first.
+      if (/already exists/i.test(createErr?.message || "")) return SALE.code;
+      throw createErr;
+    }
   }
 }
