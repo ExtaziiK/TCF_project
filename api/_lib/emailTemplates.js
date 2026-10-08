@@ -93,8 +93,8 @@ export const EMAIL_TEMPLATES = {
   },
   offer: {
     key: "email_offer",
-    title: "Offre promo (envoi manuel)",
-    when: "Envoyé à la main, avec le bouton ci-dessous, au groupe choisi : comptes actifs sans abonnement (utilisé le site au moins 2 jours, jamais payé, jamais relancé), tous sauf abonnés en cours, ou tous les comptes. Personne ne reçoit deux fois le même objet. {paiement} devient « par carte ou par CCP / BaridiMob » pour les comptes d'Algérie, « par carte bancaire » pour les autres.",
+    title: "Offre -50 % (envoi manuel)",
+    when: "Envoyé à la main, avec le bouton ci-dessous, au groupe choisi : comptes actifs sans abonnement (utilisé le site au moins 2 jours, jamais payé, jamais relancé — ceux qui ont reçu TCF50 en septembre sont exclus), tous sauf abonnés en cours, ou tous les comptes. Personne ne reçoit deux fois le même objet. {paiement} devient « par carte ou par CCP / BaridiMob » pour les comptes d'Algérie, « par carte bancaire » pour les autres.",
     audience: true,
     promo: { code: "TCF50", text: "Votre code : **-50 %** sur votre premier forfait" },
     // Filled per recipient by paymentPhrase() and saleEndPhrase(); the samples
@@ -104,6 +104,22 @@ export const EMAIL_TEMPLATES = {
     defaults: {
       subject: "Vous progressez : -50 % pour aller plus loin",
       body: "Vous vous êtes entraîné·e plusieurs fois sur **TCF Passerelle** ces dernières semaines, et c'est exactement comme ça qu'on progresse au TCF Canada.\n\nPour aller plus loin — toute la banque de questions avec les corrigés, plus de TCF blancs et les simulations d'expression écrite et orale corrigées par IA —, voici **-50 %** sur votre premier forfait :\n\n{encadre}\n\n[Voir les forfaits](tarifs)\n\nLe code s'applique au premier paiement, {paiement}.\n\nBonne préparation,\n\nVous ne souhaitez plus recevoir nos offres ? Répondez simplement « STOP » à ce courriel.",
+    },
+  },
+  // The weekend sale (api/_lib/sale.js): no code — the discount is applied on
+  // the site by itself — but its end date and a live countdown. Sent by hand
+  // to everyone or to everyone without a running pass.
+  sale: {
+    key: "email_sale",
+    title: "Promo −60 % du week-end",
+    when: "Envoyé à la main, avec le bouton ci-dessous, à tous les comptes ou à tous sauf les abonnés en cours. Personne ne reçoit deux fois le même objet. {compteur} et {fin} suivent la promo en cours et disparaissent quand elle est finie.",
+    audience: true,
+    audiences: ["all", "free"],
+    countdown: true,
+    placeholders: { paiement: "par carte bancaire", get fin() { return saleEndPhrase(null); } },
+    defaults: {
+      subject: "−60 % sur tous les forfaits, jusqu'à samedi seulement",
+      body: "La **promo du week-end** est lancée sur **TCF Passerelle** : **−60 % sur tous les forfaits**, jusqu'au **{fin}**.\n\n{compteur}\n\nToute la banque de questions avec les corrigés, les TCF blancs chronométrés, la dictée et les simulations d'expression écrite et orale corrigées par IA, à prix réduit.\n\n**Aucun code à saisir** : la réduction est déjà appliquée sur la page Tarifs, que vous payiez {paiement}.\n\n[Profiter de −60 %](tarifs)\n\nAprès samedi, les prix reviennent à la normale.\n\nBonne préparation,",
     },
   },
   premiumWelcome: {

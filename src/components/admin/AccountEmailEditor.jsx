@@ -27,9 +27,10 @@ export function AccountEmailEditor({ id, onEnabled }) {
   const [busy, setBusy] = useState(null); // "save" | "test" | "send"
   const [progress, setProgress] = useState(null); // manual send: { done, total, sent, failed, finished }
   const [audience, setAudience] = useState(null); // offer only: { pending: { active, free, all }, minDays, mailConfigured }
-  const [group, setGroup] = useState("active"); // offer only: who the send goes to
+  const groups = t.audiences || Object.keys(AUDIENCE_LABELS);
+  const [group, setGroup] = useState(groups[0]); // hand-sent only: who the send goes to
 
-  const loadAudience = () => fetchOfferStatus().then((r) => setAudience(r.ok ? r.data : { unavailable: true, error: r.error }));
+  const loadAudience = () => fetchOfferStatus(id).then((r) => setAudience(r.ok ? r.data : { unavailable: true, error: r.error }));
   useEffect(() => {
     getEmailTemplate(id).then((r) => { setCfg(r.cfg); setSaved(r.cfg); });
     if (t.audience) loadAudience();
@@ -77,7 +78,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
     if (!window.confirm(`Envoyer « ${saved.subject} » à ${start} compte(s) (${AUDIENCE_LABELS[group].toLowerCase()}) ?`)) { setBusy(null); return; }
     setProgress({ done: 0, total: start, sent: 0, failed: 0, finished: false });
     for (let i = 0; i < 50; i++) {
-      const r = await sendOfferBatch(group);
+      const r = await sendOfferBatch(group, id);
       if (!r.ok) { notify(r.error || "Envoi refusé."); break; }
       total += r.data.sent;
       failed.push(...r.data.failed);
@@ -119,7 +120,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
           <div className={`mt-4 p-4 rounded-2xl border space-y-3 ${c.border}`}>
             <p className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wide ${c.sub}`}><Users size={15} className="text-blue-600" /> Destinataires</p>
             <div className="flex gap-2 flex-wrap" role="radiogroup" aria-label="Destinataires">
-              {Object.entries(AUDIENCE_LABELS).map(([k, l]) => (
+              {groups.map((k) => [k, AUDIENCE_LABELS[k]]).map(([k, l]) => (
                 <button key={k} type="button" role="radio" aria-checked={group === k} disabled={busy !== null} onClick={() => setGroup(k)}
                   className={`px-3.5 py-2 rounded-full text-sm font-semibold transition-colors ${group === k ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
                   {l} · {audience.pending[k]}

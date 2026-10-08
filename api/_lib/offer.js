@@ -35,7 +35,9 @@ const STAMP = "offer_email_sent_at";
 // therefore only reaches the ones the first send missed — and a NEW subject
 // is a new campaign that everyone can receive again.
 export const AUDIENCES = ["active", "free", "all"];
-const CAMPAIGN = "offer_campaign";
+// One stamp per hand-sent email (the -50 % offer, the weekend sale…), so
+// sending one never marks an account as having had the other.
+const campaignKey = (id) => `${id}_campaign`;
 export const campaignOf = (cfg) => String(cfg?.subject || "").trim().slice(0, 150);
 
 const passRunning = (m) => m.plan === "Premium" && (!m.premium_until || Date.parse(m.premium_until) > Date.now());
@@ -73,7 +75,8 @@ function everHadAccess(meta, paidRequests, id) {
 }
 
 // Accounts that should get the offer and have not, most active first.
-export async function pendingOffer(admin, users, audience = "active", campaign = "") {
+export async function pendingOffer(admin, users, audience = "active", campaign = "", id = "offer") {
+  const CAMPAIGN = campaignKey(id);
   const reachable = users.filter((u) => {
     const m = u.app_metadata || {};
     if (!u.email || !(u.email_confirmed_at || u.confirmed_at)) return false;
@@ -95,18 +98,18 @@ export async function pendingOffer(admin, users, audience = "active", campaign =
     .sort((a, b) => (days.get(b.id) || 0) - (days.get(a.id) || 0));
 }
 
-// Throws on failure (stamps restored). `cfg` = the saved offer email.
+// Throws on failure (stamps restored). `cfg` = the saved email `id`.
 // The "active" audience also sets the once-per-account stamp of that rule.
-export async function sendOffer(admin, user, cfg, site, audience = "active") {
+export async function sendOffer(admin, user, cfg, site, audience = "active", id = "offer") {
   if (!mailConfigured()) throw new Error("Email non configuré (SMTP).");
   const meta = user.app_metadata || {};
   const set = (patch) => admin.auth.admin.updateUserById(user.id, { app_metadata: { ...meta, ...patch } });
-  const sent = { [CAMPAIGN]: campaignOf(cfg), ...(audience === "active" ? { [STAMP]: new Date().toISOString() } : {}) };
+  const sent = { [campaignKey(id)]: campaignOf(cfg), ...(audience === "active" ? { [STAMP]: new Date().toISOString() } : {}) };
   const { error } = await set(sent);
   if (error) throw new Error(error.message);
   try {
     const vars = { paiement: paymentPhrase(user), fin: saleEndPhrase(user) };
-    const { subject, html } = renderEmail("offer", cfg, { firstName: firstNameOf(user), vars, site });
+    const { subject, html } = renderEmail(id, cfg, { firstName: firstNameOf(user), vars, site });
     await sendMail({ to: user.email, subject, html });
   } catch (err) {
     await set(Object.fromEntries(Object.keys(sent).map((k) => [k, meta[k] ?? null])));

@@ -128,13 +128,13 @@ export function sendWelcomeToRecent() {
 
 // { pending, minDays, mailConfigured } — engaged accounts that never paid and
 // have not had the offer yet (decided server-side, api/_lib/offer.js).
-export function fetchOfferStatus() {
-  return adminFetch("/api/admin/email-offer");
+export function fetchOfferStatus(template = "offer") {
+  return adminFetch(`/api/admin/email-offer?template=${encodeURIComponent(template)}`);
 }
 
 // One batch of the saved offer → { sent, failed, remaining }.
-export function sendOfferBatch(audience = "active") {
-  return adminFetch("/api/admin/email-offer", { method: "POST", body: JSON.stringify({ action: "send", audience }) });
+export function sendOfferBatch(audience = "active", template = "offer") {
+  return adminFetch("/api/admin/email-offer", { method: "POST", body: JSON.stringify({ action: "send", audience, template }) });
 }
 
 /* ------------------------------- moderation ------------------------------- */
