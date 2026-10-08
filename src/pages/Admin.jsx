@@ -2246,6 +2246,7 @@ function SentEmails({ emails }) {
           <div className="flex items-center gap-2 flex-wrap mb-2">
             <Pill tone="blue">Envoyé</Pill>
             <span className={`text-sm font-semibold ${c.text}`}>{e.target}</span>
+            {e.detail?.cc?.length > 0 && <span className={`text-xs ${c.sub}`}>Cc : {e.detail.cc.join(", ")}</span>}
             <span className={`text-xs ${c.faint}`}>{when(e.created_at)}{e.actor_email ? ` · par ${e.actor_email}` : ""}</span>
           </div>
           <p className={`text-sm font-semibold ${c.text}`}>{e.detail?.subject}</p>

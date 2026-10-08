@@ -7,11 +7,13 @@ import { LINK_TARGETS, COMPOSE_DEFAULTS, COMPOSE_MAX_BODY, renderComposed } from
 
 // « Nouveau courriel »: a one-off email to one address, in the same letter as
 // the automatic emails (logo, greeting, signature, buttons). Only the address,
-// first name, subject and body are written here. Once sent it is listed under
+// optional copies (CC), first name, subject and body are written here. Once sent it is listed under
 // Messages → Envoyés. The unsent draft is kept in this browser so a refresh
 // does not lose it.
 const DRAFT_KEY = "admin-compose-draft";
-const EMPTY = { to: "", firstName: "", ...COMPOSE_DEFAULTS };
+const EMPTY = { to: "", cc: "", firstName: "", ...COMPOSE_DEFAULTS };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const splitCc = (s) => s.split(/[\s,;]+/).map((x) => x.trim()).filter(Boolean);
 
 function loadDraft() {
   try { return { ...EMPTY, ...JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}") }; } catch { return EMPTY; }
@@ -25,17 +27,19 @@ export function ComposeEmail() {
   const set = (k) => (e) => setD((p) => ({ ...p, [k]: e.target.value }));
 
   const preview = useMemo(() => renderComposed(d, { firstName: d.firstName, site: "https://www.tcfpasserelle.com" }), [d]);
-  const validTo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.to.trim());
+  const validTo = EMAIL_RE.test(d.to.trim());
+  const ccList = splitCc(d.cc || "");
+  const badCc = ccList.find((x) => !EMAIL_RE.test(x));
   const ready = d.subject.trim() && d.body.trim() && d.body.length <= COMPOSE_MAX_BODY;
 
   const run = async (action) => {
-    if (action === "send" && !window.confirm(`Envoyer « ${d.subject.trim()} » à ${d.to.trim()} ?`)) return;
+    if (action === "send" && !window.confirm(`Envoyer « ${d.subject.trim()} » à ${d.to.trim()}${ccList.length ? ` (Cc : ${ccList.join(", ")})` : ""} ?`)) return;
     setBusy(action);
-    const r = await sendComposedEmail(action, d);
+    const r = await sendComposedEmail(action, { ...d, cc: ccList });
     setBusy(null);
     if (!r.ok) return notify(r.error || (r.unavailable ? "Indisponible en local." : "Envoi refusé."));
     if (action === "test") return notify(`Test envoyé à ${r.data.to}.`);
-    notify(`Courriel envoyé à ${r.data.to}. Il apparaît dans Messages → Envoyés.`);
+    notify(`Courriel envoyé à ${r.data.to}${r.data.cc?.length ? ` + ${r.data.cc.length} en copie` : ""}. Il apparaît dans Messages → Envoyés.`);
     setD(EMPTY);
   };
 
@@ -62,6 +66,11 @@ export function ComposeEmail() {
           </div>
         </div>
         <div>
+          <label className={label} htmlFor="compose-cc">Cc (facultatif)</label>
+          <input id="compose-cc" value={d.cc || ""} onChange={set("cc")} placeholder="autre@exemple.com, encore@exemple.com" className={inp} />
+          {badCc && <p className="text-xs mt-1 text-rose-600 font-semibold">Adresse en copie invalide : {badCc}</p>}
+        </div>
+        <div>
           <label className={label} htmlFor="compose-subject">Objet</label>
           <input id="compose-subject" value={d.subject} onChange={set("subject")} maxLength={200} className={inp} />
         </div>
@@ -71,8 +80,8 @@ export function ComposeEmail() {
         </div>
         <p className={`text-xs ${d.body.length > COMPOSE_MAX_BODY ? "text-rose-600 font-semibold" : c.faint}`}>{d.body.length} / {COMPOSE_MAX_BODY} caractères</p>
         <div className="flex items-center gap-2 flex-wrap">
-          <Btn icon={Send} disabled={busy !== null || !ready || !validTo} onClick={() => run("send")}
-            title={!validTo ? "Saisissez une adresse valide" : !ready ? "Objet et message requis" : undefined}>
+          <Btn icon={Send} disabled={busy !== null || !ready || !validTo || !!badCc} onClick={() => run("send")}
+            title={!validTo ? "Saisissez une adresse valide" : badCc ? "Corrigez l'adresse en copie" : !ready ? "Objet et message requis" : undefined}>
             {busy === "send" ? "Envoi…" : "Envoyer"}
           </Btn>
           <Btn variant="ghost" icon={Send} disabled={busy !== null || !ready} onClick={() => run("test")}>{busy === "test" ? "Envoi…" : "M'envoyer un test"}</Btn>

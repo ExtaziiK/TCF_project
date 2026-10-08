@@ -250,9 +250,9 @@ export function deleteGiftLink(id) {
 /* ------------------------------ composed email ----------------------------- */
 
 // « Nouveau courriel »: one email to one address typed by hand. action "test"
-// → to the admin themself; "send" → to `to`, logged for Messages → Envoyés.
-export function sendComposedEmail(action, { to, firstName, subject, body }) {
-  return adminFetch("/api/admin/compose-email", { method: "POST", body: JSON.stringify({ action, to, firstName, subject, body }) });
+// → to the admin themself; "send" → to `to` (and `cc`), logged for Messages → Envoyés.
+export function sendComposedEmail(action, { to, cc, firstName, subject, body }) {
+  return adminFetch("/api/admin/compose-email", { method: "POST", body: JSON.stringify({ action, to, cc, firstName, subject, body }) });
 }
 
 // The emails sent from « Nouveau courriel », newest first (admin_audit_log,
