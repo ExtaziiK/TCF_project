@@ -17,8 +17,8 @@ import { summarizeScore, SAMPLE_SCORE, practiceTips } from "./mockResults.js";
 //   - in the TCF blanc results email, a paragraph that is only {resultats}
 //     becomes the results card (score, level, NCLC per section);
 //   - in the offer email, a paragraph that is only {compteur} becomes the
-//     sale's countdown (an animated image), and {fin} its end date in the
-//     reader's time; both come out empty when no sale is running;
+//     sale's countdown (an animated image), and {fin} its end date; both
+//     come out empty when no sale is running;
 //   - a placeholder that comes out empty (e.g. {profils} on a Starter pass)
 //     removes its paragraph.
 //
@@ -119,7 +119,7 @@ export const EMAIL_TEMPLATES = {
     placeholders: { paiement: "par carte bancaire", get fin() { return saleEndPhrase(null); } },
     defaults: {
       subject: "−60 % sur tous les forfaits, jusqu'à samedi seulement",
-      body: "La **promo du week-end** est lancée sur **TCF Passerelle** : **−60 % sur tous les forfaits**, jusqu'au **{fin}**.\n\n{compteur}\n\nToute la banque de questions avec les corrigés, les TCF blancs chronométrés, la dictée et les simulations d'expression écrite et orale corrigées par IA, à prix réduit.\n\n**Aucun code à saisir** : la réduction est déjà appliquée sur la page Tarifs, que vous payiez {paiement}.\n\n[Profiter de −60 %](tarifs)\n\nAprès samedi, les prix reviennent à la normale.\n\nBonne préparation,",
+      body: "La **promo du week-end** est lancée sur **TCF Passerelle** : **−60 % sur tous les forfaits**, jusqu'au **{fin}**.\n\n{compteur}\n\nToute la banque de questions avec les corrigés, les TCF blancs chronométrés, la dictée et les simulations d'expression écrite et orale corrigées par IA, à prix réduit.\n\n[Profiter de −60 %](tarifs)\n\nAprès samedi, les prix reviennent à la normale.\n\nBonne préparation,",
     },
   },
   premiumWelcome: {
@@ -183,16 +183,16 @@ export const EMAIL_TEMPLATES = {
 export const isAlgerianAccount = (user) =>
   /^alg[eé]rie$|^algeria$/i.test(String(user?.user_metadata?.country || "").trim());
 
-// When the running sale ends, in the reader's own time when we know it (an
-// Algerian account: Algiers time), otherwise in the site's (Toronto):
-// "samedi 10 octobre à 23 h 59 (heure de l'Est du Canada)". Empty without a sale.
-export function saleEndPhrase(user) {
+// When the running sale ends, as the site states it everywhere (Toronto
+// time, no zone label): "samedi 10 octobre à 23 h 59". The same for every
+// reader, so it never contradicts "après samedi" — for a reader east of
+// Toronto the sale in fact runs a few hours longer. Empty without a sale.
+// `user` is unused, kept so the per-recipient call sites stay as they are.
+export function saleEndPhrase(user) { // eslint-disable-line no-unused-vars
   if (!saleActive()) return "";
-  const dz = isAlgerianAccount(user);
-  const timeZone = dz ? "Africa/Algiers" : "America/Toronto";
-  const p = Object.fromEntries(new Intl.DateTimeFormat("fr-FR", { timeZone, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+  const p = Object.fromEntries(new Intl.DateTimeFormat("fr-FR", { timeZone: "America/Toronto", weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
     .formatToParts(new Date(SALE.endsAt)).map((x) => [x.type, x.value]));
-  return `${p.weekday} ${p.day} ${p.month} à ${Number(p.hour)} h ${p.minute} (${dz ? "heure d'Algérie" : "heure de l'Est du Canada"})`;
+  return `${p.weekday} ${p.day} ${p.month} à ${Number(p.hour)} h ${p.minute}`;
 }
 
 export const paymentPhrase = (user) =>

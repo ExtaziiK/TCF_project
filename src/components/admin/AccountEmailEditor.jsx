@@ -154,7 +154,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
             )}
             {"_score" in t.placeholders && <p>Résultats : un paragraphe seul <span className={code}>{"{resultats}"}</span> (score, niveau et NCLC par épreuve).</p>}
             {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes ») ; code vide = pas d&apos;encadré.</p>}
-            {t.countdown && <p>Promo en cours : un paragraphe seul <span className={code}>{"{compteur}"}</span> affiche le compte à rebours animé, <span className={code}>{"{fin}"}</span> la date de fin (heure d&apos;Algérie pour les comptes d&apos;Algérie). Vides quand aucune promo ne tourne.</p>}
+            {t.countdown && <p>Promo en cours : un paragraphe seul <span className={code}>{"{compteur}"}</span> affiche le compte à rebours animé, <span className={code}>{"{fin}"}</span> la date de fin. Vides quand aucune promo ne tourne.</p>}
             <p>Bouton : un paragraphe seul de la forme <span className={code}>[Texte](lien)</span>, où lien = {Object.keys(LINK_TARGETS).map((k) => <span key={k} className={`${code} mr-1`}>{k}</span>)}</p>
           </div>
           <div>
