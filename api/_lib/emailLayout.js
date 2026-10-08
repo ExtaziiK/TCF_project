@@ -136,3 +136,16 @@ export function resultsBox(summary) {
       </td></tr>
     </table>`;
 }
+
+/* ------------------------------ sale countdown ----------------------------- */
+
+// The countdown of a running sale (api/_lib/sale.js): an animated GIF drawn
+// by /api/public/countdown at the moment the email is opened, so the time
+// left is right whenever it is read. Size from api/_lib/public/countdown.js.
+export function countdownBox(site) {
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;">
+      <tr><td align="center" style="font-family:${FONT};font-size:13px;color:#64748b;padding-bottom:8px;">Fin de la promo dans&nbsp;:</td></tr>
+      <tr><td align="center"><img src="${site}/api/public/countdown" width="278" height="64" alt="Compte à rebours jusqu'à la fin de la promo" style="display:block;border:0;width:278px;max-width:100%;height:auto;"></td></tr>
+    </table>`;
+}

@@ -11,6 +11,14 @@ import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, LINK_TARGETS, renderEmail } from "../
 // deactivated, deleted): on/off, subject, body, live preview, test send. The
 // preview and the real send go through the same renderEmail, with the
 // template's sample values standing in for the real ones.
+//
+// The offer email (`audience`) is sent by hand, to one of three groups
+// (api/_lib/offer.js AUDIENCES); nobody receives the same subject twice.
+const AUDIENCE_LABELS = {
+  active: "Comptes actifs sans abonnement",
+  free: "Tous sauf abonnés en cours",
+  all: "Tous les comptes",
+};
 export function AccountEmailEditor({ id, onEnabled }) {
   const { c, notify, user } = useApp();
   const t = EMAIL_TEMPLATES[id];
@@ -18,7 +26,8 @@ export function AccountEmailEditor({ id, onEnabled }) {
   const [saved, setSaved] = useState(null);
   const [busy, setBusy] = useState(null); // "save" | "test" | "send"
   const [progress, setProgress] = useState(null); // manual send: { done, total, sent, failed, finished }
-  const [audience, setAudience] = useState(null); // offer only: { pending, minDays, mailConfigured }
+  const [audience, setAudience] = useState(null); // offer only: { pending: { active, free, all }, minDays, mailConfigured }
+  const [group, setGroup] = useState("active"); // offer only: who the send goes to
 
   const loadAudience = () => fetchOfferStatus().then((r) => setAudience(r.ok ? r.data : { unavailable: true, error: r.error }));
   useEffect(() => {
@@ -64,10 +73,11 @@ export function AccountEmailEditor({ id, onEnabled }) {
     setBusy("send");
     let total = 0;
     const failed = [];
-    const start = audience?.pending || 0;
+    const start = audience?.pending?.[group] || 0;
+    if (!window.confirm(`Envoyer « ${saved.subject} » à ${start} compte(s) (${AUDIENCE_LABELS[group].toLowerCase()}) ?`)) { setBusy(null); return; }
     setProgress({ done: 0, total: start, sent: 0, failed: 0, finished: false });
     for (let i = 0; i < 50; i++) {
-      const r = await sendOfferBatch();
+      const r = await sendOfferBatch(group);
       if (!r.ok) { notify(r.error || "Envoi refusé."); break; }
       total += r.data.sent;
       failed.push(...r.data.failed);
@@ -103,21 +113,32 @@ export function AccountEmailEditor({ id, onEnabled }) {
         {t.audience && audience?.unavailable && (
           <p className={`mt-3 text-sm ${c.faint}`}>Liste indisponible ici{audience.error ? ` (${audience.error})` : " (fonctions serverless absentes en local)"}.</p>
         )}
-        {/* Only when someone is waiting for it (or a send is running). */}
-        {t.audience && audience && !audience.unavailable && (audience.pending > 0 || progress) && (
-          <div className={`mt-4 p-4 rounded-2xl border flex items-center gap-3 flex-wrap ${c.border}`}>
-            <Users size={17} className="text-blue-600 shrink-0" />
+        {/* Who to send it to, with how many of each group have not had this
+            subject yet; then the send button for the chosen group. */}
+        {t.audience && audience && !audience.unavailable && (
+          <div className={`mt-4 p-4 rounded-2xl border space-y-3 ${c.border}`}>
+            <p className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wide ${c.sub}`}><Users size={15} className="text-blue-600" /> Destinataires</p>
+            <div className="flex gap-2 flex-wrap" role="radiogroup" aria-label="Destinataires">
+              {Object.entries(AUDIENCE_LABELS).map(([k, l]) => (
+                <button key={k} type="button" role="radio" aria-checked={group === k} disabled={busy !== null} onClick={() => setGroup(k)}
+                  className={`px-3.5 py-2 rounded-full text-sm font-semibold transition-colors ${group === k ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+                  {l} · {audience.pending[k]}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-3 flex-wrap">
             <p className={`text-sm flex-1 min-w-[12rem] ${c.text}`}>
-              {audience.pending > 0
-                ? <><strong>{audience.pending}</strong> compte(s) actif(s) au moins {audience.minDays} jours, sans abonnement, ne l&apos;ont pas encore reçu.</>
-                : <>Envoi terminé.</>}
+              {audience.pending[group] > 0
+                ? <><strong>{audience.pending[group]}</strong> compte(s) n&apos;ont pas encore reçu ce courriel (même objet){group === "active" ? <> — actifs au moins {audience.minDays} jours, jamais abonnés, jamais relancés</> : null}.</>
+                : progress ? <>Envoi terminé.</> : <>Tout ce groupe a déjà reçu ce courriel.</>}
             </p>
-            {audience.pending > 0 && (
+            {audience.pending[group] > 0 && (
               <Btn small icon={Send} disabled={busy !== null || !saved.enabled || dirty || !audience.mailConfigured} onClick={sendAll}
                 title={!saved.enabled ? "Activez d'abord le courriel" : dirty ? "Enregistrez d'abord vos modifications" : undefined}>
-                {busy === "send" ? "Envoi…" : "Leur envoyer maintenant"}
+                {busy === "send" ? "Envoi…" : `Envoyer à ${audience.pending[group]} compte(s)`}
               </Btn>
             )}
+            </div>
             <SendProgress progress={progress} />
           </div>
         )}
@@ -131,7 +152,8 @@ export function AccountEmailEditor({ id, onEnabled }) {
               <p>Remplacés à l&apos;envoi : {names.map((n) => <span key={n} className={`${code} mr-1`}>{`{${n}}`}</span>)} <span>(exemple dans l&apos;aperçu)</span></p>
             )}
             {"_score" in t.placeholders && <p>Résultats : un paragraphe seul <span className={code}>{"{resultats}"}</span> (score, niveau et NCLC par épreuve).</p>}
-            {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes »).</p>}
+            {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes ») ; code vide = pas d&apos;encadré.</p>}
+            {t.countdown && <p>Promo en cours : un paragraphe seul <span className={code}>{"{compteur}"}</span> affiche le compte à rebours animé, <span className={code}>{"{fin}"}</span> la date de fin (heure d&apos;Algérie pour les comptes d&apos;Algérie). Vides quand aucune promo ne tourne.</p>}
             <p>Bouton : un paragraphe seul de la forme <span className={code}>[Texte](lien)</span>, où lien = {Object.keys(LINK_TARGETS).map((k) => <span key={k} className={`${code} mr-1`}>{k}</span>)}</p>
           </div>
           <div>

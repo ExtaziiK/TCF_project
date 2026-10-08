@@ -1,4 +1,5 @@
-import { paragraphs, signedLetter, greetingLine, promoBox, resultsBox } from "./emailLayout.js";
+import { paragraphs, signedLetter, greetingLine, promoBox, resultsBox, countdownBox } from "./emailLayout.js";
+import { SALE, saleActive } from "./sale.js";
 import { summarizeScore, SAMPLE_SCORE, practiceTips } from "./mockResults.js";
 
 // The automatic account emails other than the welcome email (which has its own
@@ -15,6 +16,9 @@ import { summarizeScore, SAMPLE_SCORE, practiceTips } from "./mockResults.js";
 //     {encadre} becomes the code box (code, GIF, "how to" link);
 //   - in the TCF blanc results email, a paragraph that is only {resultats}
 //     becomes the results card (score, level, NCLC per section);
+//   - in the offer email, a paragraph that is only {compteur} becomes the
+//     sale's countdown (an animated image), and {fin} its end date in the
+//     reader's time; both come out empty when no sale is running;
 //   - a placeholder that comes out empty (e.g. {profils} on a Starter pass)
 //     removes its paragraph.
 //
@@ -89,12 +93,14 @@ export const EMAIL_TEMPLATES = {
   },
   offer: {
     key: "email_offer",
-    title: "Offre -50 % (comptes actifs)",
-    when: "Envoyé à la main, avec le bouton ci-dessous, aux comptes qui ont utilisé le site au moins 2 jours différents sans jamais payer. Une seule fois par compte ; ceux qui ont reçu TCF50 en septembre sont exclus. {paiement} devient « par carte ou par CCP / BaridiMob » pour les comptes d'Algérie, « par carte bancaire » pour les autres.",
+    title: "Offre promo (envoi manuel)",
+    when: "Envoyé à la main, avec le bouton ci-dessous, au groupe choisi : comptes actifs sans abonnement (utilisé le site au moins 2 jours, jamais payé, jamais relancé), tous sauf abonnés en cours, ou tous les comptes. Personne ne reçoit deux fois le même objet. {paiement} devient « par carte ou par CCP / BaridiMob » pour les comptes d'Algérie, « par carte bancaire » pour les autres.",
     audience: true,
     promo: { code: "TCF50", text: "Votre code : **-50 %** sur votre premier forfait" },
-    // Filled per recipient by paymentPhrase(); the sample is the non-Algerian one.
-    placeholders: { paiement: "par carte bancaire" },
+    // Filled per recipient by paymentPhrase() and saleEndPhrase(); the samples
+    // are the non-Algerian ones.
+    placeholders: { paiement: "par carte bancaire", get fin() { return saleEndPhrase(null); } },
+    countdown: true,
     defaults: {
       subject: "Vous progressez : -50 % pour aller plus loin",
       body: "Vous vous êtes entraîné·e plusieurs fois sur **TCF Passerelle** ces dernières semaines, et c'est exactement comme ça qu'on progresse au TCF Canada.\n\nPour aller plus loin — toute la banque de questions avec les corrigés, plus de TCF blancs et les simulations d'expression écrite et orale corrigées par IA —, voici **-50 %** sur votre premier forfait :\n\n{encadre}\n\n[Voir les forfaits](tarifs)\n\nLe code s'applique au premier paiement, {paiement}.\n\nBonne préparation,\n\nVous ne souhaitez plus recevoir nos offres ? Répondez simplement « STOP » à ce courriel.",
@@ -161,6 +167,18 @@ export const EMAIL_TEMPLATES = {
 export const isAlgerianAccount = (user) =>
   /^alg[eé]rie$|^algeria$/i.test(String(user?.user_metadata?.country || "").trim());
 
+// When the running sale ends, in the reader's own time when we know it (an
+// Algerian account: Algiers time), otherwise in the site's (Toronto):
+// "samedi 10 octobre à 23 h 59 (heure de l'Est du Canada)". Empty without a sale.
+export function saleEndPhrase(user) {
+  if (!saleActive()) return "";
+  const dz = isAlgerianAccount(user);
+  const timeZone = dz ? "Africa/Algiers" : "America/Toronto";
+  const p = Object.fromEntries(new Intl.DateTimeFormat("fr-FR", { timeZone, weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+    .formatToParts(new Date(SALE.endsAt)).map((x) => [x.type, x.value]));
+  return `${p.weekday} ${p.day} ${p.month} à ${Number(p.hour)} h ${p.minute} (${dz ? "heure d'Algérie" : "heure de l'Est du Canada"})`;
+}
+
 export const paymentPhrase = (user) =>
   isAlgerianAccount(user) ? "par carte ou par CCP / BaridiMob" : "par carte bancaire";
 
@@ -199,6 +217,7 @@ export function renderEmail(id, cfg, { firstName = "", vars, site }) {
     ${paragraphs(fill(c.body, v), { last: "4px", links, custom: {
       ...(t.promo ? { "{encadre}": promoBox(site, c.promoCode, c.promoText) } : {}),
       ...(v._score ? { "{resultats}": resultsBox(summarizeScore(v._score)) } : {}),
+      ...(t.countdown ? { "{compteur}": saleActive() ? countdownBox(site) : "" } : {}),
     } })}
   `);
   return { subject: fill(c.subject.trim() || t.defaults.subject, v), html };

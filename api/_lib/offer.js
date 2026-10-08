@@ -1,6 +1,6 @@
 import { sendMail, mailConfigured } from "./mailer.js";
 import { loadEmail } from "./emails.js";
-import { renderEmail, paymentPhrase } from "./emailTemplates.js";
+import { renderEmail, paymentPhrase, saleEndPhrase } from "./emailTemplates.js";
 import { firstNameOf } from "./emailLayout.js";
 
 // The "-50 %" offer (EMAIL_TEMPLATES.offer), sent by hand from Administration →
@@ -22,6 +22,23 @@ import { firstNameOf } from "./emailLayout.js";
 
 export const MIN_ACTIVE_DAYS = 2;
 const STAMP = "offer_email_sent_at";
+
+// Who a send goes to, picked in the admin tab:
+//   active — the rule above (practised 2+ days, never paid, never offered);
+//   free   — every account without a pass running right now;
+//   all    — every account.
+// All three skip staff, unconfirmed addresses and accounts being deleted.
+//
+// Whatever the audience, nobody gets the same email twice: every send stamps
+// app_metadata.offer_campaign with the email's subject, and an account already
+// stamped with that subject is skipped. Sending to "active" then to "all"
+// therefore only reaches the ones the first send missed — and a NEW subject
+// is a new campaign that everyone can receive again.
+export const AUDIENCES = ["active", "free", "all"];
+const CAMPAIGN = "offer_campaign";
+export const campaignOf = (cfg) => String(cfg?.subject || "").trim().slice(0, 150);
+
+const passRunning = (m) => m.plan === "Premium" && (!m.premium_until || Date.parse(m.premium_until) > Date.now());
 
 async function allRows(admin, table, cols) {
   const out = [];
@@ -56,33 +73,43 @@ function everHadAccess(meta, paidRequests, id) {
 }
 
 // Accounts that should get the offer and have not, most active first.
-export async function pendingOffer(admin, users) {
+export async function pendingOffer(admin, users, audience = "active", campaign = "") {
+  const reachable = users.filter((u) => {
+    const m = u.app_metadata || {};
+    if (!u.email || !(u.email_confirmed_at || u.confirmed_at)) return false;
+    if (["admin", "owner", "moderator"].includes(m.role)) return false;
+    if (m.deletion_scheduled_for) return false;
+    return !campaign || m[CAMPAIGN] !== campaign;
+  });
+  if (audience === "all") return reachable;
+  if (audience === "free") return reachable.filter((u) => !passRunning(u.app_metadata || {}));
   const [days, requests] = await Promise.all([activeDays(admin), allRows(admin, "subscription_requests", "user_id,status")]);
   const paid = new Set(requests.filter((r) => r.status === "approved").map((r) => r.user_id));
-  return users
+  return reachable
     .filter((u) => {
       const m = u.app_metadata || {};
-      if (!u.email || !(u.email_confirmed_at || u.confirmed_at)) return false;
-      if (["admin", "owner", "moderator"].includes(m.role)) return false;
-      if (m.deletion_scheduled_for || m[STAMP]) return false;
+      if (m[STAMP]) return false;
       if (everHadAccess(m, paid, u.id)) return false;
       return (days.get(u.id) || 0) >= MIN_ACTIVE_DAYS;
     })
     .sort((a, b) => (days.get(b.id) || 0) - (days.get(a.id) || 0));
 }
 
-// Throws on failure (stamp cleared). `cfg` = the saved offer email.
-export async function sendOffer(admin, user, cfg, site) {
+// Throws on failure (stamps restored). `cfg` = the saved offer email.
+// The "active" audience also sets the once-per-account stamp of that rule.
+export async function sendOffer(admin, user, cfg, site, audience = "active") {
   if (!mailConfigured()) throw new Error("Email non configuré (SMTP).");
   const meta = user.app_metadata || {};
-  const stamp = (v) => admin.auth.admin.updateUserById(user.id, { app_metadata: { ...meta, [STAMP]: v } });
-  const { error } = await stamp(new Date().toISOString());
+  const set = (patch) => admin.auth.admin.updateUserById(user.id, { app_metadata: { ...meta, ...patch } });
+  const sent = { [CAMPAIGN]: campaignOf(cfg), ...(audience === "active" ? { [STAMP]: new Date().toISOString() } : {}) };
+  const { error } = await set(sent);
   if (error) throw new Error(error.message);
   try {
-    const { subject, html } = renderEmail("offer", cfg, { firstName: firstNameOf(user), vars: { paiement: paymentPhrase(user) }, site });
+    const vars = { paiement: paymentPhrase(user), fin: saleEndPhrase(user) };
+    const { subject, html } = renderEmail("offer", cfg, { firstName: firstNameOf(user), vars, site });
     await sendMail({ to: user.email, subject, html });
   } catch (err) {
-    await stamp(null);
+    await set(Object.fromEntries(Object.keys(sent).map((k) => [k, meta[k] ?? null])));
     throw err;
   }
 }

@@ -3,6 +3,7 @@ import prices from "../_lib/public/prices.js";
 import promoValidate from "../_lib/public/promo-validate.js";
 import gift from "../_lib/public/gift.js";
 import account from "../_lib/public/account.js";
+import countdown from "../_lib/public/countdown.js";
 
 // Single serverless function for the small unauthenticated endpoints, exactly
 // as api/admin/[resource].js does for the back office.
@@ -28,6 +29,7 @@ const handlers = {
   "promo-validate": promoValidate,
   gift,
   account,
+  countdown, // the sale's countdown as an animated GIF, for emails
 };
 
 export default async function handler(req, res) {

@@ -133,8 +133,8 @@ export function fetchOfferStatus() {
 }
 
 // One batch of the saved offer → { sent, failed, remaining }.
-export function sendOfferBatch() {
-  return adminFetch("/api/admin/email-offer", { method: "POST", body: JSON.stringify({ action: "send" }) });
+export function sendOfferBatch(audience = "active") {
+  return adminFetch("/api/admin/email-offer", { method: "POST", body: JSON.stringify({ action: "send", audience }) });
 }
 
 /* ------------------------------- moderation ------------------------------- */
