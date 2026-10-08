@@ -27,7 +27,10 @@ const STAMP = "offer_email_sent_at";
 //   active — the rule above (practised 2+ days, never paid, never offered);
 //   free   — every account without a pass running right now;
 //   all    — every account.
-// All three skip staff, unconfirmed addresses and accounts being deleted.
+// All three skip unconfirmed addresses and accounts being deleted. Staff are
+// skipped by "active", but admins and owners are part of "free" and "all"
+// (whatever their pass) so the team receives the real email with everyone
+// else and sees what went out; moderators never get it.
 //
 // Whatever the audience, nobody gets the same email twice: every send stamps
 // app_metadata.offer_campaign with the email's subject, and an account already
@@ -77,15 +80,16 @@ function everHadAccess(meta, paidRequests, id) {
 // Accounts that should get the offer and have not, most active first.
 export async function pendingOffer(admin, users, audience = "active", campaign = "", id = "offer") {
   const CAMPAIGN = campaignKey(id);
+  const team = (u) => ["admin", "owner"].includes(u.app_metadata?.role);
   const reachable = users.filter((u) => {
     const m = u.app_metadata || {};
     if (!u.email || !(u.email_confirmed_at || u.confirmed_at)) return false;
-    if (["admin", "owner", "moderator"].includes(m.role)) return false;
+    if (m.role === "moderator" || (team(u) && audience === "active")) return false;
     if (m.deletion_scheduled_for) return false;
     return !campaign || m[CAMPAIGN] !== campaign;
   });
   if (audience === "all") return reachable;
-  if (audience === "free") return reachable.filter((u) => !passRunning(u.app_metadata || {}));
+  if (audience === "free") return reachable.filter((u) => team(u) || !passRunning(u.app_metadata || {}));
   const [days, requests] = await Promise.all([activeDays(admin), allRows(admin, "subscription_requests", "user_id,status")]);
   const paid = new Set(requests.filter((r) => r.status === "approved").map((r) => r.user_id));
   return reachable
