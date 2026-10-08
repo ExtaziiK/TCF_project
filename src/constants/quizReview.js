@@ -8,12 +8,11 @@
 // a quiz is added.
 //
 // To put a quiz back online: remove its number here and redeploy.
-export const QUIZZES_UNDER_REVIEW = {
-  // Série 26 shipped with Série 25's audio, answers and transcripts under
-  // Série 26's images, so the recordings never matched the pictures and right
-  // answers were graded wrong (reported by a member, 2026-10-07).
-  co: [26],
-};
+//
+// Nothing is under review right now. Last entry: CO Quiz 26 (2026-10-07),
+// hidden after a member reported Série 25 answers over Série 26 audio, and
+// reopened once rebuilt on the real Série 26 recordings.
+export const QUIZZES_UNDER_REVIEW = {};
 
 export const isUnderReview = (quiz) =>
   !!quiz && (QUIZZES_UNDER_REVIEW[quiz.section] || []).includes(quiz.quizNumber);
