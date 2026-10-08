@@ -32,10 +32,11 @@ function transport() {
   return cached;
 }
 
-export async function sendMail({ to, subject, html, text }) {
+export async function sendMail({ to, cc, subject, html, text }) {
   return transport().sendMail({
     from: `"${FROM_NAME}" <${FROM_ADDR}>`,
     to,
+    ...(cc && cc.length ? { cc } : {}),
     subject,
     html,
     text: text || html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
