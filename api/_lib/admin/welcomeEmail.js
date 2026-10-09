@@ -11,7 +11,9 @@ import { listAllUsers, audit } from "./users.js";
 // on/off switch are plain site_settings writes from the browser (admin RLS);
 // this route covers what needs the SMTP mailbox or the account list.
 //
-//   GET  /api/admin/welcome-email                       → { pending, mailConfigured }
+//   GET  /api/admin/welcome-email                       → { pending, accounts, mailConfigured }
+//        `accounts`: who "Leur envoyer maintenant" would write to, so the
+//        admin can check the list before sending (see pendingSummary).
 //   POST /api/admin/welcome-email { action: "test", draft, template? }
 //        Sends the draft (saved or not) to the admin's own address. Nothing
 //        is stamped: a test is not the account's welcome. `template` picks one
@@ -33,6 +35,18 @@ const pendingAccounts = async () =>
   (await listAllUsers())
     .filter((u) => !welcomeSkipReason(u))
     .sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
+
+// One pending account, as the admin sees it before sending.
+export function pendingSummary(u) {
+  const meta = u.user_metadata || {};
+  return {
+    email: u.email,
+    name: meta.name || meta.full_name || null,
+    createdAt: u.created_at,
+    lastSignIn: u.last_sign_in_at || null,
+    provider: u.app_metadata?.provider || "email",
+  };
+}
 
 async function handlePost(req, res, actor) {
   const action = req.body?.action;
@@ -76,7 +90,8 @@ export default async function handler(req, res) {
   try {
     const actor = await requireAdmin(req);
     if (req.method === "GET") {
-      return res.status(200).json({ pending: (await pendingAccounts()).length, mailConfigured: mailConfigured() });
+      const pending = await pendingAccounts();
+      return res.status(200).json({ pending: pending.length, accounts: pending.map(pendingSummary), mailConfigured: mailConfigured() });
     }
     if (req.method === "POST") return await handlePost(req, res, actor);
     throw new HttpError(405, "Method not allowed");

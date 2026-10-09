@@ -186,6 +186,22 @@ function WelcomeEmailEditor({ onEnabled }) {
               </Btn>
             )}
             <SendProgress progress={progress} />
+            {/* Who the button writes to, before anything is sent. */}
+            {status.accounts?.length > 0 && (
+              <ul className={`w-full mt-1 divide-y rounded-xl border ${c.border}`}>
+                {status.accounts.map((a) => (
+                  <li key={a.email} className="px-3 py-2 flex items-center justify-between gap-3 flex-wrap">
+                    <span className="min-w-0">
+                      <span className={`block text-sm font-semibold truncate ${c.text}`}>{a.email}</span>
+                      <span className={`block text-xs ${c.faint}`}>
+                        {a.name ? `${a.name} · ` : ""}inscrit le {new Date(a.createdAt).toLocaleString("fr-CA", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        {" · "}{a.provider === "google" ? "Google" : "courriel"}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
       </Card>
