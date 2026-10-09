@@ -64,6 +64,7 @@ export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downlo
         <RefreshCw size={compact ? 15 : 17} className="text-blue-600 shrink-0" aria-hidden="true" />
         {t(issue ? issue.title : "Cette page doit être actualisée pour continuer.")}
       </p>
+      {issue?.cause && <p className="text-sm font-semibold mt-2 text-blue-700 dark:text-blue-400">{t(issue.cause)}</p>}
       {issue && (
         <ol className={`text-sm mt-2 space-y-1 list-decimal pl-5 ${c.sub}`}>
           {issue.steps.map((step) => <li key={step}>{t(step)}</li>)}

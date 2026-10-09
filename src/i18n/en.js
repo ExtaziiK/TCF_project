@@ -2476,8 +2476,19 @@ export const EN = {
   "Le micro n'a pas pu démarrer.": "The microphone couldn't start.",
   "Autorisez le micro pour ce site, et fermez les applications qui pourraient l'utiliser.": "Allow the microphone for this site, and close apps that might be using it.",
   "Vous êtes dans le navigateur de Facebook ou d'Instagram : ouvrez cette page dans Chrome ou Safari (menu ⋯ puis « Ouvrir dans le navigateur »). Le micro y fonctionne bien mieux.": "You're in Facebook's or Instagram's built-in browser: open this page in Chrome or Safari (⋯ menu, then “Open in browser”). The microphone works much better there.",
-  "Votre connexion internet a été interrompue : vérifiez votre Wi-Fi ou vos données mobiles, puis répondez à nouveau.": "Your internet connection was interrupted: check your Wi-Fi or mobile data, then answer again.",
   "Votre réponse a mis trop de temps à être traitée. Répondez à nouveau ; si votre connexion est lente, préférez le Wi-Fi.": "Your answer took too long to process. Answer again; if your connection is slow, use Wi-Fi.",
+  // Where the problem is (utils/aiIssue.js → cause) — 2026-10.
+  "Le problème vient de votre connexion (Wi-Fi ou données mobiles), pas du site.": "The problem is with your connection (Wi-Fi or mobile data), not the site.",
+  "Le problème vient du navigateur de Facebook ou d'Instagram, qui bloque souvent le micro — pas du site.": "The problem is Facebook's or Instagram's built-in browser, which often blocks the microphone — not the site.",
+  "Le problème vient des réglages de votre navigateur ou de votre téléphone : le micro n'y est pas autorisé pour ce site.": "The problem is in your browser or phone settings: the microphone isn't allowed for this site.",
+  "Le problème vient de votre appareil : aucun micro n'y est branché ou activé.": "The problem is with your device: no microphone is connected or enabled.",
+  "Le problème vient de votre appareil : une autre application garde le micro pour elle.": "The problem is with your device: another app is holding the microphone.",
+  "Le problème vient du navigateur de Facebook ou d'Instagram, qui ne permet pas l'enregistrement — pas du site.": "The problem is Facebook's or Instagram's built-in browser, which doesn't allow recording — not the site.",
+  "Le problème vient de votre navigateur, trop ancien ou incompatible avec l'enregistrement audio.": "The problem is your browser, which is too old or doesn't support audio recording.",
+  "Le problème vient de votre appareil ou du navigateur de Facebook, qui bloque souvent le micro — pas du site.": "The problem is your device or Facebook's built-in browser, which often blocks the microphone — not the site.",
+  "Le problème vient du micro de votre appareil ou de ses réglages, pas du site.": "The problem is your device's microphone or its settings, not the site.",
+  "Le problème vient de votre appareil ou de ses réglages, pas du site.": "The problem is your device or its settings, not the site.",
+  "Votre connexion internet a été interrompue — le problème vient de votre Wi-Fi ou de vos données mobiles, pas du site. Vérifiez-les, puis répondez à nouveau.": "Your internet connection was interrupted — the problem is your Wi-Fi or mobile data, not the site. Check them, then answer again.",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

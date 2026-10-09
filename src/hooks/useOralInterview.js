@@ -8,7 +8,7 @@ import { failureKind, failureIssue } from "@/utils/aiIssue";
 // What a single failed turn says, by failure kind (utils/aiIssue.js): the
 // interview carries on, so the advice ends with "answer again".
 const RETRY_LINES = {
-  offline: "Votre connexion internet a été interrompue : vérifiez votre Wi-Fi ou vos données mobiles, puis répondez à nouveau.",
+  offline: "Votre connexion internet a été interrompue — le problème vient de votre Wi-Fi ou de vos données mobiles, pas du site. Vérifiez-les, puis répondez à nouveau.",
   timeout: "Votre réponse a mis trop de temps à être traitée. Répondez à nouveau ; si votre connexion est lente, préférez le Wi-Fi.",
   generic: "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.",
 };

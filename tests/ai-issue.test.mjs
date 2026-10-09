@@ -54,3 +54,14 @@ test("in-app browser detection", () => {
   assert.equal(isInAppBrowser("Mozilla/5.0 (iPhone; CPU iPhone OS 17_6) Mobile/15E148 Instagram 350.0"), true);
   assert.equal(isInAppBrowser("Mozilla/5.0 (Linux; Android 14; Pixel 7) Chrome/129.0.0.0 Mobile Safari/537.36"), false);
 });
+
+test("device-side problems say so; a timeout does not blame the device", () => {
+  for (const code of ["NotAllowedError", "NotFoundError", "NotReadableError", "unsupported", "silent", "SomethingNew"]) {
+    for (const inApp of [true, false]) {
+      assert.match(micIssue(code, { inApp }).cause, /^Le problème vient de votre (appareil|navigateur|micro)|^Le problème vient des réglages|^Le problème vient du (micro|navigateur)/, `${code} inApp=${inApp}`);
+    }
+  }
+  assert.match(failureIssue("offline").cause, /votre connexion/);
+  assert.equal(failureIssue("timeout", "eo").cause, undefined);
+  assert.equal(failureIssue("timeout", "ee").cause, undefined);
+});

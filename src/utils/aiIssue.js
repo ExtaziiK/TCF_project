@@ -9,6 +9,12 @@ import { describeDevice } from "../../api/_lib/device.js";
 // refusals, a bug of ours: "Erreur interne" in the admin) is never named: the
 // candidate only gets "refresh the page" — see RefreshNotice.
 //
+// `cause`: one line saying WHERE the problem is — the candidate's device,
+// its settings, their browser or their connection — so nobody reads the card
+// as "the site is broken". Set only where that is true: a timeout ("timeout")
+// usually happens on our side (the analysis ran too long on the server), so it
+// has no cause line and stays neutral.
+//
 // Pure (no React, no DOM), pinned by tests/ai-issue.test.mjs.
 
 // Facebook / Instagram / Messenger's built-in browser: where the microphone
@@ -37,6 +43,7 @@ export function failureIssue(kind, section = "ee") {
   if (kind === "offline") {
     return {
       title: "Votre connexion internet a été interrompue.",
+      cause: "Le problème vient de votre connexion (Wi-Fi ou données mobiles), pas du site.",
       steps: [
         "Vérifiez votre Wi-Fi ou vos données mobiles.",
         "Si la connexion est faible, rapprochez-vous de la box ou passez en données mobiles.",
@@ -66,6 +73,9 @@ export function micIssue(code, { inApp = false } = {}) {
   if (code === "NotAllowedError" || code === "SecurityError" || code === "PermissionDeniedError") {
     return {
       title: "L'accès au micro a été refusé.",
+      cause: inApp
+        ? "Le problème vient du navigateur de Facebook ou d'Instagram, qui bloque souvent le micro — pas du site."
+        : "Le problème vient des réglages de votre navigateur ou de votre téléphone : le micro n'y est pas autorisé pour ce site.",
       steps: [
         ...lead,
         "Touchez l'icône à gauche de l'adresse du site (cadenas ou ⓘ), puis autorisez le micro.",
@@ -77,6 +87,7 @@ export function micIssue(code, { inApp = false } = {}) {
   if (code === "NotFoundError" || code === "OverconstrainedError" || code === "DevicesNotFoundError") {
     return {
       title: "Aucun micro n'a été trouvé.",
+      cause: "Le problème vient de votre appareil : aucun micro n'y est branché ou activé.",
       steps: [
         ...lead,
         "Branchez un micro ou des écouteurs avec micro, ou reconnectez vos écouteurs Bluetooth.",
@@ -88,6 +99,7 @@ export function micIssue(code, { inApp = false } = {}) {
   if (code === "NotReadableError" || code === "TrackStartError" || code === "AbortError") {
     return {
       title: "Votre micro est déjà utilisé par une autre application.",
+      cause: "Le problème vient de votre appareil : une autre application garde le micro pour elle.",
       steps: [
         ...lead,
         "Terminez les appels en cours (WhatsApp, Messenger, Zoom…) et fermez les autres onglets qui utilisent le micro.",
@@ -98,6 +110,9 @@ export function micIssue(code, { inApp = false } = {}) {
   if (code === "unsupported") {
     return {
       title: "Ce navigateur ne permet pas d'enregistrer votre voix.",
+      cause: inApp
+        ? "Le problème vient du navigateur de Facebook ou d'Instagram, qui ne permet pas l'enregistrement — pas du site."
+        : "Le problème vient de votre navigateur, trop ancien ou incompatible avec l'enregistrement audio.",
       steps: inApp
         ? [OPEN_IN_BROWSER]
         : ["Ouvrez cette page dans Chrome (Android, ordinateur) ou Safari (iPhone), à jour."],
@@ -106,6 +121,9 @@ export function micIssue(code, { inApp = false } = {}) {
   if (code === "silent") {
     return {
       title: "Votre micro n'a rien enregistré.",
+      cause: inApp
+        ? "Le problème vient de votre appareil ou du navigateur de Facebook, qui bloque souvent le micro — pas du site."
+        : "Le problème vient du micro de votre appareil ou de ses réglages, pas du site.",
       steps: [
         ...lead,
         "Vérifiez que le micro n'est pas coupé (bouton muet, écouteurs Bluetooth déconnectés).",
@@ -117,6 +135,7 @@ export function micIssue(code, { inApp = false } = {}) {
   // Any other error name: the generic microphone advice.
   return {
     title: "Le micro n'a pas pu démarrer.",
+    cause: "Le problème vient de votre appareil ou de ses réglages, pas du site.",
     steps: [
       ...lead,
       "Autorisez le micro pour ce site, et fermez les applications qui pourraient l'utiliser.",

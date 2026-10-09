@@ -28,6 +28,7 @@ export function MicHelp({ code, onClose }) {
           <button onClick={onClose} aria-label={t("Fermer")} className={`shrink-0 ${c.faint} hover:opacity-70`}><X size={17} /></button>
         )}
       </div>
+      {issue.cause && <p className="text-sm font-semibold mt-2 text-amber-700 dark:text-amber-400">{t(issue.cause)}</p>}
       <ol className={`text-sm mt-2 space-y-1 list-decimal pl-5 ${c.sub}`}>
         {issue.steps.map((step) => <li key={step}>{t(step)}</li>)}
       </ol>
