@@ -8,7 +8,7 @@ import { getHomeTestimonials } from "@/services/settingsService";
 const SEED = TESTIMONIALS.map((tm, i) => ({ id: `seed-${i}`, name: tm.name, origin: tm.from, level: tm.level, body: tm.text }));
 
 // Approved success stories for the landing page, plus whether the section is
-// shown at all (Admin › Accueil › Témoignages).
+// shown at all (Admin › Accueil › Avis).
 //
 // Returns null until BOTH reads land. That is the point of the null: a section
 // an admin has switched off must never paint first and disappear a moment

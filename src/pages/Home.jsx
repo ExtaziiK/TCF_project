@@ -146,9 +146,9 @@ function Landing() {
       </section>
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
-          once an admin approves them (Admin › Témoignages). Falls back to the
+          once an admin approves them (Admin › Avis). Falls back to the
           three seed stories until the table has approved content, and the whole
-          block can be switched off from Admin › Accueil › Témoignages — heading
+          block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">

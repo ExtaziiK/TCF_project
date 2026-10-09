@@ -245,7 +245,7 @@ export async function setLaunchDiscount(enabled, percent) {
  * yours" invitation together, so nothing is left dangling.
  *
  * This is a VISIBILITY switch, not moderation: approving a story
- * (Admin › Témoignages) still decides whether it may ever be shown, and this
+ * (Admin › Avis) still decides whether it may ever be shown, and this
  * decides whether the section appears at all. An approved story stays approved
  * while the section is hidden.
  *

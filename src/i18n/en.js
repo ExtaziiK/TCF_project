@@ -313,11 +313,10 @@ export const EN = {
   "Les cartes de vocabulaire quotidiennes et la série de jours d'étude m'ont gardée motivée jusqu'à l'examen.":
     "The daily vocabulary cards and the study-day streak kept me motivated all the way to the exam.",
 
-  // ── Profile › Mon témoignage ─────────────────────────────────────────
-  "Mon témoignage": "My story",
+  // ── Profile › Mon avis ──────────────────────────────────────────────
+  "Mon avis": "My review",
   "Racontez votre parcours. Après validation par notre équipe, il apparaîtra sur la page d'accueil.":
     "Tell us about your journey. Once our team approves it, it appears on the home page.",
-  "Votre témoignage": "Your story",
   "Ex. : en 8 semaines, je suis passé·e de B1 à C1 en compréhension orale…":
     "e.g. in 8 weeks I went from B1 to C1 in listening…",
   "Votre parcours": "Your journey",
@@ -331,11 +330,10 @@ export const EN = {
   "Publié sur l'accueil": "Live on the home page",
   "Non retenu": "Not selected",
   "Retirer": "Withdraw",
-  "Retirez votre témoignage actuel pour en écrire un nouveau.": "Withdraw your current story to write a new one.",
-  "Merci ! Votre témoignage sera publié après validation.": "Thank you! Your story will go live once reviewed.",
-  "Témoignage retiré.": "Story withdrawn.",
+  "Retirez votre avis actuel pour en écrire un nouveau.": "Withdraw your current review to write a new one.",
+  "Avis retiré.": "Review withdrawn.",
   "Envoi impossible pour le moment.": "Could not send right now.",
-  "Connectez-vous pour partager votre témoignage.": "Sign in to share your story.",
+  "Connectez-vous pour partager votre avis.": "Sign in to share your review.",
 
   // ── Exam sections (constants/mocks.js MOCK_SECTIONS) ─────────────────
   "3 tâches · 60 min": "3 tasks · 60 min",
@@ -656,19 +654,19 @@ export const EN = {
   "Oui, dans le navigateur de votre téléphone, sans application à installer : vous pouvez réviser vos cartes de vocabulaire dans l'autobus. Pour un TCF blanc complet, un ordinateur reste plus confortable, avec un micro pour l'expression orale.":
     "Yes, in your phone's browser, with no app to install: you can review your vocabulary cards on the bus. For a full mock exam, a computer is more comfortable, with a microphone for the speaking part.",
 
-  "Comment laisser un avis ou un témoignage ?":
-    "How do I leave a review or a testimonial?",
+  "Comment laisser un avis ?":
+    "How do I leave a review?",
   "Appuyez sur « Envoyer pour validation ». Vous pourrez le retirer à tout moment depuis votre profil.":
     "Tap “Send for approval”. You can withdraw it at any time from your profile.",
-  "Mon profil, « Mon témoignage » rempli, puis « Envoyer pour validation »":
-    "My profile, “My testimonial” filled in, then “Send for approval”",
+  "Mon profil, « Mon avis » rempli, puis « Envoyer pour validation »":
+    "My profile, “My review” filled in, then “Send for approval”",
   "Lire les avis des candidats":
     "Read the candidates' reviews",
 
   "Votre expérience aide les prochains candidats. Après votre premier TCF blanc, nous vous proposons de laisser un avis ; vous pouvez aussi l'écrire à tout moment depuis votre profil. C'est le même formulaire dans les deux cas : après validation par notre équipe, votre avis est publié sur la page Avis et peut apparaître sur la page d'accueil.":
     "Your experience helps the candidates who come next. After your first mock exam, we invite you to leave a review; you can also write it at any time from your profile. It is the same form either way: once our team has approved it, your review is published on the Reviews page and may appear on the home page.",
-  "Dans « Mon témoignage », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).":
-    "In “My testimonial”, pick a rating, then tell your experience in a few sentences (10 to 600 characters).",
+  "Dans « Mon avis », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).":
+    "In “My review”, pick a rating, then tell your experience in a few sentences (10 to 600 characters).",
   "Si vous le souhaitez, ajoutez votre parcours (par exemple « Alger → Montréal ») et le résultat obtenu, ou masquez votre nom.":
     "If you like, add your journey (for example “Algiers → Montreal”) and the result you got, or hide your name.",
   "Merci ! Votre avis sera publié après validation par notre équipe.":
@@ -677,12 +675,11 @@ export const EN = {
     "optional",
   "Vous venez de vivre ce que des milliers de candidats redoutent. Racontez-le en deux phrases : après validation, votre avis sera publié sur notre page Avis, et c'est souvent celui d'un candidat comme vous qui décide quelqu'un à se lancer.":
     "You have just been through what thousands of candidates dread. Tell it in two sentences: once approved, your review will be published on our Reviews page, and it is often a candidate like you who convinces someone to get started.",
-  "Racontez votre parcours. Après validation par notre équipe, il sera publié sur la page Avis et pourra apparaître sur la page d'accueil.":
-    "Tell your story. Once our team has approved it, it will be published on the Reviews page and may appear on the home page.",
+  "Partagez votre expérience. Après validation par notre équipe, votre avis sera publié sur la page Avis et pourra apparaître sur la page d'accueil.":
+    "Share your experience. Once our team has approved it, your review will be published on the Reviews page and may appear on the home page.",
 
   "Vous aussi, partagez votre expérience": "Share your experience too",
   "Une note et quelques phrases : votre avis aide les prochains candidats.": "A rating and a few sentences: your review helps the candidates who come next.",
-  "Comment laisser un témoignage ?": "How to leave a testimonial?",
   "Laisser mon avis": "Leave my review",
 
   // ── About ────────────────────────────────────────────────────────────
@@ -1009,14 +1006,14 @@ export const EN = {
     "All content on the Platform — questions, texts, audio recordings, corrections, explanations, sheets, illustrations, brand, logo, code and interface — is protected and remains the property of the Publisher or its partners.",
   "L'achat d'un pass confère un droit d'usage personnel, non exclusif et non transférable, limité à votre préparation individuelle et à la durée du pass. Sont notamment interdits : la reproduction, la diffusion publique, la revente, le partage de comptes, la constitution de bases de données à partir du contenu, ainsi que toute extraction automatisée (robots, aspirateurs de site, scripts, captures massives).":
     "Purchasing a pass grants a personal, non-exclusive and non-transferable right of use, limited to your individual preparation and to the duration of the pass. The following are prohibited in particular: reproduction, public distribution, resale, account sharing, building databases from the content, and any automated extraction (bots, site rippers, scripts, bulk capture).",
-  "Le contenu que vous produisez sur la Plateforme — réponses aux exercices, témoignages — vous appartient. En soumettant un témoignage, vous nous autorisez à le publier sur le site, tel que vous l'avez rédigé, avec le prénom et la ville que vous avez indiqués. Vous pouvez en demander le retrait à tout moment à {courriel}.":
-    "Content you produce on the Platform — answers to exercises, testimonials — belongs to you. By submitting a testimonial, you authorise us to publish it on the site, as you wrote it, with the first name and city you provided. You may ask for it to be removed at any time at {courriel}.",
+  "Le contenu que vous produisez sur la Plateforme — réponses aux exercices, avis — vous appartient. En soumettant un avis, vous nous autorisez à le publier sur le site, tel que vous l'avez rédigé, avec le prénom et la ville que vous avez indiqués. Vous pouvez en demander le retrait à tout moment à {courriel}.":
+    "Content you produce on the Platform — answers to exercises, reviews — belongs to you. By submitting a review, you authorise us to publish it on the site, as you wrote it, with the first name and city you provided. You may ask for it to be removed at any time at {courriel}.",
 
   "11. Usages interdits": "11. Prohibited uses",
   "Il est interdit de tenter de contourner les limitations techniques du Service, notamment le nombre d'appareils, les restrictions d'accès au contenu Premium ou les quotas d'usage ; d'accéder au Service par un moyen automatisé ; d'analyser, décompiler ou reproduire tout ou partie du code ; de perturber le fonctionnement de la Plateforme ou d'en compromettre la sécurité.":
     "You may not attempt to circumvent the Service's technical limits, in particular the number of devices, Premium access restrictions or usage quotas; access the Service by automated means; analyse, decompile or reproduce all or part of the code; or disrupt the Platform's operation or compromise its security.",
-  "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les témoignages, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.":
-    "You may not transmit, through the exercises, the contact form or testimonials, any unlawful, defamatory, hateful or infringing content, or a third party's personal data without their agreement.",
+  "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les avis, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.":
+    "You may not transmit, through the exercises, the contact form or reviews, any unlawful, defamatory, hateful or infringing content, or a third party's personal data without their agreement.",
   "Afin d'assurer la sécurité du Service et de prévenir les fraudes, nous pouvons mettre en œuvre des mécanismes techniques destinés à détecter les usages anormaux, les connexions automatisées, le partage de comptes ou toute tentative de contournement des limitations techniques.":
     "In order to keep the Service secure and to prevent fraud, we may put in place technical mechanisms intended to detect abnormal usage, automated connections, account sharing or any attempt to circumvent the technical limits.",
   "Tout manquement peut entraîner, selon sa gravité, un avertissement, la suspension ou la fermeture définitive du compte, sans remboursement des sommes versées et sans préjudice de poursuites.":
@@ -1095,8 +1092,8 @@ export const EN = {
     "Proof of acceptance of the terms and conditions: the version accepted, the date and time, your IP address and your browser. This data exists to prove your consent in the event of a dispute, and for nothing else.",
   "Sécurité et sessions : les identifiants techniques de vos appareils connectés, la date de votre dernière activité, ainsi que des compteurs anti-abus indexés sur l'adresse IP pour limiter les tentatives de connexion et l'usage automatisé.":
     "Security and sessions: the technical identifiers of your signed-in devices, the date of your last activity, and anti-abuse counters indexed on the IP address to limit sign-in attempts and automated use.",
-  "Échanges et contributions : les messages envoyés via le formulaire de contact (nom, courriel, sujet, message) et, si vous en soumettez un, votre témoignage avec le prénom et la ville que vous indiquez.":
-    "Correspondence and contributions: messages sent through the contact form (name, email, subject, message) and, if you submit one, your testimonial with the first name and city you provide.",
+  "Échanges et contributions : les messages envoyés via le formulaire de contact (nom, courriel, sujet, message) et, si vous en soumettez un, votre avis avec le prénom et la ville que vous indiquez.":
+    "Correspondence and contributions: messages sent through the contact form (name, email, subject, message) and, if you submit one, your review with the first name and city you provide.",
 
   "3. Pourquoi nous traitons ces données": "3. Why we process this data",
   "Exécuter le contrat qui nous lie : créer et maintenir votre compte, donner accès au contenu, enregistrer votre progression, corriger vos productions, traiter votre paiement et vous fournir l'assistance demandée.":
@@ -1127,8 +1124,8 @@ export const EN = {
     "Records relating to payments are kept for the period required by applicable accounting and tax rules.",
   "La preuve d'acceptation des conditions générales est conservée pendant la vie du compte puis, après sa suppression, pendant la durée de prescription applicable au contrat : sans elle, nous ne pourrions plus démontrer les termes que vous avez acceptés.":
     "Proof of acceptance of the terms and conditions is kept for the life of the account and then, after its deletion, for the limitation period applicable to the contract: without it, we could no longer demonstrate the terms you accepted.",
-  "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un témoignage publié reste en ligne jusqu'à ce que vous en demandiez le retrait.":
-    "Technical logs, anti-abuse counters and device-session records are kept for a short period, proportionate to their security purpose. A published testimonial stays online until you ask for it to be removed.",
+  "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un avis publié reste en ligne jusqu'à ce que vous en demandiez le retrait.":
+    "Technical logs, anti-abuse counters and device-session records are kept for a short period, proportionate to their security purpose. A published review stays online until you ask for it to be removed.",
   "Plus généralement, certaines données peuvent être conservées au-delà de la suppression du compte lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Cette conservation est limitée à ce qui est nécessaire à ces finalités.":
     "More generally, some data may be kept beyond the deletion of the account where the law requires it, or where it is necessary for fraud prevention, payment administration, dispute resolution or the defence of our rights. Such retention is limited to what those purposes require.",
 

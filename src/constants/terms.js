@@ -164,14 +164,14 @@ export const TERMS_SECTIONS = [
     p: [
       "L'ensemble des contenus de la Plateforme — questions, textes, enregistrements audio, corrections, explications, fiches, illustrations, marque, logo, code et interface — est protégé et demeure la propriété de l'Éditeur ou de ses partenaires.",
       "L'achat d'un pass confère un droit d'usage personnel, non exclusif et non transférable, limité à votre préparation individuelle et à la durée du pass. Sont notamment interdits : la reproduction, la diffusion publique, la revente, le partage de comptes, la constitution de bases de données à partir du contenu, ainsi que toute extraction automatisée (robots, aspirateurs de site, scripts, captures massives).",
-      "Le contenu que vous produisez sur la Plateforme — réponses aux exercices, témoignages — vous appartient. En soumettant un témoignage, vous nous autorisez à le publier sur le site, tel que vous l'avez rédigé, avec le prénom et la ville que vous avez indiqués. Vous pouvez en demander le retrait à tout moment à {courriel}.",
+      "Le contenu que vous produisez sur la Plateforme — réponses aux exercices, avis — vous appartient. En soumettant un avis, vous nous autorisez à le publier sur le site, tel que vous l'avez rédigé, avec le prénom et la ville que vous avez indiqués. Vous pouvez en demander le retrait à tout moment à {courriel}.",
     ],
   },
   {
     t: "11. Usages interdits",
     p: [
       "Il est interdit de tenter de contourner les limitations techniques du Service, notamment le nombre d'appareils, les restrictions d'accès au contenu Premium ou les quotas d'usage ; d'accéder au Service par un moyen automatisé ; d'analyser, décompiler ou reproduire tout ou partie du code ; de perturber le fonctionnement de la Plateforme ou d'en compromettre la sécurité.",
-      "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les témoignages, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.",
+      "Il est également interdit de transmettre, via les exercices, le formulaire de contact ou les avis, tout contenu illicite, diffamatoire, haineux, contrefaisant, ou les données personnelles d'un tiers sans son accord.",
       "Afin d'assurer la sécurité du Service et de prévenir les fraudes, nous pouvons mettre en œuvre des mécanismes techniques destinés à détecter les usages anormaux, les connexions automatisées, le partage de comptes ou toute tentative de contournement des limitations techniques.",
       "Tout manquement peut entraîner, selon sa gravité, un avertissement, la suspension ou la fermeture définitive du compte, sans remboursement des sommes versées et sans préjudice de poursuites.",
     ],

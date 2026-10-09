@@ -54,7 +54,7 @@ export function Avis() {
           <p className={`text-sm ${c.sub}`}>{t("Une note et quelques phrases : votre avis aide les prochains candidats.")}</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Btn small variant="ghost" icon={HelpCircle} onClick={() => openFaq(nav, "laisser-un-avis")}>{t("Comment laisser un témoignage ?")}</Btn>
+          <Btn small variant="ghost" icon={HelpCircle} onClick={() => openFaq(nav, "laisser-un-avis")}>{t("Comment laisser un avis ?")}</Btn>
           <Btn small onClick={() => nav(user ? "profile" : "register")}>{t("Laisser mon avis")}</Btn>
         </div>
       </Card>

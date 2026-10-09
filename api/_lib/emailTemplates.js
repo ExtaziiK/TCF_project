@@ -78,7 +78,7 @@ export const EMAIL_TEMPLATES = {
     placeholders: { forfait: "Pro" },
     defaults: {
       subject: "Votre accès {forfait} a expiré",
-      body: "Votre abonnement **{forfait}** vient d'expirer. Votre compte est toujours là : votre progression et votre historique sont conservés.\n\nComment s'est passée votre préparation ? Votre témoignage aide les prochains candidats — après validation, il apparaîtra sur notre page d'accueil.\n\n[Partager mon témoignage](profil)\n\nEnvie de reprendre votre préparation au TCF ? Réactivez votre accès en un clic :\n\n[Renouveler mon accès](tarifs)\n\nMerci d'avoir préparé votre TCF avec nous. À très bientôt !",
+      body: "Votre abonnement **{forfait}** vient d'expirer. Votre compte est toujours là : votre progression et votre historique sont conservés.\n\nComment s'est passée votre préparation ? Votre avis aide les prochains candidats — après validation, il apparaîtra sur notre page d'accueil.\n\n[Donner mon avis](profil)\n\nEnvie de reprendre votre préparation au TCF ? Réactivez votre accès en un clic :\n\n[Renouveler mon accès](tarifs)\n\nMerci d'avoir préparé votre TCF avec nous. À très bientôt !",
     },
   },
   deletionScheduled: {

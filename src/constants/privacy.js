@@ -36,7 +36,7 @@ export const PRIVACY_SECTIONS = [
       "Paiement : nous conservons un identifiant client du prestataire de paiement, le forfait acheté et sa date d'échéance. Nous ne recevons ni ne conservons vos numéros de carte bancaire. Pour un paiement manuel par CCP ou BaridiMob, nous conservons la demande et les éléments que vous nous transmettez pour vérifier le versement.",
       "Preuve d'acceptation des conditions générales : la version acceptée, la date et l'heure, votre adresse IP et votre navigateur. Cette donnée existe pour prouver votre consentement en cas de litige, et pour rien d'autre.",
       "Sécurité et sessions : les identifiants techniques de vos appareils connectés, la date de votre dernière activité, ainsi que des compteurs anti-abus indexés sur l'adresse IP pour limiter les tentatives de connexion et l'usage automatisé.",
-      "Échanges et contributions : les messages envoyés via le formulaire de contact (nom, courriel, sujet, message) et, si vous en soumettez un, votre témoignage avec le prénom et la ville que vous indiquez.",
+      "Échanges et contributions : les messages envoyés via le formulaire de contact (nom, courriel, sujet, message) et, si vous en soumettez un, votre avis avec le prénom et la ville que vous indiquez.",
     ],
   },
   {
@@ -68,7 +68,7 @@ export const PRIVACY_SECTIONS = [
       "Les données de compte et de progression sont conservées tant que votre compte existe. Après la suppression du compte, elles sont effacées dans un délai de trente jours, à l'exception de ce qui suit.",
       "Les pièces liées aux paiements sont conservées pendant la durée exigée par la réglementation comptable et fiscale applicable.",
       "La preuve d'acceptation des conditions générales est conservée pendant la vie du compte puis, après sa suppression, pendant la durée de prescription applicable au contrat : sans elle, nous ne pourrions plus démontrer les termes que vous avez acceptés.",
-      "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un témoignage publié reste en ligne jusqu'à ce que vous en demandiez le retrait.",
+      "Les journaux techniques, les compteurs anti-abus et les enregistrements de sessions d'appareils sont conservés pour une durée courte, proportionnée à leur finalité de sécurité. Un avis publié reste en ligne jusqu'à ce que vous en demandiez le retrait.",
       "Plus généralement, certaines données peuvent être conservées au-delà de la suppression du compte lorsque la loi l'impose ou lorsqu'elles sont nécessaires à la prévention de la fraude, à la gestion des paiements, à la résolution de litiges ou à la défense de nos droits. Cette conservation est limitée à ce qui est nécessaire à ces finalités.",
     ],
   },

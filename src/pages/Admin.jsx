@@ -511,7 +511,7 @@ function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
     { id: "marquee", label: "Barre d'annonces" },
     { id: "banner", label: "Bannière" },
     { id: "stats", label: "Statistique" },
-    { id: "testimonials", label: "Témoignages", badge: pendingTestimonials },
+    { id: "testimonials", label: "Avis", badge: pendingTestimonials },
   ];
   return (
     <div className="space-y-5">
@@ -2593,32 +2593,32 @@ function TestimonialsTab({ onCount }) {
   };
   const feature = async (tm) => {
     const r = await setTestimonialFeatured(tm.id, !tm.featured);
-    notify(r.ok ? (tm.featured ? "Retiré des témoignages mis en avant." : "Mis en avant sur l'accueil.") : "Action refusée.");
+    notify(r.ok ? (tm.featured ? "Retiré des avis mis en avant." : "Mis en avant sur l'accueil.") : "Action refusée.");
     load();
   };
   const remove = async (id) => {
     const r = await deleteTestimonial(id);
-    notify(r.ok ? "Témoignage supprimé." : "Suppression refusée.");
+    notify(r.ok ? "Avis supprimé." : "Suppression refusée.");
     load();
   };
 
   if (unavailable) {
-    return <UnavailableCard>Les témoignages nécessitent la table <span className="font-mono2">testimonials</span> — appliquez la migration <span className="font-mono2">20260729_testimonials.sql</span>.</UnavailableCard>;
+    return <UnavailableCard>Les avis nécessitent la table <span className="font-mono2">testimonials</span> — appliquez la migration <span className="font-mono2">20260729_testimonials.sql</span>.</UnavailableCard>;
   }
   const list = (items || []).filter((x) => filter === "all" || x.status === filter);
   return (
     <div className="space-y-4">
       <Card className="p-6">
         <div className="flex items-center justify-between gap-3 mb-1.5">
-          <h3 className={`font-display font-bold ${c.text}`}>Témoignages (accueil)</h3>
-          <button onClick={toggleShown} disabled={shown === null} role="switch" aria-checked={!!shown} aria-label="Afficher les témoignages sur l'accueil"
+          <h3 className={`font-display font-bold ${c.text}`}>Avis (accueil)</h3>
+          <button onClick={toggleShown} disabled={shown === null} role="switch" aria-checked={!!shown} aria-label="Afficher les avis sur l'accueil"
             className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${shown ? "bg-blue-600" : c.track} ${shown === null ? "opacity-50" : ""}`}>
             <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${shown ? "translate-x-5" : ""}`} />
           </button>
         </div>
         <p className={`text-sm ${c.sub}`}>
           La section « Histoires de réussite » de la page d'accueil publique, affichée en diaporama. Désactivez-la pour
-          la retirer entièrement — titre et invitation à témoigner compris. Cela ne change rien aux témoignages
+          la retirer entièrement — titre et invitation à donner son avis compris. Cela ne change rien aux avis
           eux-mêmes : ceux qui sont publiés le restent et réapparaissent tels quels à la réactivation.
         </p>
       </Card>
@@ -2634,7 +2634,7 @@ function TestimonialsTab({ onCount }) {
           <SkeletonRows n={3} className="h-28" />
         ) : list.length === 0 ? (
           <EmptyState icon={Quote}
-            title={filter === "pending" ? "Aucun témoignage à valider." : "Aucun témoignage dans cette catégorie."}
+            title={filter === "pending" ? "Aucun avis à valider." : "Aucun avis dans cette catégorie."}
             sub={filter === "pending" ? "Les récits envoyés par les membres depuis leur profil arrivent ici." : null} />
         ) : (
           <div className="space-y-2">
@@ -2659,9 +2659,9 @@ function TestimonialsTab({ onCount }) {
                 </div>
                 <p className={`text-sm mt-1 whitespace-pre-wrap ${c.sub}`}>« {tm.body} »</p>
                 <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                  {tm.status !== "approved" && <button onClick={() => patch(tm.id, "approved", "Témoignage publié sur l'accueil.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Publier" title="Publier sur l'accueil"><Check size={16} /></button>}
-                  {tm.status !== "rejected" && <button onClick={() => patch(tm.id, "rejected", "Témoignage refusé.")} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Refuser" title="Refuser"><XCircle size={15} /></button>}
-                  {tm.status !== "pending" && <button onClick={() => patch(tm.id, "pending", "Témoignage remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
+                  {tm.status !== "approved" && <button onClick={() => patch(tm.id, "approved", "Avis publié sur l'accueil.")} className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-500`} aria-label="Publier" title="Publier sur l'accueil"><Check size={16} /></button>}
+                  {tm.status !== "rejected" && <button onClick={() => patch(tm.id, "rejected", "Avis refusé.")} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Refuser" title="Refuser"><XCircle size={15} /></button>}
+                  {tm.status !== "pending" && <button onClick={() => patch(tm.id, "pending", "Avis remis en file.")} className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Remettre en file" title="Remettre en file"><RotateCcw size={15} /></button>}
                   {tm.status === "approved" && <button onClick={() => feature(tm)} className={`p-2 rounded-xl ${c.hoverSoft} ${tm.featured ? "text-[#b8860b]" : c.sub}`} aria-label="Mettre en avant" title={tm.featured ? "Retirer la mise en avant" : "Mettre en avant"}><Trophy size={15} /></button>}
                   <button onClick={() => remove(tm.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Supprimer" title="Supprimer"><Trash2 size={15} /></button>
                 </div>

@@ -97,10 +97,10 @@ export const MIN_RATINGS_FOR_AVERAGE = 3;
 export async function submitTestimonial({ name, origin, level, body, rating, anonymous = false }) {
   const { data: auth } = await supabase.auth.getUser();
   const userId = auth?.user?.id;
-  if (!userId) return { ok: false, error: "Connectez-vous pour partager votre témoignage." };
+  if (!userId) return { ok: false, error: "Connectez-vous pour partager votre avis." };
 
   const clean = s(body, MAX_BODY);
-  if (clean.length < MIN_BODY) return { ok: false, error: `Votre témoignage doit faire au moins ${MIN_BODY} caractères.` };
+  if (clean.length < MIN_BODY) return { ok: false, error: `Votre avis doit faire au moins ${MIN_BODY} caractères.` };
 
   const realName = s(name, 60) || "Membre";
   const hide = !!anonymous;

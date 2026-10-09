@@ -56,7 +56,7 @@ export function ExamFeedbackDialog({ onClose }) {
           {t("Vous venez de vivre ce que des milliers de candidats redoutent. Racontez-le en deux phrases : après validation, votre avis sera publié sur notre page Avis, et c'est souvent celui d'un candidat comme vous qui décide quelqu'un à se lancer.")}
         </p>
 
-        {/* The same form as "Mon témoignage" on the profile page. */}
+        {/* The same form as "Mon avis" on the profile page. */}
         <div className="mt-6">
           <TestimonialForm onSent={() => onClose?.("sent")}>
             <Btn type="button" variant="ghost" onClick={() => onClose?.("later")}>{t("Plus tard")}</Btn>

@@ -312,7 +312,7 @@ export default async function handler(req, res) {
         id: `testimonial:${t.id}`,
         type: "testimonial",
         at: t.created_at,
-        title: "Témoignage déposé",
+        title: "Avis déposé",
         detail: [t.level, t.status].filter(Boolean).join(" · "),
         meta: { status: t.status },
       })),

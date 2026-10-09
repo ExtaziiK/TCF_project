@@ -5,7 +5,7 @@ import { Btn, StarRating } from "@/components/common";
 import { submitTestimonial, MIN_BODY, MAX_BODY, ANONYMOUS_NAME } from "@/services/testimonialsService";
 
 // The one review form, used in both places a member can leave one: the dialog
-// after their first TCF blanc (ExamFeedbackDialog) and "Mon témoignage" on the
+// after their first TCF blanc (ExamFeedbackDialog) and "Mon avis" on the
 // profile page. Both write the same `testimonials` row and, once an admin
 // approves it, it shows on the Avis page (and may be picked for the home
 // carousel) — so the two must ask for the same things. They used to differ: the

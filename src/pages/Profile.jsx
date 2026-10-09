@@ -384,12 +384,12 @@ function TestimonialSection() {
 
   const withdraw = async (id) => {
     const r = await deleteTestimonial(id);
-    notify(t(r.ok ? "Témoignage retiré." : "Suppression refusée."));
+    notify(t(r.ok ? "Avis retiré." : "Suppression refusée."));
     load();
   };
 
   return (
-    <ProfileSection icon={Quote} title={t("Mon témoignage")} desc={t("Racontez votre parcours. Après validation par notre équipe, il sera publié sur la page Avis et pourra apparaître sur la page d'accueil.")}>
+    <ProfileSection icon={Quote} title={t("Mon avis")} desc={t("Partagez votre expérience. Après validation par notre équipe, votre avis sera publié sur la page Avis et pourra apparaître sur la page d'accueil.")}>
       {mine === null ? (
         <div className={`h-24 rounded-2xl animate-pulse ${c.track}`} aria-hidden="true" />
       ) : (
@@ -416,7 +416,7 @@ function TestimonialSection() {
             // The same form as the review dialog after a first TCF blanc.
             <TestimonialForm onSent={load} submitLabel="Envoyer pour validation" />
           ) : (
-            <p className={`text-xs ${c.faint}`}>{t("Retirez votre témoignage actuel pour en écrire un nouveau.")}</p>
+            <p className={`text-xs ${c.faint}`}>{t("Retirez votre avis actuel pour en écrire un nouveau.")}</p>
           )}
         </div>
       )}

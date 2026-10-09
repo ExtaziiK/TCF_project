@@ -90,15 +90,15 @@ export const FAQS = [
   },
   {
     id: "laisser-un-avis",
-    q: "Comment laisser un avis ou un témoignage ?",
+    q: "Comment laisser un avis ?",
     a: "Votre expérience aide les prochains candidats. Après votre premier TCF blanc, nous vous proposons de laisser un avis ; vous pouvez aussi l'écrire à tout moment depuis votre profil. C'est le même formulaire dans les deux cas : après validation par notre équipe, votre avis est publié sur la page Avis et peut apparaître sur la page d'accueil.",
     steps: [
       "Ouvrez le menu, puis « Mon profil ».",
-      "Dans « Mon témoignage », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).",
+      "Dans « Mon avis », choisissez une note, puis racontez votre expérience en quelques phrases (10 à 600 caractères).",
       "Si vous le souhaitez, ajoutez votre parcours (par exemple « Alger → Montréal ») et le résultat obtenu, ou masquez votre nom.",
       "Appuyez sur « Envoyer pour validation ». Vous pourrez le retirer à tout moment depuis votre profil.",
     ],
-    gif: { src: "/faq/temoignage.gif", width: 320, height: 640, alt: "Mon profil, « Mon témoignage » rempli, puis « Envoyer pour validation »" },
+    gif: { src: "/faq/avis.gif", width: 320, height: 640, alt: "Mon profil, « Mon avis » rempli, puis « Envoyer pour validation »" },
     link: { label: "Lire les avis des candidats", route: "avis" },
   },
   {
