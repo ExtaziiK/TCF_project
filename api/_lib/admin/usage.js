@@ -136,6 +136,26 @@ export function contextFacts(ctx) {
   return facts;
 }
 
+// Rows logged BEFORE the empty-recording guard (expression-orale.js,
+// MIN_AUDIO_BYTES): a microphone that sent nothing reached Whisper, which
+// answered 400 "invalid_media_file", and the row was filed as a Groq refusal.
+// Read back here as what it really was — a silent microphone — so the cases
+// already on record land in the incidents panel with today's ones, without
+// rewriting the stored rows. Returns the row as an incident, or null.
+export const LEGACY_EMPTY_AUDIO_BYTES = 1024;
+export function legacyIncident(row) {
+  const bytes = row?.error_request?.audioBytes;
+  if (row?.kind !== "transcription" || !/invalid_media_file/.test(String(row.error_detail || ""))) return null;
+  if (typeof bytes !== "number" || bytes >= LEGACY_EMPTY_AUDIO_BYTES) return null;
+  return {
+    ...row,
+    kind: "incident",
+    error_status: 0,
+    error_detail: `Enregistrement vide (${bytes} octets) : le micro n'a rien envoyé. Enregistré avant le correctif comme un refus de Groq.`,
+    error_context: { source: "serveur", code: "enregistrement-vide", audioBytes: bytes, mime: row.error_request?.mime, ...(row.error_context || {}) },
+  };
+}
+
 // What an incident (kind "incident": never reached Groq, or Groq had no part
 // in it) means, in the same { label, hint, tone } shape as failureReason.
 export function incidentReason(status, ctx = {}) {
@@ -241,6 +261,7 @@ async function aiUsage(users) {
   // quiet one.
   // Incidents (kind "incident") never reached Groq, or Groq had no part in
   // them: they are reported on their own and kept out of every Groq figure.
+  data = data.map((r) => legacyIncident(r) || r);
   const incidents = data.filter((r) => r.kind === "incident");
   const calls = data.filter((r) => r.kind !== "incident");
   const failed = calls.filter((r) => r.error_status);

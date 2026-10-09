@@ -2,6 +2,7 @@ import { MicOff, RefreshCw, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { micIssue, isInAppBrowser } from "@/utils/aiIssue";
+import { SupportLink } from "@/components/expression/SupportDialog";
 
 // A microphone problem, named, with what to do about it (utils/aiIssue.js →
 // micIssue). Shown above the oral workshops instead of a short toast that
@@ -11,7 +12,7 @@ import { micIssue, isInAppBrowser } from "@/utils/aiIssue";
 // "unsupported" / "silent". A permission or a busy microphone only clears on a
 // reload, so those offer "Actualiser la page"; a silent recording can simply
 // be tried again, so it offers to close the card instead.
-export function MicHelp({ code, onClose }) {
+export function MicHelp({ code, onClose, task }) {
   const { c, t } = useApp();
   if (!code) return null;
   const issue = micIssue(code, { inApp: isInAppBrowser() });
@@ -35,6 +36,7 @@ export function MicHelp({ code, onClose }) {
       {!retryInPlace && (
         <Btn small variant="ghost" icon={RefreshCw} className="mt-3" onClick={() => window.location.reload()}>{t("Actualiser la page")}</Btn>
       )}
+      <SupportLink context={{ issue: issue.title, section: "eo", task }} />
     </div>
   );
 }

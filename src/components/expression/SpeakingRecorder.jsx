@@ -17,7 +17,7 @@ export function SpeakingRecorder({ task }) {
   return (
     <div className="grid lg:grid-cols-3 gap-5 rise">
       <Card className="lg:col-span-2 p-7 text-center">
-        <MicHelp code={micIssue} onClose={clearMicIssue} />
+        <MicHelp code={micIssue} onClose={clearMicIssue} task={task.task} />
         <div className="flex justify-center gap-2 mb-5 flex-wrap">
           <Pill tone="blue">{task.prep ? `${t("Préparation :")} ${fmt(task.prep)}` : t("Sans préparation")}</Pill>
           <Pill tone="red">{t("Parole :")} {fmt(task.dur)}</Pill>
@@ -68,7 +68,7 @@ export function SpeakingRecorder({ task }) {
               )}
               {h.status === "error" && h.refresh && (
                 <div className="mt-2.5">
-                  <RefreshNotice compact kind={h.kind} section="eo" downloadUrl={h.url} downloadName={`tache-${task.task}-enregistrement.${h.ext || "webm"}`} />
+                  <RefreshNotice compact kind={h.kind} section="eo" task={task.task} downloadUrl={h.url} downloadName={`tache-${task.task}-enregistrement.${h.ext || "webm"}`} />
                 </div>
               )}
               {h.status === "error" && !h.refresh && (

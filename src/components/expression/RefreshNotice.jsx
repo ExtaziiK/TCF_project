@@ -3,6 +3,7 @@ import { RefreshCw, Copy, Check, Download } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { failureIssue } from "@/utils/aiIssue";
+import { SupportLink } from "@/components/expression/SupportDialog";
 
 // What a candidate sees when an analysis could not be completed — in place of
 // a technical error. One instruction (refresh the page), and first, a way to
@@ -46,7 +47,7 @@ async function copyToClipboard(text) {
   }
 }
 
-export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downloadUrl, downloadName = "mon-enregistrement.webm", compact = false, kind = "generic", section = "ee" }) {
+export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downloadUrl, downloadName = "mon-enregistrement.webm", compact = false, kind = "generic", section = "ee", task }) {
   const { c, t, notify } = useApp();
   const [copied, setCopied] = useState(false);
   const issue = failureIssue(kind, section);
@@ -88,6 +89,7 @@ export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downlo
         )}
         <Btn small variant="ghost" icon={RefreshCw} onClick={() => window.location.reload()}>{t("Actualiser la page")}</Btn>
       </div>
+      <SupportLink context={{ issue: issue ? issue.title : "Cette page doit être actualisée pour continuer.", section, task }} />
     </div>
   );
 }

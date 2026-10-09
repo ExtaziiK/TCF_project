@@ -52,7 +52,7 @@ export function OralInterview({ task }) {
           </div>
         )}
 
-        <MicHelp code={micIssue} onClose={clearMicIssue} />
+        <MicHelp code={micIssue} onClose={clearMicIssue} task={task.task} />
         {error && (
           <p className="mb-4 text-sm font-semibold text-rose-600 flex items-start gap-1.5">
             <AlertCircle size={15} className="shrink-0 mt-0.5" /> {error}
@@ -63,6 +63,7 @@ export function OralInterview({ task }) {
             <RefreshNotice
               kind={needsRefresh}
               section="eo"
+              task={task.task}
               copyLabel="Copier l'échange"
               copyText={turns
                 .filter((tn) => tn.text && !tn.failed && !tn.emptyRec)

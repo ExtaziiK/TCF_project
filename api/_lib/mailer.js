@@ -32,11 +32,14 @@ function transport() {
   return cached;
 }
 
-export async function sendMail({ to, cc, subject, html, text }) {
+// `replyTo`: where "Reply" goes — the candidate, on an email the site sends
+// to the team on their behalf (the support request).
+export async function sendMail({ to, cc, replyTo, subject, html, text }) {
   return transport().sendMail({
     from: `"${FROM_NAME}" <${FROM_ADDR}>`,
     to,
     ...(cc && cc.length ? { cc } : {}),
+    ...(replyTo ? { replyTo } : {}),
     subject,
     html,
     text: text || html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
@@ -45,6 +48,9 @@ export async function sendMail({ to, cc, subject, html, text }) {
 
 // Whether SMTP credentials are present. Lets a caller offer (or withhold) the
 // email option honestly instead of finding out at send time.
+// The team's own mailbox — where a support request is delivered.
+export const TEAM_ADDRESS = FROM_ADDR;
+
 export function mailConfigured() {
   return !!(process.env.SMTP_USER && process.env.SMTP_PASS);
 }

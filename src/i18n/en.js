@@ -2489,6 +2489,23 @@ export const EN = {
   "Le problème vient du micro de votre appareil ou de ses réglages, pas du site.": "The problem is your device's microphone or its settings, not the site.",
   "Le problème vient de votre appareil ou de ses réglages, pas du site.": "The problem is your device or its settings, not the site.",
   "Votre connexion internet a été interrompue — le problème vient de votre Wi-Fi ou de vos données mobiles, pas du site. Vérifiez-les, puis répondez à nouveau.": "Your internet connection was interrupted — the problem is your Wi-Fi or mobile data, not the site. Check them, then answer again.",
+  // Support request (SupportDialog) — 2026-10.
+  "Problème technique — besoin d'assistance": "Technical issue — assistance needed",
+  "Besoin d'aide ? On vous rappelle": "Need help? We'll call you back",
+  "Laissez votre numéro WhatsApp : un membre de l'équipe vous appelle pour régler le problème avec vous. Les informations techniques sont jointes automatiquement.": "Leave your WhatsApp number: a team member will call you to fix the problem with you. Technical details are attached automatically.",
+  "Numéro WhatsApp": "WhatsApp number",
+  "Avec l'indicatif du pays de préférence. Utilisé uniquement pour vous rappeler.": "Preferably with the country code. Used only to call you back.",
+  "Décrivez ce qui se passe (facultatif)": "Describe what's happening (optional)",
+  "Demander à être rappelé·e": "Ask to be called back",
+  "Demande envoyée": "Request sent",
+  "Notre équipe vous recontacte sur WhatsApp au": "Our team will contact you on WhatsApp at",
+  "dès que possible.": "as soon as possible.",
+  "Indiquez votre nom.": "Enter your name.",
+  "Entrez un numéro WhatsApp valide, avec l'indicatif du pays (par exemple +213 5XX XX XX XX).": "Enter a valid WhatsApp number, with the country code (for example +213 5XX XX XX XX).",
+  "L'envoi a échoué. Vérifiez votre connexion, puis réessayez.": "Sending failed. Check your connection, then try again.",
+  "Toujours bloqué·e ?": "Still stuck?",
+  "Contactez-nous, on vous rappelle sur WhatsApp": "Contact us, we'll call you back on WhatsApp",
+  "Numéro WhatsApp requis": "WhatsApp number required",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

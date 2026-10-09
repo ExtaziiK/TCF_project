@@ -79,3 +79,20 @@ test("error_context is the first column dropped on a pre-migration database", ()
     BASE,
   ]);
 });
+
+test("empty recordings logged before the fix are read back as incidents", async () => {
+  const { legacyIncident } = await import("../api/_lib/admin/usage.js");
+  const old = {
+    created_at: "2026-10-06T22:48:00Z", user_id: "u1", endpoint: "expression-orale", kind: "transcription",
+    model: "whisper-large-v3-turbo", error_status: 400,
+    error_detail: '{"error":{"message":"could not process file - is it a valid media file?","code":"invalid_media_file"}}',
+    error_request: { mime: "audio/webm;codecs=opus", audioBytes: 5 },
+  };
+  const inc = legacyIncident(old);
+  assert.equal(inc.kind, "incident");
+  assert.equal(incidentReason(inc.error_status, inc.error_context).label, "Micro silencieux");
+  // A real recording Whisper could not read stays a Groq refusal.
+  assert.equal(legacyIncident({ ...old, error_request: { audioBytes: 48213 } }), null);
+  // A chat refusal is never touched.
+  assert.equal(legacyIncident({ ...old, kind: "chat" }), null);
+});
