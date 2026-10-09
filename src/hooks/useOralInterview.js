@@ -3,6 +3,15 @@ import { useApp } from "@/context/AppContext";
 import { speakingDialogueTurn, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { reportMicIssue } from "@/hooks/useSpeakingSession";
+import { failureKind, failureIssue } from "@/utils/aiIssue";
+
+// What a single failed turn says, by failure kind (utils/aiIssue.js): the
+// interview carries on, so the advice ends with "answer again".
+const RETRY_LINES = {
+  offline: "Votre connexion internet a été interrompue : vérifiez votre Wi-Fi ou vos données mobiles, puis répondez à nouveau.",
+  timeout: "Votre réponse a mis trop de temps à être traitée. Répondez à nouveau ; si votre connexion est lente, préférez le Wi-Fi.",
+  generic: "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.",
+};
 import { speak, stopSpeaking } from "@/utils/speech";
 
 // Preferred recording containers, best first. Whisper accepts all of these;
@@ -47,7 +56,10 @@ export function useOralInterview(task, notify) {
   // Two failed turns in a row: the page asks to be refreshed (RefreshNotice,
   // with "copy the conversation" first). One alone only asks to answer again —
   // the interview carries on as it is, and a refresh would throw it away.
-  const [needsRefresh, setNeedsRefresh] = useState(false);
+  // Holds the failure kind ("offline" | "timeout" | "generic") for RefreshNotice.
+  const [needsRefresh, setNeedsRefresh] = useState(null);
+  // A microphone problem to explain (MicHelp) — see useSpeakingSession.
+  const [micIssue, setMicIssue] = useState(null);
   const failStreak = useRef(0);
   const [remaining, setRemaining] = useState(task.dur); // shared speaking budget left (whole exchange)
   const nextId = useRef(1);
@@ -149,6 +161,7 @@ export function useOralInterview(task, notify) {
 
     if (!chunks.length) {
       fail(t("Aucun son n'a été capté. Vérifiez votre micro."));
+      setMicIssue("silent");
       reportMicIssue(taskRef.current.task, null, "entretien");
       return;
     }
@@ -176,6 +189,8 @@ export function useOralInterview(task, notify) {
       const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
 
       // Nothing intelligible was said (silence or a Whisper hallucination).
+      // No sound at all in the file: a microphone problem, explained as one.
+      setMicIssue(res.empty && res.silentRecording ? "silent" : null);
       if (res.empty) {
         // Keep the silent take visible so the user can replay and notice their
         // mic was quiet, but it's not part of the graded dialogue.
@@ -245,16 +260,18 @@ export function useOralInterview(task, notify) {
               : null;
       if (known) { fail(known); return; }
       failStreak.current += 1;
+      const kind = failureKind(err);
+      const twice = failStreak.current > 1;
       if (shouldReportFromBrowser(err)) {
         reportClientIssue("eo", {
           mode: "entretien", stage: "envoi", status: err?.status ?? 0, message: err?.message,
           task: taskRef.current.task, audioBytes: blob.size, mime: type,
           attemptId: getFreeMockAttemptId() || undefined,
-          shown: failStreak.current > 1 ? "Cette page doit être actualisée pour continuer." : "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.",
+          shown: twice ? failureIssue(kind, "eo")?.title || "Cette page doit être actualisée pour continuer." : RETRY_LINES[kind],
         });
       }
-      if (failStreak.current > 1) { fail(""); setNeedsRefresh(true); }
-      else fail(t("Votre réponse n'a pas pu être prise en compte. Répondez à nouveau."));
+      if (twice) { fail(""); setNeedsRefresh(kind); }
+      else fail(t(RETRY_LINES[kind]));
       return;
     }
   };
@@ -266,8 +283,9 @@ export function useOralInterview(task, notify) {
     try {
       const mime = pickMime();
       recorder = new MediaRecorder(stream, mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : undefined);
-    } catch {
-      notify(t("Impossible de démarrer l'enregistrement sur ce navigateur."));
+    } catch (err) {
+      setMicIssue("unsupported");
+      reportMicIssue(taskRef.current.task, err, "entretien");
       releaseStream();
       setPhase("idle");
       return;
@@ -316,7 +334,8 @@ export function useOralInterview(task, notify) {
     setFeedback(null);
     setEnded(false);
     setError("");
-    setNeedsRefresh(false);
+    setNeedsRefresh(null);
+    setMicIssue(null);
     failStreak.current = 0;
   };
 
@@ -354,17 +373,19 @@ export function useOralInterview(task, notify) {
   const begin = async () => {
     if (phase !== "idle") return;
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      notify(t("Votre navigateur ne permet pas l'enregistrement audio."));
+      setMicIssue("unsupported");
+      reportMicIssue(taskRef.current.task, { name: "unsupported", message: "getUserMedia ou MediaRecorder absent" }, "entretien");
       return;
     }
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err) {
-      notify(t("Micro non autorisé. Autorisez l'accès au microphone pour vous enregistrer."));
+      setMicIssue(err?.name || "other");
       reportMicIssue(taskRef.current.task, err, "entretien");
       return;
     }
+    setMicIssue(null);
     streamRef.current = stream;
     setBudget(taskRef.current.dur);
     setPhase("review");
@@ -378,5 +399,5 @@ export function useOralInterview(task, notify) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }

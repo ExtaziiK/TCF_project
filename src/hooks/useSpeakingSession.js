@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { fmt } from "@/utils/format";
 import { evaluateSpeaking, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
+import { failureKind, failureIssue } from "@/utils/aiIssue";
 
 // A microphone that never started, recorded for the admin (code "micro").
 // err.name is the useful part: NotAllowedError (permission refused),
@@ -28,11 +29,14 @@ const pickMime = () =>
 //   idle -> (prep) -> rec -> processing -> idle
 // Each finished attempt becomes a history entry that fills in with the audio,
 // transcript and AI feedback as they arrive.
-export function useSpeakingSession(task, notify) {
+export function useSpeakingSession(task) {
   const { lang, t } = useApp();
   const [phase, setPhase] = useState("idle"); // idle | prep | rec | processing
   const [count, setCount] = useState(0);
   const [history, setHistory] = useState([]);
+  // A microphone problem to explain (MicHelp): the browser's error name, or
+  // "unsupported" / "silent". Null when the microphone works.
+  const [micIssue, setMicIssue] = useState(null);
   const nextId = useRef(1);
   const streamRef = useRef(null);
   const recorderRef = useRef(null);
@@ -70,6 +74,7 @@ export function useSpeakingSession(task, notify) {
 
     if (!chunks.length) {
       patch({ status: "error", error: t("Aucun son n'a été capté. Vérifiez votre micro.") });
+      setMicIssue("silent");
       reportMicIssue(taskRef.current.task, null, "atelier");
       return;
     }
@@ -84,6 +89,9 @@ export function useSpeakingSession(task, notify) {
         lang,
       });
       patch({ status: "done", transcript: fb.transcript || "", empty: !!fb.empty, feedback: fb.empty ? null : fb });
+      // The server found no sound at all in the file: a microphone problem,
+      // explained as one. A real recording clears any earlier explanation.
+      setMicIssue(fb.silentRecording ? "silent" : null);
     } catch (err) {
       // 404 only: a dropped connection (status 0) is a real failure in
       // production, not the local "no serverless functions" case it used to
@@ -98,13 +106,14 @@ export function useSpeakingSession(task, notify) {
               : null;
       // Anything else: "refresh the page", with the recording downloadable
       // first (RefreshNotice). The analysis was handed back server-side.
-      patch(known ? { status: "error", error: known } : { status: "error", refresh: true });
+      const kind = failureKind(err);
+      patch(known ? { status: "error", error: known } : { status: "error", refresh: true, kind });
       if (!known && shouldReportFromBrowser(err)) {
         reportClientIssue("eo", {
           stage: "envoi", status: err?.status ?? 0, message: err?.message, task: taskRef.current.task,
           audioBytes: blob.size, durationMs: elapsed * 1000, mime: type,
           attemptId: getFreeMockAttemptId() || undefined,
-          shown: "Cette page doit être actualisée pour continuer.",
+          shown: failureIssue(kind, "eo")?.title || "Cette page doit être actualisée pour continuer.",
         });
       }
     }
@@ -117,8 +126,9 @@ export function useSpeakingSession(task, notify) {
     try {
       const mime = pickMime();
       recorder = new MediaRecorder(stream, mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : undefined);
-    } catch {
-      notify(t("Impossible de démarrer l'enregistrement sur ce navigateur."));
+    } catch (err) {
+      setMicIssue("unsupported");
+      reportMicIssue(taskRef.current.task, err, "atelier");
       releaseStream();
       setPhase("idle");
       return;
@@ -152,6 +162,7 @@ export function useSpeakingSession(task, notify) {
     releaseStream();
     setPhase("idle");
     setCount(0);
+    setMicIssue(null);
   }, [task.id]);
 
   // Release the mic if the component unmounts mid-session, and free the
@@ -180,17 +191,19 @@ export function useSpeakingSession(task, notify) {
   const start = async () => {
     if (phase !== "idle") return;
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      notify(t("Votre navigateur ne permet pas l'enregistrement audio."));
+      setMicIssue("unsupported");
+      reportMicIssue(taskRef.current.task, { name: "unsupported", message: "getUserMedia ou MediaRecorder absent" }, "atelier");
       return;
     }
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err) {
-      notify(t("Micro non autorisé. Autorisez l'accès au microphone pour vous enregistrer."));
+      setMicIssue(err?.name || "other");
       reportMicIssue(taskRef.current.task, err, "atelier");
       return;
     }
+    setMicIssue(null);
     streamRef.current = stream;
     if (taskRef.current.prep > 0) { setPhase("prep"); setCount(taskRef.current.prep); }
     else beginRecording();
@@ -199,5 +212,5 @@ export function useSpeakingSession(task, notify) {
   const skipPrep = () => { if (phase === "prep") beginRecording(); };
   const stop = () => { if (phase === "rec") finishRecording(); };
 
-  return { phase, count, history, start, stop, skipPrep };
+  return { phase, count, history, start, stop, skipPrep, micIssue, clearMicIssue: () => setMicIssue(null) };
 }

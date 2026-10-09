@@ -4,6 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { RefreshNotice } from "@/components/expression/RefreshNotice";
+import { MicHelp } from "@/components/expression/MicHelp";
 import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
 
@@ -13,7 +14,7 @@ import { fmt } from "@/utils/format";
 // whole conversation is graded at the end.
 export function OralInterview({ task }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
   const endRef = useRef(null);
 
   // Keep the latest exchange in view as the dialogue grows.
@@ -51,6 +52,7 @@ export function OralInterview({ task }) {
           </div>
         )}
 
+        <MicHelp code={micIssue} onClose={clearMicIssue} />
         {error && (
           <p className="mb-4 text-sm font-semibold text-rose-600 flex items-start gap-1.5">
             <AlertCircle size={15} className="shrink-0 mt-0.5" /> {error}
@@ -59,6 +61,8 @@ export function OralInterview({ task }) {
         {needsRefresh && (
           <div className="mb-4">
             <RefreshNotice
+              kind={needsRefresh}
+              section="eo"
               copyLabel="Copier l'échange"
               copyText={turns
                 .filter((tn) => tn.text && !tn.failed && !tn.emptyRec)

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { evaluateWriting, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
+import { failureKind, failureIssue } from "@/utils/aiIssue";
 import { sameForGrading } from "@/utils/textSignature";
 import { applyStickyScore, STICKY_WITHIN } from "@/utils/stickyScore";
 
@@ -15,9 +16,10 @@ export function useWritingTask(task, notify) {
   const [showSample, setShowSample] = useState(false);
   const [ai, setAi] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
-  // The analysis could not be completed: the page shows RefreshNotice (copy
-  // the text, then refresh) instead of an error message.
-  const [failed, setFailed] = useState(false);
+  // The analysis could not be completed: null, or how RefreshNotice presents
+  // it — "offline" / "timeout" (named, with what to do) or "generic" (only
+  // "refresh the page"). See utils/aiIssue.js.
+  const [failed, setFailed] = useState(null);
 
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   // Parse the "X à Y mots" target defensively: admin-authored tasks could
@@ -27,7 +29,7 @@ export function useWritingTask(task, notify) {
   const hi = nums[1] ?? nums[0] ?? 0;
 
   useEffect(() => {
-    setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null); setAnalyzing(false); setFailed(false);
+    setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null); setAnalyzing(false); setFailed(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.id]);
 
@@ -87,7 +89,7 @@ export function useWritingTask(task, notify) {
 
     setAnalyzing(true);
     setAi(null);
-    setFailed(false);
+    setFailed(null);
     try {
       const feedback = await evaluateWriting({
         prompt: task.prompt,
@@ -119,12 +121,13 @@ export function useWritingTask(task, notify) {
         // timed out, a bug of ours: one calm instruction, and their text kept
         // within reach (RefreshNotice). The analysis was handed back server-
         // side. A failure the server never saw is reported from here.
-        setFailed(true);
+        const kind = failureKind(err);
+        setFailed(kind);
         if (shouldReportFromBrowser(err)) {
           reportClientIssue("ee", {
             stage: "analyse", status: err?.status ?? 0, message: err?.message, task: task.task, words,
             attemptId: getFreeMockAttemptId() || undefined,
-            shown: "Cette page doit être actualisée pour continuer.",
+            shown: failureIssue(kind, "ee")?.title || "Cette page doit être actualisée pour continuer.",
           });
         }
       }

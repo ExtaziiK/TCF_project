@@ -204,10 +204,13 @@ function decodeAudio(audio) {
 // transcription when the real problem was their microphone.
 const MIN_AUDIO_BYTES = 1024;
 
-// Transcribes, or answers "" for a recording with nothing in it: the callers
-// already treat an empty transcript as "nothing was heard" (re-prompt, or give
+// Transcribes, or answers null for a recording with nothing in it: the callers
+// treat it as an empty transcript — "nothing was heard" (re-prompt, or give
 // the analysis back), which is exactly the right outcome — without a Groq
 // call, and recorded as an incident so the admin sees whose microphone failed.
+// null rather than "" so the response can say `silentRecording`: the page then
+// explains a MICROPHONE problem (muted, held by another app, in-app browser)
+// instead of "no speech detected", which reads as "you said nothing".
 async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint }) {
   if (buffer.length < MIN_AUDIO_BYTES) {
     await logIncident({
@@ -215,7 +218,7 @@ async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint
       detail: `Enregistrement vide (${buffer.length} octets) : le micro n'a rien envoyé. Aucun appel à Groq.`,
       context: { source: "serveur", ...serverContext(req, user, "eo", { code: "enregistrement-vide", audioBytes: buffer.length, mime: String(mime).slice(0, 80) }) },
     });
-    return "";
+    return null;
   }
   const transcribeStart = Date.now();
   const transcript = await groqTranscribe(buffer, {
@@ -238,7 +241,9 @@ async function dialogueTurn(res, user, body, req, claim) {
   const timeUp = body.final === true || body.final === "true";
   const buffer = decodeAudio(audio);
 
-  const transcript = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue" });
+  const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue" });
+  const silentRecording = heard === null || undefined;
+  const transcript = heard || "";
 
   const history = sanitizeHistory(body.history);
 
@@ -279,12 +284,12 @@ async function dialogueTurn(res, user, body, req, claim) {
     if (!timeUp && emptyStreak < MAX_EMPTY_REPROMPTS) {
       await releaseAiUse(claim);
       const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
-      return res.status(200).json({ empty: true, transcript: "", reprompt: line, ...(await voiceLine(line)) });
+      return res.status(200).json({ empty: true, silentRecording, transcript: "", reprompt: line, ...(await voiceLine(line)) });
     }
     if (!history.some((m) => m.role === "candidate")) {
       await releaseAiUse(claim);
       const line = "Je n'ai pas entendu de réponse. Nous allons nous arrêter ici ; vous pourrez reprendre l'entretien quand vous le souhaitez.";
-      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
+      return res.status(200).json({ empty: true, silentRecording, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
     }
     const gradeStart = Date.now();
     const { json: rawGrade, usage: gradeUsage, model: usedModel } = await groqChatJSON([
@@ -296,7 +301,7 @@ async function dialogueTurn(res, user, body, req, claim) {
     // The current turn was silence, not speech — only the PRIOR history has
     // anything the candidate actually said, so that alone is what a rewrite
     // gets verified against.
-    return res.status(200).json({ empty: true, capped: true, done: true, feedback: normalizeFeedback(rawGrade, candidateSpeech(history)), closing, ...(await voiceLine(closing)) });
+    return res.status(200).json({ empty: true, silentRecording, capped: true, done: true, feedback: normalizeFeedback(rawGrade, candidateSpeech(history)), closing, ...(await voiceLine(closing)) });
   }
 
   const exchangesSoFar = history.filter((m) => m.role === "examiner").length;
@@ -371,7 +376,8 @@ export default async function handler(req, res) {
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     const buffer = decodeAudio(audio);
 
-    const transcript = await transcribeOrSilence(req, user, buffer, { mime, language: lang === "en" ? "en" : "fr", endpoint: "expression-orale" });
+    const heard = await transcribeOrSilence(req, user, buffer, { mime, language: lang === "en" ? "en" : "fr", endpoint: "expression-orale" });
+    const transcript = heard || "";
 
     // Whisper hallucinates captions on near-silence; treat very short output
     // as "nothing said" and skip the (pointless) evaluation call.
@@ -379,7 +385,7 @@ export default async function handler(req, res) {
       // Nothing intelligible was said, so no evaluation was produced: give the
       // use back rather than charge for a microphone problem.
       await releaseAiUse(claim);
-      return res.status(200).json({ transcript: transcript || "", empty: true, level: "", summary: "", strengths: [], improvements: [] });
+      return res.status(200).json({ transcript, empty: true, silentRecording: heard === null || undefined, level: "", summary: "", strengths: [], improvements: [] });
     }
 
     const userMsg = [

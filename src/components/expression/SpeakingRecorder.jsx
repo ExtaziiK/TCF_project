@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { RefreshNotice } from "@/components/expression/RefreshNotice";
+import { MicHelp } from "@/components/expression/MicHelp";
 import { useSpeakingSession } from "@/hooks/useSpeakingSession";
 import { fmt } from "@/utils/format";
 
@@ -10,12 +11,13 @@ import { fmt } from "@/utils/format";
 // clock, then Whisper transcribes it and the AI grades the transcript.
 // Tasks 1 and 3 use this; task 2 runs as a live interview (OralInterview).
 export function SpeakingRecorder({ task }) {
-  const { c, notify, t } = useApp();
-  const { phase, count, history, start, stop, skipPrep } = useSpeakingSession(task, notify);
+  const { c, t } = useApp();
+  const { phase, count, history, start, stop, skipPrep, micIssue, clearMicIssue } = useSpeakingSession(task);
 
   return (
     <div className="grid lg:grid-cols-3 gap-5 rise">
       <Card className="lg:col-span-2 p-7 text-center">
+        <MicHelp code={micIssue} onClose={clearMicIssue} />
         <div className="flex justify-center gap-2 mb-5 flex-wrap">
           <Pill tone="blue">{task.prep ? `${t("Préparation :")} ${fmt(task.prep)}` : t("Sans préparation")}</Pill>
           <Pill tone="red">{t("Parole :")} {fmt(task.dur)}</Pill>
@@ -66,7 +68,7 @@ export function SpeakingRecorder({ task }) {
               )}
               {h.status === "error" && h.refresh && (
                 <div className="mt-2.5">
-                  <RefreshNotice compact downloadUrl={h.url} downloadName={`tache-${task.task}-enregistrement.${h.ext || "webm"}`} />
+                  <RefreshNotice compact kind={h.kind} section="eo" downloadUrl={h.url} downloadName={`tache-${task.task}-enregistrement.${h.ext || "webm"}`} />
                 </div>
               )}
               {h.status === "error" && !h.refresh && (

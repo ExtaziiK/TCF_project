@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RefreshCw, Copy, Check, Download } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
+import { failureIssue } from "@/utils/aiIssue";
 
 // What a candidate sees when an analysis could not be completed — in place of
 // a technical error. One instruction (refresh the page), and first, a way to
@@ -11,7 +12,12 @@ import { Btn } from "@/components/common";
 // `copyText` — their text (Expression écrite) or the conversation so far
 // (tâche 2 interview); `downloadUrl` — their recording (tâches 1 and 3).
 // The failure itself is recorded for the admin elsewhere (the endpoint, or
-// reportClientIssue in aiService) — nothing about it is shown here.
+// reportClientIssue in aiService).
+//
+// `kind` (utils/aiIssue.js → failureKind): "offline" and "timeout" have a
+// cause the candidate can act on, so they are named with what to do. Anything
+// else ("generic": a Groq refusal, a bug of ours) is never explained — only
+// "refresh the page".
 //
 // The analysis was given back server-side before this appears, so the line
 // "cette tentative ne vous a rien coûté" is true for every case shown here.
@@ -40,10 +46,10 @@ async function copyToClipboard(text) {
   }
 }
 
-export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downloadUrl, downloadName = "mon-enregistrement.webm", compact = false }) {
+export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downloadUrl, downloadName = "mon-enregistrement.webm", compact = false, kind = "generic", section = "ee" }) {
   const { c, t, notify } = useApp();
   const [copied, setCopied] = useState(false);
-  const offline = typeof navigator !== "undefined" && navigator.onLine === false;
+  const issue = failureIssue(kind, section);
   const hasWork = !!(copyText && copyText.trim()) || !!downloadUrl;
 
   const copy = async () => {
@@ -56,14 +62,17 @@ export function RefreshNotice({ copyText, copyLabel = "Copier mon texte", downlo
     <div role="alert" className={`rounded-2xl border-2 border-blue-600/40 ${compact ? "p-3.5" : "p-5"}`}>
       <p className={`font-semibold flex items-center gap-2 ${compact ? "text-sm" : ""} ${c.text}`}>
         <RefreshCw size={compact ? 15 : 17} className="text-blue-600 shrink-0" aria-hidden="true" />
-        {t("Cette page doit être actualisée pour continuer.")}
+        {t(issue ? issue.title : "Cette page doit être actualisée pour continuer.")}
       </p>
+      {issue && (
+        <ol className={`text-sm mt-2 space-y-1 list-decimal pl-5 ${c.sub}`}>
+          {issue.steps.map((step) => <li key={step}>{t(step)}</li>)}
+        </ol>
+      )}
       <p className={`text-sm mt-1.5 ${c.sub}`}>
-        {offline
-          ? t("Votre connexion internet semble coupée : vérifiez-la, puis actualisez la page.")
-          : hasWork
-            ? t("Gardez d'abord votre travail : la page sera vide après l'actualisation. Cette tentative ne vous a rien coûté.")
-            : t("Actualisez la page, puis relancez. Cette tentative ne vous a rien coûté.")}
+        {hasWork
+          ? t("Gardez d'abord votre travail : la page sera vide après l'actualisation. Cette tentative ne vous a rien coûté.")
+          : t("Actualisez la page, puis relancez. Cette tentative ne vous a rien coûté.")}
       </p>
       <div className="flex flex-wrap gap-2 mt-3">
         {copyText && copyText.trim() && (
