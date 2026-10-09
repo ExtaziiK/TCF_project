@@ -1,7 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { fmt } from "@/utils/format";
-import { evaluateSpeaking, blobToBase64, AiError } from "@/services/aiService";
+import { evaluateSpeaking, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
+import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
+
+// A microphone that never started, recorded for the admin (code "micro").
+// err.name is the useful part: NotAllowedError (permission refused),
+// NotFoundError (no microphone), NotReadableError (another app holds it).
+export function reportMicIssue(task, err, mode) {
+  reportClientIssue("eo", {
+    stage: "micro", code: "micro", status: 0, task, mode,
+    message: err ? `${err.name || "Error"}: ${err.message || ""}` : "Aucune donnée audio reçue du micro.",
+    attemptId: getFreeMockAttemptId() || undefined,
+  });
+}
 
 // Preferred recording containers, best first. Whisper accepts all of these;
 // we pick the first the browser can actually produce.
@@ -48,7 +60,9 @@ export function useSpeakingSession(task, notify) {
     const url = chunks.length ? URL.createObjectURL(blob) : null;
     if (url) objectUrlsRef.current.push(url);
 
-    setHistory((h) => [{ id, t: taskRef.current.t, when: "à l'instant", dur: fmt(elapsed), url, status: "processing" }, ...h]);
+    // ext: the file extension the recording downloads with (RefreshNotice).
+    const ext = type.includes("mp4") ? "m4a" : type.includes("ogg") ? "ogg" : "webm";
+    setHistory((h) => [{ id, t: taskRef.current.t, when: "à l'instant", dur: fmt(elapsed), url, ext, status: "processing" }, ...h]);
     setPhase("idle");
     setCount(0);
 
@@ -56,6 +70,7 @@ export function useSpeakingSession(task, notify) {
 
     if (!chunks.length) {
       patch({ status: "error", error: t("Aucun son n'a été capté. Vérifiez votre micro.") });
+      reportMicIssue(taskRef.current.task, null, "atelier");
       return;
     }
     try {
@@ -70,15 +85,28 @@ export function useSpeakingSession(task, notify) {
       });
       patch({ status: "done", transcript: fb.transcript || "", empty: !!fb.empty, feedback: fb.empty ? null : fb });
     } catch (err) {
-      const msg =
-        err instanceof AiError && (err.status === 404 || err.status === 0)
+      // 404 only: a dropped connection (status 0) is a real failure in
+      // production, not the local "no serverless functions" case it used to
+      // be read as.
+      const known =
+        err instanceof AiError && err.status === 404
           ? t("Analyse vocale indisponible ici (fonctions serverless non déployées).")
           : err instanceof AiError && err.status === 401
             ? t("Votre session a expiré. Reconnectez-vous pour lancer l'analyse.")
             : err instanceof AiError && (err.status === 429 || err.status === 403)
               ? err.message
-              : t("La transcription a échoué. Réessayez.");
-      patch({ status: "error", error: msg });
+              : null;
+      // Anything else: "refresh the page", with the recording downloadable
+      // first (RefreshNotice). The analysis was handed back server-side.
+      patch(known ? { status: "error", error: known } : { status: "error", refresh: true });
+      if (!known && shouldReportFromBrowser(err)) {
+        reportClientIssue("eo", {
+          stage: "envoi", status: err?.status ?? 0, message: err?.message, task: taskRef.current.task,
+          audioBytes: blob.size, durationMs: elapsed * 1000, mime: type,
+          attemptId: getFreeMockAttemptId() || undefined,
+          shown: "Cette page doit être actualisée pour continuer.",
+        });
+      }
     }
   };
 
@@ -158,8 +186,9 @@ export function useSpeakingSession(task, notify) {
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch {
+    } catch (err) {
       notify(t("Micro non autorisé. Autorisez l'accès au microphone pour vous enregistrer."));
+      reportMicIssue(taskRef.current.task, err, "atelier");
       return;
     }
     streamRef.current = stream;

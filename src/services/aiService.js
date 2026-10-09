@@ -7,8 +7,13 @@ import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 // Supabase session so the endpoint can authorize it.
 
 export class AiError extends Error {
-  constructor(status, message, code = null) {
+  constructor(status, message, code = null, serverReplied = false) {
     super(message);
+    // True when the endpoint itself answered with its JSON error — it has
+    // already recorded anything worth recording. False for a dropped
+    // connection or a gateway page (function timed out, never ran): the
+    // server saw nothing, so the browser reports it (reportClientIssue).
+    this.serverReplied = serverReplied;
     this.status = status; // 0 = network, 404 = endpoint missing (local `vite`)
     // Set only by the endpoints that distinguish between several refusals with
     // the same status — the dictée's plan limits send "dictee-daily" and
@@ -100,8 +105,29 @@ export async function postJSON(path, body, { retriedAuth = false } = {}) {
       throw new AiError(res.status, `Le service est injoignable — le serveur a répondu ${res.status} au lieu du résultat attendu. Réessayez dans un instant.`);
     }
   }
-  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed", data.code || null);
+  if (!res.ok) throw new AiError(res.status, data.error || "AI request failed", data.code || null, true);
   return data;
+}
+
+// Tells the server about a failure only the browser saw (see AiError's
+// serverReplied, and handleClientError in api/_lib/failureContext.js), so the
+// admin's "Incidents" panel shows the candidate, their device and what they
+// were told. Fire-and-forget: a report that fails is dropped silently — it
+// must never become a second error on the candidate's screen.
+export function reportClientIssue(section, details = {}) {
+  const path = section === "eo" ? "/api/expression-orale" : "/api/expression-ecrite";
+  const online = typeof navigator !== "undefined" ? navigator.onLine : undefined;
+  const page = typeof window !== "undefined" ? window.location.pathname : undefined;
+  postJSON(path, { action: "client-error", online, page, ...details }).catch(() => {});
+}
+
+// Whether a failed call is worth reporting from the browser: the server never
+// answered (dropped connection, timeout page) or the failure happened before
+// any request (microphone). Refusals the endpoint sent itself are already on
+// record server-side, and the local-dev 404 is not an incident.
+export function shouldReportFromBrowser(err) {
+  if (!(err instanceof AiError)) return true;
+  return !err.serverReplied && err.status !== 404;
 }
 
 // { level, summary, strengths[], improvements[], corrected }

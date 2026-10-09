@@ -2,7 +2,8 @@ import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } fro
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
-import { logAiUsage, logAiFailure } from "./_lib/usage.js";
+import { logAiUsage, logIncident } from "./_lib/usage.js";
+import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -195,20 +196,49 @@ function decodeAudio(audio) {
   return buffer;
 }
 
-async function dialogueTurn(res, user, body) {
+// Below this a recording holds no sound at all — a WebM/MP4 container header
+// alone is a few hundred bytes, and one second of speech at the recorder's
+// 32 kbit/s is about 4 KB. Seen in production: 5-byte uploads from a
+// microphone that never started, which Whisper rejects as "invalid media
+// file" — logged as a Groq refusal, and shown to the candidate as a failed
+// transcription when the real problem was their microphone.
+const MIN_AUDIO_BYTES = 1024;
+
+// Transcribes, or answers "" for a recording with nothing in it: the callers
+// already treat an empty transcript as "nothing was heard" (re-prompt, or give
+// the analysis back), which is exactly the right outcome — without a Groq
+// call, and recorded as an incident so the admin sees whose microphone failed.
+async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint }) {
+  if (buffer.length < MIN_AUDIO_BYTES) {
+    await logIncident({
+      userId: user.id, endpoint, status: 0,
+      detail: `Enregistrement vide (${buffer.length} octets) : le micro n'a rien envoyé. Aucun appel à Groq.`,
+      context: { source: "serveur", ...serverContext(req, user, "eo", { code: "enregistrement-vide", audioBytes: buffer.length, mime: String(mime).slice(0, 80) }) },
+    });
+    return "";
+  }
+  const transcribeStart = Date.now();
+  const transcript = await groqTranscribe(buffer, {
+    filename: `speech.${extForMime(mime)}`,
+    mime,
+    language,
+  });
+  logAiUsage({ userId: user.id, endpoint, kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
+  return transcript;
+}
+
+// `claim` is the analysis reserved for a turn that was expected to grade
+// (dialogueWillGrade). A silent turn that re-prompts or closes without a grade
+// hands it back: before, it was kept, and a free account could reach the real
+// end of its interview with nothing left to grade it.
+async function dialogueTurn(res, user, body, req, claim) {
   const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
   // The client sets this when the task's speaking time has run out: grade now
   // instead of asking for another exchange.
   const timeUp = body.final === true || body.final === "true";
   const buffer = decodeAudio(audio);
 
-  const transcribeStart = Date.now();
-  const transcript = await groqTranscribe(buffer, {
-    filename: `speech.${extForMime(mime)}`,
-    mime,
-    language: "fr",
-  });
-  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
+  const transcript = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue" });
 
   const history = sanitizeHistory(body.history);
 
@@ -247,10 +277,12 @@ async function dialogueTurn(res, user, body) {
   if (isSilent(transcript)) {
     const emptyStreak = Math.max(0, Math.min(10, Number(body.emptyStreak) || 0));
     if (!timeUp && emptyStreak < MAX_EMPTY_REPROMPTS) {
+      await releaseAiUse(claim);
       const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
       return res.status(200).json({ empty: true, transcript: "", reprompt: line, ...(await voiceLine(line)) });
     }
     if (!history.some((m) => m.role === "candidate")) {
+      await releaseAiUse(claim);
       const line = "Je n'ai pas entendu de réponse. Nous allons nous arrêter ici ; vous pourrez reprendre l'entretien quand vous le souhaitez.";
       return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
     }
@@ -313,6 +345,8 @@ export default async function handler(req, res) {
   let user = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
+    // A failure the browser saw and the server did not (see failureContext.js).
+    if (req.body?.action === "client-error") return await handleClientError(req, res, "eo");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
     // the attempt id is verified server-side (see requirePremiumOrFreeMock).
     user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
@@ -332,18 +366,12 @@ export default async function handler(req, res) {
       claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
     }
 
-    if (isDialogue) return await dialogueTurn(res, user, req.body);
+    if (isDialogue) return await dialogueTurn(res, user, req.body, req, claim);
 
     const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = req.body || {};
     const buffer = decodeAudio(audio);
 
-    const transcribeStart = Date.now();
-    const transcript = await groqTranscribe(buffer, {
-      filename: `speech.${extForMime(mime)}`,
-      mime,
-      language: lang === "en" ? "en" : "fr",
-    });
-    logAiUsage({ userId: user.id, endpoint: "expression-orale", kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
+    const transcript = await transcribeOrSilence(req, user, buffer, { mime, language: lang === "en" ? "en" : "fr", endpoint: "expression-orale" });
 
     // Whisper hallucinates captions on near-silence; treat very short output
     // as "nothing said" and skip the (pointless) evaluation call.
@@ -392,16 +420,22 @@ export default async function handler(req, res) {
     // — for a transcription refusal). This catch covers the whole request, so
     // the failure may be Whisper's rather than the grader's — the model says
     // which, and the kind follows it instead of being hardcoded to "chat".
-    if (typeof err.upstreamStatus === "number") {
-      logAiFailure({
-        userId: user?.id, endpoint: "expression-orale",
-        kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
-        model: err.model || CHAT_MODEL_NAME,
-        status: err.upstreamStatus,
-        detail: err.upstreamDetail,
-        request: err.requestPayload,
-      });
-    }
+    // Our OWN failures (5xx, exceptions, a recording too large or unreadable)
+    // are recorded too, as incidents kept apart from Groq's figures — see
+    // recordFailure. The recording's size and type, the turn of the interview
+    // and whether it was the graded one travel with every row.
+    const b = req.body || {};
+    await recordFailure(req, user, err, {
+      section: "eo", endpoint: "expression-orale",
+      kind: err.model === TRANSCRIBE_MODEL_NAME ? "transcription" : "chat",
+      model: err.model || CHAT_MODEL_NAME, claim,
+      extra: {
+        audioBytes: typeof b.audio === "string" ? Math.floor((b.audio.length * 3) / 4) : undefined,
+        mime: typeof b.mime === "string" ? b.mime.slice(0, 80) : undefined,
+        exchange: Array.isArray(b.history) ? b.history.filter((m) => m?.role === "candidate").length + 1 : undefined,
+        final: b.final === true || undefined,
+      },
+    });
     // Give the use back: a candidate should not lose one of two attempts to an
     // upstream failure. A refusal never claimed, so there is nothing to undo.
     await releaseAiUse(claim);

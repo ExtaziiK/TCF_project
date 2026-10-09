@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { evaluateWriting, AiError } from "@/services/aiService";
+import { evaluateWriting, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
+import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { sameForGrading } from "@/utils/textSignature";
 import { applyStickyScore, STICKY_WITHIN } from "@/utils/stickyScore";
 
@@ -14,6 +15,9 @@ export function useWritingTask(task, notify) {
   const [showSample, setShowSample] = useState(false);
   const [ai, setAi] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
+  // The analysis could not be completed: the page shows RefreshNotice (copy
+  // the text, then refresh) instead of an error message.
+  const [failed, setFailed] = useState(false);
 
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   // Parse the "X à Y mots" target defensively: admin-authored tasks could
@@ -23,7 +27,7 @@ export function useWritingTask(task, notify) {
   const hi = nums[1] ?? nums[0] ?? 0;
 
   useEffect(() => {
-    setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null); setAnalyzing(false);
+    setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null); setAnalyzing(false); setFailed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.id]);
 
@@ -83,6 +87,7 @@ export function useWritingTask(task, notify) {
 
     setAnalyzing(true);
     setAi(null);
+    setFailed(false);
     try {
       const feedback = await evaluateWriting({
         prompt: task.prompt,
@@ -110,12 +115,23 @@ export function useWritingTask(task, notify) {
       } else if (err instanceof AiError && (err.status === 429 || err.status === 403)) {
         notify(err.message, "error");
       } else {
-        notify(t("L'analyse IA a échoué. Réessayez dans un instant."));
+        // Anything else — Groq refused, the connection dropped, the function
+        // timed out, a bug of ours: one calm instruction, and their text kept
+        // within reach (RefreshNotice). The analysis was handed back server-
+        // side. A failure the server never saw is reported from here.
+        setFailed(true);
+        if (shouldReportFromBrowser(err)) {
+          reportClientIssue("ee", {
+            stage: "analyse", status: err?.status ?? 0, message: err?.message, task: task.task, words,
+            attemptId: getFreeMockAttemptId() || undefined,
+            shown: "Cette page doit être actualisée pour continuer.",
+          });
+        }
       }
     } finally {
       setAnalyzing(false);
     }
   };
 
-  return { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, words, lo, hi };
+  return { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi };
 }

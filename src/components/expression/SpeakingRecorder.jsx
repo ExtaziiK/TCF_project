@@ -2,6 +2,7 @@ import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle } from "lucid
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
+import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { useSpeakingSession } from "@/hooks/useSpeakingSession";
 import { fmt } from "@/utils/format";
 
@@ -63,7 +64,12 @@ export function SpeakingRecorder({ task }) {
               {h.status === "processing" && (
                 <p className="mt-2.5 text-xs font-semibold text-blue-600 flex items-center gap-1.5"><Loader2 size={13} className="animate-spin" /> {t("Transcription et analyse en cours…")}</p>
               )}
-              {h.status === "error" && (
+              {h.status === "error" && h.refresh && (
+                <div className="mt-2.5">
+                  <RefreshNotice compact downloadUrl={h.url} downloadName={`tache-${task.task}-enregistrement.${h.ext || "webm"}`} />
+                </div>
+              )}
+              {h.status === "error" && !h.refresh && (
                 <p className="mt-2.5 text-xs font-semibold text-rose-600 flex items-start gap-1.5"><AlertCircle size={13} className="shrink-0 mt-0.5" /> {h.error}</p>
               )}
               {h.status === "done" && h.empty && (

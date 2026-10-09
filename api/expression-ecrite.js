@@ -1,6 +1,7 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { groqChatJSON, normalizeFeedback, HttpError, CHAT_MODEL_NAME } from "./_lib/groq.js";
-import { logAiUsage, logAiFailure } from "./_lib/usage.js";
+import { logAiUsage } from "./_lib/usage.js";
+import { recordFailure, handleClientError } from "./_lib/failureContext.js";
 import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
 import { nonLatinLetterShare, NOT_LATIN_SCRIPT } from "./_lib/scriptCheck.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
@@ -47,6 +48,8 @@ export default async function handler(req, res) {
   let user = null;
   try {
     if (req.method !== "POST") throw new HttpError(405, "Method not allowed");
+    // A failure the browser saw and the server did not (see failureContext.js).
+    if (req.body?.action === "client-error") return await handleClientError(req, res, "ee");
     // Premium, or a free account inside the one TCF blanc it is entitled to —
     // the attempt id is verified server-side (see requirePremiumOrFreeMock).
     user = await requirePremiumOrFreeMock(req, req.body?.attemptId);
@@ -174,15 +177,13 @@ export default async function handler(req, res) {
     // is the exact body that was sent (system prompt, calibration and the
     // candidate's own text included) — together a full recording of the
     // refused call, for the admin to diagnose without guessing.
-    if (typeof err.upstreamStatus === "number") {
-      logAiFailure({
-        userId: user?.id, endpoint: "expression-ecrite", kind: "chat",
-        model: err.model || CHAT_MODEL_NAME,
-        status: err.upstreamStatus,
-        detail: err.upstreamDetail,
-        request: err.requestPayload,
-      });
-    }
+    // Our OWN failures (5xx, exceptions) are recorded too, as incidents kept
+    // apart from Groq's figures — see recordFailure.
+    const words = String(req.body?.response || "").trim().split(/s+/).filter(Boolean).length;
+    await recordFailure(req, user, err, {
+      section: "ee", endpoint: "expression-ecrite", kind: "chat",
+      model: err.model || CHAT_MODEL_NAME, claim, extra: { words },
+    });
     // Give the use back: the candidate should not lose one of two attempts to
     // an upstream failure. A refusal (429) never claimed, so nothing to undo.
     await releaseAiUse(claim);

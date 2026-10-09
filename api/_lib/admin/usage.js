@@ -107,6 +107,49 @@ export function resolvedAfter(row, chatOk) {
   return earliest === null ? null : new Date(earliest).toISOString();
 }
 
+// ai_usage_log.error_context (api/_lib/failureContext.js) in readable lines,
+// most useful first: who and where (plan, tâche, mode), on what (device and
+// browser — the Facebook in-app browser is the usual suspect), what was sent
+// (audio size, words, interview turn), and what the candidate was told and
+// left with. Pure; tests/failure-context.test.mjs pins it.
+const SECTION_NAMES = { ee: "Expression écrite", eo: "Expression orale" };
+export function contextFacts(ctx) {
+  if (!ctx || typeof ctx !== "object") return [];
+  const facts = [];
+  if (ctx.plan) facts.push(ctx.plan === "gratuit" ? "Compte gratuit" : `Forfait ${ctx.plan}`);
+  const where = [SECTION_NAMES[ctx.section], ctx.task && `tâche ${ctx.task}`, ctx.mode].filter(Boolean).join(" · ");
+  if (where) facts.push(where);
+  const on = [ctx.device, ctx.browser].filter((v) => v && v !== "inconnu").join(" · ");
+  if (on) facts.push(on);
+  if (typeof ctx.audioBytes === "number") {
+    const size = ctx.audioBytes < 1024 ? `${ctx.audioBytes} octets` : `${Math.round(ctx.audioBytes / 1024)} ko`;
+    facts.push(`Enregistrement ${size}${ctx.mime ? ` (${ctx.mime.split(";")[0]})` : ""}`);
+  }
+  if (typeof ctx.durationMs === "number") facts.push(`Durée ${Math.round(ctx.durationMs / 1000)} s`);
+  if (typeof ctx.words === "number") facts.push(`${ctx.words} mots`);
+  if (typeof ctx.exchange === "number") facts.push(`Échange n° ${ctx.exchange}${ctx.final ? " (noté)" : ""}`);
+  if (ctx.stage) facts.push(`Étape : ${ctx.stage}`);
+  if (ctx.online === false) facts.push("Appareil hors ligne");
+  if (ctx.freeReturned) facts.push("Analyse rendue au candidat");
+  if (ctx.shown) facts.push(`Message affiché : « ${ctx.shown} »`);
+  else if (ctx.returned) facts.push(`Message renvoyé : « ${ctx.returned} »`);
+  return facts;
+}
+
+// What an incident (kind "incident": never reached Groq, or Groq had no part
+// in it) means, in the same { label, hint, tone } shape as failureReason.
+export function incidentReason(status, ctx = {}) {
+  const fromDevice = ctx?.source === "appareil";
+  if (ctx?.code === "enregistrement-vide") return { label: "Micro silencieux", hint: "L'enregistrement était vide : micro bloqué, non autorisé ou déjà utilisé par une autre application. Aucun appel à Groq ; le candidat a été invité à recommencer.", tone: "amber" };
+  if (ctx?.code === "micro") return { label: "Micro inaccessible", hint: "Le navigateur a refusé ou n'a pas trouvé le micro (permission, navigateur intégré de Facebook, autre application).", tone: "amber" };
+  if (fromDevice && !status) return { label: "Connexion perdue", hint: "La requête n'a jamais atteint le serveur : réseau du candidat coupé ou trop lent.", tone: "slate" };
+  if (fromDevice && (status === 502 || status === 504)) return { label: "Délai dépassé", hint: "La fonction Vercel a été coupée avant de répondre (analyse trop longue) : le serveur n'a rien pu enregistrer, seul le navigateur l'a vu.", tone: "red" };
+  if (fromDevice) return { label: "Erreur sur l'appareil", hint: "Vue par le navigateur du candidat, sans trace côté serveur.", tone: "slate" };
+  if (status === 413) return { label: "Enregistrement trop lourd", hint: "Au-delà de la limite d'envoi : enregistrement anormalement long.", tone: "amber" };
+  if (status === 400) return { label: "Enregistrement illisible", hint: "Audio absent ou vide à l'arrivée sur le serveur.", tone: "amber" };
+  return { label: "Erreur interne", hint: "Un problème de notre côté (code ou configuration), sans lien avec Groq — le détail ci-dessous.", tone: "red" };
+}
+
 // The last refusals, one line each: who, when, on which endpoint and model,
 // what Groq actually said, what the candidate actually submitted, and whether
 // they got a real analysis afterward. Capped at 12 — this is a "what is
@@ -135,7 +178,36 @@ function recentFailures(failed, emails, chatOk) {
     request: r.error_request || null,
     candidateText: candidateContent(r.error_request),
     resolvedAt: resolvedAfter(r, chatOk),
+    facts: contextFacts(r.error_context),
   }));
+}
+
+// Same list for incidents. Grouped by label rather than status: "Micro
+// silencieux" and "Connexion perdue" both have status 0 and mean opposite
+// things for the admin.
+function recentIncidents(incidents, emails, chatOk) {
+  return incidents.slice(0, 12).map((r) => ({
+    at: r.created_at,
+    email: r.user_id ? emails[r.user_id] || r.user_id : null,
+    endpoint: r.endpoint || null,
+    status: r.error_status || 0,
+    ...incidentReason(r.error_status || 0, r.error_context || {}),
+    detail: r.error_detail || null,
+    resolvedAt: resolvedAfter(r, chatOk),
+    facts: contextFacts(r.error_context),
+  }));
+}
+
+function incidentsByReason(incidents) {
+  const since24 = Date.now() - DAY;
+  const groups = {};
+  for (const r of incidents) {
+    const reason = incidentReason(r.error_status || 0, r.error_context || {});
+    (groups[reason.label] ||= { ...reason, count30d: 0, count24h: 0 });
+    groups[reason.label].count30d++;
+    if (Date.parse(r.created_at) >= since24) groups[reason.label].count24h++;
+  }
+  return Object.values(groups).sort((a, b) => b.count24h - a.count24h || b.count30d - a.count30d);
 }
 
 // Aggregates the last 30 days of ai_usage_log. Row-capped: at ~2 calls per
@@ -157,7 +229,8 @@ async function aiUsage(users) {
   // in separate migrations after error_status, so try most-complete first and
   // fall back a column at a time: a dashboard missing Groq's sentence, or the
   // request that triggered it, is worth far more than no dashboard.
-  let { data, error } = await rows(`${COLS}, error_detail, error_request`);
+  let { data, error } = await rows(`${COLS}, error_detail, error_request, error_context`);
+  if (error) ({ data, error } = await rows(`${COLS}, error_detail, error_request`));
   if (error) ({ data, error } = await rows(`${COLS}, error_detail`));
   if (error) ({ data, error } = await rows(COLS));
   if (error) return null; // table missing — migration not applied yet
@@ -166,8 +239,12 @@ async function aiUsage(users) {
   // OUT of the volume and token figures — a rejected call spent nothing — but
   // reported on their own, because a saturated day would otherwise look like a
   // quiet one.
-  const failed = data.filter((r) => r.error_status);
-  const ok = data.filter((r) => !r.error_status);
+  // Incidents (kind "incident") never reached Groq, or Groq had no part in
+  // them: they are reported on their own and kept out of every Groq figure.
+  const incidents = data.filter((r) => r.kind === "incident");
+  const calls = data.filter((r) => r.kind !== "incident");
+  const failed = calls.filter((r) => r.error_status);
+  const ok = calls.filter((r) => !r.error_status);
 
   // ai_usage_log carries every provider. Groq does the chat and the
   // transcription; kind "tts" is Azure neural speech (api/_lib/tts.js), billed
@@ -244,6 +321,10 @@ async function aiUsage(users) {
     affectedUsers24h: new Set(
       failed.filter((r) => r.user_id && Date.parse(r.created_at) >= Date.now() - DAY).map((r) => r.user_id),
     ).size,
+    // Problems around the call rather than in it — see recentIncidents.
+    incidentReasons: incidentsByReason(incidents),
+    recentIncidents: recentIncidents(incidents, emails, groq.filter((r) => r.kind === "chat")),
+    incidents24h: incidents.filter((r) => Date.parse(r.created_at) >= Date.now() - DAY).length,
     // Azure neural TTS: the examiner's voice in the Tâche 2 interview. Billed
     // per CHARACTER, which is what logAiUsage stores in total_tokens for these
     // rows — hence "caractères" rather than tokens on the dashboard.

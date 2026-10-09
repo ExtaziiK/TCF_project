@@ -1626,6 +1626,7 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
             {/* Groq's verbatim answer: it names the exhausted bucket and the
                 wait. Absent on rows logged before the error_detail migration. */}
             {f.detail && <p className={`text-xs mt-1 font-mono2 break-words ${c.faint}`}>{f.detail}</p>}
+            <ContextFacts facts={f.facts} />
             {/* The direct answer to "did this candidate get stuck, or did the
                 retry just work" — a successful grading call for the same
                 person on the same endpoint, shortly after this refusal. */}
@@ -1642,6 +1643,81 @@ function FailureBreakdown({ reasons, recent, affected24h }) {
             {/* What WE sent, next to what Groq said back above. Absent on rows
                 logged before the error_request migration. */}
             <RequestSnapshot request={f.request} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// The situation around one failure (api/_lib/admin/usage.js → contextFacts):
+// plan, tâche, device and browser, recording size, what the candidate was
+// shown, whether their analysis was handed back. One chip each, so a row can
+// be read in a glance. Absent on rows from before error_context existed.
+function ContextFacts({ facts }) {
+  const { c } = useApp();
+  if (!facts?.length) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5 mt-1.5">
+      {facts.map((fact, i) => (
+        <span key={i} className={`text-[11px] px-2 py-0.5 rounded-full border ${c.border} ${c.sub}`}>{fact}</span>
+      ))}
+    </div>
+  );
+}
+
+// Problems AROUND an analysis rather than inside Groq: a silent microphone, a
+// connection lost, a function cut off by its time limit, a bug of ours. Kept
+// apart from Groq's refusals (and out of every Groq figure), because the
+// action is different — help the candidate or fix our code, not wait for a
+// quota. The "appareil" ones are reported by the candidate's own browser:
+// without that report, nothing of them would exist anywhere.
+function IncidentBreakdown({ reasons, recent }) {
+  const { c } = useApp();
+  if (!reasons?.length) {
+    return <p className={`text-sm py-4 text-center ${c.faint}`}>Aucun incident sur 30 jours.</p>;
+  }
+  const time = (iso) =>
+    new Date(iso).toLocaleString("fr-CA", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  return (
+    <>
+      <div className="space-y-2 mb-6">
+        {reasons.map((r) => (
+          <div key={r.label} className={`p-3 rounded-2xl border ${c.border}`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <Pill tone={r.tone}>{r.label}</Pill>
+              <span className={`text-xs font-mono2 ${c.sub}`}>
+                {r.count24h > 0 && <strong className="text-rose-600">{r.count24h} en 24 h</strong>}
+                {r.count24h > 0 && " · "}
+                {r.count30d} sur 30 j
+              </span>
+            </div>
+            <p className={`text-xs mt-1.5 ${c.sub}`}>{r.hint}</p>
+          </div>
+        ))}
+      </div>
+      <p className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.faint}`}>Derniers incidents — qui et dans quelle situation</p>
+      <div className="space-y-1">
+        {recent.map((f, i) => (
+          <div key={i} className={`px-3 py-2 rounded-xl ${c.hoverSoft}`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <span className={`text-sm truncate ${f.email ? c.text : c.faint}`}>{f.email || "Utilisateur non identifié"}</span>
+              <span className={`text-xs font-mono2 shrink-0 ${c.faint}`}>{time(f.at)}</span>
+            </div>
+            <p className={`text-xs mt-0.5 ${c.sub}`}>
+              {f.label}
+              {f.status ? <> · <span className="font-mono2">HTTP {f.status}</span></> : null}
+              {f.endpoint && <> · {f.endpoint}</>}
+            </p>
+            {f.detail && <p className={`text-xs mt-1 font-mono2 break-words whitespace-pre-wrap ${c.faint}`}>{f.detail}</p>}
+            <ContextFacts facts={f.facts} />
+            {f.resolvedAt ? (
+              <p className="text-xs mt-1 flex items-center gap-1 text-emerald-600">
+                <Check size={12} /> Analyse obtenue à {time(f.resolvedAt)} — le candidat a pu reprendre.
+              </p>
+            ) : (
+              <p className="text-xs mt-1 text-amber-600">Aucune analyse obtenue dans les 2 h suivantes — candidat peut-être bloqué.</p>
+            )}
           </div>
         ))}
       </div>
@@ -1860,6 +1936,22 @@ function UsageTab() {
             chaque ligne peut afficher ce que le candidat a envoyé et si une tentative suivante a réussi.
           </p>
           <FailureBreakdown reasons={ai.failureReasons} recent={ai.recentFailures} affected24h={ai.affectedUsers24h} />
+        </Card>
+      )}
+
+      {/* ── Incidents : micro, connexion, délai, bug — hors Groq ── */}
+      {ai && (
+        <Card className="p-6">
+          <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>
+            Incidents côté candidat ou serveur
+            {ai.incidents24h > 0 && <span className="ml-2 text-sm font-semibold text-rose-600">{ai.incidents24h} en 24 h</span>}
+          </h3>
+          <p className={`text-sm mb-5 ${c.sub}`}>
+            Ce que Groq ne voit pas : un <strong className={c.text}>micro silencieux</strong>, une <strong className={c.text}>connexion perdue</strong>,
+            une analyse <strong className={c.text}>coupée par le délai de Vercel</strong>, ou une erreur de notre code. Chaque ligne dit qui, sur quel
+            appareil et quel navigateur, ce qui était envoyé, le message affiché — et si le candidat a fini par obtenir son analyse.
+          </p>
+          <IncidentBreakdown reasons={ai.incidentReasons} recent={ai.recentIncidents || []} />
         </Card>
       )}
 

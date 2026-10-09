@@ -3,6 +3,7 @@ import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, Rot
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
+import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
 
@@ -12,7 +13,7 @@ import { fmt } from "@/utils/format";
 // whole conversation is graded at the end.
 export function OralInterview({ task }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
+  const { phase, count, turns, feedback, ended, error, needsRefresh, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
   const endRef = useRef(null);
 
   // Keep the latest exchange in view as the dialogue grows.
@@ -54,6 +55,17 @@ export function OralInterview({ task }) {
           <p className="mb-4 text-sm font-semibold text-rose-600 flex items-start gap-1.5">
             <AlertCircle size={15} className="shrink-0 mt-0.5" /> {error}
           </p>
+        )}
+        {needsRefresh && (
+          <div className="mb-4">
+            <RefreshNotice
+              copyLabel="Copier l'échange"
+              copyText={turns
+                .filter((tn) => tn.text && !tn.failed && !tn.emptyRec)
+                .map((tn) => `${tn.role === "examiner" ? "Examinateur" : "Vous"} : ${tn.text}`)
+                .join("\n\n")}
+            />
+          </div>
         )}
 
         <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />

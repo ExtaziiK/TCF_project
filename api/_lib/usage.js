@@ -32,14 +32,17 @@ function client() {
 // Exported for testing: this ordering is exactly what decides whether a
 // pre-migration deploy still gets error_detail (it should) when only
 // error_request's migration is missing.
-export function buildInsertAttempts(row, { errorDetail, errorRequest } = {}) {
+// error_context is the newest (20261009_ai_usage_error_context.sql), so it is
+// the first thing dropped.
+export function buildInsertAttempts(row, { errorDetail, errorRequest, errorContext } = {}) {
   const attempts = [row];
   if (errorDetail) attempts.unshift({ ...attempts[0], error_detail: errorDetail });
   if (errorRequest) attempts.unshift({ ...attempts[0], error_request: errorRequest });
+  if (errorContext) attempts.unshift({ ...attempts[0], error_context: errorContext });
   return attempts;
 }
 
-export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, durationMs, errorStatus = null, errorDetail = null, errorRequest = null }) {
+export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, durationMs, errorStatus = null, errorDetail = null, errorRequest = null, errorContext = null }) {
   const row = {
     user_id: userId || null,
     endpoint,
@@ -52,15 +55,17 @@ export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, d
     audio_bytes: audioBytes ?? null,
     duration_ms: durationMs ?? null,
   };
-  const attempts = buildInsertAttempts(row, { errorDetail, errorRequest });
+  const attempts = buildInsertAttempts(row, { errorDetail, errorRequest, errorContext });
 
   const insert = (r) => client().from("ai_usage_log").insert(r);
   const tryInsert = (i) => insert(attempts[i]).then(({ error }) => {
     if (!error) return;
     if (i + 1 < attempts.length) return tryInsert(i + 1);
     console.warn("ai_usage_log:", error.message);
-  });
-  tryInsert(0);
+  }).catch((err) => console.warn("ai_usage_log:", err.message));
+  // Returned so a caller about to end the response can wait for the row: a
+  // serverless function may be frozen the moment it answers. Never rejects.
+  return tryInsert(0);
 }
 
 // A call that never produced anything. Logged with the upstream status, the
@@ -80,11 +85,34 @@ export function logAiUsage({ userId, endpoint, kind, model, usage, audioBytes, d
 // groqChatJSON/groqTranscribe) — a full recording of what was sent, next to
 // `detail`, what Groq said back. Together they let a refusal be diagnosed, or
 // reproduced, without guessing at what the call must have looked like.
-export function logAiFailure({ userId, endpoint, kind, model, status, detail, request, durationMs }) {
-  logAiUsage({
+//
+// `context` is the situation around the refusal — plan, tâche, device, what
+// the candidate was shown, whether their free analysis was handed back (see
+// failureContext.js). The admin reads it to tell a stuck candidate from a
+// harmless blip.
+export function logAiFailure({ userId, endpoint, kind, model, status, detail, request, durationMs, context }) {
+  return logAiUsage({
     userId, endpoint, kind, model, durationMs,
     errorStatus: Number(status) || 0,
     errorDetail: detail || null,
     errorRequest: request || null,
+    errorContext: context ? { source: "groq", ...context } : null,
+  });
+}
+
+// A problem that never reached Groq, or that Groq had no part in: a recording
+// with no sound, a connection that dropped, a function that timed out before
+// it could answer, a bug of ours. Kind "incident", so the admin reports these
+// apart from Groq's refusals and never counts them against Groq's figures.
+//
+// `context.source` says where it was seen: "serveur" (logged by the endpoint
+// itself) or "appareil" (reported by the candidate's browser, for failures the
+// server never heard about — see the "client-error" action in failureContext.js).
+export function logIncident({ userId, endpoint, status, detail, context }) {
+  return logAiUsage({
+    userId, endpoint, kind: "incident", model: null,
+    errorStatus: Number(status) || 0,
+    errorDetail: detail ? String(detail).slice(0, 1000) : null,
+    errorContext: context || null,
   });
 }

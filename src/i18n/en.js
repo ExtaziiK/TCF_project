@@ -2438,6 +2438,17 @@ export const EN = {
   "Le TCF blanc": "The TCF blanc",
   "Réaliste pour les conditions d'examen, Entraînement pour vous exercer sans chrono. Cliquez sur Commencer quand vous êtes prêt.":
     "Réaliste for exam conditions, Entraînement to practice with no clock. Click Commencer when you're ready.",
+  // Failed analysis: refresh notice (RefreshNotice) — 2026-10.
+  "Cette page doit être actualisée pour continuer.": "This page needs to be refreshed to continue.",
+  "Votre connexion internet semble coupée : vérifiez-la, puis actualisez la page.": "Your internet connection seems to be down: check it, then refresh the page.",
+  "Gardez d'abord votre travail : la page sera vide après l'actualisation. Cette tentative ne vous a rien coûté.": "Keep your work first: the page will be empty after refreshing. This attempt didn't cost you anything.",
+  "Actualisez la page, puis relancez. Cette tentative ne vous a rien coûté.": "Refresh the page, then try again. This attempt didn't cost you anything.",
+  "Copier mon texte": "Copy my text",
+  "Copier l'échange": "Copy the conversation",
+  "Télécharger mon enregistrement": "Download my recording",
+  "Actualiser la page": "Refresh the page",
+  "La copie automatique n'est pas disponible sur ce navigateur : sélectionnez votre texte et copiez-le à la main.": "Automatic copy isn't available in this browser: select your text and copy it by hand.",
+  "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.": "Your answer couldn't be taken into account. Please answer again.",
 };
 
 // Templated strings (numbers/labels interpolated at runtime by services or

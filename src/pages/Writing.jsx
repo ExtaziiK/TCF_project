@@ -9,6 +9,7 @@ import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNotice";
+import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
@@ -69,7 +70,7 @@ export function WritingWorkshopBody({ inExam = false } = {}) {
 
 function WritingTaskPane({ task }) {
   const { c, notify, t } = useApp();
-  const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, words, lo, hi } = useWritingTask(task, notify);
+  const { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi } = useWritingTask(task, notify);
 
   const taRef = useRef(null);
 
@@ -131,6 +132,7 @@ function WritingTaskPane({ task }) {
             <p className={`text-sm ${c.sub}`}>{t("L'examinateur IA lit votre texte…")}</p>
           </Card>
         )}
+        {failed && !analyzing && <RefreshNotice copyText={text} />}
         {ai && <AiFeedback level={ai.level} score={ai.score} nclc={ai.nclc} summary={ai.summary} strengths={ai.strengths} improvements={ai.improvements} corrected={ai.corrected} rewrites={ai.rewrites} />}
       </div>
       <div className="space-y-5">

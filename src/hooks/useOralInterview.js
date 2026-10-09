@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { speakingDialogueTurn, blobToBase64, AiError } from "@/services/aiService";
+import { speakingDialogueTurn, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
+import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
+import { reportMicIssue } from "@/hooks/useSpeakingSession";
 import { speak, stopSpeaking } from "@/utils/speech";
 
 // Preferred recording containers, best first. Whisper accepts all of these;
@@ -42,6 +44,11 @@ export function useOralInterview(task, notify) {
   const [feedback, setFeedback] = useState(null);
   const [ended, setEnded] = useState(false); // interview stopped after too many silent answers, no grade
   const [error, setError] = useState("");
+  // Two failed turns in a row: the page asks to be refreshed (RefreshNotice,
+  // with "copy the conversation" first). One alone only asks to answer again —
+  // the interview carries on as it is, and a refresh would throw it away.
+  const [needsRefresh, setNeedsRefresh] = useState(false);
+  const failStreak = useRef(0);
   const [remaining, setRemaining] = useState(task.dur); // shared speaking budget left (whole exchange)
   const nextId = useRef(1);
   const remainingRef = useRef(task.dur);
@@ -142,6 +149,7 @@ export function useOralInterview(task, notify) {
 
     if (!chunks.length) {
       fail(t("Aucun son n'a été capté. Vérifiez votre micro."));
+      reportMicIssue(taskRef.current.task, null, "entretien");
       return;
     }
     try {
@@ -162,6 +170,8 @@ export function useOralInterview(task, notify) {
         lang,
         final: timeUp,
       });
+      // The server answered: whatever the turn says next, the streak is over.
+      failStreak.current = 0;
 
       const examinerAudio = audioUrlFromBase64(res.audio, res.audioMime);
 
@@ -221,8 +231,10 @@ export function useOralInterview(task, notify) {
         setPhase((p) => (p === "speaking" ? "ready" : p));
       });
     } catch (err) {
-      const msg =
-        err instanceof AiError && (err.status === 404 || err.status === 0)
+      // 404 only — a dropped connection (status 0) is a real failure in
+      // production, not the local "no serverless functions" case.
+      const known =
+        err instanceof AiError && err.status === 404
           ? t("Simulation indisponible ici (fonctions serverless non déployées).")
           // The quota refusal explains itself; the generic notice would leave
           // the candidate wondering why the evaluation never arrived.
@@ -230,8 +242,20 @@ export function useOralInterview(task, notify) {
             ? t("Votre session a expiré. Reconnectez-vous pour lancer l'analyse.")
             : err instanceof AiError && (err.status === 429 || err.status === 403)
               ? err.message
-              : t("L'analyse a échoué. Réessayez.");
-      fail(msg);
+              : null;
+      if (known) { fail(known); return; }
+      failStreak.current += 1;
+      if (shouldReportFromBrowser(err)) {
+        reportClientIssue("eo", {
+          mode: "entretien", stage: "envoi", status: err?.status ?? 0, message: err?.message,
+          task: taskRef.current.task, audioBytes: blob.size, mime: type,
+          attemptId: getFreeMockAttemptId() || undefined,
+          shown: failStreak.current > 1 ? "Cette page doit être actualisée pour continuer." : "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.",
+        });
+      }
+      if (failStreak.current > 1) { fail(""); setNeedsRefresh(true); }
+      else fail(t("Votre réponse n'a pas pu être prise en compte. Répondez à nouveau."));
+      return;
     }
   };
 
@@ -292,6 +316,8 @@ export function useOralInterview(task, notify) {
     setFeedback(null);
     setEnded(false);
     setError("");
+    setNeedsRefresh(false);
+    failStreak.current = 0;
   };
 
   // Reset when switching tasks; abort any in-flight recording/stream.
@@ -334,8 +360,9 @@ export function useOralInterview(task, notify) {
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch {
+    } catch (err) {
       notify(t("Micro non autorisé. Autorisez l'accès au microphone pour vous enregistrer."));
+      reportMicIssue(taskRef.current.task, err, "entretien");
       return;
     }
     streamRef.current = stream;
@@ -351,5 +378,5 @@ export function useOralInterview(task, notify) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }
