@@ -22,6 +22,11 @@ import { isStaff, PREMIUM } from "@/auth/rbac";
 const FREE_LIMIT = 10;
 const PAGE = 20; // cards rendered (and media signed) at a time
 
+// last_choice: an option index, null = left blank, -1 = answered but the option
+// was not recorded (cards loaded from before the notebook existed: the old
+// per-question log kept right/wrong, not the choice).
+const UNKNOWN_CHOICE = -1;
+
 const fmtDate = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
 
 export function Carnet() {
@@ -196,7 +201,7 @@ function MistakeCard({ card, q, onMove }) {
   const [retry, setRetry] = useState(false);
   const [pick, setPick] = useState(null);
   const revealed = !retry || pick != null;
-  const chosen = retry ? pick : card.lastChoice;
+  const chosen = retry ? pick : card.lastChoice === UNKNOWN_CHOICE ? null : card.lastChoice;
   const stem = /^Compr[ée]hension\s+[ée]crite\s+[–-]/i.test(String(q.q || "")) ? null : q.q;
   const understood = card.status === "understood";
 
@@ -252,7 +257,8 @@ function MistakeCard({ card, q, onMove }) {
       )}
       {revealed && !retry && !understood && (
         <p className={`mt-3 text-xs ${c.faint}`}>
-          {t(card.lastChoice == null ? "Vous n'aviez pas répondu à cette question." : "En rouge : votre dernière réponse.")}
+          {t(card.lastChoice == null ? "Vous n'aviez pas répondu à cette question."
+            : card.lastChoice === UNKNOWN_CHOICE ? "Votre réponse à cette question n'a pas été enregistrée." : "En rouge : votre dernière réponse.")}
         </p>
       )}
       {revealed && q.exp && (

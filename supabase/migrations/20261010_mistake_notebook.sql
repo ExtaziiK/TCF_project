@@ -28,7 +28,8 @@ create table if not exists public.mistake_notebook (
   section text,                           -- co | ce
   status text not null default 'to_review' check (status in ('to_review', 'understood')),
   times_wrong int not null default 1,
-  last_choice smallint,                   -- option index picked last time; null = left blank
+  last_choice smallint,                   -- option index picked last time; null = left blank,
+                                          -- -1 = answered, option unknown (backfilled rows)
   relapsed boolean not null default false,
   last_wrong_at timestamptz not null default now(),
   understood_at timestamptz,
