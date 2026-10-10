@@ -49,8 +49,8 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const [advanceIn, setAdvanceIn] = useState(null); // autoAdvance: seconds until the question moves on, or null
   const [signedMedia, setSignedMedia] = useState({}); // index -> { image?, audio? } (signed-media mode only)
   // deferResults: question palette shown or hidden (toggle next to the timer).
-  // Shown by default where it fits as a side column (xl), hidden below.
-  const [paletteOpen, setPaletteOpen] = useState(() => typeof window !== "undefined" && !!window.matchMedia?.("(min-width: 1280px)").matches);
+  // Hidden by default on every screen size so the question comes first.
+  const [paletteOpen, setPaletteOpen] = useState(false);
 
   // The countdown captures its callback once, so read live state via refs.
   const picksRef = useRef(picks);
