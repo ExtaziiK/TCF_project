@@ -64,6 +64,14 @@ export const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN, 
 export const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
 export const ADMIN_ONLY = [ROLES.ADMIN, ROLES.OWNER];
 
+// Carnet d'erreurs, before launch: the team tests it, members see a greyed
+// « Bientôt » menu entry (navigation.js) and no dashboard card or quiz-report
+// link. Mistakes are still collected for everyone, so the notebook is already
+// full on launch day. To open it to all signed-in accounts: set this to true
+// and redeploy — the route policy, menu, card and link all follow it.
+export const NOTEBOOK_PUBLIC = false;
+export const canUseNotebook = (role) => NOTEBOOK_PUBLIC || ADMIN_ONLY.includes(role);
+
 // Route policy. Routes not listed here are public. The route guard refuses
 // to render any route whose policy the current role does not satisfy, so
 // typing a URL / route name by hand goes through the same check as the nav.
@@ -113,9 +121,10 @@ export const PAGE_ACCESS = {
   // non un échantillon. Un compte gratuit qui ouvre l'URL tombe sur la page
   // d'abonnement (deniedReason renvoie "upgrade" pour toute route PREMIUM).
   revision: PREMIUM,
-  // Carnet d'erreurs : ouvert à tout compte connecté. La limite du compte
-  // gratuit (10 questions « À revoir », pas d'historique) vit dans la page.
-  carnet: AUTHENTICATED,
+  // Carnet d'erreurs : réservé à l'équipe tant que NOTEBOOK_PUBLIC est false,
+  // puis ouvert à tout compte connecté. La limite du compte gratuit
+  // (10 questions « À revoir », pas d'historique) vit dans la page.
+  carnet: NOTEBOOK_PUBLIC ? AUTHENTICATED : ADMIN_ONLY,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,

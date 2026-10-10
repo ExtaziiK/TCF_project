@@ -6,6 +6,7 @@ import {
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
 import { levelForPct } from "@/services/examService";
+import { canUseNotebook } from "@/auth/rbac";
 import { fmt } from "@/utils/format";
 
 // End-of-quiz report: score, clickable question grid, full correction with
@@ -16,7 +17,7 @@ import { fmt } from "@/utils/format";
 // the restart button and the "terminé en …" line are hidden (a single mock
 // épreuve isn't restartable on its own, and per-task time isn't tracked).
 export function QuizReport({ questions, answers, duration, left, onRestart, notebookCount = 0, doneExtra, renderAbove, above, onBack, backLabel = "Retour au rapport", title = "Rapport de score" }) {
-  const { c, nav } = useApp();
+  const { c, nav, role } = useApp();
   const [reviewIdx, setReviewIdx] = useState(null);
   const byIndex = new Map(answers.map((a) => [a.i, a]));
   const ok = answers.filter((a) => a.ok).length;
@@ -124,7 +125,7 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
         </div>
       </div>
 
-      {notebookCount > 0 && (
+      {notebookCount > 0 && canUseNotebook(role) && (
         <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className={`text-sm ${c.text}`}>
             <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />

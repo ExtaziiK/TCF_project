@@ -13,7 +13,7 @@ import { listDicteeSessions } from "@/services/dicteeService";
 import { computeProgress } from "@/services/progressService";
 import { listMistakes, bankQuestionIndex } from "@/services/mistakeNotebookService";
 import { formatDuration } from "@/utils/dashboardStats";
-import { ROLES } from "@/auth/rbac";
+import { ROLES, canUseNotebook } from "@/auth/rbac";
 
 /* ------------------------------ small pieces ----------------------------- */
 
@@ -187,7 +187,7 @@ export function DashboardView({ data, toReview = 0 }) {
 
         {/* ---------------- right 1/3 ---------------- */}
         <div className="space-y-5">
-          {toReview > 0 && (
+          {toReview > 0 && canUseNotebook(role) && (
             <Card className="p-6 border-2 border-rose-600/30">
               <div className="flex items-center gap-4">
                 <NotebookPen size={28} className="text-rose-600 shrink-0" aria-hidden="true" />
@@ -255,7 +255,7 @@ export function DashboardView({ data, toReview = 0 }) {
 // One caller since the logged-in "/" was merged into the dashboard route, so
 // the eyebrow is no longer a prop: the page has one name, and this is it.
 export function MemberHome() {
-  const { user, t } = useApp();
+  const { user, t, role } = useApp();
   const [attempts, setAttempts] = useState(null);
   const [results, setResults] = useState(null);
   const [dictees, setDictees] = useState(null);
@@ -268,13 +268,13 @@ export function MemberHome() {
     listDicteeSessions(user?.id).then(({ sessions: s }) => live && setDictees(s));
     // Counted against the bank, like the notebook page, so a card whose
     // question has left the bank never inflates the number.
-    listMistakes().then(({ cards }) => {
+    if (canUseNotebook(role)) listMistakes().then(({ cards }) => {
       if (!live) return;
       const index = bankQuestionIndex();
       setToReview(cards.filter((x) => x.status === "to_review" && index.has(x.questionId)).length);
     });
     return () => { live = false; };
-  }, [user?.id]);
+  }, [user?.id, role]);
 
   const loading = attempts === null || results === null || dictees === null;
   const data = useMemo(

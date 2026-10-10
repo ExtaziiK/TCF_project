@@ -2,7 +2,7 @@
 // to declare its own role list that omitted OWNER, so an owner saw no
 // "Pratique" menu (and no account links on mobile) for pages the guard happily
 // let them open. One definition, no drift.
-import { AUTHENTICATED, ADMIN_ONLY, ROLES } from "@/auth/rbac";
+import { AUTHENTICATED, ADMIN_ONLY, ROLES, canUseNotebook } from "@/auth/rbac";
 import { POSTS } from "@/constants/blog";
 import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
@@ -68,7 +68,9 @@ export const NAV_LINKS = [
     // sur la page de vente plutôt que sur un menu qui ne mentionne jamais ce
     // qu'il pourrait acheter. Le garde de route décide de l'accès, pas le menu.
     { l: "Révision", r: "revision", icon: ListChecks, group: "train" },
-    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, icon: NotebookPen, group: "train" },
+    // `soon`: shown greyed with a « Bientôt » tag and not clickable, for the
+    // roles it returns true for (see NOTEBOOK_PUBLIC in rbac.js).
+    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, soon: (role) => !canUseNotebook(role), icon: NotebookPen, group: "train" },
   ] },
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
@@ -117,6 +119,9 @@ export const MOBILE_GROUPS = [
   { id: "tools", l: "Outils & tarifs" },
 ];
 
+// Resolves `soon` to a plain boolean for this role, so the nav only reads it.
+const withSoon = (item, role) => (typeof item.soon === "function" ? { ...item, soon: item.soon(role) } : item);
+
 const visible = (item, role, user) => (!item.roles || item.roles.includes(role)) && (!item.can || item.can(user));
 
 // Returns the nav tree filtered for a role. Menus keep only the entries the
@@ -124,7 +129,7 @@ const visible = (item, role, user) => (!item.roles || item.roles.includes(role))
 export function navLinksForRole(links, role, user) {
   return links
     .filter((n) => visible(n, role, user))
-    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role, user)) } : n))
+    .map((n) => (n.menu ? { ...n, menu: n.menu.filter((m) => visible(m, role, user)).map((m) => withSoon(m, role)) } : withSoon(n, role)))
     .filter((n) => !n.menu || n.menu.length > 0);
 }
 

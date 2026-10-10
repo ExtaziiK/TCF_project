@@ -135,7 +135,11 @@ export function Nav({ barOffset = false }) {
                           spotlight the trigger AND the open menu together —
                           see the union logic in TourOverlay's useTourTarget. */}
                       <div data-tour={isPratique ? "nav-pratique" : undefined} className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
-                        {n.menu.map((m) => (
+                        {n.menu.map((m) => m.soon ? (
+                          <div key={m.r + m.l} aria-disabled="true" title={t("Bientôt disponible")} className={`w-full px-3.5 py-2.5 rounded-xl text-sm ${c.sub} opacity-60 cursor-not-allowed flex items-center justify-between`}>
+                            {t(m.l)}<span className="text-[10px] font-bold uppercase tracking-wide text-orange-600">{t("Bientôt")}</span>
+                          </div>
+                        ) : (
                           <RouteLink key={m.r + m.l} r={m.r} onNavigate={closeAll} className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm ${c.text} ${c.hoverSoft} flex items-center justify-between group`}>
                             {t(m.l)}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                           </RouteLink>
@@ -275,6 +279,13 @@ export function Nav({ barOffset = false }) {
                     {g.items.map((m) => {
                       const active = route === m.r;
                       const Icon = m.icon;
+                      if (m.soon) return (
+                        <div key={m.r} aria-disabled="true" title={t("Bientôt disponible")} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl opacity-60 cursor-not-allowed">
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${c.tint} ${c.sub}`}>{Icon && <Icon size={17} />}</span>
+                          <span className={`flex-1 text-[15px] font-medium ${c.sub}`}>{t(m.l)}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wide text-orange-600">{t("Bientôt")}</span>
+                        </div>
+                      );
                       return (
                         <RouteLink key={m.r} r={m.r} onNavigate={closeAll}
                           // All four "Pratique" routes share the nav-pratique
