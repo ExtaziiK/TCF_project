@@ -37,13 +37,11 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
     return !a ? "skipped" : a.ok ? "right" : "wrong";
   };
 
-  // Wrong answers reach the carnet d'erreurs on their own (Quiz.jsx); blank
-  // ones only when the candidate asks — a question never attempted is not
-  // necessarily a mistake, and a quiz abandoned halfway would otherwise drop
-  // dozens of them in at once.
+  // Wrong answers reach the carnet d'erreurs on their own (Quiz.jsx); a blank
+  // one only when the candidate opens it in the review and asks — one at a
+  // time, on purpose: a question never attempted is not necessarily a
+  // mistake, and the choice is meant to be made looking at the question.
   const notebook = !!user?.id && canUseNotebook(role);
-  const blankIdx = questions.map((q, idx) => (q.id != null && !byIndex.has(idx) ? idx : null)).filter((idx) => idx != null);
-  const blankLeft = blankIdx.filter((idx) => !added.has(idx));
   const addBlanks = async (idxs) => {
     if (!idxs.length || adding) return;
     setAdding(true);
@@ -151,29 +149,15 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
         </div>
       </div>
 
-      {notebook && (notebookCount > 0 || blankIdx.length > 0) && (
-        <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 space-y-3">
-          {/* Zero on a reopened past attempt too: its wrong answers went in
-              when it was taken, so there is nothing to announce here. */}
-          {notebookCount + added.size > 0 && (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <p className={`text-sm ${c.text}`}>
-                <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />
-                {notebookCount + added.size} question{notebookCount + added.size > 1 ? "s" : ""} ajoutée{notebookCount + added.size > 1 ? "s" : ""} à votre carnet d'erreurs.
-              </p>
-              <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav("carnet")}>Voir mes erreurs</Btn>
-            </div>
-          )}
-          {blankLeft.length > 0 && (
-            <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${notebookCount + added.size > 0 ? "pt-3 border-t border-blue-600/20" : ""}`}>
-              <p className={`text-sm ${c.sub}`}>
-                {blankLeft.length} question{blankLeft.length > 1 ? "s" : ""} sans réponse : à vous de choisir si vous voulez {blankLeft.length > 1 ? "les" : "la"} revoir.
-              </p>
-              <Btn small icon={Plus} disabled={adding} onClick={() => addBlanks(blankLeft)}>
-                {adding ? "Ajout…" : `Ajouter ${blankLeft.length > 1 ? `les ${blankLeft.length}` : "la"} au carnet`}
-              </Btn>
-            </div>
-          )}
+      {/* Zero on a reopened past attempt too: its wrong answers went in when it
+          was taken, so there is nothing to announce there. */}
+      {notebook && notebookCount + added.size > 0 && (
+        <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <p className={`text-sm ${c.text}`}>
+            <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />
+            {notebookCount + added.size} question{notebookCount + added.size > 1 ? "s" : ""} ajoutée{notebookCount + added.size > 1 ? "s" : ""} à votre carnet d'erreurs.
+          </p>
+          <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav("carnet")}>Voir mes erreurs</Btn>
         </div>
       )}
 

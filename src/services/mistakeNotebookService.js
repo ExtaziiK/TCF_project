@@ -98,6 +98,18 @@ export async function setMistakeStatus(id, status) {
   return { ok: !error, error: error?.message };
 }
 
+// « Vider mon carnet »: every card of the profile in use, both tabs, gone.
+// Scoped like listMistakes, so on a shared account one profile's reset never
+// touches a sibling's notebook. RLS limits it to the account's own rows anyway.
+export async function clearMistakes(userId) {
+  if (!userId) return { ok: false };
+  const profileId = getActiveProfileId();
+  let q = supabase.from("mistake_notebook").delete().eq("user_id", userId);
+  if (profileId) q = q.eq("profile_id", profileId);
+  const { error } = await q;
+  return { ok: !error, error: error?.message };
+}
+
 // question id -> the bank question, stamped with where it lives. Rebuilt on
 // each call because admin quizzes are injected into the bank after start-up.
 // Quizzes under review are left out for members, as on the Révision page.

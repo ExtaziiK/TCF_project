@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2 } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { listMistakes, setMistakeStatus, bankQuestionIndex, isDicteeCard, dicteeCardOk } from "@/services/mistakeNotebookService";
+import { listMistakes, setMistakeStatus, clearMistakes, bankQuestionIndex, isDicteeCard, dicteeCardOk } from "@/services/mistakeNotebookService";
 import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
 import { speak, stopSpeaking } from "@/utils/speech";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
@@ -124,6 +125,12 @@ export function Carnet() {
         </div>
       </div>
 
+      {cards !== null && cards.length > 0 && (
+        <div className="flex justify-end -mt-2 mb-4">
+          <ClearNotebook onCleared={() => { setCards([]); setShown(PAGE); }} />
+        </div>
+      )}
+
       {cards === null ? (
         <div className="space-y-4" aria-busy="true">
           {[0, 1, 2].map((i) => <Card key={i} className={`h-48 animate-pulse ${c.track}`} />)}
@@ -158,6 +165,67 @@ export function Carnet() {
         </Card>
       )}
     </PageShell>
+  );
+}
+
+// Typed rather than clicked: it wipes both tabs, history included, and there
+// is no undo. Same pattern as account deletion on the profile page.
+const CLEAR_WORD = "VIDER";
+
+function ClearNotebook({ onCleared }) {
+  const { c, t, user, notify } = useApp();
+  const [open, setOpen] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const close = () => { if (busy) return; setOpen(false); setTyped(""); };
+  const confirm = async () => {
+    setBusy(true);
+    const r = await clearMistakes(user?.id);
+    setBusy(false);
+    if (!r.ok) return notify(t("Impossible de vider le carnet, réessayez."));
+    setOpen(false);
+    setTyped("");
+    onCleared();
+    notify(t("Votre carnet est vide : vos prochaines erreurs y arriveront."));
+  };
+
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)} className="text-xs font-semibold text-rose-600 flex items-center gap-1.5 hover:underline">
+        <Trash2 size={13} aria-hidden="true" /> {t("Vider mon carnet")}
+      </button>
+      {open && createPortal(
+        <div role="dialog" aria-modal="true" aria-labelledby="clear-title" onClick={close} className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div onClick={(e) => e.stopPropagation()} className={`w-full max-w-md rounded-3xl border ${c.border} ${c.card} p-7 shadow-2xl rise`}>
+            <span className="w-14 h-14 rounded-full bg-rose-600/10 text-rose-600 flex items-center justify-center mx-auto"><AlertTriangle size={26} /></span>
+            <h3 id="clear-title" className={`mt-4 text-center font-display font-bold text-lg ${c.text}`}>{t("Vider votre carnet d'erreurs ?")}</h3>
+            <ul className={`mt-3 space-y-1.5 text-sm ${c.sub} list-disc pl-5`}>
+              <li>{t("Toutes les questions et tous les mots du carnet sont effacés : « À revoir » et « Compris ».")}</li>
+              <li>{t("Vos résultats de quiz et votre progression ne changent pas.")}</li>
+              <li>{t("Le carnet repart de zéro : vos prochaines erreurs y seront ajoutées.")}</li>
+              <li>{t("C'est définitif.")}</li>
+            </ul>
+            <label htmlFor="clear-confirm" className={`block mt-4 text-xs font-semibold ${c.sub}`}>
+              {t("Pour confirmer, tapez")} <span className="font-mono2 text-rose-600">{CLEAR_WORD}</span>
+            </label>
+            <input
+              id="clear-confirm" autoFocus value={typed} onChange={(e) => setTyped(e.target.value)}
+              autoComplete="off" spellCheck={false}
+              className={`mt-1.5 w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-rose-600 ${c.inputCls}`}
+            />
+            <div className="mt-5 flex gap-3">
+              <Btn small variant="ghost" className="flex-1" disabled={busy} onClick={close}>{t("Annuler")}</Btn>
+              <button
+                disabled={busy || typed.trim().toUpperCase() !== CLEAR_WORD} onClick={confirm}
+                className="flex-1 px-4 py-2 rounded-full bg-rose-600 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+              >{t(busy ? "Effacement…" : "Vider mon carnet")}</button>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
+    </>
   );
 }
 
