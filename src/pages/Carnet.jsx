@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2 } from "lucide-react";
+import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, Plus } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -94,13 +94,15 @@ export function Carnet() {
       back wide
       eyebrow={t("Carnet d'erreurs")}
       title={t("Les questions que vous avez manquées")}
-      sub={t("Chaque question ratée ou laissée sans réponse dans un quiz ou un TCF blanc, et chaque mot mal écrit dans une dictée, arrive ici. Relisez la correction, réessayez, puis cliquez sur « J'ai compris ».")}
+      sub={t("Vos mauvaises réponses aux quiz et aux TCF blancs, et les mots mal écrits dans vos dictées, arrivent ici. Relisez la correction, réessayez, puis cliquez sur « J'ai compris ».")}
     >
       {missing && (
         <Card className="p-5 mb-5 border-2 border-amber-500/40 text-sm text-amber-700 flex gap-2">
           <AlertTriangle size={16} className="shrink-0 mt-0.5" /> {t("Le carnet n'est pas encore activé sur ce serveur.")}
         </Card>
       )}
+
+      <NotebookGuide premium={premium} />
 
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div className={`inline-flex p-1 rounded-full border ${c.border}`} role="tablist">
@@ -165,6 +167,88 @@ export function Carnet() {
         </Card>
       )}
     </PageShell>
+  );
+}
+
+// « Comment ça marche ? » — open on a first visit, then remembered closed on
+// this device once the candidate has read it (a per-viewer convenience, so
+// localStorage, and the page works the same when storage is blocked).
+const GUIDE_KEY = "carnet-guide-closed";
+
+function NotebookGuide({ premium }) {
+  const { c, t } = useApp();
+  const [open, setOpen] = useState(() => {
+    try { return localStorage.getItem(GUIDE_KEY) !== "1"; } catch { return true; }
+  });
+  const toggle = () => {
+    const next = !open;
+    setOpen(next);
+    try { localStorage.setItem(GUIDE_KEY, next ? "0" : "1"); } catch { /* private mode */ }
+  };
+  const steps = [
+    {
+      Icon: NotebookPen,
+      title: "Ce qui arrive dans le carnet",
+      body: "Chaque mauvaise réponse d'un quiz de compréhension orale ou écrite et d'un TCF blanc, et chaque mot entendu mais mal écrit dans une dictée, est ajouté tout seul, à la fin de l'exercice.",
+    },
+    {
+      Icon: Plus,
+      title: "Les questions sans réponse : c'est vous qui décidez",
+      body: "Une question laissée sans réponse n'est pas ajoutée d'office. Dans le rapport de fin de quiz, cliquez sur son numéro pour l'ouvrir, puis sur « Ajouter au carnet » si vous voulez la retravailler.",
+    },
+    {
+      Icon: PenLine,
+      title: "Revoir et réessayer",
+      body: "Chaque carte montre la bonne réponse en vert, la vôtre en rouge, et l'explication. « Réessayer » masque la réponse pour vous tester à nouveau ; pour un mot de dictée, le mot disparaît de la phrase et vous l'écrivez.",
+    },
+    {
+      Icon: CheckCircle2,
+      title: "« J'ai compris » : la carte passe dans « Compris »",
+      body: "Quand vous avez compris votre erreur, cliquez sur « J'ai compris ». La carte n'est pas perdue : elle reste dans l'onglet « Compris », pour la revoir avant l'examen. « Remettre à revoir » la renvoie dans « À revoir ».",
+    },
+    {
+      Icon: RotateCcw,
+      title: "« Raté à nouveau »",
+      body: "Si vous vous trompez encore sur une question déjà comprise, elle revient d'elle-même dans « À revoir », marquée « Raté à nouveau ».",
+    },
+    {
+      Icon: Trash2,
+      title: "Repartir de zéro",
+      body: "« Vider mon carnet » efface toutes les cartes des deux onglets pour recommencer à vous tester. Vos résultats et votre progression ne changent pas.",
+    },
+  ];
+  return (
+    <Card className="mb-6 overflow-hidden">
+      <button type="button" onClick={toggle} aria-expanded={open}
+        className={`w-full flex items-center justify-between gap-3 px-5 py-4 text-left ${c.hoverSoft}`}>
+        <span className={`flex items-center gap-2 font-display font-bold ${c.text}`}>
+          <HelpCircle size={18} className="text-blue-600" aria-hidden="true" /> {t("Comment ça marche ?")}
+        </span>
+        <ChevronDown size={18} className={`${c.faint} transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div className={`px-5 pb-5 pt-1 border-t ${c.border}`}>
+          <ol className="mt-4 grid md:grid-cols-2 gap-x-6 gap-y-4">
+            {steps.map(({ Icon, title, body }, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0" aria-hidden="true">
+                  <Icon size={16} />
+                </span>
+                <div>
+                  <p className={`text-sm font-semibold ${c.text}`}>{i + 1}. {t(title)}</p>
+                  <p className={`text-sm mt-0.5 leading-relaxed ${c.sub}`}>{t(body)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          {!premium && (
+            <p className={`mt-5 text-xs ${c.faint}`}>
+              {t(`Compte gratuit : vos ${FREE_LIMIT} dernières erreurs sont visibles dans « À revoir ». Avec un abonnement, le carnet entier et l'historique « Compris » sont à vous.`)}
+            </p>
+          )}
+        </div>
+      )}
+    </Card>
   );
 }
 
