@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, Plus } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { listMistakes, setMistakeStatus, clearMistakes, bankQuestionIndex, isDicteeCard, dicteeCardOk } from "@/services/mistakeNotebookService";
+import { listMistakes, setMistakeStatus, clearMistakes, bankQuestionIndex, isDicteeCard, dicteeCardOk, GUIDE_CLOSED_KEY, GUIDE_FOCUS_KEY } from "@/services/mistakeNotebookService";
 import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
 import { speak, stopSpeaking } from "@/utils/speech";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
@@ -172,18 +172,23 @@ export function Carnet() {
 
 // « Comment ça marche ? » — open on a first visit, then remembered closed on
 // this device once the candidate has read it (a per-viewer convenience, so
-// localStorage, and the page works the same when storage is blocked).
-const GUIDE_KEY = "carnet-guide-closed";
-
+// localStorage, and the page works the same when storage is blocked). Arriving
+// from an « En savoir plus » link opens it and scrolls to it.
 function NotebookGuide({ premium }) {
   const { c, t } = useApp();
+  const ref = useRef(null);
   const [open, setOpen] = useState(() => {
-    try { return localStorage.getItem(GUIDE_KEY) !== "1"; } catch { return true; }
+    try { return localStorage.getItem(GUIDE_CLOSED_KEY) !== "1"; } catch { return true; }
   });
+  useEffect(() => {
+    let focus = false;
+    try { focus = sessionStorage.getItem(GUIDE_FOCUS_KEY) === "1"; sessionStorage.removeItem(GUIDE_FOCUS_KEY); } catch { /* blocked */ }
+    if (focus) ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
   const toggle = () => {
     const next = !open;
     setOpen(next);
-    try { localStorage.setItem(GUIDE_KEY, next ? "0" : "1"); } catch { /* private mode */ }
+    try { localStorage.setItem(GUIDE_CLOSED_KEY, next ? "0" : "1"); } catch { /* private mode */ }
   };
   const steps = [
     {
@@ -218,6 +223,7 @@ function NotebookGuide({ premium }) {
     },
   ];
   return (
+    <div ref={ref} className="scroll-mt-24">
     <Card className="mb-6 overflow-hidden">
       <button type="button" onClick={toggle} aria-expanded={open}
         className={`w-full flex items-center justify-between gap-3 px-5 py-4 text-left ${c.hoverSoft}`}>
@@ -249,6 +255,7 @@ function NotebookGuide({ premium }) {
         </div>
       )}
     </Card>
+    </div>
   );
 }
 

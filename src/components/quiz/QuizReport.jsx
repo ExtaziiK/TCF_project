@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { recordMistakes } from "@/services/mistakeNotebookService";
+import { recordMistakes, requestNotebookGuide } from "@/services/mistakeNotebookService";
 import {
   Trophy, XCircle, CheckCircle2, RotateCcw, ChevronLeft,
   Lightbulb, LayoutGrid, MinusCircle, NotebookPen, ArrowRight, Plus, Check,
@@ -78,7 +78,26 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
             {notebook && statusOf(reviewIdx) === "skipped" && q.id != null && (
               added.has(reviewIdx)
                 ? <Pill tone="blue"><Check size={12} /> Dans votre carnet</Pill>
-                : <Btn small variant="ghost" icon={Plus} disabled={adding} onClick={() => addBlanks([reviewIdx])}>Ajouter au carnet</Btn>
+                : (
+                  // Hover / focus card: what the button does, and a way to the
+                  // notebook's guide. The padding bridge (pt-2 inside the
+                  // absolute box) keeps it open while the pointer travels to it.
+                  <span className="relative group inline-flex">
+                    <Btn small variant="ghost" icon={Plus} disabled={adding} onClick={() => addBlanks([reviewIdx])}>Ajouter au carnet</Btn>
+                    <span role="tooltip" className="absolute left-0 top-full z-30 pt-2 w-72 invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                      <span className={`block p-4 rounded-2xl border shadow-xl text-left ${c.border} ${c.card}`}>
+                        <span className={`block text-sm font-semibold ${c.text}`}>Ajouter au carnet d'erreurs</span>
+                        <span className={`block mt-1 text-xs leading-relaxed ${c.sub}`}>
+                          Les questions sans réponse ne vont pas seules dans votre carnet. Ajoutez celle-ci pour la retrouver avec sa correction, la réessayer plus tard et la marquer « J'ai compris » quand c'est acquis.
+                        </span>
+                        <button type="button" onClick={() => { requestNotebookGuide(); nav("carnet"); }}
+                          className="mt-2 text-xs font-semibold text-blue-600 inline-flex items-center gap-1 hover:underline">
+                          Comment fonctionne le carnet <ArrowRight size={12} aria-hidden="true" />
+                        </button>
+                      </span>
+                    </span>
+                  </span>
+                )
             )}
           </div>
           <p className={`leading-relaxed font-medium ${c.text}`}>{q.q}</p>

@@ -110,6 +110,18 @@ export async function clearMistakes(userId) {
   return { ok: !error, error: error?.message };
 }
 
+// The notebook page's « Comment ça marche ? » guide. GUIDE_CLOSED_KEY remembers
+// it folded (localStorage, per device); GUIDE_FOCUS_KEY asks the next visit to
+// open it and scroll to it — set by the « En savoir plus » links elsewhere.
+export const GUIDE_CLOSED_KEY = "carnet-guide-closed";
+export const GUIDE_FOCUS_KEY = "carnet-guide-focus";
+export function requestNotebookGuide() {
+  try {
+    localStorage.setItem(GUIDE_CLOSED_KEY, "0");
+    sessionStorage.setItem(GUIDE_FOCUS_KEY, "1");
+  } catch { /* storage blocked: the page still opens, guide as last left */ }
+}
+
 // question id -> the bank question, stamped with where it lives. Rebuilt on
 // each call because admin quizzes are injected into the bank after start-up.
 // Quizzes under review are left out for members, as on the Révision page.
