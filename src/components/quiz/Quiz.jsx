@@ -291,18 +291,14 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     );
   };
 
-  // Compact wrapping grid (default quiz layout), 4-column grid (default
-  // layout's sidebar) and one-per-line list (exam).
+  // Compact wrapping grid (default quiz layout) and one-per-line list (exam,
+  // and the default layout's sidebar on wide screens).
   const paletteEl = (
     <div className="flex flex-wrap gap-1.5" role="list" aria-label="Navigation entre les questions">
       {questions.map((_, idx) => paletteButton(idx, "grid"))}
     </div>
   );
-  const sidePaletteEl = (
-    <div className="grid grid-cols-4 gap-1.5" role="list" aria-label="Navigation entre les questions">
-      {questions.map((_, idx) => paletteButton(idx, "grid"))}
-    </div>
-  );
+
   const examPaletteEl = (
     <div className="space-y-1.5" role="list" aria-label="Navigation entre les questions">
       {questions.map((_, idx) => paletteButton(idx, "row"))}
@@ -464,9 +460,10 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
           <div className="flex items-center gap-2">
             {!untimed && <TimerChip left={left} total={duration} />}
             {deferResults && (
-              <button onClick={() => setPaletteOpen((o) => !o)} aria-pressed={paletteOpen} title={paletteOpen ? "Masquer la liste des questions" : "Afficher la liste des questions"} aria-label={paletteOpen ? "Masquer la liste des questions" : "Afficher la liste des questions"}
-                className={`p-2 rounded-full ${paletteOpen ? "bg-blue-600/10 text-blue-600" : `${c.hoverSoft} ${c.faint}`}`}>
-                <LayoutGrid size={17} />
+              <button onClick={() => setPaletteOpen((o) => !o)} aria-pressed={paletteOpen}
+                className={`px-3.5 py-2 rounded-full border text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition-colors ${paletteOpen ? "border-blue-600 bg-blue-600 text-white" : "border-blue-600/40 bg-blue-600/5 text-blue-600 hover:bg-blue-600/10"}`}>
+                <LayoutGrid size={15} />
+                {paletteOpen ? "Masquer les questions" : "Voir toutes les questions"}
               </button>
             )}
             {bookmarkBtn}
@@ -482,12 +479,13 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   );
   if (!deferResults) return main;
   return (
-    <div className={`grid gap-5 items-start ${paletteOpen ? "xl:grid-cols-[196px_minmax(0,1fr)]" : ""}`}>
+    <div className={`grid gap-5 items-start ${paletteOpen ? "xl:grid-cols-[190px_minmax(0,1fr)]" : ""}`}>
       {paletteOpen && (
         <Card className="p-4 hidden xl:block sticky top-24">
           <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Questions</p>
           <p className={`text-xs mt-0.5 ${c.faint}`}>{answeredCount} / {questions.length} répondues</p>
-          <div className="mt-4 max-h-[65vh] overflow-y-auto -mr-1 pr-1">{sidePaletteEl}</div>
+          <div className="mt-2"><ProgressBar pct={(answeredCount / questions.length) * 100} /></div>
+          <div className="mt-4 max-h-[58vh] overflow-y-auto -mr-1 pr-1">{examPaletteEl}</div>
         </Card>
       )}
       {main}
