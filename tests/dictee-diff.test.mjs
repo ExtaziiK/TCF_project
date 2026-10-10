@@ -171,3 +171,19 @@ test("a perfect dictée reports no errors at all", () => {
   assert.equal(s.accentPct, 100);
   assert.deepEqual(s.ranked, []);
 });
+
+// One skipped word used to slide every later word one place along ("ont ←
+// enfant", "mangé ← on"), so real spelling mistakes were reported as words not
+// heard — and kept out of the carnet d'erreurs, which only takes misspellings.
+test("a skipped word does not shift the words after it", () => {
+  const d = diffSentence("Les enfants ont mangé des pommes à l'école.", "Les enfant on manger pommes a l'ecole");
+  const pairs = d.words.filter((w) => w.status !== "ok").map((w) => [w.exp.raw, w.got, w.family]);
+  assert.deepEqual(pairs, [
+    ["enfants", "enfant", "plural"],
+    ["ont", "on", "homophone"],
+    ["mangé", "manger", "ending"],
+    ["des", null, "function"],
+    ["à", "a", "homophone"],
+    ["école", "ecole", "accent"],
+  ]);
+});

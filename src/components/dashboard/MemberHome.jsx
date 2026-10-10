@@ -11,7 +11,7 @@ import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
 import { listDicteeSessions } from "@/services/dicteeService";
 import { computeProgress } from "@/services/progressService";
-import { listMistakes, bankQuestionIndex } from "@/services/mistakeNotebookService";
+import { listMistakes, bankQuestionIndex, dicteeCardOk } from "@/services/mistakeNotebookService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES, canUseNotebook } from "@/auth/rbac";
 
@@ -271,7 +271,7 @@ export function MemberHome() {
     if (canUseNotebook(role)) listMistakes().then(({ cards }) => {
       if (!live) return;
       const index = bankQuestionIndex();
-      setToReview(cards.filter((x) => x.status === "to_review" && index.has(x.questionId)).length);
+      setToReview(cards.filter((x) => x.status === "to_review" && (index.has(x.questionId) || dicteeCardOk(x))).length);
     });
     return () => { live = false; };
   }, [user?.id, role]);

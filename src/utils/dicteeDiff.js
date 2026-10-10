@@ -45,24 +45,30 @@ export function tokenize(text) {
 
 /* ------------------------------- alignment ------------------------------- */
 
-// Levenshtein over token arrays with a backtrace. Substitution and indel cost
-// the same (1), so the table prefers ONE substitution over a delete plus an
-// insert — a candidate who writes the wrong word is shown "you wrote X, it was
-// Y" rather than "you missed Y" and "you invented X", which reads as two
-// mistakes for one slip.
+// Levenshtein over token arrays with a backtrace. A substitution always costs
+// less than a delete plus an insert, so a candidate who writes the wrong word
+// is shown "you wrote X, it was Y" rather than "you missed Y" and "you invented
+// X", which reads as two mistakes for one slip.
+//
+// Substitutions are not all equal, though. Pairing a word with a near-miss of
+// itself (enfant/enfants, on/ont, manger/mangé) costs less than pairing it with
+// an unrelated word. With one flat cost, a single skipped word slid every word
+// after it one place along — "ont ← enfant", "mangé ← on" — so the real
+// spelling mistakes were reported as words not heard.
+const INDEL = 2;
+const subCost = (e, t) => (e.base === t.base ? 0 : isCloseMiss(e, t) ? 2 : 3);
 function align(expected, typed) {
   const n = expected.length;
   const m = typed.length;
   const d = Array.from({ length: n + 1 }, () => new Uint32Array(m + 1));
-  for (let i = 0; i <= n; i++) d[i][0] = i;
-  for (let j = 0; j <= m; j++) d[0][j] = j;
+  for (let i = 0; i <= n; i++) d[i][0] = i * INDEL;
+  for (let j = 0; j <= m; j++) d[0][j] = j * INDEL;
   for (let i = 1; i <= n; i++) {
     for (let j = 1; j <= m; j++) {
-      const same = expected[i - 1].base === typed[j - 1].base;
       d[i][j] = Math.min(
-        d[i - 1][j - 1] + (same ? 0 : 1),
-        d[i - 1][j] + 1,
-        d[i][j - 1] + 1,
+        d[i - 1][j - 1] + subCost(expected[i - 1], typed[j - 1]),
+        d[i - 1][j] + INDEL,
+        d[i][j - 1] + INDEL,
       );
     }
   }
@@ -74,13 +80,13 @@ function align(expected, typed) {
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0) {
       const same = expected[i - 1].base === typed[j - 1].base;
-      if (d[i][j] === d[i - 1][j - 1] + (same ? 0 : 1)) {
+      if (d[i][j] === d[i - 1][j - 1] + subCost(expected[i - 1], typed[j - 1])) {
         ops.push({ kind: same ? "match" : "sub", exp: expected[i - 1], got: typed[j - 1] });
         i--; j--;
         continue;
       }
     }
-    if (i > 0 && d[i][j] === d[i - 1][j] + 1) {
+    if (i > 0 && d[i][j] === d[i - 1][j] + INDEL) {
       ops.push({ kind: "del", exp: expected[i - 1], got: null });
       i--;
       continue;
@@ -193,6 +199,14 @@ function levenshtein(a, b) {
 // an accent because "a" vs "à" is a grammar rule, not a typing slip, and the
 // candidate needs the rule. An agreement mark is checked before a verb ending
 // so "parle"/"parles" reads as an agreement error rather than an -é/-er one.
+// Whether `gotWord` reads as a misspelling of `expWord` rather than another
+// word: every family classify() names except "missed". Used by align() to
+// prefer these pairings.
+function isCloseMiss(expWord, gotWord) {
+  const f = classify(expWord, gotWord);
+  return f !== "missed" && f !== "function";
+}
+
 function classify(expWord, gotWord) {
   if (gotWord === null) return FUNCTION_WORDS.has(expWord.exact) ? "function" : "missed";
   if (isHomophonePair(expWord.exact, gotWord.exact)) return "homophone";

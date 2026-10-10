@@ -4,6 +4,7 @@ import { fetchDictee, fetchDicteeLibrary, recordDicteeSession, listDicteeSession
 import { buildSegments, segmentMode, DEFAULT_SEGMENT_MODE } from "@/utils/dicteeSegments";
 import { speak, stopSpeaking } from "@/utils/speech";
 import { diffSentence, summarize } from "@/utils/dicteeDiff";
+import { recordDicteeMistakes } from "@/services/mistakeNotebookService";
 import { AiError } from "@/services/aiService";
 
 // One dictée, start to finish: draw a text, play it a segment at a time, score
@@ -356,7 +357,9 @@ export function useDictee() {
       durationSec: startedAtRef.current ? Math.round((Date.now() - startedAtRef.current) / 1000) : null,
       errors: summary.errors,
     }).then(() => listDicteeSessions(user?.id)).then(({ sessions }) => setHistory(sessions));
-  }, [phase, summary, dictee, plays, speed, mode, results.length, user?.id, releaseAudio]);
+    // Carnet d'erreurs: the misspelt words, one card per word.
+    recordDicteeMistakes(user?.id, results);
+  }, [phase, summary, dictee, plays, speed, mode, results, user?.id, releaseAudio]);
 
   return {
     phase, dictee, error, notice, index, draft, setDraft, results, summary, history,

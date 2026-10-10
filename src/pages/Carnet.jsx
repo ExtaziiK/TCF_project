@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine } from "lucide-react";
+import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { listMistakes, setMistakeStatus, bankQuestionIndex } from "@/services/mistakeNotebookService";
+import { listMistakes, setMistakeStatus, bankQuestionIndex, isDicteeCard, dicteeCardOk } from "@/services/mistakeNotebookService";
+import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
+import { speak, stopSpeaking } from "@/utils/speech";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { isStaff, PREMIUM } from "@/auth/rbac";
 
@@ -50,10 +52,15 @@ export function Carnet() {
   const joined = useMemo(() => {
     if (!cards) return [];
     const index = bankQuestionIndex({ staff });
-    return cards.map((card) => ({ card, q: index.get(card.questionId) })).filter((x) => x.q);
+    // Dictée cards carry their own content in `detail` and need no lookup.
+    return cards
+      .map((card) => (isDicteeCard(card)
+        ? { card, section: "dictee", ok: dicteeCardOk(card) }
+        : { card, q: index.get(card.questionId), section: index.get(card.questionId)?.section, ok: index.has(card.questionId) }))
+      .filter((x) => x.ok);
   }, [cards, staff]);
 
-  const inSection = (x) => section === "all" || x.q.section === section;
+  const inSection = (x) => section === "all" || x.section === section;
   const toReview = joined.filter((x) => x.card.status === "to_review");
   const understood = joined.filter((x) => x.card.status === "understood");
   const list = (tab === "to_review" ? toReview : understood).filter(inSection);
@@ -86,7 +93,7 @@ export function Carnet() {
       back wide
       eyebrow={t("Carnet d'erreurs")}
       title={t("Les questions que vous avez manquées")}
-      sub={t("Chaque question ratée ou laissée sans réponse dans un quiz ou un TCF blanc arrive ici. Relisez la correction, réessayez, puis cliquez sur « J'ai compris ».")}
+      sub={t("Chaque question ratée ou laissée sans réponse dans un quiz ou un TCF blanc, et chaque mot mal écrit dans une dictée, arrive ici. Relisez la correction, réessayez, puis cliquez sur « J'ai compris ».")}
     >
       {missing && (
         <Card className="p-5 mb-5 border-2 border-amber-500/40 text-sm text-amber-700 flex gap-2">
@@ -108,10 +115,10 @@ export function Carnet() {
           ))}
         </div>
         <div className="flex items-center gap-1.5" role="group" aria-label={t("Épreuve")}>
-          {["all", "co", "ce"].map((s) => (
+          {["all", "co", "ce", "dictee"].map((s) => (
             <button key={s} onClick={() => switchSection(s)} aria-pressed={section === s}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${section === s ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-              {s === "all" ? t("Toutes") : t(SECTION_LABELS[s])}
+              {s === "all" ? t("Toutes") : s === "dictee" ? t("Dictée") : t(SECTION_LABELS[s])}
             </button>
           ))}
         </div>
@@ -172,7 +179,7 @@ function EmptyNotebook({ tab, anyCard }) {
       <p className={`text-sm mt-1 max-w-md mx-auto ${c.sub}`}>
         {t(anyCard
           ? "Chaque nouvelle erreur dans un quiz ou un TCF blanc viendra s'ajouter ici."
-          : "Faites un quiz de compréhension orale ou écrite : les questions manquées s'ajouteront ici automatiquement.")}
+          : "Faites un quiz de compréhension orale ou écrite ou une dictée : vos erreurs s'ajouteront ici automatiquement.")}
       </p>
       <Btn className="mt-4" icon={ArrowRight} onClick={() => nav("exams")}>{t("Faire un quiz")}</Btn>
     </Card>
@@ -183,14 +190,109 @@ function EmptyNotebook({ tab, anyCard }) {
 // hook is keyed on the question ids, so moving a card re-signs only when the
 // set of questions on screen actually changes.
 function CardList({ items, onMove }) {
-  const key = items.map((x) => x.card.id).join(",");
+  const bankItems = items.filter((x) => x.q);
+  const key = bankItems.map((x) => x.card.id).join(",");
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const questions = useMemo(() => items.map((x) => x.q), [key]);
+  const questions = useMemo(() => bankItems.map((x) => x.q), [key]);
   const signed = useSignedQuestions(questions);
+  const signedById = new Map(bankItems.map((x, i) => [x.card.id, signed[i] || x.q]));
+  // A sentence still being read aloud stops when the list goes away.
+  useEffect(() => stopSpeaking, []);
   return (
     <div className="space-y-4">
-      {items.map((x, i) => <MistakeCard key={x.card.id} card={x.card} q={signed[i] || x.q} onMove={onMove} />)}
+      {items.map((x) => (x.q
+        ? <MistakeCard key={x.card.id} card={x.card} q={signedById.get(x.card.id)} onMove={onMove} />
+        : <DicteeCard key={x.card.id} card={x.card} onMove={onMove} />))}
     </div>
+  );
+}
+
+// Lower case, accents kept, apostrophes dropped — the dictée's own "exact"
+// comparison (utils/dicteeDiff.js), so a retry is judged the way the dictée was.
+const exactWord = (s) => String(s || "").trim().toLowerCase().replace(/['’]/g, "");
+
+// A misspelt dictée word: the right spelling against what was written, inside
+// the sentence it was dictated in, with that error family's tip. « Réessayer »
+// blanks the word out of the sentence and asks for it again.
+function DicteeCard({ card, onMove }) {
+  const { c, t } = useApp();
+  const d = card.detail;
+  const [retry, setRetry] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [checked, setChecked] = useState(null); // null | true | false
+  const understood = card.status === "understood";
+  const family = ERROR_FAMILIES[d.family];
+  const hidden = retry && checked == null;
+
+  const check = (e) => {
+    e.preventDefault();
+    if (typed.trim()) setChecked(exactWord(typed) === exactWord(d.word));
+  };
+
+  return (
+    <Card className="p-5 md:p-6">
+      <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
+        <span className={`text-xs font-mono2 font-semibold ${c.faint}`}>
+          {t("Dictée")}{family ? ` · ${t(family.label)}` : ""}
+        </span>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {card.relapsed && <Pill tone="red"><RotateCcw size={11} /> {t("Raté à nouveau")}</Pill>}
+          {card.timesWrong > 1 && <Pill tone="slate">{t("Mal écrit")} {card.timesWrong} {t("fois")}</Pill>}
+          {understood && card.understoodAt && <Pill tone="green"><Check size={11} /> {t("Compris le")} {fmtDate(card.understoodAt)}</Pill>}
+        </div>
+      </div>
+
+      {!hidden && (
+        <div className="flex items-baseline gap-3 flex-wrap">
+          <span className="font-display font-extrabold text-2xl text-emerald-600">{d.word}</span>
+          <span className={`text-base line-through ${c.faint}`} title={t("Ce que vous aviez écrit")}>{d.typed}</span>
+        </div>
+      )}
+
+      <p className={`mt-3 leading-relaxed ${c.text}`}>
+        {d.sentence.slice(0, d.start)}
+        {hidden
+          ? <span className="inline-block min-w-[4rem] border-b-2 border-dashed border-blue-600 mx-0.5">&nbsp;</span>
+          : <span className="bg-emerald-500/15 text-emerald-700 rounded px-0.5 font-semibold">{d.sentence.slice(d.start, d.end)}</span>}
+        {d.sentence.slice(d.end)}
+      </p>
+
+      <button type="button" onClick={() => { stopSpeaking(); speak(d.sentence); }}
+        className="mt-3 text-sm font-semibold text-blue-600 flex items-center gap-1.5">
+        <Volume2 size={15} aria-hidden="true" /> {t("Écouter la phrase")}
+      </button>
+
+      {retry && (
+        <form onSubmit={check} className="mt-4 flex items-center gap-2 flex-wrap">
+          <input value={typed} onChange={(e) => { setTyped(e.target.value); setChecked(null); }}
+            placeholder={t("Écrivez le mot manquant")} aria-label={t("Écrivez le mot manquant")}
+            autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false}
+            className={`flex-1 min-w-[12rem] px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+          <Btn small type="submit" disabled={!typed.trim()}>{t("Vérifier")}</Btn>
+        </form>
+      )}
+      {checked != null && (
+        <p className={`mt-2 text-sm font-semibold ${checked ? "text-emerald-600" : "text-rose-600"}`}>
+          {checked ? t("Bonne orthographe !") : `${t("Pas encore : vous avez écrit")} « ${typed.trim()} ».`}
+        </p>
+      )}
+
+      {!hidden && family && (
+        <p className={`mt-3 flex gap-2 text-sm leading-relaxed ${c.sub}`}>
+          <Lightbulb size={15} className="text-amber-500 shrink-0 mt-0.5" aria-hidden="true" />
+          <span>{t(family.hint)}</span>
+        </p>
+      )}
+
+      <div className={`mt-5 pt-4 border-t ${c.border} flex items-center justify-between gap-2 flex-wrap`}>
+        <Btn small variant="ghost" icon={PenLine} onClick={() => { setRetry(true); setTyped(""); setChecked(null); }}>
+          {t(retry ? "Recommencer" : "Réessayer")}
+        </Btn>
+        {understood
+          ? <Btn small variant="ghost" icon={RotateCcw} onClick={() => onMove(card, "to_review")}>{t("Remettre à revoir")}</Btn>
+          : <Btn small icon={CheckCircle2} onClick={() => onMove(card, "understood")}>{t("J'ai compris")}</Btn>}
+      </div>
+    </Card>
   );
 }
 

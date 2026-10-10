@@ -29,6 +29,36 @@ export async function recordMistakes(userId, items) {
   if (error) console.warn("mistake_notebook:", error.message);
 }
 
+// Misspelt dictée words (migration 20261011_mistake_notebook_dictee.sql).
+// `diffs` = diffSentence() results for the dictée's segments. Only words the
+// candidate HEARD and wrote wrong are kept — spelling, accents, agreements,
+// homophones. Unheard words are left out: stopping a dictée early scores every
+// segment not reached as entirely missing, and those are not spelling mistakes.
+const DICTEE_KEPT = new Set(["wrong", "accent"]);
+export async function recordDicteeMistakes(userId, diffs) {
+  if (!userId || !diffs?.length) return;
+  const rows = [];
+  for (const diff of diffs) {
+    for (const w of diff.words || []) {
+      if (!DICTEE_KEPT.has(w.status) || !w.got || w.family === "missed") continue;
+      rows.push({
+        q: `dictee:${w.exp.exact}`,
+        s: "dictee",
+        c: null,
+        d: { word: w.exp.raw, typed: w.got, family: w.family, sentence: diff.source, start: w.exp.start, end: w.exp.end },
+      });
+    }
+  }
+  if (rows.length === 0) return;
+  const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows.slice(0, 200) });
+  if (error) console.warn("mistake_notebook:", error.message);
+}
+
+// A dictée card is shown from its own `detail`; one without it (written before
+// the part-2 migration) has nothing to show and is skipped.
+export const isDicteeCard = (card) => String(card.questionId).startsWith("dictee:");
+export const dicteeCardOk = (card) => isDicteeCard(card) && !!card.detail?.word && !!card.detail?.sentence;
+
 const rowToCard = (r) => ({
   id: r.id,
   questionId: r.question_id,
@@ -39,6 +69,7 @@ const rowToCard = (r) => ({
   relapsed: r.relapsed,
   lastWrongAt: r.last_wrong_at,
   understoodAt: r.understood_at,
+  detail: r.detail ?? null,
 });
 
 // Every card of the profile in use, newest mistake first. `missing` is true when
