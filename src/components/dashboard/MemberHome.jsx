@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Clock, CheckCircle2, Target, Flame, Sparkles, ArrowRight, Play,
-  Zap, Trophy, ChevronDown, ListChecks,
+  Zap, Trophy, ChevronDown, ListChecks, NotebookPen,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -11,6 +11,7 @@ import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
 import { listDicteeSessions } from "@/services/dicteeService";
 import { computeProgress } from "@/services/progressService";
+import { listMistakes, bankQuestionIndex } from "@/services/mistakeNotebookService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES } from "@/auth/rbac";
 
@@ -123,7 +124,7 @@ function Skeleton() {
 // Presentational: everything comes from the precomputed `data`
 // (progressService.computeProgress) so it can be rendered and tested with
 // any dataset, and reused by the Dashboard route.
-export function DashboardView({ data }) {
+export function DashboardView({ data, toReview = 0 }) {
   const { c, nav, role, t } = useApp();
   const tot = data.totals;
 
@@ -186,6 +187,19 @@ export function DashboardView({ data }) {
 
         {/* ---------------- right 1/3 ---------------- */}
         <div className="space-y-5">
+          {toReview > 0 && (
+            <Card className="p-6 border-2 border-rose-600/30">
+              <div className="flex items-center gap-4">
+                <NotebookPen size={28} className="text-rose-600 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className={`font-display font-extrabold text-2xl ${c.text}`}>{toReview} {t(toReview > 1 ? "questions" : "question")}</p>
+                  <p className={`text-xs ${c.faint}`}>{t("à revoir dans votre carnet d'erreurs")}</p>
+                </div>
+              </div>
+              <Btn small className="mt-4" icon={ArrowRight} onClick={() => nav("carnet")}>{t("Revoir mes erreurs")}</Btn>
+            </Card>
+          )}
+
           <StreakCard streaks={data.streaks} />
 
           {/* weekly goal */}
@@ -245,12 +259,20 @@ export function MemberHome() {
   const [attempts, setAttempts] = useState(null);
   const [results, setResults] = useState(null);
   const [dictees, setDictees] = useState(null);
+  const [toReview, setToReview] = useState(0);
 
   useEffect(() => {
     let live = true;
     listAttempts(user?.id).then(({ attempts: a }) => live && setAttempts(a));
     listQuizResults(user?.id).then(({ results: r }) => live && setResults(r));
     listDicteeSessions(user?.id).then(({ sessions: s }) => live && setDictees(s));
+    // Counted against the bank, like the notebook page, so a card whose
+    // question has left the bank never inflates the number.
+    listMistakes().then(({ cards }) => {
+      if (!live) return;
+      const index = bankQuestionIndex();
+      setToReview(cards.filter((x) => x.status === "to_review" && index.has(x.questionId)).length);
+    });
     return () => { live = false; };
   }, [user?.id]);
 
@@ -263,7 +285,7 @@ export function MemberHome() {
   return (
     <PageShell wide eyebrow={t("Tableau de bord")} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
       <DzRequestStatus />
-      {loading ? <Skeleton /> : <DashboardView data={data} />}
+      {loading ? <Skeleton /> : <DashboardView data={data} toReview={toReview} />}
     </PageShell>
   );
 }

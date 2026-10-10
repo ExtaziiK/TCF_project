@@ -113,6 +113,9 @@ export const PAGE_ACCESS = {
   // non un échantillon. Un compte gratuit qui ouvre l'URL tombe sur la page
   // d'abonnement (deniedReason renvoie "upgrade" pour toute route PREMIUM).
   revision: PREMIUM,
+  // Carnet d'erreurs : ouvert à tout compte connecté. La limite du compte
+  // gratuit (10 questions « À revoir », pas d'historique) vit dans la page.
+  carnet: AUTHENTICATED,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
   dashboard: AUTHENTICATED,

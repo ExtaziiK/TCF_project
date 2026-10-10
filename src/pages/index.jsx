@@ -13,6 +13,7 @@ import { Vocabulary } from "@/pages/Vocabulary";
 import { Grammar } from "@/pages/Grammar";
 import { Conjugation } from "@/pages/Conjugation";
 import { Revision } from "@/pages/Revision";
+import { Carnet } from "@/pages/Carnet";
 import { Dictee } from "@/pages/Dictee";
 import { Mocks } from "@/pages/Mocks";
 import { Calculator } from "@/pages/Calculator";
@@ -90,6 +91,7 @@ export const PAGES = {
   "code-promo": CodePromo,
   bank: QuestionBank,
   revision: Revision,
+  carnet: Carnet,
   terms: Terms,
   privacy: Privacy,
   accessibility: Accessibility,

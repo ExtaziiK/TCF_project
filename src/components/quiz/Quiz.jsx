@@ -6,6 +6,7 @@ import { QuizReport } from "@/components/quiz/QuizReport";
 import { useCountdown } from "@/hooks/useCountdown";
 import { recordQuizResult } from "@/services/quizResultsService";
 import { recordAttempts } from "@/services/questionAnalyticsService";
+import { recordMistakes } from "@/services/mistakeNotebookService";
 import { signQuizMedia } from "@/services/mediaService";
 import { fmt } from "@/utils/format";
 import { preloadImages } from "@/utils/imagePreload";
@@ -43,6 +44,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const [picks, setPicks] = useState(initialPicks || {}); // exam mode: question index -> chosen option
   const [answers, setAnswers] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [notebookCount, setNotebookCount] = useState(0); // questions this attempt sent to the carnet d'erreurs
   const [confirmFinish, setConfirmFinish] = useState(false);
   const [advanceIn, setAdvanceIn] = useState(null); // autoAdvance: seconds until the question moves on, or null
   const [signedMedia, setSignedMedia] = useState({}); // index -> { image?, audio? } (signed-media mode only)
@@ -124,6 +126,13 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
           })
           .filter(Boolean)
       );
+      // Carnet d'erreurs: every wrong or blank question, mock exams included.
+      const missed = questions
+        .map((q, idx) => ({ q, a: byIndex.get(idx) }))
+        .filter(({ q, a }) => q.id != null && !a?.ok)
+        .map(({ q, a }) => ({ questionId: q.id, choice: a ? a.sel : null }));
+      recordMistakes(user?.id, missed);
+      setNotebookCount(user?.id ? missed.length : 0);
     }
     setAnswers(finalAnswers);
     setFinished(true);
@@ -204,6 +213,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
         duration={untimed ? null : duration}
         left={untimed ? null : left}
         onRestart={restart}
+        notebookCount={notebookCount}
         doneExtra={doneExtra}
         renderAbove={renderAbove}
         above={above}

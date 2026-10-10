@@ -8,7 +8,7 @@ import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck,
+  ListChecks, BadgeCheck, NotebookPen,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -68,6 +68,7 @@ export const NAV_LINKS = [
     // sur la page de vente plutôt que sur un menu qui ne mentionne jamais ce
     // qu'il pourrait acheter. Le garde de route décide de l'accès, pas le menu.
     { l: "Révision", r: "revision", icon: ListChecks, group: "train" },
+    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, icon: NotebookPen, group: "train" },
   ] },
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },

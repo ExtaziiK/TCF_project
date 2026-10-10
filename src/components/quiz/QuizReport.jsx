@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Trophy, XCircle, CheckCircle2, RotateCcw, ChevronLeft,
-  Lightbulb, LayoutGrid, MinusCircle,
+  Lightbulb, LayoutGrid, MinusCircle, NotebookPen, ArrowRight,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
@@ -15,8 +15,8 @@ import { fmt } from "@/utils/format";
 // a top "return" affordance and a custom `title`, and omit `onRestart`/time so
 // the restart button and the "terminé en …" line are hidden (a single mock
 // épreuve isn't restartable on its own, and per-task time isn't tracked).
-export function QuizReport({ questions, answers, duration, left, onRestart, doneExtra, renderAbove, above, onBack, backLabel = "Retour au rapport", title = "Rapport de score" }) {
-  const { c } = useApp();
+export function QuizReport({ questions, answers, duration, left, onRestart, notebookCount = 0, doneExtra, renderAbove, above, onBack, backLabel = "Retour au rapport", title = "Rapport de score" }) {
+  const { c, nav } = useApp();
   const [reviewIdx, setReviewIdx] = useState(null);
   const byIndex = new Map(answers.map((a) => [a.i, a]));
   const ok = answers.filter((a) => a.ok).length;
@@ -123,6 +123,16 @@ export function QuizReport({ questions, answers, duration, left, onRestart, done
           })}
         </div>
       </div>
+
+      {notebookCount > 0 && (
+        <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <p className={`text-sm ${c.text}`}>
+            <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />
+            {notebookCount} question{notebookCount > 1 ? "s" : ""} ajoutée{notebookCount > 1 ? "s" : ""} à votre carnet d'erreurs.
+          </p>
+          <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav("carnet")}>Voir mes erreurs</Btn>
+        </div>
+      )}
 
       {(onRestart || doneExtra) && (
         <div className="mt-8 flex gap-3 justify-center flex-wrap">

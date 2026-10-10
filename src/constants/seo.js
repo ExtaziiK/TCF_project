@@ -169,6 +169,7 @@ export const ROUTE_META = {
   "code-promo": { path: "/code-promo", title: "Comment utiliser votre code promo", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },
   revision: { path: "/revision", title: "Révision — questions difficiles", noindex: true },
+  carnet: { path: "/carnet-erreurs", title: "Carnet d'erreurs", noindex: true },
 
   // Public and stable — a visitor accepts these before creating an account, so
   // the text must stay readable at a fixed URL (the signup dialog links out to
