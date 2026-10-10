@@ -343,7 +343,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             {/* Tagged for the tour's CO/CE steps, which open this quiz for
                 real rather than just pointing at its closed card — see
                 `openQuiz` in constants/tour.js. */}
-            <div className="max-w-3xl mx-auto" data-tour={`bank-${quiz.section}`}>
+            <div className="max-w-3xl xl:max-w-[62rem] mx-auto" data-tour={`bank-${quiz.section}`}>
               <Quiz
                 key={quiz.id}
                 questions={quiz.questions}

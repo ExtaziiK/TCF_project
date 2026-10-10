@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { XCircle, CheckCircle2, Bookmark, Upload, Lightbulb, ArrowRight, ArrowLeft, Flag, AlertTriangle, User } from "lucide-react";
+import { XCircle, CheckCircle2, Bookmark, Upload, Lightbulb, ArrowRight, ArrowLeft, Flag, AlertTriangle, User, LayoutGrid } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn, TimerChip } from "@/components/common";
 import { QuizReport } from "@/components/quiz/QuizReport";
@@ -48,6 +48,9 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
   const [confirmFinish, setConfirmFinish] = useState(false);
   const [advanceIn, setAdvanceIn] = useState(null); // autoAdvance: seconds until the question moves on, or null
   const [signedMedia, setSignedMedia] = useState({}); // index -> { image?, audio? } (signed-media mode only)
+  // deferResults: question palette shown or hidden (toggle next to the timer).
+  // Shown by default where it fits as a side column (xl), hidden below.
+  const [paletteOpen, setPaletteOpen] = useState(() => typeof window !== "undefined" && !!window.matchMedia?.("(min-width: 1280px)").matches);
 
   // The countdown captures its callback once, so read live state via refs.
   const picksRef = useRef(picks);
@@ -288,9 +291,15 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     );
   };
 
-  // Compact wrapping grid (default quiz layout) and one-per-line list (exam).
+  // Compact wrapping grid (default quiz layout), 4-column grid (default
+  // layout's sidebar) and one-per-line list (exam).
   const paletteEl = (
     <div className="flex flex-wrap gap-1.5" role="list" aria-label="Navigation entre les questions">
+      {questions.map((_, idx) => paletteButton(idx, "grid"))}
+    </div>
+  );
+  const sidePaletteEl = (
+    <div className="grid grid-cols-4 gap-1.5" role="list" aria-label="Navigation entre les questions">
       {questions.map((_, idx) => paletteButton(idx, "grid"))}
     </div>
   );
@@ -435,9 +444,13 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     );
   }
 
-  // ---- default single-column layout ----
-  return (
-    <div className="space-y-5">
+  // ---- default layout ----
+  // In deferResults mode the palette sits in a sticky left column on wide
+  // screens and inline below xl, and a button next to the timer hides it.
+  // Customer feedback: 39 numbers between the document and the options meant
+  // scrolling up and down to reread the text.
+  const main = (
+    <div className="space-y-5 min-w-0">
       {renderAbove ? renderAbove(q, i, { autoPlay: !!autoAdvance, onAudioEnded }) : above}
       <Card className="p-6 md:p-7">
         <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
@@ -450,15 +463,34 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
           </div>
           <div className="flex items-center gap-2">
             {!untimed && <TimerChip left={left} total={duration} />}
+            {deferResults && (
+              <button onClick={() => setPaletteOpen((o) => !o)} aria-pressed={paletteOpen} title={paletteOpen ? "Masquer la liste des questions" : "Afficher la liste des questions"} aria-label={paletteOpen ? "Masquer la liste des questions" : "Afficher la liste des questions"}
+                className={`p-2 rounded-full ${paletteOpen ? "bg-blue-600/10 text-blue-600" : `${c.hoverSoft} ${c.faint}`}`}>
+                <LayoutGrid size={17} />
+              </button>
+            )}
             {bookmarkBtn}
           </div>
         </div>
         <ProgressBar pct={(answeredCount / questions.length) * 100} />
-        {deferResults && <div className="mt-5">{paletteEl}</div>}
+        {deferResults && paletteOpen && <div className="mt-5 xl:hidden">{paletteEl}</div>}
         <p className={`mt-6 leading-relaxed font-medium ${c.text}`}>{q.q}</p>
         <div className="mt-5">{optionsEl}</div>
         {deferResults ? examNavEl : instantEl}
       </Card>
+    </div>
+  );
+  if (!deferResults) return main;
+  return (
+    <div className={`grid gap-5 items-start ${paletteOpen ? "xl:grid-cols-[196px_minmax(0,1fr)]" : ""}`}>
+      {paletteOpen && (
+        <Card className="p-4 hidden xl:block sticky top-24">
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Questions</p>
+          <p className={`text-xs mt-0.5 ${c.faint}`}>{answeredCount} / {questions.length} répondues</p>
+          <div className="mt-4 max-h-[65vh] overflow-y-auto -mr-1 pr-1">{sidePaletteEl}</div>
+        </Card>
+      )}
+      {main}
     </div>
   );
 }
