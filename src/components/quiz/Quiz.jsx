@@ -126,11 +126,12 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
           })
           .filter(Boolean)
       );
-      // Carnet d'erreurs: every wrong or blank question, mock exams included.
+      // Carnet d'erreurs: every wrong answer, mock exams included. Blank
+      // questions are the candidate's call — the report offers to add them.
       const missed = questions
         .map((q, idx) => ({ q, a: byIndex.get(idx) }))
-        .filter(({ q, a }) => q.id != null && !a?.ok)
-        .map(({ q, a }) => ({ questionId: q.id, choice: a ? a.sel : null }));
+        .filter(({ q, a }) => q.id != null && a && !a.ok)
+        .map(({ q, a }) => ({ questionId: q.id, choice: a.sel }));
       recordMistakes(user?.id, missed);
       setNotebookCount(user?.id ? missed.length : 0);
     }

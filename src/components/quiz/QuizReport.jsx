@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { recordMistakes } from "@/services/mistakeNotebookService";
 import {
   Trophy, XCircle, CheckCircle2, RotateCcw, ChevronLeft,
-  Lightbulb, LayoutGrid, MinusCircle, NotebookPen, ArrowRight,
+  Lightbulb, LayoutGrid, MinusCircle, NotebookPen, ArrowRight, Plus, Check,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, ProgressBar, Btn } from "@/components/common";
@@ -17,8 +18,11 @@ import { fmt } from "@/utils/format";
 // the restart button and the "terminé en …" line are hidden (a single mock
 // épreuve isn't restartable on its own, and per-task time isn't tracked).
 export function QuizReport({ questions, answers, duration, left, onRestart, notebookCount = 0, doneExtra, renderAbove, above, onBack, backLabel = "Retour au rapport", title = "Rapport de score" }) {
-  const { c, nav, role } = useApp();
+  const { c, nav, role, user, notify } = useApp();
   const [reviewIdx, setReviewIdx] = useState(null);
+  // Blank questions sent to the carnet from this screen (question indexes).
+  const [added, setAdded] = useState(() => new Set());
+  const [adding, setAdding] = useState(false);
   const byIndex = new Map(answers.map((a) => [a.i, a]));
   const ok = answers.filter((a) => a.ok).length;
   const wrongCount = answers.length - ok;
@@ -31,6 +35,23 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
   const statusOf = (idx) => {
     const a = byIndex.get(idx);
     return !a ? "skipped" : a.ok ? "right" : "wrong";
+  };
+
+  // Wrong answers reach the carnet d'erreurs on their own (Quiz.jsx); blank
+  // ones only when the candidate asks — a question never attempted is not
+  // necessarily a mistake, and a quiz abandoned halfway would otherwise drop
+  // dozens of them in at once.
+  const notebook = !!user?.id && canUseNotebook(role);
+  const blankIdx = questions.map((q, idx) => (q.id != null && !byIndex.has(idx) ? idx : null)).filter((idx) => idx != null);
+  const blankLeft = blankIdx.filter((idx) => !added.has(idx));
+  const addBlanks = async (idxs) => {
+    if (!idxs.length || adding) return;
+    setAdding(true);
+    const r = await recordMistakes(user.id, idxs.map((idx) => ({ questionId: questions[idx].id, choice: null })));
+    setAdding(false);
+    if (!r?.ok) return notify("Impossible d'ajouter au carnet, réessayez.");
+    setAdded((prev) => new Set([...prev, ...idxs]));
+    notify(idxs.length > 1 ? `${idxs.length} questions ajoutées à votre carnet.` : "Question ajoutée à votre carnet.");
   };
 
   /* ---- review mode: one question, with media, answers and explanation ---- */
@@ -56,6 +77,11 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
             {statusOf(reviewIdx) === "right" && <Pill tone="green"><CheckCircle2 size={12} /> Réussie</Pill>}
             {statusOf(reviewIdx) === "wrong" && <Pill tone="red"><XCircle size={12} /> Manquée</Pill>}
             {statusOf(reviewIdx) === "skipped" && <Pill tone="amber"><MinusCircle size={12} /> Sans réponse</Pill>}
+            {notebook && statusOf(reviewIdx) === "skipped" && q.id != null && (
+              added.has(reviewIdx)
+                ? <Pill tone="blue"><Check size={12} /> Dans votre carnet</Pill>
+                : <Btn small variant="ghost" icon={Plus} disabled={adding} onClick={() => addBlanks([reviewIdx])}>Ajouter au carnet</Btn>
+            )}
           </div>
           <p className={`leading-relaxed font-medium ${c.text}`}>{q.q}</p>
           <div className="mt-5 space-y-2.5">
@@ -125,13 +151,29 @@ export function QuizReport({ questions, answers, duration, left, onRestart, note
         </div>
       </div>
 
-      {notebookCount > 0 && canUseNotebook(role) && (
-        <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className={`text-sm ${c.text}`}>
-            <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />
-            {notebookCount} question{notebookCount > 1 ? "s" : ""} ajoutée{notebookCount > 1 ? "s" : ""} à votre carnet d'erreurs.
-          </p>
-          <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav("carnet")}>Voir mes erreurs</Btn>
+      {notebook && (notebookCount > 0 || blankIdx.length > 0) && (
+        <div className="mt-8 p-4 rounded-2xl bg-blue-600/10 space-y-3">
+          {/* Zero on a reopened past attempt too: its wrong answers went in
+              when it was taken, so there is nothing to announce here. */}
+          {notebookCount + added.size > 0 && (
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p className={`text-sm ${c.text}`}>
+                <NotebookPen size={15} className="inline -mt-0.5 mr-1.5 text-blue-600" aria-hidden="true" />
+                {notebookCount + added.size} question{notebookCount + added.size > 1 ? "s" : ""} ajoutée{notebookCount + added.size > 1 ? "s" : ""} à votre carnet d'erreurs.
+              </p>
+              <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav("carnet")}>Voir mes erreurs</Btn>
+            </div>
+          )}
+          {blankLeft.length > 0 && (
+            <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${notebookCount + added.size > 0 ? "pt-3 border-t border-blue-600/20" : ""}`}>
+              <p className={`text-sm ${c.sub}`}>
+                {blankLeft.length} question{blankLeft.length > 1 ? "s" : ""} sans réponse : à vous de choisir si vous voulez {blankLeft.length > 1 ? "les" : "la"} revoir.
+              </p>
+              <Btn small icon={Plus} disabled={adding} onClick={() => addBlanks(blankLeft)}>
+                {adding ? "Ajout…" : `Ajouter ${blankLeft.length > 1 ? `les ${blankLeft.length}` : "la"} au carnet`}
+              </Btn>
+            </div>
+          )}
         </div>
       )}
 

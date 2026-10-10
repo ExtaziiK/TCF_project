@@ -18,15 +18,16 @@ const SECTIONS = ["co", "ce"];
 // page will look them up in, and it is also where the section comes from
 // (admin-added questions have bare UUID ids that do not name one).
 export async function recordMistakes(userId, items) {
-  if (!userId || !items?.length) return;
+  if (!userId || !items?.length) return { ok: false };
   const index = bankQuestionIndex({ staff: true });
   const rows = items
     .map((x) => ({ x, q: index.get(String(x.questionId)) }))
     .filter(({ q }) => q)
     .map(({ x, q }) => ({ q: String(x.questionId), s: q.section, c: Number.isInteger(x.choice) ? x.choice : null }));
-  if (rows.length === 0) return;
+  if (rows.length === 0) return { ok: false };
   const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows });
   if (error) console.warn("mistake_notebook:", error.message);
+  return { ok: !error };
 }
 
 // Misspelt dictée words (migration 20261011_mistake_notebook_dictee.sql).
