@@ -137,7 +137,7 @@ export function Conjugation() {
                 {tense.qs.slice(0, PREVIEW_EXERCISES).map((q) => (
                   // Keyed by mode too: switching Écrire ↔ Choisir resets the
                   // exercise instead of leaving a stale correction on screen.
-                  <ConjugationExercise key={`${q.a}-${q.inf}-${answerMode}`} q={q} mode={answerMode} />
+                  <ConjugationExercise key={`${q.a}-${q.inf}-${answerMode}`} q={q} mode={answerMode} tense={tense} />
                 ))}
                 <button
                   onClick={() => setTenseMode("quiz")}

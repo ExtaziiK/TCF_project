@@ -3,6 +3,7 @@ import { Check, X, AlertTriangle, CornerDownLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { checkAnswer, isCorrect, missingAccents, filledSentence } from "@/utils/conjugationCheck";
+import { recordConjugationMistake } from "@/services/mistakeNotebookService";
 
 // One conjugation exercise, in either practice mode:
 //   mode="write"   an input the candidate types the form into
@@ -13,28 +14,32 @@ import { checkAnswer, isCorrect, missingAccents, filledSentence } from "@/utils/
 // anything about scoring. `verdict` is lifted out of the two branches because
 // the correction block below is identical for both — only the way the answer
 // is collected differs.
-export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = false }) {
-  const { c, t, dark } = useApp();
+//
+// A wrong first attempt also goes to the carnet d'erreurs (`tense` names it
+// when `q` itself doesn't, as in a tense's practice list).
+export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = false, tense }) {
+  const { c, t, dark, user } = useApp();
   const [typed, setTyped] = useState("");
   const [verdict, setVerdict] = useState(null); // "correct" | "accent" | "wrong"
   const [chosen, setChosen] = useState(null);
   const inputRef = useRef(null);
   const done = verdict !== null;
 
-  const settle = (v) => {
+  const settle = (v, given) => {
     setVerdict(v);
     onAnswer?.(isCorrect(v));
+    if (!isCorrect(v)) recordConjugationMistake(user?.id, q, { given, verdict: v, tense });
   };
 
   const submit = () => {
     if (done || !typed.trim()) return;
-    settle(checkAnswer(q, typed));
+    settle(checkAnswer(q, typed), typed);
   };
 
   const choose = (opt) => {
     if (done) return;
     setChosen(opt);
-    settle(checkAnswer(q, opt));
+    settle(checkAnswer(q, opt), opt);
   };
 
   // The prompt: a sentence with its gap, or — for a bare drill — the

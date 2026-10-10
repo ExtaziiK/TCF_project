@@ -37,7 +37,7 @@ const shuffle = (arr) => {
 export function ConjugationQuiz({ tense, mode, onModeChange, blocked = false, resetAt, onSessionOpen }) {
   const { c, t, user } = useApp();
   const pool = useMemo(
-    () => (tense ? tense.qs.map((q) => ({ ...q, tense: tense.t })) : ALL_CONJUGATION_QS),
+    () => (tense ? tense.qs.map((q) => ({ ...q, tense: tense.t, tenseId: tense.id })) : ALL_CONJUGATION_QS),
     [tense],
   );
 

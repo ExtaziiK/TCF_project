@@ -60,6 +60,32 @@ export async function recordDicteeMistakes(userId, diffs) {
 export const isDicteeCard = (card) => String(card.questionId).startsWith("dictee:");
 export const dicteeCardOk = (card) => isDicteeCard(card) && !!card.detail?.word && !!card.detail?.sentence;
 
+// A wrong conjugation answer (ConjugationExercise), recorded the moment it is
+// given — in a scored series or in a tense's practice exercises alike. The
+// exercises carry no id, so the card is keyed on the tense and the prompt
+// itself, and carries everything it shows in `detail`. A missing accent counts:
+// the exercise itself marks it wrong.
+const conjKey = (s) => String(s || "").toLowerCase().replace(/\s+/g, " ").trim().slice(0, 150);
+export async function recordConjugationMistake(userId, q, { given, verdict, tense }) {
+  if (!userId || !q?.a) return;
+  const tenseId = q.tenseId || tense?.id || "";
+  const row = {
+    q: `conj:${tenseId}:${conjKey(q.s || `${q.inf} | ${q.p}`)}`,
+    s: "conj",
+    c: null,
+    d: {
+      s: q.s || null, inf: q.inf, p: q.p || null, a: q.a, alt: q.alt || [],
+      exp: q.exp || null, tense: q.tense || tense?.t || null, typed: String(given || "").slice(0, 80), verdict,
+    },
+  };
+  const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: [row] });
+  if (error) console.warn("mistake_notebook:", error.message);
+}
+export const isConjCard = (card) => String(card.questionId).startsWith("conj:");
+export const conjCardOk = (card) => isConjCard(card) && !!card.detail?.a && !!card.detail?.inf;
+// Cards whose content lives in `detail` (no bank lookup), and whether one is complete.
+export const ownContentCardOk = (card) => dicteeCardOk(card) || conjCardOk(card);
+
 const rowToCard = (r) => ({
   id: r.id,
   questionId: r.question_id,
