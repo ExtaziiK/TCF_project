@@ -15,6 +15,7 @@ import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/ser
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
+import { takeOpenQuizRequest } from "@/utils/openQuizRequest";
 import { TOUR_STEPS } from "@/constants/tour";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
@@ -296,6 +297,24 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const freeTier = role === ROLES.FREE_USER;
   const goUpgrade = () => { notify(t("Ce quiz fait partie de l'abonnement Premium.")); nav("pricing"); };
   const staff = isStaff(role);
+
+  // Arriving with a quiz to open (« Refaire ce quiz » in the carnet): switch to
+  // its épreuve and open it — through the same locks as a click on its card,
+  // so a locked or under-review quiz just shows its épreuve's grid.
+  useEffect(() => {
+    const id = takeOpenQuizRequest();
+    if (!id) return;
+    for (const s of sections) {
+      const idx = (bank[s] || []).findIndex((qz) => String(qz.id) === id);
+      if (idx < 0) continue;
+      const qz = bank[s][idx];
+      setSection(s);
+      if ((isUnderReview(qz) && !staff) || (freeTier && idx > 0)) return;
+      setQuiz(qz);
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const reloadScores = () => {
     listQuizResults(user?.id).then(({ results }) => {

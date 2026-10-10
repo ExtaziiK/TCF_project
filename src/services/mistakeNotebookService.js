@@ -132,7 +132,7 @@ export function bankQuestionIndex({ staff } = {}) {
     for (const quiz of bank[section] || []) {
       if (quiz.kind === "prompt" || (!staff && isUnderReview(quiz))) continue;
       (quiz.questions || []).forEach((q, i) => {
-        if (q.id != null) map.set(String(q.id), { ...q, section, quizNumber: quiz.quizNumber, order: i + 1 });
+        if (q.id != null) map.set(String(q.id), { ...q, section, quizId: quiz.id, quizNumber: quiz.quizNumber, order: i + 1 });
       });
     }
   }

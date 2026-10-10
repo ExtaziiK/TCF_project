@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, Plus } from "lucide-react";
+import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, Plus, Clock, Layers, Play } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -10,6 +10,7 @@ import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
 import { speak, stopSpeaking } from "@/utils/speech";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { isStaff, PREMIUM } from "@/auth/rbac";
+import { requestOpenQuiz } from "@/utils/openQuizRequest";
 
 // Carnet d'erreurs — every bank question the candidate got wrong or left blank
 // (collected by Quiz.jsx), until they say « J'ai compris ».
@@ -30,6 +31,36 @@ const PAGE = 20; // cards rendered (and media signed) at a time
 // per-question log kept right/wrong, not the choice).
 const UNKNOWN_CHOICE = -1;
 
+// « Plus récentes » (one list, newest mistake first) or « Par quiz » (folded
+// groups: one per quiz, dictée words by error family). Remembered per device.
+// Paid accounts only: a free notebook shows 10 cards, nothing to group.
+const VIEW_KEY = "carnet-view";
+const storedView = () => {
+  try { return localStorage.getItem(VIEW_KEY) === "quiz" ? "quiz" : "recent"; } catch { return "recent"; }
+};
+
+// One group per quiz (CO/CE), one per error family (dictée). Most cards first,
+// then the most recent mistake, so the weakest series lead.
+function groupCards(items) {
+  const groups = new Map();
+  for (const x of items) {
+    const key = x.q ? `${x.q.section}:${x.q.quizId}` : `dictee:${x.card.detail?.family || "spelling"}`;
+    let g = groups.get(key);
+    if (!g) {
+      g = x.q
+        ? { key, kind: "quiz", section: x.q.section, quizId: x.q.quizId, quizNumber: x.q.quizNumber, items: [] }
+        : { key, kind: "dictee", family: x.card.detail?.family || "spelling", items: [] };
+      groups.set(key, g);
+    }
+    g.items.push(x);
+  }
+  for (const g of groups.values()) {
+    if (g.kind === "quiz") g.items.sort((a, b) => a.q.order - b.q.order); // question order inside a quiz
+  }
+  const latest = (g) => Math.max(...g.items.map((x) => Date.parse(x.card.lastWrongAt) || 0));
+  return [...groups.values()].sort((a, b) => b.items.length - a.items.length || latest(b) - latest(a));
+}
+
 const fmtDate = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
 
 export function Carnet() {
@@ -41,6 +72,13 @@ export function Carnet() {
   const [tab, setTab] = useState("to_review");
   const [section, setSection] = useState("all");
   const [shown, setShown] = useState(PAGE);
+  const [view, setViewState] = useState(storedView);
+  const [openGroup, setOpenGroup] = useState(null);
+  const setView = (v) => {
+    setViewState(v);
+    setOpenGroup(null);
+    try { localStorage.setItem(VIEW_KEY, v); } catch { /* private mode */ }
+  };
 
   useEffect(() => {
     let live = true;
@@ -67,6 +105,8 @@ export function Carnet() {
   const list = (tab === "to_review" ? toReview : understood).filter(inSection);
   const locked = !premium && (tab === "understood" || list.length > FREE_LIMIT);
   const visible = (premium ? list : tab === "understood" ? [] : list.slice(0, FREE_LIMIT)).slice(0, shown);
+  const grouped = premium && view === "quiz";
+  const groups = grouped ? groupCards(list) : [];
 
   // Moves a card between the tabs, at once, and back if the database refuses.
   const move = useCallback(async (card, status) => {
@@ -81,8 +121,8 @@ export function Carnet() {
     notify(t(status === "understood" ? "Rangée dans « Compris »." : "Remise dans « À revoir »."));
   }, [notify, t]);
 
-  const switchTab = (k) => { setTab(k); setShown(PAGE); };
-  const switchSection = (s) => { setSection(s); setShown(PAGE); };
+  const switchTab = (k) => { setTab(k); setShown(PAGE); setOpenGroup(null); };
+  const switchSection = (s) => { setSection(s); setShown(PAGE); setOpenGroup(null); };
 
   const counts = {
     to_review: toReview.filter(inSection).length,
@@ -128,8 +168,21 @@ export function Carnet() {
       </div>
 
       {cards !== null && cards.length > 0 && (
-        <div className="flex justify-end -mt-2 mb-4">
-          <ClearNotebook onCleared={() => { setCards([]); setShown(PAGE); }} />
+        <div className="flex items-center justify-between gap-3 flex-wrap -mt-2 mb-4">
+          {premium ? (
+            <div className={`inline-flex p-0.5 rounded-lg border ${c.border}`} role="group" aria-label={t("Affichage")}>
+              {[
+                { v: "recent", label: "Plus récentes", Icon: Clock },
+                { v: "quiz", label: "Par quiz", Icon: Layers },
+              ].map(({ v, label, Icon }) => (
+                <button key={v} onClick={() => setView(v)} aria-pressed={view === v}
+                  className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-colors ${view === v ? "bg-blue-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}>
+                  <Icon size={13} aria-hidden="true" /> {t(label)}
+                </button>
+              ))}
+            </div>
+          ) : <span />}
+          <ClearNotebook onCleared={() => { setCards([]); setShown(PAGE); setOpenGroup(null); }} />
         </div>
       )}
 
@@ -139,6 +192,13 @@ export function Carnet() {
         </div>
       ) : list.length === 0 ? (
         <EmptyNotebook tab={tab} anyCard={joined.length > 0} />
+      ) : grouped ? (
+        <div className="space-y-3">
+          {groups.map((g) => (
+            <GroupAccordion key={g.key} group={g} open={openGroup === g.key}
+              onToggle={() => setOpenGroup(openGroup === g.key ? null : g.key)} onMove={move} />
+          ))}
+        </div>
       ) : (
         <>
           <CardList items={visible} onMove={move} />
@@ -317,6 +377,47 @@ function ClearNotebook({ onCleared }) {
         document.body,
       )}
     </>
+  );
+}
+
+// A folded group. Its cards mount (and their media is signed) only while it
+// is open — what keeps a notebook of several hundred cards quick to open.
+function GroupAccordion({ group, open, onToggle, onMove }) {
+  const { c, t, nav } = useApp();
+  const n = group.items.length;
+  const family = group.kind === "dictee" ? ERROR_FAMILIES[group.family] : null;
+  const title = group.kind === "quiz"
+    ? `${t(SECTION_LABELS[group.section])} · ${t("Quiz")} ${group.quizNumber ?? "?"}`
+    : `${t("Dictée")} · ${t(family?.label || "Orthographe")}`;
+  const redo = () => { requestOpenQuiz(group.quizId); nav("exams"); };
+  return (
+    <Card className="overflow-hidden">
+      <button type="button" onClick={onToggle} aria-expanded={open}
+        className={`w-full flex items-center justify-between gap-3 px-5 py-4 text-left ${c.hoverSoft}`}>
+        <span className="flex items-center gap-3 min-w-0">
+          <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 font-mono2 font-bold text-sm flex items-center justify-center shrink-0">
+            {group.kind === "quiz" ? String(group.quizNumber ?? "?").padStart(2, "0") : <PenLine size={16} aria-hidden="true" />}
+          </span>
+          <span className={`font-display font-bold truncate ${c.text}`}>{title}</span>
+        </span>
+        <span className="flex items-center gap-3 shrink-0">
+          <Pill tone="slate">{n} {t(group.kind === "quiz" ? (n > 1 ? "questions" : "question") : (n > 1 ? "mots" : "mot"))}</Pill>
+          <ChevronDown size={18} className={`${c.faint} transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        </span>
+      </button>
+      {open && (
+        <div className={`px-5 pb-5 pt-4 border-t ${c.border}`}>
+          {group.kind === "quiz" && group.quizId && (
+            <div className={`flex items-center justify-between gap-3 flex-wrap mb-4 px-4 py-2.5 rounded-xl ${c.hoverSoft}`}>
+              <span className={`text-sm ${c.sub}`}>{t("Refaites la série complète pour voir si ces erreurs sont corrigées.")}</span>
+              <Btn small variant="ghost" icon={Play} onClick={redo}>{t("Refaire ce quiz")}</Btn>
+            </div>
+          )}
+          {family && <p className={`text-sm mb-4 ${c.sub}`}>{t(family.hint)}</p>}
+          <CardList items={group.items} onMove={onMove} />
+        </div>
+      )}
+    </Card>
   );
 }
 
