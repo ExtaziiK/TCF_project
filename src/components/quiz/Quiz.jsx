@@ -464,7 +464,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
               <button onClick={() => setPaletteOpen((o) => !o)} aria-pressed={paletteOpen}
                 className={`px-3.5 py-2 rounded-full border text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition-colors ${paletteOpen ? "border-blue-600 bg-blue-600 text-white" : "border-blue-600/40 bg-blue-600/5 text-blue-600 hover:bg-blue-600/10"}`}>
                 <LayoutGrid size={15} />
-                {paletteOpen ? "Masquer les questions" : "Voir toutes les questions"}
+                <span>{paletteOpen ? "Masquer" : "Afficher"} le tableau<span className="hidden sm:inline"> des questions</span></span>
               </button>
             )}
             {bookmarkBtn}
@@ -483,7 +483,7 @@ export function Quiz({ questions, duration, storageKey, above, renderAbove, done
     <div className={`grid gap-5 items-start ${paletteOpen ? "xl:grid-cols-[190px_minmax(0,1fr)]" : ""}`}>
       {paletteOpen && (
         <Card className="p-4 hidden xl:block sticky top-24">
-          <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Questions</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Tableau des questions</p>
           <p className={`text-xs mt-0.5 ${c.faint}`}>{answeredCount} / {questions.length} répondues</p>
           <div className="mt-2"><ProgressBar pct={(answeredCount / questions.length) * 100} /></div>
           <div className="mt-4 max-h-[58vh] overflow-y-auto -mr-1 pr-1">{examPaletteEl}</div>
