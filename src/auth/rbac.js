@@ -64,12 +64,12 @@ export const AUTHENTICATED = [ROLES.FREE_USER, ROLES.PREMIUM_USER, ROLES.ADMIN, 
 export const PREMIUM = [ROLES.PREMIUM_USER, ROLES.ADMIN, ROLES.OWNER];
 export const ADMIN_ONLY = [ROLES.ADMIN, ROLES.OWNER];
 
-// Carnet d'erreurs, before launch: the team tests it, members see a greyed
-// « Bientôt » menu entry (navigation.js) and no dashboard card or quiz-report
-// link. Mistakes are still collected for everyone, so the notebook is already
-// full on launch day. To open it to all signed-in accounts: set this to true
-// and redeploy — the route policy, menu, card and link all follow it.
-export const NOTEBOOK_PUBLIC = false;
+// Carnet d'erreurs: open to every signed-in account since 2026-10-11 (before
+// that, team only, with a greyed « Bientôt » menu entry for members). Free
+// accounts get the limited notebook — FREE_LIMIT cards in « À revoir », no
+// « Compris » history, no « Par quiz » view (src/pages/Carnet.jsx). Setting this
+// back to false hides it again: route policy, menu, card and link all follow.
+export const NOTEBOOK_PUBLIC = true;
 export const canUseNotebook = (role) => NOTEBOOK_PUBLIC || ADMIN_ONLY.includes(role);
 
 // Route policy. Routes not listed here are public. The route guard refuses

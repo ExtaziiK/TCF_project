@@ -53,6 +53,10 @@ export const NAV_LINKS = [
   // remaining item, which reads as a broken dropdown rather than as an offer.
   // Visitors are pitched by the home page and the route guard instead.
   { l: "Pratique", roles: AUTHENTICATED, menu: [
+    // First in the menu: it is where every other exercise sends its mistakes.
+    // `soon`: shown greyed with a « Bientôt » tag and not clickable, for the
+    // roles it returns true for (see NOTEBOOK_PUBLIC in rbac.js).
+    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, soon: (role) => !canUseNotebook(role), icon: NotebookPen, group: "train" },
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED, icon: BookOpen, group: "train" },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED, icon: SpellCheck, group: "train" },
     { l: "Conjugaison", r: "conjugation", roles: AUTHENTICATED, icon: Languages, group: "train" },
@@ -68,9 +72,6 @@ export const NAV_LINKS = [
     // sur la page de vente plutôt que sur un menu qui ne mentionne jamais ce
     // qu'il pourrait acheter. Le garde de route décide de l'accès, pas le menu.
     { l: "Révision", r: "revision", icon: ListChecks, group: "train" },
-    // `soon`: shown greyed with a « Bientôt » tag and not clickable, for the
-    // roles it returns true for (see NOTEBOOK_PUBLIC in rbac.js).
-    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, soon: (role) => !canUseNotebook(role), icon: NotebookPen, group: "train" },
   ] },
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
