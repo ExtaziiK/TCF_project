@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff } from "lucide-react";
+import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
@@ -74,10 +74,6 @@ export function OralInterview({ task }) {
         )}
 
         <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
-
-        <p className={`mt-5 text-xs ${c.faint} flex items-center justify-center gap-1.5 text-center`}>
-          <Sparkles size={13} className="text-blue-600" /> {t("Échange simulé par l'IA : transcription Whisper, réponses et évaluation générées, voix de l'interlocuteur par IA.")}
-        </p>
       </Card>
 
       <div className="space-y-5">

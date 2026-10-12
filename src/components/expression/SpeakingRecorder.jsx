@@ -1,4 +1,4 @@
-import { Sparkles, Mic, Square, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { Mic, Square, ChevronRight, Loader2, AlertCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
@@ -50,7 +50,6 @@ export function SpeakingRecorder({ task }) {
             </button>
           )}
         </div>
-        <p className={`text-xs ${c.faint} flex items-center justify-center gap-1.5`}><Sparkles size={13} className="text-blue-600" /> {t("Transcription et analyse IA de votre réponse, propulsées par Whisper.")}</p>
       </Card>
       <Card className="p-6">
         <h3 className={`font-display font-bold mb-4 ${c.text}`}>{t("Vos enregistrements")}</h3>
