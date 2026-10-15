@@ -6,7 +6,7 @@ export const post = {
   cat: "Méthode",
   t: "Expression écrite du TCF Canada : pourquoi tant de candidats ratent le NCLC 7 à un point près",
   excerpt:
-    "9/20, c'est NCLC 6. 10/20, c'est NCLC 7. Entre les deux, un seul point, et souvent tout un projet d'immigration. Pourquoi ce point se perd presque toujours au même endroit, et comment le récupérer tâche par tâche.",
+    "9/20, c'est NCLC 6. 10/20, c'est NCLC 7. Un seul point, et souvent tout un projet d'immigration. Pourquoi ce point se perd presque toujours au même endroit, et comment le récupérer.",
   hero: {
     src: "/blogue/checklist.jpg",
     alt: "Liste d'objectifs cochés dans un carnet",
