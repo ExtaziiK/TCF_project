@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, BarChart3, Play, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff, Clock, Crown } from "lucide-react";
+import { CheckCircle2, BarChart3, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { ExamSetup } from "@/components/exam/ExamSetup";
+import { MockBoardingPass, BoardingCta, InProgressTicket, HistoryStub } from "@/components/exam/MockLobby";
 import { WritingWorkshopBody } from "@/pages/Writing";
 import { SpeakingStudioBody } from "@/pages/Speaking";
 import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { MOCK_SECTIONS } from "@/constants/mocks";
 import {
   TASKS_PER_EXAM, generateExamTasks, generateFreeExamTasks, resolveTasks, scoreExam, levelForPct,
   FREE_MOCK_META, isFreeAttempt, findFreeAttempt,
@@ -23,8 +23,6 @@ import { hasReviewed } from "@/services/testimonialsService";
 import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
 import { TOUR_STEPS } from "@/constants/tour";
-
-const when = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 
 /* --------------------------- final report view --------------------------- */
 
@@ -451,93 +449,20 @@ export function Mocks() {
         </Card>
       )}
 
-      {/* One panel: format pills, then the four épreuves, then the start CTA.
-          Vertical padding runs deeper than horizontal so the three groups get
-          breathing room top and bottom. */}
-      <Card className="relative overflow-hidden px-6 py-9 md:px-10 md:py-12 border-2 border-blue-600/40 mb-8">
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
-        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
-        <div className="relative flex flex-col items-center gap-8 md:gap-10">
-          <div className="flex items-center justify-center gap-2 flex-wrap">
-            <Pill tone="slate"><Clock size={12} /> {t("≈ 2 h 47 au total")}</Pill>
-            <Pill tone="blue">{TASKS_PER_EXAM} {t("épreuves officielles")}</Pill>
-            <Pill tone="green"><Trophy size={12} /> {t("Score sur 699")}</Pill>
-          </div>
-
-          {/* Informational only — these tiles don't navigate, they present the
-              format. Rendered on the page background so they read as inset
-              tiles against the white panel; hover expands the description. */}
-          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-            {MOCK_SECTIONS.map((s, i) => (
-              <div key={s.t} className={`group p-5 flex flex-col text-left rounded-2xl border ${c.border} ${c.bg} transition-all duration-200 hover:shadow-lg hover:shadow-blue-600/10`}>
-                <div className="flex items-start justify-between mb-4">
-                  <span className="w-10 h-10 rounded-xl grad-brand text-white flex items-center justify-center shadow-md shadow-blue-600/25"><s.icon size={18} /></span>
-                  <Pill tone="blue">{t("Épreuve")} {i + 1}</Pill>
-                </div>
-                <p className={`font-display font-bold text-sm ${c.text}`}>{t(s.t)}</p>
-                <p className={`text-xs font-mono2 mt-1 ${c.faint}`}>{t(s.d)}</p>
-                <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-300 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-3">
-                  <p className={`text-xs leading-relaxed ${c.sub}`}>{t(s.desc)}</p>
-                  <button onClick={() => nav("guide")} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:gap-1.5 transition-all">
-                    {t("Pour plus de détails, cliquez ici")} <ArrowRight size={12} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col items-center gap-3">
-            {freeUsedUp ? (
-              /* The one free TCF blanc has been sat. The report stays reachable
-                 from the Historique below — only starting another is blocked. */
-              <div className="max-w-lg text-center p-5 rounded-2xl bg-blue-600/10 border border-blue-600/25">
-                <p className={`font-semibold text-sm ${c.text}`}>{t("Vous avez déjà passé votre TCF blanc gratuit")}</p>
-                <p className={`mt-1.5 text-sm ${c.sub}`}>
-                  {t("Votre compte Basic donne droit à un TCF blanc complet, correction IA comprise. Il a été utilisé — vous pouvez toujours consulter votre résultat dans l'historique ci-dessous. Les examens suivants font partie de l'abonnement Premium.")}
-                </p>
-                <Btn variant="accent" className="mt-4" icon={Crown} onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
-              </div>
-            ) : (
-              <>
-                <Btn variant="accent" icon={Play} disabled={attempts === null} onClick={() => setSetup(true)}>
-                  {t(isFreeTier && !freeAttempt ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
-                </Btn>
-                {isFreeTier && !freeAttempt && (
-                  <p className={`text-xs text-center max-w-md ${c.sub}`}>
-                    {t("Votre compte gratuit donne droit à un TCF blanc complet — les quatre épreuves, avec la correction IA de l'écrit et de l'oral. Un seul, alors prenez votre temps.")}
-                  </p>
-                )}
-                <p className={`text-xs text-center ${c.faint}`}>{t("Interrompez la session à tout moment : votre progression est sauvegardée automatiquement.")}</p>
-              </>
-            )}
-          </div>
-        </div>
-      </Card>
+      {/* The exam as a boarding pass (components/exam/MockLobby.jsx): the four
+          épreuves as its route, the start button on the tear-off stub. */}
+      <MockBoardingPass
+        cta={<BoardingCta freeUsedUp={freeUsedUp} freeAvailable={isFreeTier && !freeAttempt} disabled={attempts === null} onStart={() => setSetup(true)} />}
+      />
 
       {inProgress.length > 0 && (
         <>
           <SectionHead tight title={t("Examens en cours")} sub={t("Reprenez exactement où vous vous êtes arrêté·e.")} />
           <div className="grid md:grid-cols-2 gap-4 mb-10">
-            {inProgress.map((a) => {
-              const doneTasks = Object.keys(a.progress?.results || {}).length;
-              return (
-                <Card key={a.id} className="p-6 transition-all duration-200 hover:shadow-xl hover:shadow-blue-600/10">
-                  <div className="flex items-center justify-between mb-3">
-                    <Pill tone="amber"><Play size={12} /> {t("En cours")}</Pill>
-                    <span className={`text-xs font-mono2 ${c.faint}`}>{t("Commencé le")} {t(when(a.startedAt))}</span>
-                  </div>
-                  <p className={`font-display font-bold ${c.text}`}>
-                    {t(SECTION_LABELS[a.tasks[Math.min(a.progress?.taskIndex || 0, a.tasks.length - 1)]?.section] || "TCF blanc")}
-                  </p>
-                  <p className={`text-xs mt-1 font-mono2 ${c.faint}`}>{t("Tâche")} {Math.min((a.progress?.taskIndex || 0) + 1, a.tasks.length)} / {a.tasks.length} · {doneTasks} {t(doneTasks > 1 ? "terminées" : "terminée")}</p>
-                  <div className="mt-3"><ProgressBar pct={(doneTasks / a.tasks.length) * 100} tone="grad" /></div>
-                  <div className="mt-5 flex items-center gap-2 flex-wrap">
-                    <Btn small variant="accent" icon={Play} onClick={() => setActive(a)}>{t("Reprendre l'examen")}</Btn>
-                    <Btn small variant="ghost" className="text-rose-600" icon={Trash2} onClick={async () => { await abandonAttempt(user?.id, a); reload(); notify(t("Examen abandonné.")); }}>{t("Abandonner")}</Btn>
-                  </div>
-                </Card>
-              );
-            })}
+            {inProgress.map((a) => (
+              <InProgressTicket key={a.id} attempt={a} onResume={() => setActive(a)}
+                onAbandon={async () => { await abandonAttempt(user?.id, a); reload(); notify(t("Examen abandonné.")); }} />
+            ))}
           </div>
         </>
       )}
@@ -546,43 +471,12 @@ export function Mocks() {
         <>
           <SectionHead tight title={t("Historique")} sub={t("Vos TCF blancs terminés.")} />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            {history.map((a) => {
-              const perTask = a.score?.perTask || [];
-              return (
-                <Card key={a.id} className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <Pill tone="green"><CheckCircle2 size={12} /> {t("Terminé")}</Pill>
-                    <span className={`text-xs font-mono2 ${c.faint}`}>{t(when(a.completedAt))}</span>
-                  </div>
-                  <p className="font-display font-extrabold text-3xl grad-text">{a.score?.points ?? 0} / 699</p>
-                  <p className={`text-xs mt-1 ${c.sub}`}>{a.score?.ok} / {a.score?.total} {t("bonnes réponses")}</p>
-                  <div className="mt-3"><ProgressBar pct={a.score?.pct || 0} tone="grad" /></div>
-                  {/* Per-task levels — one badge per épreuve, not the single
-                      blended global level, since a candidate may be B1 in one
-                      épreuve and A2 in another. */}
-                  {perTask.length > 0 && (
-                    <div className="mt-3 grid grid-cols-2 gap-1.5">
-                      {perTask.map((task, i) => {
-                        const selfAssessed = task.type && task.type !== "quiz";
-                        const taskPct = task.total ? Math.round((task.ok / task.total) * 100) : 0;
-                        return (
-                          <div key={i} className={`flex items-center justify-between px-2.5 py-1.5 rounded-xl border ${c.border}`}>
-                            <span className={`text-[11px] font-bold uppercase tracking-wide ${c.faint}`}>{task.section}</span>
-                            <span className={`text-xs font-mono2 font-bold ${c.text}`}>{selfAssessed ? t("Auto") : levelForPct(taskPct)}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                  <Btn small variant="ghost" className="mt-4 w-full" icon={ArrowRight} onClick={() => setReviewing(a)}>{t("Revoir le détail")}</Btn>
-                </Card>
-              );
-            })}
+            {history.map((a) => <HistoryStub key={a.id} attempt={a} onReview={() => setReviewing(a)} />)}
           </div>
         </>
       )}
 
-      <Card className="mt-10 p-6 flex flex-col md:flex-row items-start md:items-center gap-5">
+      <Card className="p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
         <span className="w-12 h-12 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><BarChart3 size={20} /></span>
         <div className="flex-1">
           <p className={`font-semibold ${c.text}`}>{t("Analyse de performance après chaque examen")}</p>

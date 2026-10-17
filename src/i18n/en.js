@@ -1511,6 +1511,13 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Embarquement": "Boarding",
+  "Le détail des épreuves": "Test details",
+  "Votre résultat reste consultable dans l'historique. Les examens suivants font partie de l'abonnement Premium.":
+    "Your result is still available in your history. Further exams are part of the Premium subscription.",
+  "Un TCF blanc complet offert, correction IA comprise. Un seul : prenez votre temps.":
+    "One full mock exam on us, AI grading included. Just one, so take your time.",
+  "Progression sauvegardée : interrompez quand vous voulez.": "Progress saved: stop whenever you like.",
   "Mode apprentissage": "Learning mode",
   "Un corrigé C1 ou C2 lu à voix haute, à écrire sans aucune aide.":
     "A C1 or C2 model answer read aloud, to write down without any help.",
