@@ -154,7 +154,8 @@ function Landing() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
-              six shown below — the same figure the avis page prints. */}
+              six shown below — the same figure the avis page prints. The review
+              count is deliberately left off the landing page. */}
           {rating && (
             <div className="flex flex-wrap items-center justify-center gap-3 -mt-2 mb-8">
               <StarRating value={Math.round(rating.average)} size={20} />
@@ -162,7 +163,7 @@ function Landing() {
                 <span className={`font-display font-bold text-lg ${c.text}`}>{rating.average.toLocaleString("fr-CA")}</span>
                 {" / 5 · "}
                 <button onClick={() => nav("avis")} className="font-semibold text-blue-600 hover:underline">
-                  {rating.count} {t("avis")}
+                  {t("Lire les avis des candidats")}
                 </button>
               </p>
             </div>
