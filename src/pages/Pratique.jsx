@@ -71,16 +71,16 @@ function Marker({ tool, on, onSelect, side }) {
   const pale = PALETTE[tool.tone][dark ? "dark" : "light"][0];
   const left = side === "left";
   const shape = left
-    ? `rounded-l-2xl pl-3.5 pr-4 py-3 border-r-0 ${on ? "ml-0" : "ml-6 enabled:hover:ml-3"}`
+    ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "ml-0" : "ml-4 enabled:hover:ml-2"}`
     : `shrink-0 rounded-t-2xl px-3.5 sm:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
   const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
-      className={`relative flex items-center gap-2 border-2 text-sm font-bold text-left transition-all duration-300 ${shape}
+      className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-all duration-300 ${left ? "" : "text-left"} ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
         ${on ? "z-30 text-white shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { background: k.fill, borderColor: k.fill } : { background: pale, borderColor: k.edge, ...accent, color: k.ink }}>
-      <tool.icon size={16} />
+      <tool.icon size={left ? 20 : 16} />
       {t(tool.l)}
       {tool.soon && <Badge on={on} tone="bg-white/70 text-slate-700">{t("Bientôt")}</Badge>}
       {tool.premium && !tool.soon && <Badge on={on} tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
@@ -111,7 +111,8 @@ export function Pratique() {
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" />)}
       </nav>
 
-      <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+      {/* Tall, narrow markers: icon above the name. */}
+      <div className="lg:grid lg:grid-cols-[150px_minmax(0,1fr)] lg:items-start">
       {/* From lg: the markers stick out of the notebook's left edge and end
           exactly at it — the selected one meets the page's coloured edge. */}
       <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20">
