@@ -111,8 +111,10 @@ export function Pratique() {
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" />)}
       </nav>
 
-      {/* Tall, narrow markers: icon above the name. */}
-      <div className="lg:grid lg:grid-cols-[150px_minmax(0,1fr)] lg:items-start">
+      {/* Tall, narrow markers: icon above the name. The row stretches, so the
+          page is always at least as tall as the marker column — a short tool
+          never leaves markers hanging below it. */}
+      <div className="lg:grid lg:grid-cols-[150px_minmax(0,1fr)] lg:items-stretch">
       {/* From lg: the markers stick out of the notebook's left edge and end
           exactly at it — the selected one meets the page's coloured edge. */}
       <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20">
@@ -126,7 +128,7 @@ export function Pratique() {
 
         {/* The page. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
-        <div className={`relative rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
+        <div className={`relative h-full flex flex-col rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
           <div className="flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] text-white transition-colors duration-300" style={{ background: k.fill }}>
             <span className="grid place-items-center w-9 h-9 rounded-xl bg-white/20 shrink-0"><active.icon size={18} /></span>
             <div className="min-w-0">
@@ -138,7 +140,7 @@ export function Pratique() {
               the tool's colour, with very faint lines in that colour.
               `.tool-paper` gives the tool's boxes and outlined buttons a
               visible outline in its colour (also index.css). */}
-          <div className={`seyes tool-paper rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
+          <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
             style={{ "--paper": paper, "--fine": `${k.ink}08`, "--main": `${k.ink}12`, "--margin": `${k.ink}30`, "--outline": `${k.ink}66` }}>
             <EmbeddedShell.Provider value>
               <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
