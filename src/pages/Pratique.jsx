@@ -116,8 +116,9 @@ export function Pratique() {
           never leaves markers hanging below it. */}
       <div className="lg:grid lg:grid-cols-[150px_minmax(0,1fr)] lg:items-stretch">
       {/* From lg: the markers stick out of the notebook's left edge and end
-          exactly at it — the selected one meets the page's coloured edge. */}
-      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20">
+          exactly at it — the selected one meets the page's coloured edge. The
+          bottom padding (about one marker) carries the page past the last one. */}
+      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20 pb-28">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="left" />)}
       </nav>
 
