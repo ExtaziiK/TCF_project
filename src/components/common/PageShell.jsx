@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { SectionHead } from "@/components/common/SectionHead";
@@ -10,9 +11,25 @@ import { toolTone } from "@/components/home/toolsData";
 // colour above the heading, and the content inside a panel tinted with that
 // colour. The panel exposes the colour as `--tool-fill`, which selected tabs
 // and chips inside it use (bg-[var(--tool-fill,…)]), so they match the tool.
+//
+// Inside EmbeddedShell (the Pratique hub's sheet) a page renders compactly: no
+// page frame, side decor, back link, eyebrow or tool panel — the hub already
+// supplies them — just a smaller heading above its content.
+export const EmbeddedShell = createContext(false);
+
 export function PageShell({ eyebrow, title, sub, children, wide, back, tight, center, big, aside, top, tone, icon: Icon }) {
   const { back: goBack, t, dark } = useApp();
-  const k = tone ? toolTone(tone, dark) : null;
+  const embedded = useContext(EmbeddedShell);
+  const k = tone && !embedded ? toolTone(tone, dark) : null;
+  if (embedded) {
+    return (
+      <div>
+        {top}
+        <SectionHead title={title} sub={sub} tight center={center} aside={aside} />
+        {children}
+      </div>
+    );
+  }
   // Side decorations fill the empty margins beside the content column, so they
   // only appear once the screen is wider than that column.
   return (

@@ -9,12 +9,7 @@ import { Listening } from "@/pages/Listening";
 import { Reading } from "@/pages/Reading";
 import { Writing } from "@/pages/Writing";
 import { Speaking } from "@/pages/Speaking";
-import { Vocabulary } from "@/pages/Vocabulary";
-import { Grammar } from "@/pages/Grammar";
-import { Conjugation } from "@/pages/Conjugation";
-import { Revision } from "@/pages/Revision";
-import { Carnet } from "@/pages/Carnet";
-import { Dictee } from "@/pages/Dictee";
+import { Pratique } from "@/pages/Pratique";
 import { Mocks } from "@/pages/Mocks";
 import { Calculator } from "@/pages/Calculator";
 import { Avis } from "@/pages/Avis";
@@ -65,10 +60,11 @@ export const PAGES = {
   reading: Reading,
   writing: Writing,
   speaking: Speaking,
-  vocabulary: Vocabulary,
-  grammar: Grammar,
-  conjugation: Conjugation,
-  dictee: Dictee,
+  // The six practice tools all open the Pratique hub, on their own tab.
+  vocabulary: Pratique,
+  grammar: Pratique,
+  conjugation: Pratique,
+  dictee: Pratique,
   mocks: Mocks,
   calculator: Calculator,
   avis: Avis,
@@ -90,8 +86,8 @@ export const PAGES = {
   moderation: Moderation,
   "code-promo": CodePromo,
   bank: QuestionBank,
-  revision: Revision,
-  carnet: Carnet,
+  revision: Pratique,
+  carnet: Pratique,
   terms: Terms,
   privacy: Privacy,
   accessibility: Accessibility,

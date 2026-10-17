@@ -359,14 +359,16 @@ export function AppProvider({ children }) {
   // `replace: true` swaps the current history entry instead of pushing a new
   // one — used after login/registration so Back doesn't return to the auth
   // page (which the user has already left by signing in).
-  const nav = (r, { replace = false } = {}) => {
+  // `scroll: false` keeps the scroll position — for a route change that is
+  // really an in-page tab switch (the Pratique hub's tools).
+  const nav = (r, { replace = false, scroll = true } = {}) => {
     // The preview is a state of the accueil, so leaving it ends the preview.
     // Safe against the logo's own click: RouteLink runs nav() before its
     // onNavigate, and that navigation is to "home".
     if (r !== "home") setVisitorPreview(false);
     if (r !== route) window.history[replace ? "replaceState" : "pushState"]({ route: r }, "", pathForRoute(r));
     setRoute(r);
-    window.scrollTo({ top: 0 });
+    if (scroll) window.scrollTo({ top: 0 });
   };
   const back = () => window.history.back();
 

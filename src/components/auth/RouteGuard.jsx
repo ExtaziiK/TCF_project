@@ -4,6 +4,7 @@ import { PageShell, Card, Btn } from "@/components/common";
 import { AuthPage } from "@/components/auth/AuthPage";
 import { DicteePitch } from "@/components/dictee/DicteePitch";
 import { deniedReason } from "@/auth/rbac";
+import { PRATIQUE_ROUTES } from "@/constants/navigation";
 
 // Routes that argue their own case instead of showing the generic gate.
 //
@@ -82,9 +83,15 @@ function ForbiddenGate() {
 // Central route guard: every routed page renders through this component
 // (see App.jsx), so authorization is enforced in exactly one place. Hiding
 // a nav item is cosmetic; this is what actually blocks the route.
-export function RouteGuard({ route, children }) {
+//
+// The six practice routes all render the Pratique hub, which guards each tool
+// inside its sheet (`inner`): a signed-in member always gets the hub, so a
+// free account meets the dictée's pitch inside the binder, not instead of it.
+// Visitors keep the per-route gates (the dictée's public pitch, or sign-up).
+export function RouteGuard({ route, children, inner }) {
   const { role, user, authReady } = useApp();
   if (!authReady) return null; // avoid flashing a gate while the session loads
+  if (!inner && user && PRATIQUE_ROUTES.has(route)) return children;
   const reason = deniedReason(role, route, user);
   if (!reason) return children;
   // A route with its own sales page handles both "you need an account" and

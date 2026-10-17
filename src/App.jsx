@@ -14,6 +14,7 @@ import { Toast } from "@/components/common";
 import { useTermsGate } from "@/hooks/useTermsGate";
 import { ROLES } from "@/auth/rbac";
 import { PAGES } from "@/pages";
+import { PRATIQUE_ROUTES } from "@/constants/navigation";
 
 function AppShell() {
   const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth,
@@ -85,11 +86,13 @@ function AppShell() {
   // content (pt-10) shift down together by the bar's 40px height, preserving
   // each page's clearance.
   const showAnnounce = authReady && (role === ROLES.VISITOR || role === ROLES.FREE_USER);
+  // The page remounts on route change (key), except between the six practice
+  // routes: they are tabs of one page, the Pratique hub, which keeps its state.
   return (
     <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
       {showAnnounce && <AnnouncementBar />}
       <Nav barOffset={showAnnounce} />
-      <div key={route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
+      <div key={PRATIQUE_ROUTES.has(route) ? "pratique" : route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
       <VisitorPreviewBar />
       <Toast />

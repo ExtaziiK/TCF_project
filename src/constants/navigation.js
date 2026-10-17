@@ -127,6 +127,11 @@ const visible = (item, role, user) => (!item.roles || item.roles.includes(role))
 
 // Returns the nav tree filtered for a role. Menus keep only the entries the
 // role may see; a menu with no visible entries is dropped entirely.
+// The tools behind "Pratique" — all six render the Pratique hub
+// (pages/Pratique.jsx), which shows them as tabs in this order.
+export const PRATIQUE_MENU = NAV_LINKS.find((n) => n.l === "Pratique").menu;
+export const PRATIQUE_ROUTES = new Set(PRATIQUE_MENU.map((m) => m.r));
+
 export function navLinksForRole(links, role, user) {
   return links
     .filter((n) => visible(n, role, user))
