@@ -40,13 +40,14 @@ function Landing() {
   const stats = useHomeStats();
   const testimonials = useTestimonials();
   const rating = useRatingSummary(); // null until there are enough ratings to mean anything
-  // From the testimonials on, sections alternate plain (opening with a wave,
-  // shape and direction varied) and tinted (straight edge). Counted over the
-  // blocks actually shown, so hiding testimonials never puts two tints together.
+  // After the (plain) modules block, sections alternate tinted (straight edge)
+  // and plain (opening with a wave, shape and direction varied). Counted over
+  // the blocks actually shown, so hiding testimonials never puts two tints
+  // together. Order: testimonials 0, overview 1, calculator 2, pricing 3, CTA 4.
   const showTestimonials = !!testimonials?.enabled;
   const look = (n) => {
     const i = showTestimonials ? n : n - 1;
-    return i % 2 === 0 ? { wave: i % 4 === 0 ? 1 : 0, flip: i % 4 === 0 } : { tinted: true };
+    return i % 2 === 0 ? { tinted: true } : { wave: i % 4 === 1 ? 1 : 0, flip: i % 4 === 1 };
   };
   return (
     <main>
@@ -134,37 +135,8 @@ function Landing() {
         </CardBackdrop>
       </section>
 
-      {/* TUTORIAL VIDEO — between the four épreuves and the exam overview */}
+      {/* TUTORIAL VIDEO — between the four épreuves and the testimonials */}
       <VideoTutorial />
-      </WaveSection>
-
-      {/* EXAM OVERVIEW */}
-      <WaveSection tinted decor="overview">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
-            <div className="space-y-3">
-              {MOCK_SECTIONS.map((s) => (
-                <div key={s.t} className={`flex items-center gap-4 p-4 rounded-2xl border ${c.border} ${c.card}`}>
-                  <span className="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><s.icon size={18} /></span>
-                  <div className="flex-1"><p className={`font-semibold text-sm ${c.text}`}>{t(s.t)}</p><p className={`text-xs font-mono2 ${c.faint}`}>{t(s.d)}</p></div>
-                  <ChevronRight size={16} className={c.faint} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <Card className="p-7 md:p-9">
-            <h3 className={`font-display font-bold text-xl ${c.text} mb-6`}>{t("Pourquoi nous choisir")}</h3>
-            <div className="space-y-6">
-              {WHY.map((w) => (
-                <div key={w.t} className="flex gap-4">
-                  <span className="w-10 h-10 rounded-xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><w.icon size={18} /></span>
-                  <div><p className={`font-semibold ${c.text}`}>{t(w.t)}</p><p className={`text-sm mt-1 ${c.sub}`}>{t(w.d)}</p></div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
       </WaveSection>
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
@@ -200,8 +172,37 @@ function Landing() {
         </WaveSection>
       )}
 
+      {/* EXAM OVERVIEW */}
+      <WaveSection {...look(1)} decor="overview">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
+            <div className="space-y-3">
+              {MOCK_SECTIONS.map((s) => (
+                <div key={s.t} className={`flex items-center gap-4 p-4 rounded-2xl border ${c.border} ${c.card}`}>
+                  <span className="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><s.icon size={18} /></span>
+                  <div className="flex-1"><p className={`font-semibold text-sm ${c.text}`}>{t(s.t)}</p><p className={`text-xs font-mono2 ${c.faint}`}>{t(s.d)}</p></div>
+                  <ChevronRight size={16} className={c.faint} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <Card className="p-7 md:p-9">
+            <h3 className={`font-display font-bold text-xl ${c.text} mb-6`}>{t("Pourquoi nous choisir")}</h3>
+            <div className="space-y-6">
+              {WHY.map((w) => (
+                <div key={w.t} className="flex gap-4">
+                  <span className="w-10 h-10 rounded-xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><w.icon size={18} /></span>
+                  <div><p className={`font-semibold ${c.text}`}>{t(w.t)}</p><p className={`text-sm mt-1 ${c.sub}`}>{t(w.d)}</p></div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      </WaveSection>
+
       {/* NCLC CALCULATOR */}
-      <WaveSection id="calculateur" {...look(1)} decor="calculator">
+      <WaveSection id="calculateur" {...look(2)} decor="calculator">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
           <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
@@ -209,7 +210,7 @@ function Landing() {
       </WaveSection>
 
       {/* PRICING PREVIEW */}
-      <WaveSection {...look(2)} decor="pricing">
+      <WaveSection {...look(3)} decor="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -237,7 +238,7 @@ function Landing() {
       </WaveSection>
 
       {/* FINAL CTA */}
-      <WaveSection {...look(3)} decor="cta">
+      <WaveSection {...look(4)} decor="cta">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
