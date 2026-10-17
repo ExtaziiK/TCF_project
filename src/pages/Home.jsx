@@ -12,6 +12,7 @@ import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { SectionDecor } from "@/components/decor/SectionDecor";
 import { WaveSection, TINT } from "@/components/decor/WaveSection";
+import { CardBackdrop } from "@/components/decor/CardBackdrop";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
@@ -116,6 +117,8 @@ function Landing() {
       <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
+        {/* Flat shapes behind the grid so the white cards stand out. */}
+        <CardBackdrop>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f) => (
             <button key={f.t} onClick={() => nav(f.route)} className="text-left">
@@ -128,6 +131,7 @@ function Landing() {
             </button>
           ))}
         </div>
+        </CardBackdrop>
       </section>
 
       {/* TUTORIAL VIDEO — between the four épreuves and the exam overview */}
