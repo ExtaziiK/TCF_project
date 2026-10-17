@@ -1,8 +1,26 @@
+import { useId } from "react";
+
 // Vector decoration primitives for the page sides (dot clusters, dashed rings,
 // blobs, squiggles…), in the brand palette. Pure SVG, sized by props, coloured
 // by `color`; SectionDecor places and animates them.
 
-export const BRAND = { blue: "#2E6BE6", violet: "#6C4FE0", red: "#D8354A" };
+export const BRAND = { blue: "#2E6BE6", violet: "#6C4FE0", red: "#D8354A", amber: "#F5A524" };
+
+// A solid disc filled with a two-colour gradient — the "pop" accents.
+export function GradientCircle({ from, to, size = 70 }) {
+  const id = `gc${useId().replace(/:/g, "")}`;
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={from} />
+          <stop offset="100%" stopColor={to} />
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="50" fill={`url(#${id})`} />
+    </svg>
+  );
+}
 
 // A roughly circular cluster of dots, like a halftone disc.
 export function DotGrid({ color, n = 9, gap = 16, r = 2.2 }) {

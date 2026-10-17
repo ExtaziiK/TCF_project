@@ -151,6 +151,9 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes decor-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
 .decor-morph{animation:decor-morph 16s ease-in-out infinite}
 @keyframes decor-morph{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(18deg) scale(1.08)}}
+/* Faded dot field behind plain landing sections (WaveSection backdrop); the dot
+   colour is the element's text colour. */
+.dot-pattern{background-image:radial-gradient(currentColor 1.4px,transparent 1.6px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at center,#000 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,#000 25%,transparent 72%)}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
