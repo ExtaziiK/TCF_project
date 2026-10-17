@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { Calendar, Zap, RotateCcw, Heart, Shuffle, ArrowRight, BookOpen } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { TOUR_STEPS } from "@/constants/tour";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { VOCAB, VOCAB_CATS } from "@/constants/vocabulary";
 
@@ -34,9 +35,13 @@ const makeQuiz = (pool) => {
 };
 
 export function Vocabulary() {
-  const { c, favs, toggleFav, t } = useApp();
+  const { c, favs, toggleFav, t, tourStep } = useApp();
   const [cat, setCat] = useState("Tous");
-  const [mode, setMode] = useState("cards");
+  // Quiz first; the cards are the « Mode apprentissage ». The guided tour's
+  // vocabulary step points at a card, so it switches to the cards while on it.
+  const [mode, setMode] = useState("quiz");
+  const touring = tourStep != null && TOUR_STEPS[tourStep]?.route === "vocabulary";
+  useEffect(() => { if (touring) setMode("cards"); }, [touring]);
 
   const pool = useMemo(() => VOCAB.filter((v) => cat === "Tous" || v.cat === cat), [cat]);
 
@@ -87,7 +92,7 @@ export function Vocabulary() {
   );
 
   return (
-    <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.")}>
+    <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Testez-vous, ou révisez les cartes en mode apprentissage.")}>
       <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6">
         <div className="flex gap-2 flex-wrap">
           {VOCAB_CATS.map((ct) => (
@@ -96,8 +101,8 @@ export function Vocabulary() {
             </button>
           ))}
         </div>
-        <button onClick={() => setMode(mode === "cards" ? "quiz" : "cards")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 self-start ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
-          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode cartes")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+        <button onClick={() => setMode(mode === "cards" ? "quiz" : "cards")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 self-start border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}>
+          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode apprentissage")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>
       </div>
 

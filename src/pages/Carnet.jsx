@@ -143,7 +143,7 @@ export function Carnet() {
       back wide
       eyebrow={t("Carnet d'erreurs")}
       title={t("Les questions que vous avez manquées")}
-      sub={t("Vos mauvaises réponses aux quiz, aux TCF blancs et en conjugaison, et les mots mal écrits dans vos dictées, arrivent ici. Relisez la correction, réessayez, puis cliquez sur « J'ai compris ».")}
+      sub={t("Vos erreurs arrivent ici : relisez, réessayez, puis « J'ai compris ».")}
     >
       {missing && (
         <Card className="p-5 mb-5 border-2 border-amber-500/40 text-sm text-amber-700 flex gap-2">
@@ -355,37 +355,12 @@ function NotebookGuide({ premium }) {
     setOpen(next);
     try { localStorage.setItem(GUIDE_CLOSED_KEY, next ? "0" : "1"); } catch { /* private mode */ }
   };
+  // Four one-liners: the guide is read once, so it has to be skimmable.
   const steps = [
-    {
-      Icon: NotebookPen,
-      title: "Ce qui arrive dans le carnet",
-      body: "Chaque mauvaise réponse d'un quiz de compréhension orale ou écrite, d'un TCF blanc et d'un exercice de conjugaison, et chaque mot entendu mais mal écrit dans une dictée, est ajouté tout seul.",
-    },
-    {
-      Icon: Plus,
-      title: "Les questions sans réponse : c'est vous qui décidez",
-      body: "Une question laissée sans réponse n'est pas ajoutée d'office. Dans le rapport de fin de quiz, cliquez sur son numéro pour l'ouvrir, puis sur « Ajouter au carnet » si vous voulez la retravailler.",
-    },
-    {
-      Icon: PenLine,
-      title: "Revoir et réessayer",
-      body: "Chaque carte montre la bonne réponse en vert, la vôtre en rouge, et l'explication. « Réessayer » masque la réponse pour vous tester à nouveau ; pour un mot de dictée, le mot disparaît de la phrase et vous l'écrivez.",
-    },
-    {
-      Icon: CheckCircle2,
-      title: "« J'ai compris » : la carte passe dans « Compris »",
-      body: "Quand vous avez compris votre erreur, cliquez sur « J'ai compris ». La carte n'est pas perdue : elle reste dans l'onglet « Compris », pour la revoir avant l'examen. « Remettre à revoir » la renvoie dans « À revoir ».",
-    },
-    {
-      Icon: RotateCcw,
-      title: "« Raté à nouveau »",
-      body: "Si vous vous trompez encore sur une question déjà comprise, elle revient d'elle-même dans « À revoir », marquée « Raté à nouveau ».",
-    },
-    {
-      Icon: Trash2,
-      title: "Repartir de zéro",
-      body: "« Vider mon carnet » efface toutes les cartes des deux onglets pour recommencer à vous tester. Vos résultats et votre progression ne changent pas.",
-    },
+    { Icon: NotebookPen, title: "Tout arrive seul", body: "Vos erreurs de quiz, de TCF blanc, de conjugaison et de dictée s'ajoutent automatiquement." },
+    { Icon: Plus, title: "Les questions sans réponse", body: "Ajoutez-les depuis le rapport de fin de quiz, si vous voulez les retravailler." },
+    { Icon: PenLine, title: "Revoir et réessayer", body: "La correction et l'explication sur chaque carte ; « Réessayer » pour vous retester." },
+    { Icon: CheckCircle2, title: "« J'ai compris »", body: "La carte passe dans « Compris ». Ratée à nouveau, elle revient dans « À revoir »." },
   ];
   return (
     <div ref={ref} className="scroll-mt-24">
@@ -414,7 +389,7 @@ function NotebookGuide({ premium }) {
           </ol>
           {!premium && (
             <p className={`mt-5 text-xs ${c.faint}`}>
-              {t(`Compte gratuit : vos ${FREE_LIMIT} dernières erreurs sont visibles dans « À revoir ». Avec un abonnement, le carnet entier et l'historique « Compris » sont à vous.`)}
+              {t(`Compte gratuit : seules vos ${FREE_LIMIT} dernières erreurs sont visibles.`)}
             </p>
           )}
         </div>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones, Coffee, CalendarDays, PenLine } from "lucide-react";
+import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones, Coffee, CalendarDays, PenLine, Settings2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { DicteePlayer } from "@/components/dictee/DicteePlayer";
@@ -33,6 +33,7 @@ export function Dictee() {
   const d = useDictee();
   const [task, setTask] = useState(1);
   const [sujetKey, setSujetKey] = useState(null);
+  const [settingsOpen, setSettingsOpen] = useState(false); // the « Réglages » wheel
 
   // Everything already written for the chosen tâche, today's three first.
   // Changing tâche clears the selection: a key is only meaningful together with
@@ -81,155 +82,135 @@ export function Dictee() {
   }
 
   /* ------------------------------- the intro ------------------------------ */
+  // One launch card: what will be dictated (tâche, listening length, sujet) as
+  // a short summary, and the start button. Every option is still here, behind
+  // the « Réglages » wheel, instead of stacked down the page. With nothing
+  // picked, today's text for the tâche (or the library's newest) is used, so
+  // the dictée starts in one click.
   const best = d.history.length ? Math.max(...d.history.map((s) => s.score)) : null;
   const loading = d.phase === "loading";
+  const pick = chosen || featured[0] || shelf[0] || null;
+  const taskInfo = TASKS.find((x) => x.n === task);
+  const listen = segmentMode(d.mode);
+  const sujetLabel = !pick ? t("Aucun texte") : chosen ? t("Sujet choisi") : featured[0] === pick ? t("La dictée du jour") : t("La bibliothèque");
+  const chip = (label, value) => (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs ${c.border} ${c.card}`}>
+      <span className={c.faint}>{label}</span><span className={`font-semibold ${c.text}`}>{value}</span>
+    </span>
+  );
 
   return (
     <PageShell tone="navy" icon={PenLine}
       back
       eyebrow={t("La dictée")}
       title={t("Écrivez ce que vous entendez")}
-      sub={t("Un sujet d'expression écrite, son corrigé de niveau C1 ou C2 lu à voix haute, et vous : sans texte, sans correcteur, sans aide.")}
+      sub={t("Un corrigé C1 ou C2 lu à voix haute, à écrire sans aucune aide.")}
     >
       <div className="grid lg:grid-cols-3 gap-5 items-start">
-        <div className="lg:col-span-2 space-y-5">
-          <Card className="p-6 md:p-7">
-            <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Choisissez la tâche")}</h3>
-            <p className={`text-sm mt-1 mb-5 ${c.sub}`}>{t("Puis le sujet, et la longueur que vous voulez entendre d'un coup.")}</p>
-            <div className="space-y-2.5">
-              {TASKS.map((tk) => (
-                <button
-                  key={tk.n}
-                  onClick={() => pickTask(tk.n)}
-                  aria-pressed={task === tk.n}
-                  className={`w-full text-left px-5 py-4 rounded-2xl border transition-all flex items-center gap-4 ${
-                    task === tk.n ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`
-                  }`}
-                >
-                  <span className={`font-display font-bold text-lg shrink-0 ${task === tk.n ? "text-blue-600" : c.faint}`}>{tk.n}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className={`block font-semibold text-sm ${c.text}`}>{t(tk.kind)}</span>
-                    <span className={`block text-xs ${c.sub}`}>{tk.words}</span>
-                  </span>
-                  <Pill tone={tk.level === "C2" ? "gold" : "blue"}>{tk.level}</Pill>
-                </button>
-              ))}
-            </div>
+        <Card className="lg:col-span-2 p-6 md:p-7">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Votre prochaine dictée")}</h3>
+            <button type="button" onClick={() => setSettingsOpen((o) => !o)} aria-expanded={settingsOpen}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-full border text-sm font-semibold transition-colors ${settingsOpen ? "bg-[var(--tool-fill,#2563EB)] text-white border-transparent" : `${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+              <Settings2 size={16} className={`transition-transform duration-300 ${settingsOpen ? "rotate-90" : ""}`} /> {t("Réglages")}
+            </button>
+          </div>
 
-            {/* ── how much is read at a time ─────────────────────────── */}
-            <div className={`mt-7 pt-6 border-t ${c.border}`}>
-              <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Longueur d'écoute")}</h3>
-              <p className={`text-sm mt-1 mb-4 ${c.sub}`}>
-                {t("Le texte est lu par groupes de sens — jamais coupé au milieu d'une idée. Choisissez combien vous en entendez à la fois.")}
-              </p>
-              <div className="grid sm:grid-cols-3 gap-2.5" role="group" aria-label={t("Longueur d'écoute")}>
-                {SEGMENT_MODES.map((m) => {
-                  const on = d.mode === m.id;
-                  return (
-                    <button
-                      key={m.id}
-                      onClick={() => d.setMode(m.id)}
-                      aria-pressed={on}
-                      className={`text-left px-4 py-3 rounded-2xl border transition-all ${
-                        on ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`
-                      }`}
-                    >
-                      <span className={`block font-semibold text-sm ${on ? "text-blue-600" : c.text}`}>{t(m.label)}</span>
-                      <span className={`block text-xs mt-0.5 ${c.sub}`}>{t(m.hint)}</span>
-                      <span className={`block text-[11px] mt-1 font-mono2 ${c.faint}`}>{t(m.words)}</span>
-                    </button>
-                  );
-                })}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {chip(t("Tâche"), `${task} · ${taskInfo.words} · ${taskInfo.level}`)}
+            {chip(t("Écoute"), t(listen.label))}
+            {chip(t("Texte"), sujetLabel)}
+          </div>
+          {pick && <p className={`mt-3 text-sm leading-snug line-clamp-2 ${c.sub}`}>{pick.label}</p>}
+
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Btn icon={loading ? undefined : ArrowRight} disabled={loading || !pick} onClick={() => d.start(task, pick.sujetKey)}>
+              {loading ? <><Loader2 size={16} className="animate-spin" /> {t("Préparation de la dictée…")}</> : t("Commencer la dictée")}
+            </Btn>
+            <Btn variant="ghost" icon={Shuffle} disabled={loading || !(featured.length || shelf.length)} onClick={pickRandom}>
+              {t("Au hasard")}
+            </Btn>
+          </div>
+
+          {settingsOpen && (
+            <div className={`mt-6 pt-6 border-t ${c.border} space-y-6 rise`}>
+              <div>
+                <h4 className={`text-xs font-bold uppercase tracking-widest mb-2.5 ${c.faint}`}>{t("Tâche")}</h4>
+                <div className="grid sm:grid-cols-3 gap-2">
+                  {TASKS.map((tk) => {
+                    const on = task === tk.n;
+                    return (
+                      <button key={tk.n} onClick={() => pickTask(tk.n)} aria-pressed={on}
+                        className={`text-left px-3.5 py-2.5 rounded-xl border transition-all ${on ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.card} ${c.hoverSoft}`}`}>
+                        <span className={`block text-sm font-semibold ${on ? "text-blue-600" : c.text}`}>{t(tk.label)} · {tk.level}</span>
+                        <span className={`block text-xs ${c.sub}`}>{t(tk.kind)} · {tk.words}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            {/* ── the sujets ─────────────────────────────────────────── */}
-            <div className={`mt-7 pt-6 border-t ${c.border}`}>
-              <h3 className={`font-display font-bold text-lg mb-4 ${c.text}`}>{t("Choisissez le sujet")}</h3>
+              <div>
+                <h4 className={`text-xs font-bold uppercase tracking-widest mb-2.5 ${c.faint}`}>{t("Longueur d'écoute")}</h4>
+                <div className="grid sm:grid-cols-3 gap-2" role="group" aria-label={t("Longueur d'écoute")}>
+                  {SEGMENT_MODES.map((m) => {
+                    const on = d.mode === m.id;
+                    return (
+                      <button key={m.id} onClick={() => d.setMode(m.id)} aria-pressed={on} title={t(m.hint)}
+                        className={`text-left px-3.5 py-2.5 rounded-xl border transition-all ${on ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.card} ${c.hoverSoft}`}`}>
+                        <span className={`block text-sm font-semibold ${on ? "text-blue-600" : c.text}`}>{t(m.label)}</span>
+                        <span className={`block text-[11px] font-mono2 ${c.faint}`}>{t(m.words)}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-              {d.library === null ? (
-                <p className={`text-sm ${c.faint}`}>{t("Chargement de la bibliothèque…")}</p>
-              ) : (
-                <div className="space-y-6">
-                  <SujetGroup
-                    icon={Sun}
-                    title={t("La dictée du jour")}
-                    note={t("Nouvelles ce matin, les mêmes pour tout le monde.")}
-                    items={featured}
-                    empty={t("Les textes du jour ne sont pas encore écrits pour cette tâche.")}
-                    selected={sujetKey}
-                    onSelect={setSujetKey}
-                  />
-                  <SujetGroup
-                    icon={Library}
-                    title={t("La bibliothèque")}
-                    note={`${shelf.length} ${shelf.length > 1 ? t("dictées déjà écrites") : t("dictée déjà écrite")} · ${t("elles ne disparaissent jamais")}`}
-                    items={shelf}
-                    empty={t("Rien encore ici : la bibliothèque se remplit de trois textes par nuit.")}
-                    selected={sujetKey}
-                    onSelect={setSujetKey}
-                    scroll
-                  />
+              <div>
+                <h4 className={`text-xs font-bold uppercase tracking-widest mb-2.5 ${c.faint}`}>{t("Texte")}</h4>
+                {d.library === null ? (
+                  <p className={`text-sm ${c.faint}`}>{t("Chargement de la bibliothèque…")}</p>
+                ) : (
+                  <div className="space-y-5">
+                    <SujetGroup icon={Sun} title={t("La dictée du jour")} note={t("Nouvelles ce matin")} items={featured}
+                      empty={t("Les textes du jour ne sont pas encore écrits pour cette tâche.")} selected={sujetKey} onSelect={setSujetKey} />
+                    <SujetGroup icon={Library} title={t("La bibliothèque")}
+                      note={`${shelf.length} ${shelf.length > 1 ? t("dictées déjà écrites") : t("dictée déjà écrite")}`}
+                      items={shelf} empty={t("Rien encore ici : la bibliothèque se remplit de trois textes par nuit.")}
+                      selected={sujetKey} onSelect={setSujetKey} scroll />
+                  </div>
+                )}
+              </div>
+
+              {/* ── the one path that costs something ───────────────────── */}
+              {budget && (
+                <div>
+                  <Btn small variant="soft" icon={Sparkles} disabled={loading || budget.remaining <= 0} onClick={pickFresh}>
+                    {t("Dicter un sujet inédit")}
+                  </Btn>
+                  <p className={`mt-2 text-xs ${c.faint}`}>
+                    {budget.remaining > 0
+                      ? `${budget.remaining} ${budget.remaining > 1 ? t("textes inédits restants aujourd'hui") : t("texte inédit restant aujourd'hui")}`
+                      : t("Les textes inédits du jour sont épuisés. Trois nouveaux arrivent cette nuit — la bibliothèque, elle, reste ouverte.")}
+                  </p>
                 </div>
               )}
             </div>
+          )}
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Btn
-                icon={loading ? undefined : ArrowRight}
-                disabled={loading || !chosen}
-                onClick={() => d.start(task, chosen?.sujetKey || null)}
-              >
-                {loading
-                  ? <><Loader2 size={16} className="animate-spin" /> {t("Préparation de la dictée…")}</>
-                  : t("Commencer la dictée")}
-              </Btn>
-              <Btn variant="ghost" icon={Shuffle} disabled={loading || !(featured.length || shelf.length)} onClick={pickRandom}>
-                {t("Au hasard")}
-              </Btn>
-            </div>
+          {loading && (
+            <p className={`mt-3 text-xs ${c.faint}`}>
+              {t("Si ce sujet n'a jamais été dicté, son corrigé est en train d'être rédigé et enregistré. Une fois seulement.")}
+            </p>
+          )}
+          {d.notice && <PlanNotice notice={d.notice} />}
+          {d.error && <p className="mt-4 text-sm text-rose-600">{d.error}</p>}
 
-            {/* ── the one path that costs something ───────────────────── */}
-            {budget && (
-              <div className={`mt-4 pt-4 border-t ${c.border}`}>
-                <Btn
-                  small
-                  variant="soft"
-                  icon={Sparkles}
-                  disabled={loading || budget.remaining <= 0}
-                  onClick={pickFresh}
-                >
-                  {t("Dicter un sujet inédit")}
-                </Btn>
-                <p className={`mt-2 text-xs ${c.faint}`}>
-                  {budget.remaining > 0
-                    ? `${budget.remaining} ${budget.remaining > 1 ? t("textes inédits restants aujourd'hui") : t("texte inédit restant aujourd'hui")} · ${t("le vôtre rejoint la bibliothèque de tout le monde")}`
-                    : t("Les textes inédits du jour sont épuisés. Trois nouveaux arrivent cette nuit — la bibliothèque, elle, reste ouverte.")}
-                </p>
-              </div>
-            )}
-
-            {loading && (
-              <p className={`mt-3 text-xs ${c.faint}`}>
-                {t("Si ce sujet n'a jamais été dicté, son corrigé est en train d'être rédigé et enregistré. Une fois seulement.")}
-              </p>
-            )}
-            {d.notice && <PlanNotice notice={d.notice} />}
-            {d.error && <p className="mt-4 text-sm text-rose-600">{d.error}</p>}
-          </Card>
-
-          <Card className="p-6">
-            <h4 className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}>
-              <Lock size={15} className="text-blue-600" /> {t("Les règles")}
-            </h4>
-            <ul className={`text-sm space-y-2 ${c.sub}`}>
-              <li>{t("Un passage à la fois. Réécoutez autant que vous voulez — les écoutes sont comptées, pas limitées.")}</li>
-              <li>{t("Le correcteur orthographique, le copier-coller et la saisie automatique sont désactivés.")}</li>
-              <li>{t("La ponctuation et les majuscules ne sont pas comptées. Les accents, si : c'est ce qu'un correcteur du TCF regarde.")}</li>
-              <li>{t("Vous pouvez arrêter en cours de route : les passages non faits comptent comme non répondus.")}</li>
-            </ul>
-          </Card>
-        </div>
+          <p className={`mt-6 flex items-start gap-2 text-xs ${c.faint}`}>
+            <Lock size={13} className="shrink-0 mt-0.5" aria-hidden="true" />
+            {t("Aucune aide : ni correcteur, ni copier-coller. Les accents comptent, pas la ponctuation.")}
+          </p>
+        </Card>
 
         <Card className="p-6">
           <p className="text-xs font-bold uppercase tracking-widest text-rose-600 mb-3">{t("Vos dictées")}</p>

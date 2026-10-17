@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, SpellCheck } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { TOUR_STEPS } from "@/constants/tour";
 import { PageShell, Card, Pill } from "@/components/common";
 import { GrammarExercise } from "@/components/grammar/GrammarExercise";
 import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
@@ -10,9 +11,13 @@ import { GRAMMAR_TOPICS } from "@/constants/grammar";
 const PREVIEW_EXERCISES = 3;
 
 export function Grammar() {
-  const { c, t } = useApp();
+  const { c, t, tourStep } = useApp();
   const [topicId, setTopicId] = useState(null);
-  const [mode, setMode] = useState("lessons");
+  // Quiz first; the lessons are the « Mode apprentissage ». The guided tour's
+  // grammar step points at the topic list, so it switches to it while on it.
+  const [mode, setMode] = useState("quiz");
+  const touring = tourStep != null && TOUR_STEPS[tourStep]?.route === "grammar";
+  useEffect(() => { if (touring) setMode("lessons"); }, [touring]);
   const [topicMode, setTopicMode] = useState("practice"); // per-topic: "practice" | "quiz"
   const topic = GRAMMAR_TOPICS.find((tp) => tp.id === topicId);
   const openTopic = (id) => { setTopicId(id); setTopicMode("practice"); };
@@ -57,10 +62,10 @@ export function Grammar() {
     );
   }
   return (
-    <PageShell tone="fuchsia" icon={SpellCheck} back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.")}>
+    <PageShell tone="fuchsia" icon={SpellCheck} back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Testez-vous, ou révisez les leçons en mode apprentissage.")}>
       <div className="flex justify-end mb-6">
-        <button onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
-          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+        <button onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}>
+          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode apprentissage")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>
       </div>
       {mode === "quiz" ? (

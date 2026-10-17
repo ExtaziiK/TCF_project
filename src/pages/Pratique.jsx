@@ -1,6 +1,7 @@
 import { useApp } from "@/context/AppContext";
 import { PageShell, EmbeddedShell } from "@/components/common/PageShell";
 import { RouteGuard } from "@/components/auth/RouteGuard";
+import { deniedReason } from "@/auth/rbac";
 import { toolTone } from "@/components/home/toolsData";
 import { PRATIQUE_MENU } from "@/constants/navigation";
 import { Carnet } from "@/pages/Carnet";
@@ -35,9 +36,23 @@ const TOOLS = {
   revision: { page: Revision, tone: "rose", tag: "Les questions difficiles, avec leur correction" },
 };
 
+// `premium`: the tool needs a forfait this account doesn't have. Its tab is
+// greyed with a « Premium » mention but stays clickable — the sheet then shows
+// the tool's pitch or the upgrade gate.
 function useTools() {
-  const { role } = useApp();
-  return PRATIQUE_MENU.filter((m) => TOOLS[m.r]).map((m) => ({ ...m, ...TOOLS[m.r], soon: !!m.soon?.(role) }));
+  const { role, user } = useApp();
+  return PRATIQUE_MENU.filter((m) => TOOLS[m.r]).map((m) => ({
+    ...m, ...TOOLS[m.r], soon: !!m.soon?.(role), premium: deniedReason(role, m.r, user) === "upgrade",
+  }));
+}
+
+function PremiumTag({ on }) {
+  const { t } = useApp();
+  return (
+    <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${on ? "bg-white/25 text-white" : "bg-amber-400 text-slate-900"}`}>
+      {t("Premium")}
+    </span>
+  );
 }
 
 // Desktop index tab. Unselected: a white tab with a coloured edge, set back
@@ -49,7 +64,7 @@ function IndexTab({ tool, on, onSelect }) {
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
       className={`relative flex items-center gap-3 text-left rounded-l-2xl py-3 pl-3 pr-4 border-2 border-r-0 transition-all duration-300 disabled:opacity-55 disabled:cursor-not-allowed
-        ${on ? "-mr-[2px] z-10 shadow-lg" : `${c.card} mr-5 enabled:hover:mr-2 border-l-[6px]`}`}
+        ${on ? "-mr-[2px] z-10 shadow-lg" : `${c.card} mr-5 enabled:hover:mr-2 border-l-[6px] ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { background: k.fill, borderColor: k.fill } : { borderColor: k.edge, borderLeftColor: k.fill }}>
       <span className="grid place-items-center w-10 h-10 rounded-xl shrink-0"
         style={on ? { background: "rgba(255,255,255,.2)", color: "#FFFFFF" } : { background: k.panel, color: k.ink }}>
@@ -59,6 +74,7 @@ function IndexTab({ tool, on, onSelect }) {
         <span className={`flex items-center gap-2 font-display font-bold leading-tight ${on ? "text-white" : c.text}`}>
           {t(tool.l)}
           {tool.soon && <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style={{ background: k.panel, color: k.ink }}>{t("Bientôt")}</span>}
+          {tool.premium && !tool.soon && <PremiumTag on={on} />}
         </span>
         <span className={`mt-0.5 block text-xs leading-snug ${on ? "text-white/80" : c.faint}`}>{t(tool.tag)}</span>
       </span>
@@ -72,10 +88,11 @@ function ChipTab({ tool, on, onSelect }) {
   const k = toolTone(tool.tone, dark);
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
-      className={`snap-start shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-full border-2 text-sm font-bold disabled:opacity-55 ${on ? "text-white" : `${c.card} ${c.text}`}`}
+      className={`snap-start shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-full border-2 text-sm font-bold disabled:opacity-55 ${on ? "text-white" : `${c.card} ${c.text} ${tool.premium ? "grayscale opacity-60" : ""}`}`}
       style={on ? { background: k.fill, borderColor: k.fill } : { borderColor: k.edge }}>
       <tool.icon size={16} style={on ? undefined : { color: k.ink }} />
       {t(tool.l)}
+      {tool.premium && !tool.soon && <PremiumTag on={on} />}
     </button>
   );
 }
@@ -107,8 +124,8 @@ export function Pratique() {
           {/* Spine with ring holes, punched in the page colour. */}
           <div aria-hidden="true" className="w-5 md:w-7 shrink-0 rounded-l-[26px]"
             style={{ background: k.fill, backgroundImage: `radial-gradient(circle, ${page} 4.5px, transparent 5px)`, backgroundSize: "100% 64px", backgroundPosition: "center 26px" }} />
-          <div className="flex-1 min-w-0 rounded-r-[26px] overflow-x-clip">
-            <div className="flex items-center gap-3 px-5 md:px-8 py-4 border-b-2" style={{ background: k.panel, borderColor: k.edge }}>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3 px-5 md:px-8 py-4 border-b-2 rounded-tr-[26px]" style={{ background: k.panel, borderColor: k.edge }}>
               <span className="grid place-items-center w-10 h-10 rounded-xl text-white shrink-0" style={{ background: k.fill }}><active.icon size={19} /></span>
               <div className="min-w-0">
                 <p className="font-display font-extrabold text-lg leading-tight" style={{ color: k.ink }}>{t(active.l)}</p>

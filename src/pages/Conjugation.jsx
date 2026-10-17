@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, Table2, Sparkles, Languages } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { TOUR_STEPS } from "@/constants/tour";
 import { PageShell, Card, Pill } from "@/components/common";
 import { ConjugationExercise } from "@/components/conjugation/ConjugationExercise";
 import { ConjugationQuiz, ModeToggle } from "@/components/conjugation/ConjugationQuiz";
@@ -16,9 +17,13 @@ const PREVIEW_EXERCISES = 3;
 const LEVEL_TONE = { A1: "green", A2: "green", B1: "blue", B2: "amber", C1: "red" };
 
 export function Conjugation() {
-  const { c, t, role, user, notify } = useApp();
+  const { c, t, role, user, notify, tourStep } = useApp();
   const [tenseId, setTenseId] = useState(null);
-  const [mode, setMode] = useState("lessons"); // index: "lessons" | "quiz"
+  // Quiz first; the lessons are the « Mode apprentissage ». The guided tour's
+  // conjugation step points at the tense list, so it switches to it while on it.
+  const [mode, setMode] = useState("quiz"); // index: "lessons" | "quiz"
+  const touring = tourStep != null && TOUR_STEPS[tourStep]?.route === "conjugation";
+  useEffect(() => { if (touring) setMode("lessons"); }, [touring]);
   const [tenseMode, setTenseMode] = useState("practice"); // per-tense: "practice" | "quiz"
   // Écrire / Choisir, remembered across tenses and across both practice modes:
   // a candidate who has chosen to type should not be handed a multiple choice
@@ -158,15 +163,15 @@ export function Conjugation() {
       back wide
       eyebrow={t("Conjugaison")}
       title={t("Un temps à la fois, jusqu'à ce qu'il soit acquis")}
-      sub={t("Choisissez le temps que vous voulez travailler : la leçon d'abord, les exercices ensuite — à écrire ou à choisir.")}
+      sub={t("Testez-vous, ou révisez chaque temps en mode apprentissage.")}
     >
       <div className="flex justify-end items-center gap-2 mb-6">
         {quota.metered && quota.ready && !practiceLocked && <QuotaMeter left={quota.left} limit={quota.limit} />}
         <button
           onClick={() => { setMode(mode === "quiz" ? "lessons" : "quiz"); closeSession(); }}
-          className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}
+          className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}
         >
-          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
+          {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode apprentissage")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>
       </div>
 

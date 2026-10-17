@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from "react";
-import { ChevronDown, Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine, ListChecks } from "lucide-react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine, ListChecks, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -9,7 +9,12 @@ import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
 
-// Révision — the hard half of every bank quiz, read or rehearsed.
+// Révision — the hard half of every bank quiz, read or rehearsed, as a deck.
+//
+// One control bar (épreuve, mode, search, difficulty), a compact quiz picker,
+// and the questions of the picked quiz dealt one at a time: a progress strip
+// to jump around (green/red as practice answers come in), previous/next, and
+// the arrow keys. A search turns the deck into its results, across quizzes.
 //
 // Two modes over one bank. "Lire les corrigés" is a revision sheet: the correct
 // option is already green and the explanation already open, because the page is
@@ -22,8 +27,8 @@ import { isUnderReview } from "@/constants/quizReview";
 // performance — and folding it into quiz_results would quietly flatter the
 // dashboard averages that do.
 //
-// Two facts about the bank drive the whole layout, and neither is obvious from
-// the data model:
+// Two facts about the bank drive the layout, and neither is obvious from the
+// data model:
 //
 //   * `question.q` is not the question. For CE it is a generated placeholder
 //     ("Compréhension écrite – Quiz 1 – Question 39") and the real passage is
@@ -31,17 +36,16 @@ import { isUnderReview } from "@/constants/quizReview";
 //     the AUDIO. So a card is media first, and the identity a reader navigates
 //     by (quiz number, question number, points) lives in the header instead.
 //
-//   * There are 800 of these per section. They are therefore grouped behind
-//     collapsed quiz accordions, and a quiz's media is signed only when it is
-//     opened — signing 1600 descriptors up front would be a very large request
-//     for content nobody has scrolled to yet.
+//   * There are 800 of these per section. Only one deck is mounted at a time,
+//     and its media is signed when it mounts — signing 1600 descriptors up front
+//     would be a very large request for content nobody has looked at yet.
 const FROM_QUESTION = 20; // 1-based: questions 20..39 of each quiz
 const SECTIONS = ["co", "ce"];
 const SECTION_ICON = { co: Headphones, ce: BookOpen };
-// A wide search matches hundreds of cards, and rendering them all at once is
-// what would make the page feel broken. Capped — and the cap is stated rather
-// than silently truncating.
+// A wide search matches hundreds of cards; the deck takes the first ones and
+// says so rather than silently truncating.
 const SEARCH_LIMIT = 50;
+const FILL = "bg-[var(--tool-fill,#2563EB)] text-white";
 
 const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
@@ -66,12 +70,9 @@ export function Revision() {
   // qui vaut « tout », et non un identifiant « all » qui se retrouverait à
   // devoir être retiré de la liste à chaque fois qu'un autre est coché.
   const [levelIds, setLevelIds] = useState([]);
-  const [openQuiz, setOpenQuiz] = useState(null);
+  const [quizId, setQuizId] = useState(null);
   // "read": the revision sheet, everything already showing.
   // "practice": the same bank, answers withheld until you choose.
-  // Deliberately NOT recorded to quiz_results: this is the hard tail of every
-  // quiz with its answers a click away, so scoring it would flatter the
-  // dashboard averages that are supposed to describe exam performance.
   const [mode, setMode] = useState("read");
 
   const bank = getBank();
@@ -85,7 +86,7 @@ export function Revision() {
       .filter((q) => q.questions.length > 0),
     [bank, section, staff],
   );
-
+  const current = quizzes.find((q) => q.id === quizId) || quizzes[0] || null;
   const allQuestions = useMemo(() => quizzes.flatMap((q) => q.questions), [quizzes]);
 
   // The difficulty filter is built from the data rather than from fixed
@@ -102,280 +103,226 @@ export function Revision() {
   const levels = useMemo(() => {
     const pts = [...new Set(allQuestions.map((q) => q.points).filter((p) => Number.isFinite(p)))].sort((a, b) => a - b);
     if (pts.length) {
-      return pts.map((p) => ({
-        id: `p${p}`,
-        label: `${p} pts`,
-        count: allQuestions.filter((q) => q.points === p).length,
-        test: (q) => q.points === p,
-      }));
+      return pts.map((p) => ({ id: `p${p}`, label: `${p} pts`, test: (q) => q.points === p }));
     }
     const bands = [[20, 26], [27, 32], [33, 39]];
-    return bands.map(([from, to]) => ({
-      id: `r${from}`,
-      label: `Q${from}–${to}`,
-      count: allQuestions.filter((q) => q.order >= from && q.order <= to).length,
-      test: (q) => q.order >= from && q.order <= to,
-    })).filter((l) => l.count > 0);
+    return bands
+      .map(([from, to]) => ({ id: `r${from}`, label: `Q${from}–${to}`, test: (q) => q.order >= from && q.order <= to }))
+      .filter((l) => allQuestions.some(l.test));
   }, [allQuestions]);
 
   // Filtrés depuis `levels` plutôt que lus tels quels : un identifiant qui ne
   // correspond plus à rien (changement d'épreuve, données rechargées) est
-  // ignoré au lieu de vider la liste des résultats sans explication.
+  // ignoré au lieu de vider le paquet sans explication.
   const activeLevels = useMemo(() => levels.filter((l) => levelIds.includes(l.id)), [levels, levelIds]);
+  // Une question porte un seul niveau : cocher « 21 pts » et « 33 pts » doit
+  // donc donner les deux lots réunis. Un ET ne ramènerait jamais rien.
+  const levelOk = useCallback((q) => !activeLevels.length || activeLevels.some((l) => l.test(q)), [activeLevels]);
 
-  const matches = useCallback((q) => {
-    // Une question porte un seul niveau : cocher « 21 pts » et « 33 pts » doit
-    // donc donner les deux lots réunis. Un ET ne ramènerait jamais rien.
-    if (activeLevels.length && !activeLevels.some((l) => l.test(q))) return false;
-    if (!query.trim()) return true;
+  const searching = query.trim().length > 0;
+  const results = useMemo(() => {
+    if (!searching) return [];
     // Options and explanation are the only real text on a question — `q.q` is a
     // placeholder, so searching it would match every card or none.
-    const hay = norm([...(q.opts || []), q.exp].join(" "));
-    return norm(query).split(/\s+/).filter(Boolean).every((term) => hay.includes(term));
-  }, [query, activeLevels]);
+    const terms = norm(query).split(/\s+/).filter(Boolean);
+    return allQuestions.filter((q) => levelOk(q) && terms.every((term) => norm([...(q.opts || []), q.exp].join(" ")).includes(term)));
+  }, [searching, query, allQuestions, levelOk]);
 
-  const filtering = query.trim().length > 0 || activeLevels.length > 0;
-  const results = useMemo(() => (filtering ? allQuestions.filter(matches) : []), [filtering, allQuestions, matches]);
+  const deck = useMemo(
+    () => (searching ? results.slice(0, SEARCH_LIMIT) : (current?.questions || []).filter(levelOk)),
+    [searching, results, current, levelOk],
+  );
+  // A new deck (other quiz, search, filter, mode or épreuve) starts fresh: the
+  // practice answers belong to the deck being worked through, not to the page.
+  const deckKey = `${section}|${searching ? `s:${query}` : current?.id}|${levelIds.join(",")}|${mode}`;
 
   // The levels are per-section, so a CO points filter cannot survive a jump to
   // CE — it would match nothing and read as an empty épreuve.
-  const switchSection = (s) => { setSection(s); setOpenQuiz(null); setLevelIds([]); };
-  // Changing mode closes the open quiz so the list remounts: answers given in
-  // practice must not linger, greyed out, behind the reading view.
-  const switchMode = (m) => { setMode(m); setOpenQuiz(null); };
+  const switchSection = (s) => { setSection(s); setQuizId(null); setLevelIds([]); setQuery(""); };
+  const toggleLevel = (id) => setLevelIds((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
 
   return (
-    <PageShell tone="rose" icon={ListChecks}
-      back wide
+    <PageShell tone="rose" icon={ListChecks} back wide
       eyebrow={t("Révision")}
-      title={t(mode === "read" ? "Les questions difficiles, réponses affichées" : "Les questions difficiles, à vous de répondre")}
-      sub={t(mode === "read"
-        ? "Les questions 20 à 39 de chaque quiz — la moitié la plus exigeante — avec la bonne réponse et l'explication déjà visibles."
-        : "Les mêmes questions, réponses masquées : choisissez, la correction et l'explication s'affichent aussitôt.")}
+      title={t("Les questions difficiles")}
+      sub={t("Les questions 20 à 39 de chaque quiz, une à la fois.")}
     >
-      <div className="flex justify-center mb-6">
-        <div className={`inline-flex p-1 rounded-full border ${c.border}`} role="tablist">
-          {SECTIONS.map((s) => {
-            const Icon = SECTION_ICON[s];
-            const on = section === s;
-            return (
-              <button
-                key={s} role="tab" aria-selected={on} onClick={() => switchSection(s)}
-                className={`px-5 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors ${on ? "bg-blue-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}
-              >
-                <Icon size={15} aria-hidden="true" /> {t(SECTION_LABELS[s])}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="flex justify-center mb-6">
-        <div className={`inline-flex p-1 rounded-full border ${c.border}`} role="group" aria-label={t("Mode")}>
-          {[{ id: "read", label: "Lire les corrigés", Icon: Eye }, { id: "practice", label: "S'entraîner", Icon: PenLine }].map((m) => (
-            <button
-              key={m.id} onClick={() => switchMode(m.id)} aria-pressed={mode === m.id}
-              className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors ${mode === m.id ? "bg-rose-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}
-            >
-              <m.Icon size={14} aria-hidden="true" /> {t(m.label)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <Toolbar
-        query={query} setQuery={setQuery}
-        levels={levels} levelIds={levelIds} setLevelIds={setLevelIds}
-        quizzes={quizzes} openQuiz={openQuiz} setOpenQuiz={setOpenQuiz}
-        total={allQuestions.length}
-      />
-
-      {filtering ? (
-        <SearchResults results={results} section={section} mode={mode} onClear={() => { setQuery(""); setLevelIds([]); }} />
-      ) : (
-        <div className="space-y-3">
-          {quizzes.map((quiz) => (
-            <QuizAccordion
-              key={quiz.id}
-              quiz={quiz}
-              section={section}
-              mode={mode}
-              open={openQuiz === quiz.id}
-              onToggle={() => setOpenQuiz(openQuiz === quiz.id ? null : quiz.id)}
+      {/* ── control bar ─────────────────────────────────────────────────── */}
+      <Card className="p-3 md:p-4 mb-5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Segmented
+            items={SECTIONS.map((s) => ({ id: s, label: SECTION_LABELS[s], Icon: SECTION_ICON[s] }))}
+            value={section} onChange={switchSection} label={t("Épreuve")}
+          />
+          <Segmented
+            items={[{ id: "read", label: "Lire les corrigés", Icon: Eye }, { id: "practice", label: "S'entraîner", Icon: PenLine }]}
+            value={mode} onChange={setMode} label={t("Mode")}
+          />
+          <label className={`flex items-center gap-2 flex-1 min-w-[200px] px-3 py-2 rounded-full border ${c.border} ${c.card}`}>
+            <Search size={15} className={c.faint} aria-hidden="true" />
+            <input
+              value={query} onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("Chercher dans les réponses et les explications…")}
+              aria-label={t("Chercher dans les réponses et les explications")}
+              className={`flex-1 min-w-0 bg-transparent outline-none text-sm ${c.text}`}
             />
-          ))}
+            {query && (
+              <button type="button" onClick={() => setQuery("")} aria-label={t("Effacer")} className={c.faint}><X size={14} /></button>
+            )}
+          </label>
         </div>
-      )}
+        {levels.length > 0 && (
+          <div className="mt-3 flex items-center gap-1.5 flex-wrap" role="group" aria-label={t("Difficulté")}>
+            <span className={`text-xs font-semibold mr-1 ${c.faint}`}>{t("Difficulté")}</span>
+            {/* « Toutes » n'est pas un niveau de plus : c'est la remise à zéro. */}
+            <button type="button" onClick={() => setLevelIds([])} aria-pressed={levelIds.length === 0}
+              className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${levelIds.length === 0 ? `${FILL} border-transparent` : `${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+              {t("Toutes")}
+            </button>
+            {levels.map((l) => {
+              const on = levelIds.includes(l.id);
+              return (
+                <button type="button" key={l.id} onClick={() => toggleLevel(l.id)} aria-pressed={on}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${on ? `${FILL} border-transparent` : `${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+                  {l.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </Card>
+
+      <div className="grid lg:grid-cols-[230px_minmax(0,1fr)] gap-5 items-start">
+        {/* ── quiz picker ───────────────────────────────────────────────── */}
+        <Card className={`p-4 lg:sticky lg:top-28 ${searching ? "opacity-60" : ""}`}>
+          <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${c.faint}`}>
+            {searching ? t("Recherche dans tous les quiz") : `${quizzes.length} ${t("quiz")}`}
+          </p>
+          <div className="grid grid-cols-6 sm:grid-cols-10 lg:grid-cols-5 gap-1.5">
+            {quizzes.map((q) => {
+              const on = !searching && current?.id === q.id;
+              return (
+                <button type="button" key={q.id} onClick={() => { setQuizId(q.id); setQuery(""); }} aria-pressed={on}
+                  aria-label={`${t("Quiz")} ${q.number ?? "?"}`}
+                  className={`h-9 rounded-lg font-mono2 text-xs font-bold transition-colors ${on ? FILL : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+                  {String(q.number ?? "?").padStart(2, "0")}
+                </button>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* ── the deck ──────────────────────────────────────────────────── */}
+        <Deck
+          key={deckKey}
+          questions={deck}
+          section={section}
+          mode={mode}
+          heading={searching
+            ? `${results.length} ${t(results.length > 1 ? "questions trouvées" : "question trouvée")}${results.length > SEARCH_LIMIT ? ` · ${t("les")} ${SEARCH_LIMIT} ${t("premières")}` : ""}`
+            : `${t("Quiz")} ${current?.number ?? "?"}`}
+          onClear={() => { setQuery(""); setLevelIds([]); }}
+        />
+      </div>
     </PageShell>
   );
 }
 
-function Toolbar({ query, setQuery, levels, levelIds, setLevelIds, quizzes, openQuiz, setOpenQuiz, total }) {
+function Segmented({ items, value, onChange, label }) {
   const { c, t } = useApp();
-  const aucun = levelIds.length === 0;
-  // Coché / décoché, sans jamais retirer le dernier de force : décocher le seul
-  // niveau restant revient simplement à « Toutes », qui est l'état sans filtre.
-  const basculer = (id) =>
-    setLevelIds((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
-  // Le compte affiché sur « Toutes » suit la sélection : à côté de niveaux
-  // cochés, il annonce ce que donnerait un retour à l'état sans filtre.
-  const choisi = (o) => levelIds.includes(o.id);
-  const styleActif = "border-blue-600 bg-blue-600/10 text-blue-600";
   return (
-    <div className={`p-4 rounded-2xl border ${c.border} mb-5 flex flex-wrap items-center gap-3`}>
-      <div className={`flex items-center gap-2 flex-1 min-w-[220px] px-3 py-2 rounded-xl border ${c.border}`}>
-        <Search size={15} className={c.faint} aria-hidden="true" />
-        <input
-          value={query} onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("Chercher dans les réponses et les explications…")}
-          aria-label={t("Chercher dans les réponses et les explications")}
-          className={`flex-1 bg-transparent outline-none text-sm ${c.text}`}
-        />
-        {query && (
-          <button onClick={() => setQuery("")} aria-label={t("Effacer")} className={c.faint}>
-            <X size={14} />
+    <div className={`inline-flex p-1 rounded-full border ${c.border} ${c.card}`} role="group" aria-label={label}>
+      {items.map(({ id, label: l, Icon }) => {
+        const on = value === id;
+        return (
+          <button type="button" key={id} onClick={() => onChange(id)} aria-pressed={on}
+            className={`px-3.5 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1.5 transition-colors ${on ? FILL : `${c.sub} ${c.hoverSoft}`}`}>
+            <Icon size={14} aria-hidden="true" /> {t(l)}
           </button>
-        )}
-      </div>
-
-      <div className="flex items-center gap-1.5 flex-wrap" role="group" aria-label={t("Difficulté")}>
-        <span className={`text-xs font-semibold ${c.faint}`}>{t("Difficulté")}</span>
-        {/* « Toutes » n'est pas un niveau de plus : c'est la remise à zéro. Le
-            garder dans la même liste que les autres ferait cocher « Toutes »
-            ET « 33 pts » en même temps, ce qui ne veut rien dire. */}
-        <button
-          onClick={() => setLevelIds([])} aria-pressed={aucun}
-          title={`${total} ${t("questions")}`}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${aucun ? styleActif : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
-        >
-          {t("Toutes")} <span className={aucun ? "opacity-70" : c.faint}>{total}</span>
-        </button>
-        {levels.map((o) => (
-          <button
-            key={o.id} onClick={() => basculer(o.id)} aria-pressed={choisi(o)}
-            title={`${o.count} ${t("questions")}`}
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${choisi(o) ? styleActif : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
-          >
-            {o.label} <span className={choisi(o) ? "opacity-70" : c.faint}>{o.count}</span>
-          </button>
-        ))}
-      </div>
-
-      <select
-        value={openQuiz || ""}
-        onChange={(e) => setOpenQuiz(e.target.value || null)}
-        aria-label={t("Aller au quiz")}
-        className={`px-3 py-2 rounded-xl border text-sm ${c.border} ${c.text} bg-transparent`}
-      >
-        <option value="">{t("Aller au quiz…")}</option>
-        {quizzes.map((q) => (
-          <option key={q.id} value={q.id}>{t("Quiz")} {q.number ?? "?"}</option>
-        ))}
-      </select>
-
-      <span className={`text-xs font-mono2 ${c.faint}`}>{total} {t("questions")}</span>
+        );
+      })}
     </div>
   );
 }
 
-function SearchResults({ results, section, mode, onClear }) {
+// One deck: the questions dealt one at a time. Signing happens here for the
+// whole deck (one batched request); the practice answers live here too, so
+// they vanish with the deck — nothing in Révision is a record.
+function Deck({ questions, section, mode, heading, onClear }) {
   const { c, t } = useApp();
-  if (results.length === 0) {
+  const signed = useSignedQuestions(questions);
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const n = signed.length;
+  const i = Math.min(index, Math.max(0, n - 1));
+  const go = useCallback((d) => setIndex((x) => Math.max(0, Math.min(n - 1, x + d))), [n]);
+
+  // ← / → move through the deck, unless the visitor is typing in a field.
+  useEffect(() => {
+    const onKey = (e) => {
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName || "")) return;
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go]);
+
+  if (n === 0) {
     return (
-      <Card className="p-8 text-center">
+      <Card className="p-10 text-center">
         <p className={`text-sm ${c.sub}`}>{t("Aucune question ne correspond.")}</p>
-        <button onClick={onClear} className="mt-3 text-sm font-semibold text-blue-600">{t("Effacer les filtres")}</button>
+        <button type="button" onClick={onClear} className="mt-3 text-sm font-semibold text-blue-600">{t("Effacer les filtres")}</button>
       </Card>
     );
   }
-  const shown = results.slice(0, SEARCH_LIMIT);
-  return (
-    <div className="space-y-4">
-      <p className={`text-sm ${c.sub}`}>
-        {results.length} {t(results.length > 1 ? "questions trouvées" : "question trouvée")}
-        {results.length > SEARCH_LIMIT && (
-          <span className={c.faint}> · {t("les")} {SEARCH_LIMIT} {t("premières sont affichées, affinez votre recherche")}</span>
-        )}
-      </p>
-      <QuestionList questions={shown} section={section} mode={mode} />
-    </div>
-  );
-}
 
-function QuizAccordion({ quiz, section, mode, open, onToggle }) {
-  const { c, t } = useApp();
-  return (
-    <Card className="overflow-hidden">
-      <button
-        onClick={onToggle} aria-expanded={open}
-        className={`w-full flex items-center justify-between gap-3 px-5 py-4 text-left ${c.hoverSoft}`}
-      >
-        <span className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 font-mono2 font-bold text-sm flex items-center justify-center">
-            {String(quiz.number ?? "?").padStart(2, "0")}
-          </span>
-          <span className={`font-display font-bold ${c.text}`}>{t("Quiz")} {quiz.number ?? "?"}</span>
-        </span>
-        <span className="flex items-center gap-3">
-          <Pill tone="slate">{quiz.questions.length} {t("questions")}</Pill>
-          <ChevronDown size={18} className={`${c.faint} transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
-        </span>
-      </button>
-      {/* Mounted only while open: this is what keeps 40 quizzes cheap, and what
-          defers signing the quiz's media until someone actually looks at it. */}
-      {open && (
-        <div className={`px-5 pb-5 pt-1 border-t ${c.border}`}>
-          <QuestionList questions={quiz.questions} section={section} mode={mode} />
-        </div>
-      )}
-    </Card>
-  );
-}
-
-// Signing happens here rather than per card: useSignedQuestions batches one
-// request for the whole list, and `questions` is referentially stable because
-// it comes from the memoised slice above.
-//
-// In practice mode this also owns the answers, so the score belongs to the list
-// you are working through (one quiz, or one set of search results) rather than
-// to the page. Switching quiz or mode unmounts it and the slate is clean —
-// which is the intended behaviour: nothing here is a record, only a rehearsal.
-function QuestionList({ questions, section, mode }) {
-  const { c, t } = useApp();
-  const signed = useSignedQuestions(questions);
-  const [answers, setAnswers] = useState({});
-
-  const answer = useCallback((id, choice) => {
-    // First answer only — this is a rehearsal, not a retry loop.
-    setAnswers((prev) => (prev[id] != null ? prev : { ...prev, [id]: choice }));
-  }, []);
-
+  const q = signed[i];
   const done = Object.keys(answers).length;
-  const right = signed.filter((q) => answers[q.id] != null && answers[q.id] === q.a).length;
+  const right = signed.filter((x) => answers[x.id] != null && answers[x.id] === x.a).length;
+  // First answer only — this is a rehearsal, not a retry loop.
+  const answer = (choice) => setAnswers((prev) => (prev[q.id] != null ? prev : { ...prev, [q.id]: choice }));
 
   return (
-    <div className="mt-4">
-      {mode === "practice" && (
-        <div className={`flex items-center justify-between gap-3 mb-4 px-4 py-2.5 rounded-xl ${c.hoverSoft}`}>
-          <span className={`text-sm font-semibold ${c.text}`}>
-            {done > 0
-              ? <>{right} / {done} {t("bonnes réponses")}{done < signed.length && <span className={c.faint}> · {signed.length - done} {t("encore à faire")}</span>}</>
-              : <span className={c.sub}>{t("Choisissez une réponse — la correction s'affiche aussitôt.")}</span>}
-          </span>
-          {done > 0 && (
-            <button onClick={() => setAnswers({})} className="text-sm font-semibold text-blue-600 shrink-0">
-              {t("Recommencer")}
+    <div>
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+        <p className={`font-display font-bold ${c.text}`}>
+          {heading} <span className={`font-mono2 text-sm font-semibold ${c.faint}`}>· {i + 1} / {n}</span>
+        </p>
+        {mode === "practice" && done > 0 && (
+          <span className="flex items-center gap-3 text-sm">
+            <span className={`font-semibold ${c.text}`}>{right} / {done} {t("bonnes réponses")}</span>
+            <button type="button" onClick={() => setAnswers({})} className="inline-flex items-center gap-1 font-semibold text-blue-600">
+              <RotateCcw size={13} /> {t("Recommencer")}
             </button>
-          )}
-        </div>
-      )}
-      <div className="space-y-4">
-        {signed.map((q) => (
-          <QuestionCard
-            key={q.id} q={q} section={section} mode={mode}
-            chosen={answers[q.id]} onAnswer={(i) => answer(q.id, i)}
-          />
-        ))}
+          </span>
+        )}
+      </div>
+
+      {/* Progress strip: one segment per question, clickable. */}
+      <div className="flex gap-1 mb-4" role="group" aria-label={t("Questions")}>
+        {signed.map((x, k) => {
+          const a = answers[x.id];
+          const tone = k === i ? "bg-[var(--tool-fill,#2563EB)]" : a == null ? c.track : a === x.a ? "bg-emerald-500" : "bg-rose-500";
+          return (
+            <button type="button" key={x.id} onClick={() => setIndex(k)} aria-label={`${t("Question")} ${x.order}`} aria-current={k === i ? "step" : undefined}
+              className={`h-2 flex-1 rounded-full transition-colors ${tone} ${k === i ? "" : "hover:opacity-70"}`} />
+          );
+        })}
+      </div>
+
+      <QuestionCard key={q.id} q={q} section={section} mode={mode} chosen={answers[q.id]} onAnswer={answer} />
+
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <button type="button" onClick={() => go(-1)} disabled={i === 0}
+          className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border text-sm font-semibold disabled:opacity-40 ${c.border} ${c.card} ${c.text} ${c.hoverSoft}`}>
+          <ChevronLeft size={16} /> {t("Précédente")}
+        </button>
+        <span className={`hidden sm:block text-xs ${c.faint}`}>{t("Flèches ← → du clavier")}</span>
+        <button type="button" onClick={() => go(1)} disabled={i === n - 1}
+          className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-semibold disabled:opacity-40 ${FILL}`}>
+          {t("Suivante")} <ChevronRight size={16} />
+        </button>
       </div>
     </div>
   );
@@ -393,10 +340,10 @@ function QuestionCard({ q, section, mode, chosen, onAnswer }) {
   const stem = /^Compr[ée]hension\s+[ée]crite\s+[–-]/i.test(String(q.q || "")) ? null : q.q;
 
   return (
-    <div className={`p-5 rounded-2xl border ${c.border}`}>
+    <Card className="p-5 md:p-6 rise">
       <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
         <span className={`text-xs font-mono2 font-semibold ${c.faint}`}>
-          {SECTION_LABELS[section]} · {t("Quiz")} {q.quizNumber ?? "?"} · Q{q.order}
+          {t(SECTION_LABELS[section])} · {t("Quiz")} {q.quizNumber ?? "?"} · Q{q.order}
         </span>
         {Number.isFinite(q.points) && <Pill tone="slate">{q.points} pts</Pill>}
       </div>
@@ -450,6 +397,6 @@ function QuestionCard({ q, section, mode, chosen, onAnswer }) {
           <span>{q.exp}</span>
         </p>
       )}
-    </div>
+    </Card>
   );
 }

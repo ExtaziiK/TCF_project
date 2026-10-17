@@ -53,20 +53,20 @@ export const NAV_LINKS = [
   // remaining item, which reads as a broken dropdown rather than as an offer.
   // Visitors are pitched by the home page and the route guard instead.
   { l: "Pratique", roles: AUTHENTICATED, menu: [
-    // First in the menu: it is where every other exercise sends its mistakes.
-    // `soon`: shown greyed with a « Bientôt » tag and not clickable, for the
-    // roles it returns true for (see NOTEBOOK_PUBLIC in rbac.js).
-    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, soon: (role) => !canUseNotebook(role), icon: NotebookPen, group: "train" },
-    { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED, icon: BookOpen, group: "train" },
-    { l: "Grammaire", r: "grammar", roles: AUTHENTICATED, icon: SpellCheck, group: "train" },
-    { l: "Conjugaison", r: "conjugation", roles: AUTHENTICATED, icon: Languages, group: "train" },
-    // NO `roles`, deliberately, and not an oversight: la dictée is Premium
+    // First in the menu, the flagship exercise. NO `roles`, deliberately, and not an oversight: la dictée is Premium
     // (rbac.js → dictee: PREMIUM) but stays visible to free accounts, who land
     // on its sales page instead of the exercise. Hiding it would mean nobody
     // who has not already paid ever learns it exists. Visitors no longer reach
     // it here — the parent menu is signed-in only — but the route itself stays
     // public, so a shared /dictee link still opens the pitch.
     { l: "La dictée", r: "dictee", grad: true, icon: PenLine, group: "train" },
+    { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED, icon: BookOpen, group: "train" },
+    { l: "Grammaire", r: "grammar", roles: AUTHENTICATED, icon: SpellCheck, group: "train" },
+    { l: "Conjugaison", r: "conjugation", roles: AUTHENTICATED, icon: Languages, group: "train" },
+    // After the study tools: it is where every other exercise sends its mistakes.
+    // `soon`: shown greyed with a « Bientôt » tag and not clickable, for the
+    // roles it returns true for (see NOTEBOOK_PUBLIC in rbac.js).
+    { l: "Carnet d'erreurs", r: "carnet", roles: AUTHENTICATED, soon: (role) => !canUseNotebook(role), icon: NotebookPen, group: "train" },
     // Même cas que la dictée, et pour la même raison : "revision" est Premium
     // (rbac.js), mais sans `roles` ici un compte gratuit voit l'entrée et tombe
     // sur la page de vente plutôt que sur un menu qui ne mentionne jamais ce

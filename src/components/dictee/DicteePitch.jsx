@@ -25,17 +25,17 @@ const STEPS = [
   {
     icon: Headphones,
     t: "Vous écoutez",
-    d: "Un corrigé de niveau C1 ou C2, écrit pour un vrai sujet d'expression écrite du TCF Canada et lu par une voix de synthèse naturelle. Rien à l'écran : seulement ce que vous entendez.",
+    d: "Un corrigé C1 ou C2 d'un vrai sujet du TCF, lu à voix haute. Rien à l'écran.",
   },
   {
     icon: PenLine,
     t: "Vous écrivez",
-    d: "Vous tapez ce que vous avez entendu. Le correcteur orthographique, le copier-coller et la saisie automatique sont désactivés — c'est votre orthographe qui est mesurée, pas celle de votre navigateur.",
+    d: "Sans correcteur ni copier-coller : c'est votre orthographe qui compte.",
   },
   {
     icon: ScrollText,
     t: "Vous comprenez",
-    d: "À la fin, le texte complet, mot à mot, avec la raison de chaque écart : accent manquant, homophone, accord, mot non entendu. Classé par fréquence, pour savoir quoi travailler en premier.",
+    d: "Le texte mot à mot, avec la raison de chaque écart.",
   },
 ];
 

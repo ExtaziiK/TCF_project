@@ -1511,6 +1511,49 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Mode apprentissage": "Learning mode",
+  "Un corrigé C1 ou C2 lu à voix haute, à écrire sans aucune aide.":
+    "A C1 or C2 model answer read aloud, to write down without any help.",
+  "Votre prochaine dictée": "Your next dictation",
+  "Réglages": "Settings",
+  "Écoute": "Listening",
+  "Texte": "Text",
+  "Aucun texte": "No text",
+  "Sujet choisi": "Chosen topic",
+  "Nouvelles ce matin": "New this morning",
+  "Aucune aide : ni correcteur, ni copier-coller. Les accents comptent, pas la ponctuation.":
+    "No help: no spell-checker, no copy-paste. Accents count, punctuation doesn't.",
+  "Vos erreurs arrivent ici : relisez, réessayez, puis « J'ai compris ».":
+    "Your mistakes land here: reread, retry, then “Got it”.",
+  "Tout arrive seul": "Everything arrives on its own",
+  "Vos erreurs de quiz, de TCF blanc, de conjugaison et de dictée s'ajoutent automatiquement.":
+    "Your quiz, mock exam, conjugation and dictation mistakes are added automatically.",
+  "Les questions sans réponse": "Unanswered questions",
+  "Ajoutez-les depuis le rapport de fin de quiz, si vous voulez les retravailler.":
+    "Add them from the end-of-quiz report if you want to work on them.",
+  "Revoir et réessayer": "Review and retry",
+  "La correction et l'explication sur chaque carte ; « Réessayer » pour vous retester.":
+    "The correction and explanation on every card; “Retry” to test yourself again.",
+  "« J'ai compris »": "“Got it”",
+  "La carte passe dans « Compris ». Ratée à nouveau, elle revient dans « À revoir ».":
+    "The card moves to “Understood”. Missed again, it comes back to “To review”.",
+  "Compte gratuit : seules vos 10 dernières erreurs sont visibles.":
+    "Free account: only your last 10 mistakes are visible.",
+  "Un corrigé C1 ou C2 d'un vrai sujet du TCF, lu à voix haute. Rien à l'écran.":
+    "A C1 or C2 model answer to a real TCF topic, read aloud. Nothing on screen.",
+  "Sans correcteur ni copier-coller : c'est votre orthographe qui compte.":
+    "No spell-checker, no copy-paste: it's your spelling that counts.",
+  "Le texte mot à mot, avec la raison de chaque écart.": "The text word by word, with the reason for every difference.",
+  "Testez-vous, ou révisez les cartes en mode apprentissage.": "Test yourself, or review the cards in learning mode.",
+  "Testez-vous, ou révisez les leçons en mode apprentissage.": "Test yourself, or review the lessons in learning mode.",
+  "Testez-vous, ou révisez chaque temps en mode apprentissage.": "Test yourself, or review each tense in learning mode.",
+  "Les questions difficiles": "The hard questions",
+  "Les questions 20 à 39 de chaque quiz, une à la fois.": "Questions 20 to 39 of every quiz, one at a time.",
+  "Recherche dans tous les quiz": "Searching all quizzes",
+  "quiz": "quizzes",
+  "premières": "first",
+  "Flèches ← → du clavier": "Keyboard arrows ← →",
+  "Questions": "Questions",
   "Six outils pour consolider vos acquis entre deux épreuves. Choisissez un onglet : tout se passe sur cette page.":
     "Six tools to consolidate what you've learned between tests. Pick a tab: everything happens on this page.",
   "Vos fautes, classées pour ne plus les refaire": "Your mistakes, sorted so you stop repeating them",
