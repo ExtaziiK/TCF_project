@@ -106,13 +106,3 @@ export function SectionDecor({ variant, from = "lg" }) {
     </div>
   );
 }
-
-// A full-width wrapper that gives a section its own side decorations.
-export function Decorated({ variant, className = "", children }) {
-  return (
-    <div className={`relative ${className}`}>
-      <SectionDecor variant={variant} />
-      <div className="relative">{children}</div>
-    </div>
-  );
-}

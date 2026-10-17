@@ -9,8 +9,9 @@ import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
-import { SectionDecor, Decorated } from "@/components/decor/SectionDecor";
-import { WaveBand } from "@/components/decor/WaveBand";
+import { SectionDecor } from "@/components/decor/SectionDecor";
+import { WaveSection, Ribbons } from "@/components/decor/WaveSection";
+import { BRAND } from "@/components/decor/shapes";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
@@ -50,8 +51,10 @@ function Landing() {
           <div className="absolute -top-40 -left-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
           <div className="absolute -top-40 -right-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
+        <Ribbons items={[{ shape: 0, at: "top", from: BRAND.blue, to: BRAND.violet }, { shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet, flip: true }]} />
         <SectionDecor variant="hero" from="md" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
+        {/* Bottom padding leaves room for the next section's top wave. */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-20 md:pb-28 relative">
           {/* admin-editable announcement, shown to logged-out visitors */}
           <HomeLabel />
           {/* A running sale (api/_lib/sale.js), with its countdown; gone by itself at the end. */}
@@ -87,8 +90,9 @@ function Landing() {
           count is read from the database on load, site counts are the last
           figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (
-        <section className={`border-y ${c.border} ${c.tint}`}>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+        <WaveSection tone="blue" wave={0} accent={BRAND.blue}
+          ribbons={[{ shape: 2, at: "middle", from: BRAND.violet, to: BRAND.blue }]}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {stats.items.map((s) => (
               <div key={s.key} className="text-center">
                 <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
@@ -96,14 +100,17 @@ function Landing() {
               </div>
             ))}
           </div>
-        </section>
+        </WaveSection>
       )}
 
-      {/* Sections alternate between plain blocks with their own side
-          decorations (Decorated) and brand-tinted bands with wavy edges
-          (WaveBand), so each one reads as distinct while scrolling. */}
+      {/* Every section below opens with its own vector wave and background
+          tone (WaveSection), with shape, mirroring, accent colour and ribbons
+          varied from one to the next so each block is clearly split from the
+          previous one. Tones are chosen so no two neighbours match, even when
+          the stats or testimonials blocks are switched off. */}
       {/* FEATURES + TUTORIAL VIDEO — one visual block (the video has no top padding) */}
-      <Decorated variant="features">
+      <WaveSection tone="mist" wave={1} flip accent={BRAND.violet} decor="features"
+        ribbons={[{ shape: 0, at: "top", from: BRAND.blue, to: BRAND.violet }]}>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -122,10 +129,11 @@ function Landing() {
 
       {/* TUTORIAL VIDEO — between the four épreuves and the exam overview */}
       <VideoTutorial />
-      </Decorated>
+      </WaveSection>
 
       {/* EXAM OVERVIEW */}
-      <WaveBand decor="overview">
+      <WaveSection tone="violet" wave={2} accent={BRAND.red} decor="overview"
+        ribbons={[{ shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet, flip: true }]}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
@@ -151,7 +159,7 @@ function Landing() {
             </div>
           </Card>
         </div>
-      </WaveBand>
+      </WaveSection>
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
           once an admin approves them (Admin › Avis). Falls back to the
@@ -159,8 +167,9 @@ function Landing() {
           block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
-        <Decorated variant="testimonials">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+        <WaveSection tone="plain" wave={3} flip accent={BRAND.blue} decor="testimonials"
+          ribbons={[{ shape: 2, at: "middle", from: BRAND.violet, to: BRAND.red }]}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
               six shown below — the same figure the avis page prints. The review
@@ -182,21 +191,22 @@ function Landing() {
             {t("Vous avez passé le TCF avec Passerelle ?")}{" "}
             <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
           </p>
-        </section>
-        </Decorated>
+        </div>
+        </WaveSection>
       )}
 
       {/* NCLC CALCULATOR */}
-      <WaveBand id="calculateur" decor="calculator">
+      <WaveSection id="calculateur" tone="rose" wave={4} accent={BRAND.violet} decor="calculator"
+        ribbons={[{ shape: 0, at: "top", from: BRAND.red, to: BRAND.violet, flip: true }]}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
           <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
         </div>
-      </WaveBand>
+      </WaveSection>
 
       {/* PRICING PREVIEW */}
-      <Decorated variant="pricing">
-      <section>
+      <WaveSection tone="mist" wave={0} flip accent={BRAND.red} decor="pricing"
+        ribbons={[{ shape: 1, at: "bottom", from: BRAND.blue, to: BRAND.violet }]}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -221,19 +231,19 @@ function Landing() {
             </RouteLink>
           </div>
         </div>
-      </section>
-      </Decorated>
+      </WaveSection>
 
       {/* FINAL CTA */}
-      <Decorated variant="cta">
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
+      <WaveSection tone="dawn" wave={2} flip accent={BRAND.blue} decor="cta"
+        ribbons={[{ shape: 0, at: "top", from: BRAND.violet, to: BRAND.blue }, { shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet }]}>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
         <div className="mt-8 flex justify-center gap-3 flex-wrap">
           <Btn variant="accent" icon={ArrowRight} onClick={() => nav("register")}>{t("Créer mon compte gratuit")}</Btn>
         </div>
-      </section>
-      </Decorated>
+      </div>
+      </WaveSection>
     </main>
   );
 }
