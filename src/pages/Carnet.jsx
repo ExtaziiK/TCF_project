@@ -70,13 +70,19 @@ function groupCards(items) {
 // The notebook's sources: the two bank épreuves, the dictée and conjugation.
 const SOURCE_LABELS = { ...SECTION_LABELS, dictee: "Dictée", conj: "Conjugaison" };
 
+// The last loaded cards, kept for the visit and per account: reopening the
+// carnet (its marker in the Pratique notebook) shows them at once, while a
+// fresh list loads in the background — instead of a placeholder that pushed
+// the page tall and then collapsed it.
+let cache = { uid: null, cards: null };
+
 const fmtDate = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
 
 export function Carnet() {
-  const { c, t, role, nav, notify } = useApp();
+  const { c, t, role, nav, notify, user } = useApp();
   const staff = isStaff(role);
   const premium = PREMIUM.includes(role);
-  const [cards, setCards] = useState(null);
+  const [cards, setCards] = useState(() => (cache.uid === (user?.id ?? null) ? cache.cards : null));
   const [missing, setMissing] = useState(false);
   const [tab, setTab] = useState("to_review");
   const [section, setSection] = useState("all");
@@ -94,6 +100,8 @@ export function Carnet() {
     listMistakes().then((r) => { if (live) { setCards(r.cards); setMissing(!!r.missing); } });
     return () => { live = false; };
   }, []);
+  // Keep the cache in step with every change (loads, moves, clearing).
+  useEffect(() => { if (cards) cache = { uid: user?.id ?? null, cards }; }, [cards, user?.id]);
 
   // Cards joined to their bank question. One whose question left the bank (or
   // sits in a quiz under review) is dropped quietly: there is nothing to show.
@@ -197,8 +205,10 @@ export function Carnet() {
       )}
 
       {cards === null ? (
-        <div className="space-y-4" aria-busy="true">
-          {[0, 1, 2].map((i) => <Card key={i} className={`h-48 animate-pulse ${c.track}`} />)}
+        // Kept short: a tall placeholder made the page jump when it was
+        // replaced by a shorter list or the empty state.
+        <div className="space-y-3" aria-busy="true">
+          {[0, 1].map((i) => <Card key={i} className={`h-16 animate-pulse ${c.track}`} />)}
         </div>
       ) : list.length === 0 ? (
         <EmptyNotebook tab={tab} section={section} anyCard={joined.some(inSection)} />
