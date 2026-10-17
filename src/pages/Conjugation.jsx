@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, Table2, Sparkles } from "lucide-react";
+import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, Table2, Sparkles, Languages } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { ConjugationExercise } from "@/components/conjugation/ConjugationExercise";
@@ -59,7 +59,7 @@ export function Conjugation() {
   if (tense) {
     const inQuiz = tenseMode === "quiz";
     return (
-      <PageShell eyebrow={t("Conjugaison")} title={t(tense.t)} sub={t(tense.d)}>
+      <PageShell tone="cyan" icon={Languages} eyebrow={t("Conjugaison")} title={t(tense.t)} sub={t(tense.d)}>
         <button onClick={() => setTenseId(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8">
           <ChevronLeft size={15} /> {t("Tous les temps")}
         </button>
@@ -114,7 +114,7 @@ export function Conjugation() {
                 {!practiceLocked && (
                   <button
                     onClick={() => { setTenseMode(inQuiz ? "practice" : "quiz"); closeSession(); }}
-                    className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}
+                    className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}
                   >
                     {inQuiz ? <><PenLine size={14} /> {t("Exercices")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
                   </button>
@@ -154,7 +154,7 @@ export function Conjugation() {
   }
 
   return (
-    <PageShell
+    <PageShell tone="cyan" icon={Languages}
       back wide
       eyebrow={t("Conjugaison")}
       title={t("Un temps à la fois, jusqu'à ce qu'il soit acquis")}
@@ -164,7 +164,7 @@ export function Conjugation() {
         {quota.metered && quota.ready && !practiceLocked && <QuotaMeter left={quota.left} limit={quota.limit} />}
         <button
           onClick={() => { setMode(mode === "quiz" ? "lessons" : "quiz"); closeSession(); }}
-          className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}
+          className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}
         >
           {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>

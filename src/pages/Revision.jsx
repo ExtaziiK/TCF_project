@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { ChevronDown, Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine } from "lucide-react";
+import { ChevronDown, Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine, ListChecks } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -145,7 +145,7 @@ export function Revision() {
   const switchMode = (m) => { setMode(m); setOpenQuiz(null); };
 
   return (
-    <PageShell
+    <PageShell tone="rose" icon={ListChecks}
       back wide
       eyebrow={t("Révision")}
       title={t(mode === "read" ? "Les questions difficiles, réponses affichées" : "Les questions difficiles, à vous de répondre")}

@@ -60,7 +60,7 @@ export function SpeakingStudioBody({ inExam = false } = {}) {
       {isFreeTier && !inExam && <FreeExpressionNotice section="eo" />}
       <div className="flex gap-2 flex-wrap mb-6">
         {tasks.map((tk) => (
-          <button key={tk.task} onClick={() => setActive(tk.task)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${active === tk.task ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+          <button key={tk.task} onClick={() => setActive(tk.task)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${active === tk.task ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
             {t(tk.empty ? `Tâche ${tk.task}` : tk.t)}
           </button>
         ))}

@@ -33,7 +33,7 @@ function ReadingDemo() {
     <Card className="p-6 md:p-7">
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <Pill tone="blue"><BookOpen size={12} /> Texte · L'immigration francophone au Canada</Pill>
-        <button onClick={() => setHlMode(!hlMode)} aria-pressed={hlMode} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${hlMode ? "bg-amber-500/20 text-amber-600" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+        <button onClick={() => setHlMode(!hlMode)} aria-pressed={hlMode} className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${hlMode ? "bg-amber-500/20 text-amber-600" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
           <Highlighter size={15} /> {t(hlMode ? "Surlignage actif — cliquez une phrase" : "Surligner le texte")}
         </button>
       </div>

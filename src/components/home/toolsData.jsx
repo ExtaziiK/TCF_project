@@ -13,7 +13,20 @@ export const PALETTE = {
   mint: { light: ["#DDF3EA", "#0F8A5F", "#BDE8D6"], dark: ["#0E3A2C", "#5FD3A6", "#155440"] },
   fuchsia: { light: ["#FAE8FB", "#B5179E", "#F3CDF0"], dark: ["#3A1238", "#E879D9", "#561A52"] },
   night: { light: ["#14204A", "#F5A524", "#23336B"], dark: ["#1B2C66", "#F5C26B", "#2A3E85"] },
+  // Used by the practice pages (PageShell `tone`).
+  cyan: { light: ["#DDF2F7", "#0E7490", "#B9E4EE"], dark: ["#0C3440", "#5CC8E0", "#134B5A"] },
+  navy: { light: ["#E6EAF5", "#1F2E66", "#C9D1EC"], dark: ["#121A3A", "#9AA9E0", "#1F2B5C"] },
 };
+
+// A tone's colours for a page or panel: `fill` is the saturated colour of a
+// selected tab/tile and of the page icon (white on it, in both themes);
+// `panel` the tinted background a section's content sits on; `ink` its accent
+// text; `edge` its outline.
+export function toolTone(tone, dark) {
+  const p = PALETTE[tone] || PALETTE.blue;
+  const [, ink, soft] = p[dark ? "dark" : "light"];
+  return { fill: p.light[1], panel: soft, ink, edge: `${ink}55`, pale: p[dark ? "dark" : "light"][0] };
+}
 
 // The look of the TCF blanc block (orbit hub, showcase strip).
 export const HUB = { light: ["#2E6BE6", "#F5A524", "#4A80EC"], dark: ["#2856B8", "#F5C26B", "#3A68C9"] };

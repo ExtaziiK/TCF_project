@@ -17,7 +17,7 @@ import { ROLES, isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
 import { takeOpenQuizRequest } from "@/utils/openQuizRequest";
 import { TOUR_STEPS } from "@/constants/tour";
-import { PALETTE } from "@/components/home/toolsData";
+import { PALETTE, toolTone } from "@/components/home/toolsData";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
 
@@ -29,12 +29,12 @@ const EPREUVE = {
   ee: { icon: PenLine, tone: "violet", tasks: "3 tâches · 60 min" },
   eo: { icon: Mic, tone: "amber", tasks: "3 tâches · 12 min" },
 };
-// { fill, bg, ink, soft }: `fill` is the saturated colour of a selected tile
-// (white text on it, in both themes); bg/ink/soft follow the theme.
+// { fill, bg, ink, soft, panel, edge }: `fill` is the saturated colour of a
+// selected tile (white text on it, in both themes); the rest follow the theme.
 function epreuveColors(section, dark) {
   const tone = EPREUVE[section]?.tone || "blue";
   const [bg, ink, soft] = PALETTE[tone][dark ? "dark" : "light"];
-  return { fill: PALETTE[tone].light[1], bg, ink, soft };
+  return { ...toolTone(tone, dark), bg, ink, soft };
 }
 
 // Every épreuve's guide, keyed by section, for the "Guide de l'épreuve" side
@@ -269,7 +269,9 @@ function GuideAside({ section, open, onClose }) {
   return (
     <aside
       aria-hidden={!open}
-      className={`shrink-0 overflow-hidden transition-[width,opacity] duration-500 ease-in-out ${open ? "w-[min(440px,85vw)] opacity-100" : "w-0 opacity-0"}`}
+      // Closed, it collapses in height too: a zero-width aside still had its
+      // content's full height and stretched the row, leaving a tall blank.
+      className={`shrink-0 overflow-hidden transition-[width,opacity] duration-500 ease-in-out ${open ? "w-[min(440px,85vw)] opacity-100" : "w-0 h-0 opacity-0"}`}
     >
       <div className="w-[min(440px,85vw)]">
         <GuidePanel section={section} onClose={onClose} />
@@ -437,19 +439,19 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
                 <span className={`mt-1 block text-xs font-semibold ${on ? "text-white/80" : c.faint}`}>{meta}</span>
                 <span className={`mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${on ? "bg-white/20 text-white" : ""}`}
                   style={on ? undefined : { background: k.soft, color: k.ink }}>
-                  {workshops?.[s] ? t("Atelier") : `${bank[s].length} ${t("Quizz")}`}
+                  {workshops?.[s] ? t("Correction par IA") : `${bank[s].length} ${t("Quizz")}`}
                 </span>
                 {/* Pointer into the panel (one row of tiles only, from lg): centred on
                     the panel's top edge — 20px gap + the tile's 4px lift. */}
                 {on && <span aria-hidden="true" className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-5 h-5 rotate-45 border-l-2 border-t-2"
-                  style={{ bottom: -35, background: k.bg, borderColor: `${k.ink}55` }} />}
+                  style={{ bottom: -35, background: k.panel, borderColor: k.edge }} />}
               </button>
             );
           })}
         </div>
       )}
       <div className={hub ? "rounded-[28px] border-2 p-3 sm:p-5 md:p-6 transition-colors duration-300" : undefined}
-        style={hub ? { background: tone.bg, borderColor: `${tone.ink}55` } : undefined}>
+        style={hub ? { background: tone.panel, borderColor: tone.edge, "--tool-fill": tone.fill } : undefined}>
       {freeTier && !showWorkshop && quizzes.length > 0 && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
           <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>

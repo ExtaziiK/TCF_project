@@ -87,16 +87,16 @@ export function Vocabulary() {
   );
 
   return (
-    <PageShell back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.")}>
+    <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Une carte à la fois, tirée au hasard de la banque. Cliquez pour révéler la définition, puis passez au mot suivant.")}>
       <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6">
         <div className="flex gap-2 flex-wrap">
           {VOCAB_CATS.map((ct) => (
-            <button key={ct} onClick={() => setCat(ct)} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === ct ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            <button key={ct} onClick={() => setCat(ct)} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === ct ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
               {t(ct)}
             </button>
           ))}
         </div>
-        <button onClick={() => setMode(mode === "cards" ? "quiz" : "cards")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 self-start ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+        <button onClick={() => setMode(mode === "cards" ? "quiz" : "cards")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 self-start ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
           {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode cartes")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>
       </div>

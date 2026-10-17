@@ -42,7 +42,7 @@ export function DicteePlayer({ index, total, plays, playing, speed, setSpeed, on
             onClick={() => setSpeed(s)}
             aria-pressed={speed === s}
             className={`px-2.5 py-1 rounded-full text-xs font-semibold font-mono2 transition-colors ${
-              speed === s ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`
+              speed === s ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`
             }`}
           >
             {s}×

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap } from "lucide-react";
+import { ChevronLeft, BookOpen, PenLine, ArrowRight, Zap, SpellCheck } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
 import { GrammarExercise } from "@/components/grammar/GrammarExercise";
@@ -19,7 +19,7 @@ export function Grammar() {
   if (topic) {
     const inQuiz = topicMode === "quiz";
     return (
-      <PageShell eyebrow={t("Grammaire")} title={t(topic.t)} sub={t(topic.d)}>
+      <PageShell tone="fuchsia" icon={SpellCheck} eyebrow={t("Grammaire")} title={t(topic.t)} sub={t(topic.d)}>
         <button onClick={() => setTopicId(null)} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-8"><ChevronLeft size={15} /> {t("Tous les sujets")}</button>
         <div className="grid lg:grid-cols-2 gap-5">
           <Card className="p-7">
@@ -37,7 +37,7 @@ export function Grammar() {
               <h3 className={`font-display font-bold flex items-center gap-2 ${c.text}`}>
                 {inQuiz ? <><Zap size={18} className="text-rose-600" /> {t("Quiz du sujet")}</> : <><PenLine size={18} className="text-rose-600" /> {t("À vous de jouer")}</>}
               </h3>
-              <button onClick={() => setTopicMode(inQuiz ? "practice" : "quiz")} className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}>
+              <button onClick={() => setTopicMode(inQuiz ? "practice" : "quiz")} className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 ${inQuiz ? `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}` : "bg-rose-600 text-white"}`}>
                 {inQuiz ? <><PenLine size={14} /> {t("Exercices")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
               </button>
             </div>
@@ -57,9 +57,9 @@ export function Grammar() {
     );
   }
   return (
-    <PageShell back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.")}>
+    <PageShell tone="fuchsia" icon={SpellCheck} back wide eyebrow={t("Grammaire")} title={t("Des leçons courtes, des exercices immédiats")} sub={t("Chaque sujet se termine par des exercices corrigés. Dix minutes par leçon, pas plus.")}>
       <div className="flex justify-end mb-6">
-        <button onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+        <button onClick={() => setMode(mode === "quiz" ? "lessons" : "quiz")} className={`px-4 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ${mode === "quiz" ? "bg-rose-600 text-white" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
           {mode === "quiz" ? <><BookOpen size={14} /> {t("Mode leçons")}</> : <><Zap size={14} /> {t("Mode quiz")}</>}
         </button>
       </div>

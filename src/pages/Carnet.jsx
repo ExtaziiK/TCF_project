@@ -139,7 +139,7 @@ export function Carnet() {
   };
 
   return (
-    <PageShell
+    <PageShell tone="amber" icon={NotebookPen}
       back wide
       eyebrow={t("Carnet d'erreurs")}
       title={t("Les questions que vous avez manquées")}

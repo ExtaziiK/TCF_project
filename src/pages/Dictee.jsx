@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones, Coffee, CalendarDays } from "lucide-react";
+import { Loader2, ArrowRight, CheckCircle2, Flag, Sparkles, Lock, Shuffle, Check, Sun, Library, Headphones, Coffee, CalendarDays, PenLine } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { DicteePlayer } from "@/components/dictee/DicteePlayer";
@@ -60,7 +60,7 @@ export function Dictee() {
 
   if (d.phase === "done" && d.summary) {
     return (
-      <PageShell back wide eyebrow={t("La dictée")} title={t("Votre dictée, corrigée")} sub={t("Mot à mot, avec la raison de chaque écart.")}>
+      <PageShell tone="navy" icon={PenLine} back wide eyebrow={t("La dictée")} title={t("Votre dictée, corrigée")} sub={t("Mot à mot, avec la raison de chaque écart.")}>
         <DicteeReport
           dictee={d.dictee}
           summary={d.summary}
@@ -85,7 +85,7 @@ export function Dictee() {
   const loading = d.phase === "loading";
 
   return (
-    <PageShell
+    <PageShell tone="navy" icon={PenLine}
       back
       eyebrow={t("La dictée")}
       title={t("Écrivez ce que vous entendez")}
@@ -365,7 +365,7 @@ function Workspace({ d }) {
   const done = d.results.length;
 
   return (
-    <PageShell
+    <PageShell tone="navy" icon={PenLine}
       eyebrow={`${t("La dictée")} · ${t("tâche")} ${d.dictee.task}`}
       title={t("Écrivez ce que vous entendez")}
       sub={t("Un passage à la fois. Rien d'autre à l'écran, c'est voulu.")}

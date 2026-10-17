@@ -2,11 +2,17 @@ import { ChevronLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { SectionHead } from "@/components/common/SectionHead";
 import { SectionDecor } from "@/components/decor/SectionDecor";
+import { toolTone } from "@/components/home/toolsData";
 
 // `top` renders above the page heading — for a breadcrumb, which belongs
 // before the <h1> both visually and for a crawler reading the document order.
-export function PageShell({ eyebrow, title, sub, children, wide, back, tight, center, big, aside, top }) {
-  const { back: goBack, t } = useApp();
+// `tone` + `icon` give a tool page its identity: a filled icon in the tool's
+// colour above the heading, and the content inside a panel tinted with that
+// colour. The panel exposes the colour as `--tool-fill`, which selected tabs
+// and chips inside it use (bg-[var(--tool-fill,…)]), so they match the tool.
+export function PageShell({ eyebrow, title, sub, children, wide, back, tight, center, big, aside, top, tone, icon: Icon }) {
+  const { back: goBack, t, dark } = useApp();
+  const k = tone ? toolTone(tone, dark) : null;
   // Side decorations fill the empty margins beside the content column, so they
   // only appear once the screen is wider than that column.
   return (
@@ -19,8 +25,18 @@ export function PageShell({ eyebrow, title, sub, children, wide, back, tight, ce
           <ChevronLeft size={15} /> {t("Retour")}
         </button>
       )}
+      {Icon && k && (
+        <span className={`grid place-items-center w-12 h-12 rounded-2xl text-white mb-4 ${center ? "mx-auto" : ""}`}
+          style={{ background: k.fill, boxShadow: `0 12px 24px -10px ${k.fill}99` }} aria-hidden="true">
+          <Icon size={22} />
+        </span>
+      )}
       <SectionHead as="h1" eyebrow={eyebrow} title={title} sub={sub} tight={tight} center={center} big={big} aside={aside} />
-      {children}
+      {k ? (
+        <div className="rounded-[28px] border-2 p-3 sm:p-5 md:p-6" style={{ background: k.panel, borderColor: k.edge, "--tool-fill": k.fill }}>
+          {children}
+        </div>
+      ) : children}
     </main>
     </div>
   );

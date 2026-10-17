@@ -60,7 +60,7 @@ function BlogIndex() {
       <div className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setCat(null)}
-          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === null ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}
+          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === null ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}
         >
           {t("Tous les articles")}
         </button>
@@ -68,7 +68,7 @@ function BlogIndex() {
           <button
             key={name}
             onClick={() => setCat(name)}
-            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === name ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}
+            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${cat === name ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}
           >
             {t(name)}
           </button>
