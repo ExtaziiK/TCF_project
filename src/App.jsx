@@ -5,6 +5,7 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { VisitorPreviewBar } from "@/components/layout/VisitorPreviewBar";
+import { WaveBackground } from "@/components/layout/WaveBackground";
 import { RouteGuard } from "@/components/auth/RouteGuard";
 import { Onboarding } from "@/components/auth/Onboarding";
 import { TermsGate } from "@/components/auth/TermsGate";
@@ -86,7 +87,8 @@ function AppShell() {
   // each page's clearance.
   const showAnnounce = authReady && (role === ROLES.VISITOR || role === ROLES.FREE_USER);
   return (
-    <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
+    <div className={`relative isolate min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
+      <WaveBackground />
       {showAnnounce && <AnnouncementBar />}
       <Nav barOffset={showAnnounce} />
       <div key={route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
