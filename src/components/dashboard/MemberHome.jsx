@@ -127,15 +127,17 @@ function StreakCard({ streaks }) {
       </p>
       <p className={`text-xs mt-1 ${c.faint}`}>{t("record :")} {streaks.longest} {t(streaks.longest > 1 ? "jours" : "jour")}</p>
 
-      {/* The last seven days. */}
+      {/* The last seven days, as flames: lit (filled orange) on a practised
+          day, a grey outline otherwise; today's day number is underlined. */}
       <div className="mt-4 flex justify-between" aria-label={t("Les sept derniers jours")}>
         {week.map((d) => {
           const isToday = d.day === today;
           return (
-            <span key={d.day} className="flex flex-col items-center gap-1.5">
-              <span className={`w-6 h-6 rounded-full ${d.active ? "" : `border-2 ${c.border}`}`}
-                style={d.active ? { background: ACCENT } : isToday ? { borderColor: ACCENT } : undefined} />
-              <span className={`text-[10px] font-mono2 ${isToday ? "font-bold" : ""} ${c.faint}`}>{d.day}</span>
+            <span key={d.day} className="flex flex-col items-center gap-1" title={`${t("Jour")} ${d.day}${d.active ? ` · ${t("pratiqué")}` : ""}`}>
+              <Flame size={24} strokeWidth={d.active ? 1.5 : 1.75}
+                className={d.active ? "text-orange-500" : isToday ? "text-orange-300" : c.border.includes("800") ? "text-slate-700" : "text-slate-300"}
+                fill={d.active ? "currentColor" : "none"} aria-hidden="true" />
+              <span className={`text-[10px] font-mono2 ${isToday ? `font-bold underline underline-offset-2 ${c.text}` : c.faint}`}>{d.day}</span>
             </span>
           );
         })}
