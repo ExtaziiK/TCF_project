@@ -135,6 +135,22 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes sale-twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1) rotate(90deg)}}
 .sale-nudge{animation:sale-nudge 1.2s ease-in-out infinite}
 @keyframes sale-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+/* Side decorations (components/decor): slow, transform-only loops so the shapes
+   feel alive without pulling the eye. Stopped under prefers-reduced-motion by the
+   global rule below. */
+.decor-float{animation:decor-float 7s ease-in-out infinite}
+.decor-float-slow{animation:decor-float 11s ease-in-out infinite}
+@keyframes decor-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.decor-drift{animation:decor-drift 13s ease-in-out infinite}
+@keyframes decor-drift{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(14px,-10px) rotate(4deg)}66%{transform:translate(-8px,8px) rotate(-3deg)}}
+.decor-spin{animation:decor-spin 38s linear infinite}
+.decor-spin-slow{animation:decor-spin 26s linear infinite}
+.decor-spin-rev{animation:decor-spin 18s linear infinite reverse}
+@keyframes decor-spin{to{transform:rotate(360deg)}}
+.decor-pulse{animation:decor-pulse 4s ease-in-out infinite}
+@keyframes decor-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+.decor-morph{animation:decor-morph 16s ease-in-out infinite}
+@keyframes decor-morph{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(18deg) scale(1.08)}}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}

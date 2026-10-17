@@ -9,6 +9,8 @@ import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
+import { SectionDecor, Decorated } from "@/components/decor/SectionDecor";
+import { WaveBand } from "@/components/decor/WaveBand";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
@@ -48,6 +50,7 @@ function Landing() {
           <div className="absolute -top-40 -left-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
           <div className="absolute -top-40 -right-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
+        <SectionDecor variant="hero" from="md" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
           {/* admin-editable announcement, shown to logged-out visitors */}
           <HomeLabel />
@@ -96,7 +99,11 @@ function Landing() {
         </section>
       )}
 
-      {/* FEATURES */}
+      {/* Sections alternate between plain blocks with their own side
+          decorations (Decorated) and brand-tinted bands with wavy edges
+          (WaveBand), so each one reads as distinct while scrolling. */}
+      {/* FEATURES + TUTORIAL VIDEO — one visual block (the video has no top padding) */}
+      <Decorated variant="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -115,9 +122,10 @@ function Landing() {
 
       {/* TUTORIAL VIDEO — between the four épreuves and the exam overview */}
       <VideoTutorial />
+      </Decorated>
 
       {/* EXAM OVERVIEW */}
-      <section className={`${c.tint} border-y ${c.border}`}>
+      <WaveBand decor="overview">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
@@ -143,7 +151,7 @@ function Landing() {
             </div>
           </Card>
         </div>
-      </section>
+      </WaveBand>
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
           once an admin approves them (Admin › Avis). Falls back to the
@@ -151,6 +159,7 @@ function Landing() {
           block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
+        <Decorated variant="testimonials">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
@@ -174,16 +183,20 @@ function Landing() {
             <button onClick={() => nav("register")} className="font-semibold text-blue-600 hover:underline">{t("Partagez votre histoire")}</button>
           </p>
         </section>
+        </Decorated>
       )}
 
       {/* NCLC CALCULATOR */}
-      <section id="calculateur" className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-        <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
-        <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
-      </section>
+      <WaveBand id="calculateur" decor="calculator">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+          <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
+          <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
+        </div>
+      </WaveBand>
 
       {/* PRICING PREVIEW */}
-      <section className={`${c.tint} border-y ${c.border}`}>
+      <Decorated variant="pricing">
+      <section>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -209,8 +222,10 @@ function Landing() {
           </div>
         </div>
       </section>
+      </Decorated>
 
       {/* FINAL CTA */}
+      <Decorated variant="cta">
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
@@ -218,6 +233,7 @@ function Landing() {
           <Btn variant="accent" icon={ArrowRight} onClick={() => nav("register")}>{t("Créer mon compte gratuit")}</Btn>
         </div>
       </section>
+      </Decorated>
     </main>
   );
 }
