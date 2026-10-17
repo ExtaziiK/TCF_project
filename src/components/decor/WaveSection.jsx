@@ -1,5 +1,6 @@
 import { useApp } from "@/context/AppContext";
 import { SectionDecor } from "./SectionDecor";
+import { BRAND, Blob, DotGrid } from "./shapes";
 
 // Landing-page sections alternate between a soft tinted block and the plain
 // page colour. Where a plain section follows a tinted one it can open with a
@@ -25,26 +26,49 @@ function WaveCap({ shape, flip, color }) {
   );
 }
 
-// Backdrop for plain sections: two large blurred brand glows and a faded dot
-// pattern behind the content, so the white cards sit on colour instead of
-// melting into a white page. Placement and colours vary per section.
+// Backdrop for plain sections: large flat pastel blobs and a crisp block of
+// solid dots behind the content, so the white cards sit on colour instead of
+// melting into a white page. Sharp edges and flat fills only — no blur, no
+// fades. Blob shape, rotation, colour and placement vary per section.
+const PASTEL = {
+  light: { blue: "#E2EBFD", violet: "#ECE7FD", rose: "#FCE5EA", amber: "#FDEFD6" },
+  dark: { blue: "#0E1A36", violet: "#17153A", rose: "#26131E", amber: "#251C0C" },
+};
 const BACKDROPS = {
-  features: { a: ["#2E6BE6", "top-[8%] left-[8%]"], b: ["#6C4FE0", "bottom-[6%] right-[10%]"], dots: "text-blue-500/25" },
-  testimonials: { a: ["#D8354A", "top-[10%] right-[12%]"], b: ["#2E6BE6", "bottom-[8%] left-[10%]"], dots: "text-violet-500/25" },
-  calculator: { a: ["#6C4FE0", "top-[6%] left-[14%]"], b: ["#D8354A", "bottom-[10%] right-[8%]"], dots: "text-rose-500/20" },
-  pricing: { a: ["#2E6BE6", "top-[12%] right-[10%]"], b: ["#F5A524", "bottom-[8%] left-[12%]"], dots: "text-blue-500/25" },
-  cta: { a: ["#6C4FE0", "top-[0%] left-[25%]"], b: ["#D8354A", "bottom-[0%] right-[25%]"], dots: "text-violet-500/25" },
+  features: {
+    blobs: [["blue", 0, "-top-6 -left-24 w-[26rem] h-[22rem] md:w-[40rem] md:h-[32rem] -rotate-12"], ["violet", 2, "-bottom-10 -right-20 w-[20rem] h-[18rem] md:w-[30rem] md:h-[26rem] rotate-6"]],
+    dots: [BRAND.violet, "bottom-[14%] left-[9%]"],
+  },
+  testimonials: {
+    blobs: [["rose", 3, "top-[8%] -right-24 w-[24rem] h-[22rem] md:w-[38rem] md:h-[30rem] rotate-12"], ["blue", 1, "-bottom-12 -left-16 w-[18rem] h-[16rem] md:w-[26rem] md:h-[22rem]"]],
+    dots: [BRAND.red, "top-[16%] left-[10%]"],
+  },
+  calculator: {
+    blobs: [["violet", 1, "top-[4%] -left-20 w-[26rem] h-[24rem] md:w-[40rem] md:h-[34rem] rotate-3"], ["amber", 0, "-bottom-8 -right-16 w-[18rem] h-[16rem] md:w-[26rem] md:h-[22rem] -rotate-6"]],
+    dots: [BRAND.blue, "bottom-[12%] right-[10%]"],
+  },
+  pricing: {
+    blobs: [["blue", 3, "top-[10%] -right-28 w-[26rem] h-[22rem] md:w-[42rem] md:h-[34rem] -rotate-6"], ["amber", 2, "bottom-[6%] -left-24 w-[20rem] h-[18rem] md:w-[30rem] md:h-[26rem] rotate-12"]],
+    dots: [BRAND.amber, "top-[18%] left-[8%]"],
+  },
+  cta: {
+    blobs: [["violet", 2, "-top-10 left-[8%] w-[22rem] h-[18rem] md:w-[34rem] md:h-[26rem] rotate-6"], ["rose", 0, "-bottom-14 right-[8%] w-[22rem] h-[18rem] md:w-[32rem] md:h-[24rem] -rotate-12"]],
+    dots: [BRAND.violet, "bottom-[16%] right-[18%]"],
+  },
 };
 
 function Backdrop({ variant, dark }) {
   const v = BACKDROPS[variant];
   if (!v) return null;
-  const glow = `absolute w-[22rem] h-[22rem] md:w-[34rem] md:h-[34rem] rounded-full blur-3xl ${dark ? "opacity-[.14]" : "opacity-[.2]"}`;
+  const pastel = PASTEL[dark ? "dark" : "light"];
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className={`${glow} ${v.a[1]}`} style={{ background: v.a[0] }} />
-      <div className={`${glow} ${v.b[1]}`} style={{ background: v.b[0] }} />
-      <div className={`absolute inset-x-[6%] top-[12%] bottom-[8%] dot-pattern ${v.dots}`} />
+      {v.blobs.map(([tone, shape, pos], i) => (
+        <Blob key={i} color={pastel[tone]} variant={shape} className={`absolute ${pos}`} />
+      ))}
+      <div className={`absolute hidden sm:block ${v.dots[1]} ${dark ? "opacity-60" : ""}`}>
+        <DotGrid color={v.dots[0]} n={6} cols={8} gap={18} r={3} />
+      </div>
     </div>
   );
 }
