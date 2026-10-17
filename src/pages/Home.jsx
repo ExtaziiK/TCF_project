@@ -119,7 +119,7 @@ function Landing() {
           layout is kept in components/home/ToolsOrbit.jsx) */}
       <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-        <SectionHead center eyebrow={t("Votre boîte à outils")} title={t("7 outils à votre disposition")} sub={t("Tout gravite autour du TCF blanc : les quatre épreuves officielles, plus la dictée, le vocabulaire et la grammaire pour progresser plus vite.")} />
+        <SectionHead center eyebrow={t("Votre boîte à outils")} title={t("Les outils à votre disposition")} sub={t("Tout gravite autour du TCF blanc : les quatre épreuves officielles, plus la dictée, le vocabulaire et la grammaire pour progresser plus vite.")} />
         <ToolsShowcase />
       </section>
       </WaveSection>

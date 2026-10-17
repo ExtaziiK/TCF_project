@@ -21,7 +21,7 @@ const LAYOUTS = {
     [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%]", "decor-sway", 28],
   ],
   features: [
-    [Tag, { text: "7 outils", color: violet, tilt: -7 }, "top-24 left-[3%]", "decor-float", 18],
+    [Tag, { text: "Vos outils", color: violet, tilt: -7 }, "top-24 left-[3%]", "decor-float", 18],
     [Bubble, { text: "Bravo !", color: amber, tilt: 6 }, "top-[36%] left-[1.5%]", "decor-float-slow", 22],
     [Maple, { color: red, size: 50, tilt: 16 }, "top-[52%] left-[6%]", "decor-sway", 24],
     [Tile, { ch: "Ï", pts: 5, color: blue, tilt: -9 }, "top-[72%] left-[3%]", "decor-sway", 28],
