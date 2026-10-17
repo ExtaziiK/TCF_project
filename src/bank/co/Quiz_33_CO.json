@@ -3608,475 +3608,485 @@
       "options": [
         {
           "id": "A",
-          "text": "La mission est sans intérêt."
+          "text": "D'avoir échoué à vendre ses produits."
         },
         {
           "id": "B",
-          "text": "La société est loin de chez lui."
+          "text": "D'avoir logé loin de l'entreprise."
         },
         {
           "id": "C",
-          "text": "Le contrat est temporaire."
+          "text": "D'avoir trop mangé au restaurant."
         },
         {
           "id": "D",
-          "text": "Le salaire est insuffisant."
+          "text": "De ne pas avoir pu découvrir la ville."
         }
       ],
-      "correct": "A",
-      "correct_option_text": "La mission est sans intérêt.",
-      "transcript": "Alors Pierre, qu'est-ce que tu as décidé ? Tu vas accepter cette offre d'emploi ? Ah non, j'ai déjà refusé. Honnêtement, je préfère continuer à chercher. Je pense que tu fais une bêtise. C'est très bien payé et puis les horaires te conviennent, non ? Oui, mais ce n'est pas une raison pour accepter le poste. Ce qui est important pour moi, c'est le travail lui-même et de ce point de vue, le poste ne m'attire pas. J'espère que tu ne vas pas regretter ta décision. Question 14 Pourquoi Pierre refuse-t-il ce poste ?",
-      "explanation": "Pierre refuse ce poste car il n'est pas attiré par le travail lui-même, ce qui est pour lui l'élément le plus important. Les avantages financiers et les horaires convenables ne sont pas suffisants pour le convaincre d'accepter l'offre. Sa décision est donc motivée par son désir de trouver un emploi qui correspond à ses attentes professionnelles.",
+      "correct": "D",
+      "correct_option_text": "De ne pas avoir pu découvrir la ville.",
+      "transcript": "Alors, ton voyage en Allemagne ? Super ! J'ai pu rencontrer les responsables de programme et leur proposer nos produits. Dans l'ensemble, ils étaient assez intéressés. C'est plutôt encourageant pour la suite. Génial ! Tu as pu visiter un peu la ville ? En dehors du quartier de l'hôtel, pas vraiment. Je suis assez déçue. Mais je n'ai pas eu le temps. Je ne suis restée que trois jours et j'avais beaucoup de personnes à rencontrer. On mangeait tout le temps au restaurant de l'entreprise, les journées se terminaient tard. Question 17. Que regrette la femme ?",
+      "explanation": "La femme est satisfaite de ses rendez-vous professionnels : ses interlocuteurs étaient « assez intéressés » par ses produits. En revanche, elle se dit « assez déçue » de n'avoir rien vu de la ville en dehors du quartier de l'hôtel, faute de temps : elle n'est restée que trois jours et avait beaucoup de personnes à rencontrer.",
       "words": [
         {
-          "word": "Alors",
-          "start_sec": 0.46,
-          "end_sec": 0.7
-        },
-        {
-          "word": "Pierre,",
-          "start_sec": 0.7,
-          "end_sec": 1.26
-        },
-        {
-          "word": "qu'est-ce",
-          "start_sec": 1.26,
-          "end_sec": 1.46
-        },
-        {
-          "word": "que",
-          "start_sec": 1.46,
-          "end_sec": 1.54
-        },
-        {
-          "word": "tu",
-          "start_sec": 1.54,
-          "end_sec": 1.66
-        },
-        {
-          "word": "as",
-          "start_sec": 1.66,
+          "word": "Alors,",
+          "start_sec": 0.74,
           "end_sec": 1.72
         },
         {
-          "word": "décidé ?",
+          "word": "ton",
           "start_sec": 1.72,
-          "end_sec": 2.36
+          "end_sec": 2.02
         },
         {
-          "word": "Tu",
-          "start_sec": 2.36,
-          "end_sec": 2.76
+          "word": "voyage",
+          "start_sec": 2.02,
+          "end_sec": 2.42
         },
         {
-          "word": "vas",
-          "start_sec": 2.76,
-          "end_sec": 2.9
+          "word": "en",
+          "start_sec": 2.42,
+          "end_sec": 2.64
         },
         {
-          "word": "accepter",
-          "start_sec": 2.9,
-          "end_sec": 3.38
+          "word": "Allemagne ?",
+          "start_sec": 2.64,
+          "end_sec": 3.46
         },
         {
-          "word": "cette",
-          "start_sec": 3.38,
-          "end_sec": 3.6
+          "word": "Super !",
+          "start_sec": 3.44,
+          "end_sec": 4.52
         },
         {
-          "word": "offre",
-          "start_sec": 3.6,
-          "end_sec": 3.86
+          "word": "J'ai",
+          "start_sec": 4.52,
+          "end_sec": 5.02
         },
         {
-          "word": "d'emploi ?",
-          "start_sec": 3.86,
-          "end_sec": 4.42
+          "word": "pu",
+          "start_sec": 5.02,
+          "end_sec": 5.12
         },
         {
-          "word": "Ah",
-          "start_sec": 5.16,
-          "end_sec": 5.34
-        },
-        {
-          "word": "non,",
-          "start_sec": 5.34,
-          "end_sec": 5.8
-        },
-        {
-          "word": "j'ai",
-          "start_sec": 5.8,
-          "end_sec": 6.18
-        },
-        {
-          "word": "déjà",
-          "start_sec": 6.18,
-          "end_sec": 6.44
-        },
-        {
-          "word": "refusé.",
-          "start_sec": 6.44,
-          "end_sec": 7.42
-        },
-        {
-          "word": "Honnêtement,",
-          "start_sec": 7.42,
-          "end_sec": 8.24
-        },
-        {
-          "word": "je",
-          "start_sec": 8.24,
-          "end_sec": 8.3
-        },
-        {
-          "word": "préfère",
-          "start_sec": 8.3,
-          "end_sec": 8.66
-        },
-        {
-          "word": "continuer",
-          "start_sec": 8.66,
-          "end_sec": 9.06
-        },
-        {
-          "word": "à",
-          "start_sec": 9.06,
-          "end_sec": 9.26
-        },
-        {
-          "word": "chercher.",
-          "start_sec": 9.26,
-          "end_sec": 9.8
-        },
-        {
-          "word": "Je",
-          "start_sec": 10.58,
-          "end_sec": 10.74
-        },
-        {
-          "word": "pense",
-          "start_sec": 10.74,
-          "end_sec": 11.02
-        },
-        {
-          "word": "que",
-          "start_sec": 11.02,
-          "end_sec": 11.18
-        },
-        {
-          "word": "tu",
-          "start_sec": 11.18,
-          "end_sec": 11.3
-        },
-        {
-          "word": "fais",
-          "start_sec": 11.3,
-          "end_sec": 11.48
-        },
-        {
-          "word": "une",
-          "start_sec": 11.48,
-          "end_sec": 11.64
-        },
-        {
-          "word": "bêtise.",
-          "start_sec": 11.64,
-          "end_sec": 12.34
-        },
-        {
-          "word": "C'est",
-          "start_sec": 12.34,
-          "end_sec": 12.94
-        },
-        {
-          "word": "très",
-          "start_sec": 12.94,
-          "end_sec": 13.16
-        },
-        {
-          "word": "bien",
-          "start_sec": 13.16,
-          "end_sec": 13.34
-        },
-        {
-          "word": "payé",
-          "start_sec": 13.34,
-          "end_sec": 13.72
-        },
-        {
-          "word": "et",
-          "start_sec": 13.72,
-          "end_sec": 14.02
-        },
-        {
-          "word": "puis",
-          "start_sec": 14.02,
-          "end_sec": 14.2
+          "word": "rencontrer",
+          "start_sec": 5.12,
+          "end_sec": 5.64
         },
         {
           "word": "les",
-          "start_sec": 14.2,
-          "end_sec": 14.38
+          "start_sec": 5.64,
+          "end_sec": 5.8
         },
         {
-          "word": "horaires",
-          "start_sec": 14.38,
-          "end_sec": 14.64
+          "word": "responsables",
+          "start_sec": 5.8,
+          "end_sec": 6.32
         },
         {
-          "word": "te",
-          "start_sec": 14.64,
-          "end_sec": 14.84
+          "word": "de",
+          "start_sec": 6.32,
+          "end_sec": 6.48
         },
         {
-          "word": "conviennent,",
-          "start_sec": 14.84,
-          "end_sec": 15.5
-        },
-        {
-          "word": "non ?",
-          "start_sec": 15.5,
-          "end_sec": 15.82
-        },
-        {
-          "word": "Oui,",
-          "start_sec": 16.68,
-          "end_sec": 17.16
-        },
-        {
-          "word": "mais",
-          "start_sec": 17.16,
-          "end_sec": 17.66
-        },
-        {
-          "word": "ce",
-          "start_sec": 17.66,
-          "end_sec": 17.9
-        },
-        {
-          "word": "n'est",
-          "start_sec": 17.9,
-          "end_sec": 18.0
-        },
-        {
-          "word": "pas",
-          "start_sec": 18.0,
-          "end_sec": 18.06
-        },
-        {
-          "word": "une",
-          "start_sec": 18.06,
-          "end_sec": 18.22
-        },
-        {
-          "word": "raison",
-          "start_sec": 18.22,
-          "end_sec": 18.42
-        },
-        {
-          "word": "pour",
-          "start_sec": 18.42,
-          "end_sec": 18.68
-        },
-        {
-          "word": "accepter",
-          "start_sec": 18.68,
-          "end_sec": 19.12
-        },
-        {
-          "word": "le",
-          "start_sec": 19.12,
-          "end_sec": 19.28
-        },
-        {
-          "word": "poste.",
-          "start_sec": 19.28,
-          "end_sec": 20.16
-        },
-        {
-          "word": "Ce",
-          "start_sec": 20.46,
-          "end_sec": 20.54
-        },
-        {
-          "word": "qui",
-          "start_sec": 20.54,
-          "end_sec": 20.66
-        },
-        {
-          "word": "est",
-          "start_sec": 20.66,
-          "end_sec": 20.78
-        },
-        {
-          "word": "important",
-          "start_sec": 20.78,
-          "end_sec": 21.08
-        },
-        {
-          "word": "pour",
-          "start_sec": 21.08,
-          "end_sec": 21.32
-        },
-        {
-          "word": "moi,",
-          "start_sec": 21.32,
-          "end_sec": 21.78
-        },
-        {
-          "word": "c'est",
-          "start_sec": 21.78,
-          "end_sec": 22.34
-        },
-        {
-          "word": "le",
-          "start_sec": 22.34,
-          "end_sec": 22.44
-        },
-        {
-          "word": "travail",
-          "start_sec": 22.44,
-          "end_sec": 22.7
-        },
-        {
-          "word": "lui-même",
-          "start_sec": 22.7,
-          "end_sec": 23.12
+          "word": "programme",
+          "start_sec": 6.48,
+          "end_sec": 6.76
         },
         {
           "word": "et",
-          "start_sec": 23.12,
-          "end_sec": 23.4
+          "start_sec": 6.76,
+          "end_sec": 7.46
+        },
+        {
+          "word": "leur",
+          "start_sec": 7.46,
+          "end_sec": 7.62
+        },
+        {
+          "word": "proposer",
+          "start_sec": 7.62,
+          "end_sec": 8.24
+        },
+        {
+          "word": "nos",
+          "start_sec": 8.24,
+          "end_sec": 8.4
+        },
+        {
+          "word": "produits.",
+          "start_sec": 8.4,
+          "end_sec": 9.26
+        },
+        {
+          "word": "Dans",
+          "start_sec": 9.24,
+          "end_sec": 9.32
+        },
+        {
+          "word": "l'ensemble,",
+          "start_sec": 9.32,
+          "end_sec": 10
+        },
+        {
+          "word": "ils",
+          "start_sec": 10,
+          "end_sec": 10.1
+        },
+        {
+          "word": "étaient",
+          "start_sec": 10.1,
+          "end_sec": 10.34
+        },
+        {
+          "word": "assez",
+          "start_sec": 10.34,
+          "end_sec": 10.74
+        },
+        {
+          "word": "intéressés.",
+          "start_sec": 10.74,
+          "end_sec": 11.66
+        },
+        {
+          "word": "C'est",
+          "start_sec": 11.66,
+          "end_sec": 11.78
+        },
+        {
+          "word": "plutôt",
+          "start_sec": 11.78,
+          "end_sec": 12.08
+        },
+        {
+          "word": "encourageant",
+          "start_sec": 12.08,
+          "end_sec": 12.54
+        },
+        {
+          "word": "pour",
+          "start_sec": 12.54,
+          "end_sec": 12.72
+        },
+        {
+          "word": "la",
+          "start_sec": 12.72,
+          "end_sec": 12.88
+        },
+        {
+          "word": "suite.",
+          "start_sec": 12.88,
+          "end_sec": 13.66
+        },
+        {
+          "word": "Génial !",
+          "start_sec": 13.82,
+          "end_sec": 14.5
+        },
+        {
+          "word": "Tu",
+          "start_sec": 14.5,
+          "end_sec": 14.94
+        },
+        {
+          "word": "as",
+          "start_sec": 14.94,
+          "end_sec": 15.08
+        },
+        {
+          "word": "pu",
+          "start_sec": 15.08,
+          "end_sec": 15.18
+        },
+        {
+          "word": "visiter",
+          "start_sec": 15.18,
+          "end_sec": 15.54
+        },
+        {
+          "word": "un",
+          "start_sec": 15.54,
+          "end_sec": 15.74
+        },
+        {
+          "word": "peu",
+          "start_sec": 15.74,
+          "end_sec": 15.78
+        },
+        {
+          "word": "la",
+          "start_sec": 15.78,
+          "end_sec": 15.94
+        },
+        {
+          "word": "ville ?",
+          "start_sec": 15.94,
+          "end_sec": 16.38
+        },
+        {
+          "word": "En",
+          "start_sec": 16.18,
+          "end_sec": 16.8
+        },
+        {
+          "word": "dehors",
+          "start_sec": 16.8,
+          "end_sec": 17.04
+        },
+        {
+          "word": "du",
+          "start_sec": 17.04,
+          "end_sec": 17.24
+        },
+        {
+          "word": "quartier",
+          "start_sec": 17.24,
+          "end_sec": 17.5
         },
         {
           "word": "de",
-          "start_sec": 23.4,
-          "end_sec": 23.64
+          "start_sec": 17.5,
+          "end_sec": 17.66
         },
         {
-          "word": "ce",
-          "start_sec": 23.64,
-          "end_sec": 23.76
+          "word": "l'hôtel,",
+          "start_sec": 17.66,
+          "end_sec": 18.1
         },
         {
-          "word": "point",
-          "start_sec": 23.76,
-          "end_sec": 23.94
+          "word": "pas",
+          "start_sec": 18.1,
+          "end_sec": 18.26
         },
         {
-          "word": "de",
-          "start_sec": 23.94,
-          "end_sec": 24.06
+          "word": "vraiment.",
+          "start_sec": 18.26,
+          "end_sec": 18.94
         },
         {
-          "word": "vue,",
-          "start_sec": 24.06,
-          "end_sec": 24.34
+          "word": "Je",
+          "start_sec": 18.94,
+          "end_sec": 19.2
+        },
+        {
+          "word": "suis",
+          "start_sec": 19.2,
+          "end_sec": 19.34
+        },
+        {
+          "word": "assez",
+          "start_sec": 19.34,
+          "end_sec": 19.56
+        },
+        {
+          "word": "déçue.",
+          "start_sec": 19.56,
+          "end_sec": 19.92
+        },
+        {
+          "word": "Mais",
+          "start_sec": 20.56,
+          "end_sec": 20.64
+        },
+        {
+          "word": "je",
+          "start_sec": 20.64,
+          "end_sec": 20.74
+        },
+        {
+          "word": "n'ai",
+          "start_sec": 20.74,
+          "end_sec": 20.8
+        },
+        {
+          "word": "pas",
+          "start_sec": 20.8,
+          "end_sec": 20.94
+        },
+        {
+          "word": "eu",
+          "start_sec": 20.94,
+          "end_sec": 21.04
         },
         {
           "word": "le",
-          "start_sec": 24.34,
-          "end_sec": 24.44
+          "start_sec": 21.04,
+          "end_sec": 21.1
         },
         {
-          "word": "poste",
-          "start_sec": 24.44,
-          "end_sec": 24.8
+          "word": "temps.",
+          "start_sec": 21.1,
+          "end_sec": 22
+        },
+        {
+          "word": "Je",
+          "start_sec": 22,
+          "end_sec": 22.12
         },
         {
           "word": "ne",
-          "start_sec": 24.8,
-          "end_sec": 25.04
+          "start_sec": 22.12,
+          "end_sec": 22.22
         },
         {
-          "word": "m'attire",
-          "start_sec": 25.04,
-          "end_sec": 25.32
+          "word": "suis",
+          "start_sec": 22.22,
+          "end_sec": 22.3
         },
         {
-          "word": "pas.",
-          "start_sec": 25.32,
-          "end_sec": 25.56
-        },
-        {
-          "word": "J'espère",
-          "start_sec": 26.24,
-          "end_sec": 26.6
+          "word": "restée",
+          "start_sec": 22.3,
+          "end_sec": 22.54
         },
         {
           "word": "que",
-          "start_sec": 26.6,
+          "start_sec": 22.54,
+          "end_sec": 22.68
+        },
+        {
+          "word": "trois",
+          "start_sec": 22.68,
+          "end_sec": 22.84
+        },
+        {
+          "word": "jours",
+          "start_sec": 22.84,
+          "end_sec": 23.16
+        },
+        {
+          "word": "et",
+          "start_sec": 23.16,
+          "end_sec": 23.5
+        },
+        {
+          "word": "j'avais",
+          "start_sec": 23.5,
+          "end_sec": 23.72
+        },
+        {
+          "word": "beaucoup",
+          "start_sec": 23.72,
+          "end_sec": 24
+        },
+        {
+          "word": "de",
+          "start_sec": 24,
+          "end_sec": 24.1
+        },
+        {
+          "word": "personnes",
+          "start_sec": 24.1,
+          "end_sec": 24.38
+        },
+        {
+          "word": "à",
+          "start_sec": 24.38,
+          "end_sec": 24.5
+        },
+        {
+          "word": "rencontrer.",
+          "start_sec": 24.5,
+          "end_sec": 25.46
+        },
+        {
+          "word": "On",
+          "start_sec": 25.68,
+          "end_sec": 25.7
+        },
+        {
+          "word": "mangeait",
+          "start_sec": 25.7,
+          "end_sec": 26.02
+        },
+        {
+          "word": "tout",
+          "start_sec": 26.02,
+          "end_sec": 26.18
+        },
+        {
+          "word": "le",
+          "start_sec": 26.18,
+          "end_sec": 26.3
+        },
+        {
+          "word": "temps",
+          "start_sec": 26.3,
+          "end_sec": 26.38
+        },
+        {
+          "word": "au",
+          "start_sec": 26.38,
+          "end_sec": 26.46
+        },
+        {
+          "word": "restaurant",
+          "start_sec": 26.46,
           "end_sec": 26.8
         },
         {
-          "word": "tu",
+          "word": "de",
           "start_sec": 26.8,
           "end_sec": 26.92
         },
         {
-          "word": "ne",
+          "word": "l'entreprise,",
           "start_sec": 26.92,
-          "end_sec": 27.04
+          "end_sec": 28.06
         },
         {
-          "word": "vas",
-          "start_sec": 27.04,
-          "end_sec": 27.14
+          "word": "les",
+          "start_sec": 28.06,
+          "end_sec": 28.16
         },
         {
-          "word": "pas",
-          "start_sec": 27.14,
-          "end_sec": 27.3
+          "word": "journées",
+          "start_sec": 28.16,
+          "end_sec": 28.44
         },
         {
-          "word": "regretter",
-          "start_sec": 27.3,
-          "end_sec": 27.76
+          "word": "se",
+          "start_sec": 28.44,
+          "end_sec": 28.58
         },
         {
-          "word": "ta",
-          "start_sec": 27.76,
-          "end_sec": 27.92
+          "word": "terminaient",
+          "start_sec": 28.58,
+          "end_sec": 28.9
         },
         {
-          "word": "décision.",
-          "start_sec": 27.92,
-          "end_sec": 28.38
+          "word": "tard.",
+          "start_sec": 28.9,
+          "end_sec": 29.96
         },
         {
           "word": "Question",
-          "start_sec": 31.0,
-          "end_sec": 31.3
+          "start_sec": 32.12,
+          "end_sec": 32.52
         },
         {
-          "word": "14",
-          "start_sec": 31.3,
-          "end_sec": 31.96
+          "word": "17.",
+          "start_sec": 32.52,
+          "end_sec": 33.46
         },
         {
-          "word": "Pourquoi",
-          "start_sec": 34.22,
-          "end_sec": 34.6
+          "word": "Que",
+          "start_sec": 35.24,
+          "end_sec": 35.4
         },
         {
-          "word": "Pierre",
-          "start_sec": 34.6,
-          "end_sec": 35.32
+          "word": "regrette",
+          "start_sec": 35.4,
+          "end_sec": 35.88
         },
         {
-          "word": "refuse-t-il",
-          "start_sec": 35.32,
-          "end_sec": 36.24
+          "word": "la",
+          "start_sec": 35.88,
+          "end_sec": 36.04
         },
         {
-          "word": "ce",
-          "start_sec": 36.24,
-          "end_sec": 36.44
-        },
-        {
-          "word": "poste ?",
-          "start_sec": 36.44,
-          "end_sec": 37.44
+          "word": "femme ?",
+          "start_sec": 36.04,
+          "end_sec": 36.58
         }
       ],
       "question_type": "text_mcq"
@@ -4823,330 +4833,385 @@
       "options": [
         {
           "id": "A",
-          "text": "D'un prochain déménagement."
+          "text": "De jouer au basket avec des amis."
         },
         {
           "id": "B",
-          "text": "De sport pour le week-end."
+          "text": "De l'aider à ouvrir un gymnase."
         },
         {
           "id": "C",
-          "text": "De vacances en famille."
+          "text": "De réserver un terrain pour lui."
         },
         {
           "id": "D",
-          "text": "D'un problème de santé"
+          "text": "De s'inscrire dans un club de sport."
         }
       ],
-      "correct": "C",
-      "correct_option_text": "De vacances en famille.",
-      "transcript": "et la question. Choisissez la bonne réponse. Ça ne va pas? Tu es malade? Non, mais mon mari vient de réserver un appartement à la montagne pour 15 jours. Au programme, randonnée, vélo et escalade. C'est génial! C'est affreux, tu veux dire. Moi, je rêvais de deux semaines de repos et de lecture. Question 11. De quoi discutent les deux femmes ?",
-      "explanation": "Les deux femmes discutent de vacances. L'une d'elles a récemment réservé un appartement à la montagne pour 15 jours et a prévu des activités telles que la randonnée, le vélo et l'escalade, tandis que l'autre femme semblait déçue par cette idée, préférant un repos et du temps de lecture.",
+      "correct": "A",
+      "correct_option_text": "De jouer au basket avec des amis.",
+      "transcript": "Salut Laurent, c'est Martin. Dis, il y a un gymnase qui vient d'ouvrir à côté de chez moi. Il y a plusieurs salles. En ce moment, on peut y essayer tous les sports et c'est gratuit. Ça te dirait de venir faire une partie de basketball avec les copains demain soir ? Réponds-moi vite pour que j'appelle le club pour réserver le terrain. À plus tard. Question 19. Que propose Martin à Laurent ?",
+      "explanation": "Martin invite Laurent à venir « faire une partie de basketball avec les copains demain soir » dans le nouveau gymnase. C'est Martin lui-même qui appellera le club pour réserver le terrain, et il ne s'agit pas d'une inscription : les sports peuvent être essayés gratuitement en ce moment.",
       "words": [
         {
-          "word": "et",
-          "start_sec": 0.34,
-          "end_sec": 0.44
+          "word": "Salut",
+          "start_sec": 0.84,
+          "end_sec": 1.16
         },
         {
-          "word": "la",
-          "start_sec": 0.44,
-          "end_sec": 0.62
+          "word": "Laurent,",
+          "start_sec": 1.16,
+          "end_sec": 2.56
         },
         {
-          "word": "question.",
-          "start_sec": 0.62,
-          "end_sec": 1.6
+          "word": "c'est",
+          "start_sec": 2.56,
+          "end_sec": 2.66
         },
         {
-          "word": "Choisissez",
-          "start_sec": 2.04,
-          "end_sec": 2.7
+          "word": "Martin.",
+          "start_sec": 2.66,
+          "end_sec": 4.28
         },
         {
-          "word": "la",
-          "start_sec": 2.7,
-          "end_sec": 3.02
+          "word": "Dis,",
+          "start_sec": 4.28,
+          "end_sec": 4.76
         },
         {
-          "word": "bonne",
-          "start_sec": 3.02,
-          "end_sec": 3.28
+          "word": "il",
+          "start_sec": 4.76,
+          "end_sec": 5.26
         },
         {
-          "word": "réponse.",
-          "start_sec": 3.28,
-          "end_sec": 4.16
+          "word": "y",
+          "start_sec": 5.26,
+          "end_sec": 5.36
         },
         {
-          "word": "Ça",
-          "start_sec": 9.36,
-          "end_sec": 9.54
-        },
-        {
-          "word": "ne",
-          "start_sec": 9.54,
-          "end_sec": 9.66
-        },
-        {
-          "word": "va",
-          "start_sec": 9.66,
-          "end_sec": 9.76
-        },
-        {
-          "word": "pas?",
-          "start_sec": 9.76,
-          "end_sec": 10.1
-        },
-        {
-          "word": "Tu",
-          "start_sec": 10.04,
-          "end_sec": 10.24
-        },
-        {
-          "word": "es",
-          "start_sec": 10.24,
-          "end_sec": 10.3
-        },
-        {
-          "word": "malade?",
-          "start_sec": 10.3,
-          "end_sec": 10.84
-        },
-        {
-          "word": "Non,",
-          "start_sec": 11.38,
-          "end_sec": 11.6
-        },
-        {
-          "word": "mais",
-          "start_sec": 11.6,
-          "end_sec": 12.36
-        },
-        {
-          "word": "mon",
-          "start_sec": 12.36,
-          "end_sec": 12.52
-        },
-        {
-          "word": "mari",
-          "start_sec": 12.52,
-          "end_sec": 12.76
-        },
-        {
-          "word": "vient",
-          "start_sec": 12.76,
-          "end_sec": 13.06
-        },
-        {
-          "word": "de",
-          "start_sec": 13.06,
-          "end_sec": 13.18
-        },
-        {
-          "word": "réserver",
-          "start_sec": 13.18,
-          "end_sec": 13.58
+          "word": "a",
+          "start_sec": 5.36,
+          "end_sec": 5.4
         },
         {
           "word": "un",
-          "start_sec": 13.1,
-          "end_sec": 13.82
+          "start_sec": 5.4,
+          "end_sec": 5.6
         },
         {
-          "word": "appartement",
-          "start_sec": 13.82,
-          "end_sec": 14.38
+          "word": "gymnase",
+          "start_sec": 5.6,
+          "end_sec": 6.1
+        },
+        {
+          "word": "qui",
+          "start_sec": 6.1,
+          "end_sec": 6.32
+        },
+        {
+          "word": "vient",
+          "start_sec": 6.32,
+          "end_sec": 6.58
+        },
+        {
+          "word": "d'ouvrir",
+          "start_sec": 6.58,
+          "end_sec": 6.98
         },
         {
           "word": "à",
-          "start_sec": 14.38,
-          "end_sec": 14.56
+          "start_sec": 6.98,
+          "end_sec": 7.22
         },
         {
-          "word": "la",
-          "start_sec": 14.56,
-          "end_sec": 14.66
-        },
-        {
-          "word": "montagne",
-          "start_sec": 14.66,
-          "end_sec": 15.1
-        },
-        {
-          "word": "pour",
-          "start_sec": 15.1,
-          "end_sec": 15.36
-        },
-        {
-          "word": "15",
-          "start_sec": 15.36,
-          "end_sec": 15.7
-        },
-        {
-          "word": "jours.",
-          "start_sec": 15.7,
-          "end_sec": 16.46
-        },
-        {
-          "word": "Au",
-          "start_sec": 16.74,
-          "end_sec": 16.9
-        },
-        {
-          "word": "programme,",
-          "start_sec": 16.9,
-          "end_sec": 17.7
-        },
-        {
-          "word": "randonnée,",
-          "start_sec": 17.86,
-          "end_sec": 18.86
-        },
-        {
-          "word": "vélo",
-          "start_sec": 18.86,
-          "end_sec": 19.22
-        },
-        {
-          "word": "et",
-          "start_sec": 19.22,
-          "end_sec": 19.56
-        },
-        {
-          "word": "escalade.",
-          "start_sec": 19.56,
-          "end_sec": 20.64
-        },
-        {
-          "word": "C'est",
-          "start_sec": 21.2,
-          "end_sec": 21.42
-        },
-        {
-          "word": "génial!",
-          "start_sec": 21.42,
-          "end_sec": 22.14
-        },
-        {
-          "word": "C'est",
-          "start_sec": 22.38,
-          "end_sec": 22.68
-        },
-        {
-          "word": "affreux,",
-          "start_sec": 22.68,
-          "end_sec": 23.26
-        },
-        {
-          "word": "tu",
-          "start_sec": 23.26,
-          "end_sec": 23.36
-        },
-        {
-          "word": "veux",
-          "start_sec": 23.36,
-          "end_sec": 23.5
-        },
-        {
-          "word": "dire.",
-          "start_sec": 23.5,
-          "end_sec": 24.1
-        },
-        {
-          "word": "Moi,",
-          "start_sec": 24.82,
-          "end_sec": 25.2
-        },
-        {
-          "word": "je",
-          "start_sec": 25.2,
-          "end_sec": 25.34
-        },
-        {
-          "word": "rêvais",
-          "start_sec": 25.34,
-          "end_sec": 25.66
+          "word": "côté",
+          "start_sec": 7.22,
+          "end_sec": 7.42
         },
         {
           "word": "de",
-          "start_sec": 25.66,
-          "end_sec": 25.88
+          "start_sec": 7.42,
+          "end_sec": 7.7
         },
         {
-          "word": "deux",
-          "start_sec": 25.8,
-          "end_sec": 26.22
+          "word": "chez",
+          "start_sec": 7.7,
+          "end_sec": 7.84
         },
         {
-          "word": "semaines",
-          "start_sec": 26.22,
-          "end_sec": 26.56
+          "word": "moi.",
+          "start_sec": 7.84,
+          "end_sec": 8.06
         },
         {
-          "word": "de",
-          "start_sec": 26.56,
-          "end_sec": 26.86
+          "word": "Il",
+          "start_sec": 8.94,
+          "end_sec": 9.08
         },
         {
-          "word": "repos",
-          "start_sec": 26.86,
-          "end_sec": 27.28
+          "word": "y",
+          "start_sec": 9.08,
+          "end_sec": 9.16
         },
         {
-          "word": "et",
-          "start_sec": 27.28,
-          "end_sec": 27.46
+          "word": "a",
+          "start_sec": 9.16,
+          "end_sec": 9.22
         },
         {
-          "word": "de",
-          "start_sec": 27.46,
-          "end_sec": 27.6
+          "word": "plusieurs",
+          "start_sec": 9.22,
+          "end_sec": 9.56
         },
         {
-          "word": "lecture.",
-          "start_sec": 27.6,
-          "end_sec": 28.5
+          "word": "salles.",
+          "start_sec": 9.56,
+          "end_sec": 10.66
         },
         {
-          "word": "Question",
-          "start_sec": 31.04,
-          "end_sec": 31.44
+          "word": "En",
+          "start_sec": 10.66,
+          "end_sec": 10.86
         },
         {
-          "word": "11.",
-          "start_sec": 31.44,
-          "end_sec": 32.48
+          "word": "ce",
+          "start_sec": 10.86,
+          "end_sec": 10.92
         },
         {
-          "word": "De",
-          "start_sec": 34.1,
-          "end_sec": 34.32
+          "word": "moment,",
+          "start_sec": 10.92,
+          "end_sec": 11.18
         },
         {
-          "word": "quoi",
-          "start_sec": 34.32,
-          "end_sec": 34.56
+          "word": "on",
+          "start_sec": 11.18,
+          "end_sec": 11.48
         },
         {
-          "word": "discutent",
-          "start_sec": 34.56,
-          "end_sec": 35.14
+          "word": "peut",
+          "start_sec": 11.48,
+          "end_sec": 11.68
+        },
+        {
+          "word": "y",
+          "start_sec": 11.68,
+          "end_sec": 11.82
+        },
+        {
+          "word": "essayer",
+          "start_sec": 11.82,
+          "end_sec": 12.2
+        },
+        {
+          "word": "tous",
+          "start_sec": 12.2,
+          "end_sec": 12.68
         },
         {
           "word": "les",
-          "start_sec": 35.14,
-          "end_sec": 35.36
+          "start_sec": 12.68,
+          "end_sec": 12.8
         },
         {
-          "word": "deux",
-          "start_sec": 35.36,
-          "end_sec": 35.46
+          "word": "sports",
+          "start_sec": 12.8,
+          "end_sec": 13.22
         },
         {
-          "word": "femmes ?",
-          "start_sec": 35.46,
-          "end_sec": 36.3
+          "word": "et",
+          "start_sec": 13.22,
+          "end_sec": 13.46
+        },
+        {
+          "word": "c'est",
+          "start_sec": 13.46,
+          "end_sec": 13.76
+        },
+        {
+          "word": "gratuit.",
+          "start_sec": 13.76,
+          "end_sec": 14.12
+        },
+        {
+          "word": "Ça",
+          "start_sec": 15.4,
+          "end_sec": 15.52
+        },
+        {
+          "word": "te",
+          "start_sec": 15.52,
+          "end_sec": 15.66
+        },
+        {
+          "word": "dirait",
+          "start_sec": 15.66,
+          "end_sec": 15.96
+        },
+        {
+          "word": "de",
+          "start_sec": 15.96,
+          "end_sec": 16.2
+        },
+        {
+          "word": "venir",
+          "start_sec": 16.2,
+          "end_sec": 16.48
+        },
+        {
+          "word": "faire",
+          "start_sec": 16.48,
+          "end_sec": 16.7
+        },
+        {
+          "word": "une",
+          "start_sec": 16.7,
+          "end_sec": 16.84
+        },
+        {
+          "word": "partie",
+          "start_sec": 16.84,
+          "end_sec": 17.1
+        },
+        {
+          "word": "de",
+          "start_sec": 17.1,
+          "end_sec": 17.26
+        },
+        {
+          "word": "basketball",
+          "start_sec": 17.26,
+          "end_sec": 17.76
+        },
+        {
+          "word": "avec",
+          "start_sec": 17.76,
+          "end_sec": 18.06
+        },
+        {
+          "word": "les",
+          "start_sec": 18.06,
+          "end_sec": 18.24
+        },
+        {
+          "word": "copains",
+          "start_sec": 18.24,
+          "end_sec": 18.58
+        },
+        {
+          "word": "demain",
+          "start_sec": 18.58,
+          "end_sec": 19.02
+        },
+        {
+          "word": "soir ?",
+          "start_sec": 19.02,
+          "end_sec": 19.78
+        },
+        {
+          "word": "Réponds-moi",
+          "start_sec": 20.88,
+          "end_sec": 21.2
+        },
+        {
+          "word": "vite",
+          "start_sec": 21.2,
+          "end_sec": 21.46
+        },
+        {
+          "word": "pour",
+          "start_sec": 21.46,
+          "end_sec": 21.68
+        },
+        {
+          "word": "que",
+          "start_sec": 21.68,
+          "end_sec": 21.92
+        },
+        {
+          "word": "j'appelle",
+          "start_sec": 21.92,
+          "end_sec": 22.24
+        },
+        {
+          "word": "le",
+          "start_sec": 22.24,
+          "end_sec": 22.44
+        },
+        {
+          "word": "club",
+          "start_sec": 22.44,
+          "end_sec": 22.76
+        },
+        {
+          "word": "pour",
+          "start_sec": 22.76,
+          "end_sec": 23.38
+        },
+        {
+          "word": "réserver",
+          "start_sec": 23.38,
+          "end_sec": 23.76
+        },
+        {
+          "word": "le",
+          "start_sec": 23.76,
+          "end_sec": 23.94
+        },
+        {
+          "word": "terrain.",
+          "start_sec": 23.94,
+          "end_sec": 25.58
+        },
+        {
+          "word": "À",
+          "start_sec": 25.58,
+          "end_sec": 25.66
+        },
+        {
+          "word": "plus",
+          "start_sec": 25.66,
+          "end_sec": 25.82
+        },
+        {
+          "word": "tard.",
+          "start_sec": 25.82,
+          "end_sec": 25.98
+        },
+        {
+          "word": "Question",
+          "start_sec": 28.5,
+          "end_sec": 28.78
+        },
+        {
+          "word": "19.",
+          "start_sec": 28.78,
+          "end_sec": 29.48
+        },
+        {
+          "word": "Que",
+          "start_sec": 31.7,
+          "end_sec": 31.86
+        },
+        {
+          "word": "propose",
+          "start_sec": 31.86,
+          "end_sec": 32.3
+        },
+        {
+          "word": "Martin",
+          "start_sec": 32.3,
+          "end_sec": 32.78
+        },
+        {
+          "word": "à",
+          "start_sec": 32.78,
+          "end_sec": 33.06
+        },
+        {
+          "word": "Laurent ?",
+          "start_sec": 33.06,
+          "end_sec": 33.66
         }
       ],
       "question_type": "text_mcq"
@@ -9063,675 +9128,720 @@
       "options": [
         {
           "id": "A",
-          "text": "Ils abusent de repas très caloriques."
+          "text": "Diriger une grande entreprise."
         },
         {
           "id": "B",
-          "text": "Ils consomment peu de produits frais."
+          "text": "Enseigner dans une école de commerce."
         },
         {
           "id": "C",
-          "text": "Ils ignorent l'origine de leurs plats."
+          "text": "Être son propre patron."
         },
         {
           "id": "D",
-          "text": "Ils refusent de manger des légumes."
+          "text": "Reprendre l'entreprise familiale."
         }
       ],
       "correct": "C",
-      "correct_option_text": "Ils ignorent l'origine de leurs plats.",
-      "transcript": "87% des gamins ne savent pas quoi ressemble une betterave, un tiers n'ont jamais vu de poireaux et un cinquième ne reconnaît pas un abricot. En ce qui concerne les pâtes, 72% ne savent pas ce qu'il y a dedans. Ça nous parle de nous aujourd'hui ? Oui, oui, tout à fait. C'est évidemment un des grands problèmes. Il faut redonner des repères sur les aliments, savoir d'où ils viennent, comment ils poussent, à quoi ça sert. Pour ça, il faut emmener les enfants sur les marchés, faire les courses, il faut leur montrer quand on fait la cuisine les ingrédients que l'on met. Donc il faut réapprendre la culture alimentaire qui est quand même dans nos traditions en France. Question 24. Quel problème évoquent les interlocuteurs à propos des enfants ?",
-      "explanation": "Les interlocuteurs évoquent le problème de la méconnaissance des enfants concernant les aliments, notamment leur ignorance sur la provenance, la croissance et les caractéristiques de certaines fruits et légumes. Ils soulignent également l'ignorance des enfants sur la composition des pâtes. Cela montre qu'ils considèrent que les enfants ont besoin d'une éducation alimentaire pour comprendre et apprécier les aliments.",
+      "correct_option_text": "Être son propre patron.",
+      "transcript": "On l'a élu récemment par le magazine BusinessWeek, parmi les 25 personnes les plus influentes du web, Loïc Le Meur, qui vit désormais à San Francisco en Californie, au cœur de la Silicon Valley. C'est là qu'il a créé sa nouvelle société Seesmic, qui n'est pas un coup d'essai. Diplômé de l'école des hautes études commerciales de Paris, il est devenu au fil du temps un serial entrepreneur, Loïc Le Meur. Mon père était entrepreneur et mon grand-père aussi, ils étaient commerçants. Je n'ai jamais eu vraiment envie de travailler pour qui que ce soit d'autre que moi, y compris, peu importe la taille en fait de ce que je faisais, je pense que je serais volontiers indépendant. J'ai toujours voulu créer ma propre entreprise dans l'Internet. Donc, c'est les deux passions que j'ai toujours eues. Question 26. Que veut Loïc Le Meur ?",
+      "explanation": "Loïc Le Meur affirme n'avoir « jamais eu vraiment envie de travailler pour qui que ce soit d'autre que [lui] » et vouloir être indépendant, « peu importe la taille » de son activité. S'il cite son père et son grand-père, entrepreneurs et commerçants, c'est comme modèles et non pour reprendre leur affaire ; l'école de commerce n'est mentionnée que comme son parcours d'études.",
       "words": [
         {
-          "word": "87%",
-          "start_sec": 3.38,
-          "end_sec": 4.38
+          "word": "On",
+          "start_sec": 0.2,
+          "end_sec": 0.22
         },
         {
-          "word": "des",
-          "start_sec": 4.38,
+          "word": "l'a",
+          "start_sec": 0.22,
+          "end_sec": 0.76
+        },
+        {
+          "word": "élu",
+          "start_sec": 0.76,
+          "end_sec": 0.88
+        },
+        {
+          "word": "récemment",
+          "start_sec": 0.88,
+          "end_sec": 1.22
+        },
+        {
+          "word": "par",
+          "start_sec": 1.22,
+          "end_sec": 1.4
+        },
+        {
+          "word": "le",
+          "start_sec": 1.4,
+          "end_sec": 1.5
+        },
+        {
+          "word": "magazine",
+          "start_sec": 1.5,
+          "end_sec": 1.8
+        },
+        {
+          "word": "BusinessWeek,",
+          "start_sec": 1.8,
+          "end_sec": 2.38
+        },
+        {
+          "word": "parmi",
+          "start_sec": 2.7,
+          "end_sec": 2.88
+        },
+        {
+          "word": "les",
+          "start_sec": 2.88,
+          "end_sec": 3
+        },
+        {
+          "word": "25",
+          "start_sec": 3,
+          "end_sec": 3.4
+        },
+        {
+          "word": "personnes",
+          "start_sec": 3.4,
+          "end_sec": 3.78
+        },
+        {
+          "word": "les",
+          "start_sec": 3.78,
+          "end_sec": 3.92
+        },
+        {
+          "word": "plus",
+          "start_sec": 3.92,
+          "end_sec": 4.04
+        },
+        {
+          "word": "influentes",
+          "start_sec": 4.04,
+          "end_sec": 4.4
+        },
+        {
+          "word": "du",
+          "start_sec": 4.4,
           "end_sec": 4.66
         },
         {
-          "word": "gamins",
+          "word": "web,",
           "start_sec": 4.66,
-          "end_sec": 4.98
+          "end_sec": 5.02
         },
         {
-          "word": "ne",
-          "start_sec": 4.98,
-          "end_sec": 5.32
+          "word": "Loïc",
+          "start_sec": 5.06,
+          "end_sec": 5.22
         },
         {
-          "word": "savent",
-          "start_sec": 5.32,
-          "end_sec": 5.48
-        },
-        {
-          "word": "pas",
-          "start_sec": 5.48,
-          "end_sec": 5.64
-        },
-        {
-          "word": "quoi",
-          "start_sec": 5.64,
-          "end_sec": 5.74
-        },
-        {
-          "word": "ressemble",
-          "start_sec": 5.74,
-          "end_sec": 5.96
-        },
-        {
-          "word": "une",
-          "start_sec": 5.96,
-          "end_sec": 6.14
-        },
-        {
-          "word": "betterave,",
-          "start_sec": 6.14,
-          "end_sec": 7.18
-        },
-        {
-          "word": "un",
-          "start_sec": 7.18,
-          "end_sec": 7.2
-        },
-        {
-          "word": "tiers",
-          "start_sec": 7.2,
-          "end_sec": 7.5
-        },
-        {
-          "word": "n'ont",
-          "start_sec": 7.5,
-          "end_sec": 7.88
-        },
-        {
-          "word": "jamais",
-          "start_sec": 7.88,
-          "end_sec": 8.08
-        },
-        {
-          "word": "vu",
-          "start_sec": 8.08,
-          "end_sec": 8.26
-        },
-        {
-          "word": "de",
-          "start_sec": 8.26,
-          "end_sec": 8.36
-        },
-        {
-          "word": "poireaux",
-          "start_sec": 8.36,
-          "end_sec": 8.76
-        },
-        {
-          "word": "et",
-          "start_sec": 8.28,
-          "end_sec": 9.08
-        },
-        {
-          "word": "un",
-          "start_sec": 9.08,
-          "end_sec": 9.54
-        },
-        {
-          "word": "cinquième",
-          "start_sec": 9.54,
-          "end_sec": 9.86
-        },
-        {
-          "word": "ne",
-          "start_sec": 9.86,
-          "end_sec": 10.02
-        },
-        {
-          "word": "reconnaît",
-          "start_sec": 10.02,
-          "end_sec": 10.38
-        },
-        {
-          "word": "pas",
-          "start_sec": 10.38,
-          "end_sec": 10.52
-        },
-        {
-          "word": "un",
-          "start_sec": 10.52,
-          "end_sec": 10.68
-        },
-        {
-          "word": "abricot.",
-          "start_sec": 10.68,
-          "end_sec": 11.3
-        },
-        {
-          "word": "En",
-          "start_sec": 11.3,
-          "end_sec": 11.78
-        },
-        {
-          "word": "ce",
-          "start_sec": 11.78,
-          "end_sec": 11.82
+          "word": "Le Meur,",
+          "start_sec": 5.22,
+          "end_sec": 5.6
         },
         {
           "word": "qui",
-          "start_sec": 11.82,
-          "end_sec": 11.92
+          "start_sec": 5.6,
+          "end_sec": 5.78
         },
         {
-          "word": "concerne",
-          "start_sec": 11.92,
-          "end_sec": 12.22
+          "word": "vit",
+          "start_sec": 5.78,
+          "end_sec": 5.82
         },
         {
-          "word": "les",
-          "start_sec": 12.22,
-          "end_sec": 12.38
-        },
-        {
-          "word": "pâtes,",
-          "start_sec": 12.38,
-          "end_sec": 12.72
-        },
-        {
-          "word": "72%",
-          "start_sec": 12.72,
-          "end_sec": 13.54
-        },
-        {
-          "word": "ne",
-          "start_sec": 13.54,
-          "end_sec": 14.28
-        },
-        {
-          "word": "savent",
-          "start_sec": 14.28,
-          "end_sec": 14.48
-        },
-        {
-          "word": "pas",
-          "start_sec": 14.48,
-          "end_sec": 14.6
-        },
-        {
-          "word": "ce",
-          "start_sec": 14.6,
-          "end_sec": 14.7
-        },
-        {
-          "word": "qu'il",
-          "start_sec": 14.14,
-          "end_sec": 14.84
-        },
-        {
-          "word": "y",
-          "start_sec": 14.84,
-          "end_sec": 14.94
-        },
-        {
-          "word": "a",
-          "start_sec": 14.94,
-          "end_sec": 14.96
-        },
-        {
-          "word": "dedans.",
-          "start_sec": 14.96,
-          "end_sec": 15.42
-        },
-        {
-          "word": "Ça",
-          "start_sec": 15.42,
-          "end_sec": 16.08
-        },
-        {
-          "word": "nous",
-          "start_sec": 16.08,
-          "end_sec": 16.24
-        },
-        {
-          "word": "parle",
-          "start_sec": 16.24,
-          "end_sec": 16.4
-        },
-        {
-          "word": "de",
-          "start_sec": 16.4,
-          "end_sec": 16.52
-        },
-        {
-          "word": "nous",
-          "start_sec": 16.52,
-          "end_sec": 16.62
-        },
-        {
-          "word": "aujourd'hui ?",
-          "start_sec": 16.62,
-          "end_sec": 17.1
-        },
-        {
-          "word": "Oui,",
-          "start_sec": 17.1,
-          "end_sec": 17.54
-        },
-        {
-          "word": "oui,",
-          "start_sec": 17.54,
-          "end_sec": 17.6
-        },
-        {
-          "word": "tout",
-          "start_sec": 17.6,
-          "end_sec": 17.66
+          "word": "désormais",
+          "start_sec": 5.82,
+          "end_sec": 6.12
         },
         {
           "word": "à",
-          "start_sec": 17.66,
-          "end_sec": 17.82
+          "start_sec": 6.12,
+          "end_sec": 6.3
         },
         {
-          "word": "fait.",
-          "start_sec": 17.82,
-          "end_sec": 18.2
+          "word": "San",
+          "start_sec": 6.3,
+          "end_sec": 6.44
         },
         {
-          "word": "C'est",
-          "start_sec": 18.2,
-          "end_sec": 18.58
-        },
-        {
-          "word": "évidemment",
-          "start_sec": 18.58,
-          "end_sec": 19.16
-        },
-        {
-          "word": "un",
-          "start_sec": 19.16,
-          "end_sec": 19.54
-        },
-        {
-          "word": "des",
-          "start_sec": 19.54,
-          "end_sec": 19.68
-        },
-        {
-          "word": "grands",
-          "start_sec": 19.52,
-          "end_sec": 19.88
-        },
-        {
-          "word": "problèmes.",
-          "start_sec": 19.88,
-          "end_sec": 20.32
-        },
-        {
-          "word": "Il",
-          "start_sec": 20.32,
-          "end_sec": 20.4
-        },
-        {
-          "word": "faut",
-          "start_sec": 20.4,
-          "end_sec": 20.52
-        },
-        {
-          "word": "redonner",
-          "start_sec": 20.52,
-          "end_sec": 20.96
-        },
-        {
-          "word": "des",
-          "start_sec": 20.96,
-          "end_sec": 21.18
-        },
-        {
-          "word": "repères",
-          "start_sec": 21.18,
-          "end_sec": 21.7
-        },
-        {
-          "word": "sur",
-          "start_sec": 21.7,
-          "end_sec": 21.94
-        },
-        {
-          "word": "les",
-          "start_sec": 21.94,
-          "end_sec": 22.12
-        },
-        {
-          "word": "aliments,",
-          "start_sec": 22.12,
-          "end_sec": 22.66
-        },
-        {
-          "word": "savoir",
-          "start_sec": 22.66,
-          "end_sec": 22.82
-        },
-        {
-          "word": "d'où",
-          "start_sec": 22.82,
-          "end_sec": 23.1
-        },
-        {
-          "word": "ils",
-          "start_sec": 23.1,
-          "end_sec": 23.22
-        },
-        {
-          "word": "viennent,",
-          "start_sec": 23.22,
-          "end_sec": 23.56
-        },
-        {
-          "word": "comment",
-          "start_sec": 22.9,
-          "end_sec": 23.74
-        },
-        {
-          "word": "ils",
-          "start_sec": 23.74,
-          "end_sec": 23.94
-        },
-        {
-          "word": "poussent,",
-          "start_sec": 23.94,
-          "end_sec": 24.86
-        },
-        {
-          "word": "à",
-          "start_sec": 24.86,
-          "end_sec": 25.0
-        },
-        {
-          "word": "quoi",
-          "start_sec": 25.0,
-          "end_sec": 25.24
-        },
-        {
-          "word": "ça",
-          "start_sec": 25.24,
-          "end_sec": 25.66
-        },
-        {
-          "word": "sert.",
-          "start_sec": 25.66,
-          "end_sec": 26.1
-        },
-        {
-          "word": "Pour",
-          "start_sec": 26.1,
-          "end_sec": 26.3
-        },
-        {
-          "word": "ça,",
-          "start_sec": 26.3,
-          "end_sec": 26.54
-        },
-        {
-          "word": "il",
-          "start_sec": 26.54,
-          "end_sec": 26.66
-        },
-        {
-          "word": "faut",
-          "start_sec": 26.66,
-          "end_sec": 26.76
-        },
-        {
-          "word": "emmener",
-          "start_sec": 26.76,
-          "end_sec": 27.2
-        },
-        {
-          "word": "les",
-          "start_sec": 27.2,
-          "end_sec": 27.38
-        },
-        {
-          "word": "enfants",
-          "start_sec": 27.38,
-          "end_sec": 27.7
-        },
-        {
-          "word": "sur",
-          "start_sec": 27.7,
-          "end_sec": 27.98
-        },
-        {
-          "word": "les",
-          "start_sec": 27.98,
-          "end_sec": 28.14
-        },
-        {
-          "word": "marchés,",
-          "start_sec": 28.14,
-          "end_sec": 28.58
-        },
-        {
-          "word": "faire",
-          "start_sec": 28.44,
-          "end_sec": 28.66
-        },
-        {
-          "word": "les",
-          "start_sec": 28.66,
-          "end_sec": 28.84
-        },
-        {
-          "word": "courses,",
-          "start_sec": 28.84,
-          "end_sec": 29.58
-        },
-        {
-          "word": "il",
-          "start_sec": 29.58,
-          "end_sec": 29.64
-        },
-        {
-          "word": "faut",
-          "start_sec": 29.64,
-          "end_sec": 29.78
-        },
-        {
-          "word": "leur",
-          "start_sec": 29.78,
-          "end_sec": 30.28
-        },
-        {
-          "word": "montrer",
-          "start_sec": 30.28,
-          "end_sec": 30.58
-        },
-        {
-          "word": "quand",
-          "start_sec": 30.58,
-          "end_sec": 30.76
-        },
-        {
-          "word": "on",
-          "start_sec": 30.76,
-          "end_sec": 30.9
-        },
-        {
-          "word": "fait",
-          "start_sec": 30.9,
-          "end_sec": 31.06
-        },
-        {
-          "word": "la",
-          "start_sec": 31.06,
-          "end_sec": 31.18
-        },
-        {
-          "word": "cuisine",
-          "start_sec": 31.18,
-          "end_sec": 31.52
-        },
-        {
-          "word": "les",
-          "start_sec": 31.52,
-          "end_sec": 31.88
-        },
-        {
-          "word": "ingrédients",
-          "start_sec": 31.88,
-          "end_sec": 32.76
-        },
-        {
-          "word": "que",
-          "start_sec": 32.76,
-          "end_sec": 32.96
-        },
-        {
-          "word": "l'on",
-          "start_sec": 32.96,
-          "end_sec": 33.06
-        },
-        {
-          "word": "met.",
-          "start_sec": 33.06,
-          "end_sec": 33.2
-        },
-        {
-          "word": "Donc",
-          "start_sec": 33.12,
-          "end_sec": 33.32
-        },
-        {
-          "word": "il",
-          "start_sec": 33.32,
-          "end_sec": 33.48
-        },
-        {
-          "word": "faut",
-          "start_sec": 33.48,
-          "end_sec": 33.62
-        },
-        {
-          "word": "réapprendre",
-          "start_sec": 33.62,
-          "end_sec": 34.22
-        },
-        {
-          "word": "la",
-          "start_sec": 34.22,
-          "end_sec": 34.66
-        },
-        {
-          "word": "culture",
-          "start_sec": 34.66,
-          "end_sec": 34.9
-        },
-        {
-          "word": "alimentaire",
-          "start_sec": 34.9,
-          "end_sec": 35.5
-        },
-        {
-          "word": "qui",
-          "start_sec": 35.5,
-          "end_sec": 35.66
-        },
-        {
-          "word": "est",
-          "start_sec": 35.66,
-          "end_sec": 35.74
-        },
-        {
-          "word": "quand",
-          "start_sec": 35.74,
-          "end_sec": 35.82
-        },
-        {
-          "word": "même",
-          "start_sec": 35.82,
-          "end_sec": 35.9
-        },
-        {
-          "word": "dans",
-          "start_sec": 35.9,
-          "end_sec": 36.02
-        },
-        {
-          "word": "nos",
-          "start_sec": 36.02,
-          "end_sec": 36.14
-        },
-        {
-          "word": "traditions",
-          "start_sec": 36.14,
-          "end_sec": 36.42
+          "word": "Francisco",
+          "start_sec": 6.44,
+          "end_sec": 6.88
         },
         {
           "word": "en",
-          "start_sec": 36.42,
-          "end_sec": 36.62
+          "start_sec": 6.88,
+          "end_sec": 7.02
         },
         {
-          "word": "France.",
-          "start_sec": 36.62,
-          "end_sec": 37.08
+          "word": "Californie,",
+          "start_sec": 7.02,
+          "end_sec": 7.46
         },
         {
-          "word": "Question",
-          "start_sec": 39.24,
-          "end_sec": 39.62
+          "word": "au",
+          "start_sec": 7.46,
+          "end_sec": 7.94
         },
         {
-          "word": "24.",
-          "start_sec": 39.62,
-          "end_sec": 40.62
+          "word": "cœur",
+          "start_sec": 7.94,
+          "end_sec": 8.1
         },
         {
-          "word": "Quel",
-          "start_sec": 42.44,
-          "end_sec": 42.62
+          "word": "de",
+          "start_sec": 8.1,
+          "end_sec": 8.26
         },
         {
-          "word": "problème",
-          "start_sec": 42.62,
-          "end_sec": 43.0
+          "word": "la",
+          "start_sec": 8.26,
+          "end_sec": 8.38
         },
         {
-          "word": "évoquent",
-          "start_sec": 43.0,
-          "end_sec": 43.36
+          "word": "Silicon",
+          "start_sec": 8.38,
+          "end_sec": 8.74
         },
         {
-          "word": "les",
-          "start_sec": 43.36,
-          "end_sec": 43.58
+          "word": "Valley.",
+          "start_sec": 8.74,
+          "end_sec": 9.54
         },
         {
-          "word": "interlocuteurs",
-          "start_sec": 43.58,
-          "end_sec": 44.36
+          "word": "C'est",
+          "start_sec": 9.1,
+          "end_sec": 9.32
         },
         {
-          "word": "à",
-          "start_sec": 44.36,
-          "end_sec": 44.5
+          "word": "là",
+          "start_sec": 9.32,
+          "end_sec": 9.46
         },
         {
-          "word": "propos",
-          "start_sec": 44.5,
-          "end_sec": 44.74
+          "word": "qu'il",
+          "start_sec": 9.46,
+          "end_sec": 9.64
+        },
+        {
+          "word": "a",
+          "start_sec": 9.64,
+          "end_sec": 9.76
+        },
+        {
+          "word": "créé",
+          "start_sec": 9.76,
+          "end_sec": 9.86
+        },
+        {
+          "word": "sa",
+          "start_sec": 9.86,
+          "end_sec": 10.06
+        },
+        {
+          "word": "nouvelle",
+          "start_sec": 10.06,
+          "end_sec": 10.26
+        },
+        {
+          "word": "société",
+          "start_sec": 10.26,
+          "end_sec": 10.66
+        },
+        {
+          "word": "Seesmic,",
+          "start_sec": 10.66,
+          "end_sec": 11.12
+        },
+        {
+          "word": "qui",
+          "start_sec": 11.12,
+          "end_sec": 11.62
+        },
+        {
+          "word": "n'est",
+          "start_sec": 11.62,
+          "end_sec": 11.72
+        },
+        {
+          "word": "pas",
+          "start_sec": 11.72,
+          "end_sec": 11.86
+        },
+        {
+          "word": "un",
+          "start_sec": 11.86,
+          "end_sec": 12.02
+        },
+        {
+          "word": "coup",
+          "start_sec": 12.02,
+          "end_sec": 12.1
+        },
+        {
+          "word": "d'essai.",
+          "start_sec": 12.1,
+          "end_sec": 12.9
+        },
+        {
+          "word": "Diplômé",
+          "start_sec": 12.68,
+          "end_sec": 13
+        },
+        {
+          "word": "de",
+          "start_sec": 13,
+          "end_sec": 13.12
+        },
+        {
+          "word": "l'école",
+          "start_sec": 13.12,
+          "end_sec": 13.36
         },
         {
           "word": "des",
-          "start_sec": 44.74,
-          "end_sec": 44.98
+          "start_sec": 13.36,
+          "end_sec": 13.6
         },
         {
-          "word": "enfants ?",
-          "start_sec": 44.98,
-          "end_sec": 45.92
+          "word": "hautes",
+          "start_sec": 13.6,
+          "end_sec": 13.78
+        },
+        {
+          "word": "études",
+          "start_sec": 13.78,
+          "end_sec": 14.16
+        },
+        {
+          "word": "commerciales",
+          "start_sec": 14.16,
+          "end_sec": 14.58
+        },
+        {
+          "word": "de",
+          "start_sec": 14.58,
+          "end_sec": 14.7
+        },
+        {
+          "word": "Paris,",
+          "start_sec": 14.7,
+          "end_sec": 14.86
+        },
+        {
+          "word": "il",
+          "start_sec": 14.92,
+          "end_sec": 14.94
+        },
+        {
+          "word": "est",
+          "start_sec": 14.94,
+          "end_sec": 15
+        },
+        {
+          "word": "devenu",
+          "start_sec": 15,
+          "end_sec": 15.14
+        },
+        {
+          "word": "au",
+          "start_sec": 15.14,
+          "end_sec": 15.26
+        },
+        {
+          "word": "fil",
+          "start_sec": 15.26,
+          "end_sec": 15.34
+        },
+        {
+          "word": "du",
+          "start_sec": 15.34,
+          "end_sec": 15.54
+        },
+        {
+          "word": "temps",
+          "start_sec": 15.54,
+          "end_sec": 15.66
+        },
+        {
+          "word": "un",
+          "start_sec": 15.66,
+          "end_sec": 16.2
+        },
+        {
+          "word": "serial",
+          "start_sec": 16.2,
+          "end_sec": 16.64
+        },
+        {
+          "word": "entrepreneur,",
+          "start_sec": 16.64,
+          "end_sec": 17.44
+        },
+        {
+          "word": "Loïc",
+          "start_sec": 17.44,
+          "end_sec": 17.82
+        },
+        {
+          "word": "Le Meur.",
+          "start_sec": 17.82,
+          "end_sec": 18.62
+        },
+        {
+          "word": "Mon",
+          "start_sec": 18.5,
+          "end_sec": 18.74
+        },
+        {
+          "word": "père",
+          "start_sec": 18.74,
+          "end_sec": 19.26
+        },
+        {
+          "word": "était",
+          "start_sec": 19.26,
+          "end_sec": 19.52
+        },
+        {
+          "word": "entrepreneur",
+          "start_sec": 19.52,
+          "end_sec": 20.04
+        },
+        {
+          "word": "et",
+          "start_sec": 20.04,
+          "end_sec": 20.16
+        },
+        {
+          "word": "mon",
+          "start_sec": 20.16,
+          "end_sec": 20.28
+        },
+        {
+          "word": "grand-père",
+          "start_sec": 20.28,
+          "end_sec": 20.66
+        },
+        {
+          "word": "aussi,",
+          "start_sec": 20.66,
+          "end_sec": 21.16
+        },
+        {
+          "word": "ils",
+          "start_sec": 21.16,
+          "end_sec": 21.28
+        },
+        {
+          "word": "étaient",
+          "start_sec": 21.28,
+          "end_sec": 21.38
+        },
+        {
+          "word": "commerçants.",
+          "start_sec": 21.38,
+          "end_sec": 22.32
+        },
+        {
+          "word": "Je",
+          "start_sec": 21.94,
+          "end_sec": 22.06
+        },
+        {
+          "word": "n'ai",
+          "start_sec": 22.06,
+          "end_sec": 22.12
+        },
+        {
+          "word": "jamais",
+          "start_sec": 22.12,
+          "end_sec": 22.52
+        },
+        {
+          "word": "eu",
+          "start_sec": 22.52,
+          "end_sec": 22.8
+        },
+        {
+          "word": "vraiment",
+          "start_sec": 22.8,
+          "end_sec": 23.22
+        },
+        {
+          "word": "envie",
+          "start_sec": 23.22,
+          "end_sec": 23.4
+        },
+        {
+          "word": "de",
+          "start_sec": 23.4,
+          "end_sec": 23.54
+        },
+        {
+          "word": "travailler",
+          "start_sec": 23.54,
+          "end_sec": 23.86
+        },
+        {
+          "word": "pour",
+          "start_sec": 23.86,
+          "end_sec": 24.18
+        },
+        {
+          "word": "qui",
+          "start_sec": 24.18,
+          "end_sec": 24.34
+        },
+        {
+          "word": "que",
+          "start_sec": 24.34,
+          "end_sec": 24.42
+        },
+        {
+          "word": "ce",
+          "start_sec": 24.42,
+          "end_sec": 24.54
+        },
+        {
+          "word": "soit",
+          "start_sec": 24.54,
+          "end_sec": 24.62
+        },
+        {
+          "word": "d'autre",
+          "start_sec": 24.62,
+          "end_sec": 24.9
+        },
+        {
+          "word": "que",
+          "start_sec": 24.9,
+          "end_sec": 25.26
+        },
+        {
+          "word": "moi,",
+          "start_sec": 25.26,
+          "end_sec": 25.94
+        },
+        {
+          "word": "y",
+          "start_sec": 25.66,
+          "end_sec": 25.68
+        },
+        {
+          "word": "compris,",
+          "start_sec": 25.68,
+          "end_sec": 26.2
+        },
+        {
+          "word": "peu",
+          "start_sec": 26.2,
+          "end_sec": 26.36
+        },
+        {
+          "word": "importe",
+          "start_sec": 26.36,
+          "end_sec": 26.54
+        },
+        {
+          "word": "la",
+          "start_sec": 26.54,
+          "end_sec": 26.7
+        },
+        {
+          "word": "taille",
+          "start_sec": 26.7,
+          "end_sec": 26.92
+        },
+        {
+          "word": "en",
+          "start_sec": 26.92,
+          "end_sec": 27.06
+        },
+        {
+          "word": "fait",
+          "start_sec": 27.06,
+          "end_sec": 27.18
+        },
+        {
+          "word": "de",
+          "start_sec": 27.18,
+          "end_sec": 27.32
+        },
+        {
+          "word": "ce",
+          "start_sec": 27.32,
+          "end_sec": 27.4
+        },
+        {
+          "word": "que",
+          "start_sec": 27.4,
+          "end_sec": 27.5
+        },
+        {
+          "word": "je",
+          "start_sec": 27.5,
+          "end_sec": 27.56
+        },
+        {
+          "word": "faisais,",
+          "start_sec": 27.56,
+          "end_sec": 28.1
+        },
+        {
+          "word": "je",
+          "start_sec": 27.84,
+          "end_sec": 27.96
+        },
+        {
+          "word": "pense",
+          "start_sec": 27.96,
+          "end_sec": 28.7
+        },
+        {
+          "word": "que",
+          "start_sec": 28.7,
+          "end_sec": 28.86
+        },
+        {
+          "word": "je",
+          "start_sec": 28.86,
+          "end_sec": 28.98
+        },
+        {
+          "word": "serais",
+          "start_sec": 28.98,
+          "end_sec": 29.18
+        },
+        {
+          "word": "volontiers",
+          "start_sec": 29.18,
+          "end_sec": 29.94
+        },
+        {
+          "word": "indépendant.",
+          "start_sec": 29.94,
+          "end_sec": 31.14
+        },
+        {
+          "word": "J'ai",
+          "start_sec": 31,
+          "end_sec": 31.22
+        },
+        {
+          "word": "toujours",
+          "start_sec": 31.22,
+          "end_sec": 31.48
+        },
+        {
+          "word": "voulu",
+          "start_sec": 31.48,
+          "end_sec": 31.7
+        },
+        {
+          "word": "créer",
+          "start_sec": 31.7,
+          "end_sec": 31.92
+        },
+        {
+          "word": "ma",
+          "start_sec": 31.92,
+          "end_sec": 32.06
+        },
+        {
+          "word": "propre",
+          "start_sec": 32.06,
+          "end_sec": 32.28
+        },
+        {
+          "word": "entreprise",
+          "start_sec": 32.28,
+          "end_sec": 32.82
+        },
+        {
+          "word": "dans",
+          "start_sec": 32.82,
+          "end_sec": 33.16
+        },
+        {
+          "word": "l'Internet.",
+          "start_sec": 33.16,
+          "end_sec": 33.8
+        },
+        {
+          "word": "Donc,",
+          "start_sec": 33.7,
+          "end_sec": 33.84
+        },
+        {
+          "word": "c'est",
+          "start_sec": 33.84,
+          "end_sec": 33.96
+        },
+        {
+          "word": "les",
+          "start_sec": 33.96,
+          "end_sec": 34.1
+        },
+        {
+          "word": "deux",
+          "start_sec": 34.1,
+          "end_sec": 34.88
+        },
+        {
+          "word": "passions",
+          "start_sec": 34.88,
+          "end_sec": 35.16
+        },
+        {
+          "word": "que",
+          "start_sec": 35.16,
+          "end_sec": 35.34
+        },
+        {
+          "word": "j'ai",
+          "start_sec": 35.34,
+          "end_sec": 35.36
+        },
+        {
+          "word": "toujours eues.",
+          "start_sec": 35.36,
+          "end_sec": 35.74
+        },
+        {
+          "word": "Question",
+          "start_sec": 38.12,
+          "end_sec": 38.54
+        },
+        {
+          "word": "26.",
+          "start_sec": 38.54,
+          "end_sec": 39.28
+        },
+        {
+          "word": "Que",
+          "start_sec": 41.3,
+          "end_sec": 41.46
+        },
+        {
+          "word": "veut",
+          "start_sec": 41.46,
+          "end_sec": 41.84
+        },
+        {
+          "word": "Loïc",
+          "start_sec": 41.84,
+          "end_sec": 42.34
+        },
+        {
+          "word": "Le Meur ?",
+          "start_sec": 42.34,
+          "end_sec": 43.42
         }
       ],
       "question_type": "text_mcq"
@@ -9748,735 +9858,395 @@
       "options": [
         {
           "id": "A",
-          "text": "D'attribuer à la lecture le statut de loisir."
+          "text": "D'un voyage à Toulouse."
         },
         {
           "id": "B",
-          "text": "De favoriser la lecture en autonomie."
+          "text": "D'une fête d'anniversaire à organiser."
         },
         {
           "id": "C",
-          "text": "De limiter la lecture d'histoires illustrées."
+          "text": "D'une sortie au musée samedi."
         },
         {
           "id": "D",
-          "text": "De sélectionner des lectures classiques."
+          "text": "De la préparation d'un examen."
         }
       ],
-      "correct": "A",
-      "correct_option_text": "D'attribuer à la lecture le statut de loisir.",
-      "transcript": "Je crois que les difficultés en matière de lecture ont des causes à la fois individuelles et sociales. Les parents, par exemple, parce qu'ils sont angoissés par l'avenir de leurs enfants, leur présentent souvent la lecture comme une obligation, une démarche indispensable pour réussir. Et c'est une erreur, parce que la lecture est avant tout un plaisir. Un livre, c'est un voyage, une découverte, une aventure. Et il faudrait faire découvrir la lecture aux enfants, comme on leur fait découvrir la cuisine chinoise ou les jeux dans la neige. Et puis les parents refusent aussi souvent à leurs enfants des lectures qu'ils considèrent comme mineurs. Les bandes dessinées par exemple, et ça aussi c'est une erreur. Lire une bande dessinée, c'est lire. Et ça permet souvent d'ailleurs de découvrir ensuite d'autres formes de littérature. Question 23. Que conseille cette intervenante ou parent ?",
-      "explanation": "Cette intervenante conseille aux parents de faire découvrir la lecture aux enfants comme un plaisir, et non comme une obligation. Elle suggère de présenter la lecture sous forme de découvertes et d'aventures, comme l'on fait pour la cuisine chinoise ou les jeux dans la neige. Elle encourage également les parents à ne pas refuser aux enfants des lectures qu'ils considèrent comme mineures, comme les bandes dessinées, car elles peuvent être un bon point de départ pour découvrir d'autres formes de littérature.",
+      "correct": "D",
+      "correct_option_text": "De la préparation d'un examen.",
+      "transcript": "Tu viens à l'anniversaire de Bertrand samedi ? Je ne sais pas encore. J'ai un examen lundi prochain. Tu es prête ? Plus ou moins. Mes cousins de Toulouse sont venus passer une partie des vacances à la maison. Et j'ai dû leur faire visiter les monuments et les musées de Paris. Tu as pu travailler un peu ? Oui, mais je dois encore étudier les maths. Question 27. De quoi parlent les deux jeunes filles ? Merci.",
+      "explanation": "La jeune fille hésite à aller à l'anniversaire de Bertrand parce qu'elle a un examen lundi. La conversation porte sur ses révisions : elle n'est prête que « plus ou moins », car la visite de ses cousins de Toulouse l'a occupée, et elle doit encore étudier les maths. Les musées et Toulouse ne sont que des détails, et la fête n'est pas à organiser.",
       "words": [
         {
+          "word": "Tu",
+          "start_sec": 0.9,
+          "end_sec": 1.16
+        },
+        {
+          "word": "viens",
+          "start_sec": 1.16,
+          "end_sec": 1.36
+        },
+        {
+          "word": "à",
+          "start_sec": 1.36,
+          "end_sec": 1.5
+        },
+        {
+          "word": "l'anniversaire",
+          "start_sec": 1.5,
+          "end_sec": 2.16
+        },
+        {
+          "word": "de",
+          "start_sec": 2.16,
+          "end_sec": 2.34
+        },
+        {
+          "word": "Bertrand",
+          "start_sec": 2.34,
+          "end_sec": 2.68
+        },
+        {
+          "word": "samedi ?",
+          "start_sec": 2.68,
+          "end_sec": 3.24
+        },
+        {
           "word": "Je",
-          "start_sec": 2.44,
-          "end_sec": 2.46
-        },
-        {
-          "word": "crois",
-          "start_sec": 2.46,
-          "end_sec": 2.8
-        },
-        {
-          "word": "que",
-          "start_sec": 2.8,
-          "end_sec": 2.92
-        },
-        {
-          "word": "les",
-          "start_sec": 2.92,
-          "end_sec": 3.0
-        },
-        {
-          "word": "difficultés",
-          "start_sec": 3.0,
-          "end_sec": 3.5
-        },
-        {
-          "word": "en",
-          "start_sec": 3.5,
+          "start_sec": 3.02,
           "end_sec": 3.64
         },
         {
-          "word": "matière",
+          "word": "ne",
           "start_sec": 3.64,
-          "end_sec": 3.84
+          "end_sec": 3.78
         },
         {
-          "word": "de",
-          "start_sec": 3.84,
-          "end_sec": 4.0
+          "word": "sais",
+          "start_sec": 3.78,
+          "end_sec": 3.9
         },
         {
-          "word": "lecture",
-          "start_sec": 4.0,
-          "end_sec": 4.26
+          "word": "pas",
+          "start_sec": 3.9,
+          "end_sec": 4.06
         },
         {
-          "word": "ont",
-          "start_sec": 4.26,
-          "end_sec": 4.44
-        },
-        {
-          "word": "des",
-          "start_sec": 4.44,
-          "end_sec": 4.6
-        },
-        {
-          "word": "causes",
-          "start_sec": 4.6,
+          "word": "encore.",
+          "start_sec": 4.06,
           "end_sec": 4.74
         },
         {
-          "word": "à",
+          "word": "J'ai",
           "start_sec": 4.74,
-          "end_sec": 4.86
+          "end_sec": 4.88
         },
         {
-          "word": "la",
-          "start_sec": 4.86,
-          "end_sec": 4.96
+          "word": "un",
+          "start_sec": 4.88,
+          "end_sec": 5
         },
         {
-          "word": "fois",
-          "start_sec": 4.96,
-          "end_sec": 5.08
+          "word": "examen",
+          "start_sec": 5,
+          "end_sec": 5.4
         },
         {
-          "word": "individuelles",
-          "start_sec": 5.08,
-          "end_sec": 5.56
-        },
-        {
-          "word": "et",
-          "start_sec": 5.56,
+          "word": "lundi",
+          "start_sec": 5.4,
           "end_sec": 5.7
         },
         {
-          "word": "sociales.",
+          "word": "prochain.",
           "start_sec": 5.7,
-          "end_sec": 6.3
+          "end_sec": 6.02
         },
         {
-          "word": "Les",
-          "start_sec": 6.24,
-          "end_sec": 6.42
+          "word": "Tu",
+          "start_sec": 6.56,
+          "end_sec": 6.68
         },
         {
-          "word": "parents,",
-          "start_sec": 6.42,
-          "end_sec": 6.78
+          "word": "es",
+          "start_sec": 6.68,
+          "end_sec": 6.8
         },
         {
-          "word": "par",
-          "start_sec": 6.78,
-          "end_sec": 6.84
+          "word": "prête ?",
+          "start_sec": 6.8,
+          "end_sec": 7.3
         },
         {
-          "word": "exemple,",
-          "start_sec": 6.84,
-          "end_sec": 7.2
+          "word": "Plus",
+          "start_sec": 7.1,
+          "end_sec": 7.82
         },
         {
-          "word": "parce",
-          "start_sec": 7.2,
-          "end_sec": 7.42
+          "word": "ou",
+          "start_sec": 7.82,
+          "end_sec": 8.04
         },
         {
-          "word": "qu'ils",
-          "start_sec": 7.42,
-          "end_sec": 7.58
+          "word": "moins.",
+          "start_sec": 8.04,
+          "end_sec": 8.8
+        },
+        {
+          "word": "Mes",
+          "start_sec": 8.8,
+          "end_sec": 8.9
+        },
+        {
+          "word": "cousins",
+          "start_sec": 8.9,
+          "end_sec": 9.28
+        },
+        {
+          "word": "de",
+          "start_sec": 9.28,
+          "end_sec": 9.48
+        },
+        {
+          "word": "Toulouse",
+          "start_sec": 9.48,
+          "end_sec": 9.88
         },
         {
           "word": "sont",
-          "start_sec": 7.58,
-          "end_sec": 7.8
+          "start_sec": 9.88,
+          "end_sec": 10.14
         },
         {
-          "word": "angoissés",
-          "start_sec": 7.8,
-          "end_sec": 8.28
+          "word": "venus",
+          "start_sec": 10.14,
+          "end_sec": 10.38
         },
         {
-          "word": "par",
-          "start_sec": 8.28,
-          "end_sec": 8.46
-        },
-        {
-          "word": "l'avenir",
-          "start_sec": 8.46,
-          "end_sec": 8.74
-        },
-        {
-          "word": "de",
-          "start_sec": 8.74,
-          "end_sec": 8.88
-        },
-        {
-          "word": "leurs",
-          "start_sec": 8.88,
-          "end_sec": 9.02
-        },
-        {
-          "word": "enfants,",
-          "start_sec": 9.02,
-          "end_sec": 9.46
-        },
-        {
-          "word": "leur",
-          "start_sec": 9.7,
-          "end_sec": 9.86
-        },
-        {
-          "word": "présentent",
-          "start_sec": 9.86,
-          "end_sec": 10.28
-        },
-        {
-          "word": "souvent",
-          "start_sec": 10.28,
-          "end_sec": 10.48
-        },
-        {
-          "word": "la",
-          "start_sec": 10.48,
-          "end_sec": 10.7
-        },
-        {
-          "word": "lecture",
-          "start_sec": 10.7,
-          "end_sec": 10.96
-        },
-        {
-          "word": "comme",
-          "start_sec": 10.96,
-          "end_sec": 11.22
+          "word": "passer",
+          "start_sec": 10.38,
+          "end_sec": 10.76
         },
         {
           "word": "une",
-          "start_sec": 11.22,
-          "end_sec": 11.38
+          "start_sec": 10.76,
+          "end_sec": 10.98
         },
         {
-          "word": "obligation,",
-          "start_sec": 11.38,
-          "end_sec": 12.0
-        },
-        {
-          "word": "une",
-          "start_sec": 12.0,
-          "end_sec": 12.08
-        },
-        {
-          "word": "démarche",
-          "start_sec": 12.08,
-          "end_sec": 12.4
-        },
-        {
-          "word": "indispensable",
-          "start_sec": 12.4,
-          "end_sec": 12.84
-        },
-        {
-          "word": "pour",
-          "start_sec": 12.84,
-          "end_sec": 13.24
-        },
-        {
-          "word": "réussir.",
-          "start_sec": 13.24,
-          "end_sec": 13.76
-        },
-        {
-          "word": "Et",
-          "start_sec": 13.9,
-          "end_sec": 14.06
-        },
-        {
-          "word": "c'est",
-          "start_sec": 14.06,
-          "end_sec": 14.24
-        },
-        {
-          "word": "une",
-          "start_sec": 14.24,
-          "end_sec": 14.36
-        },
-        {
-          "word": "erreur,",
-          "start_sec": 14.36,
-          "end_sec": 14.74
-        },
-        {
-          "word": "parce",
-          "start_sec": 14.74,
-          "end_sec": 14.94
-        },
-        {
-          "word": "que",
-          "start_sec": 14.94,
-          "end_sec": 15.08
-        },
-        {
-          "word": "la",
-          "start_sec": 15.08,
-          "end_sec": 15.18
-        },
-        {
-          "word": "lecture",
-          "start_sec": 15.18,
-          "end_sec": 15.44
-        },
-        {
-          "word": "est",
-          "start_sec": 15.44,
-          "end_sec": 15.66
-        },
-        {
-          "word": "avant",
-          "start_sec": 15.66,
-          "end_sec": 15.82
-        },
-        {
-          "word": "tout",
-          "start_sec": 15.82,
-          "end_sec": 15.96
-        },
-        {
-          "word": "un",
-          "start_sec": 15.96,
-          "end_sec": 16.1
-        },
-        {
-          "word": "plaisir.",
-          "start_sec": 16.1,
-          "end_sec": 16.34
-        },
-        {
-          "word": "Un",
-          "start_sec": 16.72,
-          "end_sec": 16.88
-        },
-        {
-          "word": "livre,",
-          "start_sec": 16.88,
-          "end_sec": 17.26
-        },
-        {
-          "word": "c'est",
-          "start_sec": 17.26,
-          "end_sec": 17.4
-        },
-        {
-          "word": "un",
-          "start_sec": 17.4,
-          "end_sec": 17.5
-        },
-        {
-          "word": "voyage,",
-          "start_sec": 17.5,
-          "end_sec": 17.82
-        },
-        {
-          "word": "une",
-          "start_sec": 17.82,
-          "end_sec": 18.12
-        },
-        {
-          "word": "découverte,",
-          "start_sec": 18.12,
-          "end_sec": 18.56
-        },
-        {
-          "word": "une",
-          "start_sec": 18.56,
-          "end_sec": 18.68
-        },
-        {
-          "word": "aventure.",
-          "start_sec": 18.68,
-          "end_sec": 19.2
-        },
-        {
-          "word": "Et",
-          "start_sec": 19.54,
-          "end_sec": 19.68
-        },
-        {
-          "word": "il",
-          "start_sec": 19.68,
-          "end_sec": 19.76
-        },
-        {
-          "word": "faudrait",
-          "start_sec": 19.76,
-          "end_sec": 20.02
-        },
-        {
-          "word": "faire",
-          "start_sec": 20.02,
-          "end_sec": 20.16
-        },
-        {
-          "word": "découvrir",
-          "start_sec": 20.16,
-          "end_sec": 20.52
-        },
-        {
-          "word": "la",
-          "start_sec": 20.52,
-          "end_sec": 20.7
-        },
-        {
-          "word": "lecture",
-          "start_sec": 20.7,
-          "end_sec": 20.96
-        },
-        {
-          "word": "aux",
-          "start_sec": 20.96,
-          "end_sec": 21.2
-        },
-        {
-          "word": "enfants,",
-          "start_sec": 21.2,
-          "end_sec": 21.64
-        },
-        {
-          "word": "comme",
-          "start_sec": 21.58,
-          "end_sec": 21.84
-        },
-        {
-          "word": "on",
-          "start_sec": 21.84,
-          "end_sec": 21.98
-        },
-        {
-          "word": "leur",
-          "start_sec": 21.98,
-          "end_sec": 22.12
-        },
-        {
-          "word": "fait",
-          "start_sec": 22.12,
-          "end_sec": 22.32
-        },
-        {
-          "word": "découvrir",
-          "start_sec": 22.32,
-          "end_sec": 22.88
-        },
-        {
-          "word": "la",
-          "start_sec": 22.88,
-          "end_sec": 23.42
-        },
-        {
-          "word": "cuisine",
-          "start_sec": 23.42,
-          "end_sec": 23.68
-        },
-        {
-          "word": "chinoise",
-          "start_sec": 23.68,
-          "end_sec": 24.22
-        },
-        {
-          "word": "ou",
-          "start_sec": 24.22,
-          "end_sec": 24.4
-        },
-        {
-          "word": "les",
-          "start_sec": 24.4,
-          "end_sec": 24.56
-        },
-        {
-          "word": "jeux",
-          "start_sec": 24.56,
-          "end_sec": 24.66
-        },
-        {
-          "word": "dans",
-          "start_sec": 24.66,
-          "end_sec": 24.8
-        },
-        {
-          "word": "la",
-          "start_sec": 24.8,
-          "end_sec": 24.92
-        },
-        {
-          "word": "neige.",
-          "start_sec": 24.92,
-          "end_sec": 25.18
-        },
-        {
-          "word": "Et",
-          "start_sec": 25.42,
-          "end_sec": 25.58
-        },
-        {
-          "word": "puis",
-          "start_sec": 25.58,
-          "end_sec": 25.68
-        },
-        {
-          "word": "les",
-          "start_sec": 25.68,
-          "end_sec": 25.92
-        },
-        {
-          "word": "parents",
-          "start_sec": 25.92,
-          "end_sec": 26.22
-        },
-        {
-          "word": "refusent",
-          "start_sec": 26.22,
-          "end_sec": 26.8
-        },
-        {
-          "word": "aussi",
-          "start_sec": 26.8,
-          "end_sec": 27.0
-        },
-        {
-          "word": "souvent",
-          "start_sec": 27.0,
-          "end_sec": 27.34
-        },
-        {
-          "word": "à",
-          "start_sec": 27.34,
-          "end_sec": 27.68
-        },
-        {
-          "word": "leurs",
-          "start_sec": 27.68,
-          "end_sec": 27.84
-        },
-        {
-          "word": "enfants",
-          "start_sec": 27.84,
-          "end_sec": 28.14
+          "word": "partie",
+          "start_sec": 10.98,
+          "end_sec": 11.36
         },
         {
           "word": "des",
-          "start_sec": 28.14,
-          "end_sec": 28.38
+          "start_sec": 11.36,
+          "end_sec": 11.5
         },
         {
-          "word": "lectures",
-          "start_sec": 28.38,
-          "end_sec": 28.58
+          "word": "vacances",
+          "start_sec": 11.5,
+          "end_sec": 11.82
         },
         {
-          "word": "qu'ils",
-          "start_sec": 28.58,
-          "end_sec": 28.82
+          "word": "à",
+          "start_sec": 11.82,
+          "end_sec": 12.02
         },
         {
-          "word": "considèrent",
-          "start_sec": 28.82,
-          "end_sec": 29.24
+          "word": "la",
+          "start_sec": 12.02,
+          "end_sec": 12.12
         },
         {
-          "word": "comme",
-          "start_sec": 29.24,
-          "end_sec": 29.46
-        },
-        {
-          "word": "mineurs.",
-          "start_sec": 29.46,
-          "end_sec": 29.98
-        },
-        {
-          "word": "Les",
-          "start_sec": 30.06,
-          "end_sec": 30.18
-        },
-        {
-          "word": "bandes",
-          "start_sec": 30.18,
-          "end_sec": 30.36
-        },
-        {
-          "word": "dessinées",
-          "start_sec": 30.36,
-          "end_sec": 30.68
-        },
-        {
-          "word": "par",
-          "start_sec": 30.68,
-          "end_sec": 30.82
-        },
-        {
-          "word": "exemple,",
-          "start_sec": 30.82,
-          "end_sec": 31.2
-        },
-        {
-          "word": "et",
-          "start_sec": 31.2,
-          "end_sec": 31.26
-        },
-        {
-          "word": "ça",
-          "start_sec": 31.26,
-          "end_sec": 31.36
-        },
-        {
-          "word": "aussi",
-          "start_sec": 31.36,
-          "end_sec": 31.6
-        },
-        {
-          "word": "c'est",
-          "start_sec": 31.6,
-          "end_sec": 31.9
-        },
-        {
-          "word": "une",
-          "start_sec": 31.9,
-          "end_sec": 32.06
-        },
-        {
-          "word": "erreur.",
-          "start_sec": 32.06,
-          "end_sec": 32.6
-        },
-        {
-          "word": "Lire",
-          "start_sec": 32.58,
-          "end_sec": 32.78
-        },
-        {
-          "word": "une",
-          "start_sec": 32.78,
-          "end_sec": 32.96
-        },
-        {
-          "word": "bande",
-          "start_sec": 32.96,
-          "end_sec": 33.1
-        },
-        {
-          "word": "dessinée,",
-          "start_sec": 33.1,
-          "end_sec": 33.68
-        },
-        {
-          "word": "c'est",
-          "start_sec": 33.68,
-          "end_sec": 33.86
-        },
-        {
-          "word": "lire.",
-          "start_sec": 33.86,
-          "end_sec": 34.14
+          "word": "maison.",
+          "start_sec": 12.12,
+          "end_sec": 12.88
         },
         {
           "word": "Et",
-          "start_sec": 34.3,
-          "end_sec": 34.44
+          "start_sec": 13.04,
+          "end_sec": 13.22
         },
         {
-          "word": "ça",
-          "start_sec": 34.44,
-          "end_sec": 34.5
+          "word": "j'ai",
+          "start_sec": 13.22,
+          "end_sec": 13.4
         },
         {
-          "word": "permet",
-          "start_sec": 34.5,
-          "end_sec": 34.82
+          "word": "dû",
+          "start_sec": 13.4,
+          "end_sec": 13.52
         },
         {
-          "word": "souvent",
-          "start_sec": 34.82,
-          "end_sec": 35.06
+          "word": "leur",
+          "start_sec": 13.52,
+          "end_sec": 13.72
         },
         {
-          "word": "d'ailleurs",
-          "start_sec": 35.06,
-          "end_sec": 35.34
+          "word": "faire",
+          "start_sec": 13.72,
+          "end_sec": 13.88
+        },
+        {
+          "word": "visiter",
+          "start_sec": 13.88,
+          "end_sec": 14.26
+        },
+        {
+          "word": "les",
+          "start_sec": 14.26,
+          "end_sec": 14.44
+        },
+        {
+          "word": "monuments",
+          "start_sec": 14.44,
+          "end_sec": 14.86
+        },
+        {
+          "word": "et",
+          "start_sec": 14.86,
+          "end_sec": 15.18
+        },
+        {
+          "word": "les",
+          "start_sec": 15.18,
+          "end_sec": 15.36
+        },
+        {
+          "word": "musées",
+          "start_sec": 15.36,
+          "end_sec": 15.62
         },
         {
           "word": "de",
-          "start_sec": 35.34,
-          "end_sec": 35.54
+          "start_sec": 15.62,
+          "end_sec": 15.76
         },
         {
-          "word": "découvrir",
-          "start_sec": 35.54,
-          "end_sec": 35.94
+          "word": "Paris.",
+          "start_sec": 15.76,
+          "end_sec": 16.02
         },
         {
-          "word": "ensuite",
-          "start_sec": 35.94,
-          "end_sec": 36.28
+          "word": "Tu",
+          "start_sec": 16.66,
+          "end_sec": 16.84
         },
         {
-          "word": "d'autres",
-          "start_sec": 36.28,
-          "end_sec": 36.58
+          "word": "as",
+          "start_sec": 16.84,
+          "end_sec": 17.14
         },
         {
-          "word": "formes",
-          "start_sec": 36.58,
-          "end_sec": 36.84
+          "word": "pu",
+          "start_sec": 17.14,
+          "end_sec": 17.3
         },
         {
-          "word": "de",
-          "start_sec": 36.84,
-          "end_sec": 37.0
+          "word": "travailler",
+          "start_sec": 17.3,
+          "end_sec": 17.76
         },
         {
-          "word": "littérature.",
-          "start_sec": 37.0,
-          "end_sec": 37.86
+          "word": "un",
+          "start_sec": 17.76,
+          "end_sec": 17.96
+        },
+        {
+          "word": "peu ?",
+          "start_sec": 17.96,
+          "end_sec": 18.26
+        },
+        {
+          "word": "Oui,",
+          "start_sec": 17.96,
+          "end_sec": 19.16
+        },
+        {
+          "word": "mais",
+          "start_sec": 19.16,
+          "end_sec": 19.28
+        },
+        {
+          "word": "je",
+          "start_sec": 19.28,
+          "end_sec": 19.52
+        },
+        {
+          "word": "dois",
+          "start_sec": 19.52,
+          "end_sec": 19.7
+        },
+        {
+          "word": "encore",
+          "start_sec": 19.7,
+          "end_sec": 20.02
+        },
+        {
+          "word": "étudier",
+          "start_sec": 20.02,
+          "end_sec": 20.44
+        },
+        {
+          "word": "les",
+          "start_sec": 20.44,
+          "end_sec": 20.64
+        },
+        {
+          "word": "maths.",
+          "start_sec": 20.64,
+          "end_sec": 20.88
         },
         {
           "word": "Question",
-          "start_sec": 40.06,
-          "end_sec": 40.42
+          "start_sec": 24.08,
+          "end_sec": 24.32
         },
         {
-          "word": "23.",
-          "start_sec": 40.42,
-          "end_sec": 41.24
+          "word": "27.",
+          "start_sec": 24.32,
+          "end_sec": 25
         },
         {
-          "word": "Que",
-          "start_sec": 43.22,
-          "end_sec": 43.4
+          "word": "De",
+          "start_sec": 27.24,
+          "end_sec": 27.36
         },
         {
-          "word": "conseille",
-          "start_sec": 43.4,
-          "end_sec": 43.8
+          "word": "quoi",
+          "start_sec": 27.36,
+          "end_sec": 27.6
         },
         {
-          "word": "cette",
-          "start_sec": 43.8,
-          "end_sec": 44.04
+          "word": "parlent",
+          "start_sec": 27.6,
+          "end_sec": 28.02
         },
         {
-          "word": "intervenante",
-          "start_sec": 44.04,
-          "end_sec": 44.64
+          "word": "les",
+          "start_sec": 28.02,
+          "end_sec": 28.22
         },
         {
-          "word": "ou",
-          "start_sec": 44.64,
-          "end_sec": 44.8
+          "word": "deux",
+          "start_sec": 28.22,
+          "end_sec": 28.42
         },
         {
-          "word": "parent ?",
-          "start_sec": 44.8,
-          "end_sec": 45.32
+          "word": "jeunes",
+          "start_sec": 28.42,
+          "end_sec": 28.66
+        },
+        {
+          "word": "filles ?",
+          "start_sec": 28.66,
+          "end_sec": 29.1
+        },
+        {
+          "word": "Merci.",
+          "start_sec": 30.24,
+          "end_sec": 30.74
         }
       ],
       "question_type": "text_mcq"
@@ -10493,150 +10263,380 @@
       "options": [
         {
           "id": "A",
-          "text": "Un point de vue sur la situation mondiale aujourd'hui."
+          "text": "Conseiller des régimes pour maigrir."
         },
         {
           "id": "B",
-          "text": "Une analyse de l'actualité économique dans le monde."
+          "text": "Faciliter la consommation de fruits et légumes."
         },
         {
           "id": "C",
-          "text": "Une critique des conséquences de la mondialisation."
+          "text": "Livrer des plats cuisinés au bureau."
         },
         {
           "id": "D",
-          "text": "Une réflexion sur les relations politiques mondiales."
+          "text": "Proposer des recettes de saison."
         }
       ],
-      "correct": "A",
-      "correct_option_text": "Un point de vue sur la situation mondiale aujourd'hui.",
-      "transcript": "Ah ouais. monde avec un optimisme réaliste. Il appelle ça l'optiréalisme, loin des discours catastrophistes des prophètes de malheur. Question 22. Que propose cette émission ?",
-      "explanation": "L'émission propose une vision optimiste du monde, appelée \"optiréalisme\", qui se distingue des discours catastrophistes. Cette approche est caractérisée par un optimisme réaliste, ce qui signifie que l'on considère les défis et les problèmes, mais on croit en la capacité de la société à les résoudre.",
+      "correct": "B",
+      "correct_option_text": "Faciliter la consommation de fruits et légumes.",
+      "transcript": "Manger 5 fruits et légumes par jour, c'est bon pour la santé, on le sait, mais on ne le fait pas. Avouez, vous avez essayé, mais vous n'y arrivez pas. Miammiam.fr va vous y aider. Ce site propose des paniers avec des produits frais et de saison. Le tout livré gratuitement partout dans le pays, chez vous ou sur votre lieu de travail. Question 28. Quel est le but de Miammiam.fr ?",
+      "explanation": "Miammiam.fr s'adresse à ceux qui savent qu'il faut manger cinq fruits et légumes par jour sans y parvenir : le site « va vous y aider » en livrant gratuitement des paniers de produits frais et de saison. Il livre des produits, pas des plats cuisinés, et ne propose ni régime ni recettes.",
       "words": [
         {
-          "word": "Ah",
-          "start_sec": 0.38,
-          "end_sec": 0.58
+          "word": "Manger",
+          "start_sec": 1.24,
+          "end_sec": 1.68
         },
         {
-          "word": "ouais.",
-          "start_sec": 0.58,
-          "end_sec": 0.8
+          "word": "5",
+          "start_sec": 1.68,
+          "end_sec": 2
         },
         {
-          "word": "monde",
-          "start_sec": 30.0,
-          "end_sec": 30.18
+          "word": "fruits",
+          "start_sec": 2,
+          "end_sec": 2.24
         },
         {
-          "word": "avec",
-          "start_sec": 30.18,
-          "end_sec": 30.44
+          "word": "et",
+          "start_sec": 2.24,
+          "end_sec": 2.36
         },
         {
-          "word": "un",
-          "start_sec": 30.44,
-          "end_sec": 30.62
+          "word": "légumes",
+          "start_sec": 2.36,
+          "end_sec": 2.54
         },
         {
-          "word": "optimisme",
-          "start_sec": 30.62,
-          "end_sec": 31.42
+          "word": "par",
+          "start_sec": 2.54,
+          "end_sec": 2.78
         },
         {
-          "word": "réaliste.",
-          "start_sec": 31.42,
-          "end_sec": 32.66
+          "word": "jour,",
+          "start_sec": 2.78,
+          "end_sec": 3.26
         },
         {
-          "word": "Il",
-          "start_sec": 32.5,
-          "end_sec": 32.54
+          "word": "c'est",
+          "start_sec": 3.26,
+          "end_sec": 3.34
         },
         {
-          "word": "appelle",
-          "start_sec": 32.54,
-          "end_sec": 32.72
+          "word": "bon",
+          "start_sec": 3.34,
+          "end_sec": 3.42
         },
         {
-          "word": "ça",
-          "start_sec": 32.72,
-          "end_sec": 32.94
+          "word": "pour",
+          "start_sec": 3.42,
+          "end_sec": 3.58
         },
         {
-          "word": "l'optiréalisme,",
-          "start_sec": 32.94,
-          "end_sec": 34.22
+          "word": "la",
+          "start_sec": 3.58,
+          "end_sec": 3.7
         },
         {
-          "word": "loin",
-          "start_sec": 34.14,
-          "end_sec": 34.58
+          "word": "santé,",
+          "start_sec": 3.7,
+          "end_sec": 4.52
         },
         {
-          "word": "des",
-          "start_sec": 34.58,
-          "end_sec": 34.7
+          "word": "on",
+          "start_sec": 4.52,
+          "end_sec": 4.62
         },
         {
-          "word": "discours",
-          "start_sec": 34.7,
-          "end_sec": 35.02
+          "word": "le",
+          "start_sec": 4.62,
+          "end_sec": 4.86
         },
         {
-          "word": "catastrophistes",
-          "start_sec": 35.02,
-          "end_sec": 35.82
+          "word": "sait,",
+          "start_sec": 4.86,
+          "end_sec": 5.32
         },
         {
-          "word": "des",
-          "start_sec": 35.36,
-          "end_sec": 36.04
+          "word": "mais",
+          "start_sec": 5.32,
+          "end_sec": 5.44
         },
         {
-          "word": "prophètes",
-          "start_sec": 36.04,
-          "end_sec": 36.36
+          "word": "on",
+          "start_sec": 5.44,
+          "end_sec": 5.48
         },
         {
-          "word": "de",
-          "start_sec": 36.36,
-          "end_sec": 36.52
+          "word": "ne",
+          "start_sec": 5.48,
+          "end_sec": 5.56
         },
         {
-          "word": "malheur.",
-          "start_sec": 36.52,
-          "end_sec": 37.04
+          "word": "le",
+          "start_sec": 5.56,
+          "end_sec": 5.72
         },
         {
-          "word": "Question",
-          "start_sec": 39.22,
-          "end_sec": 39.64
+          "word": "fait",
+          "start_sec": 5.72,
+          "end_sec": 5.84
         },
         {
-          "word": "22.",
-          "start_sec": 39.64,
-          "end_sec": 40.68
+          "word": "pas.",
+          "start_sec": 5.84,
+          "end_sec": 6.56
         },
         {
-          "word": "Que",
-          "start_sec": 42.22,
-          "end_sec": 42.44
+          "word": "Avouez,",
+          "start_sec": 6.62,
+          "end_sec": 7.16
+        },
+        {
+          "word": "vous",
+          "start_sec": 7.16,
+          "end_sec": 7.3
+        },
+        {
+          "word": "avez",
+          "start_sec": 7.3,
+          "end_sec": 7.54
+        },
+        {
+          "word": "essayé,",
+          "start_sec": 7.54,
+          "end_sec": 8.08
+        },
+        {
+          "word": "mais",
+          "start_sec": 8.08,
+          "end_sec": 8.16
+        },
+        {
+          "word": "vous",
+          "start_sec": 8.16,
+          "end_sec": 8.32
+        },
+        {
+          "word": "n'y",
+          "start_sec": 8.32,
+          "end_sec": 8.46
+        },
+        {
+          "word": "arrivez",
+          "start_sec": 8.46,
+          "end_sec": 8.72
+        },
+        {
+          "word": "pas.",
+          "start_sec": 8.72,
+          "end_sec": 9.42
+        },
+        {
+          "word": "Miammiam.fr",
+          "start_sec": 9.46,
+          "end_sec": 10.22
+        },
+        {
+          "word": "va",
+          "start_sec": 10.22,
+          "end_sec": 10.38
+        },
+        {
+          "word": "vous",
+          "start_sec": 10.38,
+          "end_sec": 10.54
+        },
+        {
+          "word": "y",
+          "start_sec": 10.54,
+          "end_sec": 10.68
+        },
+        {
+          "word": "aider.",
+          "start_sec": 10.68,
+          "end_sec": 11.4
+        },
+        {
+          "word": "Ce",
+          "start_sec": 11.44,
+          "end_sec": 11.6
+        },
+        {
+          "word": "site",
+          "start_sec": 11.6,
+          "end_sec": 11.76
         },
         {
           "word": "propose",
-          "start_sec": 42.44,
-          "end_sec": 42.86
+          "start_sec": 11.76,
+          "end_sec": 12.22
         },
         {
-          "word": "cette",
-          "start_sec": 42.86,
-          "end_sec": 43.28
+          "word": "des",
+          "start_sec": 12.22,
+          "end_sec": 12.48
         },
         {
-          "word": "émission ?",
-          "start_sec": 43.28,
-          "end_sec": 44.22
+          "word": "paniers",
+          "start_sec": 12.48,
+          "end_sec": 12.64
+        },
+        {
+          "word": "avec",
+          "start_sec": 12.64,
+          "end_sec": 12.84
+        },
+        {
+          "word": "des",
+          "start_sec": 12.84,
+          "end_sec": 12.98
+        },
+        {
+          "word": "produits",
+          "start_sec": 12.98,
+          "end_sec": 13.38
+        },
+        {
+          "word": "frais",
+          "start_sec": 13.38,
+          "end_sec": 13.8
+        },
+        {
+          "word": "et",
+          "start_sec": 13.8,
+          "end_sec": 14.32
+        },
+        {
+          "word": "de",
+          "start_sec": 14.32,
+          "end_sec": 14.44
+        },
+        {
+          "word": "saison.",
+          "start_sec": 14.44,
+          "end_sec": 15.4
+        },
+        {
+          "word": "Le",
+          "start_sec": 15.32,
+          "end_sec": 15.46
+        },
+        {
+          "word": "tout",
+          "start_sec": 15.46,
+          "end_sec": 15.58
+        },
+        {
+          "word": "livré",
+          "start_sec": 15.58,
+          "end_sec": 15.88
+        },
+        {
+          "word": "gratuitement",
+          "start_sec": 15.88,
+          "end_sec": 16.42
+        },
+        {
+          "word": "partout",
+          "start_sec": 16.42,
+          "end_sec": 16.72
+        },
+        {
+          "word": "dans",
+          "start_sec": 16.72,
+          "end_sec": 16.88
+        },
+        {
+          "word": "le",
+          "start_sec": 16.88,
+          "end_sec": 17
+        },
+        {
+          "word": "pays,",
+          "start_sec": 17,
+          "end_sec": 17.64
+        },
+        {
+          "word": "chez",
+          "start_sec": 17.64,
+          "end_sec": 17.78
+        },
+        {
+          "word": "vous",
+          "start_sec": 17.78,
+          "end_sec": 18.08
+        },
+        {
+          "word": "ou",
+          "start_sec": 18.08,
+          "end_sec": 18.62
+        },
+        {
+          "word": "sur",
+          "start_sec": 18.62,
+          "end_sec": 18.82
+        },
+        {
+          "word": "votre",
+          "start_sec": 18.82,
+          "end_sec": 19.04
+        },
+        {
+          "word": "lieu",
+          "start_sec": 19.04,
+          "end_sec": 19.22
+        },
+        {
+          "word": "de",
+          "start_sec": 19.22,
+          "end_sec": 19.32
+        },
+        {
+          "word": "travail.",
+          "start_sec": 19.32,
+          "end_sec": 19.62
+        },
+        {
+          "word": "Question",
+          "start_sec": 22.36,
+          "end_sec": 22.76
+        },
+        {
+          "word": "28.",
+          "start_sec": 22.76,
+          "end_sec": 23.46
+        },
+        {
+          "word": "Quel",
+          "start_sec": 25.66,
+          "end_sec": 25.88
+        },
+        {
+          "word": "est",
+          "start_sec": 25.88,
+          "end_sec": 26.02
+        },
+        {
+          "word": "le",
+          "start_sec": 26.02,
+          "end_sec": 26.22
+        },
+        {
+          "word": "but",
+          "start_sec": 26.22,
+          "end_sec": 26.48
+        },
+        {
+          "word": "de",
+          "start_sec": 26.48,
+          "end_sec": 26.9
+        },
+        {
+          "word": "Miammiam.fr ?",
+          "start_sec": 26.9,
+          "end_sec": 28.86
         }
       ],
       "question_type": "text_mcq"
@@ -17599,10 +17599,10 @@
       "text_mcq": 29
     },
     "correct_answer_distribution": {
-      "A": 14,
-      "B": 9,
+      "A": 11,
+      "B": 10,
       "C": 9,
-      "D": 7
+      "D": 9
     }
   }
 }
