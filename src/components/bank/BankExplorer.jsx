@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench, Headphones, PenLine, Mic } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -17,8 +17,25 @@ import { ROLES, isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
 import { takeOpenQuizRequest } from "@/utils/openQuizRequest";
 import { TOUR_STEPS } from "@/constants/tour";
+import { PALETTE } from "@/components/home/toolsData";
 
 const isPrompt = (quiz) => quiz.kind === "prompt";
+
+// Each épreuve's look in the hub — icon, colour (the landing page's tool
+// colours), and its official format for the tile.
+const EPREUVE = {
+  co: { icon: Headphones, tone: "blue", n: 39, mins: 35 },
+  ce: { icon: BookOpen, tone: "rose", n: 39, mins: 60 },
+  ee: { icon: PenLine, tone: "violet", tasks: "3 tâches · 60 min" },
+  eo: { icon: Mic, tone: "amber", tasks: "3 tâches · 12 min" },
+};
+// { fill, bg, ink, soft }: `fill` is the saturated colour of a selected tile
+// (white text on it, in both themes); bg/ink/soft follow the theme.
+function epreuveColors(section, dark) {
+  const tone = EPREUVE[section]?.tone || "blue";
+  const [bg, ink, soft] = PALETTE[tone][dark ? "dark" : "light"];
+  return { fill: PALETTE[tone].light[1], bg, ink, soft };
+}
 
 // Every épreuve's guide, keyed by section, for the "Guide de l'épreuve" side
 // panel. Each descriptor carries its header meta and a compact-aware Body.
@@ -40,7 +57,8 @@ const GUIDE_PANELS = { co: CO_GUIDE_PANEL, ce: CE_GUIDE_PANEL, ee: EE_GUIDE_PANE
 // Members get a greyed card whose hover/focus says why it is closed; staff
 // keep the normal card, marked so they know members cannot see it.
 function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked, review, staff }) {
-  const { c, t } = useApp();
+  const { c, t, dark } = useApp();
+  const accent = epreuveColors(quiz.section, dark);
   const prompt = isPrompt(quiz);
   const count = quiz.questions.length;
   // A member's past score on a quiz under review was graded against the wrong
@@ -61,7 +79,7 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked,
   ) : done ? (
     <span className="w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0"><Check size={16} /></span>
   ) : (
-    <span className="w-7 h-7 rounded-full bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Play size={14} className="ml-0.5" /></span>
+    <span className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ background: accent.soft, color: accent.ink }}><Play size={14} className="ml-0.5" /></span>
   );
 
   return (
@@ -264,7 +282,7 @@ function GuideAside({ section, open, onClose }) {
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
 export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back, workshops }) {
-  const { c, user, role, nav, notify, t, tourStep } = useApp();
+  const { c, user, role, nav, notify, t, tourStep, dark } = useApp();
   const bank = getBank();
   const [section, setSection] = useState(sections[0]);
   const [quiz, setQuiz] = useState(null);
@@ -386,19 +404,52 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   // (a bank prompt-quiz doesn't count); free users get the Premium gate.
   const workshop = workshops?.[section];
   const showWorkshop = workshop && !quizzes.some((qz) => !isPrompt(qz));
+  // The multi-épreuve hub (tiles + tinted panel); single-section pages keep
+  // the plain grid.
+  const hub = sections.length > 1;
+  const tone = epreuveColors(section, dark);
 
   return (
     <PageShell wide eyebrow={t(eyebrow)} title={t(title)} sub={t(sub)} back={back}>
-      {sections.length > 1 && (
-        <div className="flex gap-2 flex-wrap mb-8">
-          {sections.map((s) => (
-            <button key={s} data-tour={`bank-${s}`} onClick={() => { setSection(s); setGuideOpen(false); }} className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-              {t(SECTION_LABELS[s])}
-              <span className={`text-xs font-mono2 ${section === s ? "opacity-80" : c.faint}`}>{workshops?.[s] ? "" : bank[s].length}</span>
-            </button>
-          ))}
+      {/* The épreuve picker: four tiles, one colour each. The selected one is
+          filled with its colour, lifted and checked, and points down at the
+          panel below, which takes the same colour — so it is always obvious
+          which épreuve the quizzes belong to. */}
+      {hub && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+          {sections.map((s) => {
+            const e = EPREUVE[s];
+            const k = epreuveColors(s, dark);
+            const on = section === s;
+            const meta = e.tasks ? t(e.tasks) : `${t("39 questions")} · ${e.mins} min`;
+            return (
+              <button key={s} data-tour={`bank-${s}`} aria-pressed={on}
+                onClick={() => { setSection(s); setGuideOpen(false); }}
+                className={`relative text-left rounded-3xl p-4 md:p-5 border-2 transition duration-300 ${on ? "-translate-y-1 shadow-xl" : `${c.card} hover:-translate-y-0.5 hover:shadow-md`}`}
+                style={on ? { background: k.fill, borderColor: k.fill, boxShadow: `0 18px 36px -14px ${k.fill}88` } : { borderColor: `${k.ink}33` }}>
+                <span className="flex items-start justify-between gap-2">
+                  <span className="grid place-items-center w-11 h-11 rounded-2xl" style={on ? { background: "rgba(255,255,255,.2)", color: "#FFFFFF" } : { background: k.soft, color: k.ink }}>
+                    <e.icon size={21} />
+                  </span>
+                  {on && <span className="grid place-items-center w-6 h-6 rounded-full bg-white" style={{ color: k.fill }}><Check size={14} strokeWidth={3} /></span>}
+                </span>
+                <span className={`mt-3 block font-display font-extrabold text-base md:text-lg leading-tight ${on ? "text-white" : c.text}`}>{t(SECTION_LABELS[s])}</span>
+                <span className={`mt-1 block text-xs font-semibold ${on ? "text-white/80" : c.faint}`}>{meta}</span>
+                <span className={`mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${on ? "bg-white/20 text-white" : ""}`}
+                  style={on ? undefined : { background: k.soft, color: k.ink }}>
+                  {workshops?.[s] ? t("Atelier") : `${bank[s].length} ${t("Quizz")}`}
+                </span>
+                {/* Pointer into the panel (one row of tiles only, from lg): centred on
+                    the panel's top edge — 20px gap + the tile's 4px lift. */}
+                {on && <span aria-hidden="true" className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-5 h-5 rotate-45 border-l-2 border-t-2"
+                  style={{ bottom: -35, background: k.bg, borderColor: `${k.ink}55` }} />}
+              </button>
+            );
+          })}
         </div>
       )}
+      <div className={hub ? "rounded-[28px] border-2 p-3 sm:p-5 md:p-6 transition-colors duration-300" : undefined}
+        style={hub ? { background: tone.bg, borderColor: `${tone.ink}55` } : undefined}>
       {freeTier && !showWorkshop && quizzes.length > 0 && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
           <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>
@@ -459,6 +510,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
           })}
         </div>
       )}
+      </div>
     </PageShell>
   );
 }

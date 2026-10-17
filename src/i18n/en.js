@@ -1508,6 +1508,7 @@ export const EN = {
   "Refaire ce quiz": "Redo this quiz",
   "Commencer ce quiz": "Start this quiz",
   "Quizz": "Quiz",
+  "Atelier": "Workshop",
   "Sujets à travailler dans l'atelier": "Topics for the workshop:",
   "Voir les consignes": "See the prompts",
   "Ces consignes sont disponibles comme tâches dans l'atelier de pratique.": "These prompts are available as tasks in the practice workshop.",
