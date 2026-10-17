@@ -60,7 +60,9 @@ export const PAGES = {
   reading: Reading,
   writing: Writing,
   speaking: Speaking,
-  // The six practice tools all open the Pratique hub, on their own tab.
+  // The six practice tools all open the Pratique hub, on their own tab;
+  // "entrainement" is the hub's own address (the nav's « Pratique » link).
+  entrainement: Pratique,
   vocabulary: Pratique,
   grammar: Pratique,
   conjugation: Pratique,

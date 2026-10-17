@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
-import { NAV_LINKS, navLinksForRole, mobileNavForRole } from "@/constants/navigation";
+import { NAV_LINKS, navLinksForRole, mobileNavForRole, PRATIQUE_ROUTES as HUB_ROUTES } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePendingValidations } from "@/hooks/usePendingValidations";
 import { ROLES, isStaff } from "@/auth/rbac";
@@ -122,7 +122,9 @@ export function Nav({ barOffset = false }) {
             {navLinks.map((n) => {
               const isPratique = n.l === "Pratique";
               const pratiqueOpen = openMenu === n.l || (isPratique && pratiqueForcedOpen);
-              return n.menu ? (
+              // A menu entry with its own route (« Pratique ») is a plain link
+              // to that page on the desktop bar, active on any of its tools.
+              return n.menu && !n.r ? (
                 <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
                   <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${c.sub} ${c.hoverSoft}`} aria-expanded={pratiqueOpen}>
                     {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
@@ -152,9 +154,12 @@ export function Nav({ barOffset = false }) {
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : undefined} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold whitespace-nowrap shrink-0 ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
                   <span className="grad-text">{t(n.l)}</span>
                 </RouteLink>
-              ) : (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : undefined} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${route === n.r ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
-              );
+              ) : (() => {
+                const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
+                return (
+                  <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined} aria-current={here ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${here ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
+                );
+              })();
             })}
           </nav>
           <div className="flex items-center gap-1.5">

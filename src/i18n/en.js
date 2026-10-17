@@ -1511,6 +1511,7 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Six outils, un seul cahier : choisissez un marque-page.": "Six tools, one notebook: pick a bookmark.",
   "Embarquement": "Boarding",
   "Le détail des épreuves": "Test details",
   "Votre résultat reste consultable dans l'historique. Les examens suivants font partie de l'abonnement Premium.":

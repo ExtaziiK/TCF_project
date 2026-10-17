@@ -92,6 +92,8 @@ export const PAGE_ACCESS = {
   // Supplementary practice, open to any signed-in account. Neither page
   // gates its own content, so this policy is the whole of the rule: a free
   // user gets the vocabulary decks and the grammar lessons in full.
+  // The Pratique hub (each tool inside it is still guarded on its own route).
+  entrainement: AUTHENTICATED,
   vocabulary: AUTHENTICATED,
   grammar: AUTHENTICATED,
   conjugation: AUTHENTICATED,

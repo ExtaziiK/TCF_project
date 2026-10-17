@@ -157,6 +157,8 @@ export const ROUTE_META = {
   reading: { path: "/comprehension-ecrite", title: "Compréhension écrite — entraînement", noindex: true },
   writing: { path: "/expression-ecrite", title: "Expression écrite — atelier", noindex: true },
   speaking: { path: "/expression-orale", title: "Expression orale — studio", noindex: true },
+  // The Pratique hub's own address (its tools also open it, on their tab).
+  entrainement: { path: "/entrainement", title: "Pratique — cahier d'entraînement", noindex: true },
   vocabulary: { path: "/vocabulaire", title: "Vocabulaire — cartes mémoire", noindex: true },
   grammar: { path: "/grammaire", title: "Grammaire", noindex: true },
   conjugation: { path: "/conjugaison", title: "Conjugaison — leçons et exercices par temps", noindex: true },
