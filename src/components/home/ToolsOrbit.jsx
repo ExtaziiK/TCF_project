@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowRight, ClipboardCheck, Headphones, BookOpen, PenLine, Mic, Keyboard, Languages, GraduationCap } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ClipboardCheck, Pointer, Headphones, BookOpen, PenLine, Mic, Keyboard, Languages, GraduationCap } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { pathForRoute } from "@/constants/seo";
@@ -193,23 +193,34 @@ function MockCard({ hint }) {
 // and a click opens it. Touch only previews on the first tap (pointerenter from
 // a finger is ignored, so the tap's click sees the tool inactive) and opens it
 // on the second.
-function ToolButton({ tool, i, active, setActive, size = 84, className = "", style }) {
+function ToolButton({ tool, i, active, setActive, demo, size = 84, className = "", style }) {
   const { t, dark, nav } = useApp();
   const [bg, ink] = PALETTE[tool.tone][dark ? "dark" : "light"];
   const on = active === i;
   const onClick = (e) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
-    if (!on) setActive(i);
+    // A tool the demo is showing still needs a real first tap before opening.
+    if (!on || demo) setActive(i);
     else nav(tool.route);
   };
   return (
     <a href={pathForRoute(tool.route)} onClick={onClick} onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)} onFocus={(e) => e.currentTarget.matches(":focus-visible") && setActive(i)}
       className={`group flex flex-col items-center gap-2 outline-none ${className}`} style={style}>
-      <span className={`grid place-items-center rounded-full border-2 transition duration-300 ${on ? "scale-110" : "group-hover:scale-105"}`}
-        style={{ width: size, height: size, background: on ? ink : bg, borderColor: ink,
-          color: on ? (tool.tone === "night" ? "#14204A" : "#FFFFFF") : ink, boxShadow: on ? `0 0 0 6px ${bg}` : "none" }}>
-        <tool.icon size={Math.round(size * 0.34)} />
+      <span className="relative">
+        {/* Until the visitor interacts: a pulsing ring invites a hover, and the
+            tool the demo is showing gets a tapping hand. */}
+        {demo && <span aria-hidden="true" className="invite-ping absolute inset-0 rounded-full border-2" style={{ borderColor: ink, animationDelay: `${i * 0.35}s` }} />}
+        <span className={`relative grid place-items-center rounded-full border-2 transition duration-300 ${on ? "scale-110" : "group-hover:scale-105"}`}
+          style={{ width: size, height: size, background: on ? ink : bg, borderColor: ink,
+            color: on ? (tool.tone === "night" ? "#14204A" : "#FFFFFF") : ink, boxShadow: on ? `0 0 0 6px ${bg}` : "none" }}>
+          <tool.icon size={Math.round(size * 0.34)} />
+        </span>
+        {demo && on && (
+          <span aria-hidden="true" className="demo-tap absolute -right-3 -bottom-3 text-slate-900">
+            <Pointer size={Math.round(size * 0.36)} fill="#FFFFFF" strokeWidth={1.8} />
+          </span>
+        )}
       </span>
       <span className="w-28 text-center text-xs font-bold leading-tight group-focus-visible:underline" style={{ color: ink }}>{t(tool.t)}</span>
     </a>
@@ -223,7 +234,7 @@ const RING = 290; // ring radius
 const HUB_R = 200; // hub radius
 const NODE_R = 42; // tool button radius on the ring
 
-function Orbit({ active, setActive }) {
+function Orbit({ active, setActive, leave, demo }) {
   const { dark } = useApp();
   const tool = active === null ? null : TOOLS[active];
   const [hubBg] = tool ? PALETTE[tool.tone][dark ? "dark" : "light"] : HUB[dark ? "dark" : "light"];
@@ -233,7 +244,7 @@ function Orbit({ active, setActive }) {
     return { x: SIZE / 2 + RING * Math.cos(a), y: SIZE / 2 + RING * Math.sin(a), a };
   });
   return (
-    <div className="relative mx-auto hidden lg:block" style={{ width: SIZE, height: SIZE }} onMouseLeave={() => setActive(null)}>
+    <div className="relative mx-auto hidden lg:block" style={{ width: SIZE, height: SIZE }} onMouseLeave={leave}>
       <svg className="absolute inset-0" width={SIZE} height={SIZE} aria-hidden="true">
         <circle cx={SIZE / 2} cy={SIZE / 2} r={RING} fill="none" stroke={line} strokeWidth="2" strokeDasharray="3 10"
           strokeLinecap="round" className="decor-dash" />
@@ -254,14 +265,14 @@ function Orbit({ active, setActive }) {
         </div>
       </div>
       {TOOLS.map((tl, i) => (
-        <ToolButton key={tl.route} tool={tl} i={i} active={active} setActive={setActive}
+        <ToolButton key={tl.route} tool={tl} i={i} active={active} setActive={setActive} demo={demo}
           className="absolute -translate-x-1/2" style={{ left: pts[i].x, top: pts[i].y - NODE_R }} />
       ))}
     </div>
   );
 }
 
-function Stacked({ active, setActive }) {
+function Stacked({ active, setActive, demo }) {
   const { dark } = useApp();
   const tool = active === null ? null : TOOLS[active];
   const [hubBg] = tool ? PALETTE[tool.tone][dark ? "dark" : "light"] : HUB[dark ? "dark" : "light"];
@@ -271,18 +282,59 @@ function Stacked({ active, setActive }) {
         {tool ? <ToolCard key={tool.route} tool={tool} n={active + 1} /> : <MockCard key="mock" hint="Touchez un outil pour le découvrir" />}
       </div>
       <div className="mt-8 grid grid-cols-4 sm:grid-cols-7 gap-y-6 justify-items-center">
-        {TOOLS.map((tl, i) => <ToolButton key={tl.route} tool={tl} i={i} active={active} setActive={setActive} size={60} />)}
+        {TOOLS.map((tl, i) => <ToolButton key={tl.route} tool={tl} i={i} active={active} setActive={setActive} demo={demo} size={60} />)}
       </div>
     </div>
   );
 }
 
+// The demo: until the visitor touches anything, the orbit walks through the
+// tools on its own once it's on screen (TCF blanc, then each tool in turn), so
+// it's obvious the tools respond. The first hover, focus or tap ends it for
+// good. Not run under reduced motion.
+const DEMO_STEP_MS = 2600;
+const DEMO = [null, ...TOOLS.map((_, i) => i)];
+
+function useDemo(ref, stopped) {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    if (stopped || typeof window === "undefined" || !window.IntersectionObserver) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = 0;
+    const io = new window.IntersectionObserver(([entry]) => {
+      window.clearInterval(timer);
+      if (entry.isIntersecting) timer = window.setInterval(() => setStep((s) => (s + 1) % DEMO.length), DEMO_STEP_MS);
+    }, { threshold: 0.35 });
+    io.observe(ref.current);
+    return () => { io.disconnect(); window.clearInterval(timer); };
+  }, [ref, stopped]);
+  return DEMO[step];
+}
+
 export function ToolsOrbit() {
+  const { t } = useApp();
+  const ref = useRef(null);
   const [active, setActive] = useState(null);
+  const [touched, setTouched] = useState(false);
+  const demoActive = useDemo(ref, touched);
+  const choose = (i) => { setTouched(true); setActive(i); };
+  const shown = touched ? active : demoActive;
+  const demo = !touched;
   return (
-    <>
-      <Orbit active={active} setActive={setActive} />
-      <Stacked active={active} setActive={setActive} />
-    </>
+    <div ref={ref}>
+      {/* An explicit invitation, gone once the visitor has tried it. */}
+      {demo && (
+        <div className="flex justify-center mb-8">
+          <span className="decor-float inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
+            style={{ background: "#FDEFD6", color: "#8A5A0B" }}>
+            <Pointer size={16} />
+            <span className="hidden lg:inline">{t("Survolez un outil pour le découvrir")}</span>
+            <span className="lg:hidden">{t("Touchez un outil pour le découvrir")}</span>
+          </span>
+        </div>
+      )}
+      <Orbit active={shown} setActive={choose} leave={() => setActive(null)} demo={demo} />
+      <Stacked active={shown} setActive={choose} demo={demo} />
+    </div>
   );
 }
