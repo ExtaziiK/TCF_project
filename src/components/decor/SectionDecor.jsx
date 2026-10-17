@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { BRAND, Bubble, Tile, Badge, Tag, Maple, Flight } from "./stickers";
+import { BRAND, Bubble, Tile, Tag, Maple, Flight } from "./stickers";
 
 const { blue, violet, red, amber } = BRAND;
 
 // One layout per section: [Sticker, props, position classes, animation class,
 // parallax depth (px of mouse travel; 0 = none)]. Stickers sit in the empty
-// side margins and each section has its own theme: a greeting in the hero, the
-// four épreuves beside the modules, scores near the calculator, a flight to
-// Canada in the final call to action.
+// side margins and each section has its own theme: a greeting in the hero,
+// scores near the calculator, a flight to Canada in the final call to action.
 const LAYOUTS = {
   hero: [
     [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-28 left-[4%]", "decor-float", 18],
@@ -18,10 +17,10 @@ const LAYOUTS = {
     [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%]", "decor-sway", 28],
   ],
   features: [
-    [Badge, { kind: "co", color: blue, tilt: -8 }, "top-24 left-[4%]", "decor-float", 18],
-    [Badge, { kind: "ce", color: red, tilt: 6 }, "bottom-[22%] left-[7%]", "decor-float-slow", 24],
-    [Badge, { kind: "ee", color: violet, tilt: 8 }, "top-[32%] right-[5%]", "decor-float-slow", 20],
-    [Badge, { kind: "eo", color: amber, tilt: -6 }, "bottom-[14%] right-[3%]", "decor-float", 26],
+    [Tag, { text: "7 outils", color: violet, tilt: -7 }, "top-24 left-[3%]", "decor-float", 18],
+    [Maple, { color: red, size: 50, tilt: 16 }, "top-[52%] left-[6%]", "decor-sway", 24],
+    [Bubble, { text: "À vous de jouer !", color: blue, solid: true, tail: "right", tilt: 5 }, "top-28 right-[2%]", "decor-float-slow", 16],
+    [Tile, { ch: "È", pts: 2, color: amber, tilt: 9 }, "bottom-[16%] right-[6%]", "decor-sway", 26],
   ],
   overview: [
     [Tag, { text: "699 pts", color: violet, tilt: -6 }, "top-20 left-[3%]", "decor-float", 16],

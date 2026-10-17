@@ -6,24 +6,19 @@ import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
+import { ToolsBento } from "@/components/home/ToolsBento";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { SectionDecor } from "@/components/decor/SectionDecor";
 import { WaveSection, TINT } from "@/components/decor/WaveSection";
-import { FEATURES, WHY } from "@/constants/home";
+import { WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useRatingSummary } from "@/hooks/useRatingSummary";
 import { MOCK_SECTIONS } from "@/constants/mocks";
-
-// Flat colour blocks offset behind the module cards (blue, rose, violet, amber).
-const CARD_BLOCKS = {
-  light: ["#C7D8FC", "#F9CDD6", "#D9D0FC", "#FBDFAE"],
-  dark: ["#1C3570", "#5A2134", "#33297A", "#5C4214"],
-};
 
 // Logged-in users land on their personal dashboard; the marketing landing
 // below is for signed-out traffic — and for staff who asked to see it, via the
@@ -120,27 +115,11 @@ function Landing() {
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
-      {/* FEATURES */}
+      {/* TOOLS — the seven modules as a bento grid */}
       <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-        <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
-        {/* Each card sits on its own flat colour block, offset down-right like a
-            solid shadow, so the white cards stand out from the white section
-            (and from each other). On hover the card lifts off its block. */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6">
-          {FEATURES.map((f, i) => (
-            <button key={f.t} onClick={() => nav(f.route)} className="relative text-left">
-              <span aria-hidden="true" className="absolute inset-0 translate-x-2 translate-y-2 rounded-3xl"
-                style={{ background: CARD_BLOCKS[dark ? "dark" : "light"][i % 4] }} />
-              <Card lift className="relative p-6 h-full">
-                <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><f.icon size={22} /></span>
-                <h3 className={`font-display font-bold text-lg mt-5 ${c.text}`}>{t(f.t)}</h3>
-                <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{t(f.d)}</p>
-                <p className="mt-4 text-sm font-semibold text-blue-600 flex items-center gap-1">{t("Pratiquer")} <ArrowRight size={14} /></p>
-              </Card>
-            </button>
-          ))}
-        </div>
+        <SectionHead center eyebrow={t("Votre boîte à outils")} title={t("7 outils à votre disposition")} sub={t("Les quatre épreuves officielles, plus trois entraînements pour progresser plus vite : la dictée, le vocabulaire et la grammaire.")} />
+        <ToolsBento />
       </section>
       </WaveSection>
 

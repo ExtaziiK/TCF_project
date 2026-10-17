@@ -1,11 +1,10 @@
-import { Headphones, BookOpen, PenLine, Mic } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
 // Themed "stickers" that fill the empty sides of the landing page: French
-// speech bubbles, accented letter tiles, the four épreuves as icon badges,
-// level tags, maple leaves and a paper-plane flight path (the passerelle to
-// Canada). Flat colours only — no gradients, no blur. SectionDecor places and
-// animates them; `tilt` is a static rotation in degrees.
+// speech bubbles, accented letter tiles, level tags, maple leaves and a
+// paper-plane flight path (the passerelle to Canada). Flat colours only — no
+// gradients, no blur. SectionDecor places and animates them; `tilt` is a
+// static rotation in degrees.
 
 export const BRAND = { blue: "#2E6BE6", violet: "#6C4FE0", red: "#D8354A", amber: "#F5A524" };
 
@@ -45,20 +44,6 @@ export function Tile({ ch, pts = 1, color, tilt = 0 }) {
       style={{ background: color, boxShadow: `0 4px 0 ${DEEP[color]}`, transform: `rotate(${tilt}deg)` }}>
       {ch}
       <span className="absolute bottom-0.5 right-1.5 text-[10px] font-bold opacity-80">{pts}</span>
-    </div>
-  );
-}
-
-const EPREUVE = { co: Headphones, ce: BookOpen, ee: PenLine, eo: Mic };
-
-// Round badge for one of the four épreuves.
-export function Badge({ kind, color, tilt = 0 }) {
-  const { soft } = useSoft();
-  const Icon = EPREUVE[kind];
-  return (
-    <div className="w-16 h-16 rounded-full grid place-items-center border-2"
-      style={{ background: soft[color], borderColor: color, color, transform: `rotate(${tilt}deg)` }}>
-      <Icon size={26} strokeWidth={2.2} />
     </div>
   );
 }

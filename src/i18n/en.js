@@ -236,6 +236,16 @@ export const EN = {
   "Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.":
     "Each module faithfully reproduces the TCF Canada format, timing and scoring.",
   "Pratiquer": "Practice",
+  "Votre boîte à outils": "Your toolbox",
+  "7 outils à votre disposition": "7 tools at your fingertips",
+  "Les quatre épreuves officielles, plus trois entraînements pour progresser plus vite : la dictée, le vocabulaire et la grammaire.":
+    "The four official tests, plus three training tools to progress faster: dictation, vocabulary and grammar.",
+  "Épreuve officielle": "Official test",
+  "Entraînement": "Training",
+  "Des audios aux accents québécois et français, diffusés une seule fois comme le jour de l'examen, corrigés instantanément.":
+    "Audio with Québécois and French accents, played only once as on exam day, corrected instantly.",
+  "Écoutez un corrigé de niveau C1 ou C2 et écrivez-le mot à mot : chaque écart est corrigé, avec sa raison.":
+    "Listen to a C1 or C2 model answer and write it down word for word: every difference is corrected, with the reason why.",
   "L'épreuve en bref": "The test at a glance",
   "Comprendre le TCF Canada": "Understanding the TCF Canada",
   "Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.":
