@@ -12,13 +12,18 @@ import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { SectionDecor } from "@/components/decor/SectionDecor";
 import { WaveSection, TINT } from "@/components/decor/WaveSection";
-import { CardBackdrop } from "@/components/decor/CardBackdrop";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useRatingSummary } from "@/hooks/useRatingSummary";
 import { MOCK_SECTIONS } from "@/constants/mocks";
+
+// Flat colour blocks offset behind the module cards (blue, rose, violet, amber).
+const CARD_BLOCKS = {
+  light: ["#C7D8FC", "#F9CDD6", "#D9D0FC", "#FBDFAE"],
+  dark: ["#1C3570", "#5A2134", "#33297A", "#5C4214"],
+};
 
 // Logged-in users land on their personal dashboard; the marketing landing
 // below is for signed-out traffic — and for staff who asked to see it, via the
@@ -43,10 +48,11 @@ function Landing() {
   // After the (plain) modules block, sections alternate tinted (straight edge)
   // and plain (opening with a wave, shape and direction varied). Counted over
   // the blocks actually shown, so hiding testimonials never puts two tints
-  // together. Order: testimonials 0, overview 1, calculator 2, pricing 3, CTA 4.
+  // together. Order: video 0, testimonials 1, overview 2, calculator 3,
+  // pricing 4, CTA 5.
   const showTestimonials = !!testimonials?.enabled;
   const look = (n) => {
-    const i = showTestimonials ? n : n - 1;
+    const i = n <= 1 || showTestimonials ? n : n - 1;
     return i % 2 === 0 ? { tinted: true } : { wave: i % 4 === 1 ? 1 : 0, flip: i % 4 === 1 };
   };
   return (
@@ -114,16 +120,19 @@ function Landing() {
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
-      {/* FEATURES + TUTORIAL VIDEO — one visual block (the video has no top padding) */}
+      {/* FEATURES */}
       <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
-        {/* Flat shapes behind the grid so the white cards stand out. */}
-        <CardBackdrop>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {FEATURES.map((f) => (
-            <button key={f.t} onClick={() => nav(f.route)} className="text-left">
-              <Card lift className="p-6 h-full">
+        {/* Each card sits on its own flat colour block, offset down-right like a
+            solid shadow, so the white cards stand out from the white section
+            (and from each other). On hover the card lifts off its block. */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6">
+          {FEATURES.map((f, i) => (
+            <button key={f.t} onClick={() => nav(f.route)} className="relative text-left">
+              <span aria-hidden="true" className="absolute inset-0 translate-x-2 translate-y-2 rounded-3xl"
+                style={{ background: CARD_BLOCKS[dark ? "dark" : "light"][i % 4] }} />
+              <Card lift className="relative p-6 h-full">
                 <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center shadow-lg shadow-blue-600/25"><f.icon size={22} /></span>
                 <h3 className={`font-display font-bold text-lg mt-5 ${c.text}`}>{t(f.t)}</h3>
                 <p className={`mt-2 text-sm leading-relaxed ${c.sub}`}>{t(f.d)}</p>
@@ -132,11 +141,13 @@ function Landing() {
             </button>
           ))}
         </div>
-        </CardBackdrop>
       </section>
+      </WaveSection>
 
-      {/* TUTORIAL VIDEO — between the four épreuves and the testimonials */}
-      <VideoTutorial />
+      {/* TUTORIAL VIDEO — its own tinted block, so it reads as separate from
+          the module cards above (VideoTutorial only pads its bottom). */}
+      <WaveSection {...look(0)}>
+        <div className="pt-14 md:pt-20"><VideoTutorial /></div>
       </WaveSection>
 
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
@@ -145,7 +156,7 @@ function Landing() {
           block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
-        <WaveSection {...look(0)} decor="testimonials">
+        <WaveSection {...look(1)} decor="testimonials">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
@@ -173,7 +184,7 @@ function Landing() {
       )}
 
       {/* EXAM OVERVIEW */}
-      <WaveSection {...look(1)} decor="overview">
+      <WaveSection {...look(2)} decor="overview">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
@@ -202,7 +213,7 @@ function Landing() {
       </WaveSection>
 
       {/* NCLC CALCULATOR */}
-      <WaveSection id="calculateur" {...look(2)} decor="calculator">
+      <WaveSection id="calculateur" {...look(3)} decor="calculator">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
           <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
@@ -210,7 +221,7 @@ function Landing() {
       </WaveSection>
 
       {/* PRICING PREVIEW */}
-      <WaveSection {...look(3)} decor="pricing">
+      <WaveSection {...look(4)} decor="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -238,7 +249,7 @@ function Landing() {
       </WaveSection>
 
       {/* FINAL CTA */}
-      <WaveSection {...look(4)} decor="cta">
+      <WaveSection {...look(5)} decor="cta">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
