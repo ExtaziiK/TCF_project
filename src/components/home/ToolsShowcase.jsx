@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ClipboardCheck, Check, Play, Mic, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Play, Mic, Sparkles, Plane } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { pathForRoute } from "@/constants/seo";
-import { PALETTE, HUB, TOOLS } from "./toolsData";
+import { PALETTE, TOOLS } from "./toolsData";
 
 // "7 outils à votre disposition", as an interactive showcase: the seven tools
 // are always listed (so the section can be skimmed at a glance) and a large
 // panel shows the selected one — a mock of its screen in its own colour, with
 // a link to open it. The list advances on its own, with a progress bar under
 // the selected tool, until the visitor hovers, clicks or focuses a tool; the
-// TCF blanc closes the section as a full-width strip.
+// TCF blanc closes the section as a boarding pass.
 //
 // Below `lg` the same list becomes an accordion: the panel opens right under
 // the selected tool. Tools are real <a href> links (first click selects, a
@@ -247,9 +247,16 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
           style={on ? { background: ink, color: onInk(tool) } : { background: soft, color: ink }}>
           <tool.icon size={18} />
         </span>
-        <span className="flex-1 min-w-0">
-          <span className={`block font-display font-bold ${on ? "" : c.text}`} style={on ? { color: ink } : undefined}>{t(tool.t)}</span>
-          {tool.kind === "Premium" && !on && <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: ink }}>{t("Premium")}</span>}
+        {/* One line, whatever the state: the badge never comes and goes, so
+            selecting an item can't change its height and reflow the list
+            under the pointer (which made neighbours swap back and forth). */}
+        <span className="flex-1 min-w-0 flex items-center gap-2">
+          <span className={`truncate font-display font-bold ${on ? "" : c.text}`} style={on ? { color: ink } : undefined}>{t(tool.t)}</span>
+          {tool.kind === "Nouveau" && (
+            <span className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: "#F5A524", color: "#14204A" }}>
+              {t("Nouveau")}
+            </span>
+          )}
         </span>
         <ArrowRight size={16} className={`shrink-0 transition ${on ? "opacity-100" : "opacity-0 group-hover:opacity-60"}`} style={{ color: ink }} />
       </span>
@@ -264,25 +271,83 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
   );
 }
 
-// ── TCF blanc strip ──────────────────────────────────────────────────────────
+// ── TCF blanc boarding pass ──────────────────────────────────────────────────
 
-function MockStrip() {
-  const { t, dark } = useApp();
-  const [bg, accent] = HUB[dark ? "dark" : "light"];
+// The TCF blanc closes the section as a boarding pass — the passerelle to
+// Canada: the exam's facts as ticket fields, the four épreuves as the route,
+// and a tear-off stub holding the call to action. Flat colours; the notches
+// on the tear line take the page colour so the ticket looks cut out.
+const ROUTE = [["CO", "blue", "35 min"], ["CE", "rose", "60 min"], ["EE", "violet", "60 min"], ["EO", "amber", "12 min"]];
+const BARCODE = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 1];
+
+function MockPass() {
+  const { t, dark, c } = useApp();
+  const blue = PALETTE.blue[dark ? "dark" : "light"];
+  const page = dark ? "#020617" : "#F8FAFC";
+  const field = (label, value) => (
+    <div>
+      <p className={`font-mono2 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{label}</p>
+      <p className={`mt-0.5 font-display font-extrabold text-lg ${c.text}`}>{value}</p>
+    </div>
+  );
   return (
-    <div className="mt-8 rounded-[28px] p-6 md:p-7 flex flex-col md:flex-row md:items-center gap-5 text-white" style={{ background: bg }}>
-      <span className="grid place-items-center w-14 h-14 rounded-2xl shrink-0" style={{ background: accent, color: "#14204A" }}>
-        <ClipboardCheck size={26} />
-      </span>
-      <div className="flex-1">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-white/75">{t("Au cœur de la préparation")}</span>
-        <h3 className="font-display font-extrabold text-2xl">{t("TCF blanc")}</h3>
-        <p className="mt-1 text-sm md:text-base text-white/85">{t("Les quatre épreuves enchaînées en conditions réelles : minutées, notées sur 699 et converties en NCLC.")}</p>
+    <div className={`relative mt-10 flex flex-col md:flex-row rounded-[28px] border ${c.border} ${c.card}`}>
+      <div className="flex-1 p-6 md:p-8">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 font-mono2 text-[11px] font-bold uppercase tracking-widest" style={{ color: blue[1] }}>
+            <Plane size={14} /> {t("Carte d'embarquement")}
+          </span>
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: blue[2], color: blue[1] }}>
+            {t("Au cœur de la préparation")}
+          </span>
+        </div>
+        <h3 className={`mt-3 font-display font-extrabold text-2xl md:text-3xl ${c.text}`}>{t("TCF blanc")}</h3>
+        <p className={`mt-1 text-sm md:text-base ${c.sub}`}>{t("Les quatre épreuves enchaînées en conditions réelles : minutées, notées sur 699 et converties en NCLC.")}</p>
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {field(t("Épreuves"), "4")}
+          {field(t("Durée"), "2 h 47")}
+          {field(t("Score"), "/ 699")}
+          {field(t("Destination"), "Canada")}
+        </div>
+        {/* The route: the four épreuves in exam order. */}
+        <div className="mt-6 flex items-center" aria-hidden="true">
+          {ROUTE.map(([code, toneKey, mins], i) => {
+            const [bg, ink] = PALETTE[toneKey][dark ? "dark" : "light"];
+            return (
+              <div key={code} className="flex items-center flex-1 last:flex-none">
+                <span className="flex flex-col items-center">
+                  <span className="grid place-items-center w-11 h-11 rounded-full font-display font-extrabold text-xs" style={{ background: bg, color: ink, boxShadow: `0 0 0 2px ${ink}` }}>{code}</span>
+                  <span className={`mt-1 font-mono2 text-[10px] font-semibold ${c.faint}`}>{mins}</span>
+                </span>
+                {i < ROUTE.length - 1 && <span className={`flex-1 mx-2 mb-4 border-t-2 border-dashed ${c.border}`} />}
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <RouteLink r="mocks" className="self-start md:self-center inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold whitespace-nowrap transition hover:gap-3"
-        style={{ background: accent, color: "#14204A" }}>
-        {t("Passer un TCF blanc")} <ArrowRight size={16} />
-      </RouteLink>
+
+      {/* Tear line: a dashed rule with a page-coloured notch cut into the
+          ticket at each end — horizontal when stacked, vertical from md. Each
+          notch is a circle clipped to the half that lies inside the ticket. */}
+      <div className="relative h-0 md:h-auto md:w-0" aria-hidden="true">
+        <span className={`absolute left-6 right-6 top-0 border-t-2 border-dashed md:hidden ${c.border}`} />
+        <span className={`absolute -left-3 -top-3 w-6 h-6 rounded-full border md:hidden ${c.border}`} style={{ background: page, clipPath: "inset(0 0 0 50%)" }} />
+        <span className={`absolute -right-3 -top-3 w-6 h-6 rounded-full border md:hidden ${c.border}`} style={{ background: page, clipPath: "inset(0 50% 0 0)" }} />
+        <span className={`absolute top-6 bottom-6 left-0 border-l-2 border-dashed hidden md:block ${c.border}`} />
+        <span className={`absolute -top-3 -left-3 w-6 h-6 rounded-full border hidden md:block ${c.border}`} style={{ background: page, clipPath: "inset(50% 0 0 0)" }} />
+        <span className={`absolute -bottom-3 -left-3 w-6 h-6 rounded-full border hidden md:block ${c.border}`} style={{ background: page, clipPath: "inset(0 0 50% 0)" }} />
+      </div>
+
+      <div className="md:w-72 p-6 md:p-8 flex flex-col items-center justify-center gap-4 rounded-b-[28px] md:rounded-bl-none md:rounded-r-[28px]" style={{ background: blue[0] }}>
+        <RouteLink r="mocks" className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold whitespace-nowrap text-white transition hover:gap-3"
+          style={{ background: blue[1] }}>
+          {t("Passer un TCF blanc")} <ArrowRight size={16} />
+        </RouteLink>
+        <div className="flex items-stretch gap-[2px] h-12" aria-hidden="true">
+          {BARCODE.map((w, i) => <span key={i} style={{ width: w * 2, background: i % 2 ? "transparent" : (dark ? "#CBD5E1" : "#1E293B") }} />)}
+        </div>
+        <p className={`font-mono2 text-[10px] font-bold tracking-widest ${c.faint}`}>PSR · TCF · 699</p>
+      </div>
     </div>
   );
 }
@@ -326,7 +391,7 @@ export function ToolsShowcase() {
         </nav>
         <div className="hidden lg:block min-h-[560px]"><Panel tool={tool} n={active + 1} /></div>
       </div>
-      <MockStrip />
+      <MockPass />
     </div>
   );
 }

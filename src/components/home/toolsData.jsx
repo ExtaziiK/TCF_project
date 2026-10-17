@@ -27,7 +27,7 @@ export const TOOLS = [
     d: "Éditeur avec compteur de mots, exemples de réponses et analyse IA.", preview: "count" },
   { route: "speaking", icon: Mic, tone: "amber", kind: "Épreuve officielle", t: "Expression orale",
     d: "Enregistrez-vous, réécoutez-vous et suivez vos progrès tâche par tâche.", preview: "rec" },
-  { route: "dictee", icon: Keyboard, tone: "night", kind: "Premium", t: "La dictée",
+  { route: "dictee", icon: Keyboard, tone: "night", kind: "Nouveau", t: "La dictée",
     d: "Écoutez un corrigé de niveau C1 ou C2 et écrivez-le mot à mot : chaque écart est corrigé, avec sa raison.", preview: "dictee" },
   { route: "vocabulary", icon: Languages, tone: "mint", kind: "Entraînement", t: "Vocabulaire ciblé",
     d: "Cartes mémoire par thème : immigration, travail, vie quotidienne.", preview: "cards" },

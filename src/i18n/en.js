@@ -246,6 +246,9 @@ export const EN = {
   "Survolez un outil pour le découvrir": "Hover over a tool to explore it",
   "Touchez un outil pour le découvrir": "Tap a tool to explore it",
   "Ouvrir l'outil": "Open the tool",
+  "Nouveau": "New",
+  "Carte d'embarquement": "Boarding pass",
+  "Destination": "Destination",
   "Épreuve officielle": "Official test",
   "Entraînement": "Training",
   "Des audios aux accents québécois et français, diffusés une seule fois comme le jour de l'examen, corrigés instantanément.":
