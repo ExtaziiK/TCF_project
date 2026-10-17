@@ -2,13 +2,8 @@ import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { Pricing } from "@/pages/Pricing";
 import { CheckoutDz } from "@/pages/CheckoutDz";
-import { Practice } from "@/pages/Practice";
 import { Exams } from "@/pages/Exams";
 import { AuthPage } from "@/components/auth/AuthPage";
-import { Listening } from "@/pages/Listening";
-import { Reading } from "@/pages/Reading";
-import { Writing } from "@/pages/Writing";
-import { Speaking } from "@/pages/Speaking";
 import { Pratique } from "@/pages/Pratique";
 import { Mocks } from "@/pages/Mocks";
 import { Calculator } from "@/pages/Calculator";
@@ -51,15 +46,17 @@ export const PAGES = {
   about: About,
   pricing: Pricing,
   "checkout-dz": CheckoutDz,
-  practice: Practice,
+  // The old free-practice and per-épreuve pages open the Épreuves hub (on the
+  // matching tab), which has the free plan's locks built in.
+  practice: Exams,
   exams: Exams,
   login: Login,
   register: Register,
   "reset-password": ResetPassword,
-  listening: Listening,
-  reading: Reading,
-  writing: Writing,
-  speaking: Speaking,
+  listening: Exams,
+  reading: Exams,
+  writing: Exams,
+  speaking: Exams,
   // The six practice tools all open the Pratique hub, on their own tab;
   // "entrainement" is the hub's own address (the nav's « Pratique » link).
   entrainement: Pratique,

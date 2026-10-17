@@ -1511,6 +1511,7 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Ouvrir le quiz": "Open the quiz",
   "Compréhension orale et écrite, TCF blancs : vos dernières sessions notées.":
     "Listening and reading, mock exams: your latest graded sessions.",
   "À faire aujourd'hui": "To do today",

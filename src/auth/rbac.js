@@ -81,8 +81,11 @@ export const PAGE_ACCESS = {
   // users get in but only quiz 1 of each épreuve is playable (locks live in
   // BankExplorer). Visitors fall through to the register gate.
   exams: AUTHENTICATED,
-  listening: PREMIUM,
-  reading: PREMIUM,
+  // These addresses now open the Épreuves hub on the CO / CE tab, which applies
+  // the free plan's locks itself (quiz 1 of each épreuve open) — same policy
+  // as "exams", so a free account reaches its free quiz instead of a gate.
+  listening: AUTHENTICATED,
+  reading: AUTHENTICATED,
   // Free accounts reach the two Expression workshops and get ONE fixed subject
   // each (expressionSessionService.generateExpressionSession), with two AI
   // analyses per tâche. As with the TCF blanc, the limit is enforced on the

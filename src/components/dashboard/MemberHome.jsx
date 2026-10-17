@@ -13,6 +13,7 @@ import { computeProgress } from "@/services/progressService";
 import { listMistakes, bankQuestionIndex, ownContentCardOk } from "@/services/mistakeNotebookService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES, canUseNotebook } from "@/auth/rbac";
+import { requestOpenQuiz } from "@/utils/openQuizRequest";
 
 /* ------------------------------ small pieces ----------------------------- */
 
@@ -91,7 +92,9 @@ function TodoList({ items }) {
       <ul className={`divide-y ${dividers(c)}`}>
         {items.map((it, i) => (
           <li key={i}>
-            <button type="button" onClick={() => nav(it.route)} className="group w-full flex items-center gap-4 py-3.5 text-left">
+            {/* A row naming one quiz opens it directly on Épreuves (same hand-off
+                as the carnet's « Refaire ce quiz »). */}
+            <button type="button" onClick={() => { if (it.quizId) requestOpenQuiz(it.quizId); nav(it.route); }} className="group w-full flex items-center gap-4 py-3.5 text-left">
               <span className="w-9 h-9 rounded-full grid place-items-center shrink-0" style={{ background: `${it.color}1A`, color: it.color }}><it.icon size={16} aria-hidden="true" /></span>
               <span className="flex-1 min-w-0">
                 <span className={`block text-sm font-semibold ${c.text}`}>{it.title}</span>
@@ -221,7 +224,7 @@ export function DashboardView({ data, toReview = 0 }) {
       ? [{ icon: Play, color: "#2563EB", title: t(data.continueCard.title), detail: t(data.continueCard.detail), cta: t(data.continueCard.cta), route: data.continueCard.route }] : []),
     ...(toReview > 0 && canUseNotebook(role)
       ? [{ icon: NotebookPen, color: "#C9821A", title: `${toReview} ${t(toReview > 1 ? "questions" : "question")} ${t("à revoir dans votre carnet d'erreurs")}`, cta: t("Revoir"), route: "carnet" }] : []),
-    ...data.recommendations.map((r) => ({ icon: Sparkles, color: "#7C3AED", title: t(r.title), detail: t(r.body), cta: t(r.cta), route: r.route })),
+    ...data.recommendations.map((r) => ({ icon: Sparkles, color: "#7C3AED", title: t(r.title), detail: t(r.body), cta: t(r.cta), route: r.route, quizId: r.quizId })),
   ];
 
   return (
@@ -231,7 +234,7 @@ export function DashboardView({ data, toReview = 0 }) {
           <Sparkles size={24} className="mx-auto" style={{ color: ACCENT }} />
           <h3 className={`font-display font-bold text-xl mt-3 ${c.text}`}>{t("Votre tableau de bord vous attend")}</h3>
           <p className={`text-sm mt-2 max-w-md mx-auto ${c.sub}`}>{t("Terminez votre premier quiz et cette page se remplira : score, niveau, série d'étude, succès et recommandations personnalisées.")}</p>
-          <Btn className="mt-5" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer mon premier quiz")}</Btn>
+          <Btn className="mt-5" icon={ArrowRight} onClick={() => nav("exams")}>{t("Commencer mon premier quiz")}</Btn>
         </Card>
       )}
 

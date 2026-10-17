@@ -490,7 +490,8 @@ function recommendations(p, bank, results) {
       title: `Refaites le Quizz ${weakQuiz.number} (${weakQuiz.sTitle})`,
       body: `Votre meilleur score y est de ${weakQuiz.pct} %. Le refaire est le moyen le plus rapide de progresser.`,
       route: weakQuiz.section === "co" ? "listening" : "reading",
-      cta: "Ouvrir le module",
+      quizId: weakQuiz.key.replace(/^bank-/, ""), // opened directly on Épreuves
+      cta: "Ouvrir le quiz",
     });
   }
   // an untouched quiz in the least-explored scored section
@@ -501,7 +502,8 @@ function recommendations(p, bank, results) {
     recs.push({
       title: `Nouveau terrain : Quizz ${nextNumber} (${unexplored.title})`,
       body: `Vous n'avez exploré que ${unexplored.completionPct} % de cette épreuve. Un quiz jamais tenté vous attend.`,
-      route: unexplored.section === "co" ? "listening" : unexplored.section === "ce" ? "reading" : "practice",
+      route: unexplored.section === "co" ? "listening" : unexplored.section === "ce" ? "reading" : "exams",
+      quizId: bank[unexplored.section][nextNumber - 1]?.id, // opened directly on Épreuves
       cta: "Commencer",
     });
   }
