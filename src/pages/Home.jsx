@@ -126,7 +126,7 @@ function Landing() {
 
       {/* TUTORIAL VIDEO — its own tinted block, so it reads as separate from
           the module cards above (VideoTutorial only pads its bottom). */}
-      <WaveSection {...look(0)}>
+      <WaveSection {...look(0)} decor="video">
         <div className="pt-14 md:pt-20"><VideoTutorial /></div>
       </WaveSection>
 

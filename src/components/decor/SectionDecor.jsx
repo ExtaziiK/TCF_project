@@ -10,48 +10,81 @@ const { blue, violet, red, amber } = BRAND;
 const LAYOUTS = {
   hero: [
     [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-28 left-[4%]", "decor-float", 18],
+    [Tag, { text: "C1", color: violet, tilt: -8 }, "top-[24%] left-[17%]", "decor-float-slow", 30],
     [Tile, { ch: "É", pts: 3, color: red, tilt: -10 }, "top-[46%] left-[9%]", "decor-sway", 26],
+    [Maple, { color: amber, size: 40, tilt: -20 }, "top-[66%] left-[1.5%]", "decor-sway", 32],
     [Flight, { color: violet, width: 200 }, "bottom-24 left-[2%]", "", 12],
     [Maple, { color: red, size: 60, tilt: 14 }, "top-24 right-[7%]", "decor-sway", 22],
+    [Tag, { text: "699 pts", color: blue, tilt: 6 }, "top-[22%] right-[17%]", "decor-float", 28],
     [Bubble, { text: "On y va ?", color: violet, solid: true, tail: "right", tilt: 5 }, "top-[44%] right-[3%]", "decor-float-slow", 16],
+    [Tile, { ch: "À", pts: 2, color: blue, tilt: -7 }, "top-[63%] right-[1.5%]", "decor-sway", 30],
     [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%]", "decor-sway", 28],
   ],
   features: [
     [Tag, { text: "7 outils", color: violet, tilt: -7 }, "top-24 left-[3%]", "decor-float", 18],
+    [Bubble, { text: "Bravo !", color: amber, tilt: 6 }, "top-[36%] left-[1.5%]", "decor-float-slow", 22],
     [Maple, { color: red, size: 50, tilt: 16 }, "top-[52%] left-[6%]", "decor-sway", 24],
+    [Tile, { ch: "Ï", pts: 5, color: blue, tilt: -9 }, "top-[72%] left-[3%]", "decor-sway", 28],
+    [Maple, { color: amber, size: 38, tilt: -14 }, "bottom-[5%] left-[9%]", "decor-sway", 30],
     [Bubble, { text: "À vous de jouer !", color: blue, solid: true, tail: "right", tilt: 5 }, "top-28 right-[2%]", "decor-float-slow", 16],
+    [Tag, { text: "B2", color: red, tilt: 7 }, "top-[40%] right-[7%]", "decor-float", 26],
+    [Flight, { color: violet, width: 150, flip: true }, "top-[60%] right-[1%]", "", 14],
     [Tile, { ch: "È", pts: 2, color: amber, tilt: 9 }, "bottom-[16%] right-[6%]", "decor-sway", 26],
+  ],
+  video: [
+    [Bubble, { text: "Regardez !", color: red, tilt: -6 }, "top-24 left-[4%]", "decor-float", 18],
+    [Maple, { color: blue, size: 44, tilt: 12 }, "top-[50%] left-[2%]", "decor-sway", 26],
+    [Tile, { ch: "Ù", pts: 3, color: violet, tilt: -8 }, "bottom-24 left-[8%]", "decor-sway", 24],
+    [Maple, { color: red, size: 54, tilt: -10 }, "top-20 right-[6%]", "decor-sway", 20],
+    [Tag, { text: "5 min", color: amber, tilt: 6 }, "top-[52%] right-[2%]", "decor-float-slow", 26],
+    [Tile, { ch: "Ê", pts: 2, color: blue, tilt: 8 }, "bottom-28 right-[5%]", "decor-sway", 22],
   ],
   overview: [
     [Tag, { text: "699 pts", color: violet, tilt: -6 }, "top-20 left-[3%]", "decor-float", 16],
+    [Bubble, { text: "Bonne chance !", color: blue, tilt: 5 }, "top-[45%] left-[1.5%]", "decor-float-slow", 22],
     [Tile, { ch: "À", pts: 2, color: blue, tilt: 9 }, "bottom-20 left-[6%]", "decor-sway", 24],
     [Maple, { color: amber, size: 52, tilt: -18 }, "top-16 right-[5%]", "decor-sway", 18],
+    [Tile, { ch: "Œ", pts: 6, color: red, tilt: -7 }, "top-[36%] right-[8%]", "decor-sway", 28],
+    [Flight, { color: violet, width: 160, flip: true }, "top-[55%] right-[1%]", "", 14],
     [Tag, { text: "4 épreuves", color: red, tilt: 5 }, "bottom-24 right-[3%]", "decor-float-slow", 22],
   ],
   testimonials: [
     [Bubble, { text: "Merci !", color: red, tilt: -7 }, "top-24 left-[4%]", "decor-float", 18],
-    [Maple, { color: blue, size: 48, tilt: 20 }, "bottom-[18%] left-[8%]", "decor-sway", 26],
+    [Tile, { ch: "É", pts: 3, color: amber, tilt: 8 }, "top-[46%] left-[9%]", "decor-sway", 28],
+    [Tag, { text: "C1 obtenu", color: violet, tilt: -5 }, "top-[62%] left-[1.5%]", "decor-float-slow", 22],
+    [Maple, { color: blue, size: 48, tilt: 20 }, "bottom-[12%] left-[8%]", "decor-sway", 26],
+    [Maple, { color: amber, size: 40, tilt: -12 }, "top-[10%] right-[10%]", "decor-sway", 30],
     [Bubble, { text: "NCLC 9 obtenu !", color: blue, solid: true, tail: "right", tilt: 6 }, "top-[30%] right-[3%]", "decor-float-slow", 16],
-    [Tile, { ch: "Ê", pts: 2, color: violet, tilt: -8 }, "bottom-[16%] right-[8%]", "decor-sway", 24],
+    [Bubble, { text: "Génial !", color: red, tail: "right", tilt: -4 }, "top-[55%] right-[2%]", "decor-float", 24],
+    [Tile, { ch: "Ê", pts: 2, color: violet, tilt: -8 }, "bottom-[14%] right-[8%]", "decor-sway", 24],
   ],
   calculator: [
     [Tag, { text: "NCLC 7", color: blue, tilt: -8 }, "top-20 left-[4%]", "decor-float", 18],
     [Tag, { text: "B2", color: amber, tilt: 6 }, "top-[42%] left-[8%]", "decor-float-slow", 26],
+    [Maple, { color: violet, size: 40, tilt: 15 }, "top-[62%] left-[1.5%]", "decor-sway", 30],
     [Tag, { text: "C1", color: violet, tilt: -4 }, "bottom-24 left-[3%]", "decor-float", 22],
     [Flight, { color: red, width: 180, flip: true }, "top-16 right-[2%]", "", 14],
+    [Tile, { ch: "Â", pts: 3, color: blue, tilt: 9 }, "top-[32%] right-[9%]", "decor-sway", 28],
+    [Bubble, { text: "Objectif CLB 7", color: amber, tail: "right", tilt: 5 }, "top-[50%] right-[2%]", "decor-float-slow", 20],
     [Tag, { text: "699 / 699", color: red, tilt: 7 }, "bottom-28 right-[5%]", "decor-float-slow", 24],
   ],
   pricing: [
     [Bubble, { text: "Essai gratuit", color: amber, tilt: -5 }, "top-28 left-[3%]", "decor-float", 18],
+    [Flight, { color: blue, width: 150 }, "top-[50%] left-[1%]", "", 14],
     [Tile, { ch: "Ô", pts: 3, color: blue, tilt: 10 }, "bottom-[22%] left-[8%]", "decor-sway", 26],
+    [Maple, { color: amber, size: 40, tilt: 18 }, "bottom-[6%] left-[2%]", "decor-sway", 30],
+    [Tile, { ch: "Ë", pts: 4, color: violet, tilt: -8 }, "top-[12%] right-[10%]", "decor-sway", 28],
     [Maple, { color: red, size: 50, tilt: -12 }, "top-[34%] right-[6%]", "decor-sway", 20],
-    [Tag, { text: "Sans carte", color: violet, tilt: 6 }, "bottom-[16%] right-[3%]", "decor-float-slow", 24],
+    [Bubble, { text: "Sans engagement", color: blue, tail: "right", tilt: 4 }, "top-[56%] right-[2%]", "decor-float-slow", 22],
+    [Tag, { text: "Sans carte", color: violet, tilt: 6 }, "bottom-[14%] right-[3%]", "decor-float-slow", 24],
   ],
   cta: [
     [Flight, { color: blue, width: 240 }, "top-10 left-[3%]", "", 14],
-    [Maple, { color: red, size: 72, tilt: 12 }, "top-12 right-[8%]", "decor-sway", 22],
-    [Bubble, { text: "À bientôt au Canada !", color: red, solid: true, tail: "right", tilt: 4 }, "bottom-14 right-[4%]", "decor-float", 16],
+    [Tag, { text: "Prêt ?", color: amber, tilt: -6 }, "top-[55%] left-[16%]", "decor-float-slow", 26],
     [Tile, { ch: "É", pts: 3, color: violet, tilt: -9 }, "bottom-16 left-[10%]", "decor-sway", 26],
+    [Maple, { color: red, size: 72, tilt: 12 }, "top-12 right-[8%]", "decor-sway", 22],
+    [Maple, { color: blue, size: 40, tilt: -16 }, "top-[50%] right-[18%]", "decor-sway", 30],
+    [Bubble, { text: "À bientôt au Canada !", color: red, solid: true, tail: "right", tilt: 4 }, "bottom-14 right-[4%]", "decor-float", 16],
   ],
   page: [
     [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-32 left-[3%]", "decor-float", 16],
@@ -91,13 +124,19 @@ function useParallax() {
 export function SectionDecor({ variant, from = "lg" }) {
   useParallax();
   const items = LAYOUTS[variant] || [];
+  // The landing page's stickers are drawn 30% larger; the other pages' side
+  // decor (the "page" layout) keeps its size.
+  const scale = variant === "page" ? 1 : 1.3;
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (
     <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
       {items.map(([Sticker, props, pos, anim, depth], i) => (
         <span key={i} className={`absolute ${pos}`}
           style={depth ? { transform: `translate3d(calc(var(--mx, 0) * ${depth}px), calc(var(--my, 0) * ${depth}px), 0)`, transition: "transform .6s cubic-bezier(.22,1,.36,1)" } : undefined}>
-          <span className={`block ${anim}`} style={{ animationDelay: `${-i * 1.7}s` }}><Sticker {...props} /></span>
+          {/* Own wrapper for the scale, so it never fights the animation's transform. */}
+          <span className="block" style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}>
+            <span className={`block ${anim}`} style={{ animationDelay: `${-i * 1.7}s` }}><Sticker {...props} /></span>
+          </span>
         </span>
       ))}
     </div>
