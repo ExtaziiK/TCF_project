@@ -10,8 +10,7 @@ import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { SectionDecor } from "@/components/decor/SectionDecor";
-import { WaveSection, Ribbons } from "@/components/decor/WaveSection";
-import { BRAND } from "@/components/decor/shapes";
+import { WaveSection, TINT } from "@/components/decor/WaveSection";
 import { FEATURES, WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
@@ -34,27 +33,33 @@ export function Home() {
 }
 
 function Landing() {
-  const { c, nav, t } = useApp();
+  const { c, nav, t, dark } = useApp();
   const pricing = usePricingSelection();
   const stats = useHomeStats();
   const testimonials = useTestimonials();
   const rating = useRatingSummary(); // null until there are enough ratings to mean anything
+  // From the testimonials on, sections alternate plain (opening with a wave,
+  // shape and direction varied) and tinted (straight edge). Counted over the
+  // blocks actually shown, so hiding testimonials never puts two tints together.
+  const showTestimonials = !!testimonials?.enabled;
+  const look = (n) => {
+    const i = showTestimonials ? n : n - 1;
+    return i % 2 === 0 ? { wave: i % 4 === 0 ? 1 : 0, flip: i % 4 === 0 } : { tinted: true };
+  };
   return (
     <main>
       {/* HERO — the nav-clearance padding lives on the section (not <main>) so
           its background starts at the very top, right under the banner, with no
           plain strip; the inner content stays below the fixed nav. */}
-      <section className="relative overflow-hidden pt-16 md:pt-[72px]">
+      <section className="relative overflow-hidden pt-16 md:pt-[72px]" style={{ background: dark ? TINT.dark : TINT.light }}>
         {/* Symmetric brand glows so the top tint spans the full width evenly
             (blue on the left, red on the right) instead of a lopsided corner. */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute -top-40 -left-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#2E6BE6,transparent 65%)" }} />
           <div className="absolute -top-40 -right-24 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(circle,#D8354A,transparent 65%)" }} />
         </div>
-        <Ribbons items={[{ shape: 0, at: "top", from: BRAND.blue, to: BRAND.violet }, { shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet, flip: true }]} />
         <SectionDecor variant="hero" from="md" />
-        {/* Bottom padding leaves room for the next section's top wave. */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-20 md:pb-28 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 md:pt-10 pb-16 relative">
           {/* admin-editable announcement, shown to logged-out visitors */}
           <HomeLabel />
           {/* A running sale (api/_lib/sale.js), with its countdown; gone by itself at the end. */}
@@ -90,9 +95,8 @@ function Landing() {
           count is read from the database on load, site counts are the last
           figures an admin published from the live database. */}
       {stats?.enabled && stats.items.length > 0 && (
-        <WaveSection tone="blue" wave={0} accent={BRAND.blue}
-          ribbons={[{ shape: 2, at: "middle", from: BRAND.violet, to: BRAND.blue }]}>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+        <WaveSection tinted>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {stats.items.map((s) => (
               <div key={s.key} className="text-center">
                 <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
@@ -103,14 +107,12 @@ function Landing() {
         </WaveSection>
       )}
 
-      {/* Every section below opens with its own vector wave and background
-          tone (WaveSection), with shape, mirroring, accent colour and ribbons
-          varied from one to the next so each block is clearly split from the
-          previous one. Tones are chosen so no two neighbours match, even when
-          the stats or testimonials blocks are switched off. */}
+      {/* The hero and stats share one tinted block; the page then alternates
+          plain and tinted sections. A single wide wave opens a plain section
+          after a tinted one, only a few times down the page; the other
+          boundaries stay straight. */}
       {/* FEATURES + TUTORIAL VIDEO — one visual block (the video has no top padding) */}
-      <WaveSection tone="mist" wave={1} flip accent={BRAND.violet} decor="features"
-        ribbons={[{ shape: 0, at: "top", from: BRAND.blue, to: BRAND.violet }]}>
+      <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Modules de pratique")} title={t("Les quatre épreuves, un seul endroit")} sub={t("Chaque module reproduit fidèlement le format, le minutage et le barème du TCF Canada.")} />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -132,8 +134,7 @@ function Landing() {
       </WaveSection>
 
       {/* EXAM OVERVIEW */}
-      <WaveSection tone="violet" wave={2} accent={BRAND.red} decor="overview"
-        ribbons={[{ shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet, flip: true }]}>
+      <WaveSection tinted decor="overview">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
@@ -167,8 +168,7 @@ function Landing() {
           block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
-        <WaveSection tone="plain" wave={3} flip accent={BRAND.blue} decor="testimonials"
-          ribbons={[{ shape: 2, at: "middle", from: BRAND.violet, to: BRAND.red }]}>
+        <WaveSection {...look(0)} decor="testimonials">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
@@ -196,8 +196,7 @@ function Landing() {
       )}
 
       {/* NCLC CALCULATOR */}
-      <WaveSection id="calculateur" tone="rose" wave={4} accent={BRAND.violet} decor="calculator"
-        ribbons={[{ shape: 0, at: "top", from: BRAND.red, to: BRAND.violet, flip: true }]}>
+      <WaveSection id="calculateur" {...look(1)} decor="calculator">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
           <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
@@ -205,8 +204,7 @@ function Landing() {
       </WaveSection>
 
       {/* PRICING PREVIEW */}
-      <WaveSection tone="mist" wave={0} flip accent={BRAND.red} decor="pricing"
-        ribbons={[{ shape: 1, at: "bottom", from: BRAND.blue, to: BRAND.violet }]}>
+      <WaveSection {...look(2)} decor="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -234,8 +232,7 @@ function Landing() {
       </WaveSection>
 
       {/* FINAL CTA */}
-      <WaveSection tone="dawn" wave={2} flip accent={BRAND.blue} decor="cta"
-        ribbons={[{ shape: 0, at: "top", from: BRAND.violet, to: BRAND.blue }, { shape: 1, at: "bottom", from: BRAND.red, to: BRAND.violet }]}>
+      <WaveSection {...look(3)} decor="cta">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
