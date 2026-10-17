@@ -156,7 +156,7 @@ function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answe
         </button>
       )}
       {phase === "review" && (
-        <button onClick={skipReview} aria-label={t("Passer la lecture et parler maintenant")} className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-blue-600 text-blue-600 shadow-xl transition-transform hover:scale-105">
+        <button onClick={skipReview} aria-label={t("Passer la lecture et parler maintenant")} className={`w-16 h-16 rounded-full flex items-center justify-center border-2 border-blue-600 text-blue-600 shadow-xl transition-transform hover:scale-105 ${c.card}`}>
           <ChevronRight size={26} />
         </button>
       )}
@@ -176,7 +176,7 @@ function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answe
         </button>
       )}
       {phase === "done" && (
-        <button onClick={restart} className={`px-5 py-2.5 rounded-full border font-semibold text-sm flex items-center gap-2 ${c.border} ${c.sub} ${c.hoverSoft}`}>
+        <button onClick={restart} className={`px-5 py-2.5 rounded-full border font-semibold text-sm flex items-center gap-2 ${c.card} ${c.border} ${c.sub} ${c.hoverSoft}`}>
           <RotateCcw size={15} /> {t("Refaire un entretien")}
         </button>
       )}
