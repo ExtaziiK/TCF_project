@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CheckCircle2, ArrowRight, ChevronLeft, Headphones } from "lucide-react";
+import { CheckCircle2, ArrowRight, ChevronLeft, Headphones, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { EXAM_MODES } from "@/constants/exam";
 
 const COUNTDOWN_FROM = 5;
+// Each mode's colour when selected: rose for Réaliste, blue for Entraînement.
+const MODE_FILL = { test: "#D8354A", entrainement: "#2E6BE6" };
 
 // Shown once the candidate asks to start a TCF blanc: pick a mode (test vs
 // entraînement) and start. No identity is collected — the exam is scored
@@ -66,25 +68,36 @@ export function ExamSetup({ onStart, onCancel, busy }) {
         <div className="grid md:grid-cols-2 gap-4">
           {EXAM_MODES.map((m) => {
             const active = m.id === mode;
-            // Mode Réaliste is the one candidates should default to, so it
-            // carries its own red accent (border, tinted background, glow)
-            // whether or not it's the one currently picked — Mode
-            // Entraînement only picks up its (blue) accent once selected,
-            // so the contrast between the two stays obvious either way.
-            const realistic = m.id === "test";
+            // Only the selected mode is coloured — filled with its colour,
+            // lifted and checked — while the other turns neutral and faded,
+            // so which one is picked is never in doubt. (Mode Réaliste used to
+            // keep its red accent even unselected, which made it look picked
+            // all the time.) Its « Recommandé » badge still says it's the one
+            // to default to.
+            const fill = MODE_FILL[m.id];
             return (
               <button key={m.id} onClick={() => setMode(m.id)} aria-pressed={active}
-                className={`text-left p-5 rounded-3xl border-2 transition-all relative
-                ${realistic
-                  ? `border-rose-500 bg-gradient-to-br from-rose-500/10 to-red-500/5 shadow-lg shadow-rose-500/10 ${active ? "from-rose-500/15 to-red-500/10" : ""}`
-                  : active ? "border-blue-500 bg-blue-500/5" : `${c.border} ${c.hoverSoft}`}`}>
-                <span className="absolute top-4 right-4"><Pill tone={m.badgeTone}>{t(m.badge)}</Pill></span>
-                <span className={`w-11 h-11 rounded-2xl flex items-center justify-center ${realistic ? "bg-rose-500/20 text-rose-600" : "bg-blue-500/10 text-blue-600"}`}><m.icon size={20} /></span>
-                <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t(m.name)}</p>
-                <p className={`text-xs font-semibold uppercase tracking-wide mt-0.5 ${c.faint}`}>{t(m.tagline)}</p>
+                className={`text-left p-5 rounded-3xl border-2 transition-all duration-300 relative
+                ${active ? "text-white -translate-y-1" : `${c.card} ${c.border} opacity-70 hover:opacity-100`}`}
+                style={active ? { background: fill, borderColor: fill, boxShadow: `0 20px 40px -16px ${fill}AA` } : undefined}>
+                {active && (
+                  <span className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-white grid place-items-center shadow-md" style={{ color: fill }} aria-hidden="true">
+                    <Check size={18} strokeWidth={3} />
+                  </span>
+                )}
+                <span className="absolute top-4 right-4">
+                  {active
+                    ? <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white" style={{ color: fill }}>{t(m.badge)}</span>
+                    : <Pill tone={m.badgeTone}>{t(m.badge)}</Pill>}
+                </span>
+                <span className={`w-11 h-11 rounded-2xl flex items-center justify-center ${active ? "bg-white/20 text-white" : m.id === "test" ? "bg-rose-500/15 text-rose-600" : "bg-blue-500/10 text-blue-600"}`}><m.icon size={20} /></span>
+                <p className={`font-display font-bold text-lg mt-4 ${active ? "text-white" : c.text}`}>{t(m.name)}</p>
+                <p className={`text-xs font-semibold uppercase tracking-wide mt-0.5 ${active ? "text-white/75" : c.faint}`}>{t(m.tagline)}</p>
                 <ul className="mt-4 space-y-2">
                   {m.feats.map((f) => (
-                    <li key={f} className={`flex items-center gap-2 text-sm ${c.sub}`}><CheckCircle2 size={15} className="text-emerald-500 shrink-0" />{t(f)}</li>
+                    <li key={f} className={`flex items-center gap-2 text-sm ${active ? "text-white/90" : c.sub}`}>
+                      <CheckCircle2 size={15} className={`shrink-0 ${active ? "text-white" : "text-emerald-500"}`} />{t(f)}
+                    </li>
                   ))}
                 </ul>
               </button>
@@ -92,7 +105,9 @@ export function ExamSetup({ onStart, onCancel, busy }) {
           })}
         </div>
 
-        <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}>
+        {/* The button takes the selected mode's colour, echoing the card. */}
+        <Btn variant="accent" className="w-full mt-7" icon={ArrowRight} disabled={busy || countdown !== null} onClick={submit}
+          style={{ background: MODE_FILL[mode] }}>
           {t(busy ? "Génération…" : mode === "test" ? "Commencer le test" : "Commencer l'entraînement")}
         </Btn>
         {/* Mode Réaliste runs on a countdown per épreuve; Mode Entraînement is
