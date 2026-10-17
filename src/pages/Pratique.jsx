@@ -15,7 +15,7 @@ import { Revision } from "@/pages/Revision";
 // candidate's « cahier d'entraînement ». Index tabs down the left (a row of
 // chips on small screens) pick the tool; the selected tab takes the tool's
 // colour and runs into the binder's spine, and the tool itself opens on the
-// sheet: ring-punched spine, a header strip, then the tool on faintly ruled
+// sheet: a solid spine, a header strip, then the tool on faintly ruled
 // paper in its colour. Deliberately not the Épreuves layout (tiles above a
 // tinted panel): this one reads as a notebook you work in.
 //
@@ -102,7 +102,6 @@ export function Pratique() {
   const tools = useTools();
   const active = tools.find((x) => x.r === route) || tools.find((x) => !x.soon) || tools[0];
   const k = toolTone(active.tone, dark);
-  const page = dark ? "#020617" : "#EDF1F7"; // the canvas, punched through the spine
   const select = (r) => nav(r, { replace: true, scroll: false });
   const Tool = active.page;
 
@@ -121,9 +120,9 @@ export function Pratique() {
         {/* The sheet. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
         <div className="flex min-w-0 rounded-[28px] border-2 transition-colors duration-300" style={{ borderColor: k.fill, "--tool-fill": k.fill }}>
-          {/* Spine with ring holes, punched in the page colour. */}
+          {/* The spine, in the tool's colour (plain: punched ring holes read as stray dots). */}
           <div aria-hidden="true" className="w-5 md:w-7 shrink-0 rounded-l-[26px]"
-            style={{ background: k.fill, backgroundImage: `radial-gradient(circle, ${page} 4.5px, transparent 5px)`, backgroundSize: "100% 64px", backgroundPosition: "center 26px" }} />
+            style={{ background: k.fill }} />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 px-5 md:px-8 py-4 border-b-2 rounded-tr-[26px]" style={{ background: k.panel, borderColor: k.edge }}>
               <span className="grid place-items-center w-10 h-10 rounded-xl text-white shrink-0" style={{ background: k.fill }}><active.icon size={19} /></span>
