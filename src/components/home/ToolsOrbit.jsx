@@ -22,6 +22,7 @@ const PALETTE = {
   violet: { light: ["#ECE8FD", "#6C4FE0", "#D9D0FC"], dark: ["#1E1A4D", "#A895F7", "#33297A"] },
   amber: { light: ["#FDF0D9", "#B7700F", "#FBDFAE"], dark: ["#3A2A0E", "#F5C26B", "#5C4214"] },
   mint: { light: ["#DDF3EA", "#0F8A5F", "#BDE8D6"], dark: ["#0E3A2C", "#5FD3A6", "#155440"] },
+  fuchsia: { light: ["#FAE8FB", "#B5179E", "#F3CDF0"], dark: ["#3A1238", "#E879D9", "#561A52"] },
   night: { light: ["#14204A", "#F5A524", "#23336B"], dark: ["#1B2C66", "#F5C26B", "#2A3E85"] },
 };
 
@@ -41,7 +42,7 @@ const TOOLS = [
     d: "Écoutez un corrigé de niveau C1 ou C2 et écrivez-le mot à mot : chaque écart est corrigé, avec sa raison.", preview: "dictee" },
   { route: "vocabulary", icon: Languages, tone: "mint", kind: "Entraînement", t: "Vocabulaire ciblé",
     d: "Cartes mémoire par thème : immigration, travail, vie quotidienne.", preview: "cards" },
-  { route: "grammar", icon: GraduationCap, tone: "rose", kind: "Entraînement", t: "Grammaire structurée",
+  { route: "grammar", icon: GraduationCap, tone: "fuchsia", kind: "Entraînement", t: "Grammaire structurée",
     d: "Leçons courtes suivies d'exercices, des articles aux connecteurs.", preview: "chips" },
 ];
 
@@ -193,7 +194,10 @@ function MockCard({ hint }) {
 // and a click opens it. Touch only previews on the first tap (pointerenter from
 // a finger is ignored, so the tap's click sees the tool inactive) and opens it
 // on the second.
-function ToolButton({ tool, i, active, setActive, demo, size = 84, className = "", style }) {
+// On the ring (`label` = "above" | "below") the name is positioned around the
+// circle without taking space, so the button can be centred on its point; in
+// the stacked grid it flows under the circle.
+function ToolButton({ tool, i, active, setActive, demo, size = 84, label, className = "", style }) {
   const { t, dark, nav } = useApp();
   const [bg, ink] = PALETTE[tool.tone][dark ? "dark" : "light"];
   const on = active === i;
@@ -206,7 +210,7 @@ function ToolButton({ tool, i, active, setActive, demo, size = 84, className = "
   };
   return (
     <a href={pathForRoute(tool.route)} onClick={onClick} onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)} onFocus={(e) => e.currentTarget.matches(":focus-visible") && setActive(i)}
-      className={`group flex flex-col items-center gap-2 outline-none ${className}`} style={style}>
+      className={`group flex flex-col items-center gap-2 outline-none ${label ? "-translate-x-1/2 -translate-y-1/2" : ""} ${className}`} style={style}>
       <span className="relative">
         {/* Until the visitor interacts: a pulsing ring invites a hover, and the
             tool the demo is showing gets a tapping hand. */}
@@ -222,7 +226,8 @@ function ToolButton({ tool, i, active, setActive, demo, size = 84, className = "
           </span>
         )}
       </span>
-      <span className="w-28 text-center text-xs font-bold leading-tight group-focus-visible:underline" style={{ color: ink }}>{t(tool.t)}</span>
+      <span className={`w-28 text-center text-xs font-bold leading-tight group-focus-visible:underline ${label ? `absolute left-1/2 -translate-x-1/2 ${label === "above" ? "bottom-full mb-3" : "top-full mt-3"}` : ""}`}
+        style={{ color: ink }}>{t(tool.t)}</span>
     </a>
   );
 }
@@ -266,7 +271,7 @@ function Orbit({ active, setActive, leave, demo }) {
       </div>
       {TOOLS.map((tl, i) => (
         <ToolButton key={tl.route} tool={tl} i={i} active={active} setActive={setActive} demo={demo}
-          className="absolute -translate-x-1/2" style={{ left: pts[i].x, top: pts[i].y - NODE_R }} />
+          label={Math.sin(pts[i].a) < -0.2 ? "above" : "below"} className="absolute" style={{ left: pts[i].x, top: pts[i].y }} />
       ))}
     </div>
   );
@@ -322,17 +327,16 @@ export function ToolsOrbit() {
   const demo = !touched;
   return (
     <div ref={ref}>
-      {/* An explicit invitation, gone once the visitor has tried it. */}
-      {demo && (
-        <div className="flex justify-center mb-8">
-          <span className="decor-float inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
-            style={{ background: "#FDEFD6", color: "#8A5A0B" }}>
-            <Pointer size={16} />
-            <span className="hidden lg:inline">{t("Survolez un outil pour le découvrir")}</span>
-            <span className="lg:hidden">{t("Touchez un outil pour le découvrir")}</span>
-          </span>
-        </div>
-      )}
+      {/* An explicit invitation. Once the visitor has tried it, it fades out
+          but keeps its space, so the orbit below doesn't jump. */}
+      <div className={`flex justify-center mb-8 lg:mb-14 transition-opacity duration-500 ${demo ? "" : "opacity-0 pointer-events-none"}`} aria-hidden={!demo}>
+        <span className="decor-float inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
+          style={{ background: "#FDEFD6", color: "#8A5A0B" }}>
+          <Pointer size={16} />
+          <span className="hidden lg:inline">{t("Survolez un outil pour le découvrir")}</span>
+          <span className="lg:hidden">{t("Touchez un outil pour le découvrir")}</span>
+        </span>
+      </div>
       <Orbit active={shown} setActive={choose} leave={() => setActive(null)} demo={demo} />
       <Stacked active={shown} setActive={choose} demo={demo} />
     </div>
