@@ -41,7 +41,9 @@ export function MockBoardingPass({ cta }) {
 
   return (
     <div className={`relative flex flex-col lg:flex-row rounded-[32px] border-2 mb-10 ${c.card}`} style={{ borderColor: edge }}>
-      <div className="flex-1 min-w-0 p-6 md:p-9">
+      {/* Order: the stub (with the start button) comes first — left of the
+          tear line from lg, on top when stacked — then the ticket's details. */}
+      <div className="order-last flex-1 min-w-0 p-6 md:p-9">
         <span className="inline-flex items-center gap-1.5 font-mono2 text-[11px] font-bold uppercase tracking-widest" style={{ color: blue[1] }}>
           <Plane size={14} /> {t("Carte d'embarquement")} · TCF Canada
         </span>
@@ -93,7 +95,7 @@ export function MockBoardingPass({ cta }) {
         <span className="absolute -bottom-3 -left-3 w-6 h-6 rounded-full border-2 hidden lg:block" style={{ borderColor: edge, background: page, clipPath: "inset(0 0 50% 0)" }} />
       </div>
 
-      <div className="lg:w-80 p-6 md:p-8 flex flex-col items-center justify-center gap-4 text-center rounded-b-[30px] lg:rounded-bl-none lg:rounded-r-[30px]" style={{ background: blue[0] }}>
+      <div className="order-first lg:w-80 p-6 md:p-8 flex flex-col items-center justify-center gap-4 text-center rounded-t-[30px] lg:rounded-tr-none lg:rounded-l-[30px]" style={{ background: blue[0] }}>
         <span className={`font-mono2 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{t("Embarquement")}</span>
         {cta}
         <div className="flex items-stretch gap-[2px] h-11" aria-hidden="true">
@@ -114,13 +116,13 @@ export function BoardingCta({ freeUsedUp, freeAvailable, disabled, onStart }) {
       <>
         <p className={`font-semibold text-sm ${c.text}`}>{t("Vous avez déjà passé votre TCF blanc gratuit")}</p>
         <p className={`text-xs ${c.sub}`}>{t("Votre résultat reste consultable dans l'historique. Les examens suivants font partie de l'abonnement Premium.")}</p>
-        <Btn variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
+        <Btn variant="accent" className="w-full !py-4 !text-lg" icon={Crown} onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
       </>
     );
   }
   return (
     <>
-      <Btn variant="accent" icon={Play} disabled={disabled} onClick={onStart}>
+      <Btn variant="accent" className="w-full !py-4 !text-lg" icon={Play} disabled={disabled} onClick={onStart}>
         {t(freeAvailable ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
       </Btn>
       <p className={`text-xs ${c.sub}`}>
