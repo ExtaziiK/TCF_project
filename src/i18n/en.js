@@ -238,8 +238,14 @@ export const EN = {
   "Pratiquer": "Practice",
   "Votre boîte à outils": "Your toolbox",
   "7 outils à votre disposition": "7 tools at your fingertips",
-  "Les quatre épreuves officielles, plus trois entraînements pour progresser plus vite : la dictée, le vocabulaire et la grammaire.":
-    "The four official tests, plus three training tools to progress faster: dictation, vocabulary and grammar.",
+  "Tout gravite autour du TCF blanc : les quatre épreuves officielles, plus la dictée, le vocabulaire et la grammaire pour progresser plus vite.":
+    "Everything revolves around the mock exam: the four official tests, plus dictation, vocabulary and grammar to progress faster.",
+  "Au cœur de la préparation": "At the heart of your prep",
+  "Les quatre épreuves enchaînées en conditions réelles : minutées, notées sur 699 et converties en NCLC.":
+    "All four tests back to back in real conditions: timed, scored out of 699 and converted to NCLC levels.",
+  "Survolez un outil pour le découvrir": "Hover over a tool to explore it",
+  "Touchez un outil pour le découvrir": "Tap a tool to explore it",
+  "Ouvrir l'outil": "Open the tool",
   "Épreuve officielle": "Official test",
   "Entraînement": "Training",
   "Des audios aux accents québécois et français, diffusés une seule fois comme le jour de l'examen, corrigés instantanément.":
