@@ -165,6 +165,10 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
     repeating-linear-gradient(to bottom,transparent 0 7px,var(--fine) 7px 8px)}
 @media (min-width:768px){.seyes{--mx:76px}}
 .seyes-dark{--paper:#0B1222;--fine:rgba(148,163,184,.07);--main:rgba(148,163,184,.2);--margin:rgba(248,113,113,.45)}
+/* Inside the Pratique notebook, every box and outlined button gets a visible
+   outline in the tool's colour (--outline, set on the paper): the theme's
+   light grey borders vanish on the tinted page. */
+.tool-paper .border-slate-200,.tool-paper .border-slate-300,.tool-paper .border-slate-700,.tool-paper .border-slate-800{border-color:var(--outline)}
 @keyframes demo-tap{0%,100%{transform:translate(0,0)}45%{transform:translate(-5px,-5px) scale(.92)}}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}

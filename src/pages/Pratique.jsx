@@ -48,6 +48,12 @@ function useTools() {
   }));
 }
 
+// `a` blended toward `b` by `w` (0–1), both #RRGGBB.
+function mix(a, b, w) {
+  const ch = (h, i) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16);
+  return `#${[0, 1, 2].map((i) => Math.round(ch(a, i) * (1 - w) + ch(b, i) * w).toString(16).padStart(2, "0")).join("")}`;
+}
+
 function Badge({ on, children, tone }) {
   return (
     <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${on ? "bg-white/25 text-white" : tone}`}>
@@ -57,16 +63,15 @@ function Badge({ on, children, tone }) {
 }
 
 // A page marker, sticking out of the notebook's left edge (`side="left"`,
-// from lg) or its top edge (small screens). Unselected: pale, set back, its
-// end tucked under the page. Selected: sticks out further, filled, drawn above
-// the page so it joins the page's coloured edge.
+// from lg) or its top edge (small screens). Unselected: pale and set back.
+// Selected: sticks out further, filled, meeting the page's coloured edge.
 function Marker({ tool, on, onSelect, side }) {
   const { t, dark } = useApp();
   const k = toolTone(tool.tone, dark);
   const pale = PALETTE[tool.tone][dark ? "dark" : "light"][0];
   const left = side === "left";
   const shape = left
-    ? `rounded-l-2xl pl-3.5 pr-9 py-3 border-r-0 ${on ? "ml-0" : "ml-6 enabled:hover:ml-3"}`
+    ? `rounded-l-2xl pl-3.5 pr-4 py-3 border-r-0 ${on ? "ml-0" : "ml-6 enabled:hover:ml-3"}`
     : `shrink-0 rounded-t-2xl px-3.5 sm:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
   const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
@@ -93,6 +98,9 @@ export function Pratique() {
   const select = (r) => nav(r, { replace: true, scroll: false });
   const Tool = active.page;
   const sheet = dark ? "border-slate-700" : "border-slate-300";
+  // The page: a lighter shade of the marker's pale colour (toward white, or
+  // toward the dark canvas in dark mode).
+  const paper = mix(PALETTE[active.tone][dark ? "dark" : "light"][0], dark ? "#0B1222" : "#FFFFFF", 0.45);
 
   return (
     <PageShell wide eyebrow={t("Pratique")} title={t("Votre cahier d'entraînement")}
@@ -104,9 +112,9 @@ export function Pratique() {
       </nav>
 
       <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
-      {/* From lg: the markers stick out of the notebook's left edge; the
-          column overlaps the page by 20px, hiding the markers' ends under it. */}
-      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20 -mr-5">
+      {/* From lg: the markers stick out of the notebook's left edge and end
+          exactly at it — the selected one meets the page's coloured edge. */}
+      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="left" />)}
       </nav>
 
@@ -125,10 +133,12 @@ export function Pratique() {
               <p className="text-xs font-semibold text-white/80">{t(active.tag)}</p>
             </div>
           </div>
-          {/* Seyès-ruled paper (.seyes in index.css), its lines and margin in
-              a faint version of the tool's colour. */}
-          <div className={`seyes rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
-            style={{ "--fine": `${k.ink}10`, "--main": `${k.ink}24`, "--margin": `${k.ink}55` }}>
+          {/* Seyès-ruled paper (.seyes in index.css): tinted a lighter shade of
+              the tool's colour, with very faint lines in that colour.
+              `.tool-paper` gives the tool's boxes and outlined buttons a
+              visible outline in its colour (also index.css). */}
+          <div className={`seyes tool-paper rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
+            style={{ "--paper": paper, "--fine": `${k.ink}08`, "--main": `${k.ink}12`, "--margin": `${k.ink}30`, "--outline": `${k.ink}66` }}>
             <EmbeddedShell.Provider value>
               <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
             </EmbeddedShell.Provider>
