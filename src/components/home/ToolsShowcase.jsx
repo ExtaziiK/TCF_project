@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, Play, Mic, Sparkles, Plane } from "lucide-react";
+import { ArrowRight, Check, Play, Mic, Sparkles, Plane, Volume2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { pathForRoute } from "@/constants/seo";
@@ -19,6 +19,9 @@ import { PALETTE, TOOLS } from "./toolsData";
 // The earlier orbit layout lives on in ToolsOrbit.jsx.
 
 const STEP_S = 5; // auto-advance interval, seconds
+// The dictée preview plays a ~10 s story (listen, type, correct): during the
+// auto-advance it gets enough time to play through once.
+const stepFor = (tool) => (tool.route === "dictee" ? 10.5 : STEP_S);
 
 const tone = (tool, dark) => PALETTE[tool.tone][dark ? "dark" : "light"];
 const onInk = (tool) => (tool.tone === "night" ? "#14204A" : "#FFFFFF");
@@ -134,20 +137,95 @@ function ScreenEO({ ink, soft }) {
   );
 }
 
+// The dictée, played as a loop of its three steps: the model answer is read
+// aloud (speaker + waveform), the learner's text is typed out — mistake
+// included — then the correction strikes the wrong form, shows the right one,
+// the score and the rule. Restarts whenever the dictée is selected (the panel
+// remounts); under reduced motion it shows the corrected result directly.
+const DICTEE = { before: "Les candidats qui se sont ", wrong: "préparé", right: "préparés", after: " régulièrement obtiennent de meilleurs résultats." };
+const DICTEE_TEXT = DICTEE.before + DICTEE.wrong + DICTEE.after;
+const DICTEE_STEPS = ["Écoute", "Vous écrivez", "Correction"];
+const LISTEN_MS = 2200;
+const TYPE_MS_PER_CHAR = 35;
+const CHECK_MS = 4200;
+
+function useDicteeLoop() {
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [phase, setPhase] = useState(reduced ? 2 : 0);
+  const [typed, setTyped] = useState(reduced ? DICTEE_TEXT.length : 0);
+  const done = typed >= DICTEE_TEXT.length;
+  // Listening, then the correction, each hold for a fixed time.
+  useEffect(() => {
+    if (reduced || phase === 1) return;
+    if (phase === 0) setTyped(0);
+    const timer = window.setTimeout(() => setPhase(phase === 0 ? 1 : 0), phase === 0 ? LISTEN_MS : CHECK_MS);
+    return () => window.clearTimeout(timer);
+  }, [phase, reduced]);
+  // Typing: one character per tick, then a short pause before the correction.
+  useEffect(() => {
+    if (reduced || phase !== 1) return;
+    if (done) {
+      const timer = window.setTimeout(() => setPhase(2), 400);
+      return () => window.clearTimeout(timer);
+    }
+    const timer = window.setTimeout(() => setTyped((n) => n + 1), TYPE_MS_PER_CHAR);
+    return () => window.clearTimeout(timer);
+  }, [phase, typed, done, reduced]);
+  return { phase, typed };
+}
+
 function ScreenDictee({ ink, soft }) {
+  const { phase, typed } = useDicteeLoop();
+  const bars = [35, 60, 45, 80, 55, 95, 50, 70, 40, 85, 60, 45, 75, 50, 90, 40, 65, 55, 80, 45];
+  const caret = <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5 bg-white" />;
   return (
     <div className="rounded-3xl p-5 md:p-6" style={{ background: soft }}>
-      <div className="flex items-center justify-between mb-4">
-        <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>VOTRE DICTÉE · CORRIGÉE</span>
-        <span className="font-display font-extrabold text-2xl" style={{ color: ink }}>96 %</span>
+      {/* Step indicator + score (shown once corrected). */}
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <div className="flex items-center gap-1.5">
+          {DICTEE_STEPS.map((label, i) => (
+            <span key={label} className="px-2.5 py-1 rounded-full font-mono2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300"
+              style={i === phase ? { background: ink, color: "#14204A" } : { background: "rgba(255,255,255,.08)", color: "rgba(255,255,255,.55)" }}>
+              {i + 1} · {label}
+            </span>
+          ))}
+        </div>
+        <span className={`font-display font-extrabold text-2xl transition-opacity duration-300 ${phase === 2 ? "opacity-100" : "opacity-0"}`} style={{ color: ink }}>96 %</span>
       </div>
-      <p className="font-mono2 text-sm md:text-base leading-loose text-white/90">
-        Les candidats qui se sont{" "}
-        <span className="line-through decoration-2 text-white/50" style={{ textDecorationColor: "#F08A9B" }}>préparé</span>{" "}
-        <span className="font-bold" style={{ color: ink }}>préparés</span> régulièrement obtiennent de meilleurs résultats
-        <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5 bg-white" />
+
+      {/* Audio: playing during the listening step, then a finished track. */}
+      <div className="flex items-center gap-3 rounded-2xl px-3 py-2.5 bg-white/5">
+        <span className="relative grid place-items-center w-10 h-10 rounded-full shrink-0" style={{ background: ink, color: "#14204A" }}>
+          {phase === 0 && <span className="invite-ping absolute inset-0 rounded-full border-2" style={{ borderColor: ink }} />}
+          <Volume2 size={18} />
+        </span>
+        <div className="flex-1 flex items-end gap-[3px] h-8">
+          {bars.map((h, i) => (
+            <span key={i} className={`flex-1 rounded-full ${phase === 0 ? "eqbar" : ""}`}
+              style={{ height: phase === 0 ? `${h}%` : "22%", background: phase === 0 ? ink : "rgba(255,255,255,.25)", animationDelay: `${(i % 8) * -0.12}s` }} />
+          ))}
+        </div>
+        <span className="font-mono2 text-[11px] font-semibold text-white/70 whitespace-nowrap">
+          {phase === 0 ? "Lecture du corrigé…" : "Corrigé C1 · lu"}
+        </span>
+      </div>
+
+      {/* The learner's text: typed out, then corrected. */}
+      <p className="mt-4 min-h-[5.5rem] font-mono2 text-sm md:text-base leading-loose text-white/90">
+        {phase < 2 ? (
+          <>{DICTEE_TEXT.slice(0, typed)}{phase === 1 && caret}</>
+        ) : (
+          <>
+            {DICTEE.before}
+            <span className="line-through decoration-2 text-white/50" style={{ textDecorationColor: "#F08A9B" }}>{DICTEE.wrong}</span>{" "}
+            <span className="rise inline-block font-bold rounded px-1" style={{ color: "#14204A", background: ink }}>{DICTEE.right}</span>
+            {DICTEE.after}
+          </>
+        )}
       </p>
-      <div className="mt-4 rounded-xl px-3 py-2 text-sm text-white/85 bg-white/10">
+
+      {/* The rule, once the mistake is identified. */}
+      <div className={`mt-3 rounded-xl px-3 py-2 text-sm text-white/85 bg-white/10 transition-opacity duration-500 ${phase === 2 ? "opacity-100" : "opacity-0"}`}>
         <span className="font-bold" style={{ color: ink }}>Accord du participe passé</span> : avec « être », il s'accorde avec le sujet, « les candidats ».
       </div>
     </div>
@@ -264,7 +342,7 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       {on && auto && (
         <span className="absolute left-4 right-4 bottom-1.5 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,.55)" }} aria-hidden="true">
           <span className="showcase-progress block h-full rounded-full" onAnimationEnd={onDone}
-            style={{ background: ink, animationDuration: `${STEP_S}s`, animationPlayState: running ? "running" : "paused" }} />
+            style={{ background: ink, animationDuration: `${stepFor(tool)}s`, animationPlayState: running ? "running" : "paused" }} />
         </span>
       )}
     </a>
