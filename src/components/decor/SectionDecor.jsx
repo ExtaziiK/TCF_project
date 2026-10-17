@@ -1,67 +1,64 @@
 import { useEffect } from "react";
-import { useApp } from "@/context/AppContext";
-import { BRAND, DotGrid, DashedRing, Ring, Dot, Blob, Squiggle, Cross, Triangle, GradientCircle } from "./shapes";
+import { BRAND, Bubble, Tile, Badge, Tag, Maple, Flight } from "./stickers";
 
 const { blue, violet, red, amber } = BRAND;
 
-// One layout per section: [Shape, props, position classes, animation class,
-// parallax depth (px of mouse travel; 0 = none)]. Shapes hug the left and right
-// edges so they fill the empty sides on wide screens without crowding content.
-// Each layout mixes outline shapes with one or two solid gradient discs (and an
-// amber accent) so the sides read as colourful, not as faint watermarks.
+// One layout per section: [Sticker, props, position classes, animation class,
+// parallax depth (px of mouse travel; 0 = none)]. Stickers sit in the empty
+// side margins and each section has its own theme: a greeting in the hero, the
+// four épreuves beside the modules, scores near the calculator, a flight to
+// Canada in the final call to action.
 const LAYOUTS = {
   hero: [
-    [GradientCircle, { from: amber, to: red, size: 78 }, "top-24 left-[6%]", "decor-float", 22],
-    [DotGrid, { color: blue, n: 9, r: 2.6 }, "top-[42%] left-[2%]", "decor-float-slow", 14],
-    [DashedRing, { color: red, size: 130, stroke: 7 }, "bottom-20 left-[5%] opacity-80", "decor-spin", 10],
-    [Squiggle, { color: violet, stroke: 5 }, "top-[30%] left-[15%] opacity-90", "decor-drift", 26],
-    [Blob, { color: violet, size: 240 }, "top-16 -right-16 opacity-[.16]", "decor-morph", 8],
-    [GradientCircle, { from: blue, to: violet, size: 54 }, "top-40 right-[12%]", "decor-float", 30],
-    [DotGrid, { color: red, n: 8, r: 2.6 }, "bottom-16 right-[3%]", "decor-float-slow", 16],
-    [Cross, { color: amber, size: 26, stroke: 5 }, "top-[60%] right-[9%]", "decor-spin-rev", 34],
+    [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-28 left-[4%]", "decor-float", 18],
+    [Tile, { ch: "É", pts: 3, color: red, tilt: -10 }, "top-[46%] left-[9%]", "decor-sway", 26],
+    [Flight, { color: violet, width: 200 }, "bottom-24 left-[2%]", "", 12],
+    [Maple, { color: red, size: 60, tilt: 14 }, "top-24 right-[7%]", "decor-sway", 22],
+    [Bubble, { text: "On y va ?", color: violet, solid: true, tail: "right", tilt: 5 }, "top-[44%] right-[3%]", "decor-float-slow", 16],
+    [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%]", "decor-sway", 28],
   ],
   features: [
-    [DashedRing, { color: blue, size: 110, stroke: 7 }, "top-24 left-[2%] opacity-80", "decor-spin", 12],
-    [GradientCircle, { from: violet, to: red, size: 46 }, "top-[50%] left-[7%]", "decor-float", 26],
-    [Triangle, { color: amber, size: 40, stroke: 4 }, "bottom-[18%] left-[3%]", "decor-spin-slow", 20],
-    [DotGrid, { color: violet, n: 8, r: 2.6 }, "top-[30%] right-[2%]", "decor-float-slow", 14],
-    [Cross, { color: red, size: 26, stroke: 5 }, "bottom-[16%] right-[8%] opacity-90", "decor-spin-rev", 28],
+    [Badge, { kind: "co", color: blue, tilt: -8 }, "top-24 left-[4%]", "decor-float", 18],
+    [Badge, { kind: "ce", color: red, tilt: 6 }, "bottom-[22%] left-[7%]", "decor-float-slow", 24],
+    [Badge, { kind: "ee", color: violet, tilt: 8 }, "top-[32%] right-[5%]", "decor-float-slow", 20],
+    [Badge, { kind: "eo", color: amber, tilt: -6 }, "bottom-[14%] right-[3%]", "decor-float", 26],
   ],
   overview: [
-    [DotGrid, { color: blue, n: 7, r: 2.6 }, "top-16 left-[2%]", "decor-float", 16],
-    [Squiggle, { color: red, width: 100, stroke: 5 }, "bottom-16 left-[4%] opacity-90", "decor-drift", 22],
-    [GradientCircle, { from: amber, to: red, size: 64 }, "top-14 right-[5%]", "decor-float-slow", 18],
-    [Ring, { color: violet, size: 54, stroke: 5 }, "bottom-24 right-[4%] opacity-85", "decor-float", 24],
+    [Tag, { text: "699 pts", color: violet, tilt: -6 }, "top-20 left-[3%]", "decor-float", 16],
+    [Tile, { ch: "À", pts: 2, color: blue, tilt: 9 }, "bottom-20 left-[6%]", "decor-sway", 24],
+    [Maple, { color: amber, size: 52, tilt: -18 }, "top-16 right-[5%]", "decor-sway", 18],
+    [Tag, { text: "4 épreuves", color: red, tilt: 5 }, "bottom-24 right-[3%]", "decor-float-slow", 22],
   ],
   testimonials: [
-    [Blob, { color: red, size: 210 }, "top-12 -left-16 opacity-[.14]", "decor-morph", 8],
-    [GradientCircle, { from: blue, to: violet, size: 50 }, "top-[58%] left-[5%]", "decor-float", 26],
-    [DashedRing, { color: violet, size: 120, stroke: 7 }, "top-24 right-[3%] opacity-80", "decor-spin", 12],
-    [Cross, { color: amber, size: 26, stroke: 5 }, "bottom-16 right-[9%]", "decor-spin-rev", 30],
+    [Bubble, { text: "Merci !", color: red, tilt: -7 }, "top-24 left-[4%]", "decor-float", 18],
+    [Maple, { color: blue, size: 48, tilt: 20 }, "bottom-[18%] left-[8%]", "decor-sway", 26],
+    [Bubble, { text: "NCLC 9 obtenu !", color: blue, solid: true, tail: "right", tilt: 6 }, "top-[30%] right-[3%]", "decor-float-slow", 16],
+    [Tile, { ch: "Ê", pts: 2, color: violet, tilt: -8 }, "bottom-[16%] right-[8%]", "decor-sway", 24],
   ],
   calculator: [
-    [DotGrid, { color: red, n: 8, r: 2.6 }, "top-20 left-[2%]", "decor-float-slow", 16],
-    [Ring, { color: amber, size: 46, stroke: 6 }, "bottom-24 left-[7%]", "decor-float", 28],
-    [GradientCircle, { from: violet, to: blue, size: 58 }, "top-24 right-[5%]", "decor-float", 22],
-    [Squiggle, { color: blue, width: 110, stroke: 5 }, "bottom-20 right-[2%] opacity-90", "decor-drift", 20],
+    [Tag, { text: "NCLC 7", color: blue, tilt: -8 }, "top-20 left-[4%]", "decor-float", 18],
+    [Tag, { text: "B2", color: amber, tilt: 6 }, "top-[42%] left-[8%]", "decor-float-slow", 26],
+    [Tag, { text: "C1", color: violet, tilt: -4 }, "bottom-24 left-[3%]", "decor-float", 22],
+    [Flight, { color: red, width: 180, flip: true }, "top-16 right-[2%]", "", 14],
+    [Tag, { text: "699 / 699", color: red, tilt: 7 }, "bottom-28 right-[5%]", "decor-float-slow", 24],
   ],
   pricing: [
-    [DashedRing, { color: red, size: 120, stroke: 7 }, "top-28 left-[2%] opacity-80", "decor-spin", 12],
-    [Dot, { color: amber, size: 18 }, "top-[55%] left-[6%]", "decor-pulse", 30],
-    [DotGrid, { color: blue, n: 8, r: 2.6 }, "top-[35%] right-[2%]", "decor-float", 16],
-    [GradientCircle, { from: red, to: amber, size: 48 }, "bottom-24 right-[7%]", "decor-float-slow", 26],
+    [Bubble, { text: "Essai gratuit", color: amber, tilt: -5 }, "top-28 left-[3%]", "decor-float", 18],
+    [Tile, { ch: "Ô", pts: 3, color: blue, tilt: 10 }, "bottom-[22%] left-[8%]", "decor-sway", 26],
+    [Maple, { color: red, size: 50, tilt: -12 }, "top-[34%] right-[6%]", "decor-sway", 20],
+    [Tag, { text: "Sans carte", color: violet, tilt: 6 }, "bottom-[16%] right-[3%]", "decor-float-slow", 24],
   ],
   cta: [
-    [Blob, { color: blue, size: 220, variant: 1 }, "top-6 left-[4%] opacity-[.14]", "decor-morph", 10],
-    [GradientCircle, { from: amber, to: red, size: 56 }, "bottom-10 left-[13%]", "decor-float", 18],
-    [Blob, { color: red, size: 200 }, "bottom-4 right-[5%] opacity-[.14]", "decor-morph", 10],
-    [Squiggle, { color: violet, width: 100, stroke: 5 }, "top-14 right-[13%] opacity-90", "decor-drift", 24],
+    [Flight, { color: blue, width: 240 }, "top-10 left-[3%]", "", 14],
+    [Maple, { color: red, size: 72, tilt: 12 }, "top-12 right-[8%]", "decor-sway", 22],
+    [Bubble, { text: "À bientôt au Canada !", color: red, solid: true, tail: "right", tilt: 4 }, "bottom-14 right-[4%]", "decor-float", 16],
+    [Tile, { ch: "É", pts: 3, color: violet, tilt: -9 }, "bottom-16 left-[10%]", "decor-sway", 26],
   ],
   page: [
-    [DotGrid, { color: blue, n: 8, r: 2.6 }, "top-28 left-[2%]", "decor-float", 16],
-    [GradientCircle, { from: amber, to: red, size: 50 }, "top-[360px] left-[6%]", "decor-float-slow", 20],
-    [Blob, { color: violet, size: 200, variant: 1 }, "top-24 -right-14 opacity-[.14]", "decor-morph", 8],
-    [Cross, { color: red, size: 26, stroke: 5 }, "top-[360px] right-[5%] opacity-90", "decor-spin-rev", 26],
+    [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-32 left-[3%]", "decor-float", 16],
+    [Tile, { ch: "É", pts: 3, color: red, tilt: -8 }, "top-[340px] left-[7%]", "decor-sway", 24],
+    [Maple, { color: red, size: 52, tilt: 14 }, "top-28 right-[5%]", "decor-sway", 20],
+    [Tag, { text: "TCF Canada", color: violet, tilt: 6 }, "top-[350px] right-[4%]", "decor-float-slow", 22],
   ],
 };
 
@@ -93,16 +90,15 @@ function useParallax() {
 // so it paints on top. Hidden below the `from` breakpoint, where the content
 // already fills the width and there are no sides to fill.
 export function SectionDecor({ variant, from = "lg" }) {
-  const { dark } = useApp();
   useParallax();
   const items = LAYOUTS[variant] || [];
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (
-    <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show} ${dark ? "opacity-80" : ""}`}>
-      {items.map(([Shape, props, pos, anim, depth], i) => (
+    <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
+      {items.map(([Sticker, props, pos, anim, depth], i) => (
         <span key={i} className={`absolute ${pos}`}
           style={depth ? { transform: `translate3d(calc(var(--mx, 0) * ${depth}px), calc(var(--my, 0) * ${depth}px), 0)`, transition: "transform .6s cubic-bezier(.22,1,.36,1)" } : undefined}>
-          <span className={`block ${anim}`} style={{ animationDelay: `${-i * 1.7}s` }}><Shape {...props} /></span>
+          <span className={`block ${anim}`} style={{ animationDelay: `${-i * 1.7}s` }}><Sticker {...props} /></span>
         </span>
       ))}
     </div>

@@ -5,6 +5,7 @@ import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
+import { CountUp } from "@/components/home/CountUp";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
@@ -99,7 +100,7 @@ function Landing() {
           <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {stats.items.map((s) => (
               <div key={s.key} className="text-center">
-                <p className="font-display font-extrabold text-3xl md:text-4xl grad-text">{s.value}</p>
+                <p className="font-display font-extrabold text-3xl md:text-4xl grad-text"><CountUp value={s.value} /></p>
                 <p className={`mt-1.5 text-sm ${c.sub}`}>{t(s.label)}</p>
               </div>
             ))}
