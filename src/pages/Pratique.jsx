@@ -13,11 +13,12 @@ import { Revision } from "@/pages/Revision";
 
 // The Pratique hub: every practice tool in one notebook — the candidate's
 // « cahier d'entraînement ». The page is a sheet of French school paper
-// (lignage Seyès, red margin) with two more sheets peeking out beneath, and
-// the tools are page markers sticking out of its top edge: the selected one
-// stands taller, filled with the tool's colour, and runs straight into the
-// page's header strip of the same colour; the others are pale, tucked under
-// the page. The tool itself is written on the paper, right of the margin.
+// (lignage Seyès, ruled in a faint version of the tool's colour) with two
+// more sheets peeking out beneath, and the tools are page markers sticking out
+// of its left edge (its top edge on small screens): the selected one sticks
+// out further, filled with the tool's colour, and joins the page's edge of the
+// same colour; the others are pale, tucked under the page. The tool itself is
+// written on the paper, right of the margin.
 //
 // The hub has its own address ("entrainement", the nav's « Pratique » link)
 // and every practice route renders it on its own marker, so /vocabulaire,
@@ -55,18 +56,25 @@ function Badge({ on, children, tone }) {
   );
 }
 
-// A page marker. Unselected: pale, set lower, its foot tucked under the page.
-// Selected: taller, filled, drawn above the page so it joins the header strip.
-function Marker({ tool, on, onSelect }) {
+// A page marker, sticking out of the notebook's left edge (`side="left"`,
+// from lg) or its top edge (small screens). Unselected: pale, set back, its
+// end tucked under the page. Selected: sticks out further, filled, drawn above
+// the page so it joins the page's coloured edge.
+function Marker({ tool, on, onSelect, side }) {
   const { t, dark } = useApp();
   const k = toolTone(tool.tone, dark);
   const pale = PALETTE[tool.tone][dark ? "dark" : "light"][0];
+  const left = side === "left";
+  const shape = left
+    ? `rounded-l-2xl pl-3.5 pr-9 py-3 border-r-0 ${on ? "ml-0" : "ml-6 enabled:hover:ml-3"}`
+    : `shrink-0 rounded-t-2xl px-3.5 sm:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
+  const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
-      className={`relative shrink-0 flex items-center gap-2 rounded-t-2xl px-3.5 sm:px-4 pt-2.5 pb-6 border-2 border-b-0 text-sm font-bold whitespace-nowrap transition-all duration-300
+      className={`relative flex items-center gap-2 border-2 text-sm font-bold text-left transition-all duration-300 ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
-        ${on ? "z-30 mt-0 text-white" : `z-0 mt-3 enabled:hover:mt-1.5 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
-      style={on ? { background: k.fill, borderColor: k.fill } : { background: pale, borderColor: k.edge, borderTopColor: k.fill, borderTopWidth: 4, color: k.ink }}>
+        ${on ? "z-30 text-white shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
+      style={on ? { background: k.fill, borderColor: k.fill } : { background: pale, borderColor: k.edge, ...accent, color: k.ink }}>
       <tool.icon size={16} />
       {t(tool.l)}
       {tool.soon && <Badge on={on} tone="bg-white/70 text-slate-700">{t("Bientôt")}</Badge>}
@@ -89,10 +97,17 @@ export function Pratique() {
   return (
     <PageShell wide eyebrow={t("Pratique")} title={t("Votre cahier d'entraînement")}
       sub={t("Six outils, un seul cahier : choisissez un marque-page.")}>
-      {/* Page markers, poking out of the notebook's top edge. The row scrolls
-          sideways on small screens; the page overlaps the markers' feet. */}
-      <nav aria-label={t("Pratique")} className="flex items-end gap-1.5 sm:gap-2 px-6 md:px-9 overflow-x-auto -mb-4">
-        {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} />)}
+      {/* Small screens: the markers poke out of the notebook's top edge, in a
+          row that scrolls sideways; the page overlaps their feet. */}
+      <nav aria-label={t("Pratique")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
+        {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" />)}
+      </nav>
+
+      <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+      {/* From lg: the markers stick out of the notebook's left edge; the
+          column overlaps the page by 20px, hiding the markers' ends under it. */}
+      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20 -mr-5">
+        {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="left" />)}
       </nav>
 
       <div className="relative z-10">
@@ -102,21 +117,24 @@ export function Pratique() {
 
         {/* The page. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
-        <div className={`relative rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill }}>
-          <div className="flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-t-[20px] text-white transition-colors duration-300" style={{ background: k.fill }}>
+        <div className={`relative rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
+          <div className="flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] text-white transition-colors duration-300" style={{ background: k.fill }}>
             <span className="grid place-items-center w-9 h-9 rounded-xl bg-white/20 shrink-0"><active.icon size={18} /></span>
             <div className="min-w-0">
               <p className="font-display font-extrabold text-lg leading-tight">{t(active.l)}</p>
               <p className="text-xs font-semibold text-white/80">{t(active.tag)}</p>
             </div>
           </div>
-          {/* Seyès-ruled paper with its red margin (.seyes in index.css). */}
-          <div className={`seyes rounded-b-[20px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}>
+          {/* Seyès-ruled paper (.seyes in index.css), its lines and margin in
+              a faint version of the tool's colour. */}
+          <div className={`seyes rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
+            style={{ "--fine": `${k.ink}10`, "--main": `${k.ink}24`, "--margin": `${k.ink}55` }}>
             <EmbeddedShell.Provider value>
               <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
             </EmbeddedShell.Provider>
           </div>
         </div>
+      </div>
       </div>
     </PageShell>
   );
