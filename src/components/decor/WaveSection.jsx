@@ -1,8 +1,9 @@
 import { useApp } from "@/context/AppContext";
 import { SectionDecor } from "./SectionDecor";
 
-// Landing-page sections alternate between a soft tinted block and the plain
-// page colour. Where a plain section follows a tinted one it can open with a
+// Landing-page sections alternate between a soft tinted block and a plain
+// one (white in light mode, since the page canvas itself is the tint; the
+// page colour in dark mode). Where a plain section follows a tinted one it can open with a
 // single tall, gentle wave: the previous section's tint flows down into it in
 // one wide curve. Every other boundary stays straight, so the waves stay rare
 // enough to read as deliberate.
@@ -29,7 +30,7 @@ export function WaveSection({ tinted = false, wave = null, flip = false, decor, 
   const { dark } = useApp();
   const tint = dark ? TINT.dark : TINT.light;
   return (
-    <section id={id} className={`relative ${className}`} style={tinted ? { background: tint } : undefined}>
+    <section id={id} className={`relative ${className}`} style={{ background: tinted ? tint : dark ? undefined : "#FFFFFF" }}>
       {wave !== null && !tinted && <WaveCap shape={wave} flip={flip} color={tint} />}
       {decor && <SectionDecor variant={decor} />}
       {/* Room for the curve, so it never runs over the section's content. */}

@@ -362,7 +362,7 @@ const BARCODE = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 2, 1, 3, 
 function MockPass() {
   const { t, dark, c } = useApp();
   const blue = PALETTE.blue[dark ? "dark" : "light"];
-  const page = dark ? "#020617" : "#F8FAFC";
+  const page = dark ? "#020617" : "#FFFFFF"; // the (plain) section behind the ticket
   const edge = dark ? "#334155" : "#CBD5E1"; // ticket outline
   const field = (label, value) => (
     <div>
