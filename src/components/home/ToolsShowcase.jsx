@@ -236,10 +236,11 @@ function ScreenVocab({ ink, soft }) {
   const { c } = useApp();
   return (
     <Frame ink={ink} soft={soft} label="THÈME · IMMIGRATION">
-      <div className="relative h-40">
-        <div className="absolute inset-x-10 top-2 bottom-4 rounded-2xl rotate-[-5deg]" style={{ background: soft }} />
-        <div className="absolute inset-x-6 top-1 bottom-6 rounded-2xl rotate-[3deg]" style={{ background: soft, opacity: 0.6 }} />
-        <div className={`absolute inset-x-2 top-0 bottom-8 rounded-2xl grid place-items-center text-center px-4 ${c.card}`}
+      {/* The stack peeks out above the front card, never below it. */}
+      <div className="relative h-36">
+        <div className="absolute inset-x-12 top-0 bottom-8 rounded-2xl -rotate-2" style={{ background: soft }} />
+        <div className="absolute inset-x-7 top-1.5 bottom-6 rounded-2xl rotate-[1.5deg]" style={{ background: soft, opacity: 0.6 }} />
+        <div className={`absolute inset-x-2 top-4 bottom-0 rounded-2xl grid place-items-center text-center px-4 ${c.card}`}
           style={{ boxShadow: `0 0 0 2px ${ink}` }}>
           <div>
             <p className="font-display font-extrabold text-xl" style={{ color: ink }}>le permis de travail</p>
@@ -247,7 +248,7 @@ function ScreenVocab({ ink, soft }) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="mt-4 grid grid-cols-2 gap-2">
         <span className="rounded-xl px-3 py-2 text-center text-sm font-bold" style={{ background: soft, color: ink }}>À revoir</span>
         <span className="rounded-xl px-3 py-2 text-center text-sm font-bold" style={{ background: ink, color: "#FFFFFF" }}>Je sais</span>
       </div>
@@ -279,7 +280,7 @@ function Panel({ tool, n }) {
   const night = tool.tone === "night";
   const Screen = SCREENS[tool.route];
   return (
-    <div className="rounded-[32px] p-6 md:p-8 h-full flex flex-col gap-5 transition-colors duration-300" style={{ background: bg }}>
+    <div className="rounded-[32px] p-6 md:p-8 h-full flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
       <div key={tool.route} className="rise flex flex-col gap-5 h-full">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -318,8 +319,8 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       onPointerEnter={(e) => e.pointerType === "mouse" && select(i)}
       onFocus={(e) => e.currentTarget.matches(":focus-visible") && select(i)}
       aria-current={on ? "true" : undefined}
-      className={`group relative block rounded-2xl px-4 py-3.5 outline-none transition-colors focus-visible:ring-2 ${on ? "" : "hover:bg-slate-500/5"}`}
-      style={on ? { background: soft } : undefined}>
+      className={`group relative block rounded-2xl px-4 py-3 border-2 outline-none transition-colors focus-visible:ring-2 ${on ? "" : `${c.border} ${c.card} hover:bg-slate-500/5`}`}
+      style={on ? { background: soft, borderColor: `${ink}55` } : undefined}>
       <span className="flex items-center gap-3">
         <span className="grid place-items-center w-10 h-10 rounded-xl shrink-0 transition-colors"
           style={on ? { background: ink, color: onInk(tool) } : { background: soft, color: ink }}>
@@ -362,6 +363,7 @@ function MockPass() {
   const { t, dark, c } = useApp();
   const blue = PALETTE.blue[dark ? "dark" : "light"];
   const page = dark ? "#020617" : "#F8FAFC";
+  const edge = dark ? "#334155" : "#CBD5E1"; // ticket outline
   const field = (label, value) => (
     <div>
       <p className={`font-mono2 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{label}</p>
@@ -369,7 +371,7 @@ function MockPass() {
     </div>
   );
   return (
-    <div className={`relative mt-10 flex flex-col md:flex-row rounded-[28px] border ${c.border} ${c.card}`}>
+    <div className={`relative mt-10 flex flex-col md:flex-row rounded-[28px] border-2 ${c.card}`} style={{ borderColor: edge }}>
       <div className="flex-1 p-6 md:p-8">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 font-mono2 text-[11px] font-bold uppercase tracking-widest" style={{ color: blue[1] }}>
@@ -409,11 +411,11 @@ function MockPass() {
           notch is a circle clipped to the half that lies inside the ticket. */}
       <div className="relative h-0 md:h-auto md:w-0" aria-hidden="true">
         <span className={`absolute left-6 right-6 top-0 border-t-2 border-dashed md:hidden ${c.border}`} />
-        <span className={`absolute -left-3 -top-3 w-6 h-6 rounded-full border md:hidden ${c.border}`} style={{ background: page, clipPath: "inset(0 0 0 50%)" }} />
-        <span className={`absolute -right-3 -top-3 w-6 h-6 rounded-full border md:hidden ${c.border}`} style={{ background: page, clipPath: "inset(0 50% 0 0)" }} />
+        <span className="absolute -left-3 -top-3 w-6 h-6 rounded-full border-2 md:hidden" style={{ borderColor: edge, background: page, clipPath: "inset(0 0 0 50%)" }} />
+        <span className="absolute -right-3 -top-3 w-6 h-6 rounded-full border-2 md:hidden" style={{ borderColor: edge, background: page, clipPath: "inset(0 50% 0 0)" }} />
         <span className={`absolute top-6 bottom-6 left-0 border-l-2 border-dashed hidden md:block ${c.border}`} />
-        <span className={`absolute -top-3 -left-3 w-6 h-6 rounded-full border hidden md:block ${c.border}`} style={{ background: page, clipPath: "inset(50% 0 0 0)" }} />
-        <span className={`absolute -bottom-3 -left-3 w-6 h-6 rounded-full border hidden md:block ${c.border}`} style={{ background: page, clipPath: "inset(0 0 50% 0)" }} />
+        <span className="absolute -top-3 -left-3 w-6 h-6 rounded-full border-2 hidden md:block" style={{ borderColor: edge, background: page, clipPath: "inset(50% 0 0 0)" }} />
+        <span className="absolute -bottom-3 -left-3 w-6 h-6 rounded-full border-2 hidden md:block" style={{ borderColor: edge, background: page, clipPath: "inset(0 0 50% 0)" }} />
       </div>
 
       <div className="md:w-72 p-6 md:p-8 flex flex-col items-center justify-center gap-4 rounded-b-[28px] md:rounded-bl-none md:rounded-r-[28px]" style={{ background: blue[0] }}>
