@@ -426,7 +426,9 @@ function continueCard(inProgressExam, results) {
 
 function activityItem(e) {
   const date = new Date(e.at).toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
-  const base = { date, minutes: e.minutes || 0, xp: eventXp(e), kind: e.kind };
+  // `section` and `pct` let the history colour each row (its épreuve, its score band).
+  const pct = e.kind === "exam" ? Math.round(((e.points || 0) / 699) * 100) : e.pct;
+  const base = { date, minutes: e.minutes || 0, xp: eventXp(e), kind: e.kind, section: e.section, pct };
   if (e.kind === "exam") return { ...base, title: "TCF blanc terminé", meta: `${e.points} / 699 · ${date}`, result: `${e.points} / 699` };
   if (e.kind === "dictee") return { ...base, title: `Dictée · tâche ${e.task}`, meta: `${e.ok} / ${e.total} mots · ${date}`, result: `${e.pct} %` };
   if (e.kind === "conj") {

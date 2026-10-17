@@ -16,11 +16,12 @@ import { ROLES, canUseNotebook } from "@/auth/rbac";
 
 /* ------------------------------ small pieces ----------------------------- */
 
-// The dashboard is deliberately quiet: white cards, slate text and a single
-// accent (the site blue). Each kind of data gets its own plain visual form —
-// a summary strip, a route line, a to-do list, a week of dots, progress
-// rings, round medals — rather than colour doing the work.
+// The dashboard keeps white cards and slate text, with colour in small,
+// meaningful touches (an icon, a ring, a medal) rather than coloured tiles.
+// Each kind of data gets its own plain visual form — a summary strip, a route
+// line, a to-do list, a week of dots, progress rings, round medals.
 const ACCENT = "#2563EB";
+const GOLD = "#F59E0B";
 
 function CardTitle({ children, aside }) {
   const { c } = useApp();
@@ -37,9 +38,11 @@ function SummaryStrip({ items }) {
   const { c } = useApp();
   return (
     <Card className="grid grid-cols-2 md:grid-cols-4">
-      {items.map(({ icon: Icon, value, label }, i) => (
+      {items.map(({ icon: Icon, value, label, color }, i) => (
         <div key={label} className={`p-5 ${i % 2 ? `border-l ${c.border}` : ""} ${i >= 2 ? `border-t md:border-t-0 ${c.border}` : ""} ${i === 2 ? `md:border-l` : ""}`}>
-          <p className={`flex items-center gap-1.5 text-xs font-semibold ${c.faint}`}><Icon size={13} aria-hidden="true" /> {label}</p>
+          <p className={`flex items-center gap-2 text-xs font-semibold ${c.faint}`}>
+            <span className="w-6 h-6 rounded-lg grid place-items-center" style={{ background: `${color}1A`, color }}><Icon size={13} aria-hidden="true" /></span> {label}
+          </p>
           <p className={`font-display font-extrabold text-3xl mt-2 tabular-nums ${c.text}`}>{value}</p>
         </div>
       ))}
@@ -89,7 +92,7 @@ function TodoList({ items }) {
         {items.map((it, i) => (
           <li key={i}>
             <button type="button" onClick={() => nav(it.route)} className="group w-full flex items-center gap-4 py-3.5 text-left">
-              <span className={`w-9 h-9 rounded-full border ${c.border} grid place-items-center shrink-0 ${c.sub}`}><it.icon size={16} aria-hidden="true" /></span>
+              <span className="w-9 h-9 rounded-full grid place-items-center shrink-0" style={{ background: `${it.color}1A`, color: it.color }}><it.icon size={16} aria-hidden="true" /></span>
               <span className="flex-1 min-w-0">
                 <span className={`block text-sm font-semibold ${c.text}`}>{it.title}</span>
                 {it.detail && <span className={`block text-xs mt-0.5 ${c.faint}`}>{it.detail}</span>}
@@ -115,7 +118,7 @@ function StreakCard({ streaks }) {
   const week = cal.days.slice(Math.max(0, today - 7), today);
   return (
     <Card className="group p-6">
-      <CardTitle aside={<Flame size={16} className={streaks.practicedToday ? "text-orange-500" : c.faint} aria-hidden="true" />}>{t("Série")}</CardTitle>
+      <CardTitle aside={<Flame size={18} className={streaks.practicedToday ? "text-orange-500" : "text-orange-300"} aria-hidden="true" />}>{t("Série")}</CardTitle>
       <p className={`font-display font-extrabold text-4xl tabular-nums ${c.text}`}>
         {streaks.current} <span className={`text-base font-bold ${c.faint}`}>{t(streaks.current > 1 ? "jours" : "jour")}</span>
       </p>
@@ -164,7 +167,7 @@ function StreakCard({ streaks }) {
 }
 
 // A small progress ring for one weekly goal.
-function Ring({ label, current, target }) {
+function Ring({ label, current, target, color }) {
   const { c } = useApp();
   const R = 26;
   const CIRC = 2 * Math.PI * R;
@@ -174,11 +177,11 @@ function Ring({ label, current, target }) {
       <div className="relative w-16 h-16">
         <svg viewBox="0 0 64 64" className="w-full h-full -rotate-90" aria-hidden="true">
           <circle cx="32" cy="32" r={R} fill="none" stroke="currentColor" strokeWidth="5" className={c.border.includes("800") ? "text-slate-800" : "text-slate-200"} />
-          <circle cx="32" cy="32" r={R} fill="none" stroke={ACCENT} strokeWidth="5" strokeLinecap="round"
+          <circle cx="32" cy="32" r={R} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round"
             strokeDasharray={CIRC} strokeDashoffset={CIRC * (1 - frac)} style={{ transition: "stroke-dashoffset .6s ease" }} />
         </svg>
         <span className={`absolute inset-0 grid place-items-center text-xs font-mono2 font-bold ${c.text}`}>
-          {frac >= 1 ? <Check size={16} style={{ color: ACCENT }} /> : `${Math.min(current, target)}/${target}`}
+          {frac >= 1 ? <Check size={16} style={{ color }} /> : `${Math.min(current, target)}/${target}`}
         </span>
       </div>
       <span className={`mt-2 text-[11px] font-semibold leading-tight ${c.sub}`}>{label}</span>
@@ -215,10 +218,10 @@ export function DashboardView({ data, toReview = 0 }) {
   // carnet's backlog, then the personal recommendations.
   const todo = [
     ...(data.continueCard && (data.continueCard.kind === "exam" || role === ROLES.FREE_USER)
-      ? [{ icon: Play, title: t(data.continueCard.title), detail: t(data.continueCard.detail), cta: t(data.continueCard.cta), route: data.continueCard.route }] : []),
+      ? [{ icon: Play, color: "#2563EB", title: t(data.continueCard.title), detail: t(data.continueCard.detail), cta: t(data.continueCard.cta), route: data.continueCard.route }] : []),
     ...(toReview > 0 && canUseNotebook(role)
-      ? [{ icon: NotebookPen, title: `${toReview} ${t(toReview > 1 ? "questions" : "question")} ${t("à revoir dans votre carnet d'erreurs")}`, cta: t("Revoir"), route: "carnet" }] : []),
-    ...data.recommendations.map((r) => ({ icon: Sparkles, title: t(r.title), detail: t(r.body), cta: t(r.cta), route: r.route })),
+      ? [{ icon: NotebookPen, color: "#C9821A", title: `${toReview} ${t(toReview > 1 ? "questions" : "question")} ${t("à revoir dans votre carnet d'erreurs")}`, cta: t("Revoir"), route: "carnet" }] : []),
+    ...data.recommendations.map((r) => ({ icon: Sparkles, color: "#7C3AED", title: t(r.title), detail: t(r.body), cta: t(r.cta), route: r.route })),
   ];
 
   return (
@@ -236,10 +239,10 @@ export function DashboardView({ data, toReview = 0 }) {
         {/* ---------------- main column ---------------- */}
         <div className="lg:col-span-2 space-y-5">
           <SummaryStrip items={[
-            { icon: Clock, value: formatDuration(tot.studyMinutes), label: t("Temps d'étude") },
-            { icon: CheckCircle2, value: String(tot.quizzesCompleted), label: t("Quiz terminés") },
-            { icon: ListChecks, value: String(tot.questionsAnswered), label: t("Questions répondues") },
-            { icon: Target, value: `${tot.correctRate} %`, label: t("Bonnes réponses") },
+            { icon: Clock, value: formatDuration(tot.studyMinutes), label: t("Temps d'étude"), color: "#0D9488" },
+            { icon: CheckCircle2, value: String(tot.quizzesCompleted), label: t("Quiz terminés"), color: "#2563EB" },
+            { icon: ListChecks, value: String(tot.questionsAnswered), label: t("Questions répondues"), color: "#7C3AED" },
+            { icon: Target, value: `${tot.correctRate} %`, label: t("Bonnes réponses"), color: "#059669" },
           ]} />
 
           <Journey xp={data.xp} />
@@ -258,9 +261,9 @@ export function DashboardView({ data, toReview = 0 }) {
           <Card className="p-6">
             <CardTitle>{t("Objectif de la semaine")}</CardTitle>
             <div className="grid grid-cols-3 gap-2">
-              <Ring label={t("Quiz terminés")} current={data.weeklyGoal.current.quizzes} target={data.weeklyGoal.targets.quizzes} />
-              <Ring label={t("Jours de pratique")} current={data.weeklyGoal.current.days} target={data.weeklyGoal.targets.days} />
-              <Ring label={t("XP gagnés")} current={data.weeklyGoal.current.xp} target={data.weeklyGoal.targets.xp} />
+              <Ring label={t("Quiz terminés")} current={data.weeklyGoal.current.quizzes} target={data.weeklyGoal.targets.quizzes} color="#2563EB" />
+              <Ring label={t("Jours de pratique")} current={data.weeklyGoal.current.days} target={data.weeklyGoal.targets.days} color="#E11D48" />
+              <Ring label={t("XP gagnés")} current={data.weeklyGoal.current.xp} target={data.weeklyGoal.targets.xp} color="#7C3AED" />
             </div>
           </Card>
 
@@ -271,7 +274,7 @@ export function DashboardView({ data, toReview = 0 }) {
               {data.achievements.map((a) => (
                 <div key={a.id} className="group relative flex flex-col items-center">
                   <span className={`w-11 h-11 rounded-full grid place-items-center ${a.earned ? "text-white" : `border-2 border-dashed ${c.border} ${c.faint}`}`}
-                    style={a.earned ? { background: ACCENT } : undefined} aria-label={`${t(a.title)} — ${t(a.desc)}`}>
+                    style={a.earned ? { background: GOLD, boxShadow: `0 0 0 3px ${GOLD}33` } : undefined} aria-label={`${t(a.title)} — ${t(a.desc)}`}>
                     <Trophy size={17} />
                   </span>
                   <span className={`mt-1.5 text-[10px] font-semibold text-center leading-tight line-clamp-2 ${a.earned ? c.text : c.faint}`}>{t(a.title)}</span>
