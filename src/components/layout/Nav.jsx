@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users, BadgeCheck } from "lucide-react";
+import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users, BadgeCheck, User } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
@@ -11,10 +11,16 @@ import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { TOUR_STEPS } from "@/constants/tour";
 
-// What fits in the nav chip: the first word only, capped at 9 characters.
-// "Abdelkadir Mehri" was wide enough to push "Accueil" into the logo. The full
-// name stays in the button's title, so nothing is lost that a hover cannot
-// recover, and the stored profile name is untouched.
+// The navigation is a floating "island": a rounded bar set a little below the
+// top of the screen, translucent with a hairline border (and a soft shadow
+// once the page scrolls). The links sit in a pale segmented track where the
+// current page is a white pill; utilities (search, language, theme,
+// notifications) share one compact pill; and the account is a single avatar
+// button opening a menu (profile, admin, validation, profile switch, sign-out).
+// Below xl, the links move to a drawer that opens as a card under the island.
+
+// What fits next to the avatar: the first word only, capped at 9 characters.
+// The full name stays in the button's title and in the account menu.
 const CHIP_MAX = 9;
 const chipName = (full) => {
   const first = String(full || "").trim().split(/\s+/)[0] || "";
@@ -23,14 +29,35 @@ const chipName = (full) => {
 
 // The routes behind "Pratique" (see NAV_LINKS in constants/navigation.js) —
 // needed here because the mobile drawer has no single "Pratique" row to point
-// at, so the tour step has to recognise its four children by route instead.
-// They are contiguous in the drawer's "S'entraîner" section, so the tour's
-// union rect lands on that group rather than on a scattered set of rows.
+// at, so the tour step has to recognise its children by route instead. They
+// are contiguous in the drawer's "S'entraîner" section, so the tour's union
+// rect lands on that group rather than on a scattered set of rows.
 const PRATIQUE_ROUTES = ["vocabulary", "grammar", "conjugation", "dictee"];
 
 // Below this width the mobile drawer is the one that renders (`xl:hidden`
 // everywhere in this file), which is what the body-scroll lock keys off.
 const XL = 1280;
+
+// Closes a popover on an outside click or Escape.
+function useDismiss(open, ref, close) {
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) close(); };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [open, ref, close]);
+}
+
+function CountBadge({ n, className = "" }) {
+  if (!n) return null;
+  return (
+    <span className={`min-w-[16px] h-4 px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold leading-none flex items-center justify-center ${className}`}>
+      {n > 9 ? "9+" : n}
+    </span>
+  );
+}
 
 export function Nav({ barOffset = false }) {
   const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles, tourStep } = useApp();
@@ -40,36 +67,31 @@ export function Nav({ barOffset = false }) {
   // on a real hover — see TourOverlay.jsx and constants/tour.js.
   const tourTarget = tourStep != null ? TOUR_STEPS[tourStep]?.target : null;
   const pratiqueForcedOpen = tourTarget === "nav-pratique";
-  // Below xl the desktop nav (and its "Pratique" dropdown) is `hidden`, so a
-  // nav-chrome tour step has nothing to spotlight unless the mobile panel is
-  // open too. Forcing `open` here is harmless above xl — that panel stays
-  // `xl:hidden` regardless, it just mounts with a zero rect the tour's own
-  // measurement already filters out.
+  // Below xl the desktop links are `hidden`, so a nav-chrome tour step has
+  // nothing to spotlight unless the drawer is open too. Forcing `open` is
+  // harmless above xl — the drawer stays `xl:hidden` regardless, it just mounts
+  // with a zero rect the tour's own measurement already filters out.
   useEffect(() => {
     if (tourTarget === "nav-exams" || tourTarget === "nav-pratique") setOpen(true);
   }, [tourTarget]);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { notifications, unreadCount, markRead, dismiss, markAllRead } = useNotifications(user?.id, route);
-  // Requests waiting for the validateur, shown on their Validation button.
+  // Requests waiting for the validateur, shown on the avatar and in its menu.
   const pendingValidations = usePendingValidations(!!user?.moderator);
   const notifRef = useRef(null);
-  const closeAll = () => { setOpen(false); setOpenMenu(null); setNotifOpen(false); };
+  const accountRef = useRef(null);
+  const closeAll = () => { setOpen(false); setOpenMenu(null); setNotifOpen(false); setAccountOpen(false); };
   const go = (r) => { nav(r); closeAll(); };
+  const logout = () => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); };
 
-  // Close the notifications panel on an outside click or Escape.
-  useEffect(() => {
-    if (!notifOpen) return;
-    const onDown = (e) => { if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false); };
-    const onKey = (e) => { if (e.key === "Escape") setNotifOpen(false); };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
-  }, [notifOpen]);
-  // Past the top of the page the bar sits over cards and photos, where a blur
-  // alone leaves the muted link colour short of contrast — fade a translucent
-  // fill in behind it. The state only flips at the threshold, not every frame.
+  useDismiss(notifOpen, notifRef, () => setNotifOpen(false));
+  useDismiss(accountOpen, accountRef, () => setAccountOpen(false));
+
+  // Past the top of the page the island gains a soft shadow, so it reads as
+  // floating above the content. The state only flips at the threshold.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -95,152 +117,169 @@ export function Nav({ barOffset = false }) {
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
   const navLinks = navLinksForRole(NAV_LINKS, role);
   const mobileGroups = mobileNavForRole(role, user);
-  // The identity line at the top of the drawer. The desktop nav shows plan and
-  // name in a chip that is `hidden md:flex`, so on an actual phone there was
-  // nowhere at all to see which account — or which plan — you were signed in
-  // with. Free accounts get a label too, where the chip showed nothing: it is
-  // the honest place to tell someone why half the site is locked.
+  const name = user ? (activeProfile?.name || user.name) : "";
+  // The account's plan, shown in the account menu and at the top of the drawer.
+  // Free accounts get a label too: it is the honest place to say why half the
+  // site is locked.
   const planBadge = !user ? null
     : role === ROLES.OWNER ? { l: "Owner", cls: "text-amber-600" }
     : role === ROLES.ADMIN ? { l: "Admin", cls: "text-rose-600" }
     : user.moderator ? { l: t("Validateur"), cls: "text-emerald-600" }
     : role === ROLES.PREMIUM_USER ? { l: currentPlanLabel(user.planLabel) || "Premium", cls: "text-blue-600" }
     : { l: t("Compte gratuit"), cls: c.faint };
+  const track = dark ? "bg-slate-800/70" : "bg-slate-100";
+  const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
+  const iconBtn = `p-2 rounded-full ${c.sub} ${c.hoverSoft}`;
+  const canSwitch = maxProfiles > 1 || profiles.length > 1;
+
   return (
     <>
-      {/* At the top of the page the bar is fully transparent so the hero shows
-          through and the links/buttons read as free-floating. Once the page
-          scrolls (or the mobile menu opens) a translucent fill and hairline
-          border fade in to keep them legible over content. The border is always
-          present but transparent, so fading it in costs no layout shift. */}
-      <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 backdrop-blur-md border-b transition-colors duration-300 ${scrolled || open ? `${c.nav} ${c.navBorder}` : "bg-transparent border-transparent"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-3">
+      <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 px-3 sm:px-4 pt-2.5 md:pt-3`}>
+        <div className={`max-w-7xl mx-auto h-14 md:h-[60px] pl-4 pr-2 sm:pl-5 rounded-full border backdrop-blur-xl flex items-center justify-between gap-3 transition-shadow duration-300
+          ${c.nav} ${c.navBorder} ${scrolled || open ? "shadow-lg shadow-slate-900/[0.07]" : ""}`}>
           <Logo onNavigate={closeAll} />
-          <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
+
+          {/* Links: a segmented track, the current page as a white pill. */}
+          <nav className={`hidden xl:flex items-center gap-0.5 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
             {navLinks.map((n) => {
               const isPratique = n.l === "Pratique";
               const pratiqueOpen = openMenu === n.l || (isPratique && pratiqueForcedOpen);
-              // A menu entry with its own route (« Pratique ») is a plain link
-              // to that page on the desktop bar, active on any of its tools.
-              return n.menu && !n.r ? (
-                <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
-                  <button className={`px-3.5 py-2 rounded-full text-sm font-medium flex items-center gap-1 whitespace-nowrap shrink-0 ${c.sub} ${c.hoverSoft}`} aria-expanded={pratiqueOpen}>
-                    {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  {pratiqueOpen && (
-                    <div className={`absolute top-full left-0 pt-2 w-60`}>
-                      {/* Also tagged nav-pratique: a position:relative wrapper's
-                          own rect doesn't grow to include this absolutely
-                          positioned panel, so the tour needs both boxes to
-                          spotlight the trigger AND the open menu together —
-                          see the union logic in TourOverlay's useTourTarget. */}
-                      <div data-tour={isPratique ? "nav-pratique" : undefined} className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
-                        {n.menu.map((m) => m.soon ? (
-                          <div key={m.r + m.l} aria-disabled="true" title={t("Bientôt disponible")} className={`w-full px-3.5 py-2.5 rounded-xl text-sm ${c.sub} opacity-60 cursor-not-allowed flex items-center justify-between`}>
-                            {t(m.l)}<span className="text-[10px] font-bold uppercase tracking-wide text-orange-600">{t("Bientôt")}</span>
-                          </div>
-                        ) : (
-                          <RouteLink key={m.r + m.l} r={m.r} onNavigate={closeAll} className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm ${c.text} ${c.hoverSoft} flex items-center justify-between group`}>
-                            {t(m.l)}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
-                          </RouteLink>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : n.grad ? (
-                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : undefined} aria-current={route === n.r ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-bold whitespace-nowrap shrink-0 ${route === n.r ? "bg-blue-600/10" : c.hoverSoft}`}>
-                  <span className="grad-text">{t(n.l)}</span>
-                </RouteLink>
-              ) : (() => {
-                const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
+              const base = "px-3.5 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 transition-colors";
+              // A menu entry without a route of its own keeps a dropdown; one with
+              // a route (« Pratique ») is a plain link, active on any of its tools.
+              if (n.menu && !n.r) {
                 return (
-                  <RouteLink key={n.r} r={n.r} onNavigate={closeAll} data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined} aria-current={here ? "page" : undefined} className={`px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap shrink-0 ${here ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>{t(n.l)}</RouteLink>
-                );
-              })();
-            })}
-          </nav>
-          <div className="flex items-center gap-1.5">
-            {isStaff(role) && (
-              <button onClick={() => setSearchOpen(true)} aria-label={t("Rechercher")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><Search size={18} /></button>
-            )}
-            <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"} className={`p-2.5 rounded-full text-xs font-bold tracking-wide ${c.sub} ${c.hoverSoft}`}>{lang === "fr" ? "EN" : "FR"}</button>
-            <button onClick={() => setDark(!dark)} aria-label={dark ? t("Mode clair") : t("Mode sombre")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
-            {user && (
-              <div className="relative" ref={notifRef}>
-                <button onClick={() => setNotifOpen((o) => !o)} aria-label={t("Notifications")} aria-expanded={notifOpen} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft} relative`}>
-                  <Bell size={18} />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold leading-none flex items-center justify-center">{unreadCount > 9 ? "9+" : unreadCount}</span>
-                  )}
-                </button>
-                {notifOpen && (
-                  <div className={`absolute right-0 top-full mt-2 w-80 rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise z-50`}>
-                    <div className="flex items-center justify-between px-3 pt-2 pb-1.5">
-                      <p className={`text-xs font-bold uppercase tracking-wider ${c.faint}`}>Notifications</p>
-                      {unreadCount > 0 && (
-                        <button onClick={markAllRead} className="text-xs font-semibold text-blue-600 hover:underline">{t("Tout marquer comme lu")}</button>
-                      )}
-                    </div>
-                    {notifications.length === 0 ? (
-                      <div className="px-3 py-8 text-center">
-                        <BellOff size={22} className={`mx-auto mb-2 ${c.faint}`} />
-                        <p className={`text-sm ${c.faint}`}>{t("Aucune notification")}</p>
-                      </div>
-                    ) : (
-                      <div className="max-h-[22rem] overflow-y-auto">
-                        {notifications.map((nf) => (
-                          <div key={nf.id} className={`group flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft} ${nf.read ? "" : "bg-blue-600/5"}`}>
-                            <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${nf.read ? `${c.tint} ${c.faint}` : "bg-blue-600/10 text-blue-600"}`}><nf.icon size={16} /></span>
-                            {/* Some notifications lead somewhere (an answer
-                                from the team lives on the profile page); the
-                                rest are read in place, as before. */}
-                            <button onClick={() => { markRead(nf.id); if (nf.route) go(nf.route); }} className="flex-1 min-w-0 text-left">
-                              <p className={`text-sm ${c.text}`}>{t(nf.t)}</p>
-                              <p className={`text-xs ${c.faint} mt-0.5`}>{t(nf.time)}</p>
-                            </button>
-                            <div className="flex flex-col items-center gap-1.5 shrink-0 pt-1">
-                              {!nf.read && <span className="w-2 h-2 rounded-full bg-blue-600" aria-label={t("Non lu")} />}
-                              <button onClick={() => dismiss(nf.id)} aria-label={t("Supprimer")} className={`opacity-0 group-hover:opacity-100 p-1 rounded-lg ${c.faint} ${c.hoverSoft} transition-opacity`}><X size={13} /></button>
+                  <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
+                    <button className={`${base} font-medium flex items-center gap-1 ${c.sub} hover:text-blue-600`} aria-expanded={pratiqueOpen}>
+                      {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {pratiqueOpen && (
+                      <div className="absolute top-full left-0 pt-3 w-60">
+                        {/* Also tagged nav-pratique: the wrapper's rect doesn't
+                            include this absolutely positioned panel, so the tour
+                            needs both boxes (TourOverlay's union logic). */}
+                        <div data-tour={isPratique ? "nav-pratique" : undefined} className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
+                          {n.menu.map((m) => m.soon ? (
+                            <div key={m.r + m.l} aria-disabled="true" title={t("Bientôt disponible")} className={`w-full px-3.5 py-2.5 rounded-xl text-sm ${c.sub} opacity-60 cursor-not-allowed flex items-center justify-between`}>
+                              {t(m.l)}<span className="text-[10px] font-bold uppercase tracking-wide text-orange-600">{t("Bientôt")}</span>
                             </div>
-                          </div>
-                        ))}
+                          ) : (
+                            <RouteLink key={m.r + m.l} r={m.r} onNavigate={closeAll} className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm ${c.text} ${c.hoverSoft} flex items-center justify-between group`}>
+                              {t(m.l)}<ChevronRight size={14} className="opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
+                            </RouteLink>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
-                )}
-              </div>
-            )}
-            {user ? (
-              <div className="hidden md:flex items-center gap-2 ml-1 shrink-0">
-                {isStaff(role) && (
-                  <button onClick={() => go("admin")} aria-label={t("Administration")} className={`p-2.5 rounded-full shrink-0 ${route === "admin" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}><Shield size={18} /></button>
-                )}
-                {user.moderator && (
-                  <button onClick={() => go("moderation")} aria-label={t("Validation")} title={t("Validation des paiements")} className={`relative p-2.5 rounded-full shrink-0 ${route === "moderation" ? "text-blue-600 bg-blue-600/10" : `${c.sub} ${c.hoverSoft}`}`}>
-                    <BadgeCheck size={18} />
-                    {pendingValidations > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold leading-none flex items-center justify-center">{pendingValidations > 9 ? "9+" : pendingValidations}</span>
-                    )}
+                );
+              }
+              const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
+              return (
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
+                  data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
+                  aria-current={here ? "page" : undefined}
+                  className={`${base} ${n.grad ? "font-bold" : "font-medium"} ${here ? pill : `${c.sub} hover:text-blue-600`}`}>
+                  {n.grad ? <span className="grad-text">{t(n.l)}</span> : t(n.l)}
+                </RouteLink>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-1.5">
+            {/* Utilities, grouped in one compact pill. */}
+            <div className={`flex items-center rounded-full ${track} p-0.5`}>
+              {isStaff(role) && (
+                <button onClick={() => setSearchOpen(true)} aria-label={t("Rechercher")} className={iconBtn}><Search size={17} /></button>
+              )}
+              <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"}
+                className={`${iconBtn} text-[11px] font-bold tracking-wide w-9`}>{lang === "fr" ? "EN" : "FR"}</button>
+              <button onClick={() => setDark(!dark)} aria-label={dark ? t("Mode clair") : t("Mode sombre")} className={iconBtn}>{dark ? <Sun size={17} /> : <Moon size={17} />}</button>
+              {user && (
+                <div className="relative" ref={notifRef}>
+                  <button onClick={() => { setNotifOpen((o) => !o); setAccountOpen(false); }} aria-label={t("Notifications")} aria-expanded={notifOpen} className={`${iconBtn} relative`}>
+                    <Bell size={17} />
+                    <CountBadge n={unreadCount} className="absolute -top-0.5 -right-0.5" />
                   </button>
-                )}
-                <button onClick={() => go("profile")} aria-label={t("Mon profil")} title={activeProfile?.name || user.name} className={`flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border shrink-0 ${c.border} ${c.hoverSoft}`}>
-                  <span className="w-7 h-7 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
-                  <span className="flex flex-col items-start leading-tight">
-                    <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{chipName(activeProfile?.name || user.name)}</span>
-                    {role === ROLES.OWNER ? <span className="text-[10px] font-bold text-amber-600">Owner</span>
-                      : role === ROLES.ADMIN ? <span className="text-[10px] font-bold text-rose-600">Admin</span>
-                      : user.moderator ? <span className="text-[10px] font-bold text-emerald-600">{t("Validateur")}</span>
-                      : role === ROLES.PREMIUM_USER ? <span className="text-[10px] font-bold text-blue-600">{currentPlanLabel(user.planLabel) || "Premium"}</span>
-                      : null}
-                  </span>
+                  {notifOpen && (
+                    <div className={`absolute right-0 top-full mt-3 w-80 rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise z-50`}>
+                      <div className="flex items-center justify-between px-3 pt-2 pb-1.5">
+                        <p className={`text-xs font-bold uppercase tracking-wider ${c.faint}`}>Notifications</p>
+                        {unreadCount > 0 && (
+                          <button onClick={markAllRead} className="text-xs font-semibold text-blue-600 hover:underline">{t("Tout marquer comme lu")}</button>
+                        )}
+                      </div>
+                      {notifications.length === 0 ? (
+                        <div className="px-3 py-8 text-center">
+                          <BellOff size={22} className={`mx-auto mb-2 ${c.faint}`} />
+                          <p className={`text-sm ${c.faint}`}>{t("Aucune notification")}</p>
+                        </div>
+                      ) : (
+                        <div className="max-h-[22rem] overflow-y-auto">
+                          {notifications.map((nf) => (
+                            <div key={nf.id} className={`group flex gap-3 px-3 py-3 rounded-xl ${c.hoverSoft} ${nf.read ? "" : "bg-blue-600/5"}`}>
+                              <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${nf.read ? `${c.tint} ${c.faint}` : "bg-blue-600/10 text-blue-600"}`}><nf.icon size={16} /></span>
+                              {/* Some notifications lead somewhere (an answer from
+                                  the team lives on the profile page); the rest
+                                  are read in place. */}
+                              <button onClick={() => { markRead(nf.id); if (nf.route) go(nf.route); }} className="flex-1 min-w-0 text-left">
+                                <p className={`text-sm ${c.text}`}>{t(nf.t)}</p>
+                                <p className={`text-xs ${c.faint} mt-0.5`}>{t(nf.time)}</p>
+                              </button>
+                              <div className="flex flex-col items-center gap-1.5 shrink-0 pt-1">
+                                {!nf.read && <span className="w-2 h-2 rounded-full bg-blue-600" aria-label={t("Non lu")} />}
+                                <button onClick={() => dismiss(nf.id)} aria-label={t("Supprimer")} className={`opacity-0 group-hover:opacity-100 p-1 rounded-lg ${c.faint} ${c.hoverSoft} transition-opacity`}><X size={13} /></button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* The account: one avatar button and its menu. */}
+            {user ? (
+              <div className="relative hidden md:block" ref={accountRef}>
+                <button onClick={() => { setAccountOpen((o) => !o); setNotifOpen(false); }} aria-label={t("Mon compte")} aria-expanded={accountOpen} title={name}
+                  className={`relative flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border ${c.border} ${c.card} ${c.hoverSoft}`}>
+                  <span className="w-8 h-8 rounded-full grad-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{name[0]}</span>
+                  <span className={`text-sm font-semibold whitespace-nowrap ${c.text}`}>{chipName(name)}</span>
+                  <ChevronDown size={14} className={`${c.faint} transition-transform ${accountOpen ? "rotate-180" : ""}`} />
+                  <CountBadge n={pendingValidations} className="absolute -top-1 -right-1" />
                 </button>
-                {(maxProfiles > 1 || profiles.length > 1) && (
-                  <button onClick={switchProfile} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-2.5 rounded-full shrink-0 ${c.sub} ${c.hoverSoft}`}><Users size={17} /></button>
+                {accountOpen && (
+                  <div className={`absolute right-0 top-full mt-3 w-64 rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise z-50`}>
+                    <div className="flex items-center gap-3 px-3 py-2.5">
+                      <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center shrink-0">{name[0]}</span>
+                      <span className="min-w-0 leading-tight">
+                        <span className={`block text-sm font-semibold truncate ${c.text}`}>{name}</span>
+                        <span className={`block text-[11px] font-bold ${planBadge.cls}`}>{planBadge.l}</span>
+                      </span>
+                    </div>
+                    <div className={`my-1 border-t ${c.border}`} />
+                    {[
+                      { icon: User, l: t("Mon profil"), on: () => go("profile"), here: route === "profile" },
+                      isStaff(role) && { icon: Shield, l: t("Administration"), on: () => go("admin"), here: route === "admin" },
+                      user.moderator && { icon: BadgeCheck, l: t("Validation"), on: () => go("moderation"), here: route === "moderation", badge: pendingValidations },
+                      canSwitch && { icon: Users, l: t("Changer de profil"), on: () => { closeAll(); switchProfile(); } },
+                    ].filter(Boolean).map((it) => (
+                      <button key={it.l} onClick={it.on} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-left ${it.here ? "text-blue-600 bg-blue-600/10" : `${c.text} ${c.hoverSoft}`}`}>
+                        <it.icon size={16} className={it.here ? "" : c.faint} /> <span className="flex-1">{it.l}</span>
+                        <CountBadge n={it.badge} />
+                      </button>
+                    ))}
+                    <div className={`my-1 border-t ${c.border}`} />
+                    <button onClick={logout} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-left text-rose-600 ${c.hoverSoft}`}>
+                      <LogOut size={16} /> {t("Se déconnecter")}
+                    </button>
+                  </div>
                 )}
-                <button onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }} aria-label={t("Se déconnecter")} className={`p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}><LogOut size={17} /></button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2 ml-1">
@@ -248,26 +287,28 @@ export function Nav({ barOffset = false }) {
                 <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
               </div>
             )}
-            <button onClick={() => setOpen(!open)} aria-label={open ? t("Fermer le menu") : "Menu"} aria-expanded={open} aria-controls="mobile-nav" className={`xl:hidden p-2.5 rounded-full ${c.sub} ${c.hoverSoft}`}>{open ? <X size={20} /> : <Menu size={20} />}</button>
+
+            <button onClick={() => setOpen(!open)} aria-label={open ? t("Fermer le menu") : "Menu"} aria-expanded={open} aria-controls="mobile-nav"
+              className={`xl:hidden p-2.5 rounded-full ${open ? pill : `${c.sub} ${c.hoverSoft}`}`}>{open ? <X size={19} /> : <Menu size={19} />}</button>
           </div>
         </div>
+
+        {/* The drawer: a card under the island. */}
         {open && (
-          <div id="mobile-nav" className={`xl:hidden border-t ${c.navBorder} ${c.card} max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rise`}>
+          <div id="mobile-nav" className={`xl:hidden max-w-7xl mx-auto mt-2 rounded-3xl border ${c.navBorder} ${c.card} shadow-2xl max-h-[calc(100dvh-6.5rem)] overflow-y-auto overscroll-contain rise`}>
             <div className="px-4 py-4 space-y-5">
               {/* Who you are, or how to become someone — first thing in the
-                  drawer either way. For a visitor the two buttons are the whole
-                  point of the menu, and they used to sit under fourteen links
-                  where a phone screen could not reach them without scrolling. */}
+                  drawer either way. */}
               {user ? (
                 <div className="flex items-center gap-2">
                   <RouteLink r="profile" onNavigate={closeAll} className={`flex-1 min-w-0 flex items-center gap-3 p-2 rounded-2xl border ${c.border} ${c.hoverSoft}`}>
-                    <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center shrink-0">{(activeProfile?.name || user.name)[0]}</span>
+                    <span className="w-10 h-10 rounded-full grad-brand text-white text-sm font-bold flex items-center justify-center shrink-0">{name[0]}</span>
                     <span className="min-w-0 leading-tight">
-                      <span className={`block text-sm font-semibold truncate ${c.text}`}>{activeProfile?.name || user.name}</span>
+                      <span className={`block text-sm font-semibold truncate ${c.text}`}>{name}</span>
                       <span className={`block text-[11px] font-bold ${planBadge.cls}`}>{planBadge.l}</span>
                     </span>
                   </RouteLink>
-                  {(maxProfiles > 1 || profiles.length > 1) && (
+                  {canSwitch && (
                     <button onClick={() => { setOpen(false); switchProfile(); }} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-3 rounded-2xl border shrink-0 ${c.border} ${c.sub} ${c.hoverSoft}`}><Users size={18} /></button>
                   )}
                 </div>
@@ -293,24 +334,20 @@ export function Nav({ barOffset = false }) {
                       );
                       return (
                         <RouteLink key={m.r} r={m.r} onNavigate={closeAll}
-                          // All four "Pratique" routes share the nav-pratique
-                          // tag (see PRATIQUE_ROUTES above); the tour's
-                          // union-rect measurement spotlights the group.
+                          // All "Pratique" routes share the nav-pratique tag (see
+                          // PRATIQUE_ROUTES above); the tour spotlights the group.
                           data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
                           aria-current={active ? "page" : undefined}
                           className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
                           <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${c.sub}`}`}>
                             {Icon && <Icon size={17} />}
                           </span>
-                          {/* An active gradient label would be unreadable
-                              against the blue tint, so the highlight wins and
-                              the gradient steps aside for that one row. */}
+                          {/* An active gradient label would be unreadable against
+                              the blue tint, so the highlight wins for that row. */}
                           <span className={`flex-1 text-[15px] ${m.grad ? "font-bold" : "font-medium"} ${active ? "text-blue-600" : c.text}`}>
                             {m.grad && !active ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
                           </span>
-                          {m.r === "moderation" && pendingValidations > 0 && (
-                            <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-600 text-white text-[11px] font-bold leading-none flex items-center justify-center">{pendingValidations > 9 ? "9+" : pendingValidations}</span>
-                          )}
+                          {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
                           <ChevronRight size={15} className={c.faint} />
                         </RouteLink>
                       );
@@ -319,16 +356,14 @@ export function Nav({ barOffset = false }) {
                 </div>
               ))}
               {user && (
-                <Btn small variant="ghost" className="w-full" onClick={() => { signOut(); go("home"); notify(t("Vous êtes déconnecté·e. À bientôt !")); }}>{t("Se déconnecter")}</Btn>
+                <Btn small variant="ghost" className="w-full" onClick={logout}>{t("Se déconnecter")}</Btn>
               )}
             </div>
           </div>
         )}
       </header>
-      {/* Tapping the page closes the drawer — the reflex on a phone, where the
-          only way out before was reaching back up to the X. Rendered outside
-          the header so it sits *below* it (z-30 against the header's z-40) and
-          the drawer itself stays clickable on top. */}
+      {/* Tapping the page closes the drawer. Rendered outside the header so it
+          sits below it (z-30 against the header's z-40). */}
       {open && (
         <button type="button" aria-label={t("Fermer le menu")} onClick={() => setOpen(false)}
           className="xl:hidden fixed inset-0 z-30 bg-slate-950/30 cursor-default" />
