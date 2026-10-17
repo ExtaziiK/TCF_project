@@ -6,7 +6,7 @@ import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
-import { ToolsOrbit } from "@/components/home/ToolsOrbit";
+import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
@@ -115,11 +115,12 @@ function Landing() {
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
-      {/* TOOLS — the seven modules orbiting the TCF blanc */}
+      {/* TOOLS — the seven modules as an interactive showcase (the earlier orbit
+          layout is kept in components/home/ToolsOrbit.jsx) */}
       <WaveSection wave={0} decor="features">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
         <SectionHead center eyebrow={t("Votre boîte à outils")} title={t("7 outils à votre disposition")} sub={t("Tout gravite autour du TCF blanc : les quatre épreuves officielles, plus la dictée, le vocabulaire et la grammaire pour progresser plus vite.")} />
-        <ToolsOrbit />
+        <ToolsShowcase />
       </section>
       </WaveSection>
 
