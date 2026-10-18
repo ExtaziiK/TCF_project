@@ -16,7 +16,7 @@ const ACCENT = { co: "#2E6BE6", ce: "#6C4FE0", ee: "#D8354A", eo: "#4F5CE3" };
 // Self-contained (own state) so it sits on both the landing page and the
 // /calculator route. Scores can be set with the slider OR typed directly; the
 // « passeport linguistique » on the right updates instantly — no "calculate"
-// step. Eligibility reads as a passport stamp: blue when all four reach the
+// step. Eligibility reads as a passport stamp: green when all four reach the
 // threshold, red otherwise.
 export function ScoreCalculator() {
   const { c, nav, t } = useApp();
@@ -46,7 +46,7 @@ export function ScoreCalculator() {
   const minNclc = Math.min(...ORDER.map(nclcOf));
   const allMet = ORDER.every((s) => nclcOf(s) >= profile.min[s]);
 
-  const stamp = allMet ? "#2E6BE6" : "#D8354A"; // logo blue when fully eligible, logo red otherwise
+  const stamp = allMet ? "#059669" : "#D8354A"; // green when fully eligible, logo red otherwise
   const R = 42;
   const CIRC = 2 * Math.PI * R;
   const gaugeFrac = Math.max(0, Math.min(1, minNclc / 10));

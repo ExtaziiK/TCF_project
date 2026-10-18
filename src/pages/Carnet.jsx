@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, Plus, Clock, Layers, Play } from "lucide-react";
+import { Check, X, Lightbulb, RotateCcw, CheckCircle2, NotebookPen, Lock, ArrowRight, History, AlertTriangle, PenLine, Volume2, Trash2, HelpCircle, ChevronDown, ChevronLeft, ChevronRight, Plus, Clock, Layers, Play } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -565,13 +565,52 @@ function CardList({ items, onMove }) {
   const signedById = new Map(bankItems.map((x, i) => [x.card.id, signed[i] || x.q]));
   // A sentence still being read aloud stops when the list goes away.
   useEffect(() => stopSpeaking, []);
+
+  // The cards are a horizontal carousel: one question at a time, swiped (or
+  // scrolled sideways) with native scroll snapping, with ← / → buttons, a
+  // counter and the arrow keys. A card moved to « Compris » leaves the list
+  // and the next one slides into its place.
+  const ref = useRef(null);
+  const [index, setIndex] = useState(0);
+  const n = items.length;
+  const at = Math.min(index, Math.max(0, n - 1));
+  const step = () => (ref.current ? ref.current.clientWidth + 16 : 1); // card width + gap-4
+  const go = (i) => {
+    const to = Math.max(0, Math.min(n - 1, i));
+    ref.current?.scrollTo({ left: to * step(), behavior: "smooth" });
+    setIndex(to);
+  };
+  const onScroll = () => { if (ref.current) setIndex(Math.round(ref.current.scrollLeft / step())); };
+  const onKeyDown = (e) => {
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName || "")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(at - 1); }
+  };
+  const { c, t } = useApp();
+  const arrow = `w-9 h-9 grid place-items-center rounded-full border ${c.border} ${c.card} ${c.text} ${c.hoverSoft} disabled:opacity-35 disabled:pointer-events-none`;
+
   return (
-    <div className="space-y-4">
-      {items.map((x) => (x.q
-        ? <MistakeCard key={x.card.id} card={x.card} q={signedById.get(x.card.id)} onMove={onMove} />
-        : x.section === "conj"
-          ? <ConjCard key={x.card.id} card={x.card} onMove={onMove} />
-          : <DicteeCard key={x.card.id} card={x.card} onMove={onMove} />))}
+    <div onKeyDown={onKeyDown}>
+      <div className="flex items-center gap-3 mb-3">
+        <span className={`text-sm font-mono2 font-semibold tabular-nums shrink-0 ${c.text}`}>{at + 1} / {n}</span>
+        <div className={`flex-1 h-1.5 rounded-full overflow-hidden ${c.track}`} aria-hidden="true">
+          <div className="h-full rounded-full bg-blue-600 transition-all duration-300" style={{ width: `${((at + 1) / n) * 100}%` }} />
+        </div>
+        <button type="button" onClick={() => go(at - 1)} disabled={at === 0} aria-label={t("Question précédente")} className={arrow}><ChevronLeft size={18} /></button>
+        <button type="button" onClick={() => go(at + 1)} disabled={at >= n - 1} aria-label={t("Question suivante")} className={arrow}><ChevronRight size={18} /></button>
+      </div>
+      <div ref={ref} onScroll={onScroll} tabIndex={0} aria-roledescription="carousel" aria-label={t("Vos questions à revoir")}
+        className="flex items-start gap-4 overflow-x-auto snap-x snap-mandatory outline-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {items.map((x, i) => (
+          <div key={x.card.id} className="snap-center shrink-0 w-full" aria-hidden={i !== at} role="group" aria-label={`${i + 1} / ${n}`}>
+            {x.q
+              ? <MistakeCard card={x.card} q={signedById.get(x.card.id)} onMove={onMove} />
+              : x.section === "conj"
+                ? <ConjCard card={x.card} onMove={onMove} />
+                : <DicteeCard card={x.card} onMove={onMove} />}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
