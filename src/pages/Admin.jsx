@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   LayoutDashboard, Users, FileText, MessageCircle, ScrollText,
-  TrendingUp, Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
+  Trash2, Check, XCircle, Shield, Search, Crown, UserCog,
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
@@ -107,7 +107,7 @@ function SubTabs({ tabs, active, onSelect }) {
         const on = active === id;
         return (
           <button key={id} onClick={() => onSelect(id)}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${on ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${on ? "bg-slate-900 text-white border-slate-900" : `${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
             {label}
             {badge > 0 && (
               <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${on ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
@@ -124,8 +124,8 @@ function SubTabs({ tabs, active, onSelect }) {
 function EmptyState({ icon: Icon, title, sub }) {
   const { c } = useApp();
   return (
-    <div className="py-10 text-center">
-      <span className="w-12 h-12 rounded-2xl mx-auto flex items-center justify-center bg-blue-600/10 text-blue-600"><Icon size={20} /></span>
+    <div className="py-12 text-center">
+      <span className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center border-2 border-dashed ${c.border} ${c.faint}`}><Icon size={20} /></span>
       <p className={`mt-3 font-display font-bold text-sm ${c.text}`}>{title}</p>
       {sub && <p className={`mt-1 text-sm ${c.faint}`}>{sub}</p>}
     </div>
@@ -134,33 +134,49 @@ function EmptyState({ icon: Icon, title, sub }) {
 
 /* --------------------------------- overview ------------------------------- */
 
-// Accent for the icon chip. Gold matches the pricing page's Premium/VIP tier.
-const STAT_ACCENTS = { blue: "bg-blue-600/10 text-blue-600", gold: "bg-[#b8860b]/10 text-[#b8860b]", emerald: "bg-emerald-500/10 text-emerald-600" };
+// Each metric's accent colour (icon chip and the hint's dot). Gold matches the
+// pricing page's Premium/VIP tier.
+const STAT_ACCENTS = {
+  blue: "#2563EB", emerald: "#059669", gold: "#B8860B", violet: "#7C3AED",
+  rose: "#E11D48", teal: "#0D9488", amber: "#D97706",
+};
 
 // `onClick` turns the card into a button that opens the pop-up listing what the
-// number is made of (StatDetailModal). Without it the card is plain text, as
-// it was — the same component still serves both.
+// number is made of (StatDetailModal). Without it the card is plain text — the
+// same component serves both.
 function StatCard({ icon: Icon, value, label, hint, accent = "blue", onClick }) {
   const { c } = useApp();
+  const color = STAT_ACCENTS[accent] || STAT_ACCENTS.blue;
   const body = (
     <>
-      <div className="flex items-start justify-between gap-3">
-        <p className="font-display font-extrabold text-3xl grad-text">{value}</p>
-        {Icon && <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${STAT_ACCENTS[accent] || STAT_ACCENTS.blue}`}><Icon size={16} /></span>}
+      <div className="flex items-center justify-between gap-3">
+        <p className={`text-xs font-semibold ${c.faint}`}>{label}</p>
+        {Icon && <span className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${color}1A`, color }}><Icon size={15} /></span>}
       </div>
-      <p className={`text-sm font-medium mt-1 flex items-center gap-1 ${c.text}`}>
-        {label}
-        {onClick && <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-600 shrink-0" aria-hidden="true" />}
-      </p>
-      {hint && <p className="text-xs mt-1 text-emerald-500 font-medium flex items-center gap-1"><TrendingUp size={12} />{hint}</p>}
+      <p className={`font-display font-extrabold text-3xl mt-2 tabular-nums ${c.text}`}>{value}</p>
+      <div className="mt-1.5 flex items-center justify-between gap-2 min-h-[18px]">
+        {hint ? <p className={`text-xs font-medium flex items-center gap-1.5 ${c.sub}`}><span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />{hint}</p> : <span />}
+        {onClick && <ChevronRight size={15} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" style={{ color }} aria-hidden="true" />}
+      </div>
     </>
   );
   if (!onClick) return <Card className="p-5">{body}</Card>;
   return (
     <button type="button" onClick={onClick} aria-label={`${label} : voir le détail`}
       className="group text-left w-full rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-      <Card className="p-5 h-full cursor-pointer transition-colors group-hover:border-blue-600/40">{body}</Card>
+      <Card className="p-5 h-full cursor-pointer transition-all group-hover:-translate-y-0.5 group-hover:shadow-md">{body}</Card>
     </button>
+  );
+}
+
+// A card title in the console's style: small caps, muted.
+function PanelTitle({ children, aside }) {
+  const { c } = useApp();
+  return (
+    <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+      <h3 className={`text-xs font-bold uppercase tracking-widest ${c.faint}`}>{children}</h3>
+      {aside}
+    </div>
   );
 }
 
@@ -753,8 +769,20 @@ function OverviewTab({ go }) {
   const u = stats.users;
   const a = stats.activity;
   const conversion = u.total ? Math.round((u.premium / u.total) * 100) : 0;
+  const split = [
+    { label: "Premium (actif)", n: u.premium, color: "#B8860B" },
+    { label: "Basic", n: u.free, color: "#94A3B8" },
+    { label: "Administrateurs", n: u.admins, color: "#E11D48" },
+  ];
+  const splitTotal = Math.max(1, split.reduce((x, r) => x + (r.n || 0), 0));
+  const actions = [
+    { icon: Inbox, label: "Boîte de réception", hint: stats.messagesNew > 0 ? `${stats.messagesNew} à traiter` : "À jour", to: "messages", color: "#D97706" },
+    { icon: Ticket, label: "Créer un code promo", hint: "Tarifs", to: "pricing", color: "#B8860B" },
+    { icon: FileText, label: "Gérer les sujets", hint: "Expression écrite · orale", to: "questions", color: "#7C3AED" },
+    { icon: Users, label: "Gérer les comptes", hint: "Forfaits et accès", to: "users", color: "#2563EB" },
+  ];
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="flex items-center justify-end gap-3 flex-wrap">
         {updatedAt && (
           <span className={`text-xs flex items-center gap-1.5 ${c.faint}`}>
@@ -770,7 +798,8 @@ function OverviewTab({ go }) {
           {refreshing ? "Actualisation…" : "Actualiser"}
         </Btn>
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {/* Each card opens the list behind its number (api/_lib/admin/stats.js
             ?detail=…): who is online, which quiz was just finished, and so on. */}
         <StatCard icon={Users} value={u.total} label="Utilisateurs inscrits" hint={u.new7d > 0 ? `+${u.new7d} ces 7 derniers jours` : null}
@@ -779,48 +808,63 @@ function OverviewTab({ go }) {
           onClick={() => setDetail({ key: "online", label: "Connectés maintenant" })} />
         <StatCard icon={Crown} value={u.premium} label="Abonnés Premium actifs" hint={`${conversion} % des comptes`} accent="gold"
           onClick={() => setDetail({ key: "premium", label: "Abonnés Premium actifs" })} />
-        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null}
-          onClick={() => setDetail({ key: "quizzes", label: "Quiz complétés" })} />
-        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null}
-          onClick={() => setDetail({ key: "exams", label: "TCF blancs terminés" })} />
-        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées"
-          onClick={() => setDetail({ key: "attempts", label: "Réponses enregistrées" })} />
-        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter"
+        <StatCard icon={Inbox} value={stats.messagesNew} label="Messages à traiter" accent="amber"
           onClick={() => setDetail({ key: "messages", label: "Messages à traiter" })} />
+        <StatCard icon={ListChecks} value={a.quizzesTotal} label="Quiz complétés" hint={a.quizzes7d > 0 ? `+${a.quizzes7d} ces 7 derniers jours` : null} accent="violet"
+          onClick={() => setDetail({ key: "quizzes", label: "Quiz complétés" })} />
+        <StatCard icon={Trophy} value={a.examsCompleted} label="TCF blancs terminés" hint={a.examsTotal > a.examsCompleted ? `${a.examsTotal - a.examsCompleted} en cours` : null} accent="rose"
+          onClick={() => setDetail({ key: "exams", label: "TCF blancs terminés" })} />
+        <StatCard icon={BarChart3} value={a.questionAttempts} label="Réponses enregistrées" accent="teal"
+          onClick={() => setDetail({ key: "attempts", label: "Réponses enregistrées" })} />
       </div>
       {detail && (
         <StatDetailModal statKey={detail.key} fallbackTitle={detail.label} go={go} onClose={() => setDetail(null)} />
       )}
-      <Card className="p-4 flex items-center gap-2 flex-wrap">
-        <span className={`text-xs font-bold uppercase tracking-wider mr-1 ${c.faint}`}>Actions rapides</span>
-        <Btn small variant="ghost" icon={Inbox} onClick={() => go("messages")}>Boîte de réception{stats.messagesNew > 0 ? ` (${stats.messagesNew})` : ""}</Btn>
-        <Btn small variant="ghost" icon={Ticket} onClick={() => go("pricing")}>Créer un code promo</Btn>
-        <Btn small variant="ghost" icon={FileText} onClick={() => go("questions")}>Gérer les sujets (EE·EO)</Btn>
-        <Btn small variant="ghost" icon={Users} onClick={() => go("users")}>Gérer les comptes</Btn>
-      </Card>
+
+      {/* Quick actions as tiles. */}
+      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+        {actions.map((x) => (
+          <button key={x.to} type="button" onClick={() => go(x.to)}
+            className={`group flex items-center gap-3 p-4 rounded-2xl border text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${c.border} ${c.card}`}>
+            <span className="w-10 h-10 rounded-xl grid place-items-center shrink-0 text-white" style={{ background: x.color }}><x.icon size={18} /></span>
+            <span className="flex-1 min-w-0">
+              <span className={`block text-sm font-semibold ${c.text}`}>{x.label}</span>
+              <span className={`block text-xs ${c.faint}`}>{x.hint}</span>
+            </span>
+            <ChevronRight size={16} className={`${c.faint} transition-transform group-hover:translate-x-0.5`} />
+          </button>
+        ))}
+      </div>
+
       <div className="grid lg:grid-cols-2 gap-4">
         <Card className="p-6">
-          <h3 className={`font-display font-bold mb-4 ${c.text}`}>Inscriptions — 14 derniers jours</h3>
+          <PanelTitle aside={<span className={`text-xs font-mono2 font-semibold ${c.sub}`}>{u.new7d > 0 ? `+${u.new7d} / 7 j` : ""}</span>}>Inscriptions · 14 derniers jours</PanelTitle>
           <DayBars days={u.signupsByDay} label="Inscriptions par jour sur 14 jours" />
         </Card>
         <Card className="p-6">
-          <h3 className={`font-display font-bold mb-4 ${c.text}`}>Quiz complétés — 14 derniers jours</h3>
+          <PanelTitle aside={<span className={`text-xs font-mono2 font-semibold ${c.sub}`}>{a.quizzes7d > 0 ? `+${a.quizzes7d} / 7 j` : ""}</span>}>Quiz complétés · 14 derniers jours</PanelTitle>
           <DayBars days={a.quizzesByDay} label="Quiz complétés par jour sur 14 jours" />
         </Card>
       </div>
+
+      {/* Plan split as one stacked bar with its legend. */}
       <Card className="p-6">
-        <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-          <h3 className={`font-display font-bold ${c.text}`}>Répartition des forfaits</h3>
+        <PanelTitle aside={
           <a href="https://dashboard.stripe.com" target="_blank" rel="noreferrer" className="text-xs font-semibold text-blue-600 flex items-center gap-1 hover:underline">
             Facturation & remboursements sur Stripe <ExternalLink size={12} />
           </a>
+        }>Répartition des forfaits</PanelTitle>
+        <div className={`flex h-3 rounded-full overflow-hidden ${c.track}`} role="img" aria-label="Répartition des comptes par forfait">
+          {split.map((r) => r.n > 0 && <div key={r.label} style={{ width: `${(r.n / splitTotal) * 100}%`, background: r.color }} title={`${r.label} · ${r.n}`} />)}
         </div>
-        {[["Premium (actif)", u.premium, "gold"], ["Basic", u.free, "slate"], ["Administrateurs", u.admins, "red"]].map(([label, n, tone]) => (
-          <div key={label} className={`flex items-center justify-between px-4 py-3 rounded-2xl ${c.hoverSoft}`}>
-            <Pill tone={tone}>{label}</Pill>
-            <span className={`text-sm font-mono2 font-semibold ${c.text}`}>{n}</span>
-          </div>
-        ))}
+        <div className="mt-4 grid sm:grid-cols-3 gap-3">
+          {split.map((r) => (
+            <div key={r.label} className={`flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border ${c.border}`}>
+              <span className={`flex items-center gap-2 text-sm ${c.sub}`}><span className="w-2.5 h-2.5 rounded-full" style={{ background: r.color }} />{r.label}</span>
+              <span className={`text-sm font-mono2 font-bold ${c.text}`}>{r.n}</span>
+            </div>
+          ))}
+        </div>
       </Card>
     </div>
   );
@@ -2692,51 +2736,91 @@ export function Admin() {
     listAllTestimonials().then((r) => setNewTestimonials(r.items.filter((x) => x.status === "pending").length));
   }, []);
 
-  const tabs = [
-    { id: "overview", l: "Aperçu", icon: LayoutDashboard },
-    { id: "home", l: "Accueil", icon: Megaphone },
-    { id: "users", l: "Utilisateurs", icon: Users },
-    { id: "pricing", l: "Tarifs", icon: Coins },
-    { id: "questions", l: "Sujets (EE·EO)", icon: FileText },
-    { id: "messages", l: "Messages", icon: MessageCircle },
-    { id: "emails", l: "Emails", icon: Mail },
-    { id: "requests", l: "Demandes", icon: Inbox },
-    { id: "revenue", l: "Revenus", icon: Wallet },
-    { id: "traffic", l: "Trafic", icon: Globe },
-    { id: "usage", l: "Utilisation", icon: Gauge },
-    { id: "audit", l: "Journal", icon: ScrollText },
+  // The console's sections, grouped by purpose in the sidebar. `d` is the
+  // one-line description shown in each section's header.
+  const groups = [
+    { l: "Pilotage", items: [
+      { id: "overview", l: "Aperçu", icon: LayoutDashboard, d: "Les chiffres clés de la plateforme, en direct." },
+      { id: "revenue", l: "Revenus", icon: Wallet, d: "Ventes et recettes, par période." },
+      { id: "traffic", l: "Trafic", icon: Globe, d: "Visites du site et provenance du trafic." },
+      { id: "usage", l: "Utilisation", icon: Gauge, d: "Consommation de l'IA, limites et incidents." },
+    ] },
+    { l: "Communauté", items: [
+      { id: "users", l: "Utilisateurs", icon: Users, d: "Comptes, forfaits et accès." },
+      { id: "requests", l: "Demandes", icon: Inbox, d: "Paiements en dinars à valider." },
+      { id: "messages", l: "Messages", icon: MessageCircle, d: "Messages reçus par le formulaire de contact." },
+      { id: "emails", l: "Emails", icon: Mail, d: "Modèles des emails envoyés aux membres." },
+    ] },
+    { l: "Contenu", items: [
+      { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
+      { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
+      { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
+    ] },
+    { l: "Sécurité", items: [
+      { id: "audit", l: "Journal", icon: ScrollText, d: "Historique des actions sensibles." },
+    ] },
   ];
+  const all = groups.flatMap((g) => g.items);
+  const current = all.find((x) => x.id === tab) || all[0];
+  // Accueil carries the testimonial queue, which lives in one of its sub-tabs.
+  const badgeFor = (id) => (id === "messages" ? newMessages : id === "requests" ? newRequests : id === "home" ? newTestimonials : 0);
+  const Badge = ({ n, on }) => (n > 0 ? (
+    <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${on ? "bg-blue-600 text-white" : "bg-rose-600 text-white"}`}>
+      {n > 9 ? "9+" : n}
+    </span>
+  ) : null);
 
-  return (
-    <PageShell back wide eyebrow="Panneau d'administration" title="Gestion de la plateforme" sub="Statistiques, comptes, questions et messages — connectés en direct à la base de données.">
-      {/* Console layout: sticky section rail on desktop, horizontally
-          scrollable chip row on mobile. The Messages entry carries a live
-          unread badge. */}
-      <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6 items-start">
-        <nav role="tablist" aria-label="Sections d'administration" className="lg:sticky lg:top-24 flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 pb-2 lg:pb-0">
-          {tabs.map((t) => {
-            const active = tab === t.id;
-            return (
-              <button key={t.id} role="tab" aria-selected={active} onClick={() => setTab(t.id)}
-                className={`flex items-center gap-2.5 shrink-0 lg:w-full px-4 py-2.5 rounded-2xl text-sm font-semibold transition-colors
-                ${active ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-                <t.icon size={16} className="shrink-0" />
-                <span className="flex-1 text-left whitespace-nowrap">{t.l}</span>
-                {(() => {
-                  // Accueil carries the testimonial queue, which now lives in
-                  // one of its sub-tabs.
-                  const badge = t.id === "messages" ? newMessages : t.id === "requests" ? newRequests : t.id === "home" ? newTestimonials : 0;
-                  return badge > 0 ? (
-                    <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${active ? "bg-white/25 text-white" : "bg-rose-600 text-white"}`}>
-                      {badge > 9 ? "9+" : badge}
-                    </span>
-                  ) : null;
-                })()}
-              </button>
-            );
-          })}
+    return (
+    <PageShell back wide eyebrow="Administration" title="Console de la plateforme" sub="Comptes, contenu, ventes et activité, en direct depuis la base de données.">
+      {/* Console layout: a grouped section sidebar on desktop (sticky), a
+          horizontally scrollable chip row on mobile; inbox sections carry a
+          live counter. */}
+      <div className="grid lg:grid-cols-[240px_minmax(0,1fr)] gap-6 items-start">
+        <nav aria-label="Sections d'administration" className="lg:sticky lg:top-24">
+          {/* Mobile: one scrolling row of chips. */}
+          <div role="tablist" className="lg:hidden flex gap-1.5 overflow-x-auto -mx-4 px-4 pb-2">
+            {all.map((x) => {
+              const on = tab === x.id;
+              return (
+                <button key={x.id} role="tab" aria-selected={on} onClick={() => setTab(x.id)}
+                  className={`flex items-center gap-2 shrink-0 px-3.5 py-2 rounded-full text-sm font-semibold border ${on ? "bg-slate-900 text-white border-slate-900" : `${c.border} ${c.card} ${c.sub}`}`}>
+                  <x.icon size={15} /> {x.l} <Badge n={badgeFor(x.id)} on={false} />
+                </button>
+              );
+            })}
+          </div>
+          {/* Desktop: the sections grouped under small headings. */}
+          <Card className="hidden lg:block p-3">
+            {groups.map((g, gi) => (
+              <div key={g.l} className={gi ? `mt-3 pt-3 border-t ${c.border}` : ""}>
+                <p className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{g.l}</p>
+                <div role="tablist" className="space-y-0.5">
+                  {g.items.map((x) => {
+                    const on = tab === x.id;
+                    return (
+                      <button key={x.id} role="tab" aria-selected={on} onClick={() => setTab(x.id)}
+                        className={`relative w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-semibold transition-colors ${on ? "bg-blue-600/10 text-blue-600" : `${c.sub} ${c.hoverSoft}`}`}>
+                        {on && <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-full bg-blue-600" aria-hidden="true" />}
+                        <x.icon size={16} className="shrink-0" />
+                        <span className="flex-1 text-left whitespace-nowrap">{x.l}</span>
+                        <Badge n={badgeFor(x.id)} on={on} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </Card>
         </nav>
         <div role="tabpanel" className="min-w-0">
+          {/* Section header: what this section is for. */}
+          <div className={`flex items-center gap-3 mb-5 pb-5 border-b ${c.border}`}>
+            <span className="w-11 h-11 rounded-2xl bg-blue-600 text-white grid place-items-center shrink-0"><current.icon size={20} /></span>
+            <div className="min-w-0">
+              <h2 className={`font-display font-extrabold text-xl leading-tight ${c.text}`}>{current.l}</h2>
+              <p className={`text-sm ${c.faint}`}>{current.d}</p>
+            </div>
+          </div>
       {tab === "overview" && <OverviewTab go={setTab} />}
       {tab === "home" && <AccueilTab pendingTestimonials={newTestimonials} onTestimonialCount={setNewTestimonials} />}
       {tab === "users" && <UsersTab />}
