@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Sparkles, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Btn } from "@/components/common";
+import { Btn } from "@/components/common";
 import { startCheckout, promoLabel } from "@/services/stripeService";
 import { setDzCheckoutPlan, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getLaunchDiscount } from "@/services/settingsService";
@@ -113,106 +113,102 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
   };
 
   const gradText = { backgroundImage: a.grad, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" };
+  // The tear line sits under a fixed-height top, so it lines up across the
+  // four tickets; the notches are cut out of the card with a CSS mask, which
+  // works whatever the background behind it (Tarifs or the landing page).
+  const TEAR = 236; // px from the card's top edge to the tear line
+  const notch = `radial-gradient(circle 11px at 0 ${TEAR}px, #0000 97%, #000), radial-gradient(circle 11px at 100% ${TEAR}px, #0000 97%, #000)`;
 
   return (
-    // The popular plan scales up on the outer wrapper (kept off the animated
-    // `.rise` layer and the hover-lift `.plan-card` layer, so none fight over
-    // `transform`). Staggered entrance sits on the middle layer.
-    <div className={`h-full ${p.featured ? "relative lg:z-10 lg:scale-[1.05]" : ""}`}>
+    // Each pass is a ticket: name, price and duration on the top part, a
+    // perforated tear line with notches, then what the pass includes and the
+    // button. The popular one scales up on the outer wrapper (kept off the
+    // animated `.rise` layer and the hover-lift `.plan-card` layer, so none
+    // fight over `transform`); its « Le plus populaire » label sits inside the
+    // ticket, since the mask clips anything outside it.
+    <div className={`h-full ${p.featured ? "relative lg:z-10 lg:scale-[1.04]" : ""}`}>
       <div className="rise h-full" style={{ animationDelay: `${index * 0.07}s` }}>
-        <Card
-          lift={false}
-          style={{ borderColor: a.solid + (p.featured ? "cc" : "55"), "--plan-glow": a.solid + (p.featured ? "85" : "5e") }}
-          className={`plan-card relative h-full p-7 flex flex-col ${p.featured ? "border-2 shadow-2xl" : ""}`}
+        <div
+          className={`plan-card relative h-full flex flex-col rounded-3xl border-2 ${c.card}`}
+          style={{ borderColor: a.solid + (p.featured ? "cc" : "4d"), WebkitMaskImage: notch, maskImage: notch, WebkitMaskComposite: "source-in", maskComposite: "intersect" }}
         >
-          {p.featured && <span className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: a.grad, opacity: 0.08 }} aria-hidden="true" />}
-          <span className="plan-gloss" aria-hidden="true" />
-          <span className={`plan-sheen${p.featured ? " is-auto" : ""}`} aria-hidden="true" />
-          {p.featured && (
-            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style={{ background: a.grad }}>
-              <Sparkles size={13} /> {t("Le plus populaire")}
-            </span>
-          )}
-          <div className="relative z-10 flex flex-col flex-1">
-          <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: a.solid }}>{t("Plan")}</p>
-          {/* The name carries the tier's own colour ramp, like the price and the
-              CTA below it, so each card reads as one object rather than a grey
-              heading over a coloured one. `metal-text` opts it into the same
-              hover shimmer as the price (see .plan-card:hover .metal-text) —
-              safe here because nothing else sets an `animation` on this span,
-              which is the trap the price had to be split in two to avoid. */}
-          <h3 className="font-display font-extrabold text-2xl leading-tight">
-            <span className="metal-text" style={gradText}>{t(p.name)}</span>
-          </h3>
-          {/* Short gradient rule under the name: gives the eye a fixed place to
-              stop before the price on all four cards, whatever the name's
-              length. */}
-          <span className="block mt-2 h-[3px] w-9 rounded-full" style={{ background: a.grad }} aria-hidden="true" />
-          <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
-            {/* Two spans, not one: the entrance `.rise` and the hover shimmer
-                both set the `animation` shorthand, so on one element the more
-                specific hover rule replaced `.rise` — and dropping it on
-                mouse-out restarted `.rise`, replaying the entrance every time
-                the cursor left. Keyed on the outer span so a price change (a
-                promo applied) still replays the entrance. */}
-            {priceLoading ? (
-              <span className={`inline-block h-9 w-24 rounded-xl animate-pulse ${c.track}`} aria-label={t("Chargement du prix")} />
-            ) : (
-              <span key={mainPrice} className="rise inline-block">
-                <span className="metal-text font-display font-extrabold text-4xl" style={gradText}>{mainPrice}</span>
-              </span>
-            )}
-            {!priceLoading && struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
-            {/* `w-full` puts the duration on its own line under the figure, on
-                every card. It used to sit beside the price and wrap only when
-                it did not fit, so "15 jours d'accès" trailed Starter's short
-                price while the longer ones dropped below — the one line a buyer
-                compares across four cards, landing in a different place on
-                each. */}
-            <span className={`w-full text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</span>
-          </p>
-          {!priceLoading && priceBadge && (
-            <p className="mt-1.5">
-              <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
+          {p.featured && <span className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: a.grad, opacity: 0.07 }} aria-hidden="true" />}
+
+          {/* ── top of the ticket ── */}
+          <div className="relative px-7 pt-6 flex flex-col" style={{ height: TEAR - 2 }}>
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: a.solid }}>{t("Pass")}</p>
+              {p.featured && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: a.grad }}>
+                  <Sparkles size={12} /> {t("Le plus populaire")}
+                </span>
+              )}
+            </div>
+            {/* The name carries the tier's colour ramp, like the price and the
+                button; `metal-text` opts it into the hover shimmer. */}
+            <h3 className="mt-1 font-display font-extrabold text-2xl leading-tight">
+              <span className="metal-text" style={gradText}>{t(p.name)}</span>
+            </h3>
+            <p className="mt-3 flex items-baseline gap-x-2 gap-y-0.5 flex-wrap">
+              {/* Two spans, not one: the entrance `.rise` and the hover shimmer
+                  both set `animation`, so on one element the hover rule replaced
+                  `.rise` and replayed the entrance on mouse-out. Keyed on the
+                  outer span so a price change (a promo applied) replays it. */}
+              {priceLoading ? (
+                <span className={`inline-block h-10 w-28 rounded-xl animate-pulse ${c.track}`} aria-label={t("Chargement du prix")} />
+              ) : (
+                <span key={mainPrice} className="rise inline-block">
+                  <span className="metal-text font-display font-extrabold text-[40px] leading-none" style={gradText}>{mainPrice}</span>
+                </span>
+              )}
+              {!priceLoading && struckPrice && <span className={`text-base font-semibold line-through ${c.faint}`}>{struckPrice}</span>}
             </p>
-          )}
-          {/* ONE list, uniformly styled — the differences first, then what every
-              paid plan grants alike. The two used to be separated by a second
-              heading and set in a quieter type; the split was doing the work
-              twice, since `feats` already leads with what changes and the
-              heading above it says so. The shared lines are ordinary features
-              and now read like ordinary features.
-              The heading itself is for the full page only: the landing page's
-              compact cards show the four differences alone, where a heading
-              over a four-line list is more furniture than help. */}
-          <div className="mt-6 flex-1">
-            {!compact && p.also?.length > 0 && (
-              <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: a.solid }}>
-                {t("Ce qui change")}
+            {/* The duration on its own line on every ticket: the one line a
+                buyer compares across the four, always in the same place. */}
+            <p className={`mt-2 text-sm ${c.faint}`}>{boldNumbers(t(p.per), `font-bold ${c.text}`)}</p>
+            {!priceLoading && priceBadge && (
+              <p className="mt-2">
+                <span className="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600">{priceBadge}</span>
               </p>
             )}
-            <ul className="space-y-3">
-              {(compact ? p.feats.slice(0, 4) : [...p.feats, ...(p.also || [])]).map((f) => (
-                <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
-                  <Check size={16} color={a.solid} className="shrink-0 mt-0.5" />
-                  <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
-                </li>
-              ))}
-            </ul>
           </div>
-          <Btn
-            // Fixed height + tight leading so one- and two-line labels
-            // (e.g. "Choisir Première classe") render at exactly the same size —
-            // a min-height wouldn't, since the button's padding grows the
-            // wrapping ones past it.
-            className="mt-7 w-full h-14 !py-0 leading-tight text-center"
-            variant={paid ? "primary" : "ghost"}
-            style={paid ? { background: a.grad } : undefined}
-            disabled={busy}
-            onClick={() => (paid ? subscribe() : nav("register"))}
-          >{t(p.cta)}</Btn>
+
+          {/* ── the tear line ── */}
+          <div className="relative mx-4 border-t-2 border-dashed" style={{ borderColor: a.solid + "40" }} aria-hidden="true" />
+
+          {/* ── stub: what the pass includes, and the button ── */}
+          <div className="relative px-7 pt-5 pb-7 flex flex-col flex-1">
+            {/* ONE list: the differences first, then what every paid plan grants
+                alike. The « Ce qui change » heading is for the full page only:
+                the landing page's compact tickets show the differences alone. */}
+            <div className="flex-1">
+              {!compact && p.also?.length > 0 && (
+                <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: a.solid }}>
+                  {t("Ce qui change")}
+                </p>
+              )}
+              <ul className="space-y-2.5">
+                {(compact ? p.feats.slice(0, 4) : [...p.feats, ...(p.also || [])]).map((f) => (
+                  <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
+                    <span className="w-5 h-5 rounded-full grid place-items-center shrink-0 mt-px" style={{ background: a.solid + "1a" }}>
+                      <Check size={12} strokeWidth={3} color={a.solid} />
+                    </span>
+                    <span>{boldNumbers(t(f), `font-bold ${c.text}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Btn
+              // Fixed height + tight leading so one- and two-line labels render
+              // at exactly the same size.
+              className="mt-6 w-full h-14 !py-0 leading-tight text-center"
+              variant={paid ? "primary" : "ghost"}
+              style={paid ? { background: a.grad } : undefined}
+              disabled={busy}
+              onClick={() => (paid ? subscribe() : nav("register"))}
+            >{t(p.cta)}</Btn>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
