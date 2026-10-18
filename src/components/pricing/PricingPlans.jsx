@@ -59,7 +59,7 @@ export function PricingPlans({ s, compact = false }) {
         </div>
       </div>
       {s.currency.code === "USD" && (
-        <p className={`text-center text-xs mt-3 mb-8 ${c.faint}`}>
+        <p className={`text-center text-sm mt-4 mb-12 ${c.faint}`}>
           {t("Tous les paiements sont effectués en dollars US (USD).")}
         </p>
       )}
@@ -71,7 +71,7 @@ export function PricingPlans({ s, compact = false }) {
           the flash stops on its own. role="status" so a screen reader announces
           it when the tab switches, since the flash means nothing there. */}
       {s.isDzd && (
-        <div className="flex justify-center mt-3 mb-8">
+        <div className="flex justify-center mt-4 mb-12">
           <p
             role="status"
             className={`notice-flash inline-flex items-start gap-2 max-w-xl text-xs sm:text-sm font-semibold leading-snug px-4 py-2.5 rounded-2xl border ${dark ? "bg-amber-500/15 border-amber-400/50 text-amber-200" : "bg-amber-50 border-amber-300 text-amber-900"}`}

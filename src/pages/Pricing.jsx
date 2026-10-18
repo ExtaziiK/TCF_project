@@ -18,7 +18,7 @@ export function Pricing() {
   ];
 
   return (
-    <PageShell back wide center eyebrow={t("Abonnements")} title={t("Un forfait pour chaque étape de votre préparation")}
+    <PageShell back wide center eyebrow={t("Abonnements")} title={t("Choisissez votre plan")}
       sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
       <PricingPlans s={s} />
 

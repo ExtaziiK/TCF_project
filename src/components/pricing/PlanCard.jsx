@@ -126,8 +126,6 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
           className={`plan-card relative h-full p-7 flex flex-col ${p.featured ? "border-2 shadow-2xl" : ""}`}
         >
           {p.featured && <span className="absolute inset-0 rounded-3xl pointer-events-none" style={{ background: a.grad, opacity: 0.08 }} aria-hidden="true" />}
-          {/* A thin accent bar along the top edge, in the tier's ramp. */}
-          <span className="absolute top-0 left-7 right-7 h-1 rounded-b-full pointer-events-none" style={{ background: a.grad }} aria-hidden="true" />
           <span className={`plan-sheen${p.featured ? " is-auto" : ""}`} aria-hidden="true" />
           {p.featured && (
             <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style={{ background: a.grad }}>

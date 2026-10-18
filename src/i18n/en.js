@@ -1511,6 +1511,7 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Choisissez votre plan": "Choose your plan",
   "Payer": "Pay",
   "Envoyer le reçu": "Send the receipt",
   "Vos coordonnées": "Your details",
