@@ -2,28 +2,29 @@ import { useState } from "react";
 import { ArrowRight, Headphones, BookOpen, Pencil, Mic, Info, Stamp } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
-import { PALETTE } from "@/components/home/toolsData";
 import { CALC_PROFILES, SCORE_RANGE, SECTION_LABELS, nclcFor } from "@/utils/nclc";
 
 // Display order and per-skill icons — mirrors the paper score report
 // (Compréhension orale/écrite, then Expression écrite/orale).
 const ORDER = ["co", "ce", "ee", "eo"];
 const ICONS = { co: Headphones, ce: BookOpen, ee: Pencil, eo: Mic };
-// Each épreuve's colour, as everywhere else on the site.
-const TONE = { co: "blue", ce: "rose", ee: "violet", eo: "amber" };
+// Kept within the logo's palette (blue → violet → red): one accent per épreuve,
+// on neutral tiles, so the calculator stays sober.
+const ACCENT = { co: "#2E6BE6", ce: "#6C4FE0", ee: "#D8354A", eo: "#4F5CE3" };
 
 // TCF Canada score → NCLC calculator with a live immigration-eligibility read.
 // Self-contained (own state) so it sits on both the landing page and the
 // /calculator route. Scores can be set with the slider OR typed directly; the
 // « passeport linguistique » on the right updates instantly — no "calculate"
-// step. Each épreuve keeps its site colour; eligibility reads as a passport
-// stamp, green when all four reach the threshold, amber otherwise.
+// step. Eligibility reads as a passport stamp: blue when all four reach the
+// threshold, red otherwise.
 export function ScoreCalculator() {
-  const { c, nav, t, dark } = useApp();
+  const { c, nav, t } = useApp();
   const [scores, setScores] = useState({ co: "480", ce: "445", ee: "10", eo: "10" });
+  // One accent per épreuve, with light tints derived from it.
   const tone = (s) => {
-    const [pale, ink, soft] = PALETTE[TONE[s]][dark ? "dark" : "light"];
-    return { pale, ink, soft, fill: PALETTE[TONE[s]].light[1] };
+    const a = ACCENT[s];
+    return { fill: a, ink: a, soft: `${a}26`, pale: `${a}12` };
   };
 
   const profile = CALC_PROFILES[0]; // Entrée express fédéral — les 4 épreuves ≥ NCLC 7
@@ -45,7 +46,7 @@ export function ScoreCalculator() {
   const minNclc = Math.min(...ORDER.map(nclcOf));
   const allMet = ORDER.every((s) => nclcOf(s) >= profile.min[s]);
 
-  const stamp = allMet ? "#059669" : "#D97706"; // emerald when fully eligible, else amber
+  const stamp = allMet ? "#2E6BE6" : "#D8354A"; // logo blue when fully eligible, logo red otherwise
   const R = 42;
   const CIRC = 2 * Math.PI * R;
   const gaugeFrac = Math.max(0, Math.min(1, minNclc / 10));
@@ -67,7 +68,7 @@ export function ScoreCalculator() {
             const pct = ((num - min) / (max - min)) * 100;
             const nclc = nclcFor(s, val);
             return (
-              <div key={s} className="p-4 rounded-2xl border-2" style={{ background: k.pale, borderColor: `${k.ink}55` }}>
+              <div key={s} className={`p-4 rounded-2xl border ${c.border} ${c.bg}`}>
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span className="w-9 h-9 rounded-xl text-white flex items-center justify-center shrink-0" style={{ background: k.fill }}><Icon size={17} /></span>
@@ -97,7 +98,7 @@ export function ScoreCalculator() {
                   style={{ background: `linear-gradient(${k.fill},${k.fill}) 0 0 / ${pct}% 100% no-repeat, ${k.soft}` }}
                 />
                 <div className="flex justify-end mt-2">
-                  <span className="px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ background: k.fill }}>
+                  <span className="px-2.5 py-1 rounded-full text-xs font-bold border" style={{ color: k.ink, borderColor: `${k.ink}66` }}>
                     NCLC {nclc == null ? "—" : nclc === 0 ? "< 4" : nclc}
                   </span>
                 </div>
@@ -109,14 +110,14 @@ export function ScoreCalculator() {
 
       {/* ── Right: the « passeport linguistique » ───────────────────────── */}
       <Card className="p-5 md:p-6 relative overflow-hidden">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="font-mono2 text-[11px] font-bold uppercase tracking-widest text-blue-600">{t("Passeport linguistique")}</p>
-            <h3 className={`font-display font-bold text-lg mt-1 ${c.text}`}>{t("Votre profil linguistique")}</h3>
-            <p className={`text-xs font-semibold mt-0.5 ${c.faint}`}>{t("Équivalence IRCC officielle")}</p>
-          </div>
-          {/* min-NCLC gauge */}
-          <div className="relative w-24 h-24 shrink-0">
+        <div className="text-center">
+          <p className="font-mono2 text-[11px] font-bold uppercase tracking-widest text-blue-600">{t("Passeport linguistique")}</p>
+          <h3 className={`font-display font-bold text-lg mt-1 ${c.text}`}>{t("Votre profil linguistique")}</h3>
+          <p className={`text-xs font-semibold mt-0.5 ${c.faint}`}>{t("Équivalence IRCC officielle")}</p>
+        </div>
+        {/* min-NCLC gauge, under the heading */}
+        <div className="mt-4 flex justify-center">
+          <div className="relative w-28 h-28">
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
               <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(148,163,184,.25)" strokeWidth="9" />
               <circle cx="50" cy="50" r={R} fill="none" stroke={stamp} strokeWidth="9" strokeLinecap="round"
@@ -124,13 +125,13 @@ export function ScoreCalculator() {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className={`text-[8px] font-bold uppercase tracking-widest ${c.faint}`}>{t("Niveau min.")}</span>
-              <span className={`font-display font-extrabold text-2xl leading-none ${c.text}`}>{minNclc}</span>
+              <span className={`font-display font-extrabold text-3xl leading-none ${c.text}`}>{minNclc}</span>
               <span className={`text-[9px] font-bold ${c.faint}`}>NCLC</span>
             </div>
           </div>
         </div>
 
-        {/* per-skill bars, each in its épreuve's colour */}
+        {/* per-skill bars, each in its épreuve's accent */}
         <div className="mt-5 space-y-2.5">
           {ORDER.map((s) => {
             const Icon = ICONS[s];
