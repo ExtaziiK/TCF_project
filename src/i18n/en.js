@@ -1511,6 +1511,10 @@ export const EN = {
   "Correction par IA": "AI correction",
   "Votre cahier d'entraînement": "Your training notebook",
   "Carnet d'erreurs": "Mistake notebook",
+  "Payer": "Pay",
+  "Envoyer le reçu": "Send the receipt",
+  "Vos coordonnées": "Your details",
+  "Montant à envoyer": "Amount to send",
   "Pass": "Pass",
   "Choisissez votre pass": "Choose your pass",
   "Un paiement unique, sans renouvellement automatique. Commencez gratuitement, passez au pass qui vous convient quand vous voulez.":

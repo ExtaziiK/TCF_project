@@ -7,6 +7,7 @@ import {
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
+import { ACCENTS } from "@/components/pricing/PlanCard";
 import { planDzdAmount, applyPercentOff } from "@/utils/currency";
 import { getDzCheckoutPlan, getDzCheckoutPromo, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
@@ -152,15 +153,43 @@ export function CheckoutDz() {
     window.scrollTo({ top: 0 });
   };
 
+  const accent = ACCENTS[plan.accent] || ACCENTS.blue;
+  const phoneOk = phone.replace(/\D/g, "").length >= 9;
+  // The three steps, ticked as they are done — the stepper at the top and
+  // the numbered sections below follow the same order.
+  const steps = [
+    { n: 1, l: "Payer", done: false },
+    { n: 2, l: "Envoyer le reçu", done: !!file },
+    { n: 3, l: "Vos coordonnées", done: phoneOk },
+  ];
+  const numberBadge = (n, done) => (
+    <span className={`w-7 h-7 rounded-full grid place-items-center text-xs font-bold shrink-0 ${done ? "bg-emerald-500 text-white" : "bg-blue-600 text-white"}`}>
+      {done ? <Check size={14} strokeWidth={3} /> : n}
+    </span>
+  );
+  const sectionTitle = (n, done, icon, label) => {
+    const Icon = icon;
+    return (
+      <div className="flex items-center gap-3 mb-4">
+        {numberBadge(n, done)}
+        <p className={`flex items-center gap-2 font-display font-bold ${c.text}`}><Icon size={16} className={c.faint} /> {t(label)}</p>
+      </div>
+    );
+  };
+
   if (sent) {
     return (
       <PageShell back eyebrow={t("Abonnement")} title={t("Demande envoyée !")} sub={t("Nous vérifions votre paiement et activons votre accès au plus vite.")}>
         <Card className="p-8 max-w-xl mx-auto text-center">
-          <span className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center mx-auto"><CheckCircle2 size={30} /></span>
+          <span className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/30"><CheckCircle2 size={30} /></span>
           <h3 className={`mt-4 font-display font-bold text-xl ${c.text}`}>{t("Votre demande a bien été reçue")}</h3>
-          <p className={`mt-2 text-sm ${c.sub}`}>{t("Forfait")} <strong className={c.text}>{t(plan.name)}</strong> · {amount}. {t("Vous recevrez une confirmation dès l'activation (activation en moins de 15 minutes après vérification du reçu).")}</p>
+          <div className={`mt-4 mx-auto max-w-sm flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border ${c.border}`}>
+            <span className="text-sm font-bold" style={{ color: accent.solid }}>{t("Forfait")} {t(plan.name)}</span>
+            <span className={`font-display font-extrabold ${c.text}`}>{amount}</span>
+          </div>
+          <p className={`mt-4 text-sm ${c.sub}`}>{t("Vous recevrez une confirmation dès l'activation (activation en moins de 15 minutes après vérification du reçu).")}</p>
           {waUrl && (
-            <a href={waUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 px-5 py-3 rounded-full font-semibold text-white shadow-lg" style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}>
+            <a href={waUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 px-5 py-3 rounded-full font-semibold text-white shadow-lg" style={{ background: "#25D366" }}>
               <MessageCircle size={18} /> {t("Envoyer aussi le reçu sur WhatsApp")}
             </a>
           )}
@@ -174,106 +203,76 @@ export function CheckoutDz() {
 
   return (
     <PageShell back wide eyebrow={t("Paiement en dinar algérien")} title={t("Finaliser votre abonnement")} sub={t("Payez par CCP ou BaridiMob, puis téléversez votre reçu. Votre accès est activé après vérification.")}>
-      <div className="grid lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] gap-5 items-start">
-        {/* ── Récapitulatif ─────────────────────────────────────────────── */}
-        <Card className="p-6 lg:sticky lg:top-24">
-          <p className={`flex items-center gap-2 text-sm font-bold ${c.text}`}><Receipt size={16} className="text-blue-600" /> {t("Récapitulatif")}</p>
-          <div className="mt-4 rounded-2xl grad-brand text-white px-5 py-4 text-center shadow-lg">
-            <p className="font-display font-extrabold text-lg">{t(plan.name)}</p>
-            <p className="text-sm text-white/85">{plan.days} {t("jours d'accès")}</p>
-          </div>
-          {/* Both lists, run together. On the pricing cards `feats` and `also`
-              are split so the tiers can be COMPARED; here the tier is already
-              chosen and the buyer is checking what they are about to transfer
-              money for, so the summary is simply everything the pass grants. */}
-          <ul className="mt-5 space-y-2.5">
-            {[...plan.feats, ...(plan.also || [])].map((f) => (
-              <li key={f} className={`flex gap-2 text-sm ${c.sub}`}><Check size={16} className="text-emerald-500 shrink-0 mt-0.5" /><span>{t(f)}</span></li>
-            ))}
-          </ul>
-          {/* Code promo. The Tarifs page has the same field, but a buyer can
-              reach this page without having used it — or be given a code once
-              here — so the total must stay reachable from this screen too. */}
-          <div className={`mt-5 pt-4 border-t ${c.border}`}>
-            <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
-            {applied ? (
-              <div className="flex items-center justify-between gap-2 rounded-2xl bg-emerald-500/10 px-4 py-3">
-                <span className="text-sm text-emerald-600 flex items-center gap-1.5 min-w-0">
-                  <CheckCircle2 size={15} className="shrink-0" />
-                  <span className="font-mono2 font-semibold truncate">{applied.sale ? t("Promo") : applied.code}</span>
-                  <span className="shrink-0">· {promoLabel(applied)}</span>
-                </span>
-                {!sale && <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>}
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <input value={coupon} onChange={(e) => { setCoupon(e.target.value.toUpperCase()); setCouponError(""); }} onKeyDown={(e) => { if (e.key === "Enter") applyCoupon(); }} placeholder={t("Ex. : BIENVENUE20")} aria-label={t("Code promo")} className={`flex-1 min-w-0 px-4 py-3 rounded-2xl border text-sm font-mono2 outline-none focus:border-blue-600 ${c.inputCls}`} />
-                <Btn small disabled={checking || !coupon.trim()} onClick={applyCoupon}>{t(checking ? "Vérification…" : "Appliquer")}</Btn>
-              </div>
-            )}
-            {sale && <p className={`mt-2 text-xs ${c.faint}`}>{t("Promo appliquée automatiquement, non cumulable avec un autre code.")}</p>}
-            {couponError && <p className="mt-3 text-sm text-rose-600 flex items-start gap-1.5"><XCircle size={15} className="shrink-0 mt-0.5" /> {couponError}</p>}
-          </div>
-          <div className={`mt-5 pt-4 border-t ${c.border} flex items-center justify-between gap-3`}>
-            <span className={`text-sm font-semibold ${c.text}`}>{t("Total à payer")}</span>
-            <span className="flex items-baseline gap-2 min-w-0">
-              {applied && <span className={`text-sm line-through shrink-0 ${c.faint}`}>{fullAmount}</span>}
-              <span className="font-display font-extrabold text-2xl grad-text">{amount}</span>
+      {/* Stepper: Payer → Envoyer le reçu → Vos coordonnées. */}
+      <ol className="mb-6 flex items-center gap-2 sm:gap-3 overflow-x-auto">
+        {steps.map((s, i) => (
+          <li key={s.n} className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <span className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${c.border} ${c.card}`}>
+              {numberBadge(s.n, s.done)}
+              <span className={`text-sm font-semibold ${c.text}`}>{t(s.l)}</span>
             </span>
-          </div>
-        </Card>
+            {i < steps.length - 1 && <span className={`w-6 sm:w-10 border-t-2 border-dashed ${c.border}`} aria-hidden="true" />}
+          </li>
+        ))}
+      </ol>
 
-        {/* ── Paiement ──────────────────────────────────────────────────── */}
-        <div className="space-y-5 min-w-0">
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] gap-5 items-start">
+        {/* ── the three steps ─────────────────────────────────────────────── */}
+        <div className="space-y-5 min-w-0 order-2 lg:order-1">
           <Card className="p-6">
-            <p className={`flex items-center gap-2 text-sm font-bold mb-4 ${c.text}`}><Landmark size={16} className="text-blue-600" /> {t("Mode de paiement")}</p>
+            {sectionTitle(1, false, Landmark, "Payer")}
             <div className="grid sm:grid-cols-2 gap-3">
               {METHODS.map((m) => {
                 const active = method === m.id;
                 return (
                   <button key={m.id} type="button" onClick={() => setMethod(m.id)} aria-pressed={active}
-                    className={`flex items-center gap-3 p-4 rounded-2xl border-2 text-left transition-colors ${active ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`}`}>
-                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : "bg-blue-600/10 text-blue-600"}`}><m.icon size={18} /></span>
-                    <span className={`text-sm font-semibold ${c.text}`}>{t(m.label)}</span>
+                    className={`relative flex items-center gap-3 p-4 rounded-2xl border-2 text-left transition-all ${active ? "border-blue-600 bg-blue-600/5 shadow-md shadow-blue-600/10" : `${c.border} ${c.card} ${c.hoverSoft}`}`}>
+                    <span className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : "bg-blue-600/10 text-blue-600"}`}><m.icon size={19} /></span>
+                    <span className={`flex-1 text-sm font-semibold ${c.text}`}>{t(m.label)}</span>
+                    <span className={`w-5 h-5 rounded-full border-2 grid place-items-center shrink-0 ${active ? "border-blue-600 bg-blue-600 text-white" : c.border}`}>
+                      {active && <Check size={11} strokeWidth={3} />}
+                    </span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Account details for the chosen method */}
-            <div className={`mt-4 rounded-2xl border ${c.border} p-5`}>
+            {/* The transfer details, set out like a receipt, with the amount
+                copyable next to the account numbers. */}
+            <div className={`mt-4 rounded-2xl border-2 border-dashed ${c.border} px-5 py-3`}>
+              <p className={`text-sm pt-1 pb-1.5 ${c.sub}`}>
+                {method === "ccp" ? t("Effectuez un virement vers le compte CCP suivant :") : t("Effectuez un versement BaridiMob vers le RIP suivant :")}
+              </p>
               {method === "ccp" ? (
                 <>
-                  <p className={`text-sm mb-1 ${c.sub}`}>{t("Effectuez un virement vers le compte CCP suivant :")}</p>
                   <DetailRow label="Numéro CCP" value={cfg?.ccp?.number} />
                   <DetailRow label="Clé" value={cfg?.ccp?.key} />
                   <DetailRow label="Titulaire" value={cfg?.ccp?.holder} />
                 </>
               ) : (
                 <>
-                  <p className={`text-sm mb-1 ${c.sub}`}>{t("Effectuez un versement BaridiMob vers le RIP suivant :")}</p>
                   <DetailRow label="RIP" value={cfg?.baridimob?.rip} />
                   {cfg?.baridimob?.holder && <DetailRow label="Titulaire" value={cfg.baridimob.holder} />}
                 </>
               )}
+              <DetailRow label="Montant à envoyer" value={amount} />
             </div>
-            <p className={`mt-3 flex items-start gap-2 text-sm rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 px-4 py-3`}>
+            <p className="mt-3 flex items-start gap-2 text-sm rounded-2xl bg-emerald-500/10 text-emerald-700 px-4 py-3">
               <ShieldCheck size={16} className="shrink-0 mt-0.5" />
               {t("Activation en moins de 15 minutes après réception et vérification de votre reçu.")}
             </p>
           </Card>
 
-          {/* Proof of payment */}
           <Card className="p-6">
-            <p className={`flex items-center gap-2 text-sm font-bold ${c.text}`}><FileText size={16} className="text-blue-600" /> {t("Justificatif de paiement")}</p>
-            <p className={`text-sm mt-1 mb-4 ${c.sub}`}>{t("Téléversez une capture d'écran ou une photo de votre reçu de paiement.")}</p>
+            {sectionTitle(2, !!file, FileText, "Envoyer le reçu")}
+            <p className={`text-sm -mt-2 mb-4 ${c.sub}`}>{t("Téléversez une capture d'écran ou une photo de votre reçu de paiement.")}</p>
 
             <input ref={fileRef} type="file" accept={ACCEPTED_RECEIPT_TYPES.join(",")} className="hidden" aria-label={t("Choisir un fichier")}
               onChange={(e) => pickFile(e.target.files?.[0])} />
 
             {file ? (
-              <div className={`flex items-center gap-3 rounded-2xl border ${c.border} p-4`}>
-                <span className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0"><Check size={18} /></span>
+              <div className="flex items-center gap-3 rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/5 p-4">
+                <span className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0"><Check size={18} /></span>
                 <div className="min-w-0 flex-1">
                   <p className={`text-sm font-medium truncate ${c.text}`}>{file.name}</p>
                   <p className={`text-xs ${c.faint}`}>{(file.size / 1e6).toFixed(1)} Mo</p>
@@ -285,8 +284,8 @@ export function CheckoutDz() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); pickFile(e.dataTransfer.files?.[0]); }}
-                className={`w-full flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed px-6 py-8 text-center transition-colors ${dragOver ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`}`}>
-                <UploadCloud size={28} className={c.faint} />
+                className={`w-full flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed px-6 py-9 text-center transition-colors ${dragOver ? "border-blue-600 bg-blue-600/5" : `${c.border} ${c.hoverSoft}`}`}>
+                <span className="w-12 h-12 rounded-full bg-blue-600/10 text-blue-600 grid place-items-center"><UploadCloud size={22} /></span>
                 <span className={`text-sm ${c.sub}`}>{t("Glissez votre fichier ici ou")} <span className="font-semibold text-blue-600">{t("cliquez pour choisir")}</span></span>
                 <span className={`text-xs ${c.faint}`}>{t("JPG, PNG, WEBP ou PDF (max 20 Mo)")}</span>
               </button>
@@ -295,39 +294,95 @@ export function CheckoutDz() {
             {waUrl && (
               <>
                 <div className="flex items-center gap-3 my-4">
-                  <span className={`flex-1 h-px ${c.border} border-t`} /><span className={`text-xs font-semibold ${c.faint}`}>{t("OU")}</span><span className={`flex-1 h-px ${c.border} border-t`} />
+                  <span className={`flex-1 border-t ${c.border}`} /><span className={`text-xs font-semibold ${c.faint}`}>{t("OU")}</span><span className={`flex-1 border-t ${c.border}`} />
                 </div>
-                <a href={waUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl px-5 py-4 text-white shadow-lg" style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}>
+                <a href={waUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl px-5 py-4 text-white transition hover:brightness-105" style={{ background: "#25D366" }}>
                   <MessageCircle size={22} className="shrink-0" />
                   <span>
                     <span className="block font-bold">{t("Vous avez payé ? Envoyez le reçu ici")}</span>
-                    <span className="block text-sm text-white/85 flex items-center gap-1"><Zap size={13} /> {t("Activation rapide par WhatsApp")}</span>
+                    <span className="block text-sm text-white/90 flex items-center gap-1"><Zap size={13} /> {t("Activation rapide par WhatsApp")}</span>
                   </span>
                 </a>
               </>
             )}
+          </Card>
 
-            <div className="mt-5 space-y-4">
+          <Card className="p-6">
+            {sectionTitle(3, phoneOk, Phone, "Vos coordonnées")}
+            <div className="space-y-4">
               <div>
                 <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><Phone size={13} /> {t("Numéro de téléphone")} <span className="normal-case font-medium text-rose-600">({t("requis")})</span></label>
                 <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" required placeholder={t("Ex. : 05 55 12 34 56")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
                 <p className={`mt-1.5 text-xs ${c.faint}`}>{t("Pour vous joindre au sujet de votre paiement si besoin.")}</p>
               </div>
-              <div>
-                <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><Hash size={13} /> {t("Référence de paiement")} <span className="normal-case font-medium">({t("optionnel")})</span></label>
-                <input value={reference} onChange={(e) => setReference(e.target.value)} placeholder={t("Numéro de transaction, référence CCP, etc.")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
-              </div>
-              <div>
-                <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><StickyNote size={13} /> {t("Notes")} <span className="normal-case font-medium">({t("optionnel")})</span></label>
-                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder={t("Informations supplémentaires…")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><Hash size={13} /> {t("Référence de paiement")} <span className="normal-case font-medium">({t("optionnel")})</span></label>
+                  <input value={reference} onChange={(e) => setReference(e.target.value)} placeholder={t("Numéro de transaction, référence CCP, etc.")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+                </div>
+                <div>
+                  <label className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide mb-1.5 ${c.sub}`}><StickyNote size={13} /> {t("Notes")} <span className="normal-case font-medium">({t("optionnel")})</span></label>
+                  <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t("Informations supplémentaires…")} className={`w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />
+                </div>
               </div>
             </div>
 
-            <Btn className="mt-6 w-full" icon={Send} disabled={busy} onClick={submit}>
-              {busy ? t("Envoi…") : t("Envoyer ma demande d'abonnement")}
+            <Btn className="mt-6 w-full !py-4" icon={Send} disabled={busy} onClick={submit}>
+              {busy ? t("Envoi…") : `${t("Envoyer ma demande d'abonnement")} · ${amount}`}
             </Btn>
           </Card>
         </div>
+
+        {/* ── order summary ───────────────────────────────────────────────── */}
+        <Card className="overflow-hidden lg:sticky lg:top-24 order-1 lg:order-2">
+          <div className="px-6 pt-5 pb-4 text-white" style={{ background: accent.grad }}>
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/80"><Receipt size={14} /> {t("Récapitulatif")}</p>
+            <p className="mt-2 font-display font-extrabold text-2xl">{t(plan.name)}</p>
+            <p className="text-sm text-white/85">{plan.days} {t("jours d'accès")}</p>
+          </div>
+          <div className="p-6">
+            {/* Everything the pass grants, run together: the tier is chosen,
+                and the buyer is checking what they are about to pay for. */}
+            <ul className="space-y-2">
+              {[...plan.feats, ...(plan.also || [])].map((f) => (
+                <li key={f} className={`flex gap-2.5 text-sm ${c.sub}`}>
+                  <span className="w-5 h-5 rounded-full grid place-items-center shrink-0 mt-px" style={{ background: accent.solid + "1a" }}><Check size={12} strokeWidth={3} color={accent.solid} /></span>
+                  <span>{t(f)}</span>
+                </li>
+              ))}
+            </ul>
+            {/* Code promo. The Tarifs page has the same field, but a buyer can
+                reach this page without having used it — or be given a code once
+                here — so the total must stay reachable from this screen too. */}
+            <div className={`mt-5 pt-4 border-t ${c.border}`}>
+              <p className={`font-semibold text-sm mb-3 flex items-center gap-2 ${c.text}`}><Gift size={16} className="text-rose-600" /> {t("Vous avez un code promo ?")}</p>
+              {applied ? (
+                <div className="flex items-center justify-between gap-2 rounded-2xl bg-emerald-500/10 px-4 py-3">
+                  <span className="text-sm text-emerald-600 flex items-center gap-1.5 min-w-0">
+                    <CheckCircle2 size={15} className="shrink-0" />
+                    <span className="font-mono2 font-semibold truncate">{applied.sale ? t("Promo") : applied.code}</span>
+                    <span className="shrink-0">· {promoLabel(applied)}</span>
+                  </span>
+                  {!sale && <button type="button" onClick={removeCoupon} className={`text-xs font-semibold shrink-0 ${c.faint} hover:text-rose-600`}>{t("Retirer")}</button>}
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input value={coupon} onChange={(e) => { setCoupon(e.target.value.toUpperCase()); setCouponError(""); }} onKeyDown={(e) => { if (e.key === "Enter") applyCoupon(); }} placeholder={t("Ex. : BIENVENUE20")} aria-label={t("Code promo")} className={`flex-1 min-w-0 px-4 py-3 rounded-2xl border text-sm font-mono2 outline-none focus:border-blue-600 ${c.inputCls}`} />
+                  <Btn small disabled={checking || !coupon.trim()} onClick={applyCoupon}>{t(checking ? "Vérification…" : "Appliquer")}</Btn>
+                </div>
+              )}
+              {sale && <p className={`mt-2 text-xs ${c.faint}`}>{t("Promo appliquée automatiquement, non cumulable avec un autre code.")}</p>}
+              {couponError && <p className="mt-3 text-sm text-rose-600 flex items-start gap-1.5"><XCircle size={15} className="shrink-0 mt-0.5" /> {couponError}</p>}
+            </div>
+            <div className={`mt-5 pt-4 border-t-2 border-dashed ${c.border} flex items-end justify-between gap-3`}>
+              <span className={`text-sm font-semibold ${c.text}`}>{t("Total à payer")}</span>
+              <span className="text-right min-w-0">
+                {applied && <span className={`block text-sm line-through ${c.faint}`}>{fullAmount}</span>}
+                <span className="font-display font-extrabold text-3xl" style={{ color: accent.solid }}>{amount}</span>
+              </span>
+            </div>
+          </div>
+        </Card>
       </div>
     </PageShell>
   );
