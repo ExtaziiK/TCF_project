@@ -39,17 +39,14 @@ export const NAV_LINKS = [
   // rather than an oversight: the landing page really is unreachable for them
   // (staff excepted, and they reach it through the logo, not through here).
   { l: "Accueil", r: "home", roles: [ROLES.VISITOR], icon: Home, group: "start", order: 3 },
+  // Bar order, by importance: TCF blanc, Épreuves, Pratique, then the month's
+  // subjects.
+  // Mock exams: the flagship, first in the bar.
+  { l: "TCF blanc", r: "mocks", tier: "primary", icon: ClipboardCheck, group: "prep" },
   // The four TCF épreuves live on one page (CO · CE · EO · EE), switched via
   // tabs. Free users see it too, with every quiz locked except the first of
   // each épreuve — the lock is enforced inside the page (BankExplorer).
   { l: "Épreuves", r: "exams", tier: "featured", icon: GraduationCap, group: "prep" },
-  // Mock exams get their own top-level entry, next to "Épreuves".
-  { l: "TCF blanc", r: "mocks", tier: "primary", icon: ClipboardCheck, group: "prep" },
-  // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
-  // but signed-in only (free or paid), so it's hidden from visitors (roles must
-  // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
-  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
-  { l: "Sujets EE/EO", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
   // Supplementary practice, distinct from the exam épreuves. Ordered from the
   // building blocks up to the exercise that uses them: vocabulary and grammar
   // are things you study, the dictée is where they are tested together.
@@ -82,6 +79,11 @@ export const NAV_LINKS = [
     // qu'il pourrait acheter. Le garde de route décide de l'accès, pas le menu.
     { l: "Révision", r: "revision", icon: ListChecks, group: "train" },
   ] },
+  // Trending monthly EE/EO subjects to prepare — featured like "Épreuves",
+  // but signed-in only (free or paid), so it's hidden from visitors (roles must
+  // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
+  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
+  { l: "Sujets EE/EO", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
 ];
