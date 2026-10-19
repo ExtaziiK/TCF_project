@@ -11,6 +11,9 @@
 //   virtual:bank-question-ids  [{ id, title, section, quizNumber, ids: [questionId…] }]
 //                              ~100 KB, imported lazily — lets the dashboard
 //                              count Carnet cards without loading every quiz
+//   virtual:bank-demo-ce       [{ order, q, opts, a, exp }] — the landing CE
+//                              demo's questions (src/constants/demoPool.js),
+//                              a few KB, so the home page needs no quiz chunk
 //
 // Both are produced by running the app's own adaptBankFile over the files, so
 // they cannot disagree with what the quiz engine later builds from the chunk.
@@ -22,10 +25,13 @@
 import { build } from "esbuild";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const SECTIONS = ["co", "ce", "ee", "eo"];
 const MANIFEST_ID = "virtual:bank-manifest";
 const IDS_ID = "virtual:bank-question-ids";
+const DEMO_CE_ID = "virtual:bank-demo-ce";
+const VIRTUAL = [MANIFEST_ID, IDS_ID, DEMO_CE_ID];
 const resolved = (id) => `\0${id}`;
 
 // Same order as bankService's sort.
@@ -54,7 +60,8 @@ export function bankManifestPlugin({ root }) {
   // bankAdapter.js imports through the "@" alias and reads import.meta.env, so
   // Node can't import it as is: bundle it to a data URL first (as
   // scripts/prerender.mjs does for seo.js). The env values only shape media
-  // URLs, which the manifest doesn't carry.
+  // URLs, which the manifest doesn't carry; signed mode is on so every
+  // question carries its `sign` descriptor, i.e. its real question order.
   const loadAdapter = () =>
     (adapterPromise ||= build({
       entryPoints: [path.join(root, "src/utils/bankAdapter.js")],
@@ -64,13 +71,15 @@ export function bankManifestPlugin({ root }) {
       platform: "node",
       logLevel: "silent",
       alias: { "@": path.join(root, "src") },
-      define: { "import.meta.env": "{}" },
+      define: { "import.meta.env": JSON.stringify({ VITE_SIGNED_MEDIA: "true" }) },
     }).then((out) => import(`data:text/javascript;base64,${Buffer.from(out.outputFiles[0].text).toString("base64")}`)));
 
   async function scan(ctx) {
     const { adaptBankFile } = await loadAdapter();
     const manifest = Object.fromEntries(SECTIONS.map((s) => [s, []]));
     const ids = [];
+    const { CE_DEMO_QUIZ, CE_DEMO_ORDERS } = await import(`${pathToFileURL(path.join(root, "src/constants/demoPool.js")).href}?t=${Date.now()}`);
+    let demoCe = [];
     for (const section of SECTIONS) {
       const dir = path.join(bankDir, section);
       let files = [];
@@ -91,10 +100,15 @@ export function bankManifestPlugin({ root }) {
           ...(quiz.kind ? { kind: quiz.kind } : {}),
         });
         ids.push({ id: quiz.id, title: quiz.title, section, quizNumber: quiz.quizNumber, ids: quiz.questions.map((q) => q.id) });
+        if (section === "ce" && quiz.quizNumber === CE_DEMO_QUIZ) {
+          demoCe = quiz.questions
+            .map((q, i) => ({ order: q.sign?.order ?? i + 1, q: q.q, opts: q.opts, a: q.a, exp: q.exp }))
+            .filter((q) => CE_DEMO_ORDERS.includes(Number(q.order)));
+        }
       }
       manifest[section].sort(byQuiz);
     }
-    return { manifest, ids };
+    return { manifest, ids, demoCe };
   }
 
   // Both virtual modules come from one pass over the files.
@@ -105,12 +119,13 @@ export function bankManifestPlugin({ root }) {
     name: "bank-manifest",
     enforce: "pre",
     resolveId(id) {
-      if (id === MANIFEST_ID || id === IDS_ID) return resolved(id);
+      if (VIRTUAL.includes(id)) return resolved(id);
       return null;
     },
     async load(id) {
       if (id === resolved(MANIFEST_ID)) return `export default ${JSON.stringify((await scanOnce(this)).manifest)};`;
       if (id === resolved(IDS_ID)) return `export default ${JSON.stringify((await scanOnce(this)).ids)};`;
+      if (id === resolved(DEMO_CE_ID)) return `export default ${JSON.stringify((await scanOnce(this)).demoCe)};`;
       return null;
     },
     transform(code, id) {
@@ -121,7 +136,7 @@ export function bankManifestPlugin({ root }) {
     handleHotUpdate({ file, server }) {
       if (!isBankJson(file)) return;
       scanPromise = null;
-      for (const v of [MANIFEST_ID, IDS_ID]) {
+      for (const v of VIRTUAL) {
         const mod = server.moduleGraph.getModuleById(resolved(v));
         if (mod) server.moduleGraph.invalidateModule(mod);
       }

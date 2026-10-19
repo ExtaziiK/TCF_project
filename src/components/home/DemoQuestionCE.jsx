@@ -1,30 +1,27 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { BookOpen, CheckCircle2, XCircle, Lightbulb, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
+import DEMO_CE from "virtual:bank-demo-ce";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
-import { useQuizByNumber } from "@/hooks/useBank";
-import { DemoSkeleton } from "@/components/home/DemoQuestion";
-import { useSignedQuestions } from "@/hooks/useSignedQuestions";
+import { CE_DEMO_A2 } from "@/constants/demoPool";
 
-// A2 / B1 bands of Quiz 1. The bank carries no per-question CEFR tag, but the
-// official TCF orders items by increasing difficulty across the 39-question
-// épreuve (A1→C2), so the early-middle stretch is A2 then B1 — past the A1
-// openers, short of the B2/C1/C2 closers. Indices are 0-based (question order−1).
-const A2_BAND = [5, 6, 7, 8, 9, 10, 11, 12];   // questions 6–13
-const B1_BAND = [13, 14, 15, 16, 17, 18, 19, 20, 21]; // questions 14–22
+// The demo's documents ship as static files (scripts/fetch-demo-media.mjs), not
+// through the signed bucket: the image request goes out on the first render,
+// instead of after the quiz chunk and an /api/media round trip. Quiz 1 is the
+// public teaser, so this exposes nothing the API doesn't already hand out.
+const DEMO_IMAGES = import.meta.glob("/src/assets/demo/ce1/*.webp", { eager: true, query: "?url", import: "default" });
+const imageFor = (order) => DEMO_IMAGES[`/src/assets/demo/ce1/q${order}.webp`] || null;
 
 // Picks a random A2/B1 Compréhension écrite item from Quiz 1 of the actual bank
-// (src/bank/ce/Quiz_1_CE.json). CE items are read from a document image, so the
-// stimulus is the (signed) image rather than an audio clip. Returns null if the
-// bank is unavailable, in which case the card simply isn't rendered.
-function realDemoQuestion(quiz1) {
-  const questions = quiz1?.questions || [];
-  if (!questions.length) return null;
-  const pool = [...A2_BAND, ...B1_BAND].filter((i) => i < questions.length);
-  const idx = pool.length ? pool[Math.floor(Math.random() * pool.length)] : Math.floor((questions.length - 1) / 2);
-  const picked = questions[idx];
-  if (!picked) return null;
-  return { ...picked, level: A2_BAND.includes(idx) ? "A2" : "B1", kind: "bank" };
+// (src/bank/ce/Quiz_1_CE.json, pool in src/constants/demoPool.js). The question
+// text is baked in at build time (virtual:bank-demo-ce), so nothing waits on a
+// download. Returns null if no pool question has its document, in which case
+// the card simply isn't rendered.
+function realDemoQuestion() {
+  const pool = DEMO_CE.filter((q) => imageFor(q.order));
+  if (!pool.length) return null;
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  return { ...picked, image: imageFor(picked.order), level: CE_DEMO_A2.includes(Number(picked.order)) ? "A2" : "B1", kind: "bank" };
 }
 
 // Remembered document aspect ratio (width / height) so the reserved image slot
@@ -34,8 +31,8 @@ function realDemoQuestion(quiz1) {
 let CE_DOC_RATIO = 1.5;
 
 // Hero teaser mirroring the CO DemoQuestion, for Compréhension écrite: the
-// reading document on top (a short-lived signed image — quiz 1 is signable
-// anonymously), then the lettered options, correction and explanation below.
+// reading document on top, then the lettered options, correction and
+// explanation below.
 export function DemoQuestionCE() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
@@ -43,19 +40,9 @@ export function DemoQuestionCE() {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [ratio, setRatio] = useState(CE_DOC_RATIO); // width/height, learned on load
   const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
-  // Quiz 1 is its own chunk, downloaded after the page has rendered.
-  const { quiz: quiz1, settled } = useQuizByNumber("ce", 1);
-  const base = useMemo(() => (settled ? realDemoQuestion(quiz1) : null), [settled, quiz1]);
-  const singleton = useMemo(() => (base ? [base] : []), [base]);
-  const [signed] = useSignedQuestions(singleton);
-  const q = signed || base;
-  if (!settled) return <DemoSkeleton />;
+  const [q] = useState(realDemoQuestion);
   if (!q) return null;
-
-  // Known from the base descriptor before the signed URL resolves, so the frame
-  // reserves its space on first paint — the document then fades in without
-  // shoving the question card below up and down (no layout shift on refresh).
-  const hasImage = !!(base.image || base.sign?.image);
+  const hasImage = !!q.image;
 
   const explanation = `${t("Bonne réponse :")} « ${q.opts[q.a]} ». ${q.exp || t("C'est la seule proposition fidèle au document.")}`;
 
@@ -72,20 +59,25 @@ export function DemoQuestionCE() {
             className={`relative rounded-xl overflow-hidden transition-all duration-300 ${big ? "w-full" : "h-64"}`}
             style={big ? { aspectRatio: String(ratio), maxHeight: "82vh" } : undefined}
           >
-            {/* Skeleton reserves the slot until the signed URL resolves and the
-                image paints; it sits behind the fading-in document. */}
+            {/* Skeleton reserves the slot until the image paints; it sits behind
+                the document. */}
             {!imgLoaded && <div className={`absolute inset-0 animate-pulse rounded-xl ${c.track}`} aria-hidden="true" />}
             {q.image && (
               <img
                 src={q.image}
                 alt={t("Document à lire")}
+                width={1200}
+                height={800}
+                decoding="async"
+                // Lowercase via spread: React 18 has no fetchPriority prop yet.
+                {...{ fetchpriority: "high" }}
                 onLoad={(e) => {
                   setImgLoaded(true);
                   const el = e.currentTarget;
                   if (el.naturalWidth && el.naturalHeight) { CE_DOC_RATIO = el.naturalWidth / el.naturalHeight; setRatio(CE_DOC_RATIO); }
                 }}
                 onError={() => setImgOk(false)}
-                className={`w-full h-full object-contain transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+                className="relative w-full h-full object-contain"
               />
             )}
             <button
