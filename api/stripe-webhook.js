@@ -47,12 +47,33 @@ async function planLabelFor(subscription) {
 
 // Merges (rather than replaces) app_metadata so unrelated fields - like an
 // admin's role - are never dropped by a subscription update.
+//
+// Throws on any failure: the handler then answers 500 and Stripe redelivers
+// the event (with backoff, for days). Returning quietly here used to answer
+// 200 — "delivered" — so one Supabase hiccup left a paying customer without
+// access and nothing would ever retry.
 async function setPremiumStatus(userId, patch) {
   const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
-  if (error || !data?.user) return;
-  await supabaseAdmin.auth.admin.updateUserById(userId, {
+  if (error) throw new Error(`getUserById(${userId}): ${error.message}`);
+  if (!data?.user) return; // the account no longer exists: nothing to grant, nothing to retry
+  const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(userId, {
     app_metadata: { ...data.user.app_metadata, ...patch },
   });
+  if (updateError) throw new Error(`updateUserById(${userId}): ${updateError.message}`);
+}
+
+// Grants a pass for a paid Checkout session. Idempotent (same patch as the
+// browser's confirmation, see passPatchForSession), so a redelivery, or the
+// browser getting there first, changes nothing.
+async function grantPass(session, userId) {
+  const { data: existing, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+  if (error) throw new Error(`getUserById(${userId}): ${error.message}`);
+  const patch = await passPatchForSession(session, stripe, existing?.user?.app_metadata || {});
+  if (!patch) { console.error("stripe-webhook: unknown price on", session.id); return; }
+  await setPremiumStatus(userId, patch);
+  // "Bienvenue dans Premium": what the pass unlocks, once per session
+  // (a redelivered webhook does not send it twice). Never throws.
+  await sendPremiumWelcome(supabaseAdmin, userId, session.id);
 }
 
 export default async function handler(req, res) {
@@ -86,18 +107,13 @@ export default async function handler(req, res) {
         // receive nothing. "unpaid" is the one to refuse: it is what an
         // asynchronous method looks like before the funds actually arrive.
         if (!session.subscription) {
+          // An "unpaid" session is a delayed method (a bank debit) still
+          // clearing: checkout.session.async_payment_succeeded below grants it
+          // once the funds arrive.
           if (!GRANTABLE_PAYMENT_STATUSES.includes(session.payment_status)) break;
-          // Same patch the browser's confirmation applies, and idempotent, so
-          // whichever of the two gets here first the outcome is identical.
-          // Current metadata goes in so an upgrade cannot shorten access that
-          // was already paid for.
-          const { data: existing } = await supabaseAdmin.auth.admin.getUserById(userId);
-          const patch = await passPatchForSession(session, stripe, existing?.user?.app_metadata || {});
-          if (!patch) { console.error("checkout.session.completed: unknown price on", session.id); break; }
-          await setPremiumStatus(userId, patch);
-          // "Bienvenue dans Premium": what the pass unlocks, once per session
-          // (a redelivered webhook does not send it twice). Never throws.
-          await sendPremiumWelcome(supabaseAdmin, userId, session.id);
+          // Current metadata goes into the patch so an upgrade cannot shorten
+          // access that was already paid for.
+          await grantPass(session, userId);
           break;
         }
 
@@ -110,6 +126,16 @@ export default async function handler(req, res) {
           stripe_customer_id: session.customer,
           stripe_subscription_id: session.subscription,
         });
+        break;
+      }
+      // A delayed payment method (bank debit…) has cleared. Checkout offers
+      // whatever methods are enabled in the Stripe dashboard, so this can
+      // happen; without this case such a buyer was charged and never got
+      // access. The endpoint must be subscribed to this event in Stripe.
+      case "checkout.session.async_payment_succeeded": {
+        const session = event.data.object;
+        const userId = session.client_reference_id || session.metadata?.supabase_user_id;
+        if (userId && !session.subscription) await grantPass(session, userId);
         break;
       }
       case "customer.subscription.updated": {
@@ -136,6 +162,8 @@ export default async function handler(req, res) {
     }
     res.status(200).json({ received: true });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // 500 makes Stripe retry the event; the details stay in the logs.
+    console.error(`stripe-webhook ${event.type} ${event.id}:`, err.message);
+    res.status(500).json({ error: "Webhook handling failed." });
   }
 }

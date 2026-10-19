@@ -19,7 +19,13 @@ const SECTIONS = ["co", "ce"];
 // (admin-added questions have bare UUID ids that do not name one).
 export async function recordMistakes(userId, items) {
   if (!userId || !items?.length) return { ok: false };
-  const index = await bankQuestionIds({ staff: true });
+  // The id list is a chunk of its own; a failed download (offline, new
+  // deploy) must not turn into an exception at the end of a quiz.
+  let index;
+  try { index = await bankQuestionIds({ staff: true }); } catch (err) {
+    console.warn("mistake_notebook: question index unavailable:", err?.message);
+    return { ok: false };
+  }
   const rows = items
     .map((x) => ({ x, q: index.get(String(x.questionId)) }))
     .filter(({ q }) => q)

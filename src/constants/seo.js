@@ -213,10 +213,11 @@ export const ROUTE_META = {
   // Rendered for any URL matching no route. It deliberately has no path of its
   // own: the requested (wrong) URL stays in the address bar instead of being
   // rewritten to "/", so a broken link is visible to the visitor rather than
-  // silently turning into the homepage. The hosting rewrite (vercel.json) sends
-  // index.html for every path, so the HTTP status is still 200 — `noindex` plus
-  // the "introuvable" copy is what tells a crawler this is an error page and
-  // not thin duplicate content.
+  // silently turning into the homepage. Served as dist/404.html with a real
+  // 404 status (scripts/prerender.mjs; vercel.json only rewrites the dynamic
+  // /modele-de-reponse/… route to the shell). A wrong path under that prefix
+  // still renders this route in the shell with a 200 — `noindex` and the
+  // "introuvable" copy cover that case.
   notfound: {
     path: null,
     title: "Page introuvable",

@@ -12,9 +12,9 @@
 //     which page was shared.
 //
 // This writes dist/<path>/index.html for each route, with that route's tags
-// baked in. Vercel serves a matching static file before it consults the
-// rewrite in vercel.json, so /tarifs gets dist/tarifs/index.html and only
-// unknown paths fall through to the SPA shell.
+// baked in, so /tarifs gets dist/tarifs/index.html. Unknown paths get
+// dist/404.html with a 404 status; only the dynamic model-answer route is
+// rewritten to the SPA shell (vercel.json).
 //
 // Metadata only, deliberately: no page CONTENT is prerendered. Injecting
 // markup into #root would be wiped by createRoot on mount, and the flash is a
@@ -160,6 +160,24 @@ for (const [route, meta] of Object.entries(ROUTE_META)) {
   await fs.writeFile(target, html, "utf8");
   written++;
   if (!meta.noindex) indexable++;
+}
+
+// The error page. Every route above has its own HTML now, so vercel.json no
+// longer rewrites unknown paths to the shell: they get this file with a real
+// 404 status (Vercel serves dist/404.html for anything unmatched) instead of a
+// 200 "soft 404" that search engines have to second-guess. No canonical or
+// og:url — an error page has no address of its own.
+{
+  const meta = ROUTE_META.notfound;
+  const title = `${meta.title} · ${SITE_NAME}`;
+  const img = DEFAULT_SHARE_IMAGE;
+  let html = pageHtml(shell, {
+    title, description: meta.description, url: origin + "/", noindex: true, jsonLds: [],
+    image: { url: origin + img.src, w: img.w, h: img.h, alt: img.alt },
+    noscript: noscriptFor({ title: meta.title, description: meta.description }, NOSCRIPT_LINKS),
+  });
+  html = html.replace(/\s*<link\s+rel="canonical"[^>]*\/>/, "").replace(/\s*<meta\s+property="og:url"[^>]*\/>/, "");
+  await fs.writeFile(path.join(dist, "404.html"), html, "utf8");
 }
 
 // The blog index changes whenever an article is published.

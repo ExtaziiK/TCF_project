@@ -309,8 +309,12 @@ async function handlePost(req, res, actor) {
     if (userId === actor.id) throw new HttpError(400, "Vous ne pouvez pas modifier votre propre rôle.");
     // This endpoint only sets admin / moderator (or clears the role); an owner is created solely via
     // the service role, so it must never be demoted through here by accident.
-    const { data: targetData } = await admin.auth.admin.getUserById(userId);
-    if (targetData?.user?.app_metadata?.role === "owner") throw new HttpError(400, "Le rôle propriétaire ne peut pas être modifié ici.");
+    // The owner check must fail closed: on a failed read, `targetData` is
+    // null and the optional chain below would wave an owner straight through.
+    const { data: targetData, error: targetErr } = await admin.auth.admin.getUserById(userId);
+    if (targetErr) throw new HttpError(502, `Lecture du compte impossible : ${targetErr.message}`);
+    if (!targetData?.user) throw new HttpError(404, "Utilisateur introuvable.");
+    if (targetData.user.app_metadata?.role === "owner") throw new HttpError(400, "Le rôle propriétaire ne peut pas être modifié ici.");
     const role = ["admin", "moderator"].includes(req.body.role) ? req.body.role : null;
     // There is only ever ONE moderator. Naming a new one strips the role from
     // whoever held it, first, so there is no moment with two. It bites at once
@@ -365,8 +369,12 @@ async function handlePost(req, res, actor) {
 
   if (action === "delete") {
     if (userId === actor.id) throw new HttpError(400, "Vous ne pouvez pas supprimer votre propre compte ici.");
-    const { data } = await admin.auth.admin.getUserById(userId);
-    const email = data?.user?.email || userId;
+    // Fails closed, like set-role: without the account's role there is no way
+    // to know whether this deletion is allowed.
+    const { data, error: readErr } = await admin.auth.admin.getUserById(userId);
+    if (readErr) throw new HttpError(502, `Lecture du compte impossible : ${readErr.message}`);
+    if (!data?.user) throw new HttpError(404, "Utilisateur introuvable.");
+    const email = data.user.email || userId;
 
     // Privileged accounts are not ordinary users. Deleting one is irreversible
     // and takes its access with it — an admin deleting the owner leaves the

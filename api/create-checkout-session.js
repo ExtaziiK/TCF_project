@@ -50,15 +50,22 @@ export default async function handler(req, res) {
         return res.status(202).json({ ok: false, pending: true });
       }
       // Read first: the patch needs the current expiry so an upgrade cannot
-      // shorten access that was already paid for.
-      const { data } = await supabaseAdmin.auth.admin.getUserById(user.id);
-      const currentMeta = data?.user?.app_metadata || {};
+      // shorten access that was already paid for. A failed read must stop
+      // here — carrying on with {} would compute the pass as if the account
+      // had nothing, and write that back over its real metadata (role,
+      // Stripe ids, a longer pass).
+      const { data, error: readError } = await supabaseAdmin.auth.admin.getUserById(user.id);
+      if (readError || !data?.user) throw new Error(`getUserById: ${readError?.message || "no user"}`);
+      const currentMeta = data.user.app_metadata || {};
       const patch = await passPatchForSession(session, stripe, currentMeta);
       if (!patch) return res.status(400).json({ error: "invalid-price" });
 
-      await supabaseAdmin.auth.admin.updateUserById(user.id, {
+      // Checked: answering ok on a failed write showed Premium in the browser
+      // while the account stayed free (the webhook is the retry).
+      const { error: writeError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
         app_metadata: { ...currentMeta, ...patch },
       });
+      if (writeError) throw new Error(`updateUserById: ${writeError.message}`);
       return res.status(200).json({ ok: true, plan: patch.plan, planLabel: patch.plan_label, premiumUntil: patch.premium_until });
     } catch (err) {
       console.error("confirm-checkout:", err.message);

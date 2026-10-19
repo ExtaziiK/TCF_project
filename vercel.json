@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/modele-de-reponse/:path*", "destination": "/index.html" }
   ],
   "functions": {
     "api/admin/*.js": { "maxDuration": 60 },
