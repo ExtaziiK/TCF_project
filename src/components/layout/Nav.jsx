@@ -133,11 +133,12 @@ export function Nav({ barOffset = false }) {
     : { l: t("Compte gratuit"), cls: c.faint };
   const track = dark ? "bg-slate-800/70" : "bg-slate-100";
   const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
-  // Importance is told by text colour alone (`tier` in navigation.js) — same
-  // weight, no icons or chips — in the logo's two colours:
-  //   · "primary" (TCF blanc): brand red, the one link that stands out;
-  //   · "featured" (Épreuves, Pratique, Sujets du mois): brand blue;
-  //   · the rest (Tarifs, Calculateur): grey.
+  // Importance is told by colour (`tier` in navigation.js), every link the
+  // same weight:
+  //   · "primary" (TCF blanc): the brand gradient, on its label and its icon —
+  //     the one link that stands out;
+  //   · "featured" (Épreuves, Pratique, Sujets du mois): brand blue, with icon;
+  //   · the rest (Tarifs, Calculateur): grey, no icon.
   // The current page keeps its colour on the white pill (background only, so
   // the two text colours never fight).
   const pillBg = dark ? "bg-slate-700 shadow-sm" : "bg-white shadow-sm";
@@ -152,6 +153,10 @@ export function Nav({ barOffset = false }) {
   // In the drawer, untiered rows stay in the normal text colour: it lists
   // every tool, and greying all of them would read as disabled.
   const drawerText = (m) => (m.tier ? TIER_TEXT[m.tier] : c.text);
+  // The gradient label and icon of a "primary" entry (the icon's stroke points
+  // at the <linearGradient> rendered once below, same stops as .grad-text).
+  const tierLabel = (n, text) => (n.tier === "primary" ? <span className="grad-text">{text}</span> : text);
+  const gradStroke = (n) => (n.tier === "primary" ? { stroke: "url(#nav-brand-grad)" } : {});
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
   const sujetsMonth = useLatestSujetsMonth(!!user);
@@ -165,6 +170,18 @@ export function Nav({ barOffset = false }) {
         <div className={`max-w-7xl mx-auto h-14 md:h-[60px] pl-4 pr-2 sm:pl-5 rounded-full border backdrop-blur-xl flex items-center justify-between gap-3 transition-shadow duration-300
           ${c.nav} ${c.navBorder} ${scrolled || open ? "shadow-lg shadow-slate-900/[0.07]" : ""}`}>
           <Logo onNavigate={closeAll} />
+
+          {/* Shared by the "primary" icons: same stops as .grad-text, in user
+              space so straight strokes (zero-width boxes) still get painted. */}
+          <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="nav-brand-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="0">
+                <stop offset="0%" stopColor="#2E6BE6" />
+                <stop offset="60%" stopColor="#6C4FE0" />
+                <stop offset="100%" stopColor="#D8354A" />
+              </linearGradient>
+            </defs>
+          </svg>
 
           {/* Links: a segmented track, the current page as a white pill. */}
           <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
@@ -202,12 +219,14 @@ export function Nav({ barOffset = false }) {
                 );
               }
               const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
+              const Icon = n.tier ? n.icon : null;
               return (
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  className={`${base} ${linkClass(n, here)}`}>
-                  {labelOf(n)}
+                  className={`${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
+                  {Icon && <Icon size={14} aria-hidden="true" {...gradStroke(n)} />}
+                  {tierLabel(n, labelOf(n))}
                 </RouteLink>
               );
             })}
@@ -366,10 +385,10 @@ export function Nav({ barOffset = false }) {
                           {/* Same colours as the bar, on the icon and the label;
                               every row the same weight. */}
                           <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${m.tier ? TIER_TEXT[m.tier] : c.sub}`}`}>
-                            {Icon && <Icon size={17} />}
+                            {Icon && <Icon size={17} {...(active ? {} : gradStroke(m))} />}
                           </span>
                           <span className={`flex-1 text-[15px] font-medium ${drawerText(m)}`}>
-                            {labelOf(m)}
+                            {tierLabel(m, labelOf(m))}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
                           <ChevronRight size={15} className={c.faint} />
