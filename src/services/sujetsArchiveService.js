@@ -61,6 +61,10 @@ export async function loadArchive(section) {
   return { years: toYears([...map.values()]) };
 }
 
+// A new (or removed) month renames the nav's « Sujets de … » link. Imported
+// lazily: the latest-month service imports this file for monthKey.
+const refreshNav = () => import("@/services/sujetsLatestService").then((m) => m.refreshLatestSujets()).catch(() => {});
+
 async function currentUserId() {
   const { data } = await supabase.auth.getUser();
   return data?.user?.id ?? null;
@@ -72,6 +76,7 @@ export async function saveMonth(section, year, monthNum, data) {
     { section, year, month_num: monthNum, data, updated_at: new Date().toISOString(), updated_by: await currentUserId() },
     { onConflict: "section,year,month_num" },
   );
+  if (!error) refreshNav();
   return { ok: !error, error: error?.message };
 }
 
@@ -79,5 +84,6 @@ export async function saveMonth(section, year, monthNum, data) {
 // in the shipped base, it reverts to that base on the next load.
 export async function deleteMonth(section, year, monthNum) {
   const { error } = await supabase.from("sujets_archive").delete().eq("section", section).eq("year", year).eq("month_num", monthNum);
+  if (!error) refreshNav();
   return { ok: !error, error: error?.message };
 }

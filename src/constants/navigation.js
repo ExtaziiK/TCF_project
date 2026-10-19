@@ -22,6 +22,10 @@ import {
 // restricted route is the deliberate opposite: "TCF blanc" and "Épreuves"
 // stay visible to everyone so the guard can pitch register/upgrade instead.
 //
+// `tone` marks a featured entry: its label is drawn in that tool colour
+// (components/home/toolsData.jsx PALETTE, the same colour as its page), in the
+// bar and the drawer alike.
+//
 // `icon`, `group` and `order` are read only by the mobile drawer (see
 // MOBILE_GROUPS and mobileNavForRole below); the desktop bar ignores all three.
 // In particular "Accueil" must stay FIRST here for the desktop bar, so the
@@ -39,11 +43,12 @@ export const NAV_LINKS = [
   // each épreuve — the lock is enforced inside the page (BankExplorer).
   { l: "Épreuves", r: "exams", icon: GraduationCap, group: "prep" },
   // Mock exams get their own top-level entry, next to "Épreuves".
-  { l: "TCF blanc", r: "mocks", grad: true, icon: ClipboardCheck, group: "prep" },
+  { l: "TCF blanc", r: "mocks", tone: "blue", icon: ClipboardCheck, group: "prep" },
   // Trending monthly EE/EO subjects to prepare — highlighted like "TCF blanc",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
-  // match sujets-actualite's PAGE_ACCESS list in rbac.js).
-  { l: "Sujets EE/EO", r: "sujets-actualite", grad: true, roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
+  // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
+  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
+  { l: "Sujets EE/EO", r: "sujets-actualite", tone: "violet", fresh: true, roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
   // Supplementary practice, distinct from the exam épreuves. Ordered from the
   // building blocks up to the exercise that uses them: vocabulary and grammar
   // are things you study, the dictée is where they are tested together.
@@ -62,7 +67,7 @@ export const NAV_LINKS = [
     // who has not already paid ever learns it exists. Visitors no longer reach
     // it here — the parent menu is signed-in only — but the route itself stays
     // public, so a shared /dictee link still opens the pitch.
-    { l: "La dictée", r: "dictee", grad: true, icon: PenLine, group: "train" },
+    { l: "La dictée", r: "dictee", tone: "navy", icon: PenLine, group: "train" },
     { l: "Vocabulaire", r: "vocabulary", roles: AUTHENTICATED, icon: BookOpen, group: "train" },
     { l: "Grammaire", r: "grammar", roles: AUTHENTICATED, icon: SpellCheck, group: "train" },
     { l: "Conjugaison", r: "conjugation", roles: AUTHENTICATED, icon: Languages, group: "train" },

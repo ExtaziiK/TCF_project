@@ -10,6 +10,8 @@ import { usePendingValidations } from "@/hooks/usePendingValidations";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { TOUR_STEPS } from "@/constants/tour";
+import { toolTone } from "@/components/home/toolsData";
+import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestService";
 
 // The navigation is a floating "island": a rounded bar set a little below the
 // top of the screen, translucent with a hairline border (and a soft shadow
@@ -132,6 +134,22 @@ export function Nav({ barOffset = false }) {
     : { l: t("Compte gratuit"), cls: c.faint };
   const track = dark ? "bg-slate-800/70" : "bg-slate-100";
   const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
+  // Plain links in a quiet slate that darkens on hover; featured ones (`tone`
+  // in navigation.js) in their tool's colour, kept when they are the current
+  // page so the white pill still says which tool it is.
+  const idle = dark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900";
+  const inkOf = (n) => (n.tone ? toolTone(n.tone, dark).ink : null);
+  // « Sujets de septembre »: named after the newest month of subjects, so it
+  // changes by itself when a new month is published.
+  const sujetsMonth = useLatestSujetsMonth(!!user);
+  const labelOf = (n) => (n.r === "sujets-actualite" ? sujetsMonthLabel(sujetsMonth, lang, t(n.l)) : t(n.l));
+  // A small live dot on entries whose content renews (`fresh`).
+  const freshDot = (color) => (
+    <span className="relative flex w-1.5 h-1.5 shrink-0" aria-hidden="true">
+      <span className="absolute inline-flex w-full h-full rounded-full opacity-60 motion-safe:animate-ping" style={{ background: color }} />
+      <span className="relative inline-flex w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+    </span>
+  );
   const iconBtn = `p-2 rounded-full ${c.sub} ${c.hoverSoft}`;
   const canSwitch = maxProfiles > 1 || profiles.length > 1;
 
@@ -153,7 +171,7 @@ export function Nav({ barOffset = false }) {
               if (n.menu && !n.r) {
                 return (
                   <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
-                    <button className={`${base} font-medium flex items-center gap-1 ${c.sub} hover:text-blue-600`} aria-expanded={pratiqueOpen}>
+                    <button className={`${base} font-medium flex items-center gap-1 ${idle}`} aria-expanded={pratiqueOpen}>
                       {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
                     </button>
                     {pratiqueOpen && (
@@ -178,12 +196,15 @@ export function Nav({ barOffset = false }) {
                 );
               }
               const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
+              const ink = inkOf(n);
               return (
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  className={`${base} ${n.grad ? "font-bold" : "font-medium"} ${here ? pill : `${c.sub} hover:text-blue-600`}`}>
-                  {n.grad ? <span className="grad-text">{t(n.l)}</span> : t(n.l)}
+                  style={ink ? { color: ink } : undefined}
+                  className={`${base} flex items-center gap-1.5 ${ink ? "font-semibold" : "font-medium"} ${here ? pill : ink ? "hover:opacity-75" : idle}`}>
+                  {n.fresh && freshDot(ink || "currentColor")}
+                  {labelOf(n)}
                 </RouteLink>
               );
             })}
@@ -342,10 +363,11 @@ export function Nav({ barOffset = false }) {
                           <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${c.sub}`}`}>
                             {Icon && <Icon size={17} />}
                           </span>
-                          {/* An active gradient label would be unreadable against
-                              the blue tint, so the highlight wins for that row. */}
-                          <span className={`flex-1 text-[15px] ${m.grad ? "font-bold" : "font-medium"} ${active ? "text-blue-600" : c.text}`}>
-                            {m.grad && !active ? <span className="grad-text">{t(m.l)}</span> : t(m.l)}
+                          {/* The active row's blue highlight wins over a tool colour. */}
+                          <span className={`flex-1 flex items-center gap-2 text-[15px] ${m.tone ? "font-semibold" : "font-medium"} ${active ? "text-blue-600" : m.tone ? "" : c.text}`}
+                            style={!active && m.tone ? { color: inkOf(m) } : undefined}>
+                            {labelOf(m)}
+                            {m.fresh && freshDot(active ? "currentColor" : inkOf(m))}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
                           <ChevronRight size={15} className={c.faint} />
