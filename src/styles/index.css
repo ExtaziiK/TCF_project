@@ -163,6 +163,17 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes decor-sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 .decor-dash{animation:decor-dash 6s linear infinite}
 @keyframes decor-dash{to{stroke-dashoffset:-110}}
+/* Seasonal themes (decor/themes.jsx): the garland's twinkling bulbs, falling
+   snow and bats crossing the screen. Snow and bats rest off-screen, so with the
+   reduced-motion rule below they are simply not seen. */
+.decor-twinkle{animation:decor-twinkle 2.6s ease-in-out infinite}
+@keyframes decor-twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+.snow-flake{position:absolute;top:-12px;animation:snow-fall linear infinite;will-change:transform}
+@keyframes snow-fall{to{transform:translate3d(var(--drift,0),calc(100vh + 24px),0)}}
+.bat-fly{position:absolute;left:-60px;animation:bat-fly linear infinite;will-change:transform}
+@keyframes bat-fly{0%{transform:translate3d(0,0,0)}12%{transform:translate3d(30vw,-5vh,0)}24%{transform:translate3d(60vw,3vh,0)}36%,100%{transform:translate3d(calc(100vw + 120px),-4vh,0)}}
+.bat-flap{animation:bat-flap .32s ease-in-out infinite alternate;transform-origin:50% 40%}
+@keyframes bat-flap{to{transform:scaleY(.55)}}
 /* Landing tools orbit (ToolsOrbit): a ring pulsing out of each tool until the
    first interaction, and the demo's tapping hand. */
 .invite-ping{animation:invite-ping 2.4s cubic-bezier(.22,1,.36,1) infinite}

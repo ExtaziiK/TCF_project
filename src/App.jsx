@@ -13,6 +13,7 @@ import { TermsGate } from "@/components/auth/TermsGate";
 import { ProfileGate } from "@/components/profile/ProfileGate";
 import { TourOverlay } from "@/components/tour/TourOverlay";
 import { Toast } from "@/components/common";
+import { SeasonalLayer } from "@/components/decor/themes";
 import { useTermsGate } from "@/hooks/useTermsGate";
 import { ROLES } from "@/auth/rbac";
 import { PAGES } from "@/pages";
@@ -103,6 +104,7 @@ function AppShell() {
       <Footer />
       <VisitorPreviewBar />
       <Toast />
+      <SeasonalLayer />
       <TourOverlay />
       {/* Vercel Web Analytics — auto-tracks route changes via the History API;
           the numbers surface in the admin dashboard's "Trafic" tab. */}

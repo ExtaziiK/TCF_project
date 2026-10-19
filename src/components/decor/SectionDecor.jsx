@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { BRAND, Bubble, Tile, Tag, Maple, Flight } from "./stickers";
+import { themed } from "./themes";
+import { useSiteTheme } from "@/hooks/useSiteTheme";
 
 const { blue, violet, red, amber } = BRAND;
 
@@ -123,7 +125,7 @@ function useParallax() {
 // already fills the width and there are no sides to fill.
 export function SectionDecor({ variant, from = "lg" }) {
   useParallax();
-  const items = LAYOUTS[variant] || [];
+  const items = themed(LAYOUTS[variant] || [], useSiteTheme());
   // The landing page's stickers are drawn 30% larger; the other pages' side
   // decor (the "page" layout) keeps its size.
   const scale = variant === "page" ? 1 : 1.3;

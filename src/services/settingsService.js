@@ -2,6 +2,7 @@ import { getSupabase } from "@/services/supabaseClient";
 import { WELCOME_EMAIL_KEY, WELCOME_MAX_CHARS, normalizeWelcome, parseWelcome } from "../../api/_lib/welcomeTemplate.js";
 import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, normalizeEmail, parseEmail } from "../../api/_lib/emailTemplates.js";
 import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
+import { DEFAULT_SITE_THEME, isSiteTheme } from "@/constants/siteThemes";
 
 // Admin-editable, publicly-readable site settings (site_settings table + RLS,
 // see supabase/migrations/20260721_site_settings.sql). Reads use the anon key
@@ -125,6 +126,31 @@ export async function setHomeStats(cfg) {
   const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: HOME_STATS, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
+  return { ok: !error, error: error?.message };
+}
+
+/* ── Seasonal site theme ────────────────────────────────────────────────────
+ * { theme } — one of SITE_THEMES (constants/siteThemes.js). A missing row, an
+ * unknown id or a read failure all degrade to the default look. */
+
+const SITE_THEME = "site_theme";
+
+export async function getSiteTheme() {
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", SITE_THEME).maybeSingle();
+  if (error || !data?.value) return DEFAULT_SITE_THEME;
+  try {
+    const theme = JSON.parse(data.value)?.theme;
+    return isSiteTheme(theme) ? theme : DEFAULT_SITE_THEME;
+  } catch { return DEFAULT_SITE_THEME; }
+}
+
+// Admin-only (enforced by RLS). Returns { ok, error? }.
+export async function setSiteTheme(theme) {
+  const clean = { theme: isSiteTheme(theme) ? theme : DEFAULT_SITE_THEME };
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
+    .from("site_settings")
+    .upsert({ key: SITE_THEME, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
 }
 

@@ -31,7 +31,11 @@ import {
   listGiftLinks, createGiftLink, toggleGiftLink, deleteGiftLink,
   listPassPrices, setPassPrice,
 } from "@/services/adminService";
-import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials, getWelcomeOffer, setWelcomeOffer } from "@/services/settingsService";
+import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials, getWelcomeOffer, setWelcomeOffer, getSiteTheme, setSiteTheme } from "@/services/settingsService";
+import { SITE_THEMES } from "@/constants/siteThemes";
+import { useSiteTheme, applySiteTheme } from "@/hooks/useSiteTheme";
+import { ThemePreview } from "@/components/decor/themes";
+import { TINT } from "@/components/decor/WaveSection";
 import {
   listAllTestimonials, setTestimonialStatus, setTestimonialFeatured, deleteTestimonial,
   listTestimonialIdentities,
@@ -528,15 +532,73 @@ function AccueilTab({ pendingTestimonials, onTestimonialCount }) {
     { id: "banner", label: "Bannière" },
     { id: "stats", label: "Statistique" },
     { id: "testimonials", label: "Avis", badge: pendingTestimonials },
+    { id: "theme", label: "Thème" },
   ];
   return (
     <div className="space-y-5">
       <SubTabs tabs={subs} active={sub} onSelect={setSub} />
+      {sub === "theme" && <SiteThemeTab />}
       {sub === "marquee" && <AnnouncementBarTab />}
       {sub === "banner" && <HomeLabelTab />}
       {sub === "stats" && <HomeStatsTab />}
       {sub === "testimonials" && <TestimonialsTab onCount={onTestimonialCount} />}
     </div>
+  );
+}
+
+// Seasonal theme picker (site_settings.site_theme). Picking a card only previews
+// it; "Appliquer" publishes it to every visitor and updates this tab's own
+// stickers at once.
+function SiteThemeTab() {
+  const { c, dark, notify } = useApp();
+  const live = useSiteTheme();
+  const [pick, setPick] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  // Read the table rather than the cached value, so the picker starts from
+  // what is really published.
+  useEffect(() => { getSiteTheme().then(setPick, () => setPick(live)); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const save = async () => {
+    setBusy(true);
+    const r = await setSiteTheme(pick);
+    setBusy(false);
+    if (r.ok) applySiteTheme(pick);
+    notify(r.ok ? "Thème appliqué à tout le site." : (r.error || "Enregistrement refusé. Vérifiez que la migration site_settings est appliquée."));
+  };
+
+  if (!pick) return <SkeletonRows n={1} className="h-56" />;
+  const current = SITE_THEMES.find((x) => x.id === live);
+
+  return (
+    <Card className="p-6">
+      <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Thème du site</h3>
+      <p className={`text-sm mb-5 ${c.sub}`}>Habille les décorations de toutes les pages (autocollants dans les marges, neige ou chauves-souris) pour une saison. Le contenu et les couleurs de la marque ne changent pas.</p>
+
+      <div role="radiogroup" aria-label="Thème du site" className="grid md:grid-cols-3 gap-4">
+        {SITE_THEMES.map((th) => {
+          const on = pick === th.id;
+          return (
+            <button key={th.id} role="radio" aria-checked={on} onClick={() => setPick(th.id)}
+              className={`text-left rounded-2xl border-2 p-3 transition-colors ${on ? "border-blue-600" : `${c.border} ${c.hoverSoft}`}`}>
+              <div className="min-h-32 rounded-xl grid place-items-center" style={{ background: dark ? TINT.dark : TINT.light }}>
+                <ThemePreview theme={th.id} />
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-2">
+                <span className={`font-display font-bold ${c.text}`}>{th.label}</span>
+                {live === th.id && <Pill tone="green">En ligne</Pill>}
+              </div>
+              <p className={`mt-1 text-xs leading-relaxed ${c.sub}`}>{th.description}</p>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 flex items-center justify-between gap-3">
+        <span className={`text-xs ${c.faint}`}>Actuellement en ligne : {current?.label}</span>
+        <Btn small icon={Save} disabled={busy || pick === live} onClick={save}>{busy ? "Enregistrement…" : "Appliquer"}</Btn>
+      </div>
+    </Card>
   );
 }
 
