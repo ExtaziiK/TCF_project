@@ -184,14 +184,19 @@ export function ScoreCalculator() {
             </div>
           </div>
 
-          <button type="button" onClick={() => nav("mocks")}
-            className="mt-5 lg:mt-auto group w-full rounded-2xl pl-5 pr-2 py-2 font-bold text-sm flex items-center justify-between gap-3"
-            style={{ background: paper.ink, color: paper.bg }}>
-            {t("Testez votre niveau gratuitement")}
-            <span className="w-9 h-9 rounded-full grid place-items-center shrink-0 transition-transform duration-200 group-hover:translate-x-1" style={{ background: "#D8354A", color: "#FFFFFF" }}>
-              <ArrowRight size={17} />
-            </span>
-          </button>
+          {/* Pinned to the panel's bottom (mt-auto) with a gap that never
+              collapses (pt-5): a margin alone shrinks to 0 when the panel has
+              no spare height, and the button then touched the verdict. */}
+          <div className="mt-auto pt-5">
+            <button type="button" onClick={() => nav("mocks")}
+              className="group w-full rounded-2xl pl-5 pr-2 py-2 font-bold text-sm flex items-center justify-between gap-3"
+              style={{ background: paper.ink, color: paper.bg }}>
+              {t("Testez votre niveau gratuitement")}
+              <span className="w-9 h-9 rounded-full grid place-items-center shrink-0 transition-transform duration-200 group-hover:translate-x-1" style={{ background: "#D8354A", color: "#FFFFFF" }}>
+                <ArrowRight size={17} />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
