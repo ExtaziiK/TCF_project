@@ -10,7 +10,6 @@ import { usePendingValidations } from "@/hooks/usePendingValidations";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { TOUR_STEPS } from "@/constants/tour";
-import { toolTone } from "@/components/home/toolsData";
 import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestService";
 
 // The navigation is a floating "island": a rounded bar set a little below the
@@ -134,22 +133,18 @@ export function Nav({ barOffset = false }) {
     : { l: t("Compte gratuit"), cls: c.faint };
   const track = dark ? "bg-slate-800/70" : "bg-slate-100";
   const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
-  // Plain links in a quiet slate that darkens on hover; featured ones (`tone`
-  // in navigation.js) in their tool's colour, kept when they are the current
-  // page so the white pill still says which tool it is.
-  const idle = dark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900";
-  const inkOf = (n) => (n.tone ? toolTone(n.tone, dark).ink : null);
+  // Two levels, so the important entries read as such at a glance:
+  //   · plain links: quiet slate text, darker on hover, white pill when current;
+  //   · `featured` ones (navigation.js): a soft brand-blue chip with their icon,
+  //     filled solid blue when current. One colour for all of them — the chip
+  //     says "important", not which tool it is.
+  const idle = dark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900";
+  const chip = dark ? "bg-blue-500/15 text-blue-200 hover:bg-blue-500/25" : "bg-blue-600/10 text-blue-700 hover:bg-blue-600/[0.16]";
+  const chipOn = "bg-blue-600 text-white shadow-sm shadow-blue-600/30";
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
   const sujetsMonth = useLatestSujetsMonth(!!user);
   const labelOf = (n) => (n.r === "sujets-actualite" ? sujetsMonthLabel(sujetsMonth, lang, t(n.l)) : t(n.l));
-  // A small live dot on entries whose content renews (`fresh`).
-  const freshDot = (color) => (
-    <span className="relative flex w-1.5 h-1.5 shrink-0" aria-hidden="true">
-      <span className="absolute inline-flex w-full h-full rounded-full opacity-60 motion-safe:animate-ping" style={{ background: color }} />
-      <span className="relative inline-flex w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-    </span>
-  );
   const iconBtn = `p-2 rounded-full ${c.sub} ${c.hoverSoft}`;
   const canSwitch = maxProfiles > 1 || profiles.length > 1;
 
@@ -161,7 +156,7 @@ export function Nav({ barOffset = false }) {
           <Logo onNavigate={closeAll} />
 
           {/* Links: a segmented track, the current page as a white pill. */}
-          <nav className={`hidden xl:flex items-center gap-0.5 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
+          <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
             {navLinks.map((n) => {
               const isPratique = n.l === "Pratique";
               const pratiqueOpen = openMenu === n.l || (isPratique && pratiqueForcedOpen);
@@ -196,14 +191,13 @@ export function Nav({ barOffset = false }) {
                 );
               }
               const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
-              const ink = inkOf(n);
+              const Icon = n.featured ? n.icon : null;
               return (
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  style={ink ? { color: ink } : undefined}
-                  className={`${base} flex items-center gap-1.5 ${ink ? "font-semibold" : "font-medium"} ${here ? pill : ink ? "hover:opacity-75" : idle}`}>
-                  {n.fresh && freshDot(ink || "currentColor")}
+                  className={`${base} flex items-center gap-1.5 ${n.featured ? `font-semibold ${here ? chipOn : chip}` : `font-medium ${here ? pill : idle}`}`}>
+                  {Icon && <Icon size={14} aria-hidden="true" />}
                   {labelOf(n)}
                 </RouteLink>
               );
@@ -360,14 +354,13 @@ export function Nav({ barOffset = false }) {
                           data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
                           aria-current={active ? "page" : undefined}
                           className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
-                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${c.sub}`}`}>
+                          {/* Featured rows get the bar's blue chip treatment on their
+                              icon and a blue label, so they stand out here too. */}
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : m.featured ? (dark ? "bg-blue-500/15 text-blue-200" : "bg-blue-600/10 text-blue-700") : `${c.tint} ${c.sub}`}`}>
                             {Icon && <Icon size={17} />}
                           </span>
-                          {/* The active row's blue highlight wins over a tool colour. */}
-                          <span className={`flex-1 flex items-center gap-2 text-[15px] ${m.tone ? "font-semibold" : "font-medium"} ${active ? "text-blue-600" : m.tone ? "" : c.text}`}
-                            style={!active && m.tone ? { color: inkOf(m) } : undefined}>
+                          <span className={`flex-1 text-[15px] ${m.featured ? "font-semibold" : "font-medium"} ${active || m.featured ? (dark ? "text-blue-300" : "text-blue-700") : c.text}`}>
                             {labelOf(m)}
-                            {m.fresh && freshDot(active ? "currentColor" : inkOf(m))}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
                           <ChevronRight size={15} className={c.faint} />
