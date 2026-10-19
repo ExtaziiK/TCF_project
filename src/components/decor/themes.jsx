@@ -1,8 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
-  Pumpkin, Ghost, Bat, BatShape, Snowflake, Tree, Gift, Ornament, Garland,
+  Pumpkin, Ghost, Bat, Snowflake, Tree, Gift, Ornament, Garland,
 } from "./stickers";
 
 // Seasonal restyling of the sticker layouts (SectionDecor). A theme never moves
@@ -83,63 +84,102 @@ export function ThemePreview({ theme }) {
 }
 
 /* ── Ambient layer ──────────────────────────────────────────────────────────
- * Rendered once by the app shell, over every page: falling snow for Christmas,
- * a few bats crossing the screen for Halloween, nothing by default. Tiny,
- * translucent and click-through, under the nav and dialogs. Transform-only
- * loops; under prefers-reduced-motion the global rule stops them and their
- * resting position is off-screen, so the layer simply disappears. */
+ * Falling snow for Christmas, spiders dropping on their thread for Halloween,
+ * nothing by default. SectionDecor draws it in its own decoration layer, so
+ * like the stickers it always sits BEHIND the section's content (the content
+ * is positioned after it) and in front of the section's background only. It
+ * shows at every screen size, unlike the stickers. Transform-only loops; under
+ * prefers-reduced-motion the global rule stops them and their resting position
+ * is out of view, so the layer simply disappears. */
 
 // Deterministic pseudo-random spread, so the snow looks the same every render.
-const FLAKES = Array.from({ length: 30 }, (_, i) => ({
+const FLAKES = Array.from({ length: 60 }, (_, i) => ({
   left: (i * 37 + 11) % 100,
   size: 3 + ((i * 7) % 5),
-  duration: 10 + ((i * 13) % 10),
-  delay: -((i * 1.7) % 18),
+  speed: 45 + ((i * 13) % 35), // px per second, so tall and short sections snow alike
+  phase: ((i * 0.618) % 1),
   drift: ((i * 29) % 80) - 40,
-  // The first dozen also fall on phones; the rest only on wider screens.
-  wide: i >= 12,
 }));
 
+// Flakes fall the full height of the section, which is only known once laid
+// out (and changes with the content), hence the observer. The density follows
+// the height too: about one flake per 45px.
 function Snowfall() {
   const { dark } = useApp();
+  const ref = useRef(null);
+  const [h, setH] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("ResizeObserver" in window)) return;
+    const ro = new window.ResizeObserver(([e]) => setH(Math.round(e.contentRect.height)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const fall = h + 24;
+  const count = Math.min(FLAKES.length, Math.max(8, Math.round(h / 45)));
   return (
-    <div aria-hidden="true" className="fixed inset-0 z-20 overflow-hidden pointer-events-none">
-      {FLAKES.map((f, i) => (
-        <span key={i} className={`snow-flake rounded-full ${f.wide ? "hidden md:block" : "block"}`}
+    <div ref={ref} aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none" style={{ "--fall": `${fall}px` }}>
+      {h > 0 && FLAKES.slice(0, count).map((f, i) => (
+        <span key={i} className="snow-flake rounded-full"
           style={{
             left: `${f.left}%`, width: f.size, height: f.size,
             background: dark ? "rgba(255,255,255,.75)" : "rgba(126,160,214,.55)",
-            animationDuration: `${f.duration}s`, animationDelay: `${f.delay}s`, "--drift": `${f.drift}px`,
+            animationDuration: `${(fall / f.speed).toFixed(1)}s`,
+            animationDelay: `${(-f.phase * fall / f.speed).toFixed(1)}s`,
+            "--drift": `${f.drift}px`,
           }} />
       ))}
     </div>
   );
 }
 
-const BATS = [
-  { top: 18, duration: 30, delay: -4 },
-  { top: 46, duration: 38, delay: -19 },
-  { top: 72, duration: 34, delay: -30 },
+function Spider({ color }) {
+  return (
+    <svg width="28" height="28" viewBox="0 0 40 40" className="spider-swing block">
+      <g stroke={color} strokeWidth="1.8" strokeLinecap="round" fill="none">
+        <path d="M20 0v12" strokeWidth="1" />
+        <path d="M15 18Q8 12 4 16M14 21Q6 18 2 23M14 25Q6 26 3 32M15 28Q9 32 7 38" />
+        <path d="M25 18Q32 12 36 16M26 21Q34 18 38 23M26 25Q34 26 37 32M25 28Q31 32 33 38" />
+      </g>
+      <ellipse cx="20" cy="26" rx="7" ry="8" fill={color} />
+      <circle cx="20" cy="16" r="4.5" fill={color} />
+      <circle cx="18.3" cy="15.5" r="0.9" fill="#FFFFFF" />
+      <circle cx="21.7" cy="15.5" r="0.9" fill="#FFFFFF" />
+    </svg>
+  );
+}
+
+// Where each spider hangs from the top of the section, how far it drops and
+// its rhythm. The inner two only show on wide screens, where the margins are.
+const SPIDERS = [
+  { left: "5%", drop: 170, duration: 10 },
+  { left: "93%", drop: 230, duration: 12 },
+  { left: "17%", drop: 110, duration: 11, wide: true },
+  { left: "82%", drop: 140, duration: 13, wide: true },
 ];
 
-function Bats() {
+function Spiders({ seed }) {
   const { dark } = useApp();
+  const color = dark ? "#C4B5FD" : "#2B2238";
   return (
-    <div aria-hidden="true" className="fixed inset-0 z-20 overflow-hidden pointer-events-none">
-      {BATS.map((b, i) => (
-        <span key={i} className="bat-fly" style={{ top: `${b.top}%`, animationDuration: `${b.duration}s`, animationDelay: `${b.delay}s` }}>
-          <svg width="36" height="22" viewBox="0 0 100 60" className="bat-flap">
-            <BatShape color={dark ? "#A78BFA" : "#4B2E83"} />
-          </svg>
-        </span>
-      ))}
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+      {SPIDERS.map((s, i) => {
+        // Sections start their spiders at different moments, so they never drop in step.
+        const anim = { animationDuration: `${s.duration}s`, animationDelay: `${-((seed * 3.1 + i * 4.3) % s.duration).toFixed(1)}s` };
+        return (
+          <span key={i} className={`absolute top-0 ${s.wide ? "hidden xl:block" : "block"}`} style={{ left: s.left, "--drop": `${s.drop}px` }}>
+            <span className="spider-thread absolute top-0 left-0 w-px" style={{ height: s.drop, background: dark ? "rgba(255,255,255,.4)" : "rgba(43,34,56,.4)", ...anim }} />
+            <span className="spider-drop absolute top-0 -left-[14px]" style={anim}><Spider color={color} /></span>
+          </span>
+        );
+      })}
     </div>
   );
 }
 
-export function SeasonalLayer() {
+export function SeasonalDecor({ seed = 0 }) {
   const theme = useSiteTheme();
   if (theme === "christmas") return <Snowfall />;
-  if (theme === "halloween") return <Bats />;
+  if (theme === "halloween") return <Spiders seed={seed} />;
   return null;
 }

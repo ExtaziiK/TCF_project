@@ -573,7 +573,7 @@ function SiteThemeTab() {
   return (
     <Card className="p-6">
       <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Thème du site</h3>
-      <p className={`text-sm mb-5 ${c.sub}`}>Habille les décorations de toutes les pages (autocollants dans les marges, neige ou chauves-souris) pour une saison. Le contenu et les couleurs de la marque ne changent pas.</p>
+      <p className={`text-sm mb-5 ${c.sub}`}>Habille les décorations de toutes les pages (autocollants dans les marges, neige ou araignées) pour une saison. Le contenu et les couleurs de la marque ne changent pas.</p>
 
       <div role="radiogroup" aria-label="Thème du site" className="grid md:grid-cols-3 gap-4">
         {SITE_THEMES.map((th) => {

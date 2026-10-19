@@ -163,17 +163,21 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes decor-sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 .decor-dash{animation:decor-dash 6s linear infinite}
 @keyframes decor-dash{to{stroke-dashoffset:-110}}
-/* Seasonal themes (decor/themes.jsx): the garland's twinkling bulbs, falling
-   snow and bats crossing the screen. Snow and bats rest off-screen, so with the
-   reduced-motion rule below they are simply not seen. */
+/* Seasonal themes (decor/themes.jsx): the garland's twinkling bulbs, snow
+   falling through a section (--fall = its height) and spiders dropping on their
+   thread (--drop = thread length) and climbing back up. At rest — i.e. with the
+   reduced-motion rule below — flakes sit above the section and spiders are
+   reeled in, so nothing is seen. */
 .decor-twinkle{animation:decor-twinkle 2.6s ease-in-out infinite}
 @keyframes decor-twinkle{0%,100%{opacity:1}50%{opacity:.35}}
 .snow-flake{position:absolute;top:-12px;animation:snow-fall linear infinite;will-change:transform}
-@keyframes snow-fall{to{transform:translate3d(var(--drift,0),calc(100vh + 24px),0)}}
-.bat-fly{position:absolute;left:-60px;animation:bat-fly linear infinite;will-change:transform}
-@keyframes bat-fly{0%{transform:translate3d(0,0,0)}12%{transform:translate3d(30vw,-5vh,0)}24%{transform:translate3d(60vw,3vh,0)}36%,100%{transform:translate3d(calc(100vw + 120px),-4vh,0)}}
-.bat-flap{animation:bat-flap .32s ease-in-out infinite alternate;transform-origin:50% 40%}
-@keyframes bat-flap{to{transform:scaleY(.55)}}
+@keyframes snow-fall{to{transform:translate3d(var(--drift,0),var(--fall,100vh),0)}}
+.spider-thread{transform:scaleY(0);transform-origin:top;animation:spider-thread ease-in-out infinite}
+@keyframes spider-thread{0%,8%{transform:scaleY(0)}30%{transform:scaleY(1)}34%{transform:scaleY(.93)}38%,70%{transform:scaleY(1)}92%,100%{transform:scaleY(0)}}
+.spider-drop{transform:translateY(-36px);animation:spider-drop ease-in-out infinite}
+@keyframes spider-drop{0%,8%{transform:translateY(-36px)}30%{transform:translateY(var(--drop))}34%{transform:translateY(calc(var(--drop) * .93))}38%,70%{transform:translateY(var(--drop))}92%,100%{transform:translateY(-36px)}}
+.spider-swing{transform-origin:50% 0;animation:spider-swing 2.8s ease-in-out infinite alternate}
+@keyframes spider-swing{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
 /* Landing tools orbit (ToolsOrbit): a ring pulsing out of each tool until the
    first interaction, and the demo's tapping hand. */
 .invite-ping{animation:invite-ping 2.4s cubic-bezier(.22,1,.36,1) infinite}

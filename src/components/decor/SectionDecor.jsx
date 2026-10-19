@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BRAND, Bubble, Tile, Tag, Maple, Flight } from "./stickers";
-import { themed } from "./themes";
+import { themed, SeasonalDecor } from "./themes";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
 
 const { blue, violet, red, amber } = BRAND;
@@ -131,6 +131,8 @@ export function SectionDecor({ variant, from = "lg" }) {
   const scale = variant === "page" ? 1 : 1.3;
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (
+    <>
+    <SeasonalDecor seed={Object.keys(LAYOUTS).indexOf(variant)} />
     <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
       {items.map(([Sticker, props, pos, anim, depth], i) => (
         <span key={i} className={`absolute ${pos}`}
@@ -142,5 +144,6 @@ export function SectionDecor({ variant, from = "lg" }) {
         </span>
       ))}
     </div>
+    </>
   );
 }
