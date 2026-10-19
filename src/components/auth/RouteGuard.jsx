@@ -1,8 +1,7 @@
 import { CheckCircle2, Lock, Crown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
-import { AuthPage } from "@/components/auth/AuthPage";
-import { DicteePitch } from "@/components/dictee/DicteePitch";
+import { lazy, Suspense } from "react";
 import { deniedReason } from "@/auth/rbac";
 import { PRATIQUE_ROUTES } from "@/constants/navigation";
 
@@ -17,7 +16,13 @@ import { PRATIQUE_ROUTES } from "@/constants/navigation";
 //
 // The pitch receives `reason`, because a visitor with no account and a free
 // account that needs a forfait are two different asks.
+//
+// Both these and the login page are loaded only when a gate actually shows
+// them, which keeps them out of the bundle every page downloads.
+const DicteePitch = lazy(() => import("@/components/dictee/DicteePitch").then((m) => ({ default: m.DicteePitch })));
+const AuthPage = lazy(() => import("@/components/auth/AuthPage").then((m) => ({ default: m.AuthPage })));
 const PITCH_PAGES = { dictee: DicteePitch };
+const Gate = ({ children }) => <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>{children}</Suspense>;
 
 // Landing shown to visitors who try to open the free practice (or any
 // registered-only content): explains the benefits of a free account.
@@ -104,9 +109,9 @@ export function RouteGuard({ route, children, inner }) {
   // button at the end differs. "login" and "forbidden" are never pitched: one
   // is an account page, the other a 403.
   const Pitch = PITCH_PAGES[route];
-  if (Pitch && (reason === "register" || reason === "upgrade")) return <Pitch reason={reason} />;
+  if (Pitch && (reason === "register" || reason === "upgrade")) return <Gate><Pitch reason={reason} /></Gate>;
   if (reason === "register") return <RegisterGate />;
-  if (reason === "login") return <AuthPage mode="login" />;
+  if (reason === "login") return <Gate><AuthPage mode="login" /></Gate>;
   if (reason === "upgrade") return <UpgradeGate />;
   return <ForbiddenGate />;
 }

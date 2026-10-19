@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { bankManifestPlugin } from "./scripts/bankManifestPlugin.mjs";
 import { sujetsLatestPlugin } from "./scripts/sujetsLatestPlugin.mjs";
+import { announcementBarPlugin } from "./scripts/announcementBarPlugin.mjs";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +16,7 @@ const apiProxy = () => ({
 });
 
 export default defineConfig({
-  plugins: [react(), bankManifestPlugin({ root: dirname }), sujetsLatestPlugin({ root: dirname })],
+  plugins: [react(), bankManifestPlugin({ root: dirname }), sujetsLatestPlugin({ root: dirname }), announcementBarPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(dirname, "src"),

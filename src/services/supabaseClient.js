@@ -22,6 +22,14 @@ export function getSupabase() {
   return client;
 }
 
+// Whether the URL carries tokens for supabase-js to exchange: an OAuth
+// return (?code=) or an email link (#access_token=, ?token_hash=). Until it
+// has, the page cannot know who is signed in.
+export function hasAuthRedirect() {
+  const { search, hash } = window.location;
+  return /[?&](code|token_hash)=/.test(search) || /access_token=|error_description=/.test(hash);
+}
+
 // Whether this browser holds a saved session, answered synchronously from
 // supabase-js's own storage key (its default, `sb-<project ref>-auth-token`).
 // Lets the first frame guess "visitor" without waiting for getSession() — the

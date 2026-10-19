@@ -15,6 +15,12 @@
     <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#2563eb" />
+    <!--
+      Opens the connection to the Supabase API while the app script downloads,
+      so the first queries (prices, settings, session) skip DNS + TLS. Vite
+      fills the address in from the env at build time.
+    -->
+    <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin />
     <title>Passerelle · Préparation au TCF Canada</title>
     <meta
       name="description"

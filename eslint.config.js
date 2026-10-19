@@ -73,7 +73,8 @@ export default [
   },
   {
     // One-off maintenance scripts - Node runtime. dev-api.mjs additionally
-    // parses request bodies and URLs, so it needs Buffer and URL.
+    // parses request bodies and URLs, so it needs Buffer and URL; build plugins
+    // that read Supabase at build time need fetch.
     files: ["scripts/**/*.{js,mjs}"],
     languageOptions: {
       ecmaVersion: 2022,
@@ -81,6 +82,7 @@ export default [
       globals: {
         process: "readonly", console: "readonly",
         Buffer: "readonly", URL: "readonly",
+        fetch: "readonly", AbortSignal: "readonly",
       },
     },
   },

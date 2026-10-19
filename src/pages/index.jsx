@@ -1,10 +1,12 @@
 import { lazy, Suspense } from "react";
 import { Loader2 } from "lucide-react";
-import { Home } from "@/pages/Home";
 
-// Every page but the landing one is its own chunk, fetched on first visit, so
-// a visitor's first download is the shell and Home — not the admin, the
-// guides, the blog posts and the practice tools. Each lazy page carries its
+// Every page is its own chunk, fetched on first visit, so a visitor's first
+// download is the shell and the page they opened — not the admin, the guides,
+// the blog posts and the practice tools. Home included: its demos, calculator
+// and carousel were a third of the entry bundle on every other page. Each
+// page's prerendered HTML preloads its chunk (scripts/prerender.mjs), so
+// lazy costs no extra round trip. Each lazy page carries its
 // own Suspense boundary, so App needs no change to render one.
 function PageLoading() {
   return (
@@ -27,6 +29,7 @@ function lazyPage(load, name) {
   return LazyPage;
 }
 
+const Home = lazyPage(() => import("@/pages/Home"), "Home");
 const About = lazyPage(() => import("@/pages/About"), "About");
 const Pricing = lazyPage(() => import("@/pages/Pricing"), "Pricing");
 const CheckoutDz = lazyPage(() => import("@/pages/CheckoutDz"), "CheckoutDz");

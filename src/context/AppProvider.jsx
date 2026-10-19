@@ -8,6 +8,7 @@ import { useToggleSet } from "@/hooks/useToggleSet";
 import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending, requestAccountDeletion, cancelAccountDeletion } from "@/services/authService";
+import { hasStoredSession, hasAuthRedirect } from "@/services/supabaseClient";
 import { confirmCheckout } from "@/services/stripeService";
 import { stashPendingGiftCode } from "@/services/giftLinkService";
 import { useDzActivation } from "@/hooks/useDzActivation";
@@ -37,7 +38,12 @@ export function AppProvider({ children }) {
   // page has a real, crawlable, shareable address — see src/constants/seo.js.
   const [route, setRoute] = useState(() => routeFromPath(window.location.pathname));
   const [user, setUser] = useState(null);
-  const [authReady, setAuthReady] = useState(false);
+  // A browser with no saved session, and no sign-in or password-reset redirect
+  // to resolve, is a visitor: that is known on the first frame, so pages render
+  // at once instead of waiting for supabase-js to download only to confirm it.
+  // That wait was the bulk of PageSpeed's LCP render delay. getSession() still
+  // runs below and corrects the state if a session turns up after all.
+  const [authReady, setAuthReady] = useState(() => !hasStoredSession() && !peekOAuthPending() && !hasAuthRedirect());
   // True while a freshly-registered Google user must finish creating their
   // account (choose username + country) before entering the app.
   const [pendingOnboarding, setPendingOnboarding] = useState(false);

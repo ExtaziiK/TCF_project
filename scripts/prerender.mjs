@@ -136,6 +136,9 @@ async function loadPagePreloads() {
   for (const [, name, spec] of source.matchAll(/const (\w+) = lazyPage\(\(\) => import\("@\/([^"]+)"\)/g)) {
     const key = ["jsx", "js"].map((ext) => `src/${spec}.${ext}`).find((k) => manifest[k]);
     if (key) moduleOf[name] = key;
+    // A chunking option that folds small pages into shared chunks drops them
+    // from the manifest, and their routes would silently lose the preload.
+    else console.warn(`prerender: no manifest entry for lazy page ${name} (${spec}) — its route gets no modulepreload.`);
   }
   const pagesBlock = source.slice(source.indexOf("export const PAGES"));
   const files = (key, seen = new Set()) => {
