@@ -64,7 +64,7 @@ export const TOUR_STEPS = [
   },
   {
     target: "nav-pratique",
-    title: "La Pratique",
+    title: "Les exercices",
     body: "Vocabulaire, grammaire, conjugaison, dictée — à votre rythme, sans chrono.",
   },
   {

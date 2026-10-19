@@ -55,10 +55,10 @@ export const NAV_LINKS = [
   // study entries were filtered out and the menu opened onto the single
   // remaining item, which reads as a broken dropdown rather than as an offer.
   // Visitors are pitched by the home page and the route guard instead.
-  // `r`: on the desktop bar « Pratique » is a plain link to the Pratique hub
+  // `r`: on the desktop bar « Exercices » is a plain link to the exercises hub
   // (pages/Pratique.jsx), whose tabs are the tools below; the mobile drawer,
   // which has no dropdown, still lists the tools one by one.
-  { l: "Pratique", r: "entrainement", tier: "featured", icon: Dumbbell, roles: AUTHENTICATED, menu: [
+  { l: "Exercices", r: "entrainement", tier: "featured", icon: Dumbbell, roles: AUTHENTICATED, menu: [
     // First in the menu, the flagship exercise. NO `roles`, deliberately, and not an oversight: la dictée is Premium
     // (rbac.js → dictee: PREMIUM) but stays visible to free accounts, who land
     // on its sales page instead of the exercise. Hiding it would mean nobody
@@ -140,7 +140,7 @@ const visible = (item, role, user) => (!item.roles || item.roles.includes(role))
 // role may see; a menu with no visible entries is dropped entirely.
 // The tools behind "Pratique" — all six render the Pratique hub
 // (pages/Pratique.jsx), which shows them as tabs in this order.
-export const PRATIQUE_MENU = NAV_LINKS.find((n) => n.l === "Pratique").menu;
+export const PRATIQUE_MENU = NAV_LINKS.find((n) => n.r === "entrainement").menu;
 export const PRATIQUE_ROUTES = new Set(["entrainement", ...PRATIQUE_MENU.map((m) => m.r)]);
 
 export function navLinksForRole(links, role, user) {

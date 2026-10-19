@@ -194,7 +194,8 @@ export function Nav({ barOffset = false }) {
           {/* Links: a segmented track, the current page as a white pill. */}
           <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
             {navLinks.map((n) => {
-              const isPratique = n.l === "Pratique";
+              // Keyed on the route, not the label: the label is copy and may change.
+              const isPratique = n.r === "entrainement";
               const pratiqueOpen = openMenu === n.l || (isPratique && pratiqueForcedOpen);
               const base = "px-3.5 py-1.5 rounded-full text-sm whitespace-nowrap shrink-0 transition-colors";
               // A menu entry without a route of its own keeps a dropdown; one with

@@ -103,11 +103,11 @@ export function Pratique() {
   const paper = mix(PALETTE[active.tone][dark ? "dark" : "light"][0], dark ? "#0B1222" : "#FFFFFF", 0.45);
 
   return (
-    <PageShell wide eyebrow={t("Pratique")} title={t("Votre cahier d'entraînement")}
+    <PageShell wide eyebrow={t("Exercices")} title={t("Votre cahier d'entraînement")}
       sub={t("Six outils, un seul cahier : choisissez un marque-page.")}>
       {/* Small screens: the markers poke out of the notebook's top edge, in a
           row that scrolls sideways; the page overlaps their feet. */}
-      <nav aria-label={t("Pratique")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
+      <nav aria-label={t("Exercices")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" />)}
       </nav>
 
@@ -118,7 +118,7 @@ export function Pratique() {
       {/* From lg: the markers stick out of the notebook's left edge and end
           exactly at it — the selected one meets the page's coloured edge. The
           bottom padding (about one marker) carries the page past the last one. */}
-      <nav aria-label={t("Pratique")} className="hidden lg:flex flex-col gap-2 pt-20 pb-28">
+      <nav aria-label={t("Exercices")} className="hidden lg:flex flex-col gap-2 pt-20 pb-28">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="left" />)}
       </nav>
 

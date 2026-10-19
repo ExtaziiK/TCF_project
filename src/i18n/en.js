@@ -2532,6 +2532,7 @@ export const EN = {
   "Rédigez sur un vrai sujet : l'IA vous renvoie votre niveau et une version corrigée.":
     "Write on a real topic: the AI hands back your level and a corrected version.",
   "La Pratique": "Practice",
+  "Les exercices": "Exercises",
   "Vocabulaire, grammaire, conjugaison, dictée — à votre rythme, sans chrono.":
     "Vocabulary, grammar, conjugation, dictation — at your own pace, no clock.",
   "Cliquez pour révéler la définition, puis passez au mot suivant.": "Click to reveal the definition, then move to the next word.",
