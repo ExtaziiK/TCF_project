@@ -158,12 +158,15 @@ const SPIDERS = [
 // md:h-32, lg:h-40). Each spider is clipped by a box starting at its anchor,
 // so when it climbs back it vanishes into the curve instead of showing over the
 // section above.
-function Spiders({ seed, wave }) {
+// `count` (2–4) keeps the two outer spiders and adds inner ones; with three,
+// the seed picks which side gets the extra one.
+function Spiders({ seed, wave, count = 4 }) {
   const { dark } = useApp();
   const color = dark ? "#C4B5FD" : "#2B2238";
+  const shown = count >= 4 ? SPIDERS : count === 3 ? [...SPIDERS.slice(0, 2), SPIDERS[2 + (seed % 2)]] : SPIDERS.slice(0, 2);
   return (
     <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
-      {SPIDERS.map((s, i) => {
+      {shown.map((s, i) => {
         // Sections start their spiders at different moments, so they never drop in step.
         const anim = { animationDuration: `${s.duration}s`, animationDelay: `${-((seed * 3.1 + i * 4.3) % s.duration).toFixed(1)}s` };
         const depth = wave ? waveDepth(wave.shape, wave.flip, s.x / 100) : 0;
@@ -179,9 +182,9 @@ function Spiders({ seed, wave }) {
   );
 }
 
-export function SeasonalDecor({ seed = 0, wave = null }) {
+export function SeasonalDecor({ seed = 0, wave = null, spiders = 4 }) {
   const theme = useSiteTheme();
   if (theme === "christmas") return <Snowfall />;
-  if (theme === "halloween") return <Spiders seed={seed} wave={wave} />;
+  if (theme === "halloween") return <Spiders seed={seed} wave={wave} count={spiders} />;
   return null;
 }

@@ -170,10 +170,16 @@ export function SectionDecor({ variant, from = "lg", wave = null }) {
   // The landing page's stickers are drawn 30% larger; the other pages' side
   // decor (the "page" layout) keeps its size.
   const scale = variant === "page" ? 1 : 1.3;
+  // Halloween spiders: the landing sections below the hero each get a fixed
+  // number between 2 and 4 (features 2, video 4, overview 3, testimonials 2,
+  // calculator 4, pricing 3, cta 2), so the page doesn't look stamped out; the
+  // hero and the other pages keep all four.
+  const seed = Object.keys(LAYOUTS).indexOf(variant);
+  const spiders = variant === "hero" || variant === "page" ? 4 : 2 + ((seed * 5 + 1) % 3);
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (
     <>
-    <SeasonalDecor seed={Object.keys(LAYOUTS).indexOf(variant)} wave={wave} />
+    <SeasonalDecor seed={seed} wave={wave} spiders={spiders} />
     <div ref={ref} aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
       {items.map(([Sticker, props, pos, anim, depth, top], i) => (
         <span key={i} className={`absolute ${pos}`}
