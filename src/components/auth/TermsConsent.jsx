@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { TermsDialog } from "@/components/auth/TermsDialog";
+
+// The dialog carries the full text of the conditions. This consent block is on
+// the always-loaded terms gate, so the text is fetched the first time the
+// dialog is opened rather than with every page.
+const TermsDialog = lazy(() => import("@/components/auth/TermsDialog").then((m) => ({ default: m.TermsDialog })));
 
 // The consent gate shown on both paths that create an account: the email
 // registration form and the Google onboarding step. Signing up with Google
@@ -14,14 +18,21 @@ export function TermsConsent({ accepted, onChange }) {
   const { c, t } = useApp();
   const [open, setOpen] = useState(false);
   const [read, setRead] = useState(false);
+  // Mounted on first open, then kept: closing must not unmount it mid-way.
+  const [wanted, setWanted] = useState(false);
+  const openDialog = () => { setWanted(true); setOpen(true); };
 
   return (
     <>
-      <TermsDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        onAccept={() => { setRead(true); onChange(true); setOpen(false); }}
-      />
+      {wanted && (
+        <Suspense fallback={null}>
+          <TermsDialog
+            open={open}
+            onClose={() => setOpen(false)}
+            onAccept={() => { setRead(true); onChange(true); setOpen(false); }}
+          />
+        </Suspense>
+      )}
       {/* Before reading, the WHOLE block is one button that opens the
           conditions — the link alone was a small target for the only action
           available at that point. Afterwards it becomes an ordinary label +
@@ -35,7 +46,7 @@ export function TermsConsent({ accepted, onChange }) {
               {t("J'ai lu et j'accepte les")}{" "}
               {/* preventDefault: without it, a click inside the label would
                   ALSO toggle the checkbox on the way to opening the dialog. */}
-              <button type="button" onClick={(e) => { e.preventDefault(); setOpen(true); }}
+              <button type="button" onClick={(e) => { e.preventDefault(); openDialog(); }}
                 className="font-semibold text-blue-600 hover:underline">
                 {t("conditions générales d'utilisation")}
               </button>
@@ -44,7 +55,7 @@ export function TermsConsent({ accepted, onChange }) {
           </label>
         </div>
       ) : (
-        <button type="button" onClick={() => setOpen(true)}
+        <button type="button" onClick={openDialog}
           aria-label={t("Ouvrir et lire les conditions générales d'utilisation")}
           className="w-full text-left p-4 rounded-2xl border border-blue-600/40 bg-blue-600/5 hover:bg-blue-600/10 transition-colors">
           <span className="flex items-start gap-3 text-sm">

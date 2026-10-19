@@ -17,7 +17,7 @@ import { usePlanSync } from "@/hooks/usePlanSync";
 import { useWelcomeEmail } from "@/hooks/useWelcomeEmail";
 import { syncSiteContent } from "@/services/questionsService";
 import { deriveRole, isStaff } from "@/auth/rbac";
-import { loadLang, saveLang, translate } from "@/i18n";
+import { loadLang, saveLang, translate, loadEnglish, englishReady } from "@/i18n";
 import { loadDark, saveDark } from "@/constants/theme";
 import { routeFromPath, pathForRoute, applyRouteMeta, injectStructuredData } from "@/constants/seo";
 import { TOUR_STEPS } from "@/constants/tour";
@@ -258,9 +258,14 @@ export function AppProvider({ children }) {
 
   // UI language (fr = source, en = dictionary lookup). Persisted so the
   // choice survives reloads; <html lang> is kept in sync for a11y/SEO.
+  // The English dictionary is fetched on first use; this state only exists to
+  // re-render the tree once it has arrived (until then translate() returns the
+  // French source). main.jsx preloads it when English was the saved choice.
+  const [, setEnReady] = useState(englishReady);
   useEffect(() => {
     saveLang(lang);
     document.documentElement.lang = lang;
+    if (lang === "en" && !englishReady()) loadEnglish().then(() => setEnReady(true), () => {});
   }, [lang]);
   const t = (text) => translate(lang, text);
 

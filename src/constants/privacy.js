@@ -1,4 +1,4 @@
-import { TERMS_DRAFT } from "@/constants/terms";
+import { PRIVACY_DRAFT } from "@/constants/legalMeta";
 
 // Politique de confidentialité. Companion to constants/terms.js: same French
 // source + English courtesy translation, same {tokens} filled from OPERATOR,
@@ -13,7 +13,7 @@ import { TERMS_DRAFT } from "@/constants/terms";
 // Publishes together with the CGU: both need OPERATOR filled in, and a privacy
 // policy that names no controller is worth as little as terms that name no
 // publisher.
-export const PRIVACY_DRAFT = TERMS_DRAFT;
+export { PRIVACY_DRAFT };
 export const PRIVACY_UPDATED = "30 juillet 2026";
 
 export const PRIVACY_DRAFT_NOTICE =

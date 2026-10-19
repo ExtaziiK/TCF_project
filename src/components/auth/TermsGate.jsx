@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { TermsConsent } from "@/components/auth/TermsConsent";
 import { recordTermsAcceptance } from "@/services/termsService";
-import { TERMS_UPDATED } from "@/constants/terms";
+import { TERMS_UPDATED } from "@/constants/legalMeta";
 
 // Shown as a full-page gate to a signed-in account whose accepted version is
 // behind the published one (see useTermsGate). Reuses the signup consent block,

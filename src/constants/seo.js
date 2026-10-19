@@ -12,16 +12,20 @@
 // only ever sees the register/upgrade gate there — thin, duplicated content
 // that would compete with the real landing pages).
 
-import { POSTS } from "@/constants/blog";
-import { TERMS_DRAFT } from "@/constants/terms";
-import { PRIVACY_DRAFT } from "@/constants/privacy";
+// The articles without their bodies (generated; scripts/blog-index.mjs): the
+// full posts would put every article's text in the first JavaScript file.
+import { POST_INDEX as POSTS } from "@/constants/blogIndex";
+import { TERMS_DRAFT, PRIVACY_DRAFT } from "@/constants/legalMeta";
 import { SOCIAL_URLS, CONTACT_EMAIL } from "@/constants/social";
 
 export const SITE_NAME = "Passerelle TCF Canada";
 const DEFAULT_TITLE = "Passerelle · Préparation au TCF Canada";
 // Share card used by every route that has no image of its own — the same file
-// index.html hardcodes, so the two can't disagree.
-export const DEFAULT_SHARE_IMAGE = "/logo-full.png";
+// index.html hardcodes, so the two can't disagree. A real 1200×630 card
+// (opaque, 1.91:1, what Facebook/LinkedIn/X crop to): the old one was the
+// square transparent logo, which previews as a checkerboard or a black box on
+// apps that drop transparency.
+export const DEFAULT_SHARE_IMAGE = { src: "/og-image.png", w: 1200, h: 630, alt: "Passerelle — préparez le TCF Canada" };
 
 export const ROUTE_META = {
   home: {
@@ -231,8 +235,8 @@ for (const post of POSTS) {
     title: post.t,
     description: post.excerpt,
     // The article's lead image, so a shared link previews with the article's
-    // own picture instead of the site logo.
-    image: post.hero?.src,
+    // own picture instead of the site card.
+    image: post.hero?.src ? { src: post.hero.src, w: post.hero.w, h: post.hero.h, alt: post.hero.alt } : null,
     post,
   };
 }
@@ -313,10 +317,15 @@ export function applyRouteMeta(route) {
   upsertMeta("property", "og:url", url);
   upsertMeta("name", "twitter:title", title);
   upsertMeta("name", "twitter:description", description);
-  // Routes without their own image fall back to the shell's logo card.
-  const image = window.location.origin + (meta.image || DEFAULT_SHARE_IMAGE);
-  upsertMeta("property", "og:image", image);
-  upsertMeta("name", "twitter:image", image);
+  // Routes without their own image fall back to the site card.
+  const image = meta.image || DEFAULT_SHARE_IMAGE;
+  const imageUrl = window.location.origin + image.src;
+  upsertMeta("property", "og:image", imageUrl);
+  upsertMeta("property", "og:image:width", String(image.w || ""));
+  upsertMeta("property", "og:image:height", String(image.h || ""));
+  upsertMeta("property", "og:image:alt", image.alt || title);
+  upsertMeta("name", "twitter:image", imageUrl);
+  upsertMeta("name", "twitter:image:alt", image.alt || title);
 
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
@@ -326,44 +335,67 @@ export function applyRouteMeta(route) {
   }
   canonical.setAttribute("href", url);
 
-  applyArticleJsonLd(meta);
+  applyRouteJsonLd(route);
 }
 
-// BlogPosting structured data for an article page; removed on any other route so
-// only the current article's markup is present in the head.
-function applyArticleJsonLd(meta) {
-  const el = document.getElementById("seo-article-jsonld");
-  if (!meta?.post) { if (el) el.remove(); return; }
-  const { post } = meta;
-  const url = window.location.origin + meta.path;
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.t,
-    description: post.excerpt,
-    inLanguage: "fr-CA",
-    datePublished: post.iso,
-    dateModified: post.iso,
-    url,
-    mainEntityOfPage: url,
-    ...(meta.image ? { image: window.location.origin + meta.image } : {}),
-    ...(post.words ? { wordCount: post.words } : {}),
-    author: { "@type": "Organization", name: "Passerelle" },
-    publisher: { "@type": "Organization", name: "Passerelle", logo: { "@type": "ImageObject", url: `${window.location.origin}/logo-mark.png` } },
-  };
+/* ---------------------------- structured data ----------------------------- */
+// Built by pure functions of (route, origin) so the prerender
+// (scripts/prerender.mjs) writes the exact same JSON-LD into each page's
+// static HTML that the app keeps in sync at runtime. Both use the same element
+// ids, so after a client-side navigation the runtime replaces the prerendered
+// block instead of leaving the first page's data behind.
+export const ROUTE_JSONLD_ID = "seo-route-jsonld";
+export const SITE_JSONLD_ID = "seo-jsonld";
+
+const crumb = (origin, items) => ({
+  "@type": "BreadcrumbList",
+  itemListElement: items.map(([name, path], i) => ({ "@type": "ListItem", position: i + 1, name, item: origin + path })),
+});
+
+// Route-specific structured data: an article (BlogPosting + breadcrumb) or a
+// guide chapter (breadcrumb), as a JSON-LD object — or null for other routes.
+export function routeJsonLd(route, origin) {
+  const meta = ROUTE_META[route];
+  if (!meta) return null;
+  const graph = [];
+  if (meta.post) {
+    const { post } = meta;
+    const url = origin + meta.path;
+    graph.push({
+      "@type": "BlogPosting",
+      headline: post.t,
+      description: post.excerpt,
+      inLanguage: "fr-CA",
+      datePublished: post.iso,
+      dateModified: post.iso,
+      url,
+      mainEntityOfPage: url,
+      ...(meta.image ? { image: origin + meta.image.src } : {}),
+      ...(post.words ? { wordCount: post.words } : {}),
+      author: { "@type": "Organization", name: "Passerelle", url: `${origin}/` },
+      publisher: { "@type": "Organization", name: "Passerelle", logo: { "@type": "ImageObject", url: `${origin}/logo-mark.png` } },
+    });
+    graph.push(crumb(origin, [["Accueil", "/"], ["Blog", ROUTE_META.blog.path], [post.t, meta.path]]));
+  } else if (route.startsWith("guide-")) {
+    graph.push(crumb(origin, [["Accueil", "/"], [ROUTE_META.guide.title, ROUTE_META.guide.path], [meta.title, meta.path]]));
+  }
+  return graph.length ? { "@context": "https://schema.org", "@graph": graph } : null;
+}
+
+function applyRouteJsonLd(route) {
+  const data = routeJsonLd(route, window.location.origin);
+  const el = document.getElementById(ROUTE_JSONLD_ID);
+  if (!data) { if (el) el.remove(); return; }
   const script = el || document.createElement("script");
   script.type = "application/ld+json";
-  script.id = "seo-article-jsonld";
+  script.id = ROUTE_JSONLD_ID;
   script.textContent = JSON.stringify(data);
   if (!el) document.head.appendChild(script);
 }
 
-// Organization + WebSite structured data, injected once at boot. Built at
-// runtime so the URLs always match the serving origin.
-export function injectStructuredData() {
-  if (document.getElementById("seo-jsonld")) return;
-  const origin = window.location.origin;
-  const data = {
+// Organization + WebSite: who publishes the site, site-wide.
+export function siteJsonLd(origin) {
+  return {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -385,9 +417,14 @@ export function injectStructuredData() {
       },
     ],
   };
+}
+
+// Injected once at boot; the prerendered home page already carries it.
+export function injectStructuredData() {
+  if (document.getElementById(SITE_JSONLD_ID)) return;
   const script = document.createElement("script");
   script.type = "application/ld+json";
-  script.id = "seo-jsonld";
-  script.textContent = JSON.stringify(data);
+  script.id = SITE_JSONLD_ID;
+  script.textContent = JSON.stringify(siteJsonLd(window.location.origin));
   document.head.appendChild(script);
 }

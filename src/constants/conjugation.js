@@ -64,10 +64,6 @@ export const ALL_CONJUGATION_QS = CONJUGATION_TENSES.flatMap((tense) =>
   tense.qs.map((q) => ({ ...q, tense: tense.t, tenseId: tense.id })),
 );
 
-// The quiz_key recorded in quiz_results. Kept here so the page, the dashboard
-// and the progress service all derive it the same way: progressService splits
-// conjugation rows out of the exam averages by matching section === "conj",
-// and reads the tense back out of this key.
-export const CONJ_SECTION = "conj";
-export const conjQuizKey = (tenseId) => `conj-${tenseId}`;
-export const tenseIdFromQuizKey = (key) => (key || "").replace(/^conj-/, "");
+// Quiz-key helpers live with the light tense list (./conjugationTenses.js), so
+// the dashboard can use them without loading this whole bank.
+export { CONJ_SECTION, conjQuizKey, tenseIdFromQuizKey } from "@/constants/conjugationTenses";

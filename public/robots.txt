@@ -5,7 +5,8 @@
 # The host below must be the CANONICAL one: https://www.tcfpasserelle.com.
 # The apex (tcfpasserelle.com) answers 308 -> www, so naming the apex here
 # would send every crawler through a redirect. `npm run check:seo` verifies
-# this file, index.html and sitemap.xml all agree on that host.
+# this file and index.html agree on that host. The sitemap is generated at
+# build time from src/constants/seo.js (scripts/prerender.mjs).
 User-agent: *
 Allow: /
 

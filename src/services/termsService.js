@@ -1,5 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
-import { TERMS_VERSION } from "@/constants/terms";
+import { TERMS_VERSION } from "@/constants/legalMeta";
 
 // Consent records for the conditions générales (terms_acceptances, see
 // supabase/migrations/20260730_terms_acceptances.sql). The table is append-only

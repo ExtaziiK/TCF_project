@@ -1,8 +1,9 @@
 // The article index. Each post lives in its own file under ./posts — they run
 // well past a thousand words each, and one 4 000-line constants file would be
 // unreadable and unmergeable. This module is the only place that knows the
-// full list, so publishing an article means adding two lines here (plus its
-// URL in public/sitemap.xml, which `npm run check:seo` enforces).
+// full list, so publishing an article means adding two lines here. The build
+// regenerates src/constants/blogIndex.js (titles and URLs without bodies, for
+// every page) and the sitemap from it.
 //
 // Post shape — see src/components/blog/ArticleBody.jsx for the body blocks:
 //   { id, slug, iso, date, cat, t, excerpt, hero, body }
@@ -11,22 +12,22 @@
 // drift from the article it describes (the old hand-written "7 min" survived
 // three rewrites of its own text).
 
-import { post as quEstCe } from "./posts/qu-est-ce-que-le-tcf-canada";
-import { post as quiDoitPasser } from "./posts/qui-doit-passer-le-tcf-canada";
-import { post as format } from "./posts/format-tcf-canada";
-import { post as quatreEpreuves } from "./posts/quatre-epreuves-tcf-canada";
-import { post as notation } from "./posts/comment-est-note-le-tcf-canada";
-import { post as quelNiveau } from "./posts/quel-niveau-viser-tcf-canada";
-import { post as sePreparer } from "./posts/comment-se-preparer-au-tcf-canada";
-import { post as planEtude } from "./posts/plan-etude-tcf-canada-8-semaines";
-import { post as tcfOuTef } from "./posts/tcf-canada-ou-tef-canada";
-import { post as scoreNclc } from "./posts/score-tcf-canada-niveaux-nclc";
-import { post as expressionEcrite } from "./posts/expression-ecrite-tcf-canada";
-import { post as changements2026 } from "./posts/tcf-canada-2026-changements";
-import { post as entreeExpress } from "./posts/entree-express-points-francais";
-import { post as habitudesC1 } from "./posts/5-habitudes-etude-niveau-c1";
-import { post as pointQuiManque } from "./posts/expression-ecrite-le-point-qui-manque";
-import { post as oralTache3 } from "./posts/expression-orale-tache-3-methode";
+import { post as quEstCe } from "./posts/qu-est-ce-que-le-tcf-canada.js";
+import { post as quiDoitPasser } from "./posts/qui-doit-passer-le-tcf-canada.js";
+import { post as format } from "./posts/format-tcf-canada.js";
+import { post as quatreEpreuves } from "./posts/quatre-epreuves-tcf-canada.js";
+import { post as notation } from "./posts/comment-est-note-le-tcf-canada.js";
+import { post as quelNiveau } from "./posts/quel-niveau-viser-tcf-canada.js";
+import { post as sePreparer } from "./posts/comment-se-preparer-au-tcf-canada.js";
+import { post as planEtude } from "./posts/plan-etude-tcf-canada-8-semaines.js";
+import { post as tcfOuTef } from "./posts/tcf-canada-ou-tef-canada.js";
+import { post as scoreNclc } from "./posts/score-tcf-canada-niveaux-nclc.js";
+import { post as expressionEcrite } from "./posts/expression-ecrite-tcf-canada.js";
+import { post as changements2026 } from "./posts/tcf-canada-2026-changements.js";
+import { post as entreeExpress } from "./posts/entree-express-points-francais.js";
+import { post as habitudesC1 } from "./posts/5-habitudes-etude-niveau-c1.js";
+import { post as pointQuiManque } from "./posts/expression-ecrite-le-point-qui-manque.js";
+import { post as oralTache3 } from "./posts/expression-orale-tache-3-methode.js";
 
 const ALL = [
   quEstCe, quiDoitPasser, format, quatreEpreuves, notation, quelNiveau,

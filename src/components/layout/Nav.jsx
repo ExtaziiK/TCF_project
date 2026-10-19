@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users, BadgeCheck, User } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
-import { SearchOverlay } from "@/components/layout/SearchOverlay";
+// Staff-only, and carrying the whole site index: fetched when first opened.
+const SearchOverlay = lazy(() => import("@/components/layout/SearchOverlay").then((m) => ({ default: m.SearchOverlay })));
 import { NAV_LINKS, navLinksForRole, mobileNavForRole, PRATIQUE_ROUTES as HUB_ROUTES } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePendingValidations } from "@/hooks/usePendingValidations";
@@ -428,7 +429,7 @@ export function Nav({ barOffset = false }) {
         <button type="button" aria-label={t("Fermer le menu")} onClick={() => setOpen(false)}
           className="xl:hidden fixed inset-0 z-30 bg-slate-950/30 cursor-default" />
       )}
-      {searchOpen && isStaff(role) && <SearchOverlay close={() => setSearchOpen(false)} />}
+      {searchOpen && isStaff(role) && <Suspense fallback={null}><SearchOverlay close={() => setSearchOpen(false)} /></Suspense>}
     </>
   );
 }

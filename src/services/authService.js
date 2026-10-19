@@ -1,5 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
-import { TERMS_VERSION } from "@/constants/terms";
+import { TERMS_VERSION } from "@/constants/legalMeta";
 import { recordTermsAcceptance } from "@/services/termsService";
 
 // ── Active device sessions (up to the plan's device limit) ──────────────────

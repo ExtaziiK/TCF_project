@@ -1,6 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "@/App";
+import { loadLang, loadEnglish } from "@/i18n";
+// Self-hosted fonts (see the note at the top of styles/index.css). Each ships
+// its subsets with unicode-range, and a face is only fetched once text uses it,
+// so a page downloads just the latin files it needs (the italic only when
+// something is in italics).
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/instrument-sans";
+import "@fontsource-variable/instrument-sans/wght-italic.css";
+import "@fontsource/spline-sans-mono/latin-500.css";
+import "@fontsource/spline-sans-mono/latin-600.css";
 import "@/styles/index.css";
 
 // Never reopen a page where the visitor left it. Browsers restore the previous
@@ -30,8 +40,14 @@ window.addEventListener("vite:preloadError", (event) => {
   window.location.reload();
 });
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// English is a chunk of its own (src/i18n/index.js). When it is the saved
+// language, wait for it before the first render so the page doesn't flash in
+// French; a failed fetch just renders in French rather than not at all.
+const ready = loadLang() === "en" ? loadEnglish().catch(() => {}) : Promise.resolve();
+ready.then(() => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+});

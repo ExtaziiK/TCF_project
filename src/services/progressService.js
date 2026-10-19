@@ -2,7 +2,7 @@ import { getBankSummary } from "@/services/bankService";
 import { levelForPct } from "@/services/examService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
-import { CONJ_SECTION, CONJUGATION_TENSES, tenseIdFromQuizKey } from "@/constants/conjugation";
+import { CONJ_SECTION, TENSE_LIST as CONJUGATION_TENSES, tenseIdFromQuizKey } from "@/constants/conjugationTenses";
 
 // Pure progress engine for the member dashboard. Everything is derived from
 // the user's stored history — practice-quiz results (quizResultsService) and

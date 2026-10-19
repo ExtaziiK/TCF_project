@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Pill } from "@/components/common";
-import { SEARCH_INDEX } from "@/constants/navigation";
+import { SEARCH_INDEX } from "@/constants/searchIndex";
 
 export function SearchOverlay({ close }) {
   const { c, nav, t } = useApp();

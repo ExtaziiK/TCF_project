@@ -1,4 +1,26 @@
-import { EN, EN_PATTERNS } from "@/i18n/en";
+// The English dictionary is ~250 KB of strings that a French visitor — most
+// of them — never reads, so it is its own chunk, fetched the first time the
+// UI is switched to English (or at boot when English is the saved choice; see
+// main.jsx). Until it has arrived, lookups fall back to the French source.
+let EN = null;
+let EN_PATTERNS = [];
+let loading = null;
+
+export function loadEnglish() {
+  loading ||= import("@/i18n/en").then(
+    (m) => {
+      EN = m.EN;
+      EN_PATTERNS = m.EN_PATTERNS;
+    },
+    (err) => {
+      loading = null; // a failed fetch (offline, new deploy) can be retried
+      throw err;
+    },
+  );
+  return loading;
+}
+
+export const englishReady = () => EN !== null;
 
 // The UI is authored in French (the source language). English is looked up
 // in the EN dictionary by the exact French string; templated strings (with
@@ -15,7 +37,7 @@ const MONTHS = {
 const MONTH_RE = new RegExp(`\\b(${Object.keys(MONTHS).join("|")})\\b`, "g");
 
 export const translate = (lang, text) => {
-  if (lang !== "en" || typeof text !== "string") return text;
+  if (lang !== "en" || typeof text !== "string" || !EN) return text;
   if (text in EN) return EN[text];
   const tr = (s) => translate("en", s);
   for (const [re, fn] of EN_PATTERNS) {

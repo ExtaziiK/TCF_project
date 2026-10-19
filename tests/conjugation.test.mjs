@@ -117,3 +117,17 @@ test("the sentence is rebuilt with the answer in place", () => {
   assert.equal(filledSentence(q), "Hier, nous sommes allés au marché.");
   assert.equal(filledSentence({ inf: "aller", p: "nous", a: "irons" }), null, "a bare drill has no sentence");
 });
+
+// constants/conjugationTenses.js repeats each tense's id and title (in course
+// order) so the dashboard need not load the whole bank. The aggregator uses
+// the "@/" alias, so its order is read from its source text instead.
+test("the light tense list matches the bank, in course order", async () => {
+  const { readFileSync } = await import("node:fs");
+  const src = readFileSync(path.join(root, "src", "constants", "conjugation.js"), "utf8");
+  const fileOf = Object.fromEntries([...src.matchAll(/import \{ (\w+) \} from "@\/constants\/conjugation\/([\w-]+)";/g)].map((m) => [m[1], m[2]]));
+  const order = src.match(/export const CONJUGATION_TENSES = \[([\s\S]*?)\];/)[1].split(",").map((s) => s.trim()).filter(Boolean);
+  const byFile = Object.fromEntries(tenses.map(({ file, tense }) => [path.basename(file, ".js"), tense]));
+  const expected = order.map((name) => ({ id: byFile[fileOf[name]].id, t: byFile[fileOf[name]].t }));
+  const { TENSE_LIST } = await import(pathToFileURL(path.join(root, "src", "constants", "conjugationTenses.js")).href);
+  assert.deepEqual(TENSE_LIST, expected);
+});

@@ -1,12 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spline+Sans+Mono:wght@500;600&display=swap');
+/* Fonts are self-hosted (@fontsource packages, imported in main.jsx). They used
+   to come from fonts.googleapis.com, which the Content-Security-Policy in
+   vercel.json (style-src / font-src 'self') blocks — production silently fell
+   back to system fonts — and which sent every visitor's IP to Google. */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html{scroll-behavior:smooth}
-.font-display{font-family:'Bricolage Grotesque',ui-sans-serif,sans-serif;letter-spacing:-0.02em}
-.font-body{font-family:'Instrument Sans',ui-sans-serif,sans-serif}
+.font-display{font-family:'Bricolage Grotesque Variable','Bricolage Grotesque',ui-sans-serif,sans-serif;letter-spacing:-0.02em}
+.font-body{font-family:'Instrument Sans Variable','Instrument Sans',ui-sans-serif,sans-serif}
 .font-mono2{font-family:'Spline Sans Mono',ui-monospace,monospace}
 ::selection{background:#2E6BE6;color:#fff}
 *:focus-visible{outline:2px solid #2E6BE6;outline-offset:2px;border-radius:8px}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { hasAcceptedCurrentTerms } from "@/services/termsService";
-import { TERMS_REACCEPTANCE } from "@/constants/terms";
+import { TERMS_REACCEPTANCE } from "@/constants/legalMeta";
 
 // Decides whether a signed-in account must accept the current conditions before
 // it can use the app again — the path by which a version bump reaches accounts
