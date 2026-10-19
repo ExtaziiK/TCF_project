@@ -45,6 +45,21 @@ html{scroll-behavior:smooth}
 .marquee-group.marquee-cards{align-items:stretch}
 .marquee-fade{-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* Desktop nav links (Nav.jsx): on hover, an underline in the link's own colour
+   grows from the centre and the icon tilts up a touch; the tinted background
+   is Tailwind (TIER_TEXT). Not on the current page, whose pill already says
+   where you are. TCF blanc's gradient (.nav-grad) is drawn twice as wide,
+   mirrored, and slides on hover — same colours at rest as .grad-text. All of
+   it is switched off under prefers-reduced-motion (global rule at the end). */
+.nav-link{position:relative;transition:color .2s ease,background-color .25s ease}
+.nav-link::after{content:"";position:absolute;left:14px;right:14px;bottom:3px;height:2px;border-radius:2px;background:currentColor;opacity:.55;transform:scaleX(0);transform-origin:center;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.nav-link:hover::after,.nav-link:focus-visible::after{transform:scaleX(1)}
+.nav-link[aria-current="page"]::after{display:none}
+.nav-link svg{transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.nav-link:hover svg,.nav-link:focus-visible svg{transform:translateY(-1px) rotate(-8deg) scale(1.1)}
+.nav-link-grad::after{background:linear-gradient(90deg,#2E6BE6,#6C4FE0 60%,#D8354A);opacity:.8}
+.nav-grad{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 30%,#D8354A 50%,#6C4FE0 70%,#2E6BE6 100%);background-size:200% 100%;background-position:0% 0;-webkit-background-clip:text;background-clip:text;color:transparent;transition:background-position .7s ease}
+.nav-link:hover .nav-grad,.nav-link:focus-visible .nav-grad{background-position:100% 0}
 /* Brand range slider (score calculator): filled portion is set inline per
    value; the thumb is a white knob with a brand-blue ring. */
 input[type="range"].range-brand{-webkit-appearance:none;appearance:none;height:8px;border-radius:9999px;cursor:pointer;outline:none}

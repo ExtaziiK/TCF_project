@@ -148,14 +148,22 @@ export function Nav({ barOffset = false }) {
     featured: dark ? "text-blue-300 hover:text-blue-200" : "text-blue-700 hover:text-blue-800",
     plain: dark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900",
   };
+  // Hover tint in the link's own colour, very light (with .nav-link's
+  // underline and icon tilt). Never on the current page: it would wash out
+  // the white pill.
+  const TIER_HOVER = {
+    primary: dark ? "hover:bg-violet-400/10" : "hover:bg-violet-600/[0.07]",
+    featured: dark ? "hover:bg-blue-400/10" : "hover:bg-blue-600/[0.07]",
+    plain: dark ? "hover:bg-white/[0.06]" : "hover:bg-slate-900/[0.05]",
+  };
   const idle = TIER_TEXT.plain;
-  const linkClass = (n, here) => `font-semibold ${TIER_TEXT[n.tier] || TIER_TEXT.plain} ${here ? pillBg : ""}`;
+  const linkClass = (n, here) => `font-semibold ${TIER_TEXT[n.tier] || TIER_TEXT.plain} ${here ? pillBg : TIER_HOVER[n.tier] || TIER_HOVER.plain}`;
   // In the drawer, untiered rows stay in the normal text colour: it lists
   // every tool, and greying all of them would read as disabled.
   const drawerText = (m) => (m.tier ? TIER_TEXT[m.tier] : c.text);
   // The gradient label and icon of a "primary" entry (the icon's stroke points
   // at the <linearGradient> rendered once below, same stops as .grad-text).
-  const tierLabel = (n, text) => (n.tier === "primary" ? <span className="grad-text">{text}</span> : text);
+  const tierLabel = (n, text, bar) => (n.tier === "primary" ? <span className={bar ? "nav-grad" : "grad-text"}>{text}</span> : text);
   const gradStroke = (n) => (n.tier === "primary" ? { stroke: "url(#nav-brand-grad)" } : {});
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
@@ -224,9 +232,9 @@ export function Nav({ barOffset = false }) {
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  className={`${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
+                  className={`nav-link ${n.tier === "primary" ? "nav-link-grad" : ""} ${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
                   {Icon && <Icon size={14} aria-hidden="true" {...gradStroke(n)} />}
-                  {tierLabel(n, labelOf(n))}
+                  {tierLabel(n, labelOf(n), true)}
                 </RouteLink>
               );
             })}
