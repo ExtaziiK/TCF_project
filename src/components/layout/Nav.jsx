@@ -15,7 +15,7 @@ import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestS
 // The navigation is a floating "island": a rounded bar set a little below the
 // top of the screen, translucent with a hairline border (and a soft shadow
 // once the page scrolls). The links sit in a pale segmented track where the
-// current page is a white pill; utilities (search, language, theme,
+// current page is filled in its own colour; utilities (search, language, theme,
 // notifications) share one compact pill; and the account is a single avatar
 // button opening a menu (profile, admin, validation, profile switch, sign-out).
 // Below xl, the links move to a drawer that opens as a card under the island.
@@ -137,34 +137,41 @@ export function Nav({ barOffset = false }) {
   // same weight:
   //   · "primary" (TCF blanc): the brand gradient, on its label and its icon —
   //     the one link that stands out;
-  //   · "featured" (Épreuves, Pratique, Sujets du mois): brand blue, with icon;
+  //   · "featured" (Épreuves, Exercices, Sujets du mois): brand navy, with a
+  //     brand-blue icon;
   //   · the rest (Tarifs, Calculateur): grey, no icon.
-  // The current page keeps its colour on the white pill (background only, so
-  // the two text colours never fight).
-  const pillBg = dark ? "bg-slate-700 shadow-sm" : "bg-white shadow-sm";
+  // The current page is filled solid in its own colour (gradient, navy or
+  // slate) with white text, so where you are is unmistakable.
+  // Shades chosen for ≥ 4.5:1 on the grey track, and white ≥ 4.5:1 on each fill.
   const TIER_TEXT = {
-    // Shades chosen for ≥ 4.5:1 on the grey track and on the current-page pill.
-    primary: dark ? "text-rose-300 hover:text-rose-200" : "text-[#C42E42] hover:text-[#A32536]",
-    featured: dark ? "text-blue-300 hover:text-blue-200" : "text-blue-700 hover:text-blue-800",
-    plain: dark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900",
+    primary: "", // the gradient (.nav-grad) paints the label
+    featured: dark ? "text-[#B4C0EE] hover:text-white" : "text-[#1F2E66] hover:text-[#14204A]",
+    plain: dark ? "text-slate-400 hover:text-white" : "text-[#5F6B7E] hover:text-slate-900",
   };
   // Hover tint in the link's own colour, very light (with .nav-link's
-  // underline and icon tilt). Never on the current page: it would wash out
-  // the white pill.
+  // underline and icon tilt). Not on the current page, which is already filled.
   const TIER_HOVER = {
     primary: dark ? "hover:bg-violet-400/10" : "hover:bg-violet-600/[0.07]",
-    featured: dark ? "hover:bg-blue-400/10" : "hover:bg-blue-600/[0.07]",
+    featured: dark ? "hover:bg-white/[0.07]" : "hover:bg-[#1F2E66]/[0.07]",
     plain: dark ? "hover:bg-white/[0.06]" : "hover:bg-slate-900/[0.05]",
   };
+  const TIER_ON = {
+    primary: "bg-gradient-to-r from-[#2E6BE6] via-[#6C4FE0] to-[#D8354A] text-white shadow-md shadow-violet-600/30",
+    featured: dark ? "bg-[#3B4F9E] text-white shadow-md shadow-black/30" : "bg-[#1F2E66] text-white shadow-md shadow-[#1F2E66]/30",
+    plain: dark ? "bg-slate-600 text-white shadow-sm" : "bg-slate-700 text-white shadow-sm",
+  };
+  const ICON_INK = dark ? "text-[#7FA6F5]" : "text-[#2E6BE6]"; // featured icons, at rest
+  const tierOf = (n) => n.tier || "plain";
   const idle = TIER_TEXT.plain;
-  const linkClass = (n, here) => `font-semibold ${TIER_TEXT[n.tier] || TIER_TEXT.plain} ${here ? pillBg : TIER_HOVER[n.tier] || TIER_HOVER.plain}`;
+  const linkClass = (n, here) => `font-semibold ${here ? TIER_ON[tierOf(n)] : `${TIER_TEXT[tierOf(n)]} ${TIER_HOVER[tierOf(n)]}`}`;
   // In the drawer, untiered rows stay in the normal text colour: it lists
   // every tool, and greying all of them would read as disabled.
   const drawerText = (m) => (m.tier ? TIER_TEXT[m.tier] : c.text);
-  // The gradient label and icon of a "primary" entry (the icon's stroke points
-  // at the <linearGradient> rendered once below, same stops as .grad-text).
-  const tierLabel = (n, text, bar) => (n.tier === "primary" ? <span className={bar ? "nav-grad" : "grad-text"}>{text}</span> : text);
-  const gradStroke = (n) => (n.tier === "primary" ? { stroke: "url(#nav-brand-grad)" } : {});
+  // The gradient label and icon of a "primary" entry at rest (the icon's
+  // stroke points at the <linearGradient> rendered once below, same stops as
+  // .grad-text). On its filled current-page state both turn plain white.
+  const tierLabel = (n, text, bar, on) => (n.tier === "primary" && !on ? <span className={bar ? "nav-grad" : "grad-text"}>{text}</span> : text);
+  const iconProps = (n, on) => (on ? {} : n.tier === "primary" ? { stroke: "url(#nav-brand-grad)" } : n.tier === "featured" ? { className: ICON_INK } : {});
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
   const sujetsMonth = useLatestSujetsMonth(!!user);
@@ -191,7 +198,7 @@ export function Nav({ barOffset = false }) {
             </defs>
           </svg>
 
-          {/* Links: a segmented track, the current page as a white pill. */}
+          {/* Links: a segmented track, the current page filled in its colour. */}
           <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
             {navLinks.map((n) => {
               // Keyed on the route, not the label: the label is copy and may change.
@@ -234,8 +241,8 @@ export function Nav({ barOffset = false }) {
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
                   className={`nav-link ${n.tier === "primary" ? "nav-link-grad" : ""} ${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
-                  {Icon && <Icon size={14} aria-hidden="true" {...gradStroke(n)} />}
-                  {tierLabel(n, labelOf(n), true)}
+                  {Icon && <Icon size={14} aria-hidden="true" {...iconProps(n, here)} />}
+                  {tierLabel(n, labelOf(n), true, here)}
                 </RouteLink>
               );
             })}
@@ -390,11 +397,12 @@ export function Nav({ barOffset = false }) {
                           // PRATIQUE_ROUTES above); the tour spotlights the group.
                           data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
                           aria-current={active ? "page" : undefined}
-                          className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
+                          className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? (dark ? "bg-white/[0.07]" : "bg-slate-900/[0.05]") : c.hoverSoft}`}>
                           {/* Same colours as the bar, on the icon and the label;
-                              every row the same weight. */}
-                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${m.tier ? TIER_TEXT[m.tier] : c.sub}`}`}>
-                            {Icon && <Icon size={17} {...(active ? {} : gradStroke(m))} />}
+                              every row the same weight. The current page's tile is
+                              filled in its colour, like its pill in the bar. */}
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? TIER_ON[tierOf(m)] : `${c.tint} ${m.tier ? "" : c.sub}`}`}>
+                            {Icon && <Icon size={17} {...iconProps(m, active)} />}
                           </span>
                           <span className={`flex-1 text-[15px] font-medium ${drawerText(m)}`}>
                             {tierLabel(m, labelOf(m))}

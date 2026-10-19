@@ -47,8 +47,8 @@ html{scroll-behavior:smooth}
 .grad-text{background:linear-gradient(92deg,#2E6BE6 0%,#6C4FE0 60%,#D8354A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 /* Desktop nav links (Nav.jsx): on hover, an underline in the link's own colour
    grows from the centre and the icon tilts up a touch; the tinted background
-   is Tailwind (TIER_TEXT). Not on the current page, whose pill already says
-   where you are. TCF blanc's gradient (.nav-grad) is drawn twice as wide,
+   is Tailwind (TIER_HOVER). Not on the current page, already filled in its
+   colour. TCF blanc's gradient (.nav-grad) is drawn twice as wide,
    mirrored, and slides on hover — same colours at rest as .grad-text. All of
    it is switched off under prefers-reduced-motion (global rule at the end). */
 .nav-link{position:relative;transition:color .2s ease,background-color .25s ease}
