@@ -123,7 +123,7 @@ function useParallax() {
 // `relative`, and the content placed after it must be positioned (`relative`)
 // so it paints on top. Hidden below the `from` breakpoint, where the content
 // already fills the width and there are no sides to fill.
-export function SectionDecor({ variant, from = "lg" }) {
+export function SectionDecor({ variant, from = "lg", wave = null }) {
   useParallax();
   const items = themed(LAYOUTS[variant] || [], useSiteTheme());
   // The landing page's stickers are drawn 30% larger; the other pages' side
@@ -132,7 +132,7 @@ export function SectionDecor({ variant, from = "lg" }) {
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (
     <>
-    <SeasonalDecor seed={Object.keys(LAYOUTS).indexOf(variant)} />
+    <SeasonalDecor seed={Object.keys(LAYOUTS).indexOf(variant)} wave={wave} />
     <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
       {items.map(([Sticker, props, pos, anim, depth], i) => (
         <span key={i} className={`absolute ${pos}`}

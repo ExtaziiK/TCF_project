@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
+import { waveDepth } from "./WaveSection";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
   Pumpkin, Ghost, Bat, Snowflake, Tree, Gift, Ornament, Garland,
@@ -149,27 +150,36 @@ function Spider({ color }) {
   );
 }
 
-// Where each spider hangs from the top of the section, how far it drops and
-// its rhythm. The inner two only show on wide screens, where the margins are.
+// Where each spider hangs across the section (% of its width), how far it
+// drops and its rhythm. The inner two only show on wide screens, where the
+// margins are.
 const SPIDERS = [
-  { left: "5%", drop: 170, duration: 10 },
-  { left: "93%", drop: 230, duration: 12 },
-  { left: "17%", drop: 110, duration: 11, wide: true },
-  { left: "82%", drop: 140, duration: 13, wide: true },
+  { x: 5, drop: 170, duration: 10 },
+  { x: 93, drop: 230, duration: 12 },
+  { x: 17, drop: 110, duration: 11, wide: true },
+  { x: 82, drop: 140, duration: 13, wide: true },
 ];
 
-function Spiders({ seed }) {
+// Under a wave (WaveSection), a spider hangs from the edge of the curve, not
+// from the top of the section: its anchor is the curve's depth at that point
+// times the cap's height, which follows the cap's own breakpoints (h-20,
+// md:h-32, lg:h-40). Each spider is clipped by a box starting at its anchor,
+// so when it climbs back it vanishes into the curve instead of showing over the
+// section above.
+function Spiders({ seed, wave }) {
   const { dark } = useApp();
   const color = dark ? "#C4B5FD" : "#2B2238";
   return (
-    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
       {SPIDERS.map((s, i) => {
         // Sections start their spiders at different moments, so they never drop in step.
         const anim = { animationDuration: `${s.duration}s`, animationDelay: `${-((seed * 3.1 + i * 4.3) % s.duration).toFixed(1)}s` };
+        const depth = wave ? waveDepth(wave.shape, wave.flip, s.x / 100) : 0;
         return (
-          <span key={i} className={`absolute top-0 ${s.wide ? "hidden xl:block" : "block"}`} style={{ left: s.left, "--drop": `${s.drop}px` }}>
-            <span className="spider-thread absolute top-0 left-0 w-px" style={{ height: s.drop, background: dark ? "rgba(255,255,255,.4)" : "rgba(43,34,56,.4)", ...anim }} />
-            <span className="spider-drop absolute top-0 -left-[14px]" style={anim}><Spider color={color} /></span>
+          <span key={i} className={`absolute overflow-hidden ${s.wide ? "hidden xl:block" : "block"}`}
+            style={{ left: `calc(${s.x}% - 24px)`, top: `calc(var(--cap) * ${depth.toFixed(3)})`, width: 48, height: s.drop + 36, "--drop": `${s.drop}px` }}>
+            <span className="spider-thread absolute top-0 left-6 w-px" style={{ height: s.drop, background: dark ? "rgba(255,255,255,.4)" : "rgba(43,34,56,.4)", ...anim }} />
+            <span className="spider-drop absolute top-0 left-[10px]" style={anim}><Spider color={color} /></span>
           </span>
         );
       })}
@@ -177,9 +187,9 @@ function Spiders({ seed }) {
   );
 }
 
-export function SeasonalDecor({ seed = 0 }) {
+export function SeasonalDecor({ seed = 0, wave = null }) {
   const theme = useSiteTheme();
   if (theme === "christmas") return <Snowfall />;
-  if (theme === "halloween") return <Spiders seed={seed} />;
+  if (theme === "halloween") return <Spiders seed={seed} wave={wave} />;
   return null;
 }
