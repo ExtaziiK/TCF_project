@@ -1,4 +1,4 @@
-import { FileText, MessagesSquare, Sparkles, ArrowRight } from "lucide-react";
+import { FileText, MessagesSquare, MessageCircle, Sparkles, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, RouteLink } from "@/components/common";
 import { hasAnswer } from "@/services/sujetsAnswersService";
@@ -91,6 +91,14 @@ export function EECombinaison({ s, i, year, month }) {
   );
 }
 
+// A month's combinaisons as SujetsDeck units. `year` lets each card link to its
+// corrigé.
+export const eeUnits = (m, year) => (m.data || []).map((s, i) => ({
+  key: `${m.key}-${s.n ?? i + 1}`,
+  n: s.n ?? i + 1,
+  node: <EECombinaison s={s} i={i} year={year} month={m} />,
+}));
+
 // --- Expression orale ------------------------------------------------------
 
 export const countEOSujets = (data) => (data || []).reduce((a, tk) => a + (tk.parties || []).reduce((b, p) => b + (p.sujets || []).length, 0), 0);
@@ -131,6 +139,23 @@ export function EOPartieCard({ tache, partie }) {
     </Card>
   );
 }
+
+// The tâche switch shown above an EO deck, and the deck's units: the parties of
+// the tâche picked — or of the month's first tâche, if it has no such tâche.
+export const EO_TACHES = [
+  { id: 2, label: "Tâche 2 · Interaction", Icon: MessagesSquare },
+  { id: 3, label: "Tâche 3 · Point de vue", Icon: MessageCircle },
+];
+export const eoTacheOf = (m, tache) => (m.data || []).find((tk) => tk.tache === tache) || m.data?.[0] || null;
+export const eoTachesIn = (m) => EO_TACHES.filter((x) => (m.data || []).some((tk) => tk.tache === x.id));
+export const eoUnits = (m, tache) => {
+  const tk = eoTacheOf(m, tache);
+  return (tk?.parties || []).map((p) => ({
+    key: `${m.key}-${tk.tache}-${p.partie}`,
+    n: p.partie,
+    node: <EOPartieCard tache={tk} partie={p} />,
+  }));
+};
 
 export function EOTacheBlock({ tache }) {
   const { c, t } = useApp();

@@ -2,7 +2,7 @@ import { CalendarDays, PenLine } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Pill } from "@/components/common";
 import { ArchiveBrowser } from "@/components/sujets/ArchiveBrowser";
-import { EECombinaison } from "@/components/sujets/renderers";
+import { eeUnits } from "@/components/sujets/renderers";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 
 const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
@@ -12,12 +12,6 @@ const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
 export function SujetsExpressionEcrite() {
   const { t } = useApp();
   const { loading, years } = useSujetsArchive("ee");
-
-  const units = (m, y) => m.data.map((s, i) => ({
-    key: `${m.key}-${s.n ?? i + 1}`,
-    n: s.n ?? i + 1,
-    node: <EECombinaison s={s} i={i} year={y.year} month={m} />,
-  }));
 
   const summary = (m, y) => (
     <>
@@ -36,7 +30,7 @@ export function SujetsExpressionEcrite() {
       title={t("Anciens sujets d'expression écrite")}
       sub={t("Les combinaisons qui ont circulé au TCF Canada, mois par mois, dans leur formulation réelle. Choisissez un mois, puis passez d'une combinaison à l'autre.")}
     >
-      <ArchiveBrowser years={years} loading={loading} units={units} unitName="Combinaison" summary={summary} />
+      <ArchiveBrowser years={years} loading={loading} units={(m, y) => eeUnits(m, y.year)} unitName="Combinaison" summary={summary} />
     </PageShell>
   );
 }

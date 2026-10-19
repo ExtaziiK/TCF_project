@@ -1,39 +1,74 @@
 import { useState } from "react";
-import { FileText, Mic, CalendarDays, Sparkles, ArrowRight } from "lucide-react";
+import { FileText, Mic, CalendarDays, Sparkles, ArrowRight, PenLine, MessageCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn } from "@/components/common";
-import { EECombinaison, EOTacheBlock } from "@/components/sujets/renderers";
+import { PageShell, Card, Pill, Btn, Segmented } from "@/components/common";
+import { SujetsDeck } from "@/components/sujets/SujetsDeck";
+import { eeUnits, eoUnits, eoTacheOf, eoTachesIn, countEOSujets } from "@/components/sujets/renderers";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
+
+const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
+const EPREUVES = [
+  { id: "ee", label: "Expression écrite", Icon: FileText },
+  { id: "eo", label: "Expression orale", Icon: Mic },
+];
 
 // Ressources · Sujets EE/EO: the latest month's subjects for the épreuve
 // the student picks (EE or EO) — the trending set to prepare right now. Older
-// months live on the "Anciens sujets" pages.
+// months live on the "Anciens sujets" pages. Same layout as those: a control
+// bar, then the month one combinaison (EE) or partie (EO) at a time, in the
+// épreuve's colour.
 export function SujetsActualite() {
   const { c, t, nav } = useApp();
   const [section, setSection] = useState("ee");
+  const [tache, setTache] = useState(2);
   const { loading, years } = useSujetsArchive(section);
-  const latest = years[0]?.months[0] || null; // newest year, latest month
+  const eo = section === "eo";
   const year = years[0]?.year;
+  // The newest year's most recent month.
+  const latest = (years[0]?.months || []).reduce((best, m) => (!best || m.monthNum > best.monthNum ? m : best), null);
+  const taches = latest && eo ? eoTachesIn(latest) : [];
+
+  const summary = latest && (
+    <>
+      <Pill tone="green"><Sparkles size={12} /> {t("Sujets du mois")}</Pill>
+      <Pill tone="blue"><CalendarDays size={12} /> {t(latest.month)} {year}</Pill>
+      {eo ? (
+        <Pill tone="amber"><MessageCircle size={12} /> {plural(countEOSujets(latest.data), t("sujet"), t("sujets"))}</Pill>
+      ) : (
+        <Pill tone="slate"><PenLine size={12} /> {plural(latest.data.length, t("combinaison"), t("combinaisons"))}</Pill>
+      )}
+    </>
+  );
 
   return (
     <PageShell
       back
+      tone={eo ? "amber" : "violet"}
+      icon={Sparkles}
       eyebrow={t("Ressources · Sujets EE/EO")}
       title={t("Sujets EE/EO du mois")}
       sub={t("Les derniers sujets qui circulent ce mois-ci au TCF Canada. Choisissez l'épreuve pour découvrir les sujets à préparer en priorité.")}
     >
-      {/* Épreuve toggle */}
-      <div className="flex items-center gap-2 flex-wrap mb-8">
-        {[["ee", "Expression écrite", FileText], ["eo", "Expression orale", Mic]].map(([s, label, Icon]) => (
-          <button key={s} onClick={() => setSection(s)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors ${section === s ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-            <Icon size={16} /> {t(label)}
-          </button>
-        ))}
-      </div>
+      <Card className="p-3 md:p-4 mb-5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Épreuve toggle */}
+          <div>
+            <Segmented items={EPREUVES} value={section} onChange={setSection} label={t("Épreuve")} />
+          </div>
+          {taches.length > 1 && (
+            <Segmented items={taches} value={eoTacheOf(latest, tache)?.tache} onChange={setTache} label={t("Tâche")} />
+          )}
+          <Btn small variant="ghost" className="sm:ml-auto" icon={ArrowRight} onClick={() => nav(eo ? "sujets-eo" : "sujets-ee")}>
+            {t("Voir les anciens sujets")}
+          </Btn>
+        </div>
+      </Card>
 
       {loading ? (
-        <div className="space-y-5">{Array.from({ length: 3 }).map((_, i) => <Card key={i} className="p-6 h-40 animate-pulse" />)}</div>
+        <div className="space-y-4" aria-busy="true">
+          <Card className={`h-12 animate-pulse ${c.track}`} />
+          <Card className={`h-96 animate-pulse ${c.track}`} />
+        </div>
       ) : !latest ? (
         <Card className="p-10 text-center">
           <Sparkles size={32} className="text-blue-600 mx-auto mb-4" />
@@ -41,23 +76,12 @@ export function SujetsActualite() {
           <p className={`mt-2 text-sm ${c.sub}`}>{t("Les sujets du mois seront publiés très prochainement.")}</p>
         </Card>
       ) : (
-        <>
-          <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
-            <div className="flex flex-wrap gap-2">
-              <Pill tone="green"><Sparkles size={12} /> {t("Sujets du mois")}</Pill>
-              <Pill tone="blue"><CalendarDays size={12} /> {latest.month} {year}</Pill>
-            </div>
-            <Btn small variant="ghost" icon={ArrowRight} onClick={() => nav(section === "ee" ? "sujets-ee" : "sujets-eo")}>
-              {t("Voir les anciens sujets")}
-            </Btn>
-          </div>
-
-          {section === "ee" ? (
-            <div className="space-y-5">{latest.data.map((s, i) => <EECombinaison key={i} s={s} i={i} year={year} month={latest} />)}</div>
-          ) : (
-            <div className="space-y-8">{latest.data.map((tache) => <EOTacheBlock key={tache.tache} tache={tache} />)}</div>
-          )}
-        </>
+        <SujetsDeck
+          key={`${section}|${latest.key}|${eo ? tache : ""}`}
+          units={eo ? eoUnits(latest, tache) : eeUnits(latest, year)}
+          unitName={eo ? "Partie" : "Combinaison"}
+          summary={summary}
+        />
       )}
     </PageShell>
   );
