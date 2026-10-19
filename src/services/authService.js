@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { TERMS_VERSION } from "@/constants/legalMeta";
 import { recordTermsAcceptance } from "@/services/termsService";
 
@@ -67,7 +67,7 @@ export async function claimDeviceSession(userId, { current } = {}) {
   if (!userId) return { ok: false };
   claiming = true;
   try {
-    const { data, error } = await supabase.rpc("claim_device_session", { p_current: current ?? getDeviceSessionId() ?? null });
+    const { data, error } = await (await getSupabase()).rpc("claim_device_session", { p_current: current ?? getDeviceSessionId() ?? null });
     if (error) {
       if (String(error.message || "").includes("device_limit_reached")) return { ok: false, limitReached: true };
       return { ok: false }; // RPC missing or offline — mechanism stays inert
@@ -94,7 +94,7 @@ export async function checkDeviceSession(userId) {
   if (claiming) return { ok: true };
   const local = getDeviceSessionId();
   if (!userId || !local) return { ok: true };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("profiles")
     .select("active_session_ids, sessions_revoked_at")
     .eq("id", userId)
@@ -126,7 +126,7 @@ export async function checkDeviceSession(userId) {
 // column directly). Fails open: a missing function (pre-migration) or a network
 // blip just means this ping is skipped, never an error the user sees.
 export async function touchLastSeen() {
-  try { await supabase.rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
+  try { await (await getSupabase()).rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
 }
 
 // OAuth logins redirect away before we can act, so we flag the intent (which
@@ -176,7 +176,7 @@ export function isNewlyCreatedUser(authUser) {
 // user_metadata, like email signup) and the chosen username (profiles). Called
 // from the onboarding step that gates new Google registrations.
 export async function completeGoogleProfile({ username, country, acceptedTerms }) {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
   const meta = user.user_metadata || {};
   // The authoritative consent record is the terms_acceptances row below; this
@@ -185,7 +185,7 @@ export async function completeGoogleProfile({ username, country, acceptedTerms }
   // it is not what we rely on.
   const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
   if ((country && country !== meta.country) || acceptedTerms) {
-    const { error } = await supabase.auth.updateUser({ data: { ...meta, ...(country ? { country } : {}), ...consent } });
+    const { error } = await (await getSupabase()).auth.updateUser({ data: { ...meta, ...(country ? { country } : {}), ...consent } });
     if (error) return { error };
   }
   // The email path gets its row from the signup trigger; this one has to write
@@ -200,7 +200,7 @@ export async function completeGoogleProfile({ username, country, acceptedTerms }
   }
   if (username) {
     const clean = String(username).trim().toLowerCase();
-    const { error } = await supabase.from("profiles").update({ username: clean }).eq("id", user.id);
+    const { error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id);
     if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
     if (error) return { error };
   }
@@ -263,31 +263,31 @@ export function mapSupabaseUser(session) {
 // user; the session only carries the desired value, which may have been
 // deduped at signup.
 export async function getProfile() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return null;
-  const { data } = await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle();
+  const { data } = await (await getSupabase()).from("profiles").select("username").eq("id", user.id).maybeSingle();
   return { username: data?.username || null, createdAt: user.created_at };
 }
 
 // Updates the display name (user_metadata.name), preserving other metadata.
 export async function updateDisplayName(name) {
-  const { data: { user } } = await supabase.auth.getUser();
-  return supabase.auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name) } });
+  const { data: { user } } = await (await getSupabase()).auth.getUser();
+  return (await getSupabase()).auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name) } });
 }
 
 // Renames the username in the profiles table. Stored lowercased; the unique
 // constraint (23505) surfaces as a friendly "already taken" message.
 export async function updateUsername(username) {
   const clean = String(username).trim().toLowerCase();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
-  const { error } = await supabase.from("profiles").update({ username: clean }).eq("id", user.id);
+  const { error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id);
   if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
   return { error };
 }
 
 export async function updatePassword(password) {
-  return supabase.auth.updateUser({ password });
+  return (await getSupabase()).auth.updateUser({ password });
 }
 
 // Redeems the token_hash carried by a password-reset link and opens the short
@@ -302,7 +302,7 @@ export async function updatePassword(password) {
 // run. See docs/email-templates/README.md.
 export async function verifyRecoveryToken(tokenHash) {
   if (!tokenHash) return { error: { message: "Lien incomplet." } };
-  const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
+  const { data, error } = await (await getSupabase()).auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
   return { session: data?.session || null, error };
 }
 
@@ -312,7 +312,7 @@ export async function verifyRecoveryToken(tokenHash) {
 // server-timestamped row in terms_acceptances (20260730) — bump TERMS_VERSION
 // when the wording changes and the next signups record the new one.
 export async function signUp({ name, username, email, password, country, acceptedTerms }) {
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await (await getSupabase()).auth.signUp({
     email,
     password,
     options: {
@@ -354,9 +354,9 @@ export async function verifySignupCode(email, code) {
   // also accepted `email` for it across versions. Try the documented one and
   // fall back rather than leave a candidate unable to activate their account
   // over a naming difference. A failed verify does not spend the token.
-  let { data, error } = await supabase.auth.verifyOtp({ email, token, type: "signup" });
+  let { data, error } = await (await getSupabase()).auth.verifyOtp({ email, token, type: "signup" });
   if (error) {
-    const retry = await supabase.auth.verifyOtp({ email, token, type: "email" });
+    const retry = await (await getSupabase()).auth.verifyOtp({ email, token, type: "email" });
     if (!retry.error) ({ data, error } = retry);
   }
   // A mistyped code is the ordinary case here, and Supabase words it in English
@@ -372,7 +372,7 @@ export async function verifySignupCode(email, code) {
 // held on a cooldown so an impatient candidate does not trip that limit and
 // lock themselves out of their own signup.
 export async function resendSignupCode(email) {
-  const { error } = await supabase.auth.resend({ type: "signup", email });
+  const { error } = await (await getSupabase()).auth.resend({ type: "signup", email });
   return { error };
 }
 
@@ -467,7 +467,7 @@ export function passwordHint(password, { email, username } = {}) {
 // Best-effort availability check for the registration form. Fails open: the
 // signup trigger dedupes server-side anyway, so a check outage never blocks.
 export async function isUsernameAvailable(username) {
-  const { data, error } = await supabase.rpc("is_username_available", { candidate: username });
+  const { data, error } = await (await getSupabase()).rpc("is_username_available", { candidate: username });
   if (error) return true;
   return !!data;
 }
@@ -495,11 +495,11 @@ export async function signIn({ identifier, password }) {
     if (!String(identifier).includes("@")) {
       return { ok: false, message: "En développement local, connectez-vous avec votre courriel." };
     }
-    const { data, error } = await supabase.auth.signInWithPassword({ email: identifier, password });
+    const { data, error } = await (await getSupabase()).auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
     const user = mapSupabaseUser(data.session);
     const claim = await claimDeviceSession(user?.id);
-    if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
+    if (claim.limitReached) { await (await getSupabase()).auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
     return { ok: true, user };
   }
 
@@ -509,7 +509,7 @@ export async function signIn({ identifier, password }) {
   if (json.deviceLimitReached) return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG };
 
   if (json.session) {
-    const { data, error } = await supabase.auth.setSession(json.session);
+    const { data, error } = await (await getSupabase()).auth.setSession(json.session);
     if (error) return { ok: false, message: error.message };
     const user = mapSupabaseUser(data.session);
     // api/login already claimed the device session server-side; just store the
@@ -517,7 +517,7 @@ export async function signIn({ identifier, password }) {
     if (json.deviceSession) setDeviceSessionId(json.deviceSession);
     else {
       const claim = await claimDeviceSession(user?.id);
-      if (claim.limitReached) { await supabase.auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
+      if (claim.limitReached) { await (await getSupabase()).auth.signOut(); return { ok: false, deviceLimitReached: true, message: DEVICE_LIMIT_MSG }; }
     }
     return { ok: true, user };
   }
@@ -539,7 +539,7 @@ export async function signIn({ identifier, password }) {
 
 export async function signInWithGoogle(intent = "login") {
   markOAuthPending(intent); // read back on return (see AppProvider), since the redirect leaves this page
-  return supabase.auth.signInWithOAuth({
+  return (await getSupabase()).auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: window.location.origin },
   });
@@ -550,16 +550,16 @@ export async function signOut() {
   // next login takes the empty slot instead of evicting the account's oldest
   // device. Signing out properly is what keeps other devices connected.
   const sid = getDeviceSessionId();
-  if (sid) { try { await supabase.rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
+  if (sid) { try { await (await getSupabase()).rpc("release_device_session", { p_sid: sid }); } catch { /* best effort */ } }
   setDeviceSessionId(null); // next login re-claims cleanly
-  return supabase.auth.signOut();
+  return (await getSupabase()).auth.signOut();
 }
 
 // Self-service account deletion (api/public/account). "delete" deactivates the
 // account and schedules its erasure; "reactivate" cancels that. Both return
 // the parsed JSON plus `ok`, never throw.
 async function accountAction(action, extra = {}) {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   const token = data.session?.access_token;
   if (!token) return { ok: false, error: "Session expirée. Reconnectez-vous." };
   const sid = getDeviceSessionId();
@@ -636,13 +636,13 @@ export function authErrorMessage(error, fallback = "Une erreur est survenue. Ré
 }
 
 export async function resetPassword(email) {
-  return supabase.auth.resetPasswordForEmail(email, {
+  return (await getSupabase()).auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin,
   });
 }
 
 export async function getSession() {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   return data.session;
 }
 
@@ -661,7 +661,7 @@ export async function getSession() {
 // hammering, which made the collision more likely rather than less. Report it
 // instead, and let callers back off.
 export async function refreshSession() {
-  const { data, error } = await supabase.auth.refreshSession();
+  const { data, error } = await (await getSupabase()).auth.refreshSession();
   if (error) return { session: null, error };
   return { session: data.session, error: null };
 }
@@ -689,7 +689,20 @@ export function isPremiumPending() {
   } catch { return false; }
 }
 
+// Returns its handle synchronously, as supabase-js does, although the client
+// loads asynchronously: an unsubscribe that arrives first cancels the listener
+// before it is ever attached.
 export function onAuthStateChange(callback) {
-  const { data } = supabase.auth.onAuthStateChange((_event, session) => callback(session));
-  return data.subscription;
+  let subscription = null;
+  let cancelled = false;
+  getSupabase().then((sb) => {
+    if (cancelled) return;
+    subscription = sb.auth.onAuthStateChange((_event, session) => callback(session)).data.subscription;
+  }, () => {});
+  return {
+    unsubscribe() {
+      cancelled = true;
+      subscription?.unsubscribe();
+    },
+  };
 }

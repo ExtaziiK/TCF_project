@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Per-question analytics: records practice attempts and aggregates them for
 // the admin QMS. Supabase first (table from
@@ -34,7 +34,7 @@ export async function recordAttempts(userId, attempts) {
     is_correct: a.answered === false ? null : !!a.correct,
     duration_ms: a.durationMs ?? null,
   }));
-  const { error } = await supabase.from("question_attempts").insert(rows);
+  const { error } = await (await getSupabase()).from("question_attempts").insert(rows);
   if (error) {
     localStore.add(rows.map((r) => ({ questionId: r.question_id, answered: r.answered, isCorrect: r.is_correct, durationMs: r.duration_ms })));
   }
@@ -75,7 +75,7 @@ export async function getAnalytics(questionIds) {
   if (ids.length === 0) return {};
   const result = Object.fromEntries(ids.map((id) => [id, { ...EMPTY }]));
 
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("question_attempts")
     .select("question_id, answered, is_correct, duration_ms")
     .in("question_id", ids);

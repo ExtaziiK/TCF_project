@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { WELCOME_EMAIL_KEY, WELCOME_MAX_CHARS, normalizeWelcome, parseWelcome } from "../../api/_lib/welcomeTemplate.js";
 import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, normalizeEmail, parseEmail } from "../../api/_lib/emailTemplates.js";
 import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
@@ -31,7 +31,7 @@ function normalize(cfg) {
 // Returns the banner config. "" / read error (e.g. migration not applied) /
 // legacy plain-string value all degrade to a sensible object.
 export async function getHomeLabel() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", HOME_LABEL).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", HOME_LABEL).maybeSingle();
   if (error || !data?.value) return { ...DEFAULT };
   try {
     const parsed = JSON.parse(data.value);
@@ -44,8 +44,8 @@ export async function getHomeLabel() {
 // Admin-only (enforced by RLS). Persists the config as JSON. Returns { ok, error? }.
 export async function setHomeLabel(cfg) {
   const clean = normalize(cfg);
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: HOME_LABEL, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -62,7 +62,7 @@ const MAX_MSG_LEN = 120;
 // (nothing has been customized yet) — read errors degrade to that too, so the
 // bar keeps showing its static list until an admin changes it.
 export async function getAnnouncementBar() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", ANNOUNCE_BAR).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", ANNOUNCE_BAR).maybeSingle();
   if (error || !data?.value) return { enabled: true, messages: null };
   try {
     const p = JSON.parse(data.value);
@@ -77,8 +77,8 @@ export async function setAnnouncementBar(cfg) {
     enabled: cfg?.enabled !== false,
     messages: (Array.isArray(cfg?.messages) ? cfg.messages : []).map((m) => String(m).slice(0, MAX_MSG_LEN)).filter((m) => m.trim()).slice(0, MAX_MSGS),
   };
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: ANNOUNCE_BAR, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -106,7 +106,7 @@ function normalizeHomeStats(cfg) {
 }
 
 export async function getHomeStats() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", HOME_STATS).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", HOME_STATS).maybeSingle();
   if (error || !data?.value) return { ...HOME_STATS_DEFAULT, items: [...HOME_STATS_DEFAULT.items] };
   try {
     const clean = normalizeHomeStats(JSON.parse(data.value));
@@ -121,8 +121,8 @@ export async function getHomeStats() {
 // Admin-only (enforced by RLS). Returns { ok, error? }.
 export async function setHomeStats(cfg) {
   const clean = normalizeHomeStats(cfg);
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: HOME_STATS, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -137,7 +137,7 @@ export async function setHomeStats(cfg) {
 // migration isn't applied or the call fails, so callers fall back to the last
 // saved figure rather than publishing a 0.
 export async function getStudentCount() {
-  const { data, error } = await supabase.rpc("registered_students_count");
+  const { data, error } = await (await getSupabase()).rpc("registered_students_count");
   const n = Number(data);
   return error || !Number.isFinite(n) ? null : n;
 }
@@ -175,7 +175,7 @@ function normalizePaymentDz(cfg) {
 // Publicly readable so the checkout page can show the account details. Degrades
 // to empty defaults if the migration isn't applied or the row is blank.
 export async function getPaymentDz() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", PAYMENT_DZ).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", PAYMENT_DZ).maybeSingle();
   if (error || !data?.value) return { ...DEFAULT_PAYMENT_DZ };
   try {
     return normalizePaymentDz(JSON.parse(data.value));
@@ -187,8 +187,8 @@ export async function getPaymentDz() {
 // Admin-only (enforced by RLS). Returns { ok, error? }.
 export async function setPaymentDz(cfg) {
   const clean = normalizePaymentDz(cfg);
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: PAYMENT_DZ, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -217,7 +217,7 @@ let launchDiscountPromise = null;
 export async function getLaunchDiscount() {
   if (!launchDiscountPromise) {
     launchDiscountPromise = (async () => {
-      const { data, error } = await supabase.from("site_settings").select("value").eq("key", LAUNCH_DISCOUNT).maybeSingle();
+      const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", LAUNCH_DISCOUNT).maybeSingle();
       if (error || !data?.value) return { ...DEFAULT_LAUNCH_DISCOUNT };
       try {
         const parsed = JSON.parse(data.value);
@@ -232,8 +232,8 @@ export async function getLaunchDiscount() {
 export async function setLaunchDiscount(enabled, percent) {
   launchDiscountPromise = null; // force the next read to hit the table
   const clean = { enabled: !!enabled, percent: clampPercent(percent) };
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: LAUNCH_DISCOUNT, value: JSON.stringify(clean), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -256,7 +256,7 @@ export async function setLaunchDiscount(enabled, percent) {
 const HOME_TESTIMONIALS = "home_testimonials";
 
 export async function getHomeTestimonials() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", HOME_TESTIMONIALS).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", HOME_TESTIMONIALS).maybeSingle();
   if (error || !data?.value) return { enabled: true };
   try {
     return { enabled: JSON.parse(data.value)?.enabled !== false };
@@ -265,8 +265,8 @@ export async function getHomeTestimonials() {
 
 // Admin-only (enforced by RLS). Returns { ok, error? }.
 export async function setHomeTestimonials(enabled) {
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: HOME_TESTIMONIALS, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -296,7 +296,7 @@ let welcomeOfferPromise = null;
 export async function getWelcomeOffer() {
   if (!welcomeOfferPromise) {
     welcomeOfferPromise = (async () => {
-      const { data, error } = await supabase.from("site_settings").select("value").eq("key", WELCOME_OFFER).maybeSingle();
+      const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", WELCOME_OFFER).maybeSingle();
       if (error || !data?.value) return { enabled: false };
       try {
         return { enabled: JSON.parse(data.value)?.enabled === true };
@@ -309,8 +309,8 @@ export async function getWelcomeOffer() {
 // Admin-only (enforced by RLS). Returns { ok, error? }.
 export async function setWelcomeOffer(enabled) {
   welcomeOfferPromise = null; // force the next read to hit the table
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: WELCOME_OFFER, value: JSON.stringify({ enabled: !!enabled }), updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -321,7 +321,7 @@ export async function setWelcomeOffer(enabled) {
  * up. Read by the server when sending (api/_lib/welcome.js); the shape and the
  * defaults live in api/_lib/welcomeTemplate.js, shared with the preview. */
 export async function getWelcomeEmail() {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", WELCOME_EMAIL_KEY).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", WELCOME_EMAIL_KEY).maybeSingle();
   return { ok: !error, cfg: parseWelcome(error ? null : data?.value) };
 }
 
@@ -329,8 +329,8 @@ export async function getWelcomeEmail() {
 export async function setWelcomeEmail(cfg) {
   const value = JSON.stringify(normalizeWelcome(cfg));
   if (value.length > WELCOME_MAX_CHARS) return { ok: false, error: `Texte trop long (${value.length}/${WELCOME_MAX_CHARS} caractères). Raccourcissez-le un peu.` };
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: WELCOME_EMAIL_KEY, value, updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };
@@ -340,7 +340,7 @@ export async function setWelcomeEmail(cfg) {
  * Reminder, expired, deactivated, deleted: on/off + subject + body each, one
  * site_settings row per email. Shape and defaults: api/_lib/emailTemplates.js. */
 export async function getEmailTemplate(id) {
-  const { data, error } = await supabase.from("site_settings").select("value").eq("key", EMAIL_TEMPLATES[id].key).maybeSingle();
+  const { data, error } = await (await getSupabase()).from("site_settings").select("value").eq("key", EMAIL_TEMPLATES[id].key).maybeSingle();
   return { ok: !error, cfg: parseEmail(id, error ? null : data?.value) };
 }
 
@@ -348,8 +348,8 @@ export async function getEmailTemplate(id) {
 export async function setEmailTemplate(id, cfg) {
   const value = JSON.stringify(normalizeEmail(id, cfg));
   if (value.length > EMAIL_MAX_CHARS) return { ok: false, error: `Texte trop long (${value.length}/${EMAIL_MAX_CHARS} caractères). Raccourcissez-le un peu.` };
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("site_settings")
     .upsert({ key: EMAIL_TEMPLATES[id].key, value, updated_at: new Date().toISOString(), updated_by: data?.user?.id ?? null }, { onConflict: "key" });
   return { ok: !error, error: error?.message };

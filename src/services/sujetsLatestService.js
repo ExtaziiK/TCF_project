@@ -1,6 +1,6 @@
 import { useEffect, useSyncExternalStore } from "react";
 import SHIPPED from "virtual:sujets-latest";
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { monthKey } from "@/services/sujetsArchiveService";
 
 // The newest month of subjects across EE and EO, as "YYYY-MM" — what the nav's
@@ -16,7 +16,7 @@ const listeners = new Set();
 
 export async function refreshLatestSujets() {
   fetched = true;
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("sujets_archive")
     .select("year, month_num")
     .order("year", { ascending: false })

@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { loadQuestionIds, loadQuiz } from "@/services/bankService";
 import { getActiveProfileId } from "@/utils/activeProfile";
 import { isUnderReview } from "@/constants/quizReview";
@@ -31,7 +31,7 @@ export async function recordMistakes(userId, items) {
     .filter(({ q }) => q)
     .map(({ x, q }) => ({ q: String(x.questionId), s: q.section, c: Number.isInteger(x.choice) ? x.choice : null }));
   if (rows.length === 0) return { ok: false };
-  const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows });
+  const { error } = await (await getSupabase()).rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows });
   if (error) console.warn("mistake_notebook:", error.message);
   return { ok: !error };
 }
@@ -57,7 +57,7 @@ export async function recordDicteeMistakes(userId, diffs) {
     }
   }
   if (rows.length === 0) return;
-  const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows.slice(0, 200) });
+  const { error } = await (await getSupabase()).rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: rows.slice(0, 200) });
   if (error) console.warn("mistake_notebook:", error.message);
 }
 
@@ -84,7 +84,7 @@ export async function recordConjugationMistake(userId, q, { given, verdict, tens
       exp: q.exp || null, tense: q.tense || tense?.t || null, typed: String(given || "").slice(0, 80), verdict,
     },
   };
-  const { error } = await supabase.rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: [row] });
+  const { error } = await (await getSupabase()).rpc("notebook_record", { p_profile: getActiveProfileId(), p_items: [row] });
   if (error) console.warn("mistake_notebook:", error.message);
 }
 export const isConjCard = (card) => String(card.questionId).startsWith("conj:");
@@ -110,7 +110,7 @@ const rowToCard = (r) => ({
 // showing an empty notebook that never fills.
 export async function listMistakes() {
   const profileId = getActiveProfileId();
-  let q = supabase.from("mistake_notebook").select("*").order("last_wrong_at", { ascending: false }).limit(2000);
+  let q = (await getSupabase()).from("mistake_notebook").select("*").order("last_wrong_at", { ascending: false }).limit(2000);
   if (profileId) q = q.eq("profile_id", profileId);
   const { data, error } = await q;
   if (error) {
@@ -126,7 +126,7 @@ export async function setMistakeStatus(id, status) {
   const patch = status === "understood"
     ? { status, understood_at: new Date().toISOString(), relapsed: false }
     : { status, understood_at: null, relapsed: false };
-  const { error } = await supabase.from("mistake_notebook").update(patch).eq("id", id);
+  const { error } = await (await getSupabase()).from("mistake_notebook").update(patch).eq("id", id);
   return { ok: !error, error: error?.message };
 }
 
@@ -136,7 +136,7 @@ export async function setMistakeStatus(id, status) {
 export async function clearMistakes(userId) {
   if (!userId) return { ok: false };
   const profileId = getActiveProfileId();
-  let q = supabase.from("mistake_notebook").delete().eq("user_id", userId);
+  let q = (await getSupabase()).from("mistake_notebook").delete().eq("user_id", userId);
   if (profileId) q = q.eq("profile_id", profileId);
   const { error } = await q;
   return { ok: !error, error: error?.message };

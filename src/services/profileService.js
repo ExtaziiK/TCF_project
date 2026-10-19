@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Profiles inside one account: several candidates share a Première classe or
 // VIP pass, each keeping their own progression (see
@@ -37,10 +37,10 @@ const cleanPin = (pin) => String(pin ?? "").replace(/\D/g, "").slice(0, PIN_LENG
 const cleanName = (name) => String(name ?? "").trim().slice(0, 30);
 
 export async function listProfiles() {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: true, items: [] };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("learner_profiles")
     .select("id, name, accent, pin_hash, created_at")
     .eq("user_id", userId)
@@ -52,7 +52,7 @@ export async function listProfiles() {
 }
 
 export async function createProfile({ name, accent = 0, pin }) {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: false, error: "Connectez-vous pour créer un profil." };
 
@@ -60,7 +60,7 @@ export async function createProfile({ name, accent = 0, pin }) {
   if (!clean) return { ok: false, error: "Donnez un nom à ce profil." };
 
   // The row is inserted first so its id can salt the PIN hash, then updated.
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("learner_profiles")
     .insert({ user_id: userId, name: clean, accent: Number(accent) || 0 })
     .select("id, name, accent, pin_hash, created_at")
@@ -75,7 +75,7 @@ export async function createProfile({ name, accent = 0, pin }) {
 
   const digits = cleanPin(pin);
   if (digits.length === PIN_LENGTH) {
-    await supabase.from("learner_profiles").update({ pin_hash: await hashPin(data.id, digits) }).eq("id", data.id);
+    await (await getSupabase()).from("learner_profiles").update({ pin_hash: await hashPin(data.id, digits) }).eq("id", data.id);
     return { ok: true, profile: { ...toProfile(data), locked: true } };
   }
   return { ok: true, profile: toProfile(data) };
@@ -84,7 +84,7 @@ export async function createProfile({ name, accent = 0, pin }) {
 export async function renameProfile(id, name) {
   const clean = cleanName(name);
   if (!clean) return { ok: false, error: "Donnez un nom à ce profil." };
-  const { error } = await supabase.from("learner_profiles").update({ name: clean }).eq("id", id);
+  const { error } = await (await getSupabase()).from("learner_profiles").update({ name: clean }).eq("id", id);
   if (error?.code === "23505") return { ok: false, error: "Vous avez déjà un profil portant ce nom." };
   return { ok: !error, error: error?.message };
 }
@@ -96,7 +96,7 @@ export async function setProfilePin(id, pin) {
     return { ok: false, error: `Le code doit faire ${PIN_LENGTH} chiffres.` };
   }
   const pin_hash = digits ? await hashPin(id, digits) : null;
-  const { error } = await supabase.from("learner_profiles").update({ pin_hash }).eq("id", id);
+  const { error } = await (await getSupabase()).from("learner_profiles").update({ pin_hash }).eq("id", id);
   return { ok: !error, error: error?.message };
 }
 
@@ -104,7 +104,7 @@ export async function setProfilePin(id, pin) {
 // what the ON DELETE CASCADE in the migration is for, and what "separate
 // progression" has to mean when someone is removed from the account.
 export async function deleteProfile(id) {
-  const { error } = await supabase.from("learner_profiles").delete().eq("id", id);
+  const { error } = await (await getSupabase()).from("learner_profiles").delete().eq("id", id);
   return { ok: !error, error: error?.message };
 }
 
@@ -113,7 +113,7 @@ export async function deleteProfile(id) {
 export async function verifyPin(id, pin) {
   const digits = cleanPin(pin);
   if (digits.length !== PIN_LENGTH) return false;
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("learner_profiles")
     .select("pin_hash")
     .eq("id", id)

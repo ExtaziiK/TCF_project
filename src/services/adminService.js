@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { getDeviceSessionId } from "@/services/authService";
 
 // Client for the admin dashboard. Two data paths:
@@ -10,13 +10,13 @@ import { getDeviceSessionId } from "@/services/authService";
 //   audit log — no server hop needed, is_admin() gates the rows.
 
 async function authHeaders() {
-  let { data } = await supabase.auth.getSession();
+  let { data } = await (await getSupabase()).auth.getSession();
   // Proactively refresh a token that's expired or about to (within 60s), so we
   // never send a stale one — the server rejects it as "Invalid or expired
   // session" (e.g. after the tab has been idle a while).
   const exp = data?.session?.expires_at; // unix seconds
   if (data?.session && exp && exp * 1000 - Date.now() < 60_000) {
-    const r = await supabase.auth.refreshSession();
+    const r = await (await getSupabase()).auth.refreshSession();
     if (r.data?.session) data = r.data;
   }
   const headers = { "Content-Type": "application/json" };
@@ -35,7 +35,7 @@ async function adminFetch(path, options = {}) {
     // A 401 mid-session almost always means the access token just expired.
     // Force a refresh and retry once before surfacing the error.
     if (res.status === 401) {
-      await supabase.auth.refreshSession().catch(() => {});
+      await (await getSupabase()).auth.refreshSession().catch(() => {});
       res = await send();
     }
   } catch {
@@ -258,7 +258,7 @@ export function sendComposedEmail(action, { to, cc, firstName, subject, body }) 
 // The emails sent from « Nouveau courriel », newest first (admin_audit_log,
 // action "send-email"; the text is in `detail`).
 export async function listSentEmails(limit = 200) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("admin_audit_log")
     .select("id, actor_email, target, detail, created_at")
     .eq("action", "send-email")
@@ -272,7 +272,7 @@ export async function listSentEmails(limit = 200) {
 
 // Public form submission (Contact page) — RLS allows anyone to insert.
 export async function submitContactMessage({ name, email, subject, message, userId }) {
-  const { error } = await supabase.from("contact_messages").insert({
+  const { error } = await (await getSupabase()).from("contact_messages").insert({
     user_id: userId || null,
     name: String(name).trim().slice(0, 120),
     email: String(email).trim().slice(0, 200),
@@ -283,7 +283,7 @@ export async function submitContactMessage({ name, email, subject, message, user
 }
 
 export async function listContactMessages() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("contact_messages")
     .select("*")
     .order("created_at", { ascending: false })
@@ -293,12 +293,12 @@ export async function listContactMessages() {
 }
 
 export async function setMessageStatus(id, status) {
-  const { error } = await supabase.from("contact_messages").update({ status }).eq("id", id);
+  const { error } = await (await getSupabase()).from("contact_messages").update({ status }).eq("id", id);
   return { ok: !error };
 }
 
 export async function deleteMessage(id) {
-  const { error } = await supabase.from("contact_messages").delete().eq("id", id);
+  const { error } = await (await getSupabase()).from("contact_messages").delete().eq("id", id);
   return { ok: !error };
 }
 
@@ -308,7 +308,7 @@ export async function deleteMessage(id) {
 // inbox keeps working instead of going blank.
 export async function listMessageReplies(messageIds = []) {
   if (!messageIds.length) return { ok: true, byMessage: {} };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("contact_replies")
     .select("id, message_id, body, sent_by_email, emailed, created_at, read_at")
     .in("message_id", messageIds)
@@ -334,7 +334,7 @@ export function fetchReplyMailStatus() {
 /* -------------------------------- audit log ------------------------------- */
 
 export async function listAuditLog(limit = 100) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("admin_audit_log")
     .select("*")
     .order("created_at", { ascending: false })

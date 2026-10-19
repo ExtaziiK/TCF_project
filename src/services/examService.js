@@ -1,7 +1,7 @@
 import { levelForPct } from "../../api/_lib/scoreBands.js";
 import { getBankSummary, loadQuiz } from "@/services/bankService";
 import { isUnderReview } from "@/constants/quizReview";
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { getActiveProfileId } from "@/utils/activeProfile";
 
 // TCF blancs: dynamic mock-exam generation + attempt persistence.
@@ -183,7 +183,7 @@ export async function listAttempts(userId) {
   // Scoped to the profile in use, when the account has them — a VIP family
   // must not see each other's mock exams in their history.
   const profileId = getActiveProfileId();
-  let q = supabase
+  let q = (await getSupabase())
     .from("exam_attempts")
     .select("*, exam_attempt_tasks(*)")
     .order("started_at", { ascending: false });
@@ -208,7 +208,7 @@ export async function createAttempt(userId, tasks, meta = {}) {
     progress: { taskIndex: 0, picks: {}, timeLeft: {}, ...meta },
     tasks,
   };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("exam_attempts")
     .insert({ user_id: userId, profile_id: getActiveProfileId(), status: attempt.status, progress: attempt.progress })
     .select()
@@ -227,7 +227,7 @@ export async function createAttempt(userId, tasks, meta = {}) {
     return attempt;
   }
   attempt.id = data.id;
-  const { error: taskErr } = await supabase.from("exam_attempt_tasks").insert(
+  const { error: taskErr } = await (await getSupabase()).from("exam_attempt_tasks").insert(
     tasks.map((t) => ({ exam_attempt_id: data.id, task_type: t.type || "quiz", quiz_id: t.quizId || null, section: t.section, task_order: t.order }))
   );
   if (taskErr) console.warn("exam_attempt_tasks:", taskErr.message);
@@ -237,7 +237,7 @@ export async function createAttempt(userId, tasks, meta = {}) {
 export async function saveProgress(userId, attempt) {
   // Only the progress payload is written, and never over a completed
   // attempt — a late autosave must not resurrect a finished exam.
-  const { error } = await supabase
+  const { error } = await (await getSupabase())
     .from("exam_attempts")
     .update({ progress: attempt.progress })
     .eq("id", attempt.id)
@@ -252,7 +252,7 @@ export async function saveProgress(userId, attempt) {
 
 export async function completeAttempt(userId, attempt, score) {
   const done = { ...attempt, status: "completed", completedAt: new Date().toISOString(), score };
-  const { error } = await supabase
+  const { error } = await (await getSupabase())
     .from("exam_attempts")
     .update({ status: "completed", completed_at: done.completedAt, score, progress: done.progress })
     .eq("id", attempt.id);
@@ -264,7 +264,7 @@ export async function completeAttempt(userId, attempt, score) {
 }
 
 export async function abandonAttempt(userId, attempt) {
-  const { error } = await supabase.from("exam_attempts").delete().eq("id", attempt.id);
+  const { error } = await (await getSupabase()).from("exam_attempts").delete().eq("id", attempt.id);
   if (error) {
     localStore.saveAll(userId, localStore.list(userId).filter((a) => a.id !== attempt.id));
   }

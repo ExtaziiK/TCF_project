@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Manual (DZD) subscription requests: a signed-in user pays by CCP / BaridiMob
 // transfer, uploads a receipt, and submits a request that the owner reviews in
@@ -15,7 +15,7 @@ export const ACCEPTED_RECEIPT_TYPES = ["image/jpeg", "image/png", "image/webp", 
 // inserts the request row. Returns { ok, error? }. Receipt is optional — a user
 // may instead send it via the WhatsApp group and submit the request as a record.
 export async function submitSubscriptionRequest({ plan, planDays, method, amountDzd, reference, notes, receiptFile }) {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const u = auth?.user;
   if (!u) return { ok: false, error: "not-authenticated" };
 
@@ -24,7 +24,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     if (receiptFile.size > MAX_RECEIPT_BYTES) return { ok: false, error: "Fichier trop volumineux (max 20 Mo)." };
     const ext = (receiptFile.name?.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 8);
     const path = `${u.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, receiptFile, {
+    const { error: upErr } = await (await getSupabase()).storage.from(BUCKET).upload(path, receiptFile, {
       contentType: receiptFile.type || "application/octet-stream",
       upsert: false,
     });
@@ -32,7 +32,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     receiptPath = path;
   }
 
-  const { data, error } = await supabase.from("subscription_requests").insert({
+  const { data, error } = await (await getSupabase()).from("subscription_requests").insert({
     user_id: u.id,
     email: u.email || null,
     name: u.user_metadata?.name || u.user_metadata?.full_name || null,
@@ -63,10 +63,10 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
 // Uses the anon key and the buyer's own RLS policy ("subreq: own read"), so no
 // endpoint and no privilege are involved.
 export async function latestRequest() {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return null;
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("subscription_requests")
     .select("id, plan, amount_dzd, status, review_note, created_at, reviewed_at")
     .eq("user_id", userId)
@@ -80,10 +80,10 @@ export async function latestRequest() {
 }
 
 export async function latestApprovedRequest() {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return null;
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("subscription_requests")
     .select("id, plan, created_at")
     .eq("user_id", userId)
@@ -109,7 +109,7 @@ export async function notifyNewRequest(id, phone) {
 /* --------------------------------- admin ---------------------------------- */
 
 export async function listSubscriptionRequests() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("subscription_requests")
     .select("*")
     .order("created_at", { ascending: false })
@@ -121,7 +121,7 @@ export async function listSubscriptionRequests() {
 // Short-lived signed URL for a receipt so the owner can view/download it.
 export async function signReceiptUrl(path, expiresIn = 3600) {
   if (!path) return null;
-  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, expiresIn);
+  const { data, error } = await (await getSupabase()).storage.from(BUCKET).createSignedUrl(path, expiresIn);
   return error ? null : data?.signedUrl || null;
 }
 
@@ -131,14 +131,15 @@ export async function signReceiptUrl(path, expiresIn = 3600) {
 // without that migration rejects the whole update, so the status — the part
 // that actually grants access — is retried on its own rather than lost.
 export async function setRequestStatus(id, status, extra) {
-  const table = () => supabase.from("subscription_requests");
+  const sb = await getSupabase();
+  const table = () => sb.from("subscription_requests");
   let { error } = await table().update({ status, ...extra }).eq("id", id);
   if (error && extra) ({ error } = await table().update({ status }).eq("id", id));
   return { ok: !error, error: error?.message };
 }
 
 export async function deleteSubscriptionRequest(id, receiptPath) {
-  if (receiptPath) await supabase.storage.from(BUCKET).remove([receiptPath]).catch(() => {});
-  const { error } = await supabase.from("subscription_requests").delete().eq("id", id);
+  if (receiptPath) await (await getSupabase()).storage.from(BUCKET).remove([receiptPath]).catch(() => {});
+  const { error } = await (await getSupabase()).from("subscription_requests").delete().eq("id", id);
   return { ok: !error, error: error?.message };
 }

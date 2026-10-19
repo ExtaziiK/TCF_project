@@ -32,5 +32,8 @@ export default defineConfig({
   // status 200 — which surfaces to the user as a JSON parse error on a page
   // that otherwise looks perfectly healthy.
   server: { proxy: apiProxy() },
+  // scripts/prerender.mjs reads the manifest to preload each route's page
+  // chunk from its own HTML, then deletes it so it is never deployed.
+  build: { manifest: true },
   preview: { proxy: apiProxy() },
 });

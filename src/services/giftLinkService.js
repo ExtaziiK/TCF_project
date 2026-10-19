@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Client side of "gift links" — shareable URLs (?gift=CODE) an admin creates
 // in Admin → Tarifs → Liens cadeaux to grant a plan for free, capped at N
@@ -40,7 +40,7 @@ export async function validateGiftCode(code) {
 // Redeems a gift code onto the SIGNED-IN account (api/public/gift, POST).
 // Returns { ok: true, planLabel, premiumUntil } or { ok: false, error }.
 export async function redeemGiftCode(code) {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   const token = data.session?.access_token;
   if (!token) return { ok: false, error: "not-authenticated" };
   try {

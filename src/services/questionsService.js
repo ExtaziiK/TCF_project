@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { injectAdminQuizzes } from "@/services/bankService";
 
 // Admin-authored questions: CRUD + version history + bulk operations.
@@ -40,7 +40,7 @@ const rowToQuestion = (r) => ({
 });
 
 export async function listQuestions() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("questions")
     .select("*")
     .order("updated_at", { ascending: false });
@@ -51,7 +51,7 @@ export async function listQuestions() {
 export async function createQuestion(userId, question) {
   const now = new Date().toISOString();
   const q = { ...question, id: newId(), version: 1, createdAt: now, updatedAt: now, createdBy: userId || null };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("questions")
     .insert({
       section: q.section, task: q.task, difficulty: q.difficulty, status: q.status,
@@ -70,14 +70,14 @@ export async function createQuestion(userId, question) {
 // history can be inspected and rolled back.
 export async function updateQuestion(userId, question) {
   const now = new Date().toISOString();
-  const { data: prev, error: readErr } = await supabase.from("questions").select("*").eq("id", question.id).single();
+  const { data: prev, error: readErr } = await (await getSupabase()).from("questions").select("*").eq("id", question.id).single();
   if (!readErr && prev) {
-    await supabase.from("question_versions").insert({
+    await (await getSupabase()).from("question_versions").insert({
       question_id: prev.id, version: prev.version, payload: prev.payload,
       section: prev.section, task: prev.task, difficulty: prev.difficulty, status: prev.status, tags: prev.tags,
       edited_by: userId || null,
     });
-    const { data, error } = await supabase
+    const { data, error } = await (await getSupabase())
       .from("questions")
       .update({
         section: question.section, task: question.task, difficulty: question.difficulty,
@@ -100,14 +100,14 @@ export async function updateQuestion(userId, question) {
 }
 
 export async function deleteQuestions(ids) {
-  const { error } = await supabase.from("questions").delete().in("id", ids);
+  const { error } = await (await getSupabase()).from("questions").delete().in("id", ids);
   if (error) localStore.saveAll(localStore.list().filter((q) => !ids.includes(q.id)));
 }
 
 // Bulk field change (status, difficulty, task…) applied to many questions.
 export async function patchQuestions(ids, patch) {
   const now = new Date().toISOString();
-  const { error } = await supabase.from("questions").update({ ...patch, updated_at: now }).in("id", ids);
+  const { error } = await (await getSupabase()).from("questions").update({ ...patch, updated_at: now }).in("id", ids);
   if (error) {
     localStore.saveAll(localStore.list().map((q) => (ids.includes(q.id) ? { ...q, ...patch, updatedAt: now } : q)));
   }
@@ -127,7 +127,7 @@ export async function duplicateQuestions(userId, questions) {
 }
 
 export async function listVersions(question) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("question_versions")
     .select("*")
     .eq("question_id", question.id)
@@ -158,9 +158,9 @@ export async function rollbackQuestion(userId, question, version) {
 export async function uploadMedia(file, kind) {
   const bucket = kind === "audio" ? "Audio" : "Image";
   const path = `admin/${Date.now()}-${file.name.replace(/[^\w.-]+/g, "_")}`;
-  const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: false });
+  const { error } = await (await getSupabase()).storage.from(bucket).upload(path, file, { upsert: false });
   if (error) throw new Error(`Téléversement refusé (${error.message}). Vous pouvez coller une URL à la place.`);
-  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+  const { data } = (await getSupabase()).storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
 }
 

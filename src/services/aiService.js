@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { getDeviceSessionId } from "@/services/authService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 
@@ -32,11 +32,11 @@ export class AiError extends Error {
 const TOKEN_SKEW_MS = 60_000;
 
 async function currentToken() {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   const session = data?.session || null;
   const expiresAt = (session?.expires_at || 0) * 1000;
   if (session && expiresAt && expiresAt - Date.now() < TOKEN_SKEW_MS) {
-    const { data: refreshed } = await supabase.auth.refreshSession();
+    const { data: refreshed } = await (await getSupabase()).auth.refreshSession();
     return refreshed?.session?.access_token || session.access_token;
   }
   return session?.access_token;
@@ -81,7 +81,7 @@ export async function postJSON(path, body, { retriedAuth = false } = {}) {
   // candidate can do anything about. Once only, so a genuinely dead session
   // fails fast instead of looping.
   if (res.status === 401 && !retriedAuth) {
-    const { data } = await supabase.auth.refreshSession().catch(() => ({ data: null }));
+    const { data } = await (await getSupabase()).auth.refreshSession().catch(() => ({ data: null }));
     if (data?.session) return postJSON(path, body, { retriedAuth: true });
   }
   // A body that is not JSON means the request never reached the function: a

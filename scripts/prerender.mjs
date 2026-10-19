@@ -117,6 +117,44 @@ function noscriptFor({ title, description }, links) {
 
 const shell = await fs.readFile(path.join(dist, "index.html"), "utf8");
 
+// Every page but Home is a lazy chunk (src/pages/index.jsx). Left alone, the
+// browser learns it needs /tarifs's chunk only once the entry script has
+// downloaded and run, then fetches it: two round trips in series before the
+// page can draw. A <link rel="modulepreload"> per route lets it fetch the page
+// chunk, and the chunks it imports, alongside the entry script instead.
+//
+// The route → chunk table is read from the source rather than repeated here:
+// the lazyPage() declarations give each component's module, PAGES gives each
+// route's component, and Vite's manifest gives each module's built files.
+async function loadPagePreloads() {
+  const manifestPath = path.join(dist, ".vite", "manifest.json");
+  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  await fs.rm(path.join(dist, ".vite"), { recursive: true, force: true }); // build-time only
+  const source = await fs.readFile(path.join(root, "src/pages/index.jsx"), "utf8");
+
+  const moduleOf = {};
+  for (const [, name, spec] of source.matchAll(/const (\w+) = lazyPage\(\(\) => import\("@\/([^"]+)"\)/g)) {
+    const key = ["jsx", "js"].map((ext) => `src/${spec}.${ext}`).find((k) => manifest[k]);
+    if (key) moduleOf[name] = key;
+  }
+  const pagesBlock = source.slice(source.indexOf("export const PAGES"));
+  const files = (key, seen = new Set()) => {
+    const entry = manifest[key];
+    if (!entry || entry.isEntry || seen.has(key)) return [];
+    seen.add(key);
+    return [entry.file, ...(entry.imports || []).flatMap((k) => files(k, seen))];
+  };
+  const preloads = {};
+  for (const [, route, name] of pagesBlock.matchAll(/^\s*"?([\w-]+)"?: (\w+),/gm)) {
+    if (moduleOf[name]) preloads[route] = [...new Set(files(moduleOf[name]))];
+  }
+  return preloads;
+}
+const PAGE_PRELOADS = await loadPagePreloads();
+const preloadTags = (route) =>
+  (PAGE_PRELOADS[route] || PAGE_PRELOADS[route.split("/")[0]] || [])
+    .map((file) => `<link rel="modulepreload" crossorigin href="/${file}">`);
+
 // The canonical host, taken from the shell's own og:url rather than repeated
 // here, so this can never disagree with index.html — which `npm run check:seo`
 // already keeps aligned with robots.txt and sitemap.xml.
@@ -150,7 +188,8 @@ for (const [route, meta] of Object.entries(ROUTE_META)) {
   const routeData = routeJsonLd(route, origin);
   if (routeData) jsonLds.push({ id: ROUTE_JSONLD_ID, data: routeData });
   const noscript = noscriptFor({ title: meta.title, description }, NOSCRIPT_LINKS);
-  const html = pageHtml(shell, { title, description, url, image, noindex: !!meta.noindex, jsonLds, noscript });
+  let html = pageHtml(shell, { title, description, url, image, noindex: !!meta.noindex, jsonLds, noscript });
+  for (const tag of preloadTags(route)) html = html.replace("</head>", `    ${tag}\n  </head>`);
   if (!meta.noindex) sitemap.push({ loc: url, lastmod: meta.post?.iso });
 
   const target = meta.path === "/"
@@ -192,5 +231,38 @@ ${sitemap.map(({ loc, lastmod }) => `  <url><loc>${loc}</loc>${lastmod ? `<lastm
 </urlset>
 `;
 await fs.writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");
+
+// /llms.txt (llmstxt.org): a Markdown map of the site for AI agents and
+// assistants — a title, a one-paragraph summary, then sections of links with
+// a note each. Written from the same table as the sitemap, so it cannot list
+// a page that no longer exists or miss a new article. Without it the URL was
+// answered by the 404 page, which PageSpeed reports as an invalid llms.txt.
+{
+  const link = (route) => {
+    const m = ROUTE_META[route];
+    return m?.path && !m.noindex ? `- [${m.title}](${origin + m.path}): ${m.description || ""}`.trimEnd() : null;
+  };
+  const section = (heading, routes) => {
+    const lines = routes.map(link).filter(Boolean);
+    return lines.length ? `## ${heading}\n\n${lines.join("\n")}\n` : "";
+  };
+  const articles = Object.entries(ROUTE_META)
+    .filter(([r, m]) => r.startsWith("blog/") && m.post && !m.noindex)
+    .sort(([, a], [, b]) => (b.post.iso || "").localeCompare(a.post.iso || ""))
+    .map(([r]) => r);
+  const txt = [
+    `# ${SITE_NAME}`,
+    "",
+    `> ${ROUTE_META.home.description}`,
+    "",
+    "Passerelle est une plateforme indépendante, en français, pour les candidats au TCF Canada (Test de connaissance du français pour le Canada, utilisé pour l'immigration et la citoyenneté canadiennes). Le contenu public est consultable sans compte ; les quiz, TCF blancs et analyses IA demandent un compte gratuit ou un abonnement.",
+    "",
+    section("Préparer le TCF Canada", ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "calculator", "sujets-ee", "sujets-eo"]),
+    section("Passerelle", ["home", "pricing", "register", "avis", "faq", "about", "contact"]),
+    section("Blogue", ["blog", ...articles]),
+    section("Optional", ["terms", "privacy", "accessibility"]),
+  ].join("\n");
+  await fs.writeFile(path.join(dist, "llms.txt"), txt.trimEnd() + "\n", "utf8");
+}
 
 console.log(`prerender: ${written} pages (${indexable} indexable) at ${origin} · sitemap.xml: ${sitemap.length} URLs`);

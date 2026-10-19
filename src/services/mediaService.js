@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { getDeviceSessionId } from "@/services/authService";
 
 // Fetches short-lived signed URLs for a quiz's media in one batch, addressed by
@@ -22,7 +22,7 @@ export async function signQuizMedia(descriptors) {
 
   let res;
   try {
-    const { data } = await supabase.auth.getSession();
+    const { data } = await (await getSupabase()).auth.getSession();
     const headers = { "Content-Type": "application/json" };
     const token = data?.session?.access_token;
     if (token) headers.Authorization = `Bearer ${token}`;

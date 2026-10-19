@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { parseDzd } from "@/utils/currency";
 
 // The dinar ledger behind the admin "Revenus" tab. Money arrives two ways:
@@ -79,8 +79,8 @@ const friendly = (error) => {
 // requests countable, and the tab says which half is missing.
 export async function listRevenue() {
   const [reqs, entries] = await Promise.all([
-    supabase.from("subscription_requests").select("*").eq("status", "approved").order("created_at", { ascending: false }).limit(1000),
-    supabase.from("revenue_entries").select("*").order("occurred_at", { ascending: false }).limit(1000),
+    (await getSupabase()).from("subscription_requests").select("*").eq("status", "approved").order("created_at", { ascending: false }).limit(1000),
+    (await getSupabase()).from("revenue_entries").select("*").order("occurred_at", { ascending: false }).limit(1000),
   ]);
 
   const sales = [
@@ -105,7 +105,7 @@ export async function listRevenue() {
 // rounding, a promo the buyer negotiated). Passing null clears the correction
 // and falls the row back to its checkout amount.
 export async function setRequestAmount(id, amount) {
-  const { error } = await supabase
+  const { error } = await (await getSupabase())
     .from("subscription_requests")
     .update({ amount_received_dzd: amount })
     .eq("id", id);
@@ -113,7 +113,7 @@ export async function setRequestAmount(id, amount) {
 }
 
 export async function addRevenueEntry({ occurredAt, amount, plan, method, customer, email, notes }) {
-  const { error } = await supabase.from("revenue_entries").insert({
+  const { error } = await (await getSupabase()).from("revenue_entries").insert({
     occurred_at: occurredAt || new Date().toISOString(),
     amount_dzd: amount,
     plan: plan ? String(plan).slice(0, 60) : null,
@@ -126,11 +126,11 @@ export async function addRevenueEntry({ occurredAt, amount, plan, method, custom
 }
 
 export async function updateRevenueEntry(id, patch) {
-  const { error } = await supabase.from("revenue_entries").update(patch).eq("id", id);
+  const { error } = await (await getSupabase()).from("revenue_entries").update(patch).eq("id", id);
   return { ok: !error, error: friendly(error) };
 }
 
 export async function deleteRevenueEntry(id) {
-  const { error } = await supabase.from("revenue_entries").delete().eq("id", id);
+  const { error } = await (await getSupabase()).from("revenue_entries").delete().eq("id", id);
   return { ok: !error, error: friendly(error) };
 }

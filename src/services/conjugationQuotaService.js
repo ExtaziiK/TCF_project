@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { todayKey } from "@/utils/conjugationQuota";
 
 // Storage for the daily conjugation-practice budget of a free account. The
@@ -36,7 +36,7 @@ export async function readUsage(userId) {
   const local = localStore.read(userId, day);
   if (!userId) return { seconds: local, backend: "local" };
 
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("conjugation_usage")
     .select("seconds")
     .eq("user_id", userId)
@@ -62,7 +62,7 @@ export async function writeUsage(userId, seconds) {
   localStore.write(userId, day, total);
   if (!userId) return;
 
-  const { error } = await supabase
+  const { error } = await (await getSupabase())
     .from("conjugation_usage")
     .upsert({ user_id: userId, day, seconds: total, updated_at: new Date().toISOString() }, { onConflict: "user_id,day" });
 

@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { getActiveProfileId } from "@/utils/activeProfile";
 
 // Standalone practice-quiz results (bank/practice/reading/listening quizzes).
@@ -42,7 +42,7 @@ export async function listQuizResults(userId) {
   // (most accounts, and any database where the migration has not run) the query
   // is unchanged, so nothing about single-profile accounts moves.
   const profileId = getActiveProfileId();
-  let q = supabase.from("quiz_results").select("*").order("completed_at", { ascending: false });
+  let q = (await getSupabase()).from("quiz_results").select("*").order("completed_at", { ascending: false });
   if (profileId) q = q.eq("profile_id", profileId);
   const { data, error } = await q;
   if (error) {
@@ -57,11 +57,11 @@ export async function recordQuizResult(userId, { quizKey, section, ok, total, an
   const pct = Math.round((ok / total) * 100);
   const ans = answered ?? total;
   const base = { user_id: userId, profile_id: getActiveProfileId(), quiz_key: quizKey, section: section || null, ok, total, answered: ans, pct, duration_sec: durationSec ?? null };
-  let { error } = await supabase.from("quiz_results").insert({ ...base, answers: answers ?? null });
+  let { error } = await (await getSupabase()).from("quiz_results").insert({ ...base, answers: answers ?? null });
   if (error && isMissingAnswersColumn(error)) {
     // The `answers` migration isn't applied on this database yet — still record
     // the score itself rather than losing the whole attempt to localStorage.
-    ({ error } = await supabase.from("quiz_results").insert(base));
+    ({ error } = await (await getSupabase()).from("quiz_results").insert(base));
   }
   if (error) {
     localStore.add(userId, { quizKey, section: section || null, ok, total, answered: ans, pct, durationSec: durationSec ?? null, answers: answers ?? null, completedAt: new Date().toISOString() });

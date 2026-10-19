@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // How many people actually click through to YouTube, TikTok, Instagram,
 // Facebook and WhatsApp — counted in our own database rather than through a
@@ -13,18 +13,15 @@ import { supabase } from "@/services/supabaseClient";
 // never wait on, or be blocked by, this write. A failure (offline, migration
 // not applied, table dropped) costs a count and nothing else.
 export function recordSocialClick(network, placement = "footer") {
-  try {
-    supabase.from("social_clicks").insert({ network, placement }).then(
-      () => {},
-      () => {},
-    );
-  } catch { /* never let analytics break a link */ }
+  getSupabase()
+    .then((sb) => sb.from("social_clicks").insert({ network, placement }))
+    .then(() => {}, () => {}); // never let analytics break a link
 }
 
 // Per-channel totals over the window, admin-only by RLS inside the function.
 // `unavailable` means the migration has not been applied yet.
 export async function getSocialClickStats(days = 30) {
-  const { data, error } = await supabase.rpc("social_click_stats", { since_days: days });
+  const { data, error } = await (await getSupabase()).rpc("social_click_stats", { since_days: days });
   if (error) return { ok: false, unavailable: true, rows: [] };
 
   // The function groups by (network, placement) so the owner can see whether

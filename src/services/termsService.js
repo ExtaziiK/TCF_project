@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { TERMS_VERSION } from "@/constants/legalMeta";
 
 // Consent records for the conditions générales (terms_acceptances, see
@@ -21,7 +21,7 @@ const isMissingTable = (error) => error?.code === "42P01" || error?.code === "PG
 // (user_id, version) index makes a repeat a no-op rather than a second row, and
 // 23505 (unique violation) therefore counts as success.
 export async function recordTermsAcceptance(source) {
-  const { error } = await supabase.from("terms_acceptances").insert({ version: TERMS_VERSION, source });
+  const { error } = await (await getSupabase()).from("terms_acceptances").insert({ version: TERMS_VERSION, source });
   if (!error || error.code === "23505") return { ok: true };
   if (isMissingTable(error)) return { ok: false, unavailable: true, error: error.message };
   return { ok: false, error: error.message };
@@ -32,7 +32,7 @@ export async function recordTermsAcceptance(source) {
 // can fail open: nobody should be locked out of the app by a failed lookup.
 export async function hasAcceptedCurrentTerms(userId) {
   if (!userId) return null;
-  const { count, error } = await supabase
+  const { count, error } = await (await getSupabase())
     .from("terms_acceptances")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId) // admins can read every row — scope the check to this account

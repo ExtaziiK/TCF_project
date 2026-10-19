@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Member-written success stories, moderated by an admin before they reach the
 // public landing page (testimonials table + RLS, see
@@ -41,7 +41,7 @@ const toItem = (r) => ({
 // A missing table (migration not applied) degrades to an empty list so the
 // caller can fall back to the built-in seed copy.
 export async function listApprovedTestimonials(limit = 6) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonials")
     .select("*")
     .eq("status", "approved")
@@ -55,7 +55,7 @@ export async function listApprovedTestimonials(limit = 6) {
 // The avis page: approved reviews, newest first. Separate from the landing
 // page's call, which puts featured stories first and takes only a handful.
 export async function listApprovedReviews(limit = 60) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonials")
     .select("*")
     .eq("status", "approved")
@@ -72,7 +72,7 @@ export async function listApprovedReviews(limit = 60) {
 //
 // Only `rating` is selected, so this stays a small read even as reviews pile up.
 export async function approvedRatingSummary() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonials")
     .select("rating")
     .eq("status", "approved")
@@ -95,7 +95,7 @@ export const MIN_RATINGS_FOR_AVERAGE = 3;
 // kept at the point where the data is written rather than where it is read: the
 // name they asked us to hide is never stored on a row the public can read.
 export async function submitTestimonial({ name, origin, level, body, rating, anonymous = false }) {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: false, error: "Connectez-vous pour partager votre avis." };
 
@@ -108,7 +108,7 @@ export async function submitTestimonial({ name, origin, level, body, rating, ano
   // A rating outside 1-5 is dropped rather than clamped: the table would
   // reject it anyway, and a silently corrected star count is worse than none.
   const stars = Number(rating);
-  const { data, error } = await supabase.from("testimonials").insert({
+  const { data, error } = await (await getSupabase()).from("testimonials").insert({
     user_id: userId,
     name: hide ? ANONYMOUS_NAME : realName,
     // Named only when it is set. The column defaults to false, so this is the
@@ -130,7 +130,7 @@ export async function submitTestimonial({ name, origin, level, body, rating, ano
   // queue a name; it must not cost the member their review, which is already in
   // — and already anonymous, which is the part that was promised.
   if (hide && data?.id) {
-    await supabase.from("testimonial_identities").insert({ testimonial_id: data.id, real_name: realName });
+    await (await getSupabase()).from("testimonial_identities").insert({ testimonial_id: data.id, real_name: realName });
   }
   return { ok: true };
 }
@@ -140,10 +140,10 @@ export async function submitTestimonial({ name, origin, level, body, rating, ano
 // status, so someone whose review is still pending — or was rejected — is not
 // asked again.
 export async function hasReviewed() {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return true; // signed out: nothing to ask
-  const { count, error } = await supabase
+  const { count, error } = await (await getSupabase())
     .from("testimonials")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId);
@@ -155,10 +155,10 @@ export async function hasReviewed() {
 // The signed-in member's own stories, whatever their status (RLS lets an author
 // read their own rows so the profile page can show "en attente de validation").
 export async function listMyTestimonials() {
-  const { data: auth } = await supabase.auth.getUser();
+  const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;
   if (!userId) return { ok: true, items: [] };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonials")
     .select("*")
     .eq("user_id", userId)
@@ -170,7 +170,7 @@ export async function listMyTestimonials() {
 /* ── moderation (admin-only by RLS) ─────────────────────────────────────────── */
 
 export async function listAllTestimonials() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonials")
     .select("*")
     .order("created_at", { ascending: false })
@@ -183,7 +183,7 @@ export async function listAllTestimonials() {
 // testimonial id. Admin-only by RLS, so for anyone else this comes back empty
 // rather than failing — as it does when the migration has yet to be applied.
 export async function listTestimonialIdentities() {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("testimonial_identities")
     .select("testimonial_id, real_name");
   if (error) return {};
@@ -191,8 +191,8 @@ export async function listTestimonialIdentities() {
 }
 
 export async function setTestimonialStatus(id, status) {
-  const { data: auth } = await supabase.auth.getUser();
-  const { error } = await supabase
+  const { data: auth } = await (await getSupabase()).auth.getUser();
+  const { error } = await (await getSupabase())
     .from("testimonials")
     .update({ status, reviewed_at: new Date().toISOString(), reviewed_by: auth?.user?.id ?? null })
     .eq("id", id);
@@ -200,12 +200,12 @@ export async function setTestimonialStatus(id, status) {
 }
 
 export async function setTestimonialFeatured(id, featured) {
-  const { error } = await supabase.from("testimonials").update({ featured }).eq("id", id);
+  const { error } = await (await getSupabase()).from("testimonials").update({ featured }).eq("id", id);
   return { ok: !error, error: error?.message };
 }
 
 // Also used by an author withdrawing their own story (RLS allows both).
 export async function deleteTestimonial(id) {
-  const { error } = await supabase.from("testimonials").delete().eq("id", id);
+  const { error } = await (await getSupabase()).from("testimonials").delete().eq("id", id);
   return { ok: !error, error: error?.message };
 }

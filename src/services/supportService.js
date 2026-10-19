@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // The member's side of the contact form: the messages they sent us and the
 // answers they got back (contact_messages + contact_replies, see
@@ -34,7 +34,7 @@ const toThread = (m, replies) => ({
 // Every conversation the member has with us, newest first.
 export async function listMyThreads(userId) {
   if (!userId) return { ok: true, threads: [] };
-  const { data: messages, error } = await supabase
+  const { data: messages, error } = await (await getSupabase())
     .from("contact_messages")
     .select("id, subject, message, status, created_at")
     .eq("user_id", userId)
@@ -43,7 +43,7 @@ export async function listMyThreads(userId) {
   if (error) return { ok: false, unavailable: missing(error), threads: [] };
   if (!messages.length) return { ok: true, threads: [] };
 
-  const { data: replyRows, error: replyError } = await supabase
+  const { data: replyRows, error: replyError } = await (await getSupabase())
     .from("contact_replies")
     .select("id, message_id, body, created_at, read_at")
     .in("message_id", messages.map((m) => m.id))
@@ -65,7 +65,7 @@ export async function listMyThreads(userId) {
 // member. Ownership is asserted here rather than inferred from the policy.
 export async function listUnreadReplies(userId) {
   if (!userId) return { ok: true, replies: [] };
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("contact_replies")
     .select("id, message_id, body, created_at, contact_messages!inner(user_id)")
     .eq("contact_messages.user_id", userId)
@@ -80,7 +80,7 @@ export async function listUnreadReplies(userId) {
 // the whole of what they can change about a reply.
 export async function markRepliesRead(ids = []) {
   if (!ids.length) return { ok: true };
-  const { error } = await supabase
+  const { error } = await (await getSupabase())
     .from("contact_replies")
     .update({ read_at: new Date().toISOString() })
     .in("id", ids)

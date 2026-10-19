@@ -1,11 +1,11 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Starts a Stripe Checkout session for the given price (optionally carrying a
 // validated promo code) and redirects the browser to Stripe's hosted payment
 // page. The session is created server-side (api/create-checkout-session)
 // since it needs the Stripe secret key.
 export async function startCheckout(planSlug, promoCode) {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error("not-authenticated");
 
@@ -29,7 +29,7 @@ export async function startCheckout(planSlug, promoCode) {
 // Returns { ok: true } once granted, { pending: true } while Stripe has not
 // settled it yet (an asynchronous payment method), or { ok: false } on error.
 export async function confirmCheckout(sessionId) {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await (await getSupabase()).auth.getSession();
   const token = data.session?.access_token;
   if (!token || !sessionId) return { ok: false };
 

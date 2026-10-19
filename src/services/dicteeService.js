@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { postJSON } from "@/services/aiService";
 import { getActiveProfileId } from "@/utils/activeProfile";
 
@@ -80,7 +80,7 @@ export async function fetchDicteeLibrary() {
 
 export async function listDicteeSessions(userId) {
   const profileId = getActiveProfileId();
-  let q = supabase.from("dictee_sessions").select("*").order("completed_at", { ascending: false });
+  let q = (await getSupabase()).from("dictee_sessions").select("*").order("completed_at", { ascending: false });
   if (profileId) q = q.eq("profile_id", profileId);
   const { data, error } = await q;
   if (error) {
@@ -108,7 +108,7 @@ export async function recordDicteeSession(userId, session) {
     duration_sec: session.durationSec ?? null,
     errors: session.errors || {},
   };
-  const { error } = await supabase.from("dictee_sessions").insert(row);
+  const { error } = await (await getSupabase()).from("dictee_sessions").insert(row);
   if (error) {
     localStore.add(userId, { ...rowToSession({ ...row, completed_at: new Date().toISOString() }), id: null });
   }

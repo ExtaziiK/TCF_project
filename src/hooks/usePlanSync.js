@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 import { refreshSession, mapSupabaseUser } from "@/services/authService";
 
 // Keeps the browser's idea of the plan in step with the account's.
@@ -37,7 +37,7 @@ export function usePlanSync({ user, setUser }) {
 
     const check = async () => {
       if (document.hidden || cancelled) return;
-      const { data, error } = await supabase.auth.getUser();
+      const { data, error } = await (await getSupabase()).auth.getUser();
       if (error || cancelled) return;
       const m = data?.user?.app_metadata || {};
       const live = signature(m.plan, m.plan_label, m.premium_until);

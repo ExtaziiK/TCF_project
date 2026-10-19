@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Monthly subjects archive (Expression écrite / orale). Admin-managed via the
 // sujets_archive table (RLS: public read, admin write — see migration
@@ -54,7 +54,7 @@ export async function fetchShipped(section) {
 export async function loadArchive(section) {
   const map = new Map();
   for (const r of await fetchShipped(section)) map.set(`${r.year}-${r.monthNum}`, r);
-  const { data, error } = await supabase.from("sujets_archive").select("year, month_num, data").eq("section", section);
+  const { data, error } = await (await getSupabase()).from("sujets_archive").select("year, month_num, data").eq("section", section);
   if (!error && data) {
     for (const r of data) map.set(`${r.year}-${r.month_num}`, { year: r.year, monthNum: r.month_num, data: r.data });
   }
@@ -66,13 +66,13 @@ export async function loadArchive(section) {
 const refreshNav = () => import("@/services/sujetsLatestService").then((m) => m.refreshLatestSujets()).catch(() => {});
 
 async function currentUserId() {
-  const { data } = await supabase.auth.getUser();
+  const { data } = await (await getSupabase()).auth.getUser();
   return data?.user?.id ?? null;
 }
 
 // Admin-only (RLS). Creates or replaces one month's payload.
 export async function saveMonth(section, year, monthNum, data) {
-  const { error } = await supabase.from("sujets_archive").upsert(
+  const { error } = await (await getSupabase()).from("sujets_archive").upsert(
     { section, year, month_num: monthNum, data, updated_at: new Date().toISOString(), updated_by: await currentUserId() },
     { onConflict: "section,year,month_num" },
   );
@@ -83,7 +83,7 @@ export async function saveMonth(section, year, monthNum, data) {
 // Admin-only (RLS). Removes a month's admin override. If the month also exists
 // in the shipped base, it reverts to that base on the next load.
 export async function deleteMonth(section, year, monthNum) {
-  const { error } = await supabase.from("sujets_archive").delete().eq("section", section).eq("year", year).eq("month_num", monthNum);
+  const { error } = await (await getSupabase()).from("sujets_archive").delete().eq("section", section).eq("year", year).eq("month_num", monthNum);
   if (!error) refreshNav();
   return { ok: !error, error: error?.message };
 }

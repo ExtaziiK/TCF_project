@@ -1,4 +1,4 @@
-import { supabase } from "@/services/supabaseClient";
+import { getSupabase } from "@/services/supabaseClient";
 
 // Model answers (« modèles de réponse ») for the Expression écrite subjects,
 // backed by the sujets_answers table (migration 20260913_sujets_answers.sql).
@@ -23,7 +23,7 @@ export { ANSWER_TACHES, hasAnswer, markAnswered, highlight } from "@/services/su
 // reader is not Premium (RLS), when the month predates the feature, or when
 // generation never ran — the page tells those apart via `hasAnswer`.
 export async function loadAnswers(section, year, monthNum, n) {
-  const { data, error } = await supabase
+  const { data, error } = await (await getSupabase())
     .from("sujets_answers")
     .select("tache, body, keywords")
     .eq("section", section)
