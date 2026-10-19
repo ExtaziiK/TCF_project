@@ -1,16 +1,16 @@
-import { getBank } from "@/services/bankService";
+import { getBankSummary } from "@/services/bankService";
 
 // Real counts of the practice content the app actually ships, so the figures on
 // the landing page can never drift from what a visitor really gets.
 
-// The quiz bank is counted live: it is already loaded on the landing page (the
-// daily demo questions read from it), so this costs nothing extra.
+// The quiz bank is counted from its build-time manifest (plus admin quizzes),
+// so the figures stay exact without the landing page downloading a single quiz.
 export function countBank() {
   let questions = 0;
   let series = 0;
-  for (const list of Object.values(getBank())) {
+  for (const list of Object.values(getBankSummary())) {
     series += list.length;
-    for (const quiz of list) questions += quiz.questions?.length || 0;
+    for (const quiz of list) questions += quiz.count || 0;
   }
   return { questions, series };
 }

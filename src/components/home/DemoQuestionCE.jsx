@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { BookOpen, CheckCircle2, XCircle, Lightbulb, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
-import { getBank } from "@/services/bankService";
+import { useQuizByNumber } from "@/hooks/useBank";
+import { DemoSkeleton } from "@/components/home/DemoQuestion";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 
 // A2 / B1 bands of Quiz 1. The bank carries no per-question CEFR tag, but the
@@ -16,8 +17,7 @@ const B1_BAND = [13, 14, 15, 16, 17, 18, 19, 20, 21]; // questions 14–22
 // (src/bank/ce/Quiz_1_CE.json). CE items are read from a document image, so the
 // stimulus is the (signed) image rather than an audio clip. Returns null if the
 // bank is unavailable, in which case the card simply isn't rendered.
-function realDemoQuestion() {
-  const quiz1 = getBank().ce.find((quiz) => quiz.quizNumber === 1);
+function realDemoQuestion(quiz1) {
   const questions = quiz1?.questions || [];
   if (!questions.length) return null;
   const pool = [...A2_BAND, ...B1_BAND].filter((i) => i < questions.length);
@@ -43,10 +43,13 @@ export function DemoQuestionCE() {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [ratio, setRatio] = useState(CE_DOC_RATIO); // width/height, learned on load
   const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
-  const [base] = useState(realDemoQuestion);
+  // Quiz 1 is its own chunk, downloaded after the page has rendered.
+  const { quiz: quiz1, settled } = useQuizByNumber("ce", 1);
+  const base = useMemo(() => (settled ? realDemoQuestion(quiz1) : null), [settled, quiz1]);
   const singleton = useMemo(() => (base ? [base] : []), [base]);
   const [signed] = useSignedQuestions(singleton);
   const q = signed || base;
+  if (!settled) return <DemoSkeleton />;
   if (!q) return null;
 
   // Known from the base descriptor before the signed URL resolves, so the frame

@@ -3,7 +3,7 @@ import { Play, Sparkles, ChevronDown, Check, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
-import { getBank } from "@/services/bankService";
+import { useBankSummary } from "@/hooks/useBank";
 import { useWritingTask } from "@/hooks/useWritingTask";
 import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
@@ -16,7 +16,8 @@ import { useExpressionTask } from "@/context/ExpressionTaskContext";
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
 export function Writing() {
-  if (getBank().ee.some((q) => q.kind !== "prompt")) {
+  const bank = useBankSummary();
+  if (bank.ee.some((q) => q.kind !== "prompt")) {
     return (
       <BankExplorer
         back

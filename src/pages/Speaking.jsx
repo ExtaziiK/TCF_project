@@ -1,7 +1,7 @@
 import { useApp } from "@/context/AppContext";
 import { PageShell } from "@/components/common";
 import { BankExplorer } from "@/components/bank/BankExplorer";
-import { getBank } from "@/services/bankService";
+import { useBankSummary } from "@/hooks/useBank";
 import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { OralInterview } from "@/components/expression/OralInterview";
@@ -18,7 +18,8 @@ const INTERVIEW_TASK = 2;
 // Premium module backed by the question bank (section "eo") once quizzes
 // exist there; until then the interactive speaking studio below is shown.
 export function Speaking() {
-  if (getBank().eo.some((q) => q.kind !== "prompt")) {
+  const bank = useBankSummary();
+  if (bank.eo.some((q) => q.kind !== "prompt")) {
     return (
       <BankExplorer
         back

@@ -2,8 +2,8 @@
 // the figures hard-coded in src/constants/contentStats.js — the numbers the
 // landing page's "Statistique" band shows for grammar/vocabulary/EE/EO.
 //
-// The quiz bank is counted at runtime by the app (it is already loaded on the
-// landing page), so it is reported here for information only. The other totals
+// The quiz bank is counted by the app from its build-time manifest
+// (scripts/bankManifestPlugin.mjs), so it is reported here for information only. The other totals
 // cannot be counted at runtime without pulling ~130 KB of data into the landing
 // bundle, hence the constants — run this after adding content and update them.
 //
@@ -19,7 +19,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(path.join(root, p), "utf8");
 const countOf = (text, re) => (text.match(re) || []).length;
 
-// ── quiz bank (informational: counted live by src/constants/contentStats.js) ──
+// ── quiz bank (informational: counted from the manifest by src/constants/contentStats.js) ──
 let bankQuestions = 0;
 let bankSeries = 0;
 for (const section of ["co", "ce", "ee", "eo"]) {

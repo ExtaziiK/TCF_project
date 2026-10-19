@@ -103,18 +103,36 @@ export function Carnet() {
   // Keep the cache in step with every change (loads, moves, clearing).
   useEffect(() => { if (cards) cache = { uid: user?.id ?? null, cards }; }, [cards, user?.id]);
 
+  // The bank questions behind the cards: only the quizzes that hold one are
+  // downloaded. Keyed on the question ids, so moving a card between tabs does
+  // not refetch anything.
+  const bankIds = useMemo(
+    () => (cards ? [...new Set(cards.filter((x) => !isDicteeCard(x) && !isConjCard(x)).map((x) => String(x.questionId)))].sort().join(" ") : null),
+    [cards]
+  );
+  const [index, setIndex] = useState(null);
+  useEffect(() => {
+    if (bankIds === null) return;
+    let live = true;
+    bankQuestionIndex({ staff, questionIds: bankIds ? bankIds.split(" ") : [] }).then(
+      (map) => live && setIndex(map),
+      () => live && setIndex(new Map()) // a chunk failed: show the dictée/conjugation cards at least
+    );
+    return () => { live = false; };
+  }, [bankIds, staff]);
+  const ready = !!cards && !!index;
+
   // Cards joined to their bank question. One whose question left the bank (or
   // sits in a quiz under review) is dropped quietly: there is nothing to show.
   const joined = useMemo(() => {
-    if (!cards) return [];
-    const index = bankQuestionIndex({ staff });
+    if (!cards || !index) return [];
     // Dictée cards carry their own content in `detail` and need no lookup.
     return cards
       .map((card) => (isDicteeCard(card) ? { card, section: "dictee", ok: dicteeCardOk(card) }
         : isConjCard(card) ? { card, section: "conj", ok: conjCardOk(card) }
           : { card, q: index.get(card.questionId), section: index.get(card.questionId)?.section, ok: index.has(card.questionId) }))
       .filter((x) => x.ok);
-  }, [cards, staff]);
+  }, [cards, index]);
 
   const inSection = (x) => section === "all" || x.section === section;
   const toReview = joined.filter((x) => x.card.status === "to_review");
@@ -170,7 +188,7 @@ export function Carnet() {
             <button key={k} role="tab" aria-selected={tab === k} onClick={() => switchTab(k)}
               className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors ${tab === k ? "bg-blue-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}>
               <Icon size={14} aria-hidden="true" /> {t(label)}
-              <span className={`text-xs font-mono2 ${tab === k ? "opacity-80" : c.faint}`}>{cards ? counts[k] : "…"}</span>
+              <span className={`text-xs font-mono2 ${tab === k ? "opacity-80" : c.faint}`}>{ready ? counts[k] : "…"}</span>
             </button>
           ))}
         </div>
@@ -204,7 +222,7 @@ export function Carnet() {
         </div>
       )}
 
-      {cards === null ? (
+      {!ready ? (
         // Kept short: a tall placeholder made the page jump when it was
         // replaced by a shorter list or the empty state.
         <div className="space-y-3" aria-busy="true">

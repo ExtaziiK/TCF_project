@@ -1,5 +1,5 @@
 import { supabase } from "@/services/supabaseClient";
-import { getBank } from "@/services/bankService";
+import { loadQuestionIds, loadQuiz } from "@/services/bankService";
 import { getActiveProfileId } from "@/utils/activeProfile";
 import { isUnderReview } from "@/constants/quizReview";
 
@@ -19,7 +19,7 @@ const SECTIONS = ["co", "ce"];
 // (admin-added questions have bare UUID ids that do not name one).
 export async function recordMistakes(userId, items) {
   if (!userId || !items?.length) return { ok: false };
-  const index = bankQuestionIndex({ staff: true });
+  const index = await bankQuestionIds({ staff: true });
   const rows = items
     .map((x) => ({ x, q: index.get(String(x.questionId)) }))
     .filter(({ q }) => q)
@@ -148,19 +148,36 @@ export function requestNotebookGuide() {
   } catch { /* storage blocked: the page still opens, guide as last left */ }
 }
 
-// question id -> the bank question, stamped with where it lives. Rebuilt on
+// question id -> { section, quizId, quizNumber, order }: where a question lives,
+// without downloading any quiz (a small id list built at build time, plus admin
+// quizzes). Enough to know a card's question is still in the bank. Rebuilt on
 // each call because admin quizzes are injected into the bank after start-up.
 // Quizzes under review are left out for members, as on the Révision page.
-export function bankQuestionIndex({ staff } = {}) {
-  const bank = getBank();
+export async function bankQuestionIds({ staff } = {}) {
+  const quizzes = await loadQuestionIds();
   const map = new Map();
-  for (const section of SECTIONS) {
-    for (const quiz of bank[section] || []) {
-      if (quiz.kind === "prompt" || (!staff && isUnderReview(quiz))) continue;
-      (quiz.questions || []).forEach((q, i) => {
-        if (q.id != null) map.set(String(q.id), { ...q, section, quizId: quiz.id, quizNumber: quiz.quizNumber, order: i + 1 });
-      });
-    }
+  for (const quiz of quizzes) {
+    if (!SECTIONS.includes(quiz.section) || quiz.kind === "prompt" || (!staff && isUnderReview(quiz))) continue;
+    quiz.ids.forEach((id, i) => {
+      if (id != null) map.set(String(id), { section: quiz.section, quizId: quiz.id, quizNumber: quiz.quizNumber, order: i + 1 });
+    });
+  }
+  return map;
+}
+
+// question id -> the bank question, stamped with where it lives. Only the
+// quizzes holding `questionIds` are downloaded (all of CO/CE when omitted).
+export async function bankQuestionIndex({ staff, questionIds } = {}) {
+  const where = await bankQuestionIds({ staff });
+  const wanted = questionIds ? questionIds.map((id) => where.get(String(id))).filter(Boolean) : [...where.values()];
+  const quizIds = [...new Set(wanted.map((w) => w.quizId))];
+  const quizzes = await Promise.all(quizIds.map((id) => loadQuiz(id)));
+  const map = new Map();
+  for (const quiz of quizzes) {
+    if (!quiz) continue;
+    (quiz.questions || []).forEach((q, i) => {
+      if (q.id != null) map.set(String(q.id), { ...q, section: quiz.section, quizId: quiz.id, quizNumber: quiz.quizNumber, order: i + 1 });
+    });
   }
   return map;
 }

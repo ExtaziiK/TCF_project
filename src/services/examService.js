@@ -1,12 +1,13 @@
 import { levelForPct } from "../../api/_lib/scoreBands.js";
-import { getBank } from "@/services/bankService";
+import { getBankSummary, loadQuiz } from "@/services/bankService";
 import { isUnderReview } from "@/constants/quizReview";
 import { supabase } from "@/services/supabaseClient";
 import { getActiveProfileId } from "@/utils/activeProfile";
 
 // TCF blancs: dynamic mock-exam generation + attempt persistence.
 //
-// Generation is data-driven: tasks are drawn from whatever getBank() returns,
+// Generation is data-driven: tasks are drawn from the bank's summary (its quiz
+// list — no quiz has to be downloaded to pick one),
 // so dropping new quiz JSONs into src/bank/<section>/ automatically enlarges
 // the pool — no code changes, no hardcoded IDs.
 //
@@ -49,7 +50,7 @@ const BUILTIN_TASKS = { ee: "writing", eo: "speaking" };
 // exam, preferring quizzes the user has seen least across past attempts);
 // épreuves without bank content fall back to their built-in experience.
 export function generateExamTasks(history = []) {
-  const bank = getBank();
+  const bank = getBankSummary();
   const counts = usageCounts(history);
   const used = new Set();
   const tasks = [];
@@ -94,7 +95,7 @@ export function generateExamTasks(history = []) {
 export const FREE_MOCK_QUIZ_NUMBER = 15;
 
 export function generateFreeExamTasks() {
-  const bank = getBank();
+  const bank = getBankSummary();
   const tasks = [];
   for (const section of EPREUVE_ORDER) {
     // EE/EO always run the workshop, even once bank quizzes exist for them:
@@ -123,13 +124,14 @@ export const isFreeAttempt = (a) => !!a?.progress?.free;
 export const findFreeAttempt = (attempts = []) => attempts.find(isFreeAttempt) || null;
 
 // Resolves stored quiz-task references back to live bank quizzes (built-in
-// tasks have nothing to resolve). A quiz removed from the bank since the
-// attempt started resolves to null.
+// tasks have nothing to resolve), downloading each quiz's chunk. A quiz removed
+// from the bank since the attempt started resolves to null.
 export function resolveTasks(tasks) {
-  const bank = getBank();
-  return tasks.map((t) =>
-    (t.type || "quiz") === "quiz" ? bank[t.section]?.find((q) => q.id === t.quizId) || null : null
-  );
+  return Promise.all(tasks.map(async (t) => {
+    if ((t.type || "quiz") !== "quiz" || !t.quizId) return null;
+    const quiz = await loadQuiz(t.quizId);
+    return quiz && quiz.section === t.section ? quiz : null;
+  }));
 }
 
 /* ------------------------------- scoring -------------------------------- */

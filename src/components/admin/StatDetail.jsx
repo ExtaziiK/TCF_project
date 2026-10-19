@@ -4,7 +4,7 @@ import { X, RefreshCw, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { fetchAdminStatDetail } from "@/services/adminService";
-import { getBank } from "@/services/bankService";
+import { loadQuestionIds } from "@/services/bankService";
 
 // What is behind one number on the overview. Clicking a stat card opens this
 // pop-up, which lists the accounts (or the rows) the counter is made of —
@@ -72,17 +72,16 @@ const initial = (s) => (s || "?").trim()[0]?.toUpperCase() || "?";
 // question_attempts stores the bank's own question id, and that id cannot be
 // read as a label: it is bank-<section>-<exam_id ?? fileName>-<question id>
 // (src/utils/bankAdapter.js), so a CE question comes out as "bank-ce-37-1409"
-// where 37 is the source export's exam_id — not quiz 37. The browser bundles
-// the whole bank, so the quiz and the question's real position are looked up
-// rather than parsed out of the id. Built on open (admin-authored quizzes are
-// merged into the bank at app start, and again after any QMS change).
-function buildQuestionIndex() {
+// where 37 is the source export's exam_id — not quiz 37. The bank's question-id
+// list (a small chunk, no quiz downloaded) gives the quiz and the question's
+// real position, rather than parsing them out of the id. Built on open
+// (admin-authored quizzes are merged into the bank at app start, and again
+// after any QMS change).
+async function buildQuestionIndex() {
   const index = new Map();
-  for (const [section, quizzes] of Object.entries(getBank())) {
-    for (const quiz of quizzes) {
-      const name = quiz.quizNumber != null ? `Quiz ${quiz.quizNumber}` : quiz.title;
-      quiz.questions.forEach((q, i) => index.set(q.id, `${section.toUpperCase()} — ${name} · question ${i + 1}`));
-    }
+  for (const quiz of await loadQuestionIds()) {
+    const name = quiz.quizNumber != null ? `Quiz ${quiz.quizNumber}` : quiz.title;
+    quiz.ids.forEach((id, i) => index.set(id, `${quiz.section.toUpperCase()} — ${name} · question ${i + 1}`));
   }
   return index;
 }
@@ -124,7 +123,13 @@ export function StatDetailModal({ statKey, fallbackTitle, onClose, go }) {
   const [period, setPeriod] = useState("all");
   const [custom, setCustom] = useState(() => ({ from: localDay(addDays(new Date(), -6)), to: localDay(new Date()) }));
   const range = useMemo(() => (filterable ? periodRange(period, custom) : {}), [filterable, period, custom]);
-  const questions = useMemo(() => (statKey === "attempts" ? buildQuestionIndex() : null), [statKey]);
+  const [questions, setQuestions] = useState(null);
+  useEffect(() => {
+    if (statKey !== "attempts") return undefined;
+    let live = true;
+    buildQuestionIndex().then((index) => live && setQuestions(index), () => {});
+    return () => { live = false; };
+  }, [statKey]);
 
   // Switching periods quickly fires overlapping requests; only the newest one
   // may write, or a slow "Tout" could land after "Aujourd'hui" and win.

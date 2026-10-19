@@ -10,7 +10,7 @@ import { listAttempts } from "@/services/examService";
 import { listQuizResults } from "@/services/quizResultsService";
 import { listDicteeSessions } from "@/services/dicteeService";
 import { computeProgress } from "@/services/progressService";
-import { listMistakes, bankQuestionIndex, ownContentCardOk } from "@/services/mistakeNotebookService";
+import { listMistakes, bankQuestionIds, ownContentCardOk } from "@/services/mistakeNotebookService";
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES, canUseNotebook } from "@/auth/rbac";
 import { requestOpenQuiz } from "@/utils/openQuizRequest";
@@ -314,9 +314,9 @@ export function MemberHome() {
     listDicteeSessions(user?.id).then(({ sessions: s }) => live && setDictees(s));
     // Counted against the bank, like the notebook page, so a card whose
     // question has left the bank never inflates the number.
-    if (canUseNotebook(role)) listMistakes().then(({ cards }) => {
+    // The id list is a small chunk of its own: no quiz is downloaded for this.
+    if (canUseNotebook(role)) Promise.all([listMistakes(), bankQuestionIds()]).then(([{ cards }, index]) => {
       if (!live) return;
-      const index = bankQuestionIndex();
       setToReview(cards.filter((x) => x.status === "to_review" && (index.has(x.questionId) || ownContentCardOk(x))).length);
     });
     return () => { live = false; };

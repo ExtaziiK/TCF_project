@@ -1,4 +1,4 @@
-import { getBank } from "@/services/bankService";
+import { getBankSummary } from "@/services/bankService";
 import { levelForPct } from "@/services/examService";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { ERROR_FAMILIES } from "@/utils/dicteeDiff";
@@ -6,7 +6,8 @@ import { CONJ_SECTION, CONJUGATION_TENSES, tenseIdFromQuizKey } from "@/constant
 
 // Pure progress engine for the member dashboard. Everything is derived from
 // the user's stored history — practice-quiz results (quizResultsService) and
-// mock-exam attempts (examService) — plus the live question bank. No metric
+// mock-exam attempts (examService) — plus the live question bank (its summary:
+// quiz ids, order and counts, so no quiz has to be downloaded). No metric
 // is hardcoded: add quizzes to the bank or rows to the history and every
 // number, level, badge, recommendation and chart updates by itself.
 //
@@ -56,7 +57,7 @@ const meetsRequirements = (min, facts) =>
 /* ------------------------------ main compute ----------------------------- */
 
 export function computeProgress({ results = [], attempts = [], dictees = [] }) {
-  const bank = getBank();
+  const bank = getBankSummary();
   const exams = attempts.filter((a) => a.status === "completed" && a.score);
   const inProgressExam = attempts.find((a) => a.status === "in_progress") || null;
 

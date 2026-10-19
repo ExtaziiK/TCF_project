@@ -1,10 +1,10 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine, ListChecks, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill } from "@/components/common";
+import { PageShell, Card, Pill, BankLoading } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
-import { getBank } from "@/services/bankService";
+import { useBank } from "@/hooks/useBank";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
@@ -75,10 +75,11 @@ export function Revision() {
   // "practice": the same bank, answers withheld until you choose.
   const [mode, setMode] = useState("read");
 
-  const bank = getBank();
+  // The épreuve's quizzes download when it is picked (null meanwhile).
+  const { bank, error, retry } = useBank(section);
 
   const quizzes = useMemo(
-    () => (bank[section] || [])
+    () => (bank?.[section] || [])
       // A quiz under review has known-wrong answers; members don't get to
       // revise from them (staff still do, to check the fix).
       .filter((q) => q.kind !== "prompt" && (staff || !isUnderReview(q)))
@@ -196,7 +197,7 @@ export function Revision() {
         {/* ── quiz picker ───────────────────────────────────────────────── */}
         <Card className={`p-4 lg:sticky lg:top-28 ${searching ? "opacity-60" : ""}`}>
           <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${c.faint}`}>
-            {searching ? t("Recherche dans tous les quiz") : `${quizzes.length} ${t("quiz")}`}
+            {searching ? t("Recherche dans tous les quiz") : bank ? `${quizzes.length} ${t("quiz")}` : "…"}
           </p>
           <div className="grid grid-cols-6 sm:grid-cols-10 lg:grid-cols-5 gap-1.5">
             {quizzes.map((q) => {
@@ -213,7 +214,7 @@ export function Revision() {
         </Card>
 
         {/* ── the deck ──────────────────────────────────────────────────── */}
-        <Deck
+        {!bank ? <BankLoading error={error} onRetry={retry} /> : <Deck
           key={deckKey}
           questions={deck}
           section={section}
@@ -222,7 +223,7 @@ export function Revision() {
             ? `${results.length} ${t(results.length > 1 ? "questions trouvées" : "question trouvée")}${results.length > SEARCH_LIMIT ? ` · ${t("les")} ${SEARCH_LIMIT} ${t("premières")}` : ""}`
             : `${t("Quiz")} ${current?.number ?? "?"}`}
           onClear={() => { setQuery(""); setLevelIds([]); }}
-        />
+        />}
       </div>
     </PageShell>
   );

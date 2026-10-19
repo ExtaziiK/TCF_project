@@ -1,35 +1,64 @@
+import { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
 import { Home } from "@/pages/Home";
-import { About } from "@/pages/About";
-import { Pricing } from "@/pages/Pricing";
-import { CheckoutDz } from "@/pages/CheckoutDz";
-import { Exams } from "@/pages/Exams";
-import { AuthPage } from "@/components/auth/AuthPage";
-import { Pratique } from "@/pages/Pratique";
-import { Mocks } from "@/pages/Mocks";
-import { Calculator } from "@/pages/Calculator";
-import { Avis } from "@/pages/Avis";
-import { Guide } from "@/pages/Guide";
-import { GuideExpressionEcrite } from "@/pages/GuideExpressionEcrite";
-import { GuideExpressionOrale } from "@/pages/GuideExpressionOrale";
-import { GuideComprehensionOrale, GuideComprehensionEcrite } from "@/pages/GuideComprehension";
-import { SujetsExpressionEcrite } from "@/pages/SujetsExpressionEcrite";
-import { SujetsExpressionOrale } from "@/pages/SujetsExpressionOrale";
-import { SujetsActualite } from "@/pages/SujetsActualite";
-import { SujetModeleReponse } from "@/pages/SujetModeleReponse";
-import { Contact } from "@/pages/Contact";
-import { FAQ } from "@/pages/FAQ";
-import { Blog } from "@/pages/Blog";
-import { Dashboard } from "@/pages/Dashboard";
-import { Profile } from "@/pages/Profile";
-import { ResetPassword } from "@/pages/ResetPassword";
-import { Admin } from "@/pages/Admin";
-import { Moderation } from "@/pages/Moderation";
-import { CodePromo } from "@/pages/CodePromo";
-import { QuestionBank } from "@/pages/QuestionBank";
-import { NotFound } from "@/pages/NotFound";
-import { Terms } from "@/pages/Terms";
-import { Privacy } from "@/pages/Privacy";
-import { Accessibility } from "@/pages/Accessibility";
+
+// Every page but the landing one is its own chunk, fetched on first visit, so
+// a visitor's first download is the shell and Home — not the admin, the
+// guides, the blog posts and the practice tools. Each lazy page carries its
+// own Suspense boundary, so App needs no change to render one.
+function PageLoading() {
+  return (
+    <main className="min-h-screen pt-32 flex justify-center" aria-busy="true">
+      <Loader2 size={22} className="animate-spin text-blue-600 opacity-60" />
+    </main>
+  );
+}
+
+function lazyPage(load, name) {
+  const Lazy = lazy(() => load().then((m) => ({ default: m[name] })));
+  function LazyPage(props) {
+    return (
+      <Suspense fallback={<PageLoading />}>
+        <Lazy {...props} />
+      </Suspense>
+    );
+  }
+  LazyPage.displayName = `Lazy(${name})`;
+  return LazyPage;
+}
+
+const About = lazyPage(() => import("@/pages/About"), "About");
+const Pricing = lazyPage(() => import("@/pages/Pricing"), "Pricing");
+const CheckoutDz = lazyPage(() => import("@/pages/CheckoutDz"), "CheckoutDz");
+const Exams = lazyPage(() => import("@/pages/Exams"), "Exams");
+const AuthPage = lazyPage(() => import("@/components/auth/AuthPage"), "AuthPage");
+const Pratique = lazyPage(() => import("@/pages/Pratique"), "Pratique");
+const Mocks = lazyPage(() => import("@/pages/Mocks"), "Mocks");
+const Calculator = lazyPage(() => import("@/pages/Calculator"), "Calculator");
+const Avis = lazyPage(() => import("@/pages/Avis"), "Avis");
+const Guide = lazyPage(() => import("@/pages/Guide"), "Guide");
+const GuideExpressionEcrite = lazyPage(() => import("@/pages/GuideExpressionEcrite"), "GuideExpressionEcrite");
+const GuideExpressionOrale = lazyPage(() => import("@/pages/GuideExpressionOrale"), "GuideExpressionOrale");
+const GuideComprehensionOrale = lazyPage(() => import("@/pages/GuideComprehension"), "GuideComprehensionOrale");
+const GuideComprehensionEcrite = lazyPage(() => import("@/pages/GuideComprehension"), "GuideComprehensionEcrite");
+const SujetsExpressionEcrite = lazyPage(() => import("@/pages/SujetsExpressionEcrite"), "SujetsExpressionEcrite");
+const SujetsExpressionOrale = lazyPage(() => import("@/pages/SujetsExpressionOrale"), "SujetsExpressionOrale");
+const SujetsActualite = lazyPage(() => import("@/pages/SujetsActualite"), "SujetsActualite");
+const SujetModeleReponse = lazyPage(() => import("@/pages/SujetModeleReponse"), "SujetModeleReponse");
+const Contact = lazyPage(() => import("@/pages/Contact"), "Contact");
+const FAQ = lazyPage(() => import("@/pages/FAQ"), "FAQ");
+const Blog = lazyPage(() => import("@/pages/Blog"), "Blog");
+const Dashboard = lazyPage(() => import("@/pages/Dashboard"), "Dashboard");
+const Profile = lazyPage(() => import("@/pages/Profile"), "Profile");
+const ResetPassword = lazyPage(() => import("@/pages/ResetPassword"), "ResetPassword");
+const Admin = lazyPage(() => import("@/pages/Admin"), "Admin");
+const Moderation = lazyPage(() => import("@/pages/Moderation"), "Moderation");
+const CodePromo = lazyPage(() => import("@/pages/CodePromo"), "CodePromo");
+const QuestionBank = lazyPage(() => import("@/pages/QuestionBank"), "QuestionBank");
+const NotFound = lazyPage(() => import("@/pages/NotFound"), "NotFound");
+const Terms = lazyPage(() => import("@/pages/Terms"), "Terms");
+const Privacy = lazyPage(() => import("@/pages/Privacy"), "Privacy");
+const Accessibility = lazyPage(() => import("@/pages/Accessibility"), "Accessibility");
 
 function Login() {
   return <AuthPage mode="login" />;

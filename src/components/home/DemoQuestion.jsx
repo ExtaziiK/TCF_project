@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { AudioPlayer } from "@/components/quiz";
 import { LISTEN_QS } from "@/constants/listening";
-import { getBank } from "@/services/bankService";
+import { useQuizByNumber } from "@/hooks/useBank";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 
 // B2 band of Quiz 1. The bank carries no per-question CEFR tag, but the official
@@ -18,8 +18,7 @@ const B2_BAND = [20, 21, 22, 23, 24, 25, 26, 27, 28]; // 0-based → questions 2
 // (src/bank/co/Quiz_1_CO.json), so the teaser varies each visit while staying at
 // a representative level. Falls back to the curated LISTEN_QS demo if the bank
 // is ever unavailable.
-function realDemoQuestion() {
-  const quiz1 = getBank().co.find((quiz) => quiz.quizNumber === 1);
+function realDemoQuestion(quiz1) {
   const questions = quiz1?.questions || [];
   if (!questions.length) return null;
   const band = B2_BAND.filter((i) => i < questions.length);
@@ -36,9 +35,12 @@ export function DemoQuestion() {
   // Chosen once per mount. Bank items carry a `sign` descriptor; useSignedQuestions
   // swaps it for a short-lived signed audio URL (quiz 1 is signable anonymously,
   // so the audio plays on the public home page too). With signing off it's a no-op.
-  const [base] = useState(() => realDemoQuestion() || LISTEN_QS[0]);
-  const singleton = useMemo(() => [base], [base]);
+  // Quiz 1 is its own chunk, downloaded after the page has rendered.
+  const { quiz: quiz1, settled } = useQuizByNumber("co", 1);
+  const base = useMemo(() => (settled ? realDemoQuestion(quiz1) || LISTEN_QS[0] : null), [settled, quiz1]);
+  const singleton = useMemo(() => (base ? [base] : []), [base]);
   const [q] = useSignedQuestions(singleton);
+  if (!q) return <DemoSkeleton />;
   const isBankItem = q.kind === "bank";
   const questionLabel = isBankItem ? t("Écoutez le document sonore, puis choisissez la bonne réponse.") : q.q;
   const explanation = isBankItem
@@ -79,6 +81,18 @@ export function DemoQuestion() {
           </div>
         )}
       </Card>
+    </div>
+  );
+}
+
+// Held while quiz 1 downloads: roughly the demo card's footprint, so the hero
+// doesn't jump when the question arrives.
+export function DemoSkeleton() {
+  const { c } = useApp();
+  return (
+    <div className="space-y-4" aria-busy="true">
+      <Card className={`h-16 animate-pulse ${c.track}`} />
+      <Card className={`h-80 animate-pulse ${c.track}`} />
     </div>
   );
 }

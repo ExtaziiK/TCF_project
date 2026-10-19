@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, BarChart3, ArrowRight, Trophy, RotateCcw, Trash2, CloudOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar } from "@/components/common";
+import { PageShell, Card, Pill, Btn, SectionHead, ProgressBar, BankLoading } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
@@ -23,6 +23,25 @@ import { hasReviewed } from "@/services/testimonialsService";
 import { reviewAskDeferred, mayAskForReview, deferReviewAsk, endReviewAsks } from "@/utils/reviewPrompt";
 import { deriveRole, ROLES } from "@/auth/rbac";
 import { TOUR_STEPS } from "@/constants/tour";
+
+// The attempt's quizzes, downloaded on demand (resolveTasks): null while the
+// chunks load. `retry` re-runs a failed download.
+function useResolvedTasks(tasks) {
+  const [state, setState] = useState({ quizzes: null, error: null });
+  const [tick, setTick] = useState(0);
+  const key = tasks.map((t) => `${t.type || "quiz"}:${t.section}:${t.quizId || ""}`).join("|");
+  useEffect(() => {
+    let live = true;
+    setState({ quizzes: null, error: null });
+    resolveTasks(tasks).then(
+      (quizzes) => live && setState({ quizzes, error: null }),
+      (error) => live && setState({ quizzes: null, error })
+    );
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, tick]);
+  return { ...state, retry: () => setTick((n) => n + 1) };
+}
 
 /* --------------------------- final report view --------------------------- */
 
@@ -51,7 +70,8 @@ function ExamReport({ attempt, onRestart, onBack }) {
   const { c, nav, t } = useApp();
   const s = attempt.score;
   const [reviewIdx, setReviewIdx] = useState(null); // task index being reviewed, or null
-  const quizzes = resolveTasks(attempt.tasks);
+  // Until the quizzes have downloaded the score shows, without the review links.
+  const quizzes = useResolvedTasks(attempt.tasks).quizzes || [];
 
   // Rebuild the per-question answers of a quiz épreuve (CO/CE) from the saved
   // picks, so it can be reopened in the exact same QuizReport review UI as the
@@ -139,7 +159,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   const [justFinished, setJustFinished] = useState(null); // completed attempt -> report
   const [askReview, setAskReview] = useState(false);
   const saveTimer = useRef(null);
-  const quizzes = resolveTasks(attempt.tasks);
+  const { quizzes, error: loadError, retry } = useResolvedTasks(attempt.tasks);
   const mode = attempt.progress?.mode || "entrainement"; // "test" mirrors real conditions
   const startedLabel = new Date(attempt.startedAt).toLocaleDateString("fr-CA", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 
@@ -179,7 +199,7 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
   const idx = attempt.progress.taskIndex || 0;
   const task = attempt.tasks[idx];
   const type = task.type || "quiz";
-  const quiz = quizzes[idx];
+  const quiz = quizzes?.[idx];
   const order = task.order;
 
   // Records the finished task and moves on (or completes the exam).
@@ -246,6 +266,15 @@ function ExamRunner({ attempt: initialAttempt, onExit, firstEver = false }) {
           <p className={`text-sm ${c.sub}`}>{t("Quand vous avez terminé cette épreuve, passez à la suite de l'examen.")}</p>
           <Btn icon={CheckCircle2} onClick={() => advanceWith({ ok: 0, total: 0, completed: true })}>{t("J'ai terminé cette épreuve")}</Btn>
         </Card>
+      </div>
+    );
+  }
+
+  if (!quizzes) {
+    return (
+      <div>
+        {header}
+        <BankLoading className="max-w-xl mx-auto" error={loadError} onRetry={retry} />
       </div>
     );
   }

@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench, Headphones, PenLine, Mic } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, Btn } from "@/components/common";
+import { PageShell, Card, Pill, Btn, BankLoading } from "@/components/common";
 import { Quiz } from "@/components/quiz";
 import { QuizReport } from "@/components/quiz/QuizReport";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { CO_GUIDE_PANEL, CE_GUIDE_PANEL } from "@/pages/GuideComprehension";
 import { EE_GUIDE_PANEL } from "@/pages/GuideExpressionEcrite";
 import { EO_GUIDE_PANEL } from "@/pages/GuideExpressionOrale";
-import { getBank } from "@/services/bankService";
+import { loadQuiz } from "@/services/bankService";
+import { useBankSummary } from "@/hooks/useBank";
 import { SECTION_LABELS, quizDurationSec } from "@/utils/bankAdapter";
 import { ExpressionTaskProvider } from "@/context/ExpressionTaskContext";
 import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/services/quizResultsService";
@@ -60,7 +61,7 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked,
   const { c, t, dark } = useApp();
   const accent = epreuveColors(quiz.section, dark);
   const prompt = isPrompt(quiz);
-  const count = quiz.questions.length;
+  const count = quiz.count;
   // A member's past score on a quiz under review was graded against the wrong
   // answers, so it is not shown as a result; the card only says it is closed.
   const closed = review && !staff;
@@ -283,11 +284,37 @@ function GuideAside({ section, open, onClose }) {
 // Quiz browser over the question bank. The admin "Banque de questions" page
 // shows every section; the premium module pages reuse it locked to a single
 // section, so the same data and quiz engine serve both without duplication.
+//
+// The grid is drawn from the bank's summary (no download); a quiz's questions
+// are fetched when it is opened — `opening` holds its card meanwhile.
 export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, title, sub, back, workshops, initialSection }) {
   const { c, user, role, nav, notify, t, tourStep, dark } = useApp();
-  const bank = getBank();
+  const bank = useBankSummary();
   const [section, setSection] = useState(sections.includes(initialSection) ? initialSection : sections[0]);
   const [quiz, setQuiz] = useState(null);
+  const [opening, setOpening] = useState(null); // summary of the quiz being downloaded
+  const openSeq = useRef(0); // only the latest open wins if two are in flight
+  const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
+
+  // Downloads a quiz, then opens it (or, with `attempt`, its past correction).
+  const openQuiz = (summary, attempt) => {
+    const seq = ++openSeq.current;
+    setOpening(summary);
+    loadQuiz(summary.id).then(
+      (full) => {
+        if (seq !== openSeq.current) return;
+        setOpening(null);
+        if (!full) return;
+        if (attempt) setReview({ quiz: full, attempt });
+        else setQuiz(full);
+      },
+      () => {
+        if (seq !== openSeq.current) return;
+        setOpening(null);
+        notify(t("Impossible de charger ce quiz. Vérifiez votre connexion et réessayez."), "error");
+      }
+    );
+  };
   // The guided tour walks through each épreuve in turn (constants/tour.js:
   // `section` on the co/ce/eo/ee steps) and needs to switch this component's
   // own tab state to match, the same way it force-opens Nav's "Pratique"
@@ -303,11 +330,10 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
     setSection(step.section);
     if (step.openQuiz) {
       const qz = bank[step.section]?.[0];
-      if (qz) setQuiz(qz);
+      if (qz) openQuiz(qz);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tourStep]);
-  const [review, setReview] = useState(null); // { quiz, attempt } — reopened past attempt, read-only
   const [guideOpen, setGuideOpen] = useState(false); // épreuve guide popup on the open-quiz view
   const [bestScores, setBestScores] = useState({});
   const [reviewableAttempts, setReviewableAttempts] = useState({});
@@ -330,7 +356,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       const qz = bank[s][idx];
       setSection(s);
       if ((isUnderReview(qz) && !staff) || (freeTier && idx > 0)) return;
-      setQuiz(qz);
+      openQuiz(qz);
       return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -344,7 +370,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   };
   useEffect(reloadScores, [user?.id]);
 
-  const closeQuiz = () => { setQuiz(null); reloadScores(); };
+  const closeQuiz = () => { openSeq.current++; setOpening(null); setQuiz(null); reloadScores(); };
 
   // Jump to the top when a quiz opens or closes — this swaps the whole panel
   // in place (no route change), so without this the user stays scrolled to
@@ -359,6 +385,19 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
         onBack={() => setReview(null)}
         onRestart={() => { const qz = review.quiz; setReview(null); setQuiz(qz); }}
       />
+    );
+  }
+
+  if (opening) {
+    // Same shell as the open quiz, so the page doesn't jump when it arrives.
+    // Tagged like it too: the tour's CO/CE steps open quiz 1 and point here.
+    return (
+      <PageShell wide eyebrow={t(SECTION_LABELS[opening.section])} title={t(opening.title)}>
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-8">
+          <button onClick={closeQuiz} className="text-sm font-semibold text-blue-600 flex items-center gap-1"><ChevronLeft size={15} /> {t("Tous les quiz")}</button>
+        </div>
+        <BankLoading className="max-w-3xl xl:max-w-[62rem] mx-auto" data-tour={`bank-${opening.section}`} />
+      </PageShell>
     );
   }
 
@@ -496,8 +535,8 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
               // the pricing page for a quiz no one can open would be a lie.
               onOpen: () => (review && !staff
                 ? notify(t("Ce quiz est en cours de révision par notre équipe. Il sera de nouveau disponible très bientôt."))
-                : locked ? goUpgrade() : setQuiz(qz)),
-              onReview: () => setReview({ quiz: qz, attempt: reviewAttempt }),
+                : locked ? goUpgrade() : openQuiz(qz)),
+              onReview: () => openQuiz(qz, reviewAttempt),
             };
             // The tour spotlights the first quiz of whichever épreuve is
             // active — it's the one card that's always genuinely playable,
