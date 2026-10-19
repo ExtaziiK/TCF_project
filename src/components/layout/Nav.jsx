@@ -133,14 +133,21 @@ export function Nav({ barOffset = false }) {
     : { l: t("Compte gratuit"), cls: c.faint };
   const track = dark ? "bg-slate-800/70" : "bg-slate-100";
   const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
-  // Two levels, so the important entries read as such at a glance:
-  //   · plain links: quiet slate text, darker on hover, white pill when current;
-  //   · `featured` ones (navigation.js): a soft brand-blue chip with their icon,
-  //     filled solid blue when current. One colour for all of them — the chip
-  //     says "important", not which tool it is.
+  // Three levels (`tier` in navigation.js), so importance reads at a glance:
+  //   · "primary" (TCF blanc): a solid blue chip, always filled — the one
+  //     thing in the bar that pops; when current, a ring marks it;
+  //   · "featured" (Épreuves, Pratique, Sujets du mois): dark semibold text
+  //     with a blue icon — clearly the main sections, without competing;
+  //   · the rest (Tarifs, Calculateur): light slate text, no icon.
+  // Featured and plain links take the white pill when current.
   const idle = dark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900";
-  const chip = dark ? "bg-blue-500/15 text-blue-200 hover:bg-blue-500/25" : "bg-blue-600/10 text-blue-700 hover:bg-blue-600/[0.16]";
-  const chipOn = "bg-blue-600 text-white shadow-sm shadow-blue-600/30";
+  const strong = dark ? "text-slate-100 hover:text-white" : "text-slate-800 hover:text-slate-950";
+  const primary = "bg-blue-600 text-white shadow-md shadow-blue-600/30 hover:bg-blue-700";
+  const primaryOn = `bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-2 ${dark ? "ring-blue-300/70" : "ring-blue-300"}`;
+  const linkClass = (n, here) =>
+    n.tier === "primary" ? `font-bold ${here ? primaryOn : primary}`
+      : n.tier === "featured" ? `font-semibold ${here ? pill : strong}`
+        : `font-medium ${here ? pill : idle}`;
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
   const sujetsMonth = useLatestSujetsMonth(!!user);
@@ -191,13 +198,13 @@ export function Nav({ barOffset = false }) {
                 );
               }
               const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
-              const Icon = n.featured ? n.icon : null;
+              const Icon = n.tier ? n.icon : null;
               return (
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  className={`${base} flex items-center gap-1.5 ${n.featured ? `font-semibold ${here ? chipOn : chip}` : `font-medium ${here ? pill : idle}`}`}>
-                  {Icon && <Icon size={14} aria-hidden="true" />}
+                  className={`${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
+                  {Icon && <Icon size={14} aria-hidden="true" className={n.tier === "featured" ? (dark ? "text-blue-300" : "text-blue-600") : undefined} />}
                   {labelOf(n)}
                 </RouteLink>
               );
@@ -354,12 +361,12 @@ export function Nav({ barOffset = false }) {
                           data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
                           aria-current={active ? "page" : undefined}
                           className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
-                          {/* Featured rows get the bar's blue chip treatment on their
-                              icon and a blue label, so they stand out here too. */}
-                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : m.featured ? (dark ? "bg-blue-500/15 text-blue-200" : "bg-blue-600/10 text-blue-700") : `${c.tint} ${c.sub}`}`}>
+                          {/* Same three levels as the bar: TCF blanc's tile is solid
+                              blue, the main sections' tiles soft blue, the rest grey. */}
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active || m.tier === "primary" ? "bg-blue-600 text-white" : m.tier === "featured" ? (dark ? "bg-blue-500/15 text-blue-300" : "bg-blue-600/10 text-blue-600") : `${c.tint} ${c.sub}`}`}>
                             {Icon && <Icon size={17} />}
                           </span>
-                          <span className={`flex-1 text-[15px] ${m.featured ? "font-semibold" : "font-medium"} ${active || m.featured ? (dark ? "text-blue-300" : "text-blue-700") : c.text}`}>
+                          <span className={`flex-1 text-[15px] ${m.tier === "primary" ? "font-bold" : m.tier === "featured" ? "font-semibold" : "font-medium"} ${active || m.tier === "primary" ? (dark ? "text-blue-300" : "text-blue-700") : c.text}`}>
                             {labelOf(m)}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
