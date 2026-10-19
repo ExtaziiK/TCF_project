@@ -90,7 +90,12 @@ function ForbiddenGate() {
 // Visitors keep the per-route gates (the dictée's public pitch, or sign-up).
 export function RouteGuard({ route, children, inner }) {
   const { role, user, authReady } = useApp();
-  if (!authReady) return null; // avoid flashing a gate while the session loads
+  // While the session loads, hold the page's space rather than rendering
+  // nothing: with an empty page the footer was drawn right under the nav,
+  // filling the screen, then shoved away when the content arrived — a layout
+  // shift of nearly the whole viewport (PageSpeed CLS ≈ 1). Still no gate
+  // flash: the placeholder is blank.
+  if (!authReady) return <div className="min-h-screen" aria-busy="true" />;
   if (!inner && user && PRATIQUE_ROUTES.has(route)) return children;
   const reason = deniedReason(role, route, user);
   if (!reason) return children;

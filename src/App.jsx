@@ -2,6 +2,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/context/AppProvider";
 import { useApp } from "@/context/AppContext";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { useAnnouncementBar } from "@/hooks/useAnnouncementBar";
+import { hasStoredSession } from "@/services/supabaseClient";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { VisitorPreviewBar } from "@/components/layout/VisitorPreviewBar";
@@ -20,6 +22,7 @@ function AppShell() {
   const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth,
     profiles, activeProfile, profilesReady, canAddProfile, selectProfile, profileAdded } = useApp();
   const terms = useTermsGate();
+  const bar = useAnnouncementBar();
   // Returning from a Google redirect: hold a "signing in…" splash until the
   // session is resolved, so we never flash signed-in UI (e.g. the dashboard)
   // during the reject/claim network calls before a decision is made.
@@ -79,18 +82,22 @@ function AppShell() {
   const Page = PAGES[route] || PAGES[route.split("/")[0]] || PAGES.notfound;
   // The announcement bar is shown on every page to everyone who isn't a
   // paying/admin user — i.e. logged-out visitors and free accounts (Premium
-  // and admin users don't need the promo). Gated on authReady so a Premium
-  // user doesn't see the bar flash (and the layout jump 40px) while the
-  // session is still loading. When it's hidden the fixed nav stays at top-0
-  // with no reserved space; when it's shown, the nav (top-10) and the page
-  // content (pt-10) shift down together by the bar's 40px height, preserving
-  // each page's clearance.
-  const showAnnounce = authReady && (role === ROLES.VISITOR || role === ROLES.FREE_USER);
+  // and admin users don't need the promo) — and only while the admin has it
+  // on. When it's hidden the fixed nav stays at top-0 with no reserved space;
+  // when it's shown, the nav (top-10) and the page content (pt-10) shift down
+  // together by the bar's 40px height, preserving each page's clearance.
+  //
+  // Before the session is known, a browser with no saved session is a visitor:
+  // laying the bar out on the first frame for them avoids a 40px jump of the
+  // whole page when auth resolves (it counted towards PageSpeed's CLS). A saved
+  // session waits for its role, so a Premium user never sees the bar flash.
+  const barAudience = authReady ? role === ROLES.VISITOR || role === ROLES.FREE_USER : !hasStoredSession();
+  const showAnnounce = barAudience && bar.enabled && bar.messages.length > 0;
   // The page remounts on route change (key), except between the six practice
   // routes: they are tabs of one page, the Pratique hub, which keeps its state.
   return (
     <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
-      {showAnnounce && <AnnouncementBar />}
+      {showAnnounce && <AnnouncementBar messages={bar.messages} />}
       <Nav barOffset={showAnnounce} />
       <div key={PRATIQUE_ROUTES.has(route) ? "pratique" : route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />

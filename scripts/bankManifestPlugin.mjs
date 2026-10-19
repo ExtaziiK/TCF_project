@@ -11,9 +11,10 @@
 //   virtual:bank-question-ids  [{ id, title, section, quizNumber, ids: [questionId…] }]
 //                              ~100 KB, imported lazily — lets the dashboard
 //                              count Carnet cards without loading every quiz
-//   virtual:bank-demo-ce       [{ order, q, opts, a, exp }] — the landing CE
-//                              demo's questions (src/constants/demoPool.js),
-//                              a few KB, so the home page needs no quiz chunk
+//   virtual:bank-demo-ce/-co   [{ id, order, q, opts, a, exp }] — the landing
+//                              demos' questions (src/constants/demoPool.js),
+//                              a few KB each, so their cards render on the
+//                              first frame instead of after a quiz chunk
 //
 // Both are produced by running the app's own adaptBankFile over the files, so
 // they cannot disagree with what the quiz engine later builds from the chunk.
@@ -31,7 +32,8 @@ const SECTIONS = ["co", "ce", "ee", "eo"];
 const MANIFEST_ID = "virtual:bank-manifest";
 const IDS_ID = "virtual:bank-question-ids";
 const DEMO_CE_ID = "virtual:bank-demo-ce";
-const VIRTUAL = [MANIFEST_ID, IDS_ID, DEMO_CE_ID];
+const DEMO_CO_ID = "virtual:bank-demo-co";
+const VIRTUAL = [MANIFEST_ID, IDS_ID, DEMO_CE_ID, DEMO_CO_ID];
 const resolved = (id) => `\0${id}`;
 
 // Same order as bankService's sort.
@@ -78,8 +80,12 @@ export function bankManifestPlugin({ root }) {
     const { adaptBankFile } = await loadAdapter();
     const manifest = Object.fromEntries(SECTIONS.map((s) => [s, []]));
     const ids = [];
-    const { CE_DEMO_QUIZ, CE_DEMO_ORDERS } = await import(`${pathToFileURL(path.join(root, "src/constants/demoPool.js")).href}?t=${Date.now()}`);
+    const { CE_DEMO_QUIZ, CE_DEMO_ORDERS, CO_DEMO_QUIZ, CO_DEMO_ORDERS } = await import(`${pathToFileURL(path.join(root, "src/constants/demoPool.js")).href}?t=${Date.now()}`);
+    const demoOf = (quiz, orders) => quiz.questions
+      .map((q, i) => ({ id: q.id, order: q.sign?.order ?? i + 1, q: q.q, opts: q.opts, a: q.a, exp: q.exp }))
+      .filter((q) => orders.includes(Number(q.order)));
     let demoCe = [];
+    let demoCo = [];
     for (const section of SECTIONS) {
       const dir = path.join(bankDir, section);
       let files = [];
@@ -100,15 +106,12 @@ export function bankManifestPlugin({ root }) {
           ...(quiz.kind ? { kind: quiz.kind } : {}),
         });
         ids.push({ id: quiz.id, title: quiz.title, section, quizNumber: quiz.quizNumber, ids: quiz.questions.map((q) => q.id) });
-        if (section === "ce" && quiz.quizNumber === CE_DEMO_QUIZ) {
-          demoCe = quiz.questions
-            .map((q, i) => ({ order: q.sign?.order ?? i + 1, q: q.q, opts: q.opts, a: q.a, exp: q.exp }))
-            .filter((q) => CE_DEMO_ORDERS.includes(Number(q.order)));
-        }
+        if (section === "ce" && quiz.quizNumber === CE_DEMO_QUIZ) demoCe = demoOf(quiz, CE_DEMO_ORDERS);
+        if (section === "co" && quiz.quizNumber === CO_DEMO_QUIZ) demoCo = demoOf(quiz, CO_DEMO_ORDERS);
       }
       manifest[section].sort(byQuiz);
     }
-    return { manifest, ids, demoCe };
+    return { manifest, ids, demoCe, demoCo };
   }
 
   // Both virtual modules come from one pass over the files.
@@ -126,6 +129,7 @@ export function bankManifestPlugin({ root }) {
       if (id === resolved(MANIFEST_ID)) return `export default ${JSON.stringify((await scanOnce(this)).manifest)};`;
       if (id === resolved(IDS_ID)) return `export default ${JSON.stringify((await scanOnce(this)).ids)};`;
       if (id === resolved(DEMO_CE_ID)) return `export default ${JSON.stringify((await scanOnce(this)).demoCe)};`;
+      if (id === resolved(DEMO_CO_ID)) return `export default ${JSON.stringify((await scanOnce(this)).demoCo)};`;
       return null;
     },
     transform(code, id) {

@@ -4,27 +4,21 @@ import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { AudioPlayer } from "@/components/quiz";
 import { LISTEN_QS } from "@/constants/listening";
+import DEMO_CO from "virtual:bank-demo-co";
 import { useQuizByNumber } from "@/hooks/useBank";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 
-// B2 band of Quiz 1. The bank carries no per-question CEFR tag, but the official
-// TCF manual states items are ordered by increasing difficulty within an épreuve;
-// across 39 questions spread A1→C2, the upper-middle stretch (questions ~21–29)
-// lands in B2 — past the A1/A2/B1 openers, short of the C1/C2 closers. These are
-// also the items with full text options (the first 8 are image/audio-only).
-const B2_BAND = [20, 21, 22, 23, 24, 25, 26, 27, 28]; // 0-based → questions 21–29
-
 // Picks a random B2 Compréhension orale item from Quiz 1 of the actual bank
-// (src/bank/co/Quiz_1_CO.json), so the teaser varies each visit while staying at
-// a representative level. Falls back to the curated LISTEN_QS demo if the bank
-// is ever unavailable.
-function realDemoQuestion(quiz1) {
-  const questions = quiz1?.questions || [];
-  if (!questions.length) return null;
-  const band = B2_BAND.filter((i) => i < questions.length);
-  const idx = band.length ? band[Math.floor(Math.random() * band.length)] : Math.floor((questions.length - 1) / 2);
-  const picked = questions[idx];
-  return picked ? { ...picked, level: "B2", kind: "bank" } : null;
+// (pool in src/constants/demoPool.js: questions 21–29, the B2 stretch with full
+// text options), so the teaser varies each visit while staying at a
+// representative level. The text is baked in at build time
+// (virtual:bank-demo-co), so the card renders on the first frame — swapping a
+// skeleton for it was a layout shift in the hero. Falls back to the curated
+// LISTEN_QS demo if the pool is ever empty.
+function pickDemoQuestion() {
+  if (!DEMO_CO.length) return LISTEN_QS[0];
+  const picked = DEMO_CO[Math.floor(Math.random() * DEMO_CO.length)];
+  return { ...picked, level: "B2", kind: "bank" };
 }
 
 // Hero teaser: one real CO question presented exactly like the quiz pages —
@@ -32,15 +26,17 @@ function realDemoQuestion(quiz1) {
 export function DemoQuestion() {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
-  // Chosen once per mount. Bank items carry a `sign` descriptor; useSignedQuestions
-  // swaps it for a short-lived signed audio URL (quiz 1 is signable anonymously,
-  // so the audio plays on the public home page too). With signing off it's a no-op.
-  // Quiz 1 is its own chunk, downloaded after the page has rendered.
-  const { quiz: quiz1, settled } = useQuizByNumber("co", 1);
-  const base = useMemo(() => (settled ? realDemoQuestion(quiz1) || LISTEN_QS[0] : null), [settled, quiz1]);
-  const singleton = useMemo(() => (base ? [base] : []), [base]);
+  const [base] = useState(pickDemoQuestion);
+  // The audio comes from the real bank question, in quiz 1's chunk (fetched
+  // after the page has rendered): it carries the `sign` descriptor that
+  // useSignedQuestions exchanges for a short-lived signed URL (quiz 1 is
+  // signable anonymously), or the plain URL when signing is off. Until then
+  // the player shows its placeholder — same footprint, nothing moves.
+  const { quiz: quiz1 } = useQuizByNumber("co", 1);
+  const full = base.kind === "bank" ? quiz1?.questions.find((x) => x.id === base.id) : null;
+  const withMedia = useMemo(() => (full ? { ...full, level: base.level, kind: base.kind } : base), [full, base]);
+  const singleton = useMemo(() => [withMedia], [withMedia]);
   const [q] = useSignedQuestions(singleton);
-  if (!q) return <DemoSkeleton />;
   const isBankItem = q.kind === "bank";
   const questionLabel = isBankItem ? t("Écoutez le document sonore, puis choisissez la bonne réponse.") : q.q;
   const explanation = isBankItem
@@ -81,18 +77,6 @@ export function DemoQuestion() {
           </div>
         )}
       </Card>
-    </div>
-  );
-}
-
-// Held while quiz 1 downloads: roughly the demo card's footprint, so the hero
-// doesn't jump when the question arrives.
-export function DemoSkeleton() {
-  const { c } = useApp();
-  return (
-    <div className="space-y-4" aria-busy="true">
-      <Card className={`h-16 animate-pulse ${c.track}`} />
-      <Card className={`h-80 animate-pulse ${c.track}`} />
     </div>
   );
 }

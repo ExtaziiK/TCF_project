@@ -10,3 +10,12 @@ if (!url || !anonKey) {
 }
 
 export const supabase = createClient(url, anonKey);
+
+// Whether this browser holds a saved session, answered synchronously from
+// supabase-js's own storage key (its default, `sb-<project ref>-auth-token`).
+// Lets the first frame guess "visitor" without waiting for getSession() — the
+// shell uses it to lay out the announcement bar before auth has resolved.
+const SESSION_KEY = `sb-${new URL(url).hostname.split(".")[0]}-auth-token`;
+export function hasStoredSession() {
+  try { return !!window.localStorage.getItem(SESSION_KEY); } catch { return false; }
+}
