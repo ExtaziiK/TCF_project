@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BRAND, Bubble, Tile, Tag, Maple, Flight } from "./stickers";
 import { themed, SeasonalDecor } from "./themes";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
+import { useElementHeight } from "@/hooks/useElementHeight";
 
 const { blue, violet, red, amber } = BRAND;
 
@@ -96,6 +97,44 @@ const LAYOUTS = {
   ],
 };
 
+// The other pages are as tall as their content, so their decor is repeated
+// down the whole page: LAYOUTS.page fills the top, then these bands follow, one
+// every PAGE_BAND px, cycling. Rows are [Sticker, props, side, top within the
+// band (px), animation, parallax depth]. A sticker that would land within
+// reach of the page's end is left out.
+const PAGE_BAND = 640;
+const PAGE_BANDS = [
+  [
+    [Maple, { color: amber, size: 44, tilt: -16 }, "left-[5%]", 90, "decor-sway", 24],
+    [Tag, { text: "B2", color: blue, tilt: -6 }, "left-[2.5%]", 380, "decor-float", 18],
+    [Tile, { ch: "À", pts: 2, color: violet, tilt: 8 }, "right-[6%]", 150, "decor-sway", 26],
+    [Bubble, { text: "Courage !", color: red, tail: "right", tilt: 5 }, "right-[2%]", 430, "decor-float-slow", 20],
+  ],
+  [
+    [Tile, { ch: "Ç", pts: 4, color: amber, tilt: -9 }, "left-[4%]", 120, "decor-sway", 26],
+    [Flight, { color: violet, width: 150 }, "left-[1%]", 390, "", 14],
+    [Bubble, { text: "Bravo !", color: violet, tail: "right", tilt: -4 }, "right-[3%]", 100, "decor-float", 18],
+    [Maple, { color: blue, size: 48, tilt: 14 }, "right-[7%]", 410, "decor-sway", 28],
+  ],
+  [
+    [Tag, { text: "NCLC 7", color: red, tilt: -5 }, "left-[3%]", 110, "decor-float-slow", 20],
+    [Maple, { color: violet, size: 40, tilt: 18 }, "left-[8%]", 410, "decor-sway", 30],
+    [Maple, { color: red, size: 52, tilt: -12 }, "right-[4%]", 120, "decor-sway", 22],
+    [Tile, { ch: "Ê", pts: 2, color: blue, tilt: 7 }, "right-[8%]", 390, "decor-sway", 26],
+  ],
+];
+
+function pageItems(h) {
+  const out = [...LAYOUTS.page];
+  for (let b = 1; b * PAGE_BAND < h; b++) {
+    for (const [Sticker, props, side, top, anim, depth] of PAGE_BANDS[(b - 1) % PAGE_BANDS.length]) {
+      const y = b * PAGE_BAND + top;
+      if (y + 120 < h) out.push([Sticker, props, side, anim, depth, y]);
+    }
+  }
+  return out;
+}
+
 // Mouse-follow parallax, like the reference site: one window listener for the
 // whole app writes the pointer position (-1…1) into CSS variables that every
 // shape's wrapper reads. Skipped for touch screens and reduced motion.
@@ -125,7 +164,9 @@ function useParallax() {
 // already fills the width and there are no sides to fill.
 export function SectionDecor({ variant, from = "lg", wave = null }) {
   useParallax();
-  const items = themed(LAYOUTS[variant] || [], useSiteTheme());
+  const [ref, height] = useElementHeight();
+  const theme = useSiteTheme();
+  const items = themed(variant === "page" ? pageItems(height) : LAYOUTS[variant] || [], theme);
   // The landing page's stickers are drawn 30% larger; the other pages' side
   // decor (the "page" layout) keeps its size.
   const scale = variant === "page" ? 1 : 1.3;
@@ -133,10 +174,13 @@ export function SectionDecor({ variant, from = "lg", wave = null }) {
   return (
     <>
     <SeasonalDecor seed={Object.keys(LAYOUTS).indexOf(variant)} wave={wave} />
-    <div aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
-      {items.map(([Sticker, props, pos, anim, depth], i) => (
+    <div ref={ref} aria-hidden="true" className={`absolute inset-0 overflow-hidden pointer-events-none ${show}`}>
+      {items.map(([Sticker, props, pos, anim, depth, top], i) => (
         <span key={i} className={`absolute ${pos}`}
-          style={depth ? { transform: `translate3d(calc(var(--mx, 0) * ${depth}px), calc(var(--my, 0) * ${depth}px), 0)`, transition: "transform .6s cubic-bezier(.22,1,.36,1)" } : undefined}>
+          style={{
+            top,
+            ...(depth ? { transform: `translate3d(calc(var(--mx, 0) * ${depth}px), calc(var(--my, 0) * ${depth}px), 0)`, transition: "transform .6s cubic-bezier(.22,1,.36,1)" } : {}),
+          }}>
           {/* Own wrapper for the scale, so it never fights the animation's transform. */}
           <span className="block" style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}>
             <span className={`block ${anim}`} style={{ animationDelay: `${-i * 1.7}s` }}><Sticker {...props} /></span>

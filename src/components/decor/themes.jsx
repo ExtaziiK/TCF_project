@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
+import { useElementHeight } from "@/hooks/useElementHeight";
 import { waveDepth } from "./WaveSection";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
@@ -107,15 +107,7 @@ const FLAKES = Array.from({ length: 60 }, (_, i) => ({
 // the height too: about one flake per 45px.
 function Snowfall() {
   const { dark } = useApp();
-  const ref = useRef(null);
-  const [h, setH] = useState(0);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || !("ResizeObserver" in window)) return;
-    const ro = new window.ResizeObserver(([e]) => setH(Math.round(e.contentRect.height)));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+  const [ref, h] = useElementHeight();
   const fall = h + 24;
   const count = Math.min(FLAKES.length, Math.max(8, Math.round(h / 45)));
   return (
