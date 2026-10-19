@@ -1,7 +1,7 @@
 import { SECTION_LABELS } from "@/utils/bankAdapter";
-import { nclcFor } from "../../api/_lib/scoreBands.js";
+import { nclcFor, minScoreFor, pointsToNclc } from "../../api/_lib/scoreBands.js";
 
-export { nclcFor };
+export { nclcFor, minScoreFor, pointsToNclc };
 
 // NCLC bands and nclcFor live in api/_lib/scoreBands.js, shared with the
 // server (the TCF blanc results email). Re-exported unchanged below.

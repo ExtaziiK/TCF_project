@@ -25,6 +25,23 @@ export function nclcFor(section, score) {
   return 0;
 }
 
+// Lowest score that reaches NCLC `level` (4–10) in a section, or null.
+export function minScoreFor(section, level) {
+  const band = (NCLC_BANDS[section] || []).find(([, , lvl]) => lvl === level);
+  return band ? band[0] : null;
+}
+
+// Points still missing to reach NCLC `level`: 0 when already there, null when
+// the score is empty / not a number or the level has no band. The calculator
+// shows it as « +8 pts → NCLC 7 ».
+export function pointsToNclc(section, score, level) {
+  if (score === "" || score == null) return null;
+  const n = Number(score);
+  const floor = minScoreFor(section, level);
+  if (!Number.isFinite(n) || floor == null) return null;
+  return Math.max(0, floor - n);
+}
+
 // The level the TCF blanc report prints for a percentage of correct answers.
 export function levelForPct(pct) {
   return pct >= 85 ? "C1" : pct >= 65 ? "B2" : pct >= 40 ? "B1" : "A2";
