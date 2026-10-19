@@ -133,21 +133,25 @@ export function Nav({ barOffset = false }) {
     : { l: t("Compte gratuit"), cls: c.faint };
   const track = dark ? "bg-slate-800/70" : "bg-slate-100";
   const pill = dark ? "bg-slate-700 text-white shadow-sm" : "bg-white text-slate-900 shadow-sm";
-  // Three levels (`tier` in navigation.js), so importance reads at a glance:
-  //   · "primary" (TCF blanc): a solid blue chip, always filled — the one
-  //     thing in the bar that pops; when current, a ring marks it;
-  //   · "featured" (Épreuves, Pratique, Sujets du mois): dark semibold text
-  //     with a blue icon — clearly the main sections, without competing;
-  //   · the rest (Tarifs, Calculateur): light slate text, no icon.
-  // Featured and plain links take the white pill when current.
-  const idle = dark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900";
-  const strong = dark ? "text-slate-100 hover:text-white" : "text-slate-800 hover:text-slate-950";
-  const primary = "bg-blue-600 text-white shadow-md shadow-blue-600/30 hover:bg-blue-700";
-  const primaryOn = `bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-2 ${dark ? "ring-blue-300/70" : "ring-blue-300"}`;
-  const linkClass = (n, here) =>
-    n.tier === "primary" ? `font-bold ${here ? primaryOn : primary}`
-      : n.tier === "featured" ? `font-semibold ${here ? pill : strong}`
-        : `font-medium ${here ? pill : idle}`;
+  // Importance is told by text colour alone (`tier` in navigation.js) — same
+  // weight, no icons or chips — in the logo's two colours:
+  //   · "primary" (TCF blanc): brand red, the one link that stands out;
+  //   · "featured" (Épreuves, Pratique, Sujets du mois): brand blue;
+  //   · the rest (Tarifs, Calculateur): grey.
+  // The current page keeps its colour on the white pill (background only, so
+  // the two text colours never fight).
+  const pillBg = dark ? "bg-slate-700 shadow-sm" : "bg-white shadow-sm";
+  const TIER_TEXT = {
+    // Shades chosen for ≥ 4.5:1 on the grey track and on the current-page pill.
+    primary: dark ? "text-rose-300 hover:text-rose-200" : "text-[#C42E42] hover:text-[#A32536]",
+    featured: dark ? "text-blue-300 hover:text-blue-200" : "text-blue-700 hover:text-blue-800",
+    plain: dark ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900",
+  };
+  const idle = TIER_TEXT.plain;
+  const linkClass = (n, here) => `font-semibold ${TIER_TEXT[n.tier] || TIER_TEXT.plain} ${here ? pillBg : ""}`;
+  // In the drawer, untiered rows stay in the normal text colour: it lists
+  // every tool, and greying all of them would read as disabled.
+  const drawerText = (m) => (m.tier ? TIER_TEXT[m.tier] : c.text);
   // « Sujets de septembre »: named after the newest month of subjects, so it
   // changes by itself when a new month is published.
   const sujetsMonth = useLatestSujetsMonth(!!user);
@@ -173,7 +177,7 @@ export function Nav({ barOffset = false }) {
               if (n.menu && !n.r) {
                 return (
                   <div key={n.l} className="relative" data-tour={isPratique ? "nav-pratique" : undefined} onMouseEnter={() => setOpenMenu(n.l)} onMouseLeave={() => setOpenMenu(null)}>
-                    <button className={`${base} font-medium flex items-center gap-1 ${idle}`} aria-expanded={pratiqueOpen}>
+                    <button className={`${base} font-semibold flex items-center gap-1 ${idle}`} aria-expanded={pratiqueOpen}>
                       {t(n.l)} <ChevronDown size={14} className={`transition-transform ${pratiqueOpen ? "rotate-180" : ""}`} />
                     </button>
                     {pratiqueOpen && (
@@ -198,13 +202,11 @@ export function Nav({ barOffset = false }) {
                 );
               }
               const here = route === n.r || (isPratique && HUB_ROUTES.has(route));
-              const Icon = n.tier ? n.icon : null;
               return (
                 <RouteLink key={n.r} r={n.r} onNavigate={closeAll}
                   data-tour={n.r === "exams" ? "nav-exams" : isPratique ? "nav-pratique" : undefined}
                   aria-current={here ? "page" : undefined}
-                  className={`${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
-                  {Icon && <Icon size={14} aria-hidden="true" className={n.tier === "featured" ? (dark ? "text-blue-300" : "text-blue-600") : undefined} />}
+                  className={`${base} ${linkClass(n, here)}`}>
                   {labelOf(n)}
                 </RouteLink>
               );
@@ -361,12 +363,12 @@ export function Nav({ barOffset = false }) {
                           data-tour={m.r === "exams" ? "nav-exams" : PRATIQUE_ROUTES.includes(m.r) ? "nav-pratique" : undefined}
                           aria-current={active ? "page" : undefined}
                           className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl ${active ? "bg-blue-600/10" : c.hoverSoft}`}>
-                          {/* Same three levels as the bar: TCF blanc's tile is solid
-                              blue, the main sections' tiles soft blue, the rest grey. */}
-                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active || m.tier === "primary" ? "bg-blue-600 text-white" : m.tier === "featured" ? (dark ? "bg-blue-500/15 text-blue-300" : "bg-blue-600/10 text-blue-600") : `${c.tint} ${c.sub}`}`}>
+                          {/* Same colours as the bar, on the icon and the label;
+                              every row the same weight. */}
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-blue-600 text-white" : `${c.tint} ${m.tier ? TIER_TEXT[m.tier] : c.sub}`}`}>
                             {Icon && <Icon size={17} />}
                           </span>
-                          <span className={`flex-1 text-[15px] ${m.tier === "primary" ? "font-bold" : m.tier === "featured" ? "font-semibold" : "font-medium"} ${active || m.tier === "primary" ? (dark ? "text-blue-300" : "text-blue-700") : c.text}`}>
+                          <span className={`flex-1 text-[15px] font-medium ${drawerText(m)}`}>
                             {labelOf(m)}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}

@@ -8,7 +8,7 @@ import { CONJUGATION_TENSES } from "@/constants/conjugation";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck, NotebookPen, Dumbbell,
+  ListChecks, BadgeCheck, NotebookPen,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -22,10 +22,9 @@ import {
 // restricted route is the deliberate opposite: "TCF blanc" and "Épreuves"
 // stay visible to everyone so the guard can pitch register/upgrade instead.
 //
-// `tier` sets how loud an entry is, in the bar and the drawer alike (Nav.jsx):
-// "primary" (TCF blanc only) is a solid blue chip, "featured" (the main
-// sections) dark semibold text with a blue icon; entries without one are plain
-// grey text.
+// `tier` sets an entry's text colour, in the bar and the drawer alike
+// (Nav.jsx): "primary" (TCF blanc only) brand red, "featured" (the main
+// sections) brand blue; entries without one are grey. Same weight for all.
 //
 // `icon`, `group` and `order` are read only by the mobile drawer (see
 // MOBILE_GROUPS and mobileNavForRole below); the desktop bar ignores all three.
@@ -61,7 +60,7 @@ export const NAV_LINKS = [
   // `r`: on the desktop bar « Pratique » is a plain link to the Pratique hub
   // (pages/Pratique.jsx), whose tabs are the tools below; the mobile drawer,
   // which has no dropdown, still lists the tools one by one.
-  { l: "Pratique", r: "entrainement", tier: "featured", icon: Dumbbell, roles: AUTHENTICATED, menu: [
+  { l: "Pratique", r: "entrainement", tier: "featured", roles: AUTHENTICATED, menu: [
     // First in the menu, the flagship exercise. NO `roles`, deliberately, and not an oversight: la dictée is Premium
     // (rbac.js → dictee: PREMIUM) but stays visible to free accounts, who land
     // on its sales page instead of the exercise. Hiding it would mean nobody
