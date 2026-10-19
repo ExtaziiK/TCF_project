@@ -1,44 +1,70 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, ChevronLeft, CalendarDays, FolderOpen } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card } from "@/components/common";
+import { Card, Segmented } from "@/components/common";
 
-// A tappable tile for the year grid and the month grid.
-function Tile({ title, meta, onClick }) {
-  const { c } = useApp();
-  return (
-    <button onClick={onClick} className={`group text-left rounded-3xl border ${c.border} ${c.card} card-lift p-5 flex items-center gap-4`}>
-      <span className="w-11 h-11 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform"><CalendarDays size={20} /></span>
-      <span className="min-w-0 flex-1">
-        <span className={`block font-display font-bold ${c.text}`}>{title}</span>
-        <span className={`block text-sm ${c.faint}`}>{meta}</span>
-      </span>
-      <ChevronRight size={18} className={`shrink-0 ${c.faint} group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all`} />
-    </button>
-  );
-}
+const FILL = "bg-[var(--tool-fill,#2563EB)] text-white";
 
-// Layered archive browser shared by the EE and EO subject pages: Année → Mois →
-// contenu. Drilling in slides the incoming panel from the right; the breadcrumb
-// walks back out (slides from the left). The leaf (a month's subjects) is drawn
-// by `renderMonth`, so each épreuve keeps its own layout.
-export function ArchiveBrowser({ years, loading, renderMonth, yearMeta, monthMeta }) {
+// The most recent month of a year (months arrive in display order, which is
+// not the same for the current year and the past ones).
+const latestMonth = (y) => (y?.months || []).reduce((best, m) => (!best || m.monthNum > best.monthNum ? m : best), null);
+
+// Archive browser shared by the EE and EO subject pages, laid out like
+// Révision: a control bar (année, mois, plus the page's own `controls`), then
+// the month dealt one unit at a time — a combinaison for EE, a partie for EO.
+// Numbered chips jump anywhere, Précédent/Suivant sit both above and below the
+// card, and the ← → keys work too, so moving between units never needs a
+// scroll. Opens on the most recent month.
+//
+//   units(month, year)  -> [{ key, n, node }] for the selected month
+//   unitName            -> "Combinaison" | "Partie" (labels the chips)
+//   resetKey            -> anything else that changes the units (EO's tâche):
+//                          the deck goes back to its first unit when it changes
+//   controls(month)     -> extra control-bar content, or null
+//   summary(month, year)-> pills shown above the deck
+export function ArchiveBrowser({ years, loading, units, unitName, resetKey, controls, summary }) {
   const { c, t } = useApp();
   const [year, setYear] = useState(null);
   const [mkey, setMkey] = useState(null);
-  const [dir, setDir] = useState("fwd");
+  const [index, setIndex] = useState(0);
+  const deckRef = useRef(null);
 
-  const yearData = year != null ? years.find((y) => y.year === year) : null;
-  const monthData = yearData && mkey ? yearData.months.find((m) => m.key === mkey) : null;
-  const level = monthData ? 2 : yearData ? 1 : 0;
-  const anim = dir === "fwd" ? "panel-in-right" : "panel-in-left";
+  const yearData = years.find((y) => y.year === year) || years[0] || null;
+  const months = useMemo(() => [...(yearData?.months || [])].sort((a, b) => a.monthNum - b.monthNum), [yearData]);
+  const monthData = months.find((m) => m.key === mkey) || latestMonth(yearData);
+  const list = useMemo(() => (monthData ? units(monthData, yearData) : []), [units, monthData, yearData]);
+  const n = list.length;
+  const i = Math.min(index, Math.max(0, n - 1));
 
-  const back = () => { setDir("back"); if (mkey) setMkey(null); else setYear(null); };
+  // A new month (or tâche) starts at its first unit.
+  useEffect(() => { setIndex(0); }, [monthData?.key, resetKey]);
+
+  // Moving from the bottom buttons after reading a long card would leave the
+  // next one scrolled half out of view: bring the deck's top back when it is
+  // above the fold. Clicks near the top don't scroll at all.
+  const goTo = useCallback((k) => {
+    setIndex(Math.max(0, Math.min(n - 1, k)));
+    window.requestAnimationFrame(() => {
+      const el = deckRef.current;
+      if (el && el.getBoundingClientRect().top < 96) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [n]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName || "")) return;
+      if (e.key === "ArrowRight") goTo(i + 1);
+      if (e.key === "ArrowLeft") goTo(i - 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goTo, i]);
 
   if (loading) {
     return (
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 6 }).map((_, i) => <Card key={i} className="p-5 h-[76px] animate-pulse" />)}
+      <div className="space-y-4" aria-busy="true">
+        <Card className={`h-24 animate-pulse ${c.track}`} />
+        <Card className={`h-96 animate-pulse ${c.track}`} />
       </div>
     );
   }
@@ -53,39 +79,83 @@ export function ArchiveBrowser({ years, loading, renderMonth, yearMeta, monthMet
     );
   }
 
+  const pickYear = (y) => { setYear(y); setMkey(null); };
+  const current = list[i];
+  const navBtn = `inline-flex items-center gap-1.5 rounded-full text-sm font-semibold disabled:opacity-40 transition-colors`;
+
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="flex items-center flex-wrap gap-1.5 text-sm font-semibold mb-6">
-        <button onClick={() => { setDir("back"); setYear(null); setMkey(null); }} className={level === 0 ? c.text : "text-blue-600"}>{t("Toutes les années")}</button>
-        {yearData && <><ChevronRight size={14} className={c.faint} /><button onClick={() => { setDir("back"); setMkey(null); }} className={level === 1 ? c.text : "text-blue-600"}>{yearData.year}</button></>}
-        {monthData && <><ChevronRight size={14} className={c.faint} /><span className={c.text}>{monthData.month} {yearData.year}</span></>}
-      </div>
+      {/* ── control bar ─────────────────────────────────────────────────── */}
+      <Card className="p-3 md:p-4 mb-5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Segmented
+            items={years.map((y) => ({ id: y.year, label: y.year }))}
+            value={yearData?.year} onChange={pickYear} label={t("Année")}
+          />
+          {monthData && controls?.(monthData)}
+        </div>
+        <div className="mt-3 flex items-center gap-1.5 flex-wrap" role="group" aria-label={t("Mois")}>
+          <span className={`text-xs font-semibold mr-1 flex items-center gap-1 ${c.faint}`}><CalendarDays size={13} aria-hidden="true" /> {t("Mois")}</span>
+          {months.map((m) => {
+            const on = m.key === monthData?.key;
+            return (
+              <button type="button" key={m.key} onClick={() => setMkey(m.key)} aria-pressed={on}
+                className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${on ? `${FILL} border-transparent` : `${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+                {t(m.month)}
+              </button>
+            );
+          })}
+        </div>
+      </Card>
 
-      <div key={level === 2 ? mkey : level === 1 ? year : "root"} className={anim}>
-        {level > 0 && (
-          <button onClick={back} className="text-sm font-semibold text-blue-600 flex items-center gap-1 mb-6">
-            <ChevronLeft size={15} /> {level === 2 ? String(yearData.year) : t("Toutes les années")}
-          </button>
-        )}
+      {/* ── the deck ──────────────────────────────────────────────────── */}
+      <div ref={deckRef} className="scroll-mt-28">
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+          <div className="flex flex-wrap items-center gap-2">{monthData && summary?.(monthData, yearData)}</div>
+          {n > 1 && (
+            <div className="flex items-center gap-2">
+              <span className={`font-mono2 text-sm font-semibold ${c.faint}`}>{i + 1} / {n}</span>
+              <button type="button" onClick={() => goTo(i - 1)} disabled={i === 0} aria-label={t("Précédent")}
+                className={`${navBtn} w-9 h-9 justify-center border ${c.border} ${c.card} ${c.text} ${c.hoverSoft}`}><ChevronLeft size={16} /></button>
+              <button type="button" onClick={() => goTo(i + 1)} disabled={i === n - 1} aria-label={t("Suivant")}
+                className={`${navBtn} w-9 h-9 justify-center ${FILL}`}><ChevronRight size={16} /></button>
+            </div>
+          )}
+        </div>
 
-        {level === 0 && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {years.map((y) => (
-              <Tile key={y.year} title={y.year} meta={yearMeta(y)} onClick={() => { setDir("fwd"); setYear(y.year); }} />
+        {n > 1 && (
+          <div className="flex flex-wrap gap-1.5 mb-4" role="group" aria-label={t(unitName)}>
+            {list.map((u, k) => (
+              <button type="button" key={u.key} onClick={() => goTo(k)} aria-current={k === i ? "step" : undefined}
+                aria-label={`${t(unitName)} ${u.n}`}
+                className={`min-w-9 h-9 px-2 rounded-lg font-mono2 text-xs font-bold transition-colors ${k === i ? FILL : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+                {String(u.n).padStart(2, "0")}
+              </button>
             ))}
           </div>
         )}
 
-        {level === 1 && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {yearData.months.map((m) => (
-              <Tile key={m.key} title={`${m.month} ${yearData.year}`} meta={monthMeta(m)} onClick={() => { setDir("fwd"); setMkey(m.key); }} />
-            ))}
-          </div>
+        {current ? (
+          <div key={current.key} className="rise">{current.node}</div>
+        ) : (
+          <Card className="p-10 text-center">
+            <p className={`text-sm ${c.sub}`}>{t("Aucun sujet pour ce mois.")}</p>
+          </Card>
         )}
 
-        {level === 2 && renderMonth(monthData, yearData)}
+        {n > 1 && (
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <button type="button" onClick={() => goTo(i - 1)} disabled={i === 0}
+              className={`${navBtn} px-4 py-2.5 border ${c.border} ${c.card} ${c.text} ${c.hoverSoft}`}>
+              <ChevronLeft size={16} /> {t("Précédent")}
+            </button>
+            <span className={`hidden sm:block text-xs ${c.faint}`}>{t("Flèches ← → du clavier")}</span>
+            <button type="button" onClick={() => goTo(i + 1)} disabled={i === n - 1}
+              className={`${navBtn} px-4 py-2.5 ${FILL}`}>
+              {t("Suivant")} <ChevronRight size={16} />
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

@@ -12,3 +12,4 @@ export { StarRating } from "@/components/common/StarRating";
 export { SocialLinks, SOCIAL_ICON } from "@/components/common/SocialLinks";
 export { AccentKeys, ACCENT_KEYS, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common/AccentKeys";
 export { BankLoading } from "@/components/common/BankLoading";
+export { Segmented } from "@/components/common/Segmented";

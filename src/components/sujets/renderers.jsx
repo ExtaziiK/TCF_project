@@ -97,6 +97,41 @@ export const countEOSujets = (data) => (data || []).reduce((a, tk) => a + (tk.pa
 // Tâche 2 = jeu de rôle interactif, Tâche 3 = opinion argumentée.
 const TACHE_LABEL = { 2: "Interaction", 3: "Expression d'un point de vue" };
 
+// The numbered sujets of one partie.
+function SujetList({ sujets }) {
+  const { c } = useApp();
+  return (
+    <ol className="space-y-3">
+      {sujets.map((s, i) => (
+        <li key={i} className="flex gap-3">
+          <span className="w-6 h-6 rounded-full bg-blue-600/10 text-blue-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+          <p className={`text-sm leading-relaxed whitespace-pre-line ${c.text}`}>{s}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+// One partie of one tâche as a card of its own — the unit the Anciens sujets
+// page deals one at a time.
+export function EOPartieCard({ tache, partie }) {
+  const { c, t } = useApp();
+  return (
+    <Card className="p-6 md:p-7">
+      <div className="flex items-center gap-3 mb-5">
+        <span className="w-10 h-10 rounded-2xl grad-brand text-white flex items-center justify-center font-display font-extrabold shrink-0">{partie.partie}</span>
+        <div className="min-w-0">
+          <h2 className={`font-display font-bold text-lg ${c.text}`}>{t("Partie")} {partie.partie}</h2>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600">
+            {t("Tâche")} {tache.tache}{TACHE_LABEL[tache.tache] ? ` · ${t(TACHE_LABEL[tache.tache])}` : ""}
+          </p>
+        </div>
+      </div>
+      <SujetList sujets={partie.sujets || []} />
+    </Card>
+  );
+}
+
 export function EOTacheBlock({ tache }) {
   const { c, t } = useApp();
   return (
@@ -109,14 +144,7 @@ export function EOTacheBlock({ tache }) {
         {(tache.parties || []).map((p) => (
           <Card key={p.partie} className="p-5 md:p-6">
             <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-3">{t("Partie")} {p.partie}</p>
-            <ol className="space-y-3">
-              {p.sujets.map((s, i) => (
-                <li key={i} className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-blue-600/10 text-blue-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
-                  <p className={`text-sm leading-relaxed whitespace-pre-line ${c.text}`}>{s}</p>
-                </li>
-              ))}
-            </ol>
+            <SujetList sujets={p.sujets} />
           </Card>
         ))}
       </div>

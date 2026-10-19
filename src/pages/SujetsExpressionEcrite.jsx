@@ -7,38 +7,36 @@ import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 
 const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
 
-// Ressources page: previous Expression écrite subjects, by year → month → combinaisons.
+// Ressources page: previous Expression écrite subjects. Pick a year and a
+// month, then go through its combinaisons one at a time.
 export function SujetsExpressionEcrite() {
   const { t } = useApp();
   const { loading, years } = useSujetsArchive("ee");
 
-  const renderMonth = (m, y) => (
+  const units = (m, y) => m.data.map((s, i) => ({
+    key: `${m.key}-${s.n ?? i + 1}`,
+    n: s.n ?? i + 1,
+    node: <EECombinaison s={s} i={i} year={y.year} month={m} />,
+  }));
+
+  const summary = (m, y) => (
     <>
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Pill tone="blue"><CalendarDays size={12} /> {m.month} {y.year}</Pill>
-        <Pill tone="slate"><PenLine size={12} /> {plural(m.data.length, t("combinaison"), t("combinaisons"))}</Pill>
-        <Pill tone="green">{t("3 tâches par sujet")}</Pill>
-      </div>
-      <div className="space-y-5">
-        {m.data.map((s, i) => <EECombinaison key={i} s={s} i={i} year={y.year} month={m} />)}
-      </div>
+      <Pill tone="blue"><CalendarDays size={12} /> {t(m.month)} {y.year}</Pill>
+      <Pill tone="slate"><PenLine size={12} /> {plural(m.data.length, t("combinaison"), t("combinaisons"))}</Pill>
+      <Pill tone="green">{t("3 tâches par sujet")}</Pill>
     </>
   );
 
   return (
     <PageShell
       back
+      tone="violet"
+      icon={PenLine}
       eyebrow={t("Ressources · Expression écrite")}
       title={t("Anciens sujets d'expression écrite")}
-      sub={t("Les sujets qui ont circulé au TCF Canada, mois par mois. Choisissez une année, puis un mois, pour revoir les combinaisons de tâches dans leur formulation réelle.")}
+      sub={t("Les combinaisons qui ont circulé au TCF Canada, mois par mois, dans leur formulation réelle. Choisissez un mois, puis passez d'une combinaison à l'autre.")}
     >
-      <ArchiveBrowser
-        years={years}
-        loading={loading}
-        renderMonth={renderMonth}
-        yearMeta={(y) => `${plural(y.months.length, t("mois"), t("mois"))} · ${plural(y.months.reduce((a, m) => a + m.data.length, 0), t("combinaison"), t("combinaisons"))}`}
-        monthMeta={(m) => plural(m.data.length, t("combinaison"), t("combinaisons"))}
-      />
+      <ArchiveBrowser years={years} loading={loading} units={units} unitName="Combinaison" summary={summary} />
     </PageShell>
   );
 }

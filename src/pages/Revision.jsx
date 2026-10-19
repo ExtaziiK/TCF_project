@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, Headphones, BookOpen, Check, Lightbulb, X, Eye, PenLine, ListChecks, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill, BankLoading } from "@/components/common";
+import { PageShell, Card, Pill, BankLoading, Segmented } from "@/components/common";
 import { BankQuestionMedia } from "@/components/bank/BankQuestionMedia";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { useBank } from "@/hooks/useBank";
@@ -226,23 +226,6 @@ export function Revision() {
         />}
       </div>
     </PageShell>
-  );
-}
-
-function Segmented({ items, value, onChange, label }) {
-  const { c, t } = useApp();
-  return (
-    <div className={`inline-flex p-1 rounded-full border ${c.border} ${c.card}`} role="group" aria-label={label}>
-      {items.map(({ id, label: l, Icon }) => {
-        const on = value === id;
-        return (
-          <button type="button" key={id} onClick={() => onChange(id)} aria-pressed={on}
-            className={`px-3.5 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1.5 transition-colors ${on ? FILL : `${c.sub} ${c.hoverSoft}`}`}>
-            <Icon size={14} aria-hidden="true" /> {t(l)}
-          </button>
-        );
-      })}
-    </div>
   );
 }
 
