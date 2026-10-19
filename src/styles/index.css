@@ -190,13 +190,4 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes demo-tap{0%,100%{transform:translate(0,0)}45%{transform:translate(-5px,-5px) scale(.92)}}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:8px;border:2px solid transparent;background-clip:content-box}
-/* Calculator sliders (components/calculator): flat track, square handle in the
-   tile's text colour, ringed with the tile's own colour (--fg / --bg). */
-input[type="range"].range-flat{-webkit-appearance:none;appearance:none;height:6px;border-radius:9999px;cursor:pointer;outline:none}
-input[type="range"].range-flat::-webkit-slider-runnable-track{-webkit-appearance:none;height:6px;border-radius:9999px;background:transparent}
-input[type="range"].range-flat::-moz-range-track{height:6px;border-radius:9999px;background:transparent}
-input[type="range"].range-flat::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;margin-top:-8px;border-radius:7px;background:var(--fg);border:4px solid var(--bg);transition:transform .15s ease}
-input[type="range"].range-flat::-moz-range-thumb{width:16px;height:16px;border-radius:6px;background:var(--fg);border:4px solid var(--bg)}
-input[type="range"].range-flat:active::-webkit-slider-thumb{transform:scale(1.15) rotate(45deg)}
-input[type="range"].range-flat:focus-visible{outline:2px solid var(--fg);outline-offset:6px}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}

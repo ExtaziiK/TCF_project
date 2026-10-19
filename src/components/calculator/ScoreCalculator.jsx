@@ -1,119 +1,36 @@
 import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Headphones, BookOpen, Pencil, Mic, Info, Stamp } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { CALC_PROFILES, SCORE_RANGE, SECTION_LABELS, nclcFor, cecrlFor, pointsToNclc } from "@/utils/nclc";
+import { Card, Btn } from "@/components/common";
+import { CALC_PROFILES, SCORE_RANGE, SECTION_LABELS, nclcFor } from "@/utils/nclc";
 
-// TCF Canada score → NCLC calculator, in a flat geometric style: one solid
-// tile per épreuve (each with its own shape — circle, square, triangle,
-// half-moon), a flat bar chart of the four levels against the program's
-// threshold, and a one-block verdict. No gradients, glows or shadows, and as
-// little text as possible: each fact appears once — a tile gives its NCLC and
-// what is missing, the chart compares, the verdict concludes. Numbers are the
-// official IRCC bands (api/_lib/scoreBands.js).
-//
-// Self-contained (own state) so it sits on both the landing page and the
-// /calculator route. Scores are typed or slid; everything updates live.
-
-// Paper score-report order: compréhension orale/écrite, then expression
-// écrite/orale.
+// Display order and per-skill icons — mirrors the paper score report
+// (Compréhension orale/écrite, then Expression écrite/orale).
 const ORDER = ["co", "ce", "ee", "eo"];
-const CODES = { co: "CO", ce: "CE", ee: "EE", eo: "EO" };
+const ICONS = { co: Headphones, ce: BookOpen, ee: Pencil, eo: Mic };
+// Kept within the logo's palette (blue → violet → red): one accent per épreuve,
+// on neutral tiles, so the calculator stays sober.
+const ACCENT = { co: "#2E6BE6", ce: "#6C4FE0", ee: "#D8354A", eo: "#4F5CE3" };
 
-// One flat colour per épreuve, from the brand palette, with the text colour
-// that reads on it (≥ 4.5:1): white on blue, violet and red; navy on amber.
-const NAVY = "#1F2E66";
-const TILE = {
-  co: { bg: "#2E6BE6", fg: "#FFFFFF" },
-  ce: { bg: "#6C4FE0", fg: "#FFFFFF" },
-  ee: { bg: "#D8354A", fg: "#FFFFFF" },
-  eo: { bg: "#F5A524", fg: NAVY },
-};
-// Bar height per NCLC level in the chart, in % of its height (10 → 84 %,
-// leaving room above the tallest bar).
-const BAR = 8.4;
-
-// Each tile's flat shape, large and cropped by the tile's corner.
-function TileShape({ s, color }) {
-  const flat = { fill: color, opacity: 0.16 };
-  return (
-    <svg viewBox="0 0 100 100" className="absolute -right-6 -bottom-6 w-36 h-36 pointer-events-none" aria-hidden="true">
-      {s === "co" && <><circle cx="60" cy="60" r="38" {...flat} /><circle cx="60" cy="60" r="16" {...flat} /></>}
-      {s === "ce" && <rect x="22" y="22" width="64" height="64" rx="6" transform="rotate(14 54 54)" {...flat} />}
-      {s === "ee" && <polygon points="56,10 98,90 14,90" {...flat} />}
-      {s === "eo" && <path d="M14 70 A42 42 0 0 1 98 70 Z" {...flat} />}
-    </svg>
-  );
-}
-
-// One épreuve: its name and CEFR level, the score (typed or slid), its NCLC
-// and the points to the next step — the threshold first, then the next level.
-function SkillTile({ s, value, onChange, threshold, t }) {
-  const { bg, fg } = TILE[s];
-  const { min, max } = SCORE_RANGE[s];
-  const num = value === "" ? min : Number(value);
-  const pct = ((num - min) / (max - min)) * 100;
-  const nclc = nclcFor(s, value);
-  const level = nclc || 0;
-  const goal = level < threshold ? threshold : level < 10 ? Math.max(level + 1, 4) : null;
-  const missing = goal ? pointsToNclc(s, value, goal) : null;
-
-  return (
-    <div className="relative overflow-hidden rounded-[26px] p-5" style={{ background: bg, color: fg, "--fg": fg, "--bg": bg }}>
-      <TileShape s={s} color={fg} />
-
-      <div className="relative flex items-start justify-between gap-2">
-        <p className="text-sm font-bold leading-tight">{t(SECTION_LABELS[s])}</p>
-        <span className="px-2.5 py-1 rounded-full text-[11px] font-extrabold shrink-0" style={{ background: fg, color: bg }}>
-          {cecrlFor(s, value)}
-        </span>
-      </div>
-
-      <div className="relative mt-3 flex items-baseline gap-1">
-        <input
-          type="text"
-          inputMode="numeric"
-          value={value}
-          onChange={(e) => onChange(s, e.target.value)}
-          aria-label={`${t(SECTION_LABELS[s])} — ${t("score")}`}
-          className="w-[3.4ch] bg-transparent outline-none font-display font-extrabold text-5xl leading-none tabular-nums focus-visible:underline decoration-4 underline-offset-8"
-          style={{ color: fg, caretColor: fg }}
-        />
-        <span className="text-sm font-bold">/{max}</span>
-      </div>
-
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={num}
-        onChange={(e) => onChange(s, e.target.value)}
-        aria-label={`${t(SECTION_LABELS[s])} — ${t("curseur de score")}`}
-        className="range-flat relative w-full mt-4"
-        style={{ background: `linear-gradient(${fg},${fg}) 0 0 / ${pct}% 100% no-repeat, ${fg}40` }}
-      />
-
-      <div className="relative mt-4 flex items-end justify-between gap-2">
-        <p className="font-display font-extrabold text-2xl leading-none">
-          <span className="text-xs font-extrabold tracking-[0.15em] mr-1.5">NCLC</span>{nclc == null ? "—" : nclc === 0 ? "< 4" : nclc}
-        </p>
-        <p className="text-xs font-bold">
-          {value === "" ? "—" : goal == null ? t("NCLC max") : missing != null ? `+${missing} ${t("pts")} → NCLC ${goal}` : ""}
-        </p>
-      </div>
-    </div>
-  );
-}
-
+// TCF Canada score → NCLC calculator with a live immigration-eligibility read.
+// Self-contained (own state) so it sits on both the landing page and the
+// /calculator route. Scores can be set with the slider OR typed directly; the
+// « passeport linguistique » on the right updates instantly — no "calculate"
+// step. Eligibility reads as a passport stamp: green when all four reach the
+// threshold, red otherwise.
 export function ScoreCalculator() {
-  const { c, dark, nav, t } = useApp();
+  const { c, nav, t } = useApp();
   const [scores, setScores] = useState({ co: "480", ce: "445", ee: "10", eo: "10" });
+  // One accent per épreuve, with light tints derived from it.
+  const tone = (s) => {
+    const a = ACCENT[s];
+    return { fill: a, ink: a, soft: `${a}26`, pale: `${a}12` };
+  };
 
   const profile = CALC_PROFILES[0]; // Entrée express fédéral — les 4 épreuves ≥ NCLC 7
-  const threshold = 7;
 
-  // Clamp to the skill's range whether the value arrives from the slider or
-  // the keyboard: the HTML `max` only validates, it doesn't stop someone
-  // typing 999.
+  // Clamp to the skill's range whether the value arrives from the slider or is
+  // typed: the HTML `max` only validates, it doesn't stop someone typing 999.
   const setScore = (s, v) => {
     let next = v;
     if (v !== "") {
@@ -125,82 +42,142 @@ export function ScoreCalculator() {
     setScores((prev) => ({ ...prev, [s]: next }));
   };
 
-  const levels = Object.fromEntries(ORDER.map((s) => [s, nclcFor(s, scores[s]) || 0]));
-  const minNclc = Math.min(...ORDER.map((s) => levels[s]));
-  const allMet = ORDER.every((s) => levels[s] >= profile.min[s]);
-  const short = ORDER.filter((s) => levels[s] < profile.min[s]);
+  const nclcOf = (s) => nclcFor(s, scores[s]) || 0; // treat empty as 0 for the visuals
+  const minNclc = Math.min(...ORDER.map(nclcOf));
+  const allMet = ORDER.every((s) => nclcOf(s) >= profile.min[s]);
 
-  // The result panel is flat paper: cream in light mode, deep navy in dark.
-  const paper = dark
-    ? { bg: "#141A33", ink: "#E8ECFA", sub: "#AAB4D6" }
-    : { bg: "#F4F1EA", ink: NAVY, sub: "#4A5578" };
-  const verdict = allMet ? { bg: "#0B7A55", fg: "#FFFFFF" } : { bg: "#F5A524", fg: NAVY };
+  const stamp = allMet ? "#059669" : "#D8354A"; // green when fully eligible, logo red otherwise
+  const R = 42;
+  const CIRC = 2 * Math.PI * R;
+  const gaugeFrac = Math.max(0, Math.min(1, minNclc / 10));
 
   return (
-    <div className="space-y-3">
-      <div className="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-4 items-stretch">
-        <div className="grid sm:grid-cols-2 gap-4">
-          {ORDER.map((s) => <SkillTile key={s} s={s} value={scores[s]} onChange={setScore} threshold={threshold} t={t} />)}
+    <div className="grid lg:grid-cols-2 gap-5 items-start">
+      {/* ── Left: the four scores, one tile per épreuve in its colour ──── */}
+      <Card className="p-5 md:p-6">
+        <h3 className={`font-display font-bold text-lg ${c.text}`}>{t("Entrez vos scores TCF Canada")}</h3>
+        <p className={`text-sm mt-1 mb-5 ${c.sub}`}>{t("Déplacez les curseurs ou saisissez vos scores dans chaque compétence")}</p>
+
+        <div className="space-y-3">
+          {ORDER.map((s) => {
+            const Icon = ICONS[s];
+            const k = tone(s);
+            const { min, max } = SCORE_RANGE[s];
+            const val = scores[s];
+            const num = val === "" ? min : Number(val);
+            const pct = ((num - min) / (max - min)) * 100;
+            const nclc = nclcFor(s, val);
+            return (
+              <div key={s} className={`p-4 rounded-2xl border ${c.border} ${c.bg}`}>
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="w-9 h-9 rounded-xl text-white flex items-center justify-center shrink-0" style={{ background: k.fill }}><Icon size={17} /></span>
+                    <span className={`text-sm font-bold truncate ${c.text}`}>{t(SECTION_LABELS[s])}</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 shrink-0">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={val}
+                      onChange={(e) => setScore(s, e.target.value)}
+                      aria-label={`${t(SECTION_LABELS[s])} — ${t("score")}`}
+                      className="w-16 text-right bg-transparent outline-none font-display font-extrabold text-2xl"
+                      style={{ color: k.ink, caretColor: k.ink }}
+                    />
+                    <span className={`text-xs font-mono2 ${c.faint}`}>/ {max}</span>
+                  </div>
+                </div>
+                <input
+                  type="range"
+                  min={min}
+                  max={max}
+                  value={num}
+                  onChange={(e) => setScore(s, e.target.value)}
+                  aria-label={`${t(SECTION_LABELS[s])} — ${t("curseur de score")}`}
+                  className="range-brand w-full"
+                  style={{ background: `linear-gradient(${k.fill},${k.fill}) 0 0 / ${pct}% 100% no-repeat, ${k.soft}` }}
+                />
+                <div className="flex justify-end mt-2">
+                  <span className="px-2.5 py-1 rounded-full text-xs font-bold border" style={{ color: k.ink, borderColor: `${k.ink}66` }}>
+                    NCLC {nclc == null ? "—" : nclc === 0 ? "< 4" : nclc}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* ── Right: the « passeport linguistique » ───────────────────────── */}
+      <Card className="p-5 md:p-6 relative overflow-hidden">
+        <div className="text-center">
+          <p className="font-mono2 text-[11px] font-bold uppercase tracking-widest text-blue-600">{t("Passeport linguistique")}</p>
+          <h3 className={`font-display font-bold text-lg mt-1 ${c.text}`}>{t("Votre profil linguistique")}</h3>
+          <p className={`text-xs font-semibold mt-0.5 ${c.faint}`}>{t("Équivalence IRCC officielle")}</p>
+        </div>
+        {/* min-NCLC gauge, under the heading */}
+        <div className="mt-4 flex justify-center">
+          <div className="relative w-28 h-28">
+            <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+              <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(148,163,184,.25)" strokeWidth="9" />
+              <circle cx="50" cy="50" r={R} fill="none" stroke={stamp} strokeWidth="9" strokeLinecap="round"
+                strokeDasharray={CIRC} strokeDashoffset={CIRC * (1 - gaugeFrac)} style={{ transition: "stroke-dashoffset .4s ease, stroke .3s ease" }} />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className={`text-[8px] font-bold uppercase tracking-widest ${c.faint}`}>{t("Niveau min.")}</span>
+              <span className={`font-display font-extrabold text-3xl leading-none ${c.text}`}>{minNclc}</span>
+              <span className={`text-[9px] font-bold ${c.faint}`}>NCLC</span>
+            </div>
+          </div>
         </div>
 
-        <div className="rounded-[26px] p-5 sm:p-6 flex flex-col" style={{ background: paper.bg, color: paper.ink }}>
-          <span className="self-start px-3 py-1 rounded-full text-[11px] font-extrabold" style={{ background: paper.ink, color: paper.bg }}>
-            {t("Entrée express")} · NCLC {threshold}
-          </span>
+        {/* per-skill bars, each in its épreuve's accent */}
+        <div className="mt-5 space-y-2.5">
+          {ORDER.map((s) => {
+            const Icon = ICONS[s];
+            const k = tone(s);
+            const nclc = nclcOf(s);
+            return (
+              <div key={s} className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: k.pale, color: k.ink }}><Icon size={15} /></span>
+                <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: k.soft }}>
+                  <div className="h-full rounded-full transition-all duration-300" style={{ width: `${nclc * 10}%`, background: k.fill }} />
+                </div>
+                <span className={`text-sm font-bold font-mono2 w-5 text-right ${c.text}`}>{nclc}</span>
+              </div>
+            );
+          })}
+        </div>
 
-          {/* Flat bar chart: one column per épreuve, the threshold as a rule. */}
-          <div className="relative mt-6 h-44" role="img"
-            aria-label={`${ORDER.map((s) => `${CODES[s]} NCLC ${levels[s] || "< 4"}`).join(", ")}. ${t("Seuil")} : NCLC ${threshold}.`}>
-            <div className="absolute inset-0 flex items-end gap-3 pr-8" aria-hidden="true">
-              {ORDER.map((s) => (
-                <div key={s} className="flex-1 rounded-t-xl transition-[height] duration-500 ease-out"
-                  style={{ height: `${Math.max(levels[s], 0.6) * BAR}%`, background: TILE[s].bg }} />
-              ))}
-            </div>
-            <div className="absolute inset-x-0 z-10 flex items-center gap-2 translate-y-1/2" style={{ bottom: `${threshold * BAR}%` }} aria-hidden="true">
-              <span className="flex-1 h-[3px] rounded-full" style={{ background: paper.ink }} />
-              <span className="text-xs font-extrabold">{threshold}</span>
+        {/* eligibility, as a passport stamp */}
+        <div className="mt-6 flex items-center gap-5">
+          <div className="shrink-0 -rotate-12 w-28 h-28 rounded-full border-[3px] border-dashed grid place-items-center text-center"
+            style={{ borderColor: stamp, color: stamp }} role="img" aria-label={t(allMet ? "Éligible" : "Partiellement éligible")}>
+            <div>
+              <Stamp size={18} className="mx-auto" />
+              <p className="font-display font-extrabold text-sm leading-tight mt-1 uppercase">{t(allMet ? "Éligible" : "À renforcer")}</p>
+              <p className="font-mono2 text-[10px] font-bold mt-0.5">NCLC 7</p>
             </div>
           </div>
-          <div className="mt-2 flex gap-3 pr-8" aria-hidden="true">
-            {ORDER.map((s) => <span key={s} className="flex-1 text-center text-[11px] font-extrabold tracking-wider" style={{ color: paper.sub }}>{CODES[s]}</span>)}
-          </div>
-
-          {/* Verdict: the lowest level decides. */}
-          <div className="mt-5 rounded-[20px] p-4 flex items-center gap-4 relative overflow-hidden" style={{ background: verdict.bg, color: verdict.fg }} aria-live="polite">
-            <span className="absolute -right-6 -top-6 w-24 h-24 rounded-full" style={{ background: verdict.fg, opacity: 0.14 }} aria-hidden="true" />
-            <div className="relative text-center shrink-0">
-              <p className="font-display font-extrabold text-4xl leading-none tabular-nums">{minNclc || "<4"}</p>
-              <p className="text-[10px] font-extrabold tracking-[0.15em] mt-1">{t("NCLC min.")}</p>
-            </div>
-            <div className="relative min-w-0">
-              <p className="font-display font-extrabold text-xl leading-tight flex items-center gap-2">
-                {allMet && <Check size={18} strokeWidth={3} aria-hidden="true" />}
-                {t(allMet ? "Éligible" : "Pas encore")}
-              </p>
-              <p className="text-xs font-semibold mt-0.5">
-                {allMet ? t("Visez NCLC 9+ pour plus de points CRS.") : `${t("À renforcer :")} ${short.map((s) => CODES[s]).join(", ")}`}
-              </p>
-            </div>
-          </div>
-
-          {/* Pinned to the panel's bottom (mt-auto) with a gap that never
-              collapses (pt-5): a margin alone shrinks to 0 when the panel has
-              no spare height, and the button then touched the verdict. */}
-          <div className="mt-auto pt-5">
-            <button type="button" onClick={() => nav("mocks")}
-              className="group w-full rounded-2xl pl-5 pr-2 py-2 font-bold text-sm flex items-center justify-between gap-3"
-              style={{ background: paper.ink, color: paper.bg }}>
-              {t("Testez votre niveau gratuitement")}
-              <span className="w-9 h-9 rounded-full grid place-items-center shrink-0 transition-transform duration-200 group-hover:translate-x-1" style={{ background: "#D8354A", color: "#FFFFFF" }}>
-                <ArrowRight size={17} />
-              </span>
-            </button>
+          <div className="min-w-0">
+            <p className="text-sm font-bold" style={{ color: stamp }}>{t(allMet ? "Éligible" : "Partiellement éligible")}</p>
+            <p className={`text-xs mt-1 ${c.sub}`}>{t(allMet ? "Vos 4 épreuves atteignent le seuil NCLC 7." : "NCLC 7+ recommandé pour maximiser vos points CRS")}</p>
+            <p className={`text-xs mt-2 flex items-start gap-1.5 ${c.faint}`}>
+              <Info size={13} className="shrink-0 mt-0.5" />
+              {t("Votre niveau le plus bas détermine votre éligibilité aux programmes d'immigration")}
+            </p>
           </div>
         </div>
-      </div>
 
-      <p className={`text-[11px] px-1 ${c.faint}`}>{t("Résultat indicatif — vérifiez les seuils officiels (IRCC, MIFI).")}</p>
+        {/* CTA */}
+        <div className={`mt-6 pt-5 border-t ${c.border}`}>
+          <p className={`font-display font-bold ${c.text}`}>{t("Atteignez le niveau CLB 9+ !")}</p>
+          <p className={`text-sm mt-0.5 mb-4 ${c.sub}`}>{t("Entraînez-vous avec nos simulations réalistes")}</p>
+          <Btn variant="accent" className="w-full" icon={ArrowRight} onClick={() => nav("mocks")}>{t("Testez votre niveau gratuitement")}</Btn>
+        </div>
+      </Card>
+
+      <p className={`lg:col-span-2 text-[11px] leading-relaxed ${c.faint}`}>{t("Conversion basée sur la grille d'équivalence TCF Canada → NCLC d'IRCC. Résultat indicatif : vérifiez toujours les seuils officiels de votre programme (IRCC, MIFI).")}</p>
     </div>
   );
 }
