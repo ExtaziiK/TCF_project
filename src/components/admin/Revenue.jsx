@@ -411,7 +411,7 @@ export function RevenueTab() {
       <Card className="p-6">
         <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
           <h3 className={`font-display font-bold ${c.text}`}>Recettes {mode === "day" ? "par jour" : "par mois"}</h3>
-          <span className={`text-xs ${c.faint}`}>{periodLabel} · survolez une barre pour le détail</span>
+          <span className={`text-xs ${c.faint}`}>{periodLabel} · survolez la courbe pour le détail</span>
         </div>
         {view.bars.length === 0
           ? <p className={`text-sm py-6 text-center ${c.faint}`}>Aucune vente enregistrée pour l'instant.</p>
