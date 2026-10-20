@@ -149,8 +149,8 @@ const LISTEN_MS = 2200;
 const TYPE_MS_PER_CHAR = 35;
 const CHECK_MS = 4200;
 
-function useDicteeLoop() {
-  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function useDicteeLoop(still) {
+  const reduced = still || (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   const [phase, setPhase] = useState(reduced ? 2 : 0);
   const [typed, setTyped] = useState(reduced ? DICTEE_TEXT.length : 0);
   const done = typed >= DICTEE_TEXT.length;
@@ -174,10 +174,18 @@ function useDicteeLoop() {
   return { phase, typed };
 }
 
-function ScreenDictee({ ink, soft }) {
-  const { phase, typed } = useDicteeLoop();
+function ScreenDictee({ ink, soft, still }) {
+  const { phase, typed } = useDicteeLoop(still);
   const bars = [35, 60, 45, 80, 55, 95, 50, 70, 40, 85, 60, 45, 75, 50, 90, 40, 65, 55, 80, 45];
   const caret = <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5 bg-white" />;
+  const corrected = (
+    <>
+      {DICTEE.before}
+      <span className="line-through decoration-2 text-white/50" style={{ textDecorationColor: "#F08A9B" }}>{DICTEE.wrong}</span>{" "}
+      <span className="rise inline-block font-bold rounded px-1" style={{ color: "#14204A", background: ink }}>{DICTEE.right}</span>
+      {DICTEE.after}
+    </>
+  );
   return (
     <div className="rounded-3xl p-5 md:p-6" style={{ background: soft }}>
       {/* Step indicator + score (shown once corrected). */}
@@ -210,18 +218,14 @@ function ScreenDictee({ ink, soft }) {
         </span>
       </div>
 
-      {/* The learner's text: typed out, then corrected. */}
-      <p className="mt-4 min-h-[5.5rem] font-mono2 text-sm md:text-base leading-loose text-white/90">
-        {phase < 2 ? (
-          <>{DICTEE_TEXT.slice(0, typed)}{phase === 1 && caret}</>
-        ) : (
-          <>
-            {DICTEE.before}
-            <span className="line-through decoration-2 text-white/50" style={{ textDecorationColor: "#F08A9B" }}>{DICTEE.wrong}</span>{" "}
-            <span className="rise inline-block font-bold rounded px-1" style={{ color: "#14204A", background: ink }}>{DICTEE.right}</span>
-            {DICTEE.after}
-          </>
-        )}
+      {/* The learner's text: typed out, then corrected. The corrected text
+          (the longest state) sits invisibly underneath so the box keeps its
+          height while the text types itself out. */}
+      <p className="mt-4 grid font-mono2 text-sm md:text-base leading-loose text-white/90">
+        <span className="invisible [grid-area:1/1]">{corrected}</span>
+        <span className="[grid-area:1/1]">
+          {phase < 2 ? <>{DICTEE_TEXT.slice(0, typed)}{phase === 1 && caret}</> : corrected}
+        </span>
       </p>
 
       {/* The rule, once the mistake is identified. */}
@@ -274,7 +278,7 @@ function ScreenGrammar({ ink, soft }) {
 const SCREENS = { listening: ScreenCO, reading: ScreenCE, writing: ScreenEE, speaking: ScreenEO, dictee: ScreenDictee, vocabulary: ScreenVocab, grammar: ScreenGrammar };
 
 // The selected tool's panel: kind, title, description, screen, link.
-function Panel({ tool, n }) {
+function Panel({ tool, n, still }) {
   const { t, dark, c } = useApp();
   const [bg, ink, soft] = tone(tool, dark);
   const night = tool.tone === "night";
@@ -292,7 +296,7 @@ function Panel({ tool, n }) {
             <tool.icon size={22} />
           </span>
         </div>
-        <div aria-hidden="true"><Screen ink={ink} soft={soft} /></div>
+        <div aria-hidden="true"><Screen ink={ink} soft={soft} still={still} /></div>
         <RouteLink r={tool.route} className="mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition hover:gap-3"
           style={{ background: ink, color: onInk(tool) }}>
           {t("Ouvrir l'outil")} <ArrowRight size={16} />
@@ -455,7 +459,6 @@ export function ToolsShowcase() {
 
   const select = (i) => { setAuto(false); setActive(i); };
   const next = () => setActive((i) => (i + 1) % TOOLS.length);
-  const tool = TOOLS[active];
 
   return (
     <div ref={ref}>
@@ -469,7 +472,21 @@ export function ToolsShowcase() {
             </div>
           ))}
         </nav>
-        <div className="hidden lg:block min-h-[560px]"><Panel tool={tool} n={active + 1} /></div>
+        {/* All seven panels share one grid cell, only the selected one visible,
+            so the cell is always as tall as the tallest panel and switching
+            tools never moves the rest of the page. The hidden ones are still
+            (the dictée doesn't loop); the selected one remounts, which restarts
+            its animation. */}
+        <div className="hidden lg:grid min-h-[560px]">
+          {TOOLS.map((tl, i) => {
+            const on = i === active;
+            return (
+              <div key={`${tl.route}-${on}`} className={`[grid-area:1/1] ${on ? "" : "invisible"}`} aria-hidden={on ? undefined : "true"}>
+                <Panel tool={tl} n={i + 1} still={!on} />
+              </div>
+            );
+          })}
+        </div>
       </div>
       <MockPass />
     </div>
