@@ -12,19 +12,19 @@ import { TERMS_REACCEPTANCE } from "@/constants/legalMeta";
 // never lock people out of the product. The gate also stays out of the way
 // during onboarding, which collects the same consent itself.
 export function useTermsGate() {
-  const { user, authReady, pendingOnboarding } = useApp();
+  const { user, authReady, needsProfile } = useApp();
   const [blocked, setBlocked] = useState(false);
   const userId = user?.id;
 
   useEffect(() => {
-    if (!TERMS_REACCEPTANCE || !authReady || !userId || pendingOnboarding) {
+    if (!TERMS_REACCEPTANCE || !authReady || !userId || needsProfile) {
       setBlocked(false);
       return undefined;
     }
     let cancelled = false;
     hasAcceptedCurrentTerms(userId).then((ok) => { if (!cancelled) setBlocked(ok === false); });
     return () => { cancelled = true; };
-  }, [userId, authReady, pendingOnboarding]);
+  }, [userId, authReady, needsProfile]);
 
   return { blocked, clear: () => setBlocked(false) };
 }

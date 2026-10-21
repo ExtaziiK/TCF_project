@@ -172,10 +172,13 @@ export function isNewlyCreatedUser(authUser) {
   return !Number.isFinite(lastSignIn) || Math.abs(lastSignIn - created) < 10_000; // 10s
 }
 
-// Finishes creating a Google-registered account: sets the country (into
-// user_metadata, like email signup) and the chosen username (profiles). Called
-// from the onboarding step that gates new Google registrations.
-export async function completeGoogleProfile({ username, country, acceptedTerms }) {
+// Finishes creating an account — a new Google registration, or an email one
+// (which signs up with nothing but an address and a password): sets the first
+// name and country (user_metadata), records the terms acceptance, saves the
+// chosen username (profiles) and clears `profile_pending`. Called from the
+// profile popup (Onboarding.jsx). `source` is the terms_acceptances source:
+// "email_signup" or "google_onboarding".
+export async function completeProfile({ name, username, country, acceptedTerms, source = "google_onboarding" }) {
   const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
   const meta = user.user_metadata || {};
@@ -184,8 +187,10 @@ export async function completeGoogleProfile({ username, country, acceptedTerms }
   // dashboard. The account itself can edit user_metadata, which is exactly why
   // it is not what we rely on.
   const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
-  if ((country && country !== meta.country) || acceptedTerms) {
-    const { error } = await (await getSupabase()).auth.updateUser({ data: { ...meta, ...(country ? { country } : {}), ...consent } });
+  {
+    const { error } = await (await getSupabase()).auth.updateUser({
+      data: { ...meta, ...(name ? { name: normalizeName(name) } : {}), ...(country ? { country } : {}), ...consent, profile_pending: false },
+    });
     if (error) return { error };
   }
   // The email path gets its row from the signup trigger; this one has to write
@@ -193,7 +198,7 @@ export async function completeGoogleProfile({ username, country, acceptedTerms }
   // database without the 20260730 migration is not a reason to refuse the
   // account — the metadata copy above is then all there is, exactly as before.
   if (acceptedTerms) {
-    const rec = await recordTermsAcceptance("google_onboarding");
+    const rec = await recordTermsAcceptance(source);
     if (!rec.ok && !rec.unavailable) {
       return { error: { message: "Impossible d'enregistrer votre acceptation des conditions. Réessayez." } };
     }
@@ -245,6 +250,9 @@ export function mapSupabaseUser(session) {
     name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
+    // An email account created with only an address and a password: first
+    // name, username, country and the terms are still to collect (see signUp).
+    profilePending: authUser.user_metadata?.profile_pending === true,
     plan: authUser.app_metadata?.plan || "Basic",
     planLabel: authUser.app_metadata?.plan_label || null, // tier name (Starter / Pro / …), frozen at checkout — may show a legacy name for an older account
     premiumUntil: authUser.app_metadata?.premium_until || null,
@@ -306,23 +314,18 @@ export async function verifyRecoveryToken(tokenHash) {
   return { session: data?.session || null, error };
 }
 
-// `acceptedTerms` carries the consent collected by the registration form (see
-// AuthPage). The version travels in the new user's metadata, where the
-// on_auth_user_created_terms trigger picks it up and writes the authoritative,
-// server-timestamped row in terms_acceptances (20260730) — bump TERMS_VERSION
-// when the wording changes and the next signups record the new one.
-export async function signUp({ name, username, email, password, country, acceptedTerms }) {
+// The registration form asks for an address and a password only. The rest —
+// first name, username, country and the terms — is collected right after the
+// account is confirmed, by the profile popup on the dashboard (Onboarding.jsx,
+// completeProfile above). `profile_pending` is what keeps that popup coming
+// back until it is done, on any device. With no username in the metadata the
+// signup trigger derives one from the address (gen_unique_username), and with
+// no terms_version it writes no acceptance row: completeProfile records it.
+export async function signUp({ email, password }) {
   const { data, error } = await (await getSupabase()).auth.signUp({
     email,
     password,
-    options: {
-      data: {
-        name: normalizeName(name),
-        username,
-        country,
-        ...(acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {}),
-      },
-    },
+    options: { data: { profile_pending: true } },
   });
   return { data, error, needsEmailConfirmation: !error && !data.session };
 }

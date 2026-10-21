@@ -425,13 +425,18 @@ export function AppProvider({ children }) {
     forcingOut.current = false;
   };
 
-  // Finish a brand-new Google registration (username + country saved) and enter
-  // the app at the first-login landing page. Every completion is a brand-new
-  // account by construction — Onboarding only ever renders for one (see
-  // isNewlyCreatedUser in authService.js) — so the tour always starts here,
-  // unlike the email/password paths in AuthPage.jsx which gate it on
-  // consumeFirstLogin().
-  const completeOnboarding = () => { setPendingOnboarding(false); nav("exams", { replace: true }); startTour(); };
+  // An account still missing its first name, username, country or terms: a
+  // brand-new Google registration (pendingOnboarding, set on the OAuth return)
+  // or an email one created with only an address and a password
+  // (user.profilePending, which survives reloads and other devices). Either
+  // way the profile popup (Onboarding.jsx) shows over the dashboard until it
+  // is filled in. Staff accounts are never asked.
+  const needsProfile = !!user && !user.admin && !user.owner && (pendingOnboarding || !!user.profilePending);
+
+  // The popup is done: the account is complete. Every completion is a brand-new
+  // account by construction, so the guided tour starts here (the email path
+  // holds it back in AuthPage.jsx until this point).
+  const completeOnboarding = () => { setPendingOnboarding(false); nav("dashboard", { replace: true }); startTour(); };
 
   // startTour()/nextTourStep()/endTour() are the only surface the rest of the
   // app touches; TourOverlay.jsx owns everything about how a step is shown.
@@ -505,7 +510,7 @@ export function AppProvider({ children }) {
     user, setUser, authReady, signOut, deactivateAccount, role,
     ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
-    pendingOnboarding, completeOnboarding,
+    pendingOnboarding, needsProfile, completeOnboarding,
     resolvingOAuth,
     tourStep, startTour, nextTourStep, endTour,
     c,

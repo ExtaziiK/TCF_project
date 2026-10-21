@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
-import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
+import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
-import { TermsConsent } from "@/components/auth/TermsConsent";
 import { CodeInput } from "@/components/auth/CodeInput";
-import { COUNTRIES } from "@/constants/exam";
 import { useHomeStats } from "@/hooks/useHomeStats";
 
 function GoogleIcon(props) {
@@ -87,23 +85,13 @@ export function AuthPage({ mode }) {
   const { c, nav, notify, t, user, startTour, dark } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [country, setCountry] = useState("");
   const [identifier, setIdentifier] = useState(""); // login: username or email
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState(""); // register only
-  const [accepted, setAccepted] = useState(false); // terms gate, register only
   const [resetSent, setResetSent] = useState(false);
   const [verify, setVerify] = useState(false); // awaiting the emailed 6-digit code
   const [code, setCode] = useState("");
   const [cooldown, setCooldown] = useState(0); // seconds before "resend" re-arms
-  // The username of a sign-up abandoned with "Modifier mon adresse". If the
-  // server could not remove that first attempt, it still holds the username;
-  // signing up again is then allowed anyway (the profile trigger dedupes it)
-  // instead of telling the candidate their own username is taken.
-  const [abandoned, setAbandoned] = useState("");
   const [busy, setBusy] = useState(false);
   const [lockMsg, setLockMsg] = useState("");
   const [notice, setNotice] = useState(""); // non-lock notices (e.g. device limit)
@@ -142,9 +130,13 @@ export function AuthPage({ mode }) {
   // three can't drift apart on where "first login" actually routes to.
   // Staff always land on "admin" regardless, and never start the tour — an
   // admin/owner account is never the brand-new candidate it's written for.
+  // An account whose profile is still to complete (signed up with only an
+  // address and a password) goes to the dashboard, where the profile popup
+  // waits; the tour then starts when that popup is done (completeOnboarding).
   const landAfterAuth = (authUser) => {
     const isStaffUser = authUser?.admin || authUser?.owner;
     const firstLogin = consumeFirstLogin(authUser?.id);
+    if (authUser?.profilePending && !isStaffUser) return nav("dashboard", { replace: true });
     nav(isStaffUser ? "admin" : firstLogin ? "exams" : "dashboard", { replace: true });
     if (firstLogin && !isStaffUser) startTour();
   };
@@ -165,15 +157,12 @@ export function AuthPage({ mode }) {
         notify(t("Bon retour parmi nous !"));
         landAfterAuth(r.user);
       } else if (view === "register") {
-        if (!isValidName(name)) return notify(t("Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés)."), "error");
-        if (!isValidUsername(username)) return notify(t("Nom d'utilisateur : 3 à 30 caractères (lettres, chiffres, . _ -)."), "error");
-        if (!country) return notify(t("Sélectionnez votre pays pour continuer."), "error");
+        // Only the address and the password here; first name, username,
+        // country and the terms come in the profile popup once the account
+        // is confirmed (Onboarding.jsx).
         const pwCheck = validatePassword(password);
         if (!pwCheck.ok) return notify(t(pwCheck.error), "error");
-        if (password !== confirm) return notify(t("Les deux mots de passe ne correspondent pas."), "error");
-        if (!accepted) return notify(t("Vous devez lire et accepter les conditions générales pour créer un compte."), "error");
-        if (username !== abandoned && !(await isUsernameAvailable(username))) return notify(t("Ce nom d'utilisateur est déjà pris."), "error");
-        const { data, error, needsEmailConfirmation } = await signUp({ name, username, email, password, country, acceptedTerms: true });
+        const { data, error, needsEmailConfirmation } = await signUp({ email, password });
         if (error) return notify(authErrorMessage(error), "error");
         if (needsEmailConfirmation) setVerify(true);
         else landAfterAuth(mapSupabaseUser(data.session));
@@ -212,7 +201,6 @@ export function AuthPage({ mode }) {
     setBusy(true);
     await abandonPendingSignup(email, password);
     setBusy(false);
-    setAbandoned(username);
     setVerify(false);
     setCode("");
     setCooldown(0);
@@ -315,27 +303,6 @@ export function AuthPage({ mode }) {
                 </div>
               </>
             )}
-            {view === "register" && (
-              <>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="register-name">{t("Prénom")}</Label>
-                    <input id="register-name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="given-name" className={inp} />
-                  </div>
-                  <div>
-                    <Label htmlFor="register-username">{t("Nom d'utilisateur")}</Label>
-                    <input id="register-username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="register-country">{t("Pays")}</Label>
-                  <select id="register-country" value={country} onChange={(e) => setCountry(e.target.value)} className={`${inp} ${country ? "" : c.faint}`}>
-                    <option value="">{t("Sélectionnez votre pays")}</option>
-                    {COUNTRIES.map((p) => <option key={p} value={p}>{p}</option>)}
-                  </select>
-                </div>
-              </>
-            )}
             {view === "login" ? (
               <div>
                 <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou courriel")}</Label>
@@ -356,20 +323,7 @@ export function AuthPage({ mode }) {
                 </div>
                 {/* Only while choosing a password — scoring the one being typed
                     at login would leak how strong the stored password is. */}
-                {view === "register" && <PasswordMeter password={password} email={email} username={username} />}
-              </div>
-            )}
-            {view === "register" && (
-              <div>
-                <Label htmlFor="register-confirm">{t("Confirmer le mot de passe")}</Label>
-                <div className="relative">
-                  <input id="register-confirm" type={showPw ? "text" : "password"} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={`${inp} pr-11`} />
-                  {confirm && (
-                    <span className={`absolute right-4 top-1/2 -translate-y-1/2 ${password === confirm ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
-                      {password === confirm ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
-                    </span>
-                  )}
-                </div>
+                {view === "register" && <PasswordMeter password={password} email={email} />}
               </div>
             )}
             {view === "login" && (
@@ -377,7 +331,6 @@ export function AuthPage({ mode }) {
                 <button type="button" onClick={() => goView("reset")} className="text-xs font-semibold text-blue-600 hover:underline">{t("Mot de passe oublié ?")}</button>
               </div>
             )}
-            {view === "register" && <TermsConsent accepted={accepted} onChange={setAccepted} />}
             {lockMsg && (
               <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
                 <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{lockMsg}</p>

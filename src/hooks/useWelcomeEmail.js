@@ -5,6 +5,9 @@ import { requestWelcomeEmail } from "@/services/authService";
 // session — which is the end of signing up, whichever way it happened: the
 // emailed code confirmed, or a first Google sign-in.
 //
+// An email account that still has its profile popup to fill in waits for it:
+// the email greets the candidate by first name, which only arrives there.
+//
 // The server is what guarantees "once" (welcome_email_sent_at on the account)
 // and refuses accounts older than its window. This side only avoids calling
 // for nothing: old accounts are skipped, and a device that already got an
@@ -16,8 +19,9 @@ export function useWelcomeEmail(user) {
   const asked = useRef(null);
   const userId = user?.id;
   const createdAt = user?.createdAt;
+  const pending = !!user?.profilePending;
   useEffect(() => {
-    if (!userId || !createdAt || asked.current === userId) return;
+    if (!userId || !createdAt || pending || asked.current === userId) return;
     if (Date.now() - Date.parse(createdAt) > WINDOW_MS) return;
     try { if (localStorage.getItem(key(userId))) return; } catch { /* storage unavailable */ }
     asked.current = userId;
@@ -27,5 +31,5 @@ export function useWelcomeEmail(user) {
       // a later visit can still get it.
       if (r.ok && r.reason !== "disabled" && r.reason !== "unconfirmed") { try { localStorage.setItem(key(userId), "1"); } catch { /* storage unavailable */ } }
     });
-  }, [userId, createdAt]);
+  }, [userId, createdAt, pending]);
 }

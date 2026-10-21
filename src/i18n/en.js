@@ -768,6 +768,10 @@ export const EN = {
   "Correction par IA de l'écrit et de l'oral": "AI feedback on writing and speaking",
   "Adresse courriel": "Email address",
   "Créez votre mot de passe": "Create your password",
+  // Profile popup after sign-up (components/auth/Onboarding.jsx).
+  "Finalisez votre compte": "Finish setting up your account",
+  "Encore quelques informations et votre espace est prêt.": "A few more details and your space is ready.",
+  "Bienvenue ! Votre compte est prêt.": "Welcome! Your account is ready.",
   "Ce n'est pas la bonne adresse ?": "Not the right address?",
   "Modifier mon adresse": "Change my address",
   "Corrigez votre adresse, puis créez votre compte à nouveau.": "Fix your address, then create your account again.",

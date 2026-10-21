@@ -19,7 +19,7 @@ import { PAGES } from "@/pages";
 import { PRATIQUE_ROUTES } from "@/constants/navigation";
 
 function AppShell() {
-  const { route, role, c, authReady, user, pendingOnboarding, resolvingOAuth,
+  const { route, role, c, authReady, user, needsProfile, resolvingOAuth,
     profiles, activeProfile, profilesReady, canAddProfile, selectProfile, profileAdded } = useApp();
   const terms = useTermsGate();
   const bar = useAnnouncementBar();
@@ -33,16 +33,6 @@ function AppShell() {
           <span className="w-9 h-9 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" aria-hidden="true" />
           <p className={`text-sm ${c.sub}`}>Connexion en cours…</p>
         </div>
-      </div>
-    );
-  }
-  // A brand-new Google registration must finish creating its account before it
-  // can reach any page — render the completion step as a full-screen gate.
-  if (pendingOnboarding && user) {
-    return (
-      <div className={`min-h-screen font-body antialiased ${c.bg} ${c.text}`}>
-        <Onboarding />
-        <Toast />
       </div>
     );
   }
@@ -102,6 +92,8 @@ function AppShell() {
       <div key={PRATIQUE_ROUTES.has(route) ? "pratique" : route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
       <VisitorPreviewBar />
+      {/* A new account finishing its profile: a popup over the dashboard. */}
+      {needsProfile && <Onboarding />}
       <Toast />
       <TourOverlay />
       {/* Vercel Web Analytics — auto-tracks route changes via the History API;
