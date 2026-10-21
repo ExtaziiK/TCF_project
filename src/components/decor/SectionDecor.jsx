@@ -11,17 +11,19 @@ const { blue, violet, red, amber } = BRAND;
 // side margins and each section has its own theme: a greeting in the hero,
 // scores near the calculator, a flight to Canada in the final call to action.
 const LAYOUTS = {
+  // From lg the hero's right side holds the 3D product collage, which carries
+  // its own stickers (HeroCollage.jsx): the right-hand ones here step aside.
   hero: [
     [Bubble, { text: "Bonjour !", color: blue, tilt: -6 }, "top-28 left-[4%]", "decor-float", 18],
     [Tag, { text: "C1", color: violet, tilt: -8 }, "top-[24%] left-[17%]", "decor-float-slow", 30],
     [Tile, { ch: "É", pts: 3, color: red, tilt: -10 }, "top-[46%] left-[9%]", "decor-sway", 26],
     [Maple, { color: amber, size: 40, tilt: -20 }, "top-[66%] left-[1.5%]", "decor-sway", 32],
     [Flight, { color: violet, width: 200 }, "bottom-24 left-[2%]", "", 12],
-    [Maple, { color: red, size: 60, tilt: 14 }, "top-24 right-[7%]", "decor-sway", 22],
-    [Tag, { text: "699 pts", color: blue, tilt: 6 }, "top-[22%] right-[17%]", "decor-float", 28],
-    [Bubble, { text: "On y va ?", color: violet, solid: true, tail: "right", tilt: 5 }, "top-[44%] right-[3%]", "decor-float-slow", 16],
-    [Tile, { ch: "À", pts: 2, color: blue, tilt: -7 }, "top-[63%] right-[1.5%]", "decor-sway", 30],
-    [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%]", "decor-sway", 28],
+    [Maple, { color: red, size: 60, tilt: 14 }, "top-24 right-[7%] lg:hidden", "decor-sway", 22],
+    [Tag, { text: "699 pts", color: blue, tilt: 6 }, "top-[22%] right-[17%] lg:hidden", "decor-float", 28],
+    [Bubble, { text: "On y va ?", color: violet, solid: true, tail: "right", tilt: 5 }, "top-[44%] right-[3%] lg:hidden", "decor-float-slow", 16],
+    [Tile, { ch: "À", pts: 2, color: blue, tilt: -7 }, "top-[63%] right-[1.5%] lg:hidden", "decor-sway", 30],
+    [Tile, { ch: "Ç", pts: 4, color: amber, tilt: 8 }, "bottom-28 right-[10%] lg:hidden", "decor-sway", 28],
   ],
   features: [
     [Tag, { text: "Vos outils", color: violet, tilt: -7 }, "top-24 left-[3%]", "decor-float", 18],
