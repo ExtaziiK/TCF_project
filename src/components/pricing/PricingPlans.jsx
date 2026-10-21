@@ -39,7 +39,7 @@ export function PricingPlans({ s, compact = false }) {
       )}
 
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
-      <div className={`flex justify-center ${s.currency.code === "EUR" ? "mb-8" : ""}`}>
+      <div className={`flex justify-center ${s.isDzd ? "" : "mb-8"}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
           {currencies.map((cur) => {
             const active = cur.code === s.currency.code;
@@ -58,12 +58,7 @@ export function PricingPlans({ s, compact = false }) {
           })}
         </div>
       </div>
-      {s.currency.code === "USD" && (
-        <p className={`text-center text-sm mt-4 mb-12 ${c.faint}`}>
-          {t("Tous les paiements sont effectués en dollars US (USD).")}
-        </p>
-      )}
-      {/* The dinar notice is not a footnote like the USD one: it is the only
+      {/* The dinar notice is the only
           warning that this purchase is a MANUAL transfer (CCP/BaridiMob) with
           access opened after the receipt is checked, not an instant card
           payment. As grey hint text it went unread, so it gets a highlighted
@@ -87,9 +82,7 @@ export function PricingPlans({ s, compact = false }) {
           dead space on wide screens once one was removed.
           `mt-8` is for the "Le plus populaire" badge, which hangs above the
           featured card's top edge — and hangs further on wide screens, where
-          that card is also scaled up about its centre. The notice above ("Tous
-          les paiements sont effectués en dollars US") ended up with about three
-          pixels of clearance, so the badge sat on the sentence. */}
+          that card is also scaled up about its centre. */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto mt-8">
         {s.plans.map((p, i) => <PlanCard key={p.name} p={p} promo={s.dzUsablePromo} compact={compact} index={i} currency={s.currency} />)}
       </div>

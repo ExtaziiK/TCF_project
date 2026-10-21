@@ -6,8 +6,8 @@ import { startCheckout, promoLabel } from "@/services/stripeService";
 import { setDzCheckoutPlan, setDzCheckoutPromo } from "@/utils/dzCheckout";
 import { getLaunchDiscount } from "@/services/settingsService";
 
-// Accents grade along the brand gradient: blue (free) → violet → red → gold
-// for the top Ultimate tier. `grad` drives the price text, the "popular" badge and
+// Accents: gray (free) → violet → green (Pro) → gold for the top Ultimate
+// tier. `grad` drives the price text, the "popular" badge and
 // the CTA; `solid` drives the eyebrow, border, checks and the hover glow.
 // (Inline styles, so the ramp isn't tied to a Tailwind palette.)
 export const ACCENTS = {
@@ -15,6 +15,8 @@ export const ACCENTS = {
   violet: { solid: "#6C4FE0", grad: "linear-gradient(135deg,#6C4FE0,#9a83f2)" },
   rose: { solid: "#A8407C", grad: "linear-gradient(135deg,#A8407C,#cf6ba3)" },
   red: { solid: "#D8354A", grad: "linear-gradient(135deg,#D8354A,#ef6f7e)" },
+  gray: { solid: "#64748b", grad: "linear-gradient(135deg,#64748b,#94a3b8)" },
+  green: { solid: "#059669", grad: "linear-gradient(135deg,#059669,#34d399)" },
   gold: { solid: "#b8860b", grad: "linear-gradient(135deg,#b8860b,#f6d365)" },
 };
 

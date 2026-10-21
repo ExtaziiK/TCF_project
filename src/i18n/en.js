@@ -108,8 +108,8 @@ export const EN = {
   "3 TCF blancs chronométrés par jour, notés sur 699": "3 timed mock exams a day, scored out of 699",
   "Simulations IA illimitées, à l'écrit comme à l'oral": "Unlimited AI simulations, written and spoken",
   "TCF blancs chronométrés illimités, notés sur 699": "Unlimited timed mock exams, scored out of 699",
-  "Accès simultané sur 2 appareils": "Use on 2 devices at once",
-  "Accès simultané sur 4 appareils": "Use on 4 devices at once",
+  "Jusqu'à 2 appareils connectés en même temps": "Up to 2 devices signed in at the same time",
+  "Jusqu'à 4 appareils connectés en même temps": "Up to 4 devices signed in at the same time",
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit": "Detailed AI feedback: CEFR level, what to fix, your text rewritten",
   "Entretien oral simulé avec un examinateur IA qui vous répond": "Simulated speaking interview with an AI examiner that answers you",
   "Un nouveau sujet d'expression à chaque session": "A fresh expression subject every session",
@@ -383,7 +383,6 @@ export const EN = {
   "Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
     "Pay in US dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
   "Afficher les prix dans une autre devise": "Show prices in another currency",
-  "Tous les paiements sont effectués en dollars US (USD).": "All payments are charged in US dollars (USD).",
   "Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.":
     "Payment in Algerian dinars by CCP or BaridiMob, activated once the receipt has been checked.",
   // ── New-account welcome offer (components/pricing/WelcomeOffer.jsx) ──
@@ -451,8 +450,8 @@ export const EN = {
   // Starter's capped version of the line above (3 per tâche per day).
   "La dictée : 3 par tâche et par jour, dans toute la bibliothèque":
     "Dictation: 3 per task per day, from the whole library",
-  // Starter's device line. Its two counterparts ("Accès simultané sur 2/4
-  // appareils") are above; this one completes the 1 / 2 / 4 progression the
+  // Starter's device line. Its two counterparts ("Jusqu'à 2/4 appareils
+  // connectés…") are above; this one completes the 1 / 2 / 4 progression the
   // three paid cards are read across.
   "Un seul appareil à la fois": "One device at a time",
 

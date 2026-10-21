@@ -1,5 +1,5 @@
-// Access passes, priced in USD. `accent` grades along the brand gradient: blue
-// (free) → violet → red → gold for the top Ultimate tier. `price` / `per` are
+// Access passes, priced in USD. `accent`: gray (free) → violet → green (Pro)
+// → gold for the top Ultimate tier. `price` / `per` are
 // static fallbacks shown instantly; useLivePlans overlays the live Stripe
 // amount.
 //
@@ -105,7 +105,7 @@ export const PLANS = [
     name: "Basic",
     price: "$0",
     per: "pour toujours",
-    accent: "blue",
+    accent: "gray",
     cta: "Créer un compte",
     featured: false,
     slug: null, // free plan: nothing to buy
@@ -172,7 +172,7 @@ export const PLANS = [
     price: "$14.99", // static fallback only — see the note on Starter's price above
     per: "30 jours d'accès",
     days: 30,
-    accent: "red",
+    accent: "green",
     cta: "Choisir Pro",
     featured: true,
     slug: "premiere-classe", // internal slug unchanged on rename — see the note above the array
@@ -180,7 +180,7 @@ export const PLANS = [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
       "La dictée : toute la bibliothèque, sans limite",
-      "Accès simultané sur 2 appareils",
+      "Jusqu'à 2 appareils connectés en même temps",
     ],
     also: SHARED_PAID_FEATS,
   },
@@ -200,7 +200,7 @@ export const PLANS = [
       "Simulations IA illimitées, à l'écrit comme à l'oral",
       "TCF blancs chronométrés illimités, notés sur 699",
       "La dictée : toute la bibliothèque, sans limite",
-      "Accès simultané sur 4 appareils",
+      "Jusqu'à 4 appareils connectés en même temps",
     ],
     also: SHARED_PAID_FEATS,
   },
