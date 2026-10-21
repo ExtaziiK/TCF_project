@@ -93,9 +93,9 @@ export function HeroCollage() {
           </div>
         ))}
         {/* The flag, forward of every screen, on the TCF blanc's lower right edge. */}
-        <div className="absolute left-[52%] top-[72%] w-[10%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
+        <div className="absolute left-[56%] top-[72%] w-[12.5%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
           <div className="hero-float" style={{ animationDelay: "-3.6s" }}>
-            <div className="rounded-lg overflow-hidden"><CanadaFlag /></div>
+            <CanadaFlag />
           </div>
         </div>
       </div>
