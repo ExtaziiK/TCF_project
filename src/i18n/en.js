@@ -225,8 +225,8 @@ export const EN = {
 
   // ── Home / landing ───────────────────────────────────────────────────
   "La plateforme complète pour se préparer au": "The complete platform to prepare for the",
-  "Entraînez-vous aux quatre épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés sur 699, une correction par IA de vos textes et de votre oral, et votre niveau NCLC suivi à chaque séance.":
-    "Train for all four TCF Canada tests: official-format questions, mock exams scored out of 699, AI feedback on your writing and speaking, and your NCLC level tracked every session.",
+  "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
+    "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",
   "Commencer à pratiquer gratuitement": "Start practicing for free",
   "Votre niveau est réévalué après chaque session de pratique.": "Your level is re-evaluated after every practice session.",
   "Modules de pratique": "Practice modules",

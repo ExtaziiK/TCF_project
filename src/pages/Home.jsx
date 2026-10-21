@@ -79,10 +79,10 @@ function Landing() {
                 <Sparks className="hidden md:block absolute -left-11 -top-7 w-11 h-11" />
                 {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
                 <MapleMark className="inline-block w-[0.8em] h-[0.74em] ml-[0.25em] align-[-0.06em]" />
-                <CurvedArrow className="hidden lg:block absolute -right-14 -bottom-6 w-24 h-14" />
+                <CurvedArrow className="hidden lg:block absolute -right-10 -bottom-4 w-14 h-8" />
               </h1>
               <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} rise rise-2`}>
-                {t("Entraînez-vous aux quatre épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés sur 699, une correction par IA de vos textes et de votre oral, et votre niveau NCLC suivi à chaque séance.")}
+                {t("Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.")}
               </p>
               <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3 rise rise-3">
                 <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
