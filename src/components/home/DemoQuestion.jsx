@@ -46,9 +46,9 @@ export function DemoQuestion({ embedded = false }) {
     ? `${t("Bonne réponse :")} « ${q.opts[q.a]} ». ${t("C'est la seule proposition fidèle à ce qu'annonce l'enregistrement.")}`
     : q.exp;
   return (
-    <div className={embedded ? "flex-1 flex flex-col gap-4" : "space-y-4"}>
+    <div className="space-y-4">
       <AudioPlayer src={q.audio} />
-      <Card className={`relative overflow-hidden ${embedded ? "flex-1 p-5" : "p-6 md:p-7 shadow-2xl shadow-blue-600/10"}`}>
+      <Card className={`relative overflow-hidden ${embedded ? "p-5" : "p-6 md:p-7 shadow-2xl shadow-blue-600/10"}`}>
         {!embedded && <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />}
         {!embedded && (
           <div className="flex items-center justify-between mb-4 relative">
