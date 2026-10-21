@@ -1,4 +1,4 @@
-import { Leaf, ArrowRight, ChevronRight, MousePointerClick } from "lucide-react";
+import { ArrowRight, ChevronRight, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { HomeLabel } from "@/components/home/HomeLabel";
@@ -71,8 +71,7 @@ function Landing() {
               it (Brevo-style). Centered while it is alone (below lg). */}
           <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-10 xl:gap-14 items-center">
             <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
-              <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
-              <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] xl:text-6xl leading-[1.05] mt-5 ${c.text} rise rise-1`}>
+              <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] xl:text-6xl leading-[1.05] ${c.text} rise rise-1`}>
                 {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
               </h1>
               <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} rise rise-2`}>

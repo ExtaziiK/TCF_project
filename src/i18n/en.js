@@ -224,7 +224,6 @@ export const EN = {
   "Niveau": "Level",
 
   // ── Home / landing ───────────────────────────────────────────────────
-  "Reconnu pour Entrée express & la citoyenneté": "Recognized for Express Entry & citizenship",
   "La plateforme complète pour se préparer au": "The complete platform to prepare for the",
   "Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.":
     "Prepare for all four TCF Canada tests with official-format questions, teacher-written corrections and real-time CEFR level tracking.",
