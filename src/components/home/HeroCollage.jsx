@@ -8,7 +8,8 @@ import { useApp } from "@/context/AppContext";
 // in front overlap the ones behind; the whole stage leans a few degrees toward
 // the pointer through the --mx / --my variables SectionDecor's parallax
 // already writes. Each screen floats on its own slow loop (.hero-float, on an
-// inner wrapper so it never fights the depth transform). Decorative:
+// inner wrapper so it never fights the depth transform). A Canadian flag,
+// drawn as the same kind of slab, floats in front by the TCF blanc. Decorative:
 // aria-hidden, hidden below lg where the pitch takes the full width.
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
@@ -41,6 +42,20 @@ const SCREENS = [
   ["dictee", "right-[3%] bottom-0", "w-[34%]", 10, -4.4],
   ["tcf-blanc", "left-0 top-[27%]", "w-[61%]", 60, -1.6],
 ];
+
+// The Canadian flag: red bands at each end (a quarter of the width each), a
+// white square in the middle holding the red maple leaf. Proportions 2:1.
+function CanadaFlag() {
+  return (
+    <svg viewBox="0 0 200 100" className="block w-full h-auto">
+      <rect width="200" height="100" fill="#FFFFFF" />
+      <rect width="50" height="100" fill="#D52B1E" />
+      <rect x="150" width="50" height="100" fill="#D52B1E" />
+      <path fill="#D52B1E" transform="translate(64 14) scale(0.72)"
+        d="M50 3l8 17 9-5-3 25 15-12 4 8 12-2-6 15 6 5-22 16 4 10-23-4v22h-8V76l-23 4 4-10L5 54l6-5-6-15 12 2 4-8 15 12-3-25 9 5Z" />
+    </svg>
+  );
+}
 
 const DEPTH = 6; // thickness of the slab, px
 const slab = (color) => Array.from({ length: DEPTH }, (_, i) => `${i + 1}px ${i + 1}px 0 0 ${color}`).join(", ");
@@ -76,6 +91,12 @@ export function HeroCollage() {
             </div>
           </div>
         ))}
+        {/* The flag, forward of every screen, by the TCF blanc's left edge. */}
+        <div className="absolute -left-[7%] top-[63%] w-[20%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
+          <div className="hero-float" style={{ animationDelay: "-3.6s" }}>
+            <div className="rounded-xl overflow-hidden" style={frame}><CanadaFlag /></div>
+          </div>
+        </div>
       </div>
     </div>
   );

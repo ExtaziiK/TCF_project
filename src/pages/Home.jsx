@@ -82,7 +82,7 @@ function Landing() {
                 <CurvedArrow className="hidden lg:block absolute -right-14 -bottom-6 w-24 h-14" />
               </h1>
               <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} rise rise-2`}>
-                {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
+                {t("Entraînez-vous aux quatre épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés sur 699, une correction par IA de vos textes et de votre oral, et votre niveau NCLC suivi à chaque séance.")}
               </p>
               <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3 rise rise-3">
                 <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
