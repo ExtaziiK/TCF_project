@@ -56,9 +56,13 @@ function Panel({ tool, n, active = true, live, onLive }) {
   const night = tool.tone === "night";
   const Demo = DEMOS[tool.route];
   const Mock = MOCKS[tool.route];
+  // The screen slot takes whatever height the panel has left, and the mock's
+  // card stretches into it: every panel is the same size, and a short mock
+  // shows a taller card rather than an empty band above the button.
+  const fill = "flex-1 flex flex-col";
   return (
-    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
-      <div key={tool.route} className="rise flex flex-col gap-5">
+    <div className="h-full rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
+      <div key={tool.route} className="rise flex-1 flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{String(n).padStart(2, "0")} · {t(tool.kind)}</span>
@@ -70,14 +74,14 @@ function Panel({ tool, n, active = true, live, onLive }) {
           </span>
         </div>
         {!Demo ? (
-          <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+          <div aria-hidden="true" className={fill}><Mock ink={ink} soft={soft} still={!active} /></div>
         ) : live ? (
-          <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
+          <div className={fill}><Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} /></div>
         ) : (
           // The mock is a picture; the button floating over its foot is the
           // only way in.
-          <div className="relative">
-            <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+          <div className={`relative ${fill}`}>
+            <div aria-hidden="true" className={fill}><Mock ink={ink} soft={soft} still={!active} /></div>
             <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
               <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
                 className="invite-bob pointer-events-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
@@ -287,11 +291,12 @@ export function ToolsShowcase({ tinted = false }) {
             </div>
           ))}
         </nav>
-        {/* Only the selected panel is in the flow, so the card is exactly as
-            tall as its own content (sharing one grid cell made every panel as
-            tall as the tallest, leaving short ones with a gap at the bottom).
-            The others stay mounted out of the flow, so work in progress (an
-            answer, a text, a recording) survives a look at another tool;
+        {/* All seven panels share one grid cell, only the selected one visible,
+            so every tool gets the same size — the tallest one's — and switching
+            tools never moves the page. Each panel's screen stretches to fill
+            that height (see Panel), so a shorter one has no gap at the bottom.
+            Hidden panels stay mounted, so work in progress (an answer, a
+            flipped card) survives a look at another tool;
             `active` tells each demo to fall silent. They also drop their
             transitions: an inherited `visibility` change is animatable, so a
             `transition-all` inside (the CE document's box) kept that panel
@@ -299,11 +304,11 @@ export function ToolsShowcase({ tinted = false }) {
             Reaching into the panel stops the auto-advance, so it never
             switches away mid-question. */}
         {wide && (
-        <div className="relative" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
+        <div className="grid" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
           {TOOLS.map((tl, i) => {
             const on = i === active;
             return (
-              <div key={tl.route} className={on ? "" : "invisible absolute inset-x-0 top-0 [&_*]:!transition-none"} aria-hidden={on ? undefined : "true"}>
+              <div key={tl.route} className={`[grid-area:1/1] ${on ? "" : "invisible [&_*]:!transition-none"}`} aria-hidden={on ? undefined : "true"}>
                 <Panel tool={tl} n={i + 1} active={on} live={live.has(tl.route)} onLive={() => goLive(tl.route)} />
               </div>
             );

@@ -292,7 +292,7 @@ function ScreenDictee({ ink, soft, still }) {
     </>
   );
   return (
-    <div className="rounded-3xl p-5 md:p-6" style={{ background: soft }}>
+    <div className="flex-1 rounded-3xl p-5 md:p-6" style={{ background: soft }}>
       {/* Step indicator + score (shown once corrected). */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-1.5">
