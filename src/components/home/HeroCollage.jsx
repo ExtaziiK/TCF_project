@@ -39,8 +39,8 @@ const lightShot = (name) => LIGHT[`/src/assets/hero/light/${name}.webp`] || dark
 const SCREENS = [
   ["dashboard", "right-[3%] top-0", "w-[43%]", -130, 0],
   ["epreuves", "left-[5%] top-[5%]", "w-[44%]", -100, -3.1],
-  ["calculator", "right-[7%] top-[33%]", "w-[37%]", -20, -2.5],
-  ["dictee", "right-[2%] top-[64%]", "w-[34%]", 10, -4.4],
+  ["calculator", "-right-[6%] top-[32%]", "w-[43%]", -20, -2.5],
+  ["dictee", "right-[2%] top-[68%]", "w-[34%]", 10, -4.4],
   ["tcf-blanc", "left-0 top-[27%]", "w-[61%]", 60, -1.6],
 ];
 
@@ -93,7 +93,7 @@ export function HeroCollage() {
           </div>
         ))}
         {/* The flag, forward of every screen, on the TCF blanc's lower right edge. */}
-        <div className="absolute left-[47%] top-[68%] w-[20%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
+        <div className="absolute left-[52%] top-[72%] w-[10%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
           <div className="hero-float" style={{ animationDelay: "-3.6s" }}>
             <div className="rounded-lg overflow-hidden"><CanadaFlag /></div>
           </div>
