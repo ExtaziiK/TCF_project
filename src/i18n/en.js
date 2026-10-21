@@ -362,6 +362,14 @@ export const EN = {
   "Question du jour · CO": "Daily question · Listening",
   "Écoutez le document sonore, puis choisissez la bonne réponse.": "Listen to the recording, then choose the correct answer.",
   "Question du jour · CE": "Daily question · Reading",
+  // Hero demo cards: the intro above them and the numbered steps (DemoSteps.jsx).
+  "Démo interactive": "Interactive demo",
+  "Essayez deux vraies questions, sans inscription": "Try two real questions, no sign-up needed",
+  "Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.":
+    "Listen to or read the document, then click an answer: the correction shows up right away.",
+  "Lancez l'audio ci-dessus": "Play the audio above",
+  "Lisez le document ci-dessus": "Read the document above",
+  "Cliquez sur la bonne réponse": "Click the right answer",
   "Lisez le document, puis choisissez la bonne réponse.": "Read the document, then choose the correct answer.",
   "Document à lire": "Document to read",
   "Agrandir": "Enlarge",

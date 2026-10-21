@@ -7,6 +7,7 @@ import { LISTEN_QS } from "@/constants/listening";
 import DEMO_CO from "virtual:bank-demo-co";
 import { useQuizByNumber } from "@/hooks/useBank";
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
+import { DemoSteps } from "@/components/home/DemoSteps";
 
 // Picks a random B2 Compréhension orale item from Quiz 1 of the actual bank
 // (pool in src/constants/demoPool.js: questions 21–29, the B2 stretch with full
@@ -38,7 +39,7 @@ export function DemoQuestion() {
   const singleton = useMemo(() => [withMedia], [withMedia]);
   const [q] = useSignedQuestions(singleton);
   const isBankItem = q.kind === "bank";
-  const questionLabel = isBankItem ? t("Écoutez le document sonore, puis choisissez la bonne réponse.") : q.q;
+  const questionLabel = q.q;
   const explanation = isBankItem
     ? `${t("Bonne réponse :")} « ${q.opts[q.a]} ». ${t("C'est la seule proposition fidèle à ce qu'annonce l'enregistrement.")}`
     : q.exp;
@@ -51,18 +52,20 @@ export function DemoQuestion() {
           <Pill tone="blue"><Headphones size={12} /> {t("Question du jour · CO")}</Pill>
           <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
         </div>
-        <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{questionLabel}</p>
+        {isBankItem
+          ? <DemoSteps steps={["Lancez l'audio ci-dessus", "Cliquez sur la bonne réponse"]} done={sel !== null} />
+          : <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{questionLabel}</p>}
         <div className="space-y-2.5">
           {q.opts.map((o, i) => {
             const state = sel === null ? "idle" : i === q.a ? "right" : i === sel ? "wrong" : "dim";
             return (
               <button key={o} disabled={sel !== null} onClick={() => setSel(i)}
-                className={`w-full text-left px-4 py-3 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-2
-                ${state === "idle" ? `${c.border} ${c.text} hover:border-blue-600 hover:bg-blue-600/5` : ""}
+                className={`group w-full text-left px-4 py-3 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-2
+                ${state === "idle" ? `${c.border} ${c.text} cursor-pointer hover:border-blue-600 hover:bg-blue-600/10 hover:-translate-y-0.5 hover:shadow-md` : ""}
                 ${state === "right" ? "border-emerald-500 bg-emerald-500/10 text-emerald-600" : ""}
                 ${state === "wrong" ? "border-rose-500 bg-rose-500/10 text-rose-600" : ""}
                 ${state === "dim" ? `${c.border} opacity-40 ${c.sub}` : ""}`}>
-                <span><span className="font-mono2 font-semibold mr-3 opacity-60">{String.fromCharCode(65 + i)}</span>{o}</span>
+                <span className="flex items-center"><span className={`font-mono2 font-bold mr-3 w-6 h-6 rounded-lg grid place-items-center shrink-0 text-xs ${state === "idle" ? "border border-current opacity-70 group-hover:opacity-100" : "opacity-60"}`}>{String.fromCharCode(65 + i)}</span>{o}</span>
                 {state === "right" && <CheckCircle2 size={17} className="shrink-0" />}
                 {state === "wrong" && <XCircle size={17} className="shrink-0" />}
               </button>

@@ -4,6 +4,7 @@ import DEMO_CE from "virtual:bank-demo-ce";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { CE_DEMO_A2 } from "@/constants/demoPool";
+import { DemoSteps } from "@/components/home/DemoSteps";
 
 // The demo's documents ship as static files (scripts/fetch-demo-media.mjs), not
 // through the signed bucket: the image request goes out on the first render,
@@ -97,18 +98,18 @@ export function DemoQuestionCE() {
           <Pill tone="red"><BookOpen size={12} /> {t("Question du jour · CE")}</Pill>
           <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
         </div>
-        <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{t("Lisez le document, puis choisissez la bonne réponse.")}</p>
+        <DemoSteps tone="red" steps={["Lisez le document ci-dessus", "Cliquez sur la bonne réponse"]} done={sel !== null} />
         <div className="space-y-2.5">
           {q.opts.map((o, i) => {
             const state = sel === null ? "idle" : i === q.a ? "right" : i === sel ? "wrong" : "dim";
             return (
               <button key={o} disabled={sel !== null} onClick={() => setSel(i)}
-                className={`w-full text-left px-4 py-3 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-2
-                ${state === "idle" ? `${c.border} ${c.text} hover:border-blue-600 hover:bg-blue-600/5` : ""}
+                className={`group w-full text-left px-4 py-3 rounded-2xl border text-sm font-medium transition-all flex items-center justify-between gap-2
+                ${state === "idle" ? `${c.border} ${c.text} cursor-pointer hover:border-rose-600 hover:bg-rose-600/10 hover:-translate-y-0.5 hover:shadow-md` : ""}
                 ${state === "right" ? "border-emerald-500 bg-emerald-500/10 text-emerald-600" : ""}
                 ${state === "wrong" ? "border-rose-500 bg-rose-500/10 text-rose-600" : ""}
                 ${state === "dim" ? `${c.border} opacity-40 ${c.sub}` : ""}`}>
-                <span><span className="font-mono2 font-semibold mr-3 opacity-60">{String.fromCharCode(65 + i)}</span>{o}</span>
+                <span className="flex items-center"><span className={`font-mono2 font-bold mr-3 w-6 h-6 rounded-lg grid place-items-center shrink-0 text-xs ${state === "idle" ? "border border-current opacity-70 group-hover:opacity-100" : "opacity-60"}`}>{String.fromCharCode(65 + i)}</span>{o}</span>
                 {state === "right" && <CheckCircle2 size={17} className="shrink-0" />}
                 {state === "wrong" && <XCircle size={17} className="shrink-0" />}
               </button>

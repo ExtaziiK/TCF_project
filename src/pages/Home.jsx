@@ -1,4 +1,4 @@
-import { Leaf, ArrowRight, ChevronRight } from "lucide-react";
+import { Leaf, ArrowRight, ChevronRight, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
@@ -87,7 +87,14 @@ function Landing() {
               question used to provide). */}
           {/* items-center: when answering extends one card (explanation shown),
               the shorter one stays vertically centred beside it. */}
-          <div className="mt-14 md:mt-16 grid lg:grid-cols-2 gap-6 items-center">
+          {/* Without a heading the two demo cards read as screenshots of the
+              product; this says they are live and need no account. */}
+          <div className="mt-14 md:mt-16 text-center rise rise-2">
+            <Pill tone="blue"><MousePointerClick size={12} /> {t("Démo interactive")}</Pill>
+            <h2 className={`font-display font-bold text-2xl md:text-3xl mt-3 ${c.text}`}>{t("Essayez deux vraies questions, sans inscription")}</h2>
+            <p className={`mt-2 text-sm md:text-base ${c.sub}`}>{t("Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.")}</p>
+          </div>
+          <div className="mt-8 grid lg:grid-cols-2 gap-6 items-center">
             <div className="rise rise-2"><DemoQuestion /></div>
             <div className="rise rise-3"><DemoQuestionCE /></div>
           </div>
