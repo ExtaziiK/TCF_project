@@ -6,7 +6,7 @@ import { pathForRoute } from "@/constants/seo";
 import { TINT } from "@/components/decor/WaveSection";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
-import { WriteDemo, SpeakDemo, DicteeDemo, VocabDemo, GrammarDemo } from "@/components/home/ToolDemos";
+import { DicteeDemo, VocabDemo, GrammarDemo } from "@/components/home/ToolDemos";
 import { MOCKS } from "@/components/home/ToolMocks";
 import { PALETTE, TOOLS } from "./toolsData";
 
@@ -21,8 +21,10 @@ import { PALETTE, TOOLS } from "./toolsData";
 // the selected tool. Tools are real <a href> links (first click selects, a
 // click on the selected tool opens it), so crawlers and keyboards reach them.
 //
-// Each panel first plays an animated mock of its tool (ToolMocks.jsx); the
-// moment the visitor hovers or clicks it, it becomes a working demo, usable
+// Each panel first plays an animated mock of its tool (ToolMocks.jsx); when
+// the visitor presses its "Essayer maintenant" button, it becomes a working demo
+// (except the two expression panels, which stay demo-only and whose mock ends
+// on the AI's correction), usable
 // without an account: the two comprehension panels hold a real question from
 // the bank (DemoQuestion / DemoQuestionCE), the other five are the small demos
 // in ToolDemos.jsx. A panel stays live once woken.
@@ -37,16 +39,17 @@ const onInk = (tool) => (tool.tone === "night" ? "#14204A" : "#FFFFFF");
 // ── Panel screens: every one is a working demo ──────────────────────────────
 
 // The comprehension panels are real bank questions: `embedded` drops their own
-// card chrome, since the panel around them already names the épreuve. The
-// rest are the small hands-on demos in ToolDemos.jsx.
+// card chrome, since the panel around them already names the épreuve.
 const ScreenCO = () => <DemoQuestion embedded />;
 const ScreenCE = () => <DemoQuestionCE embedded />;
 
-const DEMOS = { listening: ScreenCO, reading: ScreenCE, writing: WriteDemo, speaking: SpeakDemo, dictee: DicteeDemo, vocabulary: VocabDemo, grammar: GrammarDemo };
+// Expression écrite / orale have none on purpose: they stay demo-only, and
+// their mock plays the AI correction instead.
+const DEMOS = { listening: ScreenCO, reading: ScreenCE, dictee: DicteeDemo, vocabulary: VocabDemo, grammar: GrammarDemo };
 
 // The selected tool's panel: kind, title, description, screen, link. Until
-// `live`, the screen is the mock; a mouse entering the panel, or a click/tap
-// anywhere on it, calls `onLive`.
+// `live`, the screen is the mock, and only its "Essayer maintenant" button
+// calls `onLive` — hovering or clicking elsewhere leaves the animation playing.
 function Panel({ tool, n, active = true, live, onLive }) {
   const { t, dark, c } = useApp();
   const [bg, ink, soft] = tone(tool, dark);
@@ -54,8 +57,7 @@ function Panel({ tool, n, active = true, live, onLive }) {
   const Demo = DEMOS[tool.route];
   const Mock = MOCKS[tool.route];
   return (
-    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}
-      onPointerEnter={(e) => !live && e.pointerType === "mouse" && onLive()} onClickCapture={() => !live && onLive()}>
+    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
       <div key={tool.route} className="rise flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -67,19 +69,22 @@ function Panel({ tool, n, active = true, live, onLive }) {
             <tool.icon size={22} />
           </span>
         </div>
-        {live ? (
+        {!Demo ? (
+          <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+        ) : live ? (
           <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
         ) : (
-          // The mock is a picture; the button over it is what keyboards and
-          // screen readers get to wake the demo.
+          // The mock is a picture; the button floating over its foot is the
+          // only way in.
           <div className="relative">
             <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
-            <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
-              className="absolute inset-0 w-full rounded-3xl flex items-end justify-center pb-4 outline-none focus-visible:ring-2">
-              <span className="invite-bob inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg" style={{ background: ink, color: onInk(tool) }}>
-                <MousePointerClick size={14} /> {t("Essayer maintenant")}
-              </span>
-            </button>
+            <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
+              <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
+                className="invite-bob pointer-events-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
+                style={{ background: ink, color: onInk(tool) }}>
+                <MousePointerClick size={15} /> {t("Essayer maintenant")}
+              </button>
+            </div>
           </div>
         )}
         <RouteLink r={tool.route} className="mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition hover:gap-3"

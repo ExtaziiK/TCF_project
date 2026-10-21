@@ -88,7 +88,6 @@ function Landing() {
           <div className="mt-14 md:mt-16 text-center rise rise-2">
             <Pill tone="blue"><MousePointerClick size={12} /> {t("Démo interactive")}</Pill>
             <h2 className={`font-display font-bold text-2xl md:text-3xl mt-3 ${c.text}`}>{t("Les outils à votre disposition")}</h2>
-            <p className={`mt-2 text-sm md:text-base max-w-2xl mx-auto ${c.sub}`}>{t("Essayez deux vraies questions, sans inscription : ouvrez la compréhension orale ou écrite, puis cliquez sur une réponse pour voir la correction.")}</p>
           </div>
           <div className="mt-8 rise rise-3"><ToolsShowcase tinted /></div>
         </div>

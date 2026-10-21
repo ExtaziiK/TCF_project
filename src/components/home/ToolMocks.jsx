@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Check, Play, Mic, Sparkles, Volume2 } from "lucide-react";
+import { Check, Play, Mic, Sparkles, Volume2, Loader2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Frame } from "@/components/home/ToolDemos";
 
-// The tools showcase's animated previews: what each panel plays on its own
-// until the visitor reaches for it (hover, click or focus), at which point the
-// showcase swaps in the working demo (DemoQuestion*, ToolDemos.jsx). Pictures
-// only — the showcase marks them aria-hidden. `still` freezes the dictée loop
-// while its panel is hidden.
+// The tools showcase's animated previews: what each panel plays until the
+// visitor presses "Essayer maintenant", at which point the showcase swaps in
+// the working demo (DemoQuestion*, ToolDemos.jsx). The two expression panels
+// have no demo — their mock, which ends on the AI's correction, is all they
+// show. Pictures only — the showcase marks them aria-hidden. `still` freezes a
+// mock while its panel is hidden.
 
 // Every mock loops through a few timed phases (or types itself out). Hidden
 // panels pass `still`, and reduced motion freezes them too — both on the last
@@ -23,18 +24,6 @@ function usePhase(durations, still) {
     return () => window.clearTimeout(id);
   }, [p, frozen, durations]);
   return frozen ? durations.length - 1 : p;
-}
-
-function useTyping(text, still, msPerChar = 28, holdMs = 2800) {
-  const frozen = still || prefersReduced();
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (frozen) return;
-    const full = n >= text.length;
-    const id = window.setTimeout(() => setN(full ? 0 : n + 1), full ? holdMs : msPerChar);
-    return () => window.clearTimeout(id);
-  }, [n, frozen, text, msPerChar, holdMs]);
-  return frozen ? text.length : n;
 }
 
 // `right` lights the answer up; `wrong` marks a first, mistaken pick.
@@ -98,67 +87,157 @@ function ScreenCE({ ink, soft, still }) {
   );
 }
 
-// Typed out, the counter climbing with it; the AI verdict appears at the end.
-const EE_TEXT = "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine dernière. Je souhaiterais obtenir davantage de précisions sur le logement proposé.";
+// Typed out, then sent to the AI, then corrected: the loop for the two
+// expression panels, which stay demo-only (the real analysis needs an
+// account). `len` characters are typed one by one (phase 0), then each later
+// phase holds for its duration in `after`; frozen on the last one.
+function useTypedLoop(len, after, still, msPerChar = 26) {
+  const frozen = still || prefersReduced();
+  const [phase, setPhase] = useState(0);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (frozen) return;
+    if (phase === 0) {
+      const id = n < len ? window.setTimeout(() => setN(n + 1), msPerChar) : window.setTimeout(() => setPhase(1), 400);
+      return () => window.clearTimeout(id);
+    }
+    const id = window.setTimeout(() => {
+      const next = (phase + 1) % (after.length + 1);
+      if (next === 0) setN(0);
+      setPhase(next);
+    }, after[phase - 1]);
+    return () => window.clearTimeout(id);
+  }, [phase, n, frozen, len, after, msPerChar]);
+  return frozen ? { phase: after.length, n: len } : { phase, n };
+}
+
+// A text with mistakes: plain strings, and { wrong, right } pairs. Typed, it
+// reads with the mistakes; corrected, each one is struck through with the
+// right form beside it.
+const plainOf = (segs) => segs.map((x) => (typeof x === "string" ? x : x.wrong)).join("");
+
+function Corrected({ segs, ink, corrected }) {
+  return segs.map((x, i) =>
+    typeof x === "string" ? <span key={i}>{x}</span> : corrected ? (
+      <span key={i}>
+        <span className="line-through decoration-2 opacity-60" style={{ textDecorationColor: "#D8354A" }}>{x.wrong}</span>{" "}
+        <span className="rise inline-block font-bold rounded px-1" style={{ background: ink, color: "#FFFFFF" }}>{x.right}</span>
+      </span>
+    ) : <span key={i}>{x.wrong}</span>,
+  );
+}
+
+// The AI's verdict: level badge and two short notes.
+function Verdict({ ink, soft, level, notes }) {
+  const { c } = useApp();
+  return (
+    <div className="rise mt-4 rounded-2xl p-3" style={{ background: soft }}>
+      <div className="flex items-center gap-2 text-sm font-bold" style={{ color: ink }}>
+        <Sparkles size={15} /> Analyse IA <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs text-white" style={{ background: ink }}>{level}</span>
+      </div>
+      <ul className={`mt-2 space-y-1 text-xs ${c.sub}`}>
+        {notes.map((n) => <li key={n}>• {n}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+function Analysing({ ink, label }) {
+  return (
+    <div className="mt-4 flex items-center gap-2 text-sm font-semibold" style={{ color: ink }}>
+      <Loader2 size={15} className="animate-spin" /> {label}
+    </div>
+  );
+}
+
+const EE_SEGS = [
+  "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine dernière. Je souhaiterais obtenir davantage de ",
+  { wrong: "précision", right: "précisions" },
+  " sur le logement, notamment sur les charges qui sont ",
+  { wrong: "compris", right: "comprises" },
+  " dans le loyer.",
+];
+const EE_TEXT = plainOf(EE_SEGS);
+const EE_AFTER = [1400, 4800]; // analysing, then the correction holds
 const countWords = (x) => (x.trim() ? x.trim().split(/\s+/).length : 0);
-const EE_WORDS = countWords(EE_TEXT);
 
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
-  const n = useTyping(EE_TEXT, still);
-  const shown = EE_TEXT.slice(0, n);
-  const words = countWords(shown);
-  const done = n >= EE_TEXT.length;
+  const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
+  const words = countWords(EE_TEXT.slice(0, n));
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
-      {/* The full text sits invisibly underneath so the box never changes height. */}
-      <p className={`grid text-sm leading-relaxed ${c.sub}`}>
-        <span className="invisible [grid-area:1/1]">{EE_TEXT}</span>
-        <span className="[grid-area:1/1]">
-          {shown}
-          <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />
-        </span>
-      </p>
-      <div className="mt-4 flex items-center justify-between font-mono2 text-xs font-semibold" style={{ color: ink }}>
-        <span>{words} mots</span><span className={done ? "" : "opacity-0"}>✓ longueur atteinte</span>
-      </div>
-      <div className="mt-2 h-2 rounded-full overflow-hidden" style={{ background: soft }}>
-        <div className="h-full rounded-full" style={{ width: `${(words / EE_WORDS) * 100}%`, background: ink }} />
-      </div>
-      <div className={`mt-4 inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition-opacity duration-500 ${done ? "opacity-100" : "opacity-0"}`} style={{ background: soft, color: ink }}>
-        <Sparkles size={15} /> Analyse IA : registre adapté, 2 accords à revoir
+      {/* Every state is stacked in one cell, the inactive ones invisible, so
+          the mock keeps one height through the loop and the page never moves. */}
+      <div className="grid">
+        <div className={`[grid-area:1/1] ${phase === 2 ? "invisible" : ""}`}>
+          <p className={`text-sm leading-relaxed ${c.sub}`}>
+            {EE_TEXT.slice(0, n)}
+            {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
+          </p>
+          <div className="mt-4 flex items-center justify-between font-mono2 text-xs font-semibold" style={{ color: ink }}>
+            <span>{words} mots</span>
+          </div>
+          {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
+        </div>
+        <div className={`[grid-area:1/1] ${phase === 2 ? "" : "invisible"}`}>
+          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected /></p>
+          <Verdict ink={ink} soft={soft} level="B2 · NCLC 8"
+            notes={["Registre formel adapté, demande claire.", "2 accords à revoir : « des précisions », « les charges… comprises »."]} />
+        </div>
       </div>
     </Frame>
   );
 }
 
+// Speaking: recording with a live transcript, then the AI's corrections.
+const EO_SEGS = [
+  "Je m'appelle Karim, je suis ingénieur. ",
+  { wrong: "J'ai arrivé", right: "Je suis arrivé" },
+  " au Québec il y a deux ans et je travaille ",
+  { wrong: "dans", right: "à" },
+  " Montréal depuis l'été dernier.",
+];
+const EO_TEXT = plainOf(EO_SEGS);
+const EO_AFTER = [1400, 4800];
+
 function ScreenEO({ ink, soft, still }) {
   const { c } = useApp();
-  // The recording timer runs (and wraps at two minutes).
-  const [secs, setSecs] = useState(0);
-  useEffect(() => {
-    if (still || prefersReduced()) return;
-    const id = window.setInterval(() => setSecs((x) => (x + 1) % 120), 1000);
-    return () => window.clearInterval(id);
-  }, [still]);
+  const { phase, n } = useTypedLoop(EO_TEXT.length, EO_AFTER, still, 45);
   const bars = [20, 45, 70, 50, 85, 60, 35, 75, 55, 90, 40, 65, 30, 80, 50, 60, 25, 70];
+  const recording = phase === 0;
+  const secs = Math.floor((n * 45) / 1000);
   return (
-    <Frame ink={ink} soft={soft} label="TÂCHE 2 · INTERACTION">
-      <div className="flex flex-col items-center py-2">
-        <span className="relative grid place-items-center w-20 h-20 rounded-full" style={{ background: ink, color: "#FFFFFF" }}>
-          <span className="invite-ping absolute inset-0 rounded-full border-2" style={{ borderColor: ink }} />
-          <Mic size={30} />
+    <Frame ink={ink} soft={soft} label="TÂCHE 1 · ENTRETIEN">
+      <div className="flex items-center gap-4">
+        <span className="relative grid place-items-center w-14 h-14 rounded-full shrink-0" style={{ background: recording ? "#D8354A" : ink, color: "#FFFFFF" }}>
+          {recording && <span className="invite-ping absolute inset-0 rounded-full border-2" style={{ borderColor: "#D8354A" }} />}
+          <Mic size={24} />
         </span>
-        <span className="mt-3 font-mono2 text-3xl font-bold tabular-nums" style={{ color: ink }}>
-          <span className="rec-dot inline-block w-2.5 h-2.5 rounded-full mr-2 align-middle" style={{ background: "#D8354A" }} />0{Math.floor(secs / 60)}:{String(secs % 60).padStart(2, "0")}
-        </span>
-        <div className="mt-4 w-full flex items-center justify-center gap-[3px] h-10">
-          {bars.map((h, i) => (
-            <span key={i} className="eqbar w-1.5 rounded-full" style={{ height: `${h}%`, background: soft, animationDelay: `${(i % 7) * -0.15}s` }} />
-          ))}
+        <div className="flex-1">
+          <span className="font-mono2 text-xl font-bold tabular-nums" style={{ color: ink }}>
+            {recording && <span className="rec-dot inline-block w-2 h-2 rounded-full mr-2 align-middle" style={{ background: "#D8354A" }} />}
+            00:{String(secs).padStart(2, "0")}
+          </span>
+          <div className="mt-1 flex items-center gap-[3px] h-6">
+            {bars.map((h, i) => (
+              <span key={i} className={`w-1.5 rounded-full ${recording ? "eqbar" : ""}`} style={{ height: recording ? `${h}%` : "25%", background: soft, animationDelay: `${(i % 7) * -0.15}s` }} />
+            ))}
+          </div>
         </div>
       </div>
-      <p className={`text-center text-sm ${c.sub}`}>Réécoutez-vous, puis comparez avec l'exemple de réponse.</p>
+      <p className={`mt-4 font-mono2 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>Transcription</p>
+      <div className="grid mt-1">
+        <div className={`[grid-area:1/1] ${phase === 2 ? "invisible" : ""}`}>
+          <p className={`text-sm leading-relaxed ${c.sub}`}>{EO_TEXT.slice(0, n)}</p>
+          {phase === 1 && <Analysing ink={ink} label="L'IA écoute votre réponse…" />}
+        </div>
+        <div className={`[grid-area:1/1] ${phase === 2 ? "" : "invisible"}`}>
+          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EO_SEGS} ink={ink} corrected /></p>
+          <Verdict ink={ink} soft={soft} level="B1 · NCLC 6"
+            notes={["Réponse fluide et bien organisée.", "« arriver » se conjugue avec « être » ; « à Montréal » pour une ville."]} />
+        </div>
+      </div>
     </Frame>
   );
 }
