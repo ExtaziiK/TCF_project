@@ -1,18 +1,15 @@
 import { useApp } from "@/context/AppContext";
-import { BRAND, Bubble, Tile, Tag, Maple } from "@/components/decor/stickers";
 
-// The landing hero's product collage, after Brevo's: real screens of the app
-// stacked in 3D beside the pitch, with the site's stickers (score tags, a
-// speech bubble, letter tiles, a maple leaf) floating in front of them like
-// Brevo's annotation chips. The stage is tilted in perspective and everything
-// sits at its own depth (translateZ): the screens spread so each stays
-// readable, the TCF blanc in the middle as the largest, and the stickers well
-// forward of them. The whole stage leans a few degrees toward the pointer
-// through the --mx / --my variables SectionDecor's parallax already writes;
-// each piece floats on its own slow loop (.hero-float / .decor-*, on an inner
-// wrapper so it never fights the depth transform). Decorative: aria-hidden,
-// hidden below lg where the pitch takes the full width — the hero's own
-// right-hand stickers (SectionDecor) show there instead.
+// The landing hero's product collage: real screens of the app laid out in 3D
+// beside the pitch. Two screens sit at the back along the top, the TCF blanc
+// stands large in front on the left, and two smaller screens stack down the
+// right; a soft colour glow sits behind them all. The stage is tilted in
+// perspective and each screen sits at its own depth (translateZ), so the ones
+// in front overlap the ones behind; the whole stage leans a few degrees toward
+// the pointer through the --mx / --my variables SectionDecor's parallax
+// already writes. Each screen floats on its own slow loop (.hero-float, on an
+// inner wrapper so it never fights the depth transform). Decorative:
+// aria-hidden, hidden below lg where the pitch takes the full width.
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
 // and an extrusion made of one hard shadow per pixel of depth, so the gap
@@ -38,22 +35,11 @@ const lightShot = (name) => LIGHT[`/src/assets/hero/light/${name}.webp`] || dark
 
 // [screen, position, width, depth px, float delay s] — back to front.
 const SCREENS = [
-  ["dashboard", "right-0 top-[2%]", "w-[47%]", -110, 0],
-  ["epreuves", "left-0 top-0", "w-[43%]", -60, -3.1],
-  ["tcf-blanc", "left-[21%] top-[22%]", "w-[55%]", 20, -1.6],
-  ["dictee", "left-0 bottom-[1%]", "w-[33%]", 80, -4.4],
-  ["calculator", "right-0 bottom-0", "w-[40%]", 110, -2.5],
-];
-
-// [sticker, position, depth px, animation] — all in front of the screens.
-const { blue, violet, red, amber } = BRAND;
-const STICKERS = [
-  [<Tag key="pts" text="699 pts" color={amber} tilt={6} />, "right-[20%] top-[19%]", 190, "decor-float"],
-  [<Bubble key="go" text="On y va ?" color={violet} solid tail="right" tilt={5} />, "left-[38%] -top-[3%]", 170, "decor-float-slow"],
-  [<Tile key="a" ch="À" pts={2} color={blue} tilt={-7} />, "-left-[3%] top-[40%]", 160, "decor-sway"],
-  [<Tile key="c" ch="Ç" pts={4} color={amber} tilt={8} />, "right-[37%] bottom-[2%]", 200, "decor-sway"],
-  [<Tag key="nclc" text="NCLC 9" color={red} tilt={-5} />, "left-[24%] bottom-[30%]", 210, "decor-float"],
-  [<Maple key="leaf" color={red} size={44} tilt={14} />, "-right-[2%] top-[44%]", 150, "decor-sway"],
+  ["dashboard", "right-[3%] top-0", "w-[43%]", -130, 0],
+  ["epreuves", "left-[5%] top-[5%]", "w-[44%]", -100, -3.1],
+  ["calculator", "right-0 top-[34%]", "w-[37%]", -20, -2.5],
+  ["dictee", "right-[3%] bottom-0", "w-[34%]", 10, -4.4],
+  ["tcf-blanc", "left-0 top-[27%]", "w-[61%]", 60, -1.6],
 ];
 
 const DEPTH = 6; // thickness of the slab, px
@@ -69,8 +55,13 @@ export function HeroCollage() {
       <div className="absolute inset-0 transition-transform duration-700 ease-out"
         style={{
           transformStyle: "preserve-3d",
-          transform: "rotateY(calc(-14deg + var(--mx, 0) * 4deg)) rotateX(calc(6deg - var(--my, 0) * 3deg)) rotateZ(1deg)",
+          transform: "rotateY(calc(-16deg + var(--mx, 0) * 4deg)) rotateX(calc(9deg - var(--my, 0) * 3deg)) rotateZ(2deg)",
         }}>
+        {/* The glow behind the screens: two soft brand-colour blobs, far back. */}
+        <div className="absolute inset-[8%] pointer-events-none" style={{ transform: "translateZ(-220px)" }}>
+          <div className="absolute left-[10%] top-[30%] w-[55%] h-[55%] rounded-full blur-3xl" style={{ background: "#2E6BE6", opacity: dark ? 0.45 : 0.3 }} />
+          <div className="absolute right-[0%] top-[15%] w-[50%] h-[70%] rounded-full blur-3xl" style={{ background: "#D8354A", opacity: dark ? 0.35 : 0.22 }} />
+        </div>
         {SCREENS.map(([name, pos, width, z, delay]) => (
           <div key={name} className={`absolute ${pos} ${width}`} style={{ transform: `translateZ(${z}px)`, transformStyle: "preserve-3d" }}>
             <div className="hero-float" style={{ animationDelay: `${delay}s` }}>
@@ -83,11 +74,6 @@ export function HeroCollage() {
                 ))}
               </div>
             </div>
-          </div>
-        ))}
-        {STICKERS.map(([sticker, pos, z, anim], i) => (
-          <div key={i} className={`absolute ${pos}`} style={{ transform: `translateZ(${z}px)` }}>
-            <div className={anim} style={{ animationDelay: `${-i * 1.7}s` }}>{sticker}</div>
           </div>
         ))}
       </div>
