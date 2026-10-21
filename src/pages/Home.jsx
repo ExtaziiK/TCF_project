@@ -6,6 +6,7 @@ import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { HeroCollage } from "@/components/home/HeroCollage";
+import { Sparks, MapleMark, CurvedArrow } from "@/components/home/TitleDoodles";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
@@ -71,8 +72,14 @@ function Landing() {
               it (Brevo-style). Centered while it is alone (below lg). */}
           <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-10 xl:gap-14 items-center">
             <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
-              <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] xl:text-6xl leading-[1.05] ${c.text} rise rise-1`}>
+              {/* Doodles from the reference design: sparks at the top-left
+                  corner, a maple-leaf outline after "TCF Canada", and an arrow
+                  curving toward the collage (lg+, where the collage is). */}
+              <h1 className={`relative font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] xl:text-6xl leading-[1.05] ${c.text} rise rise-1`}>
+                <Sparks className="hidden md:block absolute -left-11 -top-7 w-11 h-11" />
                 {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
+                <MapleMark className="inline-block w-[0.8em] h-[0.74em] ml-[0.25em] align-[-0.06em]" />
+                <CurvedArrow className="hidden lg:block absolute -right-14 -bottom-6 w-24 h-14" />
               </h1>
               <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} rise rise-2`}>
                 {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
