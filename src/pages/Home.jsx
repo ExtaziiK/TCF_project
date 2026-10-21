@@ -86,7 +86,7 @@ function Landing() {
               database on load, site counts are the last figures an admin
               published from the live database. */}
           {stats?.enabled && stats.items.length > 0 && (
-            <div className={`mt-12 md:mt-14 grid grid-cols-2 gap-8 rise rise-3 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+            <div className={`mt-12 md:mt-14 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
               {stats.items.map((s) => (
                 <div key={s.key} className="text-center">
                   <p className="font-display font-extrabold text-3xl md:text-4xl grad-text"><CountUp value={s.value} /></p>
