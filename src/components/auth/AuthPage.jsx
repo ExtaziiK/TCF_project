@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Mail, Lock, User, AtSign, Globe, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Btn } from "@/components/common";
+import { Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, isValidName, isValidUsername, isUsernameAvailable, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { TermsConsent } from "@/components/auth/TermsConsent";
 import { CodeInput } from "@/components/auth/CodeInput";
 import { COUNTRIES } from "@/constants/exam";
+import { useHomeStats } from "@/hooks/useHomeStats";
 
 function GoogleIcon(props) {
   return (
@@ -19,8 +20,71 @@ function GoogleIcon(props) {
   );
 }
 
+// The left half of the page (lg+), after Brevo's sign-up: a flat brand-colour
+// panel crossed by one thin stepped line with two sparkles on it, around a
+// card that says what the account opens. The card shows the landing page's
+// real figures (the same "Statistique" band, same admin switch); with the band
+// switched off it falls back to three plain feature lines. Decorative line and
+// sparkles are aria-hidden.
+function Sparkle({ x, y, color }) {
+  return (
+    <path transform={`translate(${x} ${y})`} fill={color} stroke={color} strokeWidth="2" strokeLinejoin="round"
+      d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
+  );
+}
+
+const PANEL_ICONS = [BookOpen, Trophy, Sparkles];
+const PANEL_FALLBACK = ["Questions au format officiel", "TCF blancs notés sur 699", "Correction par IA de l'écrit et de l'oral"];
+
+function SidePanel() {
+  const { t, dark } = useApp();
+  const stats = useHomeStats();
+  const ink = dark ? "#C7D2E3" : "#14204A";
+  const rows = stats.enabled && stats.items.length
+    ? stats.items.slice(0, 3).map((it) => ({ key: it.key, strong: it.value, text: t(it.label) }))
+    : PANEL_FALLBACK.map((l) => ({ key: l, strong: null, text: t(l) }));
+  return (
+    <aside className="hidden lg:block relative overflow-hidden" style={{ background: dark ? "#13234A" : "#C9DAFB" }}>
+      <svg aria-hidden="true" className="absolute inset-0 w-full h-full" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" fill="none">
+        <path stroke={ink} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          d="M0 760H90a40 40 0 0 0 40-40V470a40 40 0 0 1 40-40H260 M540 400H640a40 40 0 0 0 40-40V120a40 40 0 0 1 40-40H800" />
+        <Sparkle x={130} y={560} color={dark ? "#13234A" : "#C9DAFB"} />
+        <Sparkle x={680} y={210} color={dark ? "#13234A" : "#C9DAFB"} />
+        <g fill="none">
+          <path transform="translate(130 560)" stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
+          <path transform="translate(680 210)" stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
+        </g>
+      </svg>
+      <div className="relative h-full min-h-screen flex items-center justify-center p-10">
+        <div className="w-full max-w-sm rounded-3xl border-2 px-8 py-8 text-center"
+          style={{ borderColor: ink, background: dark ? "#0B1222" : "#FFFDF8", color: ink }}>
+          <p className="font-display text-xl leading-snug">
+            {t("Tout pour réussir le")} <strong className="font-extrabold">{t("TCF Canada")}</strong>
+          </p>
+          <ul className="mt-6 space-y-3">
+            {rows.map((r, i) => {
+              const Icon = PANEL_ICONS[i % PANEL_ICONS.length];
+              return (
+                <li key={r.key} className="flex items-center gap-3 rounded-full border-2 px-4 py-2.5 text-left" style={{ borderColor: ink }}>
+                  <span className="grid place-items-center w-8 h-8 rounded-full shrink-0 text-white" style={{ background: ["#2E6BE6", "#D8354A", "#6C4FE0"][i % 3] }}>
+                    <Icon size={16} />
+                  </span>
+                  <span className="text-sm leading-tight">
+                    {r.strong && <strong className="font-display font-extrabold text-base mr-1">{r.strong}</strong>}
+                    {r.text}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t, user, startTour } = useApp();
+  const { c, nav, notify, t, user, startTour, dark } = useApp();
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [name, setName] = useState("");
@@ -59,7 +123,16 @@ export function AuthPage({ mode }) {
     if (user) nav(user.admin || user.owner ? "admin" : "dashboard", { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const inp = `w-full pl-11 pr-11 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  // A field's label, above it; `required` adds the red asterisk.
+  const Label = ({ htmlFor, children, required = true }) => (
+    <label htmlFor={htmlFor} className={`block mb-1.5 text-sm font-semibold ${c.text}`}>
+      {children}{required && <span className="text-rose-500"> *</span>}
+    </label>
+  );
+  // The page's main button: solid ink, white on the light theme, as on the
+  // reference — the brand gradient stays for the rest of the site.
+  const solidBtn = `w-full py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`;
 
   const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
 
@@ -176,19 +249,19 @@ export function AuthPage({ mode }) {
   if (user) return null;
 
   return (
-    <main className="pt-28 md:pt-36 pb-20 px-4 min-h-screen">
-      <Card className="max-w-md mx-auto p-8 shadow-2xl shadow-blue-600/10 rise">
-        <div className="text-center mb-7">
-          <div className="relative inline-block group">
-            <img src="/logo-mark.webp" alt="" width="64" height="64" className="block w-16 h-16 object-contain transition-transform duration-200 group-hover:scale-125" />
-            <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-10 whitespace-nowrap rounded-full bg-slate-900/70 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              {t("Vous êtes au bon endroit ! 🍁")}
-            </span>
-          </div>
-          <h1 className={`font-display font-bold text-2xl mt-4 ${c.text}`}>
+    <main className="min-h-screen grid lg:grid-cols-2">
+      <SidePanel />
+      <div className="flex items-center justify-center px-5 sm:px-10 pt-28 pb-16">
+      <div className="w-full max-w-md rise">
+        <div className="mb-7">
+          <span className="inline-flex items-center gap-2">
+            <img src="/logo-mark.webp" alt="" width="36" height="36" className="w-9 h-9 object-contain" />
+            <span className="font-display font-extrabold text-lg text-blue-600">Passerelle</span>
+          </span>
+          <h1 className={`font-display font-bold text-3xl mt-5 ${c.text}`}>
             {view === "login" ? t("Bon retour !") : view === "register" ? t("Créer votre compte") : t("Réinitialiser le mot de passe")}
           </h1>
-          <p className={`text-sm mt-1.5 ${c.sub}`}>
+          <p className={`text-sm mt-2 ${c.sub}`}>
             {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre courriel : nous vous enverrons un lien sécurisé.")}
           </p>
         </div>
@@ -207,9 +280,9 @@ export function AuthPage({ mode }) {
               length={CONFIRM_CODE_LENGTH}
               label={t("Code de confirmation")}
             />
-            <Btn type="submit" variant="accent" className="mt-4 w-full" disabled={busy || code.length !== CONFIRM_CODE_LENGTH}>
+            <button type="submit" className={`mt-4 ${solidBtn}`} disabled={busy || code.length !== CONFIRM_CODE_LENGTH}>
               {t(busy ? "Vérification…" : "Activer mon compte")}
-            </Btn>
+            </button>
             <button type="button" onClick={resend} disabled={busy || cooldown > 0} className={`mt-4 text-sm font-semibold ${cooldown > 0 ? c.faint : "text-blue-600"} disabled:cursor-not-allowed`}>
               {cooldown > 0 ? `${t("Renvoyer le code dans")} ${cooldown} s` : t("Je n'ai rien reçu — renvoyer le code")}
             </button>
@@ -232,29 +305,31 @@ export function AuthPage({ mode }) {
           <form className="space-y-4" onSubmit={submit}>
             {view !== "reset" && (
               <>
-                <button type="button" disabled={busy} onClick={google} className={`w-full flex items-center justify-center gap-2.5 py-3 rounded-2xl border text-sm font-semibold ${c.inputCls} ${c.hoverSoft} disabled:opacity-60`}>
+                <button type="button" disabled={busy} onClick={google} className={`w-full flex items-center justify-center gap-2.5 py-3 rounded-full border text-sm font-semibold ${c.inputCls} ${c.hoverSoft} disabled:opacity-60`}>
                   <GoogleIcon /> {t("Continuer avec Google")}
                 </button>
                 <div className="flex items-center gap-3">
                   <div className={`flex-1 border-t ${c.border}`} />
-                  <span className={`text-xs ${c.faint}`}>{t("ou")}</span>
+                  <span className={`text-xs font-semibold uppercase ${c.faint}`}>{t("ou")}</span>
                   <div className={`flex-1 border-t ${c.border}`} />
                 </div>
               </>
             )}
             {view === "register" && (
               <>
-                <div className="relative">
-                  <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                  <input placeholder={t("Prénom")} aria-label={t("Prénom")} value={name} onChange={(e) => setName(e.target.value)} className={inp} />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="register-name">{t("Prénom")}</Label>
+                    <input id="register-name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="given-name" className={inp} />
+                  </div>
+                  <div>
+                    <Label htmlFor="register-username">{t("Nom d'utilisateur")}</Label>
+                    <input id="register-username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
+                  </div>
                 </div>
-                <div className="relative">
-                  <AtSign size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                  <input placeholder={t("Nom d'utilisateur")} aria-label={t("Nom d'utilisateur")} autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className={inp} />
-                </div>
-                <div className="relative">
-                  <Globe size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                  <select aria-label={t("Pays")} value={country} onChange={(e) => setCountry(e.target.value)} className={`${inp} ${country ? "" : c.faint}`}>
+                <div>
+                  <Label htmlFor="register-country">{t("Pays")}</Label>
+                  <select id="register-country" value={country} onChange={(e) => setCountry(e.target.value)} className={`${inp} ${country ? "" : c.faint}`}>
                     <option value="">{t("Sélectionnez votre pays")}</option>
                     {COUNTRIES.map((p) => <option key={p} value={p}>{p}</option>)}
                   </select>
@@ -262,21 +337,21 @@ export function AuthPage({ mode }) {
               </>
             )}
             {view === "login" ? (
-              <div className="relative">
-                <User size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input placeholder={t("Nom d'utilisateur ou courriel")} aria-label={t("Nom d'utilisateur ou courriel")} autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
+              <div>
+                <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou courriel")}</Label>
+                <input id="login-identifier" autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
               </div>
             ) : (
-              <div className="relative">
-                <Mail size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} aria-hidden="true" />
-                <input id="register-email" placeholder={t("Courriel")} aria-label={t("Courriel")} type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
+              <div>
+                <Label htmlFor="register-email">{t("Adresse courriel")}</Label>
+                <input id="register-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
             {view !== "reset" && (
               <div>
+                <Label htmlFor="auth-password">{view === "login" ? t("Mot de passe") : t("Créez votre mot de passe")}</Label>
                 <div className="relative">
-                  <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                  <input placeholder={t("Mot de passe")} aria-label={t("Mot de passe")} type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={inp} />
+                  <input id="auth-password" type={showPw ? "text" : "password"} autoComplete={view === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} className={`${inp} pr-11`} />
                   <button type="button" onClick={() => setShowPw(!showPw)} aria-label={showPw ? t("Masquer") : t("Afficher")} className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${c.faint} hover:text-blue-600`}>{showPw ? <EyeOff size={17} /> : <Eye size={17} />}</button>
                 </div>
                 {/* Only while choosing a password — scoring the one being typed
@@ -285,14 +360,16 @@ export function AuthPage({ mode }) {
               </div>
             )}
             {view === "register" && (
-              <div className="relative">
-                <Lock size={17} className={`absolute left-4 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input placeholder={t("Confirmer le mot de passe")} aria-label={t("Confirmer le mot de passe")} type={showPw ? "text" : "password"} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inp} />
-                {confirm && (
-                  <span className={`absolute right-4 top-1/2 -translate-y-1/2 ${password === confirm ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
-                    {password === confirm ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
-                  </span>
-                )}
+              <div>
+                <Label htmlFor="register-confirm">{t("Confirmer le mot de passe")}</Label>
+                <div className="relative">
+                  <input id="register-confirm" type={showPw ? "text" : "password"} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={`${inp} pr-11`} />
+                  {confirm && (
+                    <span className={`absolute right-4 top-1/2 -translate-y-1/2 ${password === confirm ? "text-emerald-500" : "text-rose-500"}`} aria-hidden="true">
+                      {password === confirm ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
+                    </span>
+                  )}
+                </div>
               </div>
             )}
             {view === "login" && (
@@ -312,15 +389,16 @@ export function AuthPage({ mode }) {
                 <p className="text-sm text-amber-700 dark:text-amber-400 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{t(notice)}</p>
               </div>
             )}
-            <Btn type="submit" className="w-full" variant="accent" disabled={busy}>
+            <button type="submit" className={solidBtn} disabled={busy}>
               {view === "login" ? t("Se connecter") : view === "register" ? t("Créer mon compte") : t("Envoyer le lien")}
-            </Btn>
-            <p className={`text-center text-sm ${c.sub}`}>
-              {view === "login" ? (<>{t("Pas encore de compte ?")} <button type="button" onClick={() => goView("register")} className="font-semibold text-blue-600 hover:underline">{t("S'inscrire")}</button></>) : (<>{t("Déjà inscrit·e ?")} <button type="button" onClick={() => goView("login")} className="font-semibold text-blue-600 hover:underline">{t("Se connecter")}</button></>)}
+            </button>
+            <p className={`pt-2 text-center text-sm ${c.sub}`}>
+              {view === "login" ? (<>{t("Pas encore de compte ?")} <button type="button" onClick={() => goView("register")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("S'inscrire")}</button></>) : (<>{t("Déjà inscrit·e ?")} <button type="button" onClick={() => goView("login")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("Se connecter")}</button></>)}
             </p>
           </form>
         )}
-      </Card>
+      </div>
+      </div>
     </main>
   );
 }

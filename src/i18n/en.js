@@ -761,6 +761,13 @@ export const EN = {
   // ── Auth ─────────────────────────────────────────────────────────────
   "Bon retour !": "Welcome back!",
   "Créer votre compte": "Create your account",
+  // Sign-up / log-in page: side panel and field labels (components/auth/AuthPage.jsx).
+  "Tout pour réussir le": "Everything you need to pass the",
+  "Questions au format officiel": "Official-format questions",
+  "TCF blancs notés sur 699": "Mock exams scored out of 699",
+  "Correction par IA de l'écrit et de l'oral": "AI feedback on writing and speaking",
+  "Adresse courriel": "Email address",
+  "Créez votre mot de passe": "Create your password",
   "Ce n'est pas la bonne adresse ?": "Not the right address?",
   "Modifier mon adresse": "Change my address",
   "Corrigez votre adresse, puis créez votre compte à nouveau.": "Fix your address, then create your account again.",

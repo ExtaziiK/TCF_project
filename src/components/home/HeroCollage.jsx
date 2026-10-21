@@ -8,9 +8,9 @@ import { useApp } from "@/context/AppContext";
 // in front overlap the ones behind; the whole stage leans a few degrees toward
 // the pointer through the --mx / --my variables SectionDecor's parallax
 // already writes. Each screen floats on its own slow loop (.hero-float, on an
-// inner wrapper so it never fights the depth transform). A Canadian flag,
-// drawn as the same kind of slab, floats in front on the TCF blanc's lower
-// right edge. Decorative:
+// inner wrapper so it never fights the depth transform). A flat Canadian flag
+// (no outline, no slab) floats in front on the TCF blanc's lower right edge.
+// Decorative:
 // aria-hidden, hidden below lg where the pitch takes the full width.
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
@@ -95,7 +95,7 @@ export function HeroCollage() {
         {/* The flag, forward of every screen, on the TCF blanc's lower right edge. */}
         <div className="absolute left-[47%] top-[68%] w-[20%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
           <div className="hero-float" style={{ animationDelay: "-3.6s" }}>
-            <div className="rounded-xl overflow-hidden" style={frame}><CanadaFlag /></div>
+            <div className="rounded-lg overflow-hidden"><CanadaFlag /></div>
           </div>
         </div>
       </div>
