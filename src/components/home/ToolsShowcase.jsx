@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Plane } from "lucide-react";
+import { ArrowRight, Plane, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { pathForRoute } from "@/constants/seo";
@@ -7,6 +7,7 @@ import { TINT } from "@/components/decor/WaveSection";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { WriteDemo, SpeakDemo, DicteeDemo, VocabDemo, GrammarDemo } from "@/components/home/ToolDemos";
+import { MOCKS } from "@/components/home/ToolMocks";
 import { PALETTE, TOOLS } from "./toolsData";
 
 // "7 outils à votre disposition", as an interactive showcase: the seven tools
@@ -20,9 +21,11 @@ import { PALETTE, TOOLS } from "./toolsData";
 // the selected tool. Tools are real <a href> links (first click selects, a
 // click on the selected tool opens it), so crawlers and keyboards reach them.
 //
-// Every panel is a working demo, usable without an account: the two
-// comprehension panels hold a real question from the bank (DemoQuestion /
-// DemoQuestionCE), the other five are the small demos in ToolDemos.jsx.
+// Each panel first plays an animated mock of its tool (ToolMocks.jsx); the
+// moment the visitor hovers or clicks it, it becomes a working demo, usable
+// without an account: the two comprehension panels hold a real question from
+// the bank (DemoQuestion / DemoQuestionCE), the other five are the small demos
+// in ToolDemos.jsx. A panel stays live once woken.
 //
 // The earlier orbit layout lives on in ToolsOrbit.jsx.
 
@@ -39,17 +42,21 @@ const onInk = (tool) => (tool.tone === "night" ? "#14204A" : "#FFFFFF");
 const ScreenCO = () => <DemoQuestion embedded />;
 const ScreenCE = () => <DemoQuestionCE embedded />;
 
-const SCREENS = { listening: ScreenCO, reading: ScreenCE, writing: WriteDemo, speaking: SpeakDemo, dictee: DicteeDemo, vocabulary: VocabDemo, grammar: GrammarDemo };
+const DEMOS = { listening: ScreenCO, reading: ScreenCE, writing: WriteDemo, speaking: SpeakDemo, dictee: DicteeDemo, vocabulary: VocabDemo, grammar: GrammarDemo };
 
-// The selected tool's panel: kind, title, description, screen, link.
-function Panel({ tool, n, active = true }) {
+// The selected tool's panel: kind, title, description, screen, link. Until
+// `live`, the screen is the mock; a mouse entering the panel, or a click/tap
+// anywhere on it, calls `onLive`.
+function Panel({ tool, n, active = true, live, onLive }) {
   const { t, dark, c } = useApp();
   const [bg, ink, soft] = tone(tool, dark);
   const night = tool.tone === "night";
-  const Screen = SCREENS[tool.route];
+  const Demo = DEMOS[tool.route];
+  const Mock = MOCKS[tool.route];
   return (
-    <div className="rounded-[32px] p-6 md:p-8 h-full flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
-      <div key={tool.route} className="rise flex flex-col gap-5 h-full">
+    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}
+      onPointerEnter={(e) => !live && e.pointerType === "mouse" && onLive()} onClickCapture={() => !live && onLive()}>
+      <div key={tool.route} className="rise flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{String(n).padStart(2, "0")} · {t(tool.kind)}</span>
@@ -60,7 +67,21 @@ function Panel({ tool, n, active = true }) {
             <tool.icon size={22} />
           </span>
         </div>
-        <Screen ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
+        {live ? (
+          <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
+        ) : (
+          // The mock is a picture; the button over it is what keyboards and
+          // screen readers get to wake the demo.
+          <div className="relative">
+            <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+            <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
+              className="absolute inset-0 w-full rounded-3xl flex items-end justify-center pb-4 outline-none focus-visible:ring-2">
+              <span className="invite-bob inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg" style={{ background: ink, color: onInk(tool) }}>
+                <MousePointerClick size={14} /> {t("Essayer maintenant")}
+              </span>
+            </button>
+          </div>
+        )}
         <RouteLink r={tool.route} className="mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition hover:gap-3"
           style={{ background: ink, color: onInk(tool) }}>
           {t("Ouvrir l'outil")} <ArrowRight size={16} />
@@ -211,6 +232,9 @@ const isWide = () => typeof window !== "undefined" && !!window.matchMedia?.(WIDE
 export function ToolsShowcase({ tinted = false }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  // Tools whose panel has been woken from its mock into the working demo.
+  const [live, setLive] = useState(() => new Set());
+  const goLive = (route) => setLive((s) => (s.has(route) ? s : new Set(s).add(route)));
   // Only one layout is mounted — the accordion below lg, the side panel from
   // lg — because the comprehension panels hold real questions: mounting both
   // would load each audio twice and draw two different random questions.
@@ -248,30 +272,34 @@ export function ToolsShowcase({ tinted = false }) {
 
   return (
     <div ref={ref}>
-      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-stretch">
+      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-start">
         <nav aria-label="Outils" className="flex flex-col gap-1.5">
           {TOOLS.map((tl, i) => (
             <div key={tl.route}>
               <Item tool={tl} i={i} active={active} select={select} auto={auto} running={visible} onDone={next} />
               {/* Accordion on small screens: the panel opens under its tool. */}
-              {!wide && active === i && <div className="mt-3 mb-2"><Panel tool={tl} n={i + 1} /></div>}
+              {!wide && active === i && <div className="mt-3 mb-2"><Panel tool={tl} n={i + 1} live={live.has(tl.route)} onLive={() => goLive(tl.route)} /></div>}
             </div>
           ))}
         </nav>
-        {/* All seven panels share one grid cell, only the selected one visible,
-            so the cell is always as tall as the tallest panel and switching
-            tools never moves the rest of the page. Hidden panels stay mounted,
-            so work in progress (an answer, a text, a recording) survives a look
-            at another tool; `active` tells each demo to fall silent. Reaching into the panel (to play the audio, read the
-            document) stops the auto-advance, so it never switches away
-            mid-question. */}
+        {/* Only the selected panel is in the flow, so the card is exactly as
+            tall as its own content (sharing one grid cell made every panel as
+            tall as the tallest, leaving short ones with a gap at the bottom).
+            The others stay mounted out of the flow, so work in progress (an
+            answer, a text, a recording) survives a look at another tool;
+            `active` tells each demo to fall silent. They also drop their
+            transitions: an inherited `visibility` change is animatable, so a
+            `transition-all` inside (the CE document's box) kept that panel
+            showing over the next one for a moment.
+            Reaching into the panel stops the auto-advance, so it never
+            switches away mid-question. */}
         {wide && (
-        <div className="grid min-h-[560px]" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
+        <div className="relative" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
           {TOOLS.map((tl, i) => {
             const on = i === active;
             return (
-              <div key={tl.route} className={`[grid-area:1/1] ${on ? "" : "invisible"}`} aria-hidden={on ? undefined : "true"}>
-                <Panel tool={tl} n={i + 1} active={on} />
+              <div key={tl.route} className={on ? "" : "invisible absolute inset-x-0 top-0 [&_*]:!transition-none"} aria-hidden={on ? undefined : "true"}>
+                <Panel tool={tl} n={i + 1} active={on} live={live.has(tl.route)} onLive={() => goLive(tl.route)} />
               </div>
             );
           })}

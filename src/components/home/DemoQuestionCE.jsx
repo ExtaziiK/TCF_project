@@ -59,7 +59,7 @@ export function DemoQuestionCE({ embedded = false }) {
               letterbox. Zoomed uses that ratio (capped so a tall document can't
               exceed the viewport); collapsed is a short fixed preview. */}
           <div
-            className={`relative rounded-xl overflow-hidden transition-all duration-300 ${big ? "w-full" : "h-64"}`}
+            className={`relative rounded-xl overflow-hidden transition-[height] duration-300 ${big ? "w-full" : "h-64"}`}
             style={big ? { aspectRatio: String(ratio), maxHeight: "82vh" } : undefined}
           >
             {/* Skeleton reserves the slot until the image paints; it sits behind
