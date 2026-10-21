@@ -88,6 +88,7 @@ export function RealAudio({ src, allowReplay = true, autoPlay = false, onEnded }
           preload="metadata"
           onLoadedMetadata={(e) => setDur(e.currentTarget.duration || 0)}
           onTimeUpdate={(e) => setT(e.currentTarget.currentTime)}
+          onPause={() => setPlaying(false)}
           onEnded={() => { setPlaying(false); setEnded(true); onEnded?.(); }}
           onError={() => { setFailed(true); setPlaying(false); onEnded?.(); }}
         />

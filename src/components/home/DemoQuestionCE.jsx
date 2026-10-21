@@ -33,14 +33,16 @@ let CE_DOC_RATIO = 1.5;
 
 // Hero teaser mirroring the CO DemoQuestion, for Compréhension écrite: the
 // reading document on top, then the lettered options, correction and
-// explanation below.
-export function DemoQuestionCE() {
+// explanation below. `embedded`: inside the tools showcase's panel — no card
+// chrome, and the document opens as a short preview so the panel stays a
+// sensible height (the Agrandir button is right there).
+export function DemoQuestionCE({ embedded = false }) {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const [imgOk, setImgOk] = useState(true);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [ratio, setRatio] = useState(CE_DOC_RATIO); // width/height, learned on load
-  const [big, setBig] = useState(true); // landing teaser opens zoomed in so the document is readable
+  const [big, setBig] = useState(!embedded); // standalone, opens zoomed in so the document is readable
   const [q] = useState(realDemoQuestion);
   if (!q) return null;
   const hasImage = !!q.image;
@@ -92,12 +94,14 @@ export function DemoQuestionCE() {
           </div>
         </div>
       )}
-      <Card className="p-6 md:p-7 shadow-xl shadow-rose-600/10 relative overflow-hidden">
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />
-        <div className="flex items-center justify-between mb-4 relative">
-          <Pill tone="red"><BookOpen size={12} /> {t("Question du jour · CE")}</Pill>
-          <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
-        </div>
+      <Card className={`relative overflow-hidden ${embedded ? "p-5" : "p-6 md:p-7 shadow-xl shadow-rose-600/10"}`}>
+        {!embedded && <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-rose-600/10 blur-2xl" aria-hidden="true" />}
+        {!embedded && (
+          <div className="flex items-center justify-between mb-4 relative">
+            <Pill tone="red"><BookOpen size={12} /> {t("Question du jour · CE")}</Pill>
+            <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
+          </div>
+        )}
         <DemoSteps tone="red" steps={["Lisez le document ci-dessus", "Cliquez sur la bonne réponse"]} done={sel !== null} />
         <div className="space-y-2.5">
           {q.opts.map((o, i) => {

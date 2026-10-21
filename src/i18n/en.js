@@ -364,9 +364,8 @@ export const EN = {
   "Question du jour · CE": "Daily question · Reading",
   // Hero demo cards: the intro above them and the numbered steps (DemoSteps.jsx).
   "Démo interactive": "Interactive demo",
-  "Essayez deux vraies questions, sans inscription": "Try two real questions, no sign-up needed",
-  "Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.":
-    "Listen to or read the document, then click an answer: the correction shows up right away.",
+  "Essayez deux vraies questions, sans inscription : ouvrez la compréhension orale ou écrite, puis cliquez sur une réponse pour voir la correction.":
+    "Try two real questions, no sign-up needed: open listening or reading comprehension, then click an answer to see the correction.",
   "Lancez l'audio ci-dessus": "Play the audio above",
   "Lisez le document ci-dessus": "Read the document above",
   "Cliquez sur la bonne réponse": "Click the right answer",

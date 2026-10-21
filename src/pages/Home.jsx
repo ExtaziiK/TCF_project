@@ -1,8 +1,6 @@
 import { Leaf, ArrowRight, ChevronRight, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
-import { DemoQuestion } from "@/components/home/DemoQuestion";
-import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
@@ -40,14 +38,14 @@ function Landing() {
   const stats = useHomeStats();
   const testimonials = useTestimonials();
   const rating = useRatingSummary(); // null until there are enough ratings to mean anything
-  // After the (plain) modules block, sections alternate tinted (straight edge)
-  // and plain (opening with a wave, shape and direction varied). Counted over
-  // the blocks actually shown, so hiding testimonials never puts two tints
-  // together. Order: video 0, testimonials 1, overview 2, calculator 3,
-  // pricing 4, CTA 5.
+  // After the tinted hero (which now holds the tools showcase), sections
+  // alternate plain (opening with a wave, shape and direction varied) and
+  // tinted (straight edge), starting plain. Counted over the blocks actually
+  // shown, so hiding testimonials never puts two tints together. Order: video
+  // 0, testimonials 1, overview 2, calculator 3, pricing 4, CTA 5.
   const showTestimonials = !!testimonials?.enabled;
   const look = (n) => {
-    const i = n <= 1 || showTestimonials ? n : n - 1;
+    const i = (n <= 1 || showTestimonials ? n : n - 1) + 1;
     return i % 2 === 0 ? { tinted: true } : { wave: i % 4 === 1 ? 1 : 0, flip: i % 4 === 1 };
   };
   return (
@@ -82,22 +80,17 @@ function Landing() {
             </div>
           </div>
 
-          {/* below: the CO and CE daily questions side by side — blue CO on
-              the left, rose CE on the right (same accent split the bonus
-              question used to provide). */}
-          {/* items-center: when answering extends one card (explanation shown),
-              the shorter one stays vertically centred beside it. */}
-          {/* Without a heading the two demo cards read as screenshots of the
-              product; this says they are live and need no account. */}
+          {/* below: the tools showcase, live — its Compréhension orale and
+              Compréhension écrite panels are real bank questions (the two demo
+              cards that used to sit here), the other tools are previews. The
+              heading says it is interactive and needs no account; without it
+              the panels read as screenshots. */}
           <div className="mt-14 md:mt-16 text-center rise rise-2">
             <Pill tone="blue"><MousePointerClick size={12} /> {t("Démo interactive")}</Pill>
-            <h2 className={`font-display font-bold text-2xl md:text-3xl mt-3 ${c.text}`}>{t("Essayez deux vraies questions, sans inscription")}</h2>
-            <p className={`mt-2 text-sm md:text-base ${c.sub}`}>{t("Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.")}</p>
+            <h2 className={`font-display font-bold text-2xl md:text-3xl mt-3 ${c.text}`}>{t("Les outils à votre disposition")}</h2>
+            <p className={`mt-2 text-sm md:text-base max-w-2xl mx-auto ${c.sub}`}>{t("Essayez deux vraies questions, sans inscription : ouvrez la compréhension orale ou écrite, puis cliquez sur une réponse pour voir la correction.")}</p>
           </div>
-          <div className="mt-8 grid lg:grid-cols-2 gap-6 items-center">
-            <div className="rise rise-2"><DemoQuestion /></div>
-            <div className="rise rise-3"><DemoQuestionCE /></div>
-          </div>
+          <div className="mt-8 rise rise-3"><ToolsShowcase tinted /></div>
         </div>
       </section>
 
@@ -122,15 +115,6 @@ function Landing() {
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
-      {/* TOOLS — the seven modules as an interactive showcase (the earlier orbit
-          layout is kept in components/home/ToolsOrbit.jsx) */}
-      <WaveSection wave={0} decor="features">
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
-        <SectionHead center eyebrow={t("Votre boîte à outils")} title={t("Les outils à votre disposition")} sub={t("Tout gravite autour du TCF blanc : les quatre épreuves officielles, plus la dictée, le vocabulaire et la grammaire pour progresser plus vite.")} />
-        <ToolsShowcase />
-      </section>
-      </WaveSection>
-
       {/* TUTORIAL VIDEO — its own tinted block, so it reads as separate from
           the module cards above (VideoTutorial only pads its bottom). */}
       <WaveSection {...look(0)} decor="video">

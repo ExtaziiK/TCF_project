@@ -24,7 +24,9 @@ function pickDemoQuestion() {
 
 // Hero teaser: one real CO question presented exactly like the quiz pages —
 // audio player on top, lettered options, correction and explanation below.
-export function DemoQuestion() {
+// `embedded`: shown inside the tools showcase's Compréhension orale panel,
+// which already names the épreuve — so no card, pills or glow of its own.
+export function DemoQuestion({ embedded = false }) {
   const { c, nav, t } = useApp();
   const [sel, setSel] = useState(null);
   const [base] = useState(pickDemoQuestion);
@@ -46,12 +48,14 @@ export function DemoQuestion() {
   return (
     <div className="space-y-4">
       <AudioPlayer src={q.audio} />
-      <Card className="p-6 md:p-7 shadow-2xl shadow-blue-600/10 relative overflow-hidden">
-        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />
-        <div className="flex items-center justify-between mb-4 relative">
-          <Pill tone="blue"><Headphones size={12} /> {t("Question du jour · CO")}</Pill>
-          <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
-        </div>
+      <Card className={`relative overflow-hidden ${embedded ? "p-5" : "p-6 md:p-7 shadow-2xl shadow-blue-600/10"}`}>
+        {!embedded && <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-blue-600/10 blur-2xl" aria-hidden="true" />}
+        {!embedded && (
+          <div className="flex items-center justify-between mb-4 relative">
+            <Pill tone="blue"><Headphones size={12} /> {t("Question du jour · CO")}</Pill>
+            <Pill tone="slate">{t("Niveau")} {q.level}</Pill>
+          </div>
+        )}
         {isBankItem
           ? <DemoSteps steps={["Lancez l'audio ci-dessus", "Cliquez sur la bonne réponse"]} done={sel !== null} />
           : <p className={`text-sm leading-relaxed mb-5 ${c.text}`}>{questionLabel}</p>}

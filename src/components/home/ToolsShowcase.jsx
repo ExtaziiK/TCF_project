@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, Play, Mic, Sparkles, Plane, Volume2 } from "lucide-react";
+import { ArrowRight, Check, Mic, Sparkles, Plane, Volume2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { pathForRoute } from "@/constants/seo";
+import { TINT } from "@/components/decor/WaveSection";
+import { DemoQuestion } from "@/components/home/DemoQuestion";
+import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { PALETTE, TOOLS } from "./toolsData";
 
 // "7 outils à votre disposition", as an interactive showcase: the seven tools
@@ -15,6 +18,10 @@ import { PALETTE, TOOLS } from "./toolsData";
 // Below `lg` the same list becomes an accordion: the panel opens right under
 // the selected tool. Tools are real <a href> links (first click selects, a
 // click on the selected tool opens it), so crawlers and keyboards reach them.
+//
+// The two comprehension panels are not mocks: they hold a real question from
+// the bank (the same DemoQuestion / DemoQuestionCE the hero used to show on
+// their own), playable without an account. Everything else is a picture.
 //
 // The earlier orbit layout lives on in ToolsOrbit.jsx.
 
@@ -56,41 +63,6 @@ function Options({ ink, soft, items, right }) {
         );
       })}
     </div>
-  );
-}
-
-function ScreenCO({ ink, soft }) {
-  const { c } = useApp();
-  const bars = [30, 55, 40, 75, 50, 90, 60, 80, 45, 70, 35, 85, 55, 65, 40, 95, 50, 72, 38, 60, 82, 46, 68, 52, 88, 42];
-  return (
-    <Frame ink={ink} soft={soft} label="QUESTION 12 / 39">
-      <div className="flex items-center gap-3">
-        <span className="grid place-items-center w-11 h-11 rounded-full shrink-0" style={{ background: ink, color: "#FFFFFF" }}><Play size={18} fill="currentColor" /></span>
-        <div className="flex-1 flex items-end gap-[3px] h-12">
-          {bars.map((h, i) => (
-            <span key={i} className="eqbar flex-1 rounded-full" style={{ height: `${h}%`, background: i < 11 ? ink : soft, animationDelay: `${(i % 9) * -0.12}s` }} />
-          ))}
-        </div>
-      </div>
-      <p className={`mt-4 text-sm font-semibold ${c.text}`}>Où se trouve la femme ?</p>
-      <Options ink={ink} soft={soft} items={["À la gare", "Dans un magasin", "Au bureau", "Chez le médecin"]} right={1} />
-      <p className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>1 écoute · comme le jour J</p>
-    </Frame>
-  );
-}
-
-function ScreenCE({ ink, soft }) {
-  const { c } = useApp();
-  return (
-    <Frame ink={ink} soft={soft} label="DOCUMENT 7">
-      <div className={`space-y-2 text-sm leading-relaxed ${c.sub}`}>
-        <p>Avis aux résidents : la piscine municipale fermera ses portes du 3 au 17 août pour des travaux d'entretien.{" "}
-          <mark className="rounded px-1 font-semibold" style={{ background: soft, color: ink }}>Les abonnements seront prolongés d'autant.</mark>
-        </p>
-      </div>
-      <p className={`mt-4 text-sm font-semibold ${c.text}`}>Que se passe-t-il pour les abonnés ?</p>
-      <Options ink={ink} soft={soft} items={["Ils sont remboursés", "Leur abonnement est prolongé", "Ils paient moins cher", "Rien ne change"]} right={1} />
-    </Frame>
   );
 }
 
@@ -275,6 +247,12 @@ function ScreenGrammar({ ink, soft }) {
   );
 }
 
+// The real questions: `embedded` drops their own card chrome, since the panel
+// around them already names the épreuve.
+const ScreenCO = () => <DemoQuestion embedded />;
+const ScreenCE = () => <DemoQuestionCE embedded />;
+const INTERACTIVE = new Set(["listening", "reading"]);
+
 const SCREENS = { listening: ScreenCO, reading: ScreenCE, writing: ScreenEE, speaking: ScreenEO, dictee: ScreenDictee, vocabulary: ScreenVocab, grammar: ScreenGrammar };
 
 // The selected tool's panel: kind, title, description, screen, link.
@@ -296,7 +274,9 @@ function Panel({ tool, n, still }) {
             <tool.icon size={22} />
           </span>
         </div>
-        <div aria-hidden="true"><Screen ink={ink} soft={soft} still={still} /></div>
+        {INTERACTIVE.has(tool.route)
+          ? <Screen />
+          : <div aria-hidden="true"><Screen ink={ink} soft={soft} still={still} /></div>}
         <RouteLink r={tool.route} className="mt-auto self-start inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition hover:gap-3"
           style={{ background: ink, color: onInk(tool) }}>
           {t("Ouvrir l'outil")} <ArrowRight size={16} />
@@ -363,10 +343,11 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
 const ROUTE = [["CO", "blue", "35 min"], ["CE", "rose", "60 min"], ["EE", "violet", "60 min"], ["EO", "amber", "12 min"]];
 const BARCODE = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 1];
 
-function MockPass() {
+function MockPass({ tinted }) {
   const { t, dark, c } = useApp();
   const blue = PALETTE.blue[dark ? "dark" : "light"];
-  const page = dark ? "#020617" : "#FFFFFF"; // the (plain) section behind the ticket
+  // The section behind the ticket, which the notches have to match.
+  const page = tinted ? (dark ? TINT.dark : TINT.light) : dark ? "#020617" : "#FFFFFF";
   const edge = dark ? "#334155" : "#CBD5E1"; // ticket outline
   const field = (label, value) => (
     <div>
@@ -438,9 +419,30 @@ function MockPass() {
 
 // ── Root ─────────────────────────────────────────────────────────────────────
 
-export function ToolsShowcase() {
+// `tinted`: the showcase sits on a tinted section (the landing hero), which
+// the boarding pass's cut-out notches must match.
+const WIDE = "(min-width: 1024px)";
+const isWide = () => typeof window !== "undefined" && !!window.matchMedia?.(WIDE).matches;
+
+export function ToolsShowcase({ tinted = false }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  // Only one layout is mounted — the accordion below lg, the side panel from
+  // lg — because the comprehension panels hold real questions: mounting both
+  // would load each audio twice and draw two different random questions.
+  const [wide, setWide] = useState(isWide);
+  useEffect(() => {
+    if (!window.matchMedia) return;
+    const mq = window.matchMedia(WIDE);
+    const onChange = () => setWide(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  // The comprehension panels stay mounted while hidden (so an answer survives
+  // a look at another tool), so a clip still playing is paused on switch.
+  useEffect(() => {
+    ref.current?.querySelectorAll("audio").forEach((a) => a.pause());
+  }, [active]);
   const [auto, setAuto] = useState(true); // until the first interaction (desktop only)
   const [visible, setVisible] = useState(false);
 
@@ -451,7 +453,7 @@ export function ToolsShowcase() {
     if (typeof window === "undefined" || !window.IntersectionObserver) return;
     // On small screens the list is an accordion: advancing would open panel
     // after panel and shift the page while the visitor scrolls, so it stays put.
-    if (!window.matchMedia("(min-width: 1024px)").matches) setAuto(false);
+    if (!window.matchMedia(WIDE).matches) setAuto(false);
     const io = new window.IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.3 });
     io.observe(ref.current);
     return () => io.disconnect();
@@ -468,7 +470,7 @@ export function ToolsShowcase() {
             <div key={tl.route}>
               <Item tool={tl} i={i} active={active} select={select} auto={auto} running={visible} onDone={next} />
               {/* Accordion on small screens: the panel opens under its tool. */}
-              {active === i && <div className="lg:hidden mt-3 mb-2"><Panel tool={tl} n={i + 1} /></div>}
+              {!wide && active === i && <div className="mt-3 mb-2"><Panel tool={tl} n={i + 1} /></div>}
             </div>
           ))}
         </nav>
@@ -476,19 +478,24 @@ export function ToolsShowcase() {
             so the cell is always as tall as the tallest panel and switching
             tools never moves the rest of the page. The hidden ones are still
             (the dictée doesn't loop); the selected one remounts, which restarts
-            its animation. */}
-        <div className="hidden lg:grid min-h-[560px]">
+            its animation — except the two real questions, which keep their
+            state. Reaching into the panel (to play the audio, read the
+            document) stops the auto-advance, so it never switches away
+            mid-question. */}
+        {wide && (
+        <div className="grid min-h-[560px]" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
           {TOOLS.map((tl, i) => {
             const on = i === active;
             return (
-              <div key={`${tl.route}-${on}`} className={`[grid-area:1/1] ${on ? "" : "invisible"}`} aria-hidden={on ? undefined : "true"}>
+              <div key={INTERACTIVE.has(tl.route) ? tl.route : `${tl.route}-${on}`} className={`[grid-area:1/1] ${on ? "" : "invisible"}`} aria-hidden={on ? undefined : "true"}>
                 <Panel tool={tl} n={i + 1} still={!on} />
               </div>
             );
           })}
         </div>
+        )}
       </div>
-      <MockPass />
+      <MockPass tinted={tinted} />
     </div>
   );
 }
