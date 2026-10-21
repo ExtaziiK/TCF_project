@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 
 // The landing hero's product collage, after Brevo's: real screens of the app
@@ -12,11 +11,15 @@ import { useApp } from "@/context/AppContext";
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
 // and an extrusion made of one hard shadow per pixel of depth, so the gap
-// between the screen and its offset shadow is filled in — white on the dark
-// theme, black on the light one.
+// between the screen and its offset shadow is filled in — a slate-blue edge on
+// the dark theme, a soft blue-grey one on the light theme.
 //
-// Switching theme swaps every screen for its other capture, which fades in
-// (.hero-fade, restarted by keying the image on its source).
+// Each screen holds both its captures from the start, stacked, and a theme
+// switch crossfades between them. Swapping the <img> instead (a new element
+// fading in) left some screens blank: inside the 3D stage the browser
+// rasterised the new layer before the picture had decoded and never repainted
+// it. With both already loaded and painted, the switch is only an opacity
+// change.
 //
 // Screenshots live in src/assets/hero (dark theme), cropped below the app's
 // nav bar so no account name shows. Light-theme captures of the same screens
@@ -24,7 +27,8 @@ import { useApp } from "@/context/AppContext";
 // is shown in light mode, and a screen without one keeps its dark capture.
 const DARK = import.meta.glob("/src/assets/hero/*.webp", { eager: true, query: "?url", import: "default" });
 const LIGHT = import.meta.glob("/src/assets/hero/light/*.webp", { eager: true, query: "?url", import: "default" });
-const shot = (name, dark) => (!dark && LIGHT[`/src/assets/hero/light/${name}.webp`]) || DARK[`/src/assets/hero/${name}.webp`];
+const darkShot = (name) => DARK[`/src/assets/hero/${name}.webp`];
+const lightShot = (name) => LIGHT[`/src/assets/hero/light/${name}.webp`] || darkShot(name);
 
 // [screen, position, width, depth px, float delay s] — back to front. The TCF
 // blanc is the centrepiece and the largest; the four corners each get their
@@ -42,16 +46,9 @@ const slab = (color) => Array.from({ length: DEPTH }, (_, i) => `${i + 1}px ${i 
 
 export function HeroCollage() {
   const { dark } = useApp();
-  // Warm the other theme's captures once the page is idle, so a theme switch
-  // fades in a picture that is already there instead of an empty frame.
-  useEffect(() => {
-    const other = Object.values(dark ? LIGHT : DARK);
-    const id = window.setTimeout(() => other.forEach((src) => { const img = new window.Image(); img.src = src; }), 2500);
-    return () => window.clearTimeout(id);
-  }, [dark]);
   const frame = dark
-    ? { border: "4px solid #3B4A6B", boxShadow: slab("#FFFFFF"), background: "#0B1222" }
-    : { border: "4px solid #14204A", boxShadow: slab("#000000"), background: "#EDF1F7" };
+    ? { border: "4px solid #3B4A6B", boxShadow: slab("#22314F"), background: "#0B1222" }
+    : { border: "4px solid #14204A", boxShadow: slab("#8FA3C7"), background: "#EDF1F7" };
   return (
     <div aria-hidden="true" className="hidden lg:block relative h-[540px] xl:h-[580px]" style={{ perspective: "1800px" }}>
       <div className="absolute inset-0 transition-transform duration-700 ease-out"
@@ -62,11 +59,15 @@ export function HeroCollage() {
         {CARDS.map(([name, pos, width, z, delay]) => (
           <div key={name} className={`absolute ${pos} ${width}`} style={{ transform: `translateZ(${z}px)`, transformStyle: "preserve-3d" }}>
             <div className="hero-float" style={{ animationDelay: `${delay}s` }}>
-              {/* The frame holds the outline and the slab, so only the
-                  picture inside fades when the theme changes. */}
-              <div className="rounded-2xl overflow-hidden" style={frame}>
-                <img key={shot(name, dark)} src={shot(name, dark)} alt="" decoding="async" draggable="false"
-                  className="hero-fade block w-full h-auto" />
+              {/* The frame holds the outline and the slab; inside, the two
+                  captures share one grid cell and crossfade. The cell takes
+                  the taller one's height and the other covers it, cropped
+                  from the top, should their proportions differ a little. */}
+              <div className="grid rounded-2xl overflow-hidden" style={frame}>
+                {[[darkShot(name), dark], [lightShot(name), !dark]].map(([src, on], k) => (
+                  <img key={k} src={src} alt="" draggable="false"
+                    className={`[grid-area:1/1] block w-full h-full object-cover object-top transition-opacity duration-500 ${on ? "opacity-100" : "opacity-0"}`} />
+                ))}
               </div>
             </div>
           </div>
