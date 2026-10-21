@@ -5,6 +5,7 @@ import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
+import { HeroCollage } from "@/components/home/HeroCollage";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
 import { PricingPlans } from "@/components/pricing/PricingPlans";
@@ -66,18 +67,22 @@ function Landing() {
           <HomeLabel />
           {/* A running sale (api/_lib/sale.js), with its countdown; gone by itself at the end. */}
           <div className="flex justify-center"><SaleStrip /></div>
-          {/* top: hero pitch, full width and centered */}
-          <div className="max-w-3xl mx-auto text-center">
-            <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
-            <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.05] mt-5 max-w-3xl mx-auto ${c.text} rise rise-1`}>
-              {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
-            </h1>
-            <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} mx-auto rise rise-2`}>
-              {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3 rise rise-3">
-              <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
+          {/* top: the pitch, and from lg the 3D collage of real screens beside
+              it (Brevo-style). Centered while it is alone (below lg). */}
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-10 xl:gap-14 items-center">
+            <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
+              <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
+              <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] xl:text-6xl leading-[1.05] mt-5 ${c.text} rise rise-1`}>
+                {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
+              </h1>
+              <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} rise rise-2`}>
+                {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3 rise rise-3">
+                <Btn variant="accent" icon={ArrowRight} onClick={() => nav("practice")}>{t("Commencer à pratiquer gratuitement")}</Btn>
+              </div>
             </div>
+            <div className="rise rise-2"><HeroCollage /></div>
           </div>
 
           {/* STATS — admin-toggleable (Admin › Accueil › Statistique), between

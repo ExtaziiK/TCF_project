@@ -161,6 +161,8 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes decor-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 .decor-sway{animation:decor-sway 6s ease-in-out infinite;transform-origin:50% 60%}
 @keyframes decor-sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.hero-float{animation:hero-float 8s ease-in-out infinite}
+@keyframes hero-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .decor-dash{animation:decor-dash 6s linear infinite}
 @keyframes decor-dash{to{stroke-dashoffset:-110}}
 /* Seasonal themes (decor/themes.jsx): the garland's twinkling bulbs, snow
