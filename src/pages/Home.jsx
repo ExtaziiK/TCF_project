@@ -80,6 +80,22 @@ function Landing() {
             </div>
           </div>
 
+          {/* STATS — admin-toggleable (Admin › Accueil › Statistique), between
+              the pitch and the demo. Numbers are real: content counts are
+              computed from the shipped bank, the student count is read from the
+              database on load, site counts are the last figures an admin
+              published from the live database. */}
+          {stats?.enabled && stats.items.length > 0 && (
+            <div className={`mt-12 md:mt-14 grid grid-cols-2 gap-8 rise rise-3 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
+              {stats.items.map((s) => (
+                <div key={s.key} className="text-center">
+                  <p className="font-display font-extrabold text-3xl md:text-4xl grad-text"><CountUp value={s.value} /></p>
+                  <p className={`mt-1.5 text-sm ${c.sub}`}>{t(s.label)}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* below: the tools showcase, live — its Compréhension orale and
               Compréhension écrite panels are real bank questions (the two demo
               cards that used to sit here), the other tools are previews. The
@@ -93,24 +109,7 @@ function Landing() {
         </div>
       </section>
 
-      {/* STATS — admin-toggleable (Admin › Accueil › Statistique). Numbers are
-          real: content counts are computed from the shipped bank, the student
-          count is read from the database on load, site counts are the last
-          figures an admin published from the live database. */}
-      {stats?.enabled && stats.items.length > 0 && (
-        <WaveSection tinted>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 gap-8 ${stats.items.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
-            {stats.items.map((s) => (
-              <div key={s.key} className="text-center">
-                <p className="font-display font-extrabold text-3xl md:text-4xl grad-text"><CountUp value={s.value} /></p>
-                <p className={`mt-1.5 text-sm ${c.sub}`}>{t(s.label)}</p>
-              </div>
-            ))}
-          </div>
-        </WaveSection>
-      )}
-
-      {/* The hero and stats share one tinted block; the page then alternates
+      {/* The hero (with the stats) is one tinted block; the page then alternates
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
