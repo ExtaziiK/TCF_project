@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 
 // The landing hero's product collage, after Brevo's: real screens of the app
@@ -11,7 +12,11 @@ import { useApp } from "@/context/AppContext";
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
 // and an extrusion made of one hard shadow per pixel of depth, so the gap
-// between the screen and its offset shadow is filled in.
+// between the screen and its offset shadow is filled in — white on the dark
+// theme, black on the light one.
+//
+// Switching theme swaps every screen for its other capture, which fades in
+// (.hero-fade, restarted by keying the image on its source).
 //
 // Screenshots live in src/assets/hero (dark theme), cropped below the app's
 // nav bar so no account name shows. Light-theme captures of the same screens
@@ -32,14 +37,21 @@ const CARDS = [
   ["calculator", "right-[1%] bottom-0", "w-[42%]", 120, -2.5],
 ];
 
-const DEPTH = 12; // thickness of the slab, px
+const DEPTH = 6; // thickness of the slab, px
 const slab = (color) => Array.from({ length: DEPTH }, (_, i) => `${i + 1}px ${i + 1}px 0 0 ${color}`).join(", ");
 
 export function HeroCollage() {
   const { dark } = useApp();
+  // Warm the other theme's captures once the page is idle, so a theme switch
+  // fades in a picture that is already there instead of an empty frame.
+  useEffect(() => {
+    const other = Object.values(dark ? LIGHT : DARK);
+    const id = window.setTimeout(() => other.forEach((src) => { const img = new window.Image(); img.src = src; }), 2500);
+    return () => window.clearTimeout(id);
+  }, [dark]);
   const frame = dark
-    ? { border: "4px solid #3B4A6B", boxShadow: slab("#1E3A7B") }
-    : { border: "4px solid #14204A", boxShadow: slab("#9DB8F2") };
+    ? { border: "4px solid #3B4A6B", boxShadow: slab("#FFFFFF"), background: "#0B1222" }
+    : { border: "4px solid #14204A", boxShadow: slab("#000000"), background: "#EDF1F7" };
   return (
     <div aria-hidden="true" className="hidden lg:block relative h-[540px] xl:h-[580px]" style={{ perspective: "1800px" }}>
       <div className="absolute inset-0 transition-transform duration-700 ease-out"
@@ -50,8 +62,12 @@ export function HeroCollage() {
         {CARDS.map(([name, pos, width, z, delay]) => (
           <div key={name} className={`absolute ${pos} ${width}`} style={{ transform: `translateZ(${z}px)`, transformStyle: "preserve-3d" }}>
             <div className="hero-float" style={{ animationDelay: `${delay}s` }}>
-              <img src={shot(name, dark)} alt="" decoding="async" draggable="false"
-                className="block w-full h-auto rounded-2xl" style={frame} />
+              {/* The frame holds the outline and the slab, so only the
+                  picture inside fades when the theme changes. */}
+              <div className="rounded-2xl overflow-hidden" style={frame}>
+                <img key={shot(name, dark)} src={shot(name, dark)} alt="" decoding="async" draggable="false"
+                  className="hero-fade block w-full h-auto" />
+              </div>
             </div>
           </div>
         ))}
