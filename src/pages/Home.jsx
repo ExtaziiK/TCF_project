@@ -69,8 +69,8 @@ function Landing() {
           {/* top: hero pitch, full width and centered */}
           <div className="max-w-3xl mx-auto text-center">
             <Pill tone="red" className="rise"><Leaf size={12} /> {t("Reconnu pour Entrée express & la citoyenneté")}</Pill>
-            <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.05] mt-5 max-w-2xl mx-auto ${c.text} rise rise-1`}>
-              {t("Le français qui vous ouvre")} <span className="grad-text">{t("le Canada.")}</span>
+            <h1 className={`font-display font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.05] mt-5 max-w-3xl mx-auto ${c.text} rise rise-1`}>
+              {t("La plateforme complète pour se préparer au")} <span className="grad-text">{t("TCF Canada")}</span>
             </h1>
             <p className={`mt-6 text-lg md:text-xl leading-relaxed ${c.sub} mx-auto rise rise-2`}>
               {t("Préparez les quatre épreuves du TCF Canada avec des questions au format officiel, des corrections d'enseignants et un suivi de niveau CECR en temps réel.")}

@@ -74,13 +74,14 @@ function Panel({ tool, n, active = true, live, onLive }) {
         ) : live ? (
           <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
         ) : (
-          // The mock is a picture; the button floating over its foot is the
-          // only way in.
-          <div className="relative">
+          // The mock is a picture; the button under it is the only way in. It
+          // sits below the mock rather than floating over it, where it hid
+          // the mock's last lines.
+          <div>
             <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
-            <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
+            <div className="mt-4 flex justify-center">
               <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
-                className="invite-bob pointer-events-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
+                className="invite-bob inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
                 style={{ background: ink, color: onInk(tool) }}>
                 <MousePointerClick size={15} /> {t("Essayer maintenant")}
               </button>

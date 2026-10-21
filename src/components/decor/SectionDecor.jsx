@@ -167,9 +167,10 @@ export function SectionDecor({ variant, from = "lg", wave = null }) {
   const [ref, height] = useElementHeight();
   const theme = useSiteTheme();
   const items = themed(variant === "page" ? pageItems(height) : LAYOUTS[variant] || [], theme);
-  // The landing page's stickers are drawn 30% larger; the other pages' side
-  // decor (the "page" layout) keeps its size.
-  const scale = variant === "page" ? 1 : 1.3;
+  // All stickers are drawn at 80% of their layout size (they read as too big);
+  // the landing page's are on top of that 30% larger than the other pages'
+  // side decor (the "page" layout).
+  const scale = (variant === "page" ? 1 : 1.3) * 0.8;
   // Halloween spiders: the landing sections below the hero each get a fixed
   // number between 2 and 4 (features 2, video 4, overview 3, testimonials 2,
   // calculator 4, pricing 3, cta 2), so the page doesn't look stamped out; the
