@@ -9,7 +9,8 @@ import { useApp } from "@/context/AppContext";
 // the pointer through the --mx / --my variables SectionDecor's parallax
 // already writes. Each screen floats on its own slow loop (.hero-float, on an
 // inner wrapper so it never fights the depth transform). A Canadian flag,
-// drawn as the same kind of slab, floats in front by the TCF blanc. Decorative:
+// drawn as the same kind of slab, floats in front on the TCF blanc's lower
+// right edge. Decorative:
 // aria-hidden, hidden below lg where the pitch takes the full width.
 //
 // Each screen is drawn as a solid slab rather than a card: a thick outline,
@@ -38,8 +39,8 @@ const lightShot = (name) => LIGHT[`/src/assets/hero/light/${name}.webp`] || dark
 const SCREENS = [
   ["dashboard", "right-[3%] top-0", "w-[43%]", -130, 0],
   ["epreuves", "left-[5%] top-[5%]", "w-[44%]", -100, -3.1],
-  ["calculator", "right-0 top-[34%]", "w-[37%]", -20, -2.5],
-  ["dictee", "right-[3%] bottom-0", "w-[34%]", 10, -4.4],
+  ["calculator", "right-[7%] top-[33%]", "w-[37%]", -20, -2.5],
+  ["dictee", "right-[2%] top-[64%]", "w-[34%]", 10, -4.4],
   ["tcf-blanc", "left-0 top-[27%]", "w-[61%]", 60, -1.6],
 ];
 
@@ -91,8 +92,8 @@ export function HeroCollage() {
             </div>
           </div>
         ))}
-        {/* The flag, forward of every screen, by the TCF blanc's left edge. */}
-        <div className="absolute -left-[7%] top-[63%] w-[20%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
+        {/* The flag, forward of every screen, on the TCF blanc's lower right edge. */}
+        <div className="absolute left-[47%] top-[68%] w-[20%]" style={{ transform: "translateZ(170px) rotateZ(-8deg)" }}>
           <div className="hero-float" style={{ animationDelay: "-3.6s" }}>
             <div className="rounded-xl overflow-hidden" style={frame}><CanadaFlag /></div>
           </div>
