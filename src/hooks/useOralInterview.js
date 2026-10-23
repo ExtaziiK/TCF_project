@@ -97,6 +97,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   const clockOn = useRef(false); // the tâche's clock has started (after the preparation)
   const timeUpSent = useRef(false); // the closing turn is on its way
   const silenceEnd = useRef(null); // seconds of silence that closed the current answer, if any
+  const finishing = useRef(false); // the candidate chose "Terminer cette tâche"
   const runId = useRef(0); // bumped on reset: a late answer from an old run is dropped
   const phaseRef = useRef("idle");
   const starting = useRef(false); // waiting for the mic permission (begin)
@@ -210,7 +211,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // One turn against the server: the candidate's recording (or none, when the
   // time ran out before they answered) in, the next examiner line or the
   // grade out.
-  const sendTurn = async ({ blob, url, type, final, endedBySilence = null }) => {
+  const sendTurn = async ({ blob, url, type, final, finished = false, endedBySilence = null }) => {
     const run = runId.current;
     setPhase("processing");
     setCount(0);
@@ -232,6 +233,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
         task: taskRef.current.task,
         history: dialogueHistory(),
         silenceEnd: endedBySilence ?? undefined,
+        finished,
         fluency: fluencyHistory(),
         emptyStreak: emptyStreak.current,
         lang,
@@ -330,7 +332,9 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     // this answer is the last one and the server grades the exchange.
     // Tâche 3 with no relance left: the candidate who stops the recording
     // ends the tâche (the examiner has nothing more to ask).
-    const final = remainingRef.current < MIN_TURN_SECS || (taskRef.current.task === 3 && relancesLeftIn(turnsRef.current) === 0);
+    const finished = finishing.current;
+    finishing.current = false;
+    const final = finished || remainingRef.current < MIN_TURN_SECS || (taskRef.current.task === 3 && relancesLeftIn(turnsRef.current) === 0);
     if (final) timeUpSent.current = true;
 
     if (!chunks.length) {
@@ -338,10 +342,10 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
       setError(t("Aucun son n'a été capté. Vérifiez votre micro."));
       setMicIssue("silent");
       reportMicIssue(taskRef.current.task, null, "entretien");
-      if (final) sendTurn({ final: true }); // time is up all the same
+      if (final) sendTurn({ final: true, finished }); // the tâche ends all the same
       return;
     }
-    sendTurn({ blob, url, type, final, endedBySilence: silenceEnd.current });
+    sendTurn({ blob, url, type, final, finished, endedBySilence: silenceEnd.current });
     silenceEnd.current = null;
   };
 
@@ -549,6 +553,18 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   };
 
   const skipReview = () => { if (phase === "review") endReview(); };
+  // "Terminer cette tâche": the candidate ends the tâche now, and what they
+  // said is graded. Mid-answer, that answer is the last one; otherwise the
+  // examiner closes straight away. Before the candidate has spoken (opening,
+  // preparation) there is nothing to grade, so the button isn't offered.
+  const finishTask = () => {
+    if (phase === "rec") { finishing.current = true; finishRecording(); return; }
+    if ((phase === "ready" || phase === "speaking") && !timeUpSent.current) {
+      timeUpSent.current = true;
+      stopExaminerAudio();
+      sendTurn({ final: true, finished: true });
+    }
+  };
   const answer = () => { if (phase === "ready") beginRecording(); };
   // `silenceSecs`: the turn was closed by the candidate falling silent
   // (MicLevel), not by the button — the server counts that silence as a pause.
@@ -564,5 +580,5 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // Tâche 3 only (null elsewhere): relances the examiner can still make.
   const relancesLeft = task.task === 3 ? relancesLeftIn(turns) : null;
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart: reset };
 }

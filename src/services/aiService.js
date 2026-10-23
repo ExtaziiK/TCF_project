@@ -156,9 +156,10 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, a
 // `fluency`: the measures the server returned for each earlier answer
 // (api/_lib/fluency.js), sent back so the final grade can weigh them all.
 // `silenceEnd`: seconds of silence that ended this answer, when it was the
-// silence and not the button that closed the turn.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, attemptId, task }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+// silence and not the button that closed the turn. `finished`: the candidate
+// ended the tâche early ("Terminer cette tâche"), sent with `final`.
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, finished, attemptId, task }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, finished: finished || undefined, task, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // One of the examiner's fixed lines ({ line, audio?, audioMime? }), built

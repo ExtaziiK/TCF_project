@@ -328,6 +328,9 @@ async function dialogueTurn(res, user, body, req, claim) {
   // The client sets this when the task's time has run out: grade now instead
   // of asking for another exchange.
   const timeUp = body.final === true || body.final === "true";
+  // `finished`: the candidate chose "Terminer cette tâche" — the examiner
+  // closes without saying the time ran out.
+  const endLine = body.finished === true ? CLOSING_DONE : CLOSING_TIME_UP;
   const history = sanitizeHistory(body.history);
   // Each earlier answer's fluency measures, kept by the client like the dialogue.
   const pastFluency = sanitizeFluency(body.fluency);
@@ -382,9 +385,9 @@ async function dialogueTurn(res, user, body, req, claim) {
   if (timeUp && !audio) {
     if (!history.some((m) => m.role === "candidate")) {
       await releaseAiUse(claim);
-      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: CLOSING_TIME_UP, ...(await voiceLine(user, CLOSING_TIME_UP)) });
+      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: endLine, ...(await voiceLine(user, endLine)) });
     }
-    return grade(history, CLOSING_TIME_UP, { transcript: "" });
+    return grade(history, endLine, { transcript: "" });
   }
 
   const buffer = decodeAudio(audio);
@@ -415,7 +418,7 @@ async function dialogueTurn(res, user, body, req, claim) {
     }
     // The current turn was silence, not speech — only the PRIOR history has
     // anything the candidate actually said, so that alone is what gets graded.
-    const closing = timeUp ? CLOSING_TIME_UP : "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici.";
+    const closing = timeUp ? endLine : "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici.";
     return grade(history, closing, { empty: true, silentRecording, capped: true });
   }
 
@@ -436,7 +439,7 @@ async function dialogueTurn(res, user, body, req, claim) {
     return res.status(200).json({ transcript, fluency, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(user, reply)) });
   }
 
-  return grade(candidateTurns, timeUp ? CLOSING_TIME_UP : CLOSING_DONE, { transcript, fluency }, [...pastFluency, fluency]);
+  return grade(candidateTurns, timeUp ? endLine : CLOSING_DONE, { transcript, fluency }, [...pastFluency, fluency]);
 }
 
 /* ------------------------------- shared bits ------------------------------- */

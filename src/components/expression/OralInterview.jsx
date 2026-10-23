@@ -61,7 +61,7 @@ function useShowClock(exam) {
 // `autoStart` begins the tâche as soon as it is shown.
 export function OralInterview({ task, exam = false, autoStart = false, onFinish }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart } = useOralInterview(task, notify, { exam });
   const [notes, setNotes] = useState("");
   const [showClock, setShowClock] = useShowClock(exam);
   const endRef = useRef(null);
@@ -162,7 +162,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} showClock={showClock} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
+        <InterviewControls c={c} t={t} phase={phase} canFinish={phase === "rec" || ((phase === "ready" || phase === "speaking") && turns.some((tn) => tn.role === "candidate" && tn.text))} finishTask={finishTask} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} showClock={showClock} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
@@ -243,7 +243,7 @@ function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, exam, who, task, relancesLeft, showClock, micStream, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, canFinish, finishTask, count, ended, exam, who, task, relancesLeft, showClock, micStream, begin, skipReview, answer, stop, restart }) {
   // Tâche 3 with no relance left: silence no longer ends the turn — the
   // candidate keeps the floor until the time is up, and is warned instead.
   const alone = task === 3 && relancesLeft === 0;
@@ -307,11 +307,32 @@ function InterviewControls({ c, t, phase, count, ended, exam, who, task, relance
           <Mic size={24} />
         </button>
       )}
+      {canFinish && <FinishTaskButton c={c} t={t} exam={exam} onFinish={finishTask} />}
       {phase === "done" && restart && (
         <button onClick={restart} className={`px-5 py-2.5 rounded-full border font-semibold text-sm flex items-center gap-2 ${c.card} ${c.border} ${c.sub} ${c.hoverSoft}`}>
           <RotateCcw size={15} /> {t("Refaire un entretien")}
         </button>
       )}
     </div>
+  );
+}
+
+// "Terminer cette tâche", under the controls while the exchange runs. A second
+// click confirms, so a stray tap can't end a tâche the candidate was still in.
+function FinishTaskButton({ c, t, exam, onFinish }) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (!armed) return undefined;
+    const id = setTimeout(() => setArmed(false), 4000);
+    return () => clearTimeout(id);
+  }, [armed]);
+  return (
+    <button
+      type="button"
+      onClick={() => (armed ? onFinish() : setArmed(true))}
+      className={`mt-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${armed ? "border-rose-600 text-rose-600 bg-rose-600/10" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+    >
+      {armed ? (exam ? t("Confirmer : terminer cette partie") : t("Confirmer : terminer et voir l'évaluation")) : t("Terminer cette tâche")}
+    </button>
   );
 }
