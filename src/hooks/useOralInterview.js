@@ -4,6 +4,8 @@ import { speakingDialogueTurn, speakingOpening, blobToBase64, AiError, reportCli
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { failureKind, failureIssue } from "@/utils/aiIssue";
 import { speak, stopSpeaking } from "@/utils/speech";
+import { createConversationRecorder } from "@/utils/conversationRecorder";
+import { saveEoRecording } from "@/services/eoRecordingsService";
 import { openingLine, openingIsQuestion, PREP_END_LINE, T3_MAX_RELANCES } from "../../api/_lib/eoLines.js";
 
 // What a single failed turn says, by failure kind (utils/aiIssue.js): the
@@ -89,6 +91,15 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   const [voiceless, setVoiceless] = useState(false);
   // The live microphone, for the level meter (MicLevel) while the candidate speaks.
   const [micStream, setMicStream] = useState(null);
+  // The whole tâche as one audio file (utils/conversationRecorder.js), ready
+  // once the examiner's closing line has played: { url, blob, mime, durationSecs },
+  // or false when this browser couldn't record it.
+  const [conversation, setConversation] = useState(null);
+  const convRef = useRef(null);
+  // How the tâche ended (set by closeOut), for saving its recording.
+  const resultRef = useRef(null);
+  // Saving the recording to the account: null | "saving" | "saved" | "error".
+  const [saveState, setSaveState] = useState(null);
   const [remaining, setRemaining] = useState(task.dur); // time left for the whole tâche
   const voicelessRef = useRef(false);
   const failStreak = useRef(0);
@@ -168,6 +179,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     let handled = false;
     const finish = (spoken) => { if (!handled) { handled = true; onDone(spoken); } };
     const player = new window.Audio(audioUrl);
+    convRef.current?.attach(player); // heard AND kept in the tâche's recording
     playerRef.current = player;
     player.onended = () => finish(true);
     // Bad decode/interrupted playback: fall back to browser TTS so the line
@@ -185,14 +197,48 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     else setPhase("ready");
   };
 
+  // The closing line has played: the tâche's recording is complete. It is
+  // shown for listening right away and saved to the account (eoRecordingsService)
+  // — unless nothing was graded (the candidate never answered). Also called
+  // when the screen changes before the closing line ends (TCF blanc "Partie
+  // suivante"), so the save still happens; the state updates are then no-ops.
+  const finishConversation = () => {
+    const conv = convRef.current;
+    convRef.current = null;
+    const result = resultRef.current;
+    resultRef.current = null;
+    if (!conv) { setConversation(false); return; }
+    const run = runId.current;
+    const tk = taskRef.current;
+    conv.finish().then(async (rec) => {
+      if (!rec) { if (run === runId.current) setConversation(false); return; }
+      if (run === runId.current) {
+        const url = URL.createObjectURL(rec.blob);
+        objectUrlsRef.current.push(url);
+        setConversation({ url, ...rec });
+      }
+      if (!result || result.endedNoGrade) return;
+      if (run === runId.current) setSaveState("saving");
+      const saved = await saveEoRecording({
+        blob: rec.blob, task: tk.task, taskLabel: tk.t, prompt: tk.prompt,
+        mode: exam ? "exam" : "practice", durationSecs: rec.durationSecs, score: result.grade?.score,
+      });
+      if (run === runId.current) setSaveState(saved.ok ? "saved" : "error");
+    });
+  };
+
   const closeOut = (line, audioUrl, { grade = null, endedNoGrade = false } = {}) => {
+    resultRef.current = { grade, endedNoGrade };
     releaseStream();
     emptyStreak.current = 0;
     addTurn({ role: "examiner", text: line, closing: true, audioUrl });
     if (grade) setFeedback(grade);
     if (endedNoGrade) setEnded(true);
     setPhase("done");
-    sayLine(line, audioUrl, noteUnspoken);
+    sayLine(line, audioUrl, (spoken) => {
+      noteUnspoken(spoken);
+      finishConversation();
+    });
   };
 
   // Only real exchanges are part of the dialogue: silent attempts (emptyRec),
@@ -432,7 +478,15 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   };
 
   const reset = () => {
+    // A tâche that has ended keeps its recording (still finishing its closing
+    // line); one interrupted midway is thrown away.
+    if (convRef.current && resultRef.current) finishConversation();
+    else convRef.current?.discard();
+    convRef.current = null;
+    resultRef.current = null;
     runId.current += 1;
+    setConversation(null);
+    setSaveState(null);
     starting.current = false;
     abortRecorder();
     releaseStream();
@@ -480,6 +534,16 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     }, 1000);
     return () => clearInterval(iv);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
+  // The tâche's recording runs while the conversation does — someone speaking,
+  // or the candidate's turn — and holds while our server works on an answer,
+  // during the Tâche 2 preparation, and before anything has started.
+  useEffect(() => {
+    const conv = convRef.current;
+    if (!conv) return;
+    if (["speaking", "rec", "ready", "done"].includes(phase)) conv.run();
+    else conv.hold();
   }, [phase]);
 
   // Auto-advance when the countdown hits zero: review -> record, rec -> stop.
@@ -545,6 +609,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     if (run !== runId.current) { stream.getTracks().forEach((tr) => tr.stop()); return; }
     setMicIssue(null);
     streamRef.current = stream;
+    convRef.current = createConversationRecorder(stream);
     setMicStream(stream);
     setBudget(taskRef.current.dur);
     clockOn.current = false;
@@ -580,5 +645,5 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // Tâche 3 only (null elsewhere): relances the examiner can still make.
   const relancesLeft = task.task === 3 ? relancesLeftIn(turns) : null;
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, conversation, saveState, begin, skipReview, answer, stop, finishTask, replay, restart: reset };
 }

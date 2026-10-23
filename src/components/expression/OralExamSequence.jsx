@@ -87,6 +87,7 @@ function OralExamReport({ parts, results }) {
           </p>
         )}
         <p className={`mt-3 text-xs ${c.faint}`}>{t("Estimation par l'IA à partir de la transcription : la prononciation n'est pas évaluée.")}</p>
+        <p className={`mt-2 text-xs ${c.faint}`}>{t("Vos trois parties sont enregistrées : réécoutez-les dans « Mes enregistrements », sur la page Expression orale.")}</p>
       </Card>
       {parts.map((tk) => {
         const fb = results[tk.task]?.feedback;

@@ -4,6 +4,7 @@ import { composeEmail } from "../_lib/emails.js";
 import { currentPlanLabel } from "../_lib/planLabel.js";
 import { processNudges } from "../_lib/nudge.js";
 import { withoutDeletion } from "../_lib/public/account.js";
+import { removeUserRecordings } from "../_lib/eoRecordings.js";
 
 // Daily cron (see vercel.json → crons). Scans every account's Premium expiry
 // (app_metadata.premium_until, the same field the admin API and rbac read) and
@@ -88,6 +89,8 @@ export async function processDeletions(users, now, summary, cache = new Map()) {
           console.error(`reminders: deleted-account email to ${user.email} failed:`, err.message);
         }
       }
+      // Their Expression orale recordings: files don't cascade with the account.
+      await removeUserRecordings(admin, user.id);
       const { error } = await admin.auth.admin.deleteUser(user.id);
       if (error) throw new Error(error.message);
       summary.accountsDeleted++;

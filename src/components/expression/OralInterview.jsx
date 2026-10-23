@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff, NotebookPen, Timer, TimerOff } from "lucide-react";
+import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff, NotebookPen, Timer, TimerOff, Headphones, CheckCircle2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
@@ -61,7 +61,7 @@ function useShowClock(exam) {
 // `autoStart` begins the tâche as soon as it is shown.
 export function OralInterview({ task, exam = false, autoStart = false, onFinish }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart } = useOralInterview(task, notify, { exam });
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, conversation, saveState, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart } = useOralInterview(task, notify, { exam });
   const [notes, setNotes] = useState("");
   const [showClock, setShowClock] = useShowClock(exam);
   const endRef = useRef(null);
@@ -140,6 +140,8 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
             <div ref={endRef} />
           </div>
         )}
+
+        {phase === "done" && <ConversationPlayer c={c} t={t} conversation={conversation} saveState={saveState} />}
 
         <MicHelp code={micIssue} onClose={clearMicIssue} task={task.task} />
         {error && (
@@ -334,5 +336,32 @@ function FinishTaskButton({ c, t, exam, onFinish }) {
     >
       {armed ? (exam ? t("Confirmer : terminer cette partie") : t("Confirmer : terminer et voir l'évaluation")) : t("Terminer cette tâche")}
     </button>
+  );
+}
+
+// The whole tâche as one recording, to listen to yourself: right after the
+// examiner's closing line, then kept in « Mes enregistrements ».
+function ConversationPlayer({ c, t, conversation, saveState }) {
+  if (conversation === false) return null; // this browser couldn't record it
+  if (!conversation) {
+    return (
+      <p className={`mb-5 text-sm flex items-center gap-2 ${c.faint}`}>
+        <Loader2 size={14} className="animate-spin" /> {t("Préparation de l'enregistrement de l'échange…")}
+      </p>
+    );
+  }
+  return (
+    <div className={`mb-5 p-4 rounded-2xl border ${c.border}`}>
+      <p className={`font-display font-bold text-sm mb-1 flex items-center gap-2 ${c.text}`}>
+        <Headphones size={16} className="text-blue-600" /> {t("Réécoutez votre échange")}
+      </p>
+      <p className={`text-xs mb-3 ${c.faint}`}>{t("Toute la tâche, comme elle s'est déroulée : écoutez vos hésitations, vos silences et vos tournures pour progresser.")}</p>
+      <audio controls src={conversation.url} className="w-full" />
+      <p className={`mt-2 text-xs flex items-center gap-1.5 ${saveState === "error" ? "text-amber-600" : c.faint}`}>
+        {saveState === "saving" && (<><Loader2 size={12} className="animate-spin" /> {t("Sauvegarde dans « Mes enregistrements »…")}</>)}
+        {saveState === "saved" && (<><CheckCircle2 size={12} className="text-emerald-500" /> {t("Sauvegardé dans « Mes enregistrements », sur la page Expression orale.")}</>)}
+        {saveState === "error" && t("Cet enregistrement n'a pas pu être sauvegardé : écoutez-le ici, il ne sera pas conservé.")}
+      </p>
+    </div>
   );
 }

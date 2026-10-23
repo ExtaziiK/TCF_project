@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "../auth.js";
 import { HttpError } from "../groq.js";
+import { removeUserRecordings } from "../eoRecordings.js";
 
 // Admin user management. Runs server-side because listing accounts (emails)
 // and editing app_metadata (plan, role) require the service-role key — the
@@ -390,6 +391,8 @@ async function handlePost(req, res, actor) {
       throw new HttpError(403, "Seul le propriétaire peut supprimer un administrateur.");
     }
 
+    // Their Expression orale recordings: files don't cascade with the account.
+    await removeUserRecordings(admin, userId);
     const { error } = await admin.auth.admin.deleteUser(userId);
     if (error) throw new HttpError(502, `Suppression refusée : ${error.message}`);
     await audit(actor, "delete-user", email);

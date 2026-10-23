@@ -6,6 +6,7 @@ import { useExpressionSession } from "@/hooks/useExpressionSession";
 import { WorkshopSkeleton, EmptyTask } from "@/components/expression/WorkshopStates";
 import { OralInterview } from "@/components/expression/OralInterview";
 import { OralExamSequence } from "@/components/expression/OralExamSequence";
+import { EoRecordingsList } from "@/components/expression/EoRecordingsList";
 import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
@@ -72,6 +73,7 @@ export function SpeakingStudioBody({ inExam = false } = {}) {
       ) : (
         <OralInterview key={task.id} task={task} />
       )}
+      <EoRecordingsList />
     </div>
   );
 }
