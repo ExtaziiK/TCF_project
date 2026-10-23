@@ -19,7 +19,7 @@ import { PAGES } from "@/pages";
 import { PRATIQUE_ROUTES } from "@/constants/navigation";
 
 function AppShell() {
-  const { route, role, c, authReady, user, needsProfile, resolvingOAuth,
+  const { route, role, c, authReady, user, needsProfile, resolvingOAuth, authScreen,
     profiles, activeProfile, profilesReady, canAddProfile, selectProfile, profileAdded } = useApp();
   const terms = useTermsGate();
   const bar = useAnnouncementBar();
@@ -82,9 +82,11 @@ function AppShell() {
   // whole page when auth resolves (it counted towards PageSpeed's CLS). A saved
   // session waits for its role, so a Premium user never sees the bar flash.
   const barAudience = authReady ? role === ROLES.VISITOR || role === ROLES.FREE_USER : !hasStoredSession();
-  // The log-in and sign-up pages stand alone, like a checkout: no navbar and
-  // no announcement bar, only their own "Accueil" button (AuthPage `bare`).
-  const authPage = route === "login" || route === "register";
+  // The log-in and sign-up form stands alone, like a checkout: no navbar and
+  // no announcement bar, only its own "Accueil" button. That holds on its two
+  // routes (known before the lazy page even loads) and wherever else it shows
+  // — a members-only page after a sign-out, which AuthPage reports.
+  const authPage = route === "login" || route === "register" || authScreen;
   const showAnnounce = !authPage && barAudience && bar.enabled && bar.messages.length > 0;
   // The page remounts on route change (key), except between the six practice
   // routes: they are tabs of one page, the Pratique hub, which keeps its state.

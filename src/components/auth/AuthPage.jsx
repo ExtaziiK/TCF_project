@@ -81,12 +81,11 @@ function SidePanel() {
   );
 }
 
-// `bare`: rendered as the /connexion or sign-up page itself, where AppShell
-// hides the navbar — the page then carries its own "Accueil" button, top left.
-// Without it (a members-only page asking a visitor to log in), the navbar is
-// there and the page leaves room for it.
-export function AuthPage({ mode, bare = false }) {
-  const { c, nav, notify, t, user, startTour, dark } = useApp();
+// Always shown without the navbar (it reports itself through setAuthScreen,
+// and AppShell hides the bar), so it carries its own "Accueil" button.
+export function AuthPage({ mode }) {
+  const { c, nav, notify, t, user, startTour, dark, setAuthScreen } = useApp();
+  useEffect(() => { setAuthScreen(true); return () => setAuthScreen(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [identifier, setIdentifier] = useState(""); // login: username or email
@@ -242,14 +241,12 @@ export function AuthPage({ mode, bare = false }) {
 
   return (
     <main className="relative min-h-screen grid lg:grid-cols-2">
-      {bare && (
-        <button type="button" onClick={() => nav("home")}
-          className={`absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm transition hover:-translate-x-0.5 ${c.card} ${c.border} ${c.text}`}>
-          <ArrowLeft size={16} /> {t("Accueil")}
-        </button>
-      )}
+      <button type="button" onClick={() => nav("home")}
+        className={`absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm transition hover:-translate-x-0.5 ${c.card} ${c.border} ${c.text}`}>
+        <ArrowLeft size={16} /> {t("Accueil")}
+      </button>
       <SidePanel />
-      <div className={`flex items-center justify-center px-5 sm:px-10 pb-16 ${bare ? "pt-20 lg:pt-16" : "pt-28"}`}>
+      <div className="flex items-center justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-16">
       <div className="w-full max-w-md rise">
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">

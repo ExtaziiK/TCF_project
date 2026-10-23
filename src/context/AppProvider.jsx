@@ -62,6 +62,10 @@ export function AppProvider({ children }) {
   // persisted: a preview you can forget you left on is a support ticket about
   // the admin link having vanished.
   const [visitorPreview, setVisitorPreview] = useState(false);
+  // True while the log-in / sign-up form is on screen — on its own page, or
+  // standing in for a members-only page after a sign-out. AuthPage sets it;
+  // AppShell then hides the navbar and the announcement bar.
+  const [authScreen, setAuthScreen] = useState(false);
   // The first-login guided tour (TourOverlay.jsx): null while inactive, else
   // an index into TOUR_STEPS. Started once, right after a brand-new account's
   // very first sign-in — see startTour() below and its call sites in
@@ -510,7 +514,7 @@ export function AppProvider({ children }) {
     user, setUser, authReady, signOut, deactivateAccount, role,
     ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
-    pendingOnboarding, needsProfile, completeOnboarding,
+    pendingOnboarding, needsProfile, completeOnboarding, authScreen, setAuthScreen,
     resolvingOAuth,
     tourStep, startTour, nextTourStep, endTour,
     c,
