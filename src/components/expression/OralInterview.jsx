@@ -94,7 +94,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
   const restartAll = () => { reported.current = false; setNotes(""); restart(); };
 
   return (
-    <div className="grid lg:grid-cols-3 gap-5 rise">
+    <div className="grid lg:grid-cols-3 gap-5 items-start rise">
       <Card className="lg:col-span-2 p-6 flex flex-col">
         <div className="flex items-center justify-between gap-2 flex-wrap mb-4">
           <div className="flex gap-2 flex-wrap">
@@ -251,7 +251,7 @@ function InterviewControls({ c, t, phase, canFinish, finishTask, count, ended, e
   const alone = task === 3 && relancesLeft === 0;
   const endAfter = alone ? 0 : END_OF_TURN_SECS[task] || 4;
   return (
-    <div className="mt-auto flex flex-col items-center gap-3">
+    <div className="mt-auto pt-6 flex flex-col items-center gap-3">
       <MicLevel
         stream={micStream}
         active={phase === "rec"}
