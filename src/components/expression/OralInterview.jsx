@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff, NotebookPen } from "lucide-react";
+import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff, NotebookPen, Timer, TimerOff } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
@@ -32,6 +32,26 @@ const HOW_IT_WORKS = {
   ],
 };
 
+// Whether the clocks are shown (time left, countdowns). Hiding them trains the
+// candidate to feel the length of a tâche, as on exam day, where the examiner
+// may not show the time. Remembered per mode, across tâches and visits; the
+// TCF blanc starts hidden, practice starts shown. Storage may be unavailable
+// (private mode): the default then applies each time.
+const CLOCK_KEY = (exam) => `passerelle.eo.showClock.${exam ? "exam" : "practice"}`;
+function useShowClock(exam) {
+  const [show, setShow] = useState(() => {
+    try {
+      const v = window.localStorage.getItem(CLOCK_KEY(exam));
+      return v === null ? !exam : v === "1";
+    } catch { return !exam; }
+  });
+  const set = (next) => {
+    setShow(next);
+    try { window.localStorage.setItem(CLOCK_KEY(exam), next ? "1" : "0"); } catch { /* not remembered */ }
+  };
+  return [show, set];
+}
+
 // One tâche of the Expression orale, run as on exam day (useOralInterview):
 // the examiner speaks first where they do on exam day, the clock runs the
 // whole time, and the exchange is graded at the end.
@@ -43,6 +63,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
   const { c, notify, t } = useApp();
   const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
   const [notes, setNotes] = useState("");
+  const [showClock, setShowClock] = useShowClock(exam);
   const endRef = useRef(null);
   const reported = useRef(false);
   const examiner = "Examinatrice";
@@ -80,8 +101,22 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
             <Pill tone="blue">{reviewSecs ? `${t("Préparation :")} ${fmt(reviewSecs)}` : t("Sans préparation")}</Pill>
             <Pill tone="red">{t("Temps de l'épreuve :")} {fmt(interviewSecs)}</Pill>
           </div>
-          <Pill tone={remaining <= 30 ? "amber" : "slate"}>{t("Temps restant :")} {fmt(remaining)}</Pill>
+          <div className="flex items-center gap-2">
+            {showClock && <Pill tone={remaining <= 30 ? "amber" : "slate"}>{t("Temps restant :")} {fmt(remaining)}</Pill>}
+            <button
+              onClick={() => setShowClock(!showClock)}
+              aria-pressed={!showClock}
+              className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}
+            >
+              {showClock ? <TimerOff size={14} /> : <Timer size={14} />} {showClock ? t("Masquer le temps") : t("Afficher le temps")}
+            </button>
+          </div>
         </div>
+        {showClock && (
+          <p className={`-mt-2 mb-4 text-xs ${c.faint}`}>
+            {t("Le jour de l'examen, l'examinatrice ne vous indiquera pas forcément le temps restant. Entraînez-vous aussi sans chrono : apprenez à sentir la durée de chaque tâche et à continuer de parler jusqu'à ce qu'elle vous arrête.")}
+          </p>
+        )}
 
         {showSubject && (
           <div className={`p-4 rounded-2xl border-2 border-blue-600/30 mb-5 ${phase === "review" ? "ring-2 ring-blue-600/20" : ""}`}>
@@ -127,7 +162,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
+        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} showClock={showClock} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
@@ -208,7 +243,7 @@ function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, exam, who, task, relancesLeft, micStream, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, count, ended, exam, who, task, relancesLeft, showClock, micStream, begin, skipReview, answer, stop, restart }) {
   // Tâche 3 with no relance left: silence no longer ends the turn — the
   // candidate keeps the floor until the time is up, and is warned instead.
   const alone = task === 3 && relancesLeft === 0;
@@ -224,7 +259,7 @@ function InterviewControls({ c, t, phase, count, ended, exam, who, task, relance
         beforeSpeechEndAfter={alone ? 0 : BEFORE_SPEECH_END_SECS}
         onSilenceEnd={(secs) => stop(secs)}
       />
-      {(phase === "review" || phase === "rec") && (
+      {showClock && (phase === "review" || phase === "rec") && (
         <p className={`font-mono2 font-bold text-3xl ${phase === "rec" ? "text-rose-600" : "text-blue-600"}`} role="timer">{fmt(count)}</p>
       )}
       <p className={`text-sm font-semibold ${c.sub}`}>
