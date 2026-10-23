@@ -1,33 +1,49 @@
-// The "please wait" animation: the Passerelle logo forming (the books and the
-// bridge, from the intro of the video ads, ads/tour/src/intro.mp4), played at
-// 2x — 5 s, 640 px, no sound, 135 KB in public/loader-intro.mp4. It plays once
-// and holds on the finished logo if the wait runs longer. Used for a page
-// being downloaded (pages/index.jsx) and a quiz image being fetched
-// (BankQuestionMedia). With reduced motion: the finished logo, still.
+// The "please wait" animation: the Passerelle logo forming — the books and
+// the bridge from the intro of the video ads (ads/tour/src/intro.mp4) — with
+// its studio background removed, so it sits straight on the page in light
+// and dark mode. Played at 2x: 5 s, 480 px, transparent VP9 WebM, 240 KB
+// (public/loader-intro.webm). It plays once and holds on the finished logo if
+// the wait runs longer. A soft brand-gradient glow breathes behind it.
 //
-// `className` sizes it; `fadeIn` (.loader-in) shows it only after a short
-// delay, so a wait that ends at once never flashes it.
+// Safari and every iPhone/iPad browser (all WebKit) don't draw the WebM's
+// transparency — they would show a black box — so there, and with reduced
+// motion, it is the finished logo (public/loader-intro-final.webp, 25 KB)
+// popping in instead.
+//
+// Used while a page downloads (pages/index.jsx) and while a quiz image loads
+// (BankQuestionMedia). `className` sizes it; `fadeIn` shows it only after a
+// short delay, so a wait that ends at once never flashes it.
 
 const prefersReducedMotion = () => {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
 };
+const isWebKitOnly = () => {
+  try {
+    const ua = navigator.userAgent;
+    return /iPhone|iPad|iPod/.test(ua) || /^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(ua);
+  } catch { return false; }
+};
 
 export function LogoLoader({ className = "", fadeIn = true }) {
-  const cls = `${fadeIn ? "loader-in " : ""}h-auto rounded-3xl shadow-xl shadow-black/10 ${className}`;
-  if (prefersReducedMotion()) {
-    return <img src="/loader-intro-poster.jpg" alt="" width="320" height="180" className={cls} />;
-  }
+  const still = prefersReducedMotion() || isWebKitOnly();
   return (
-    <video
-      src="/loader-intro.mp4"
-      autoPlay
-      muted
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-      width="320"
-      height="180"
-      className={cls}
-    />
+    <div className={`relative ${fadeIn ? "loader-in " : ""}${className}`}>
+      <span aria-hidden="true" className="logo-glow absolute inset-x-[12%] inset-y-[18%] rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 blur-3xl" />
+      {still ? (
+        <img src="/loader-intro-final.webp" alt="" width="480" height="246" className="logo-pop relative w-full h-auto drop-shadow-[0_10px_24px_rgba(79,70,229,0.25)]" />
+      ) : (
+        <video
+          src="/loader-intro.webm"
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          width="480"
+          height="246"
+          className="relative w-full h-auto drop-shadow-[0_10px_24px_rgba(79,70,229,0.25)]"
+        />
+      )}
+    </div>
   );
 }

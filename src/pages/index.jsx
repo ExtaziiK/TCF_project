@@ -12,7 +12,7 @@ import { LogoLoader } from "@/components/common/LogoLoader";
 function PageLoading() {
   return (
     <main className="min-h-screen pt-28 flex justify-center items-start" aria-busy="true" aria-label="Chargement">
-      <LogoLoader className="w-64 sm:w-80" />
+      <LogoLoader className="w-72 sm:w-96" />
     </main>
   );
 }

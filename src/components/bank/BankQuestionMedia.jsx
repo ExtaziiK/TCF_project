@@ -46,7 +46,7 @@ function QuestionImage({ src }) {
             aria-live="polite"
             className={`${c.track} rounded-2xl w-full min-h-[220px] md:min-h-[280px] flex flex-col items-center justify-center gap-3 p-4`}
           >
-            <LogoLoader fadeIn={false} className="w-56 md:w-72" />
+            <LogoLoader fadeIn={false} className="w-60 md:w-80" />
             <span className={`text-xs font-medium ${c.faint}`}>Chargement de l'image…</span>
           </div>
         )}
