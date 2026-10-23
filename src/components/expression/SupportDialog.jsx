@@ -1,31 +1,48 @@
 import { useEffect, useRef, useState } from "react";
-import { X, Send, CheckCircle2, XCircle, MessageCircle } from "lucide-react";
+import { X, Mail, Copy, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, Card } from "@/components/common";
-import { postJSON } from "@/services/aiService";
-import { normalizeWhatsApp } from "../../../api/_lib/phone.js";
+import { CONTACT_EMAIL } from "@/constants/social";
 
-// "Problème technique — besoin d'assistance": the candidate asks to be called
-// back on WhatsApp (api/_lib/public/support.js). Opened as a dialog over the
-// workshop rather than a page of its own, so their text or recording stays on
-// screen behind it — leaving the page to ask for help would lose the very work
-// they need help with.
+// "Problème technique — besoin d'assistance": the candidate writes to the
+// team by email (owner's choice, 2026-10-23 — it replaced the WhatsApp
+// call-back form). Opened as a dialog over the workshop rather than a page of
+// its own, so their text or recording stays on screen behind it.
 //
-// The WhatsApp number is required: a call back is the point. The technical
-// context (`context`: what they were shown, section, tâche) travels with the
-// request, so the team never has to ask "what happened, on what phone?".
+// Nothing is collected here: the button opens the candidate's own mail app,
+// addressed to the site's public contact address, with the subject and the
+// technical context (`context`: what they were shown, section, tâche, page,
+// browser) already written in, so the team never has to ask "what happened,
+// on what phone?". "Copier l'adresse" covers devices with no mail app set up.
 
 export const SUPPORT_SUBJECT = "Problème technique — besoin d'assistance";
 
+const SECTION_NAMES = { eo: "Expression orale", ee: "Expression écrite", co: "Compréhension orale", ce: "Compréhension écrite" };
+
+// The email the candidate's mail app opens with. Exported for tests.
+export function supportMailto(context = {}, extra = {}) {
+  const lines = [
+    "Bonjour,",
+    "",
+    "Décrivez ici ce qui se passe :",
+    "",
+    "",
+    "",
+    "---",
+    "Informations techniques (laissez-les, elles nous aident à régler le problème) :",
+    context.issue && `Message affiché : ${context.issue}`,
+    context.section && `Épreuve : ${SECTION_NAMES[context.section] || context.section}${context.task ? `, tâche ${context.task}` : ""}`,
+    extra.page && `Page : ${extra.page}`,
+    extra.online === false && "Connexion : hors ligne",
+    extra.userAgent && `Navigateur : ${extra.userAgent}`,
+  ].filter((l) => l !== false && l !== undefined && l !== null && l !== 0);
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(SUPPORT_SUBJECT)}&body=${encodeURIComponent(lines.join("\n"))}`;
+}
+
 export function SupportDialog({ context = {}, onClose }) {
-  const { c, t, user } = useApp();
-  const [form, setForm] = useState({ name: user?.name || "", email: user?.email || "", phone: "", message: "" });
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [sentTo, setSentTo] = useState(null);
+  const { c, t } = useApp();
+  const [copied, setCopied] = useState(false);
   const closeRef = useRef(null);
-  const set = (k) => (e) => { setForm({ ...form, [k]: e.target.value }); setError(""); };
-  const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
@@ -34,28 +51,18 @@ export function SupportDialog({ context = {}, onClose }) {
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const send = async () => {
-    if (!form.name.trim()) return setError(t("Indiquez votre nom."));
-    if (!/.+@.+\..+/.test(form.email)) return setError(t("Entrez une adresse courriel valide."));
-    if (!normalizeWhatsApp(form.phone, user?.country || "").ok) {
-      return setError(t("Entrez un numéro WhatsApp valide, avec l'indicatif du pays (par exemple +213 5XX XX XX XX)."));
-    }
-    setBusy(true);
+  const href = supportMailto(context, {
+    page: typeof window !== "undefined" ? window.location.pathname : undefined,
+    online: typeof navigator !== "undefined" ? navigator.onLine : undefined,
+    userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
+  });
+
+  const copy = async () => {
     try {
-      const r = await postJSON("/api/public/support", {
-        ...form,
-        context: {
-          ...context,
-          page: typeof window !== "undefined" ? window.location.pathname : undefined,
-          online: typeof navigator !== "undefined" ? navigator.onLine : undefined,
-        },
-      });
-      setSentTo(r.whatsapp || form.phone);
-    } catch (err) {
-      setError(err?.serverReplied && err.message ? err.message : t("L'envoi a échoué. Vérifiez votre connexion, puis réessayez."));
-    } finally {
-      setBusy(false);
-    }
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* clipboard refused: the address is on screen to copy by hand */ }
   };
 
   return (
@@ -65,42 +72,27 @@ export function SupportDialog({ context = {}, onClose }) {
           <X size={18} />
         </button>
 
-        {sentTo ? (
-          <div className="text-center py-6">
-            <CheckCircle2 size={40} className="text-emerald-500 mx-auto" />
-            <p className={`mt-4 font-display font-bold text-lg ${c.text}`}>{t("Demande envoyée")}</p>
-            <p className={`mt-2 text-sm ${c.sub}`}>{t("Notre équipe vous recontacte sur WhatsApp au")} <strong className={c.text}>{sentTo}</strong> {t("dès que possible.")}</p>
-            <Btn small variant="ghost" className="mt-5" onClick={onClose}>{t("Fermer")}</Btn>
-          </div>
-        ) : (
-          <>
-            <h2 id="support-title" className={`font-display font-bold text-xl pr-8 flex items-center gap-2 ${c.text}`}>
-              <MessageCircle size={20} className="text-emerald-500 shrink-0" aria-hidden="true" />
-              {t("Besoin d'aide ? On vous rappelle")}
-            </h2>
-            <p className={`mt-2 text-sm ${c.sub}`}>{t("Laissez votre numéro WhatsApp : un membre de l'équipe vous appelle pour régler le problème avec vous. Les informations techniques sont jointes automatiquement.")}</p>
+        <h2 id="support-title" className={`font-display font-bold text-xl pr-8 flex items-center gap-2 ${c.text}`}>
+          <Mail size={20} className="text-blue-600 shrink-0" aria-hidden="true" />
+          {t("Besoin d'aide ? Écrivez-nous")}
+        </h2>
+        <p className={`mt-2 text-sm ${c.sub}`}>{t("Envoyez-nous un e-mail : un membre de l'équipe vous répond pour régler le problème avec vous. Le bouton ci-dessous prépare le message, avec les informations techniques déjà jointes.")}</p>
 
-            <p className={`mt-4 text-xs font-semibold uppercase tracking-wide ${c.faint}`}>{t("Objet")}</p>
-            <p className={`text-sm font-semibold ${c.text}`}>{t(SUPPORT_SUBJECT)}</p>
+        <p className={`mt-4 text-xs font-semibold uppercase tracking-wide ${c.faint}`}>{t("Objet")}</p>
+        <p className={`text-sm font-semibold ${c.text}`}>{t(SUPPORT_SUBJECT)}</p>
 
-            <div className="space-y-3 mt-4">
-              <div className="grid sm:grid-cols-2 gap-3">
-                <input value={form.name} onChange={set("name")} placeholder={t("Votre nom")} aria-label={t("Nom")} className={inp} />
-                <input value={form.email} onChange={set("email")} placeholder={t("Votre courriel")} aria-label={t("Courriel")} type="email" className={inp} />
-              </div>
-              <div>
-                <label htmlFor="support-phone" className={`text-sm font-semibold ${c.text}`}>
-                  {t("Numéro WhatsApp")} <span className="text-rose-600">*</span>
-                </label>
-                <input id="support-phone" value={form.phone} onChange={set("phone")} placeholder="+213 5XX XX XX XX" type="tel" inputMode="tel" autoComplete="tel" required aria-required="true" className={`${inp} mt-1.5`} />
-                <p className={`text-xs mt-1 ${c.faint}`}>{t("Avec l'indicatif du pays de préférence. Utilisé uniquement pour vous rappeler.")}</p>
-              </div>
-              <textarea value={form.message} onChange={set("message")} placeholder={t("Décrivez ce qui se passe (facultatif)")} aria-label={t("Message")} rows={3} maxLength={2500} className={inp} />
-              {error && <p className="text-sm text-rose-600 flex items-start gap-2"><XCircle size={15} className="shrink-0 mt-0.5" />{error}</p>}
-              <Btn icon={Send} disabled={busy} onClick={send}>{t(busy ? "Envoi…" : "Demander à être rappelé·e")}</Btn>
-            </div>
-          </>
-        )}
+        <p className={`mt-4 text-xs font-semibold uppercase tracking-wide ${c.faint}`}>{t("Adresse")}</p>
+        <div className="mt-1 flex items-center gap-2 flex-wrap">
+          <span className={`text-sm font-semibold font-mono2 ${c.text}`}>{CONTACT_EMAIL}</span>
+          <button type="button" onClick={copy} className={`px-2.5 py-1 rounded-full border text-xs font-semibold flex items-center gap-1.5 ${c.border} ${c.sub} ${c.hoverSoft}`}>
+            {copied ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />} {copied ? t("Copiée") : t("Copier l'adresse")}
+          </button>
+        </div>
+
+        <div className="mt-6">
+          <Btn icon={Mail} onClick={() => { window.location.href = href; }}>{t("Écrire un e-mail")}</Btn>
+        </div>
+        <p className={`text-xs mt-3 ${c.faint}`}>{t("Si rien ne s'ouvre, copiez l'adresse et écrivez-nous depuis votre messagerie habituelle.")}</p>
       </Card>
     </div>
   );
@@ -116,7 +108,7 @@ export function SupportLink({ context }) {
       <p className={`text-sm mt-3 ${c.sub}`}>
         {t("Toujours bloqué·e ?")}{" "}
         <button type="button" onClick={() => setOpen(true)} className="font-semibold text-blue-600 hover:underline text-left">
-          {t("Contactez-nous, on vous rappelle sur WhatsApp")}
+          {t("Écrivez-nous par e-mail")}
         </button>
       </p>
       {open && <SupportDialog context={context} onClose={() => setOpen(false)} />}
