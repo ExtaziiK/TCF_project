@@ -11,21 +11,21 @@ import { fmt } from "@/utils/format";
 // How each tâche runs, in the side panel before it starts.
 const HOW_IT_WORKS = {
   1: [
-    "L'examinateur parle en premier : il vous demande de vous présenter.",
-    "Répondez à voix haute, puis répondez à ses questions de relance.",
-    "Le chronomètre tourne en continu pendant 2 minutes, comme le jour de l'examen.",
+    "L'examinatrice parle en premier : elle vous explique la tâche, puis vous demande de vous présenter.",
+    "Répondez dès qu'elle a fini de parler : l'enregistrement démarre tout seul. Appuyez sur le bouton quand vous avez terminé votre réponse.",
+    "Elle vous pose ensuite des questions de relance. Le chronomètre tourne en continu pendant 2 minutes.",
     "À la fin, l'IA évalue l'ensemble de l'entretien.",
   ],
   2: [
+    "L'examinatrice vous explique la tâche et vous lit la situation.",
     "Préparez-vous pendant 2 minutes : notez les questions à poser.",
-    "C'est vous qui commencez : saluez, présentez votre demande, posez vos questions.",
-    "L'interlocuteur vous répond avec des informations concrètes. Réagissez-y.",
-    "L'échange dure 3 min 30, puis l'IA l'évalue en entier.",
+    "Quand elle vous dit « c'est à vous », commencez : saluez, présentez votre demande, posez vos questions.",
+    "Elle joue l'autre personne et vous répond avec des informations concrètes. L'échange dure 3 min 30.",
   ],
   3: [
-    "L'examinateur vous donne le sujet à l'oral.",
+    "L'examinatrice vous explique la tâche et vous lit le sujet.",
     "Donnez votre opinion et défendez-la avec des arguments et des exemples.",
-    "Il peut vous objecter un autre point de vue : défendez ou nuancez votre position.",
+    "Elle peut vous présenter un autre point de vue : défendez ou nuancez votre position.",
     "L'épreuve dure 4 min 30, puis l'IA évalue l'ensemble.",
   ],
 };
@@ -43,7 +43,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
   const [notes, setNotes] = useState("");
   const endRef = useRef(null);
   const reported = useRef(false);
-  const examiner = task.task === 2 ? "Interlocuteur" : "Examinateur";
+  const examiner = "Examinatrice";
   // On exam day the Tâche 1 question is only asked out loud.
   const showSubject = !(exam && task.task === 1);
   const hideText = exam && phase !== "done" && !voiceless;
@@ -209,7 +209,7 @@ function InterviewControls({ c, t, phase, count, ended, exam, who, begin, skipRe
       )}
       <p className={`text-sm font-semibold ${c.sub}`}>
         {phase === "idle" && t("Prêt·e quand vous l'êtes.")}
-        {phase === "opening" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'examinateur prend la parole…")}</span>)}
+        {phase === "opening" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'examinatrice prend la parole…")}</span>)}
         {phase === "review" && t("Préparez-vous… à la fin du temps, c'est à vous de commencer la conversation.")}
         {phase === "rec" && (<span className="inline-flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-rose-600 rec-dot" /> {t("À vous — enregistrement en cours")}</span>)}
         {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t(`${who} vous écoute…`)}</span>)}

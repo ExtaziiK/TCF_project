@@ -33,12 +33,12 @@ export function OralExamSequence({ tasks }) {
       <Card className="p-7 max-w-2xl mx-auto">
         <h3 className={`font-display font-bold text-xl mb-3 flex items-center gap-2 ${c.text}`}><DoorOpen size={20} className="text-blue-600" /> {t("Vous entrez dans la salle d'examen")}</h3>
         <ul className={`space-y-2 text-sm ${c.sub} list-disc list-inside mb-6`}>
-          <li>{t("L'épreuve dure 12 minutes : trois parties enchaînées, face à l'examinateur.")}</li>
-          <li>{t("Partie 1 (2 min) : l'examinateur parle en premier et vous demande de vous présenter.")}</li>
+          <li>{t("L'épreuve dure 12 minutes : trois parties enchaînées, face à l'examinatrice, qui vous explique chaque tâche avant de commencer.")}</li>
+          <li>{t("Partie 1 (2 min) : elle vous demande de vous présenter, puis vous pose des questions.")}</li>
           <li>{t("Partie 2 (5 min 30) : 2 minutes de préparation, puis c'est vous qui menez la conversation.")}</li>
           <li>{t("Partie 3 (4 min 30) : vous donnez votre point de vue et le défendez.")}</li>
           <li>{t("Comme le jour J, vous écoutez sans lire : le texte et l'évaluation s'affichent à la fin.")}</li>
-          <li>{t("Le chronomètre ne s'arrête pas : à la fin du temps, l'examinateur vous interrompt.")}</li>
+          <li>{t("Le chronomètre ne s'arrête pas : à la fin du temps, l'examinatrice vous interrompt.")}</li>
         </ul>
         <p className={`text-xs mb-5 ${c.faint}`}>{t("Utilisez un casque ou des écouteurs, dans une pièce calme, et autorisez le micro.")}</p>
         <Btn icon={DoorOpen} onClick={() => setStage(0)}>{t("Commencer l'épreuve")}</Btn>

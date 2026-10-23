@@ -3,7 +3,7 @@
 // interview that ends on time rather than after a fixed number of exchanges.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { EO_TIMINGS, openingLine, openingIsQuestion } from "../api/_lib/eoLines.js";
+import { EO_TIMINGS, openingLine, openingIsQuestion, PREP_END_LINE } from "../api/_lib/eoLines.js";
 
 // api/expression-orale.js pulls in the Supabase client, which refuses to load
 // without a URL; nothing here reaches the network.
@@ -27,11 +27,25 @@ test("the examiner asks the Tâche 1 and 3 questions out loud", () => {
   assert.match(openingLine(3, "Faut-il interdire les voitures en ville ?"), /Faut-il interdire les voitures en ville \?/);
 });
 
-test("in Tâche 2 the candidate opens the role-play; the exam only announces the part", () => {
-  assert.equal(openingLine(2, "Vous appelez un club de sport."), "");
-  const announce = openingLine(2, "Vous appelez un club de sport.", { exam: true });
-  assert.match(announce, /deux minutes/);
-  assert.doesNotMatch(announce, /club de sport/); // the subject is on the card, not read out
+test("each tâche is briefed out loud: what to do and how long", () => {
+  assert.match(openingLine(1, "Présentez-vous."), /deux minutes/);
+  assert.match(openingLine(3, "Faut-il ?"), /quatre minutes trente/);
+  const t2 = openingLine(2, "Vous appelez un club de sport.");
+  assert.match(t2, /deux minutes pour vous préparer/);
+  assert.match(t2, /c'est vous qui commencerez/);
+  assert.match(t2, /club de sport/); // the situation is read out
+});
+
+test("Tâche 2 hands over to the candidate after the preparation", () => {
+  assert.match(PREP_END_LINE, /c'est à vous/);
+});
+
+test("in the full exam, the later tâches open with a transition, not a new greeting", () => {
+  for (const task of [2, 3]) {
+    const line = openingLine(task, "Sujet.", { exam: true });
+    assert.match(line, /^Merci\. Nous passons/);
+    assert.doesNotMatch(line, /Bonjour/);
+  }
 });
 
 test("the full exam opens with the welcome and the 12 minutes", () => {
@@ -39,7 +53,8 @@ test("the full exam opens with the welcome and the 12 minutes", () => {
 });
 
 test("a subject can't stretch an opening line without limit", () => {
-  assert.ok(openingLine(3, "x".repeat(5000)).length < 1100);
+  const briefing = openingLine(3, "").length;
+  assert.ok(openingLine(3, "x".repeat(5000)).length <= briefing + 1000);
 });
 
 test("each tâche gets its own examiner behaviour", () => {

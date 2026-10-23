@@ -4,7 +4,7 @@ import { speakingDialogueTurn, speakingOpening, blobToBase64, AiError, reportCli
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { failureKind, failureIssue } from "@/utils/aiIssue";
 import { speak, stopSpeaking } from "@/utils/speech";
-import { openingLine, openingIsQuestion } from "../../api/_lib/eoLines.js";
+import { openingLine, openingIsQuestion, PREP_END_LINE } from "../../api/_lib/eoLines.js";
 
 // What a single failed turn says, by failure kind (utils/aiIssue.js): the
 // interview carries on, so the advice ends with "answer again".
@@ -43,6 +43,9 @@ const TURN_CAPS = {
   2: { first: 45, next: 45 },
   3: { first: 180, next: 90 },
 };
+// The browser's fallback voice, when the server sent no audio: France French,
+// like the examiner's server voice (api/_lib/tts.js EXAMINER_VOICE).
+const VOICE = { prefer: "fr-FR" };
 const MIN_TURN_SECS = 10; // with less than this left, the answer being sent is the last one
 
 // Drives one tâche of the Expression orale as on exam day:
@@ -50,18 +53,22 @@ const MIN_TURN_SECS = 10; // with less than this left, the answer being sent is 
 //   idle -> [opening] -> [review] -> rec -> processing -> speaking -> ready -> rec -> ...
 //                                                     \-> done (when the time is up)
 //
-// - opening: the examiner speaks first (Tâches 1 and 3 always: the question is
-//   asked out loud; Tâche 2 only in the full exam, to announce the part). The
-//   line comes from the server with its voice, or from eoLines.js with the
+// - opening: the examiner speaks first and briefs the tâche — what to do, how
+//   long, who starts — ending on the question (Tâches 1 and 3) or the subject
+//   and the start of the preparation (Tâche 2). The line comes from the
+//   server in the examiner's France-French voice, or from eoLines.js with the
 //   browser's voice when the server can't be reached.
-// - review: Tâche 2's two minutes of preparation. Tâches 1 and 3 have none.
+// - review: Tâche 2's two minutes of preparation, closed by the examiner's
+//   "c'est à vous". Tâches 1 and 3 have none.
 // - The clock is the real one: it runs for the whole tâche — while the
 //   candidate speaks, while the examiner speaks, and while the candidate
 //   hesitates — and stops only while our server works on an answer (on exam
 //   day the examiner replies instantly). At zero the examiner cuts in, even
 //   mid-sentence, and the exchange is graded.
-// - `exam`: the TCF blanc. The candidate answers as soon as the examiner has
-//   spoken (no button), and the page hides the text of what is said.
+// - The candidate answers as soon as the examiner has spoken: the recording
+//   starts by itself, and a button ends their turn.
+// - `exam`: the TCF blanc. The page hides the text of what is said, and the
+//   briefings chain the three tâches (welcome, then transitions).
 // The mic stream is acquired once at begin() (so the permission prompt
 // happens before the clock) and held until the tâche ends.
 export function useOralInterview(task, notify, { exam = false } = {}) {
@@ -155,7 +162,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // otherwise. `onDone(spoken)` fires exactly once.
   const sayLine = (text, audioUrl, onDone) => {
     stopExaminerAudio();
-    if (!audioUrl) { speak(text, onDone); return; }
+    if (!audioUrl) { speak(text, onDone, VOICE); return; }
     let handled = false;
     const finish = (spoken) => { if (!handled) { handled = true; onDone(spoken); } };
     const player = new window.Audio(audioUrl);
@@ -163,16 +170,16 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     player.onended = () => finish(true);
     // Bad decode/interrupted playback: fall back to browser TTS so the line
     // is still heard where possible.
-    player.onerror = () => { if (!handled) { handled = true; speak(text, onDone); } };
-    player.play().catch(() => { if (!handled) { handled = true; speak(text, onDone); } });
+    player.onerror = () => { if (!handled) { handled = true; speak(text, onDone, VOICE); } };
+    player.play().catch(() => { if (!handled) { handled = true; speak(text, onDone, VOICE); } });
   };
 
-  // The examiner has finished a line: the candidate's turn. In the exam they
-  // just answer — the recording starts by itself, as speaking does in the room.
+  // The examiner has finished a line: the candidate's turn. They just answer
+  // — the recording starts by itself, as speaking does in the room.
   const afterExaminer = (spoken) => {
     noteUnspoken(spoken);
     if (phaseRef.current !== "speaking") return;
-    if (exam && remainingRef.current > 0) beginRecording();
+    if (remainingRef.current > 0) beginRecording();
     else setPhase("ready");
   };
 
@@ -379,9 +386,32 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     }
   };
 
+  // Tâche 2's preparation. The examiner's "c'est à vous" is fetched now so
+  // it plays the moment the two minutes are up.
+  const prepEnd = useRef(null); // Promise<{ line, audioUrl }>
   const startReview = () => {
+    const tk = taskRef.current;
+    prepEnd.current = speakingOpening({ task: tk.task, stage: "prep-end" })
+      .then((res) => ({ line: res.line || PREP_END_LINE, audioUrl: audioUrlFromBase64(res.audio, res.audioMime) }))
+      .catch(() => ({ line: PREP_END_LINE, audioUrl: null }));
     setPhase("review");
-    setCount(taskRef.current.prep);
+    setCount(tk.prep);
+  };
+
+  // The preparation is over (time up, or the candidate is ready early): the
+  // examiner hands over, then the candidate opens the role-play.
+  const endReview = async () => {
+    if (phaseRef.current !== "review") return;
+    const run = runId.current;
+    setPhase("opening");
+    const { line, audioUrl } = await (prepEnd.current || Promise.resolve({ line: PREP_END_LINE, audioUrl: null }));
+    if (run !== runId.current) return;
+    addTurn({ role: "examiner", text: line, audioUrl, meta: true });
+    setPhase("speaking");
+    sayLine(line, audioUrl, (spoken) => {
+      clockOn.current = true;
+      afterExaminer(spoken);
+    });
   };
 
   const reset = () => {
@@ -438,12 +468,12 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // Auto-advance when the countdown hits zero: review -> record, rec -> stop.
   useEffect(() => {
     if (count > 0) return;
-    if (phase === "review") beginRecording();
+    if (phase === "review") endReview();
     else if (phase === "rec") finishRecording();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, phase]);
 
-  // The examiner speaks first (see the phase diagram above).
+  // The examiner speaks first: the briefing of the tâche (see eoLines.js).
   const playOpening = async () => {
     const run = runId.current;
     const tk = taskRef.current;
@@ -462,12 +492,11 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     if (run !== runId.current) return;
     if (!line) { startReview(); return; }
     addTurn({ role: "examiner", text: line, audioUrl, meta: !question });
-    // The question is part of the tâche, so its clock starts with it. The
-    // Tâche 2 announcement comes before the preparation, off the clock.
-    if (question) clockOn.current = true;
+    // The briefing is off the clock: the tâche's time starts when the
+    // candidate's does (Tâches 1 and 3), or after the preparation (Tâche 2).
     setPhase("speaking");
     sayLine(line, audioUrl, (spoken) => {
-      if (question) { afterExaminer(spoken); return; }
+      if (question) { clockOn.current = true; afterExaminer(spoken); return; }
       noteUnspoken(spoken);
       if (run === runId.current && phaseRef.current === "speaking") startReview();
     });
@@ -502,13 +531,10 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     setBudget(taskRef.current.dur);
     clockOn.current = false;
     timeUpSent.current = false;
-    const tk = taskRef.current;
-    if (openingIsQuestion(tk.task) || exam) playOpening();
-    else if (tk.prep > 0) startReview();
-    else beginRecording();
+    playOpening();
   };
 
-  const skipReview = () => { if (phase === "review") beginRecording(); };
+  const skipReview = () => { if (phase === "review") endReview(); };
   const answer = () => { if (phase === "ready") beginRecording(); };
   const stop = () => { if (phase === "rec") finishRecording(); };
   // Replays an examiner turn out loud (e.g. if the user missed the question),

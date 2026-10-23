@@ -157,11 +157,13 @@ export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, his
   return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
-// The examiner's line that opens a tâche ({ line, audio?, audioMime? }), built
-// server-side from the task and its subject (api/_lib/eoLines.js). `exam` is
-// the back-to-back 12-minute run of the TCF blanc. Never counts as an analysis.
-export function speakingOpening({ task, prompt, exam, attemptId }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", action: "opening", task, prompt, exam: !!exam, attemptId: attemptId ?? getFreeMockAttemptId() });
+// One of the examiner's fixed lines ({ line, audio?, audioMime? }), built
+// server-side (api/_lib/eoLines.js): the briefing that opens a tâche, from the
+// task and its subject — `exam` is the back-to-back 12-minute run of the TCF
+// blanc — or, with `stage: "prep-end"`, the end of the Tâche 2 preparation.
+// Never counts as an analysis.
+export function speakingOpening({ task, prompt, exam, stage, attemptId }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", action: "opening", task, prompt, exam: !!exam, stage, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // Reads a recorded Blob as a bare base64 string (no data: prefix).

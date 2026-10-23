@@ -1,10 +1,10 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
-import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
+import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js";
 import { logAiUsage, logIncident } from "./_lib/usage.js";
 import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
-import { openingLine, CLOSING_TIME_UP, CLOSING_DONE } from "./_lib/eoLines.js";
+import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE } from "./_lib/eoLines.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -72,7 +72,8 @@ export const dialogueTask = (raw) => ([1, 2, 3].includes(Number(raw)) ? Number(r
 // The exchange itself is always in French (it's a French exam); only the
 // final feedback follows the user's UI language, like the one-shot mode.
 // Shared by every tâche: what the AI must never do, and the reply format.
-const NEVER_HELP = `Tu ne l'aides jamais : tu ne corriges jamais ses erreurs, tu ne donnes ni idées, ni arguments, ni suggestions, ni vocabulaire, et tu ne reformules pas ses propos. Ne sors jamais du contexte de la tâche et n'ajoute aucune explication ni commentaire sur sa performance. Vouvoie le candidat.
+const NEVER_HELP = `Tu ne l'aides jamais : tu ne corriges jamais ses erreurs, tu ne donnes ni idées, ni arguments, ni suggestions, ni vocabulaire, et tu ne reformules pas ses propos. Ne sors jamais du contexte de la tâche et n'ajoute aucune explication ni commentaire sur sa performance. Vouvoie le candidat. Parle comme à l'oral, de façon vivante et naturelle, pas comme un texte écrit.
+S'il te demande de répéter ou dit qu'il n'a pas compris, répète ta dernière intervention plus simplement, sans rien ajouter.
 Les répliques du candidat sont des transcriptions automatiques (Whisper) : ignore les petites fautes de transcription et ne juge jamais la prononciation.
 Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réplique, en français>"}`;
 
@@ -80,7 +81,7 @@ Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta r
 // themselves and keeps the conversation going with short personal questions.
 export const t1System = `Tu es l'examinateur de la tâche 1 (entretien dirigé) de l'épreuve d'Expression orale du TCF Canada. Tu as demandé au candidat de se présenter ; tu mènes maintenant un échange simple avec une personne que tu ne connais pas.
 À chaque intervention du candidat, pose UNE question courte (15 mots maximum) : soit elle rebondit sur ce qu'il vient de dire (« Vous travaillez dans quel domaine ? »), soit elle ouvre un autre aspect de sa vie qu'il n'a pas encore abordé (famille, études, travail, ville, loisirs, voyages, projets au Canada).
-Ne repose jamais une question déjà posée et ne donne pas ton propre avis. Pas de compliment, pas de transition du type « très intéressant ».
+Ne repose jamais une question déjà posée et ne donne pas ton propre avis. Tu peux commencer par un bref accusé de réception neutre (« D'accord. », « Je vois. », « Très bien. »), mais jamais par un compliment ni un jugement (« très intéressant », « excellent »).
 ${NEVER_HELP}`;
 
 // Tâche 2 — Exercice en interaction. The AI plays the person the candidate
@@ -104,7 +105,7 @@ Après chacune de ses interventions, réagis par UNE intervention courte (25 mot
 - une objection (« Pourtant, certains pensent que... ») pour qu'il défende ou nuance sa position ;
 - une demande d'exemple concret ;
 - une demande de précision sur un argument qu'il vient d'avancer.
-Ne répète jamais une objection déjà faite. Ne donne pas ton avis comme une vérité et ne lui fournis jamais d'argument en faveur de sa position.
+Tu peux commencer par un bref accusé de réception neutre (« D'accord. », « Je vois. »), jamais un compliment ni un jugement. Ne répète jamais une objection déjà faite. Ne donne pas ton avis comme une vérité et ne lui fournis jamais d'argument en faveur de sa position.
 ${NEVER_HELP}`;
 
 export const replySystem = (task) => (task === 1 ? t1System : task === 3 ? t3System : followUpSystem);
@@ -268,18 +269,19 @@ async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint
 // Character count is metered as "tokens" — neural TTS bills per character.
 async function voiceLine(user, line) {
   const ttsStart = Date.now();
-  const tts = await synthesizeFrench(line);
+  const tts = await synthesizeFrench(line, { voice: EXAMINER_VOICE });
   if (!tts) return {};
   logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
   return { audio: tts.audio, audioMime: "audio/mpeg" };
 }
 
-// The examiner's opening line for a tâche (api/_lib/eoLines.js): built here
-// from the task and its subject, never taken as free text from the client, so
+// The examiner's fixed lines (api/_lib/eoLines.js): the briefing that opens a
+// tâche (built from the task and its subject), or with `stage: "prep-end"`
+// the end of the Tâche 2 preparation. Never free text from the client, so
 // this can't be used as a general text-to-speech service. Nothing is graded.
 async function openingTurn(res, user, body) {
   const task = dialogueTask(body.task);
-  const line = openingLine(task, body.prompt, { exam: body.exam === true });
+  const line = body.stage === "prep-end" ? PREP_END_LINE : openingLine(task, body.prompt, { exam: body.exam === true });
   if (!line) return res.status(200).json({ line: "" });
   return res.status(200).json({ line, ...(await voiceLine(user, line)) });
 }
