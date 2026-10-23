@@ -139,7 +139,6 @@ export function WritingExamSequence({ tasks, examKey = "" }) {
   const [lo, hi] = range(task);
   const text = state.texts[task.task] || "";
   const setText = (v) => save({ texts: { ...state.texts, [task.task]: v } });
-  const setNotes = (v) => save({ notes: { ...state.notes, [task.task]: v } });
 
   return (
     <div>
@@ -175,8 +174,6 @@ export function WritingExamSequence({ tasks, examKey = "" }) {
         words={countWords(text)}
         lo={lo}
         hi={hi}
-        notes={state.notes[task.task] || ""}
-        setNotes={setNotes}
       />
     </div>
   );
