@@ -204,6 +204,18 @@ function Ratings({ ink, soft }) {
   );
 }
 
+// The courriel as the candidate wrote it, its mistakes underlined in red.
+function Original() {
+  const { c } = useApp();
+  return (
+    <p className={`text-sm leading-relaxed ${c.sub}`}>
+      {EE_SEGS.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
+        <span key={i} className="underline decoration-wavy decoration-2 underline-offset-4" style={{ textDecorationColor: "#D8354A" }}>{x.wrong}</span>
+      )))}
+    </p>
+  );
+}
+
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
   const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
@@ -213,8 +225,9 @@ function ScreenEE({ ink, soft, still }) {
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
       {/* Every state is stacked in one cell, the inactive ones invisible, so
           the mock keeps one height through the loop and the page never moves.
-          Once the AI has read the text, the rating comes first and the text —
-          spelling fixed, then rewritten at C1 — below it. */}
+          Once the AI has read the text, the rating comes first, then the
+          courriel as written, then what the AI gives back — the spelling
+          fixed, then the whole rewritten at C1. */}
       <div className="grid">
         <div className={layer(phase <= 1)}>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
@@ -227,11 +240,17 @@ function ScreenEE({ ink, soft, still }) {
         <div className={layer(phase === 2)}>
           {phase === 2 && <div className="rise"><Ratings ink={ink} soft={soft} /></div>}
           {phase !== 2 && <div className="invisible"><Ratings ink={ink} soft={soft} /></div>}
+          <StepLabel ink={ink}>Votre courriel</StepLabel>
+          <Original />
+          <div className="mt-4" />
           <StepLabel ink={ink}>Orthographe corrigée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected={phase === 2} /></p>
         </div>
         <div className={layer(phase === 3)}>
           <Ratings ink={ink} soft={soft} />
+          <StepLabel ink={ink}>Votre courriel</StepLabel>
+          <Original />
+          <div className="mt-4" />
           <StepLabel ink={ink}>Version C1 proposée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
             {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
