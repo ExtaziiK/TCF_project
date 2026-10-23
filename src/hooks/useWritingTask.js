@@ -5,33 +5,55 @@ import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { failureKind, failureIssue } from "@/utils/aiIssue";
 import { sameForGrading } from "@/utils/textSignature";
 import { applyStickyScore, STICKY_WITHIN } from "@/utils/stickyScore";
+import { loadDraft, saveDraft, clearDraft, sessionFeedback, countWords } from "@/utils/writingDrafts";
 
 // Encapsulates the writing-task business logic (timer, word count, AI
 // analysis) so the Writing page can stay focused on presentation.
+//
+// The draft (text, plan, time left) is kept per subject (utils/writingDrafts):
+// switching tâche tabs or reloading the page no longer loses anything. At
+// 0:00 the text locks, as the exam submits it then; the candidate may choose
+// to go on "hors temps", which is marked as such.
 export function useWritingTask(task, notify) {
   const { lang, t } = useApp();
-  const [text, setText] = useState("");
-  const [left, setLeft] = useState(task.min * 60);
+  const full = task.min * 60;
+  const [draft0] = useState(() => loadDraft(task.id)); // read once, not on every tick
+  const [text, setText] = useState(draft0.text || "");
+  const [notes, setNotes] = useState(draft0.notes || "");
+  const [left, setLeft] = useState(Number.isFinite(draft0.left) ? draft0.left : full);
+  const [overtime, setOvertime] = useState(!!draft0.overtime);
   const [running, setRunning] = useState(false);
   const [showSample, setShowSample] = useState(false);
-  const [ai, setAi] = useState(null);
+  const [ai, setAi] = useState(() => sessionFeedback.get(task.id).ai || null);
   const [analyzing, setAnalyzing] = useState(false);
   // The analysis could not be completed: null, or how RefreshNotice presents
   // it — "offline" / "timeout" (named, with what to do) or "generic" (only
   // "refresh the page"). See utils/aiIssue.js.
   const [failed, setFailed] = useState(null);
 
-  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const words = countWords(text);
+  const locked = left === 0 && !overtime;
   // Parse the "X à Y mots" target defensively: admin-authored tasks could
   // carry a malformed range, and a null match here would crash the page.
   const nums = String(task.words || "").match(/\d+/g)?.map(Number) || [];
   const lo = nums[0] ?? 0;
   const hi = nums[1] ?? nums[0] ?? 0;
 
+  // Another subject: pick up its own draft (the pane is keyed by task.id, so
+  // this mostly matters if the same pane is reused).
   useEffect(() => {
-    setText(""); setLeft(task.min * 60); setRunning(false); setShowSample(false); setAi(null); setAnalyzing(false); setFailed(null);
+    const d = loadDraft(task.id);
+    const kept = sessionFeedback.get(task.id);
+    setText(d.text || ""); setNotes(d.notes || ""); setLeft(Number.isFinite(d.left) ? d.left : full); setOvertime(!!d.overtime);
+    setRunning(false); setShowSample(false); setAi(kept.ai || null); setAnalyzing(false); setFailed(null);
+    lastRun.current = kept.lastRun || { text: null, feedback: null };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.id]);
+
+  // Every change is kept straight away.
+  useEffect(() => {
+    saveDraft(task.id, { text, notes, left, overtime });
+  }, [task.id, text, notes, left, overtime]);
 
   useEffect(() => {
     if (!running) return;
@@ -39,9 +61,22 @@ export function useWritingTask(task, notify) {
     return () => clearInterval(timer);
   }, [running]);
 
+  // Typing starts (or resumes) the clock; a locked text takes no more input.
   const onTextChange = (value) => {
+    if (locked) return;
     setText(value);
-    if (!running && left === task.min * 60) setRunning(true);
+    if (!running && left > 0) setRunning(true);
+  };
+
+  // "Continuer hors temps": the candidate chooses to finish after 0:00.
+  const continueOvertime = () => setOvertime(true);
+
+  // "Recommencer": a blank page and a full clock for this subject.
+  const restart = () => {
+    clearDraft(task.id);
+    setText(""); setNotes(""); setLeft(full); setOvertime(false); setRunning(false);
+    setAi(null); setFailed(null); setShowSample(false);
+    lastRun.current = { text: null, feedback: null };
   };
 
   // Offline / local-dev fallback: a rough heuristic in the same shape as the
@@ -70,7 +105,7 @@ export function useWritingTask(task, notify) {
   // once moved a real analysis from 11/20 to 10/20, which makes the grader look
   // arbitrary. See utils/textSignature for why this compares words rather than
   // a similarity score.
-  const lastRun = useRef({ text: null, feedback: null });
+  const lastRun = useRef(sessionFeedback.get(task.id).lastRun || { text: null, feedback: null });
 
   const analyze = async () => {
     if (analyzing) return;
@@ -105,6 +140,7 @@ export function useWritingTask(task, notify) {
       const held = applyStickyScore(lastRun.current.feedback, feedback);
       lastRun.current = { text: current, feedback: held };
       setAi(held);
+      sessionFeedback.set(task.id, { ai: held, lastRun: lastRun.current });
       if (held.scoreHeld) {
         notify(t(`Votre note reste à ${held.score}/20 : l'écart avec l'analyse précédente est trop faible (${STICKY_WITHIN} point ou moins) pour changer votre niveau. Les conseils ci-dessous portent sur votre nouveau texte.`));
       }
@@ -136,5 +172,5 @@ export function useWritingTask(task, notify) {
     }
   };
 
-  return { text, onTextChange, left, running, setRunning, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi };
+  return { text, onTextChange, notes, setNotes, left, running, setRunning, locked, overtime, continueOvertime, restart, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi };
 }
