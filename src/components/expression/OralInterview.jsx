@@ -8,12 +8,13 @@ import { MicHelp } from "@/components/expression/MicHelp";
 import { MicLevel } from "@/components/expression/MicLevel";
 import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
+import { END_OF_TURN_SECS, BEFORE_SPEECH_END_SECS } from "../../../api/_lib/fluency.js";
 
 // How each tâche runs, in the side panel before it starts.
 const HOW_IT_WORKS = {
   1: [
     "L'examinatrice parle en premier : elle vous explique la tâche, puis vous demande de vous présenter.",
-    "Répondez dès qu'elle a fini de parler : l'enregistrement démarre tout seul. Appuyez sur le bouton quand vous avez terminé votre réponse.",
+    "Répondez dès qu'elle a fini de parler : l'enregistrement démarre tout seul, et votre tour se termine quand vous vous taisez quelques secondes.",
     "Elle vous pose ensuite des questions de relance. Le chronomètre tourne en continu pendant 2 minutes.",
     "À la fin, l'IA évalue l'ensemble de l'entretien.",
   ],
@@ -126,7 +127,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
+        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
@@ -207,10 +208,18 @@ function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, exam, who, micStream, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, count, ended, exam, who, task, micStream, begin, skipReview, answer, stop, restart }) {
+  const endAfter = END_OF_TURN_SECS[task] || 4;
   return (
     <div className="mt-auto flex flex-col items-center gap-3">
-      <MicLevel stream={micStream} active={phase === "rec"} countSilence={!exam} />
+      <MicLevel
+        stream={micStream}
+        active={phase === "rec"}
+        countSilence={!exam}
+        endAfter={endAfter}
+        beforeSpeechEndAfter={BEFORE_SPEECH_END_SECS}
+        onSilenceEnd={(secs) => stop(secs)}
+      />
       {(phase === "review" || phase === "rec") && (
         <p className={`font-mono2 font-bold text-3xl ${phase === "rec" ? "text-rose-600" : "text-blue-600"}`} role="timer">{fmt(count)}</p>
       )}
@@ -236,11 +245,11 @@ function InterviewControls({ c, t, phase, count, ended, exam, who, micStream, be
         </button>
       )}
       {phase === "rec" && (
-        <button onClick={stop} aria-label={t("J'ai fini de parler")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
+        <button onClick={() => stop()} aria-label={t("J'ai fini de parler")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
           <Square size={22} />
         </button>
       )}
-      {phase === "rec" && <p className={`text-xs ${c.faint}`}>{t("Appuyez quand vous avez fini de parler.")}</p>}
+      {phase === "rec" && <p className={`text-xs ${c.faint}`}>{`${t("Votre tour se termine après")} ${endAfter} ${t("s de silence, ou appuyez quand vous avez fini.")}`}</p>}
       {(phase === "opening" || phase === "processing" || phase === "speaking") && (
         <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 ${c.border} ${c.faint}`}>
           {phase === "speaking" ? <Volume2 size={24} className="animate-pulse text-blue-600" /> : <Loader2 size={24} className="animate-spin" />}

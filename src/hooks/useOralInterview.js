@@ -99,6 +99,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   const remainingRef = useRef(task.dur);
   const clockOn = useRef(false); // the tâche's clock has started (after the preparation)
   const timeUpSent = useRef(false); // the closing turn is on its way
+  const silenceEnd = useRef(null); // seconds of silence that closed the current answer, if any
   const runId = useRef(0); // bumped on reset: a late answer from an old run is dropped
   const phaseRef = useRef("idle");
   const starting = useRef(false); // waiting for the mic permission (begin)
@@ -212,7 +213,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // One turn against the server: the candidate's recording (or none, when the
   // time ran out before they answered) in, the next examiner line or the
   // grade out.
-  const sendTurn = async ({ blob, url, type, final }) => {
+  const sendTurn = async ({ blob, url, type, final, endedBySilence = null }) => {
     const run = runId.current;
     setPhase("processing");
     setCount(0);
@@ -233,6 +234,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
         task: taskRef.current.task,
         history: dialogueHistory(),
+        silenceEnd: endedBySilence ?? undefined,
         fluency: fluencyHistory(),
         emptyStreak: emptyStreak.current,
         lang,
@@ -340,7 +342,8 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
       if (final) sendTurn({ final: true }); // time is up all the same
       return;
     }
-    sendTurn({ blob, url, type, final });
+    sendTurn({ blob, url, type, final, endedBySilence: silenceEnd.current });
+    silenceEnd.current = null;
   };
 
   // The time ran out while the examiner was talking or before the candidate
@@ -547,7 +550,13 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
 
   const skipReview = () => { if (phase === "review") endReview(); };
   const answer = () => { if (phase === "ready") beginRecording(); };
-  const stop = () => { if (phase === "rec") finishRecording(); };
+  // `silenceSecs`: the turn was closed by the candidate falling silent
+  // (MicLevel), not by the button — the server counts that silence as a pause.
+  const stop = (silenceSecs) => {
+    if (phase !== "rec") return;
+    silenceEnd.current = typeof silenceSecs === "number" ? silenceSecs : null;
+    finishRecording();
+  };
   // Replays an examiner turn out loud (e.g. if the user missed the question),
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };

@@ -5,7 +5,7 @@ import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js"
 import { logAiUsage, logIncident } from "./_lib/usage.js";
 import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
 import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE } from "./_lib/eoLines.js";
-import { FILLER_PROMPT, stripFillers, measureFluency, sanitizeFluency, aggregateFluency, fluencyBrief } from "./_lib/fluency.js";
+import { FILLER_PROMPT, stripFillers, measureFluency, withEndingPause, sanitizeFluency, aggregateFluency, fluencyBrief } from "./_lib/fluency.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -372,8 +372,9 @@ async function dialogueTurn(res, user, body, req, claim) {
   const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue", timed: true });
   const silentRecording = heard === null || undefined;
   const transcript = heard?.text || "";
-  // This answer's measures; null when Whisper gave no timings.
-  const fluency = heard?.fluency || null;
+  // This answer's measures; null when Whisper gave no timings. `silenceEnd`:
+  // the page ended the turn after that many seconds of silence (counted as a pause).
+  const fluency = withEndingPause(heard?.fluency || null, body.silenceEnd);
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT

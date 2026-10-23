@@ -14,12 +14,20 @@ const SILENCE_AFTER_SECS = 0.6;
 // with their voice, scrolling like a recording, so they can see when they are
 // speaking and when they have gone quiet. With `countSilence` (practice mode),
 // a pause long enough to be counted in the grade (LONG_PAUSE_SECS, the same
-// threshold as api/_lib/fluency.js) shows how long it has lasted. Reads the
-// stream only — nothing is recorded or sent from here.
-export function MicLevel({ stream, active, countSilence = false }) {
+// threshold as api/_lib/fluency.js) shows how long it has lasted.
+//
+// It also ends the turn the way a conversation does: `endAfter` seconds of
+// silence once the candidate has spoken (or `beforeSpeechEndAfter` if they
+// never started) calls `onSilenceEnd(seconds)`, once, with a countdown shown
+// for the last two seconds so it never comes as a surprise.
+// Reads the stream only — nothing is recorded or sent from here.
+export function MicLevel({ stream, active, countSilence = false, endAfter = 0, beforeSpeechEndAfter = 0, onSilenceEnd }) {
   const { c, t } = useApp();
   const barsRef = useRef([]);
-  const [state, setState] = useState({ speaking: false, silence: 0 });
+  const [state, setState] = useState({ speaking: false, silence: 0, heard: false });
+  // The latest callback, without restarting the audio graph on every render.
+  const onEndRef = useRef(onSilenceEnd);
+  onEndRef.current = onSilenceEnd;
 
   useEffect(() => {
     if (!stream || !active) return undefined;
@@ -37,6 +45,8 @@ export function MicLevel({ stream, active, countSilence = false }) {
     const history = new Array(BARS).fill(0);
     let noiseFloor = 0.01;
     let lastVoice = window.performance.now();
+    let heard = false; // the candidate has spoken in this turn
+    let ended = false;
     let lastShown = 0;
     let lastBarStep = 0;
     let frame;
@@ -49,7 +59,13 @@ export function MicLevel({ stream, active, countSilence = false }) {
       // The room's own level: follows quiet moments quickly, loud ones slowly.
       noiseFloor = rms < noiseFloor ? noiseFloor * 0.9 + rms * 0.1 : noiseFloor * 0.999 + rms * 0.001;
       const voiced = rms > Math.max(MIN_SPEECH_RMS, noiseFloor * 2.5);
-      if (voiced) lastVoice = now;
+      if (voiced) { lastVoice = now; heard = true; }
+      const quietSecs = (now - lastVoice) / 1000;
+      const limit = heard ? endAfter : beforeSpeechEndAfter;
+      if (!ended && limit > 0 && quietSecs >= limit) {
+        ended = true;
+        onEndRef.current?.(Math.round(quietSecs * 10) / 10);
+      }
 
       // A new bar about every 60 ms, oldest on the left.
       if (now - lastBarStep > 60) {
@@ -64,8 +80,7 @@ export function MicLevel({ stream, active, countSilence = false }) {
       // The label updates a few times a second, not every frame.
       if (now - lastShown > 250) {
         lastShown = now;
-        const quiet = (now - lastVoice) / 1000;
-        setState({ speaking: quiet < SILENCE_AFTER_SECS, silence: quiet >= SILENCE_AFTER_SECS ? Math.floor(quiet) : 0 });
+        setState({ speaking: quietSecs < SILENCE_AFTER_SECS, silence: quietSecs >= SILENCE_AFTER_SECS ? quietSecs : 0, heard });
       }
       frame = window.requestAnimationFrame(tick);
     };
@@ -75,12 +90,22 @@ export function MicLevel({ stream, active, countSilence = false }) {
       window.cancelAnimationFrame(frame);
       try { source.disconnect(); } catch { /* already gone */ }
       ctx.close?.().catch(() => {});
-      setState({ speaking: false, silence: 0 });
+      setState({ speaking: false, silence: 0, heard: false });
     };
-  }, [stream, active]);
+  }, [stream, active, endAfter, beforeSpeechEndAfter]);
 
   if (!active) return null;
   const longPause = countSilence && state.silence >= LONG_PAUSE_SECS;
+  // The turn is about to close on silence: say so for its last two seconds.
+  const limit = state.heard ? endAfter : beforeSpeechEndAfter;
+  const endsIn = limit > 0 && state.silence > 0 && limit - state.silence <= 2 ? Math.max(1, Math.ceil(limit - state.silence)) : 0;
+  const label = state.speaking
+    ? t("Vous parlez")
+    : endsIn
+      ? `${t("Fin de votre tour dans")} ${endsIn} s…`
+      : longPause
+        ? `${t("Silence")} · ${Math.floor(state.silence)} s`
+        : t("…");
   return (
     <div className="w-full max-w-sm flex flex-col items-center gap-2" aria-hidden="true">
       <div className="flex items-center justify-center gap-[3px] h-14 w-full">
@@ -93,9 +118,7 @@ export function MicLevel({ stream, active, countSilence = false }) {
           />
         ))}
       </div>
-      <p className={`text-xs font-semibold h-4 ${longPause ? "text-amber-600" : state.speaking ? "text-emerald-600" : c.faint}`}>
-        {state.speaking ? t("Vous parlez") : longPause ? `${t("Silence")} · ${state.silence} s` : t("…")}
-      </p>
+      <p className={`text-xs font-semibold h-4 ${endsIn || longPause ? "text-amber-600" : state.speaking ? "text-emerald-600" : c.faint}`}>{label}</p>
     </div>
   );
 }

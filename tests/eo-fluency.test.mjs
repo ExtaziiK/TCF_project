@@ -3,7 +3,7 @@
 // fluent one.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { measureFluency, aggregateFluency, sanitizeFluency, countFillers, fluencyBrief, FILLER_PROMPT } from "../api/_lib/fluency.js";
+import { measureFluency, aggregateFluency, sanitizeFluency, countFillers, fluencyBrief, FILLER_PROMPT, withEndingPause, END_OF_TURN_SECS, BEFORE_SPEECH_END_SECS, LONG_PAUSE_SECS } from "../api/_lib/fluency.js";
 
 process.env.VITE_SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SERVICE_ROLE_KEY ||= "test";
@@ -92,4 +92,20 @@ test("the grader reads the measures, and is told how to weigh them", () => {
 
 test("Whisper is primed to keep the hesitations", () => {
   assert.ok(countFillers(FILLER_PROMPT) >= 2);
+});
+
+test("a turn ended by silence counts that silence as one more long pause", () => {
+  const m = { recSecs: 20, speechSecs: 10, spanSecs: 12, words: 20, pauses: 1, longestPause: 3.2, startDelay: 1, fillers: 0 };
+  const ended = withEndingPause(m, 4.1);
+  assert.equal(ended.pauses, 2);
+  assert.equal(ended.longestPause, 4.1);
+  assert.equal(ended.spanSecs, 16.1);
+  assert.equal(withEndingPause(m, undefined), m); // ended by the button
+  assert.equal(withEndingPause(null, 5), null); // no timings, nothing to add to
+});
+
+test("the silence that ends a turn is longer than a counted pause, and longest for Tâche 3", () => {
+  for (const task of [1, 2, 3]) assert.ok(END_OF_TURN_SECS[task] > LONG_PAUSE_SECS);
+  assert.ok(END_OF_TURN_SECS[3] > END_OF_TURN_SECS[1]);
+  assert.ok(BEFORE_SPEECH_END_SECS > END_OF_TURN_SECS[3]);
 });

@@ -75,6 +75,28 @@ export function measureFluency({ text, words, segments, duration }) {
   };
 }
 
+// An answer the candidate ended by falling silent (the page closes the turn
+// after END_OF_TURN_SECS of silence): that last silence is one more long
+// pause — they had nothing more to say, which a rater hears. Without this the
+// trailing silence would be dropped like the time spent reaching for the button.
+export function withEndingPause(measure, silenceSecs) {
+  const secs = Number(silenceSecs);
+  if (!measure || !Number.isFinite(secs) || secs < LONG_PAUSE_SECS) return measure;
+  const s = Math.min(secs, 30);
+  return {
+    ...measure,
+    pauses: measure.pauses + 1,
+    longestPause: round1(Math.max(measure.longestPause, s)),
+    spanSecs: round1((measure.spanSecs ?? measure.speechSecs) + s),
+  };
+}
+
+// How long a silence ends the candidate's turn, per tâche: Tâche 3 is
+// argued, and finding the next argument takes longer. Before the candidate
+// has said anything they are thinking, not done: BEFORE_SPEECH_END_SECS.
+export const END_OF_TURN_SECS = { 1: 4, 2: 4, 3: 5 };
+export const BEFORE_SPEECH_END_SECS = 8;
+
 // The client keeps each answer's measures and sends them back with the
 // dialogue; clamp them so a tampered payload stays a plausible one.
 export function sanitizeFluency(raw) {

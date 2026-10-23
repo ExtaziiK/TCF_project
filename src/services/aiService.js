@@ -155,8 +155,10 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, a
 // detected — the caller should re-prompt instead of advancing the dialogue.
 // `fluency`: the measures the server returned for each earlier answer
 // (api/_lib/fluency.js), sent back so the final grade can weigh them all.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, emptyStreak, lang, final, attemptId, task }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+// `silenceEnd`: seconds of silence that ended this answer, when it was the
+// silence and not the button that closed the turn.
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, attemptId, task }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // One of the examiner's fixed lines ({ line, audio?, audioMime? }), built
