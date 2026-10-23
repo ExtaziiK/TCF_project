@@ -82,13 +82,16 @@ function AppShell() {
   // whole page when auth resolves (it counted towards PageSpeed's CLS). A saved
   // session waits for its role, so a Premium user never sees the bar flash.
   const barAudience = authReady ? role === ROLES.VISITOR || role === ROLES.FREE_USER : !hasStoredSession();
-  const showAnnounce = barAudience && bar.enabled && bar.messages.length > 0;
+  // The log-in and sign-up pages stand alone, like a checkout: no navbar and
+  // no announcement bar, only their own "Accueil" button (AuthPage `bare`).
+  const authPage = route === "login" || route === "register";
+  const showAnnounce = !authPage && barAudience && bar.enabled && bar.messages.length > 0;
   // The page remounts on route change (key), except between the six practice
   // routes: they are tabs of one page, the Pratique hub, which keeps its state.
   return (
     <div className={`min-h-screen font-body antialiased transition-colors duration-300 ${c.bg} ${c.text}`}>
       {showAnnounce && <AnnouncementBar messages={bar.messages} />}
-      <Nav barOffset={showAnnounce} />
+      {!authPage && <Nav barOffset={showAnnounce} />}
       <div key={PRATIQUE_ROUTES.has(route) ? "pratique" : route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
       <Footer />
       <VisitorPreviewBar />

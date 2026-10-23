@@ -63,12 +63,14 @@ const Terms = lazyPage(() => import("@/pages/Terms"), "Terms");
 const Privacy = lazyPage(() => import("@/pages/Privacy"), "Privacy");
 const Accessibility = lazyPage(() => import("@/pages/Accessibility"), "Accessibility");
 
+// `bare`: the page stands alone — AppShell hides the navbar on these two
+// routes and the page shows its own "Accueil" button.
 function Login() {
-  return <AuthPage mode="login" />;
+  return <AuthPage mode="login" bare />;
 }
 
 function Register() {
-  return <AuthPage mode="register" />;
+  return <AuthPage mode="register" bare />;
 }
 
 // Maps each route id to its page component. Access control (auth, premium,
