@@ -177,11 +177,42 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
 }
 
 // Transcribes an audio buffer with Whisper. Returns the transcript text.
-export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "audio/webm", language } = {}) {
+export async function groqTranscribe(buffer, opts = {}) {
+  const data = await transcribeRequest(buffer, opts);
+  return (data?.text || "").trim();
+}
+
+// The same, with timings: { text, words, segments, duration }, for the
+// Expression orale fluency measures (api/_lib/fluency.js). `prompt` primes
+// Whisper's style (there: keep the hesitations). If Groq refuses the timed
+// format (400), the plain transcription still lets the turn go through —
+// with no timings, so no measures, rather than no answer.
+export async function groqTranscribeDetailed(buffer, { prompt, ...opts } = {}) {
+  try {
+    const data = await transcribeRequest(buffer, { ...opts, prompt, verbose: true });
+    return {
+      text: (data?.text || "").trim(),
+      words: Array.isArray(data?.words) ? data.words : [],
+      segments: Array.isArray(data?.segments) ? data.segments : [],
+      duration: data?.duration ?? null,
+    };
+  } catch (err) {
+    if (err.upstreamStatus !== 400) throw err;
+    console.warn("groq transcription: format horodaté refusé, repli sur le texte seul:", err.upstreamDetail);
+    return { text: await groqTranscribe(buffer, opts), words: [], segments: [], duration: null };
+  }
+}
+
+async function transcribeRequest(buffer, { filename = "audio.webm", mime = "audio/webm", language, prompt, verbose = false } = {}) {
   const form = new FormData();
   form.append("model", TRANSCRIBE_MODEL);
   if (language) form.append("language", language);
-  form.append("response_format", "json");
+  if (prompt) form.append("prompt", prompt);
+  form.append("response_format", verbose ? "verbose_json" : "json");
+  if (verbose) {
+    form.append("timestamp_granularities[]", "word");
+    form.append("timestamp_granularities[]", "segment");
+  }
   form.append("temperature", "0");
   form.append("file", new Blob([buffer], { type: mime }), filename);
 
@@ -202,11 +233,10 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
     // spoke; logging it into a diagnostic table is a privacy step this
     // feature has no reason to take, and the metadata is what actually
     // distinguishes a working call from a refused one.
-    err.requestPayload = { model: TRANSCRIBE_MODEL, mime, filename, audioBytes: buffer.length, language: language || null };
+    err.requestPayload = { model: TRANSCRIBE_MODEL, mime, filename, audioBytes: buffer.length, language: language || null, verbose };
     throw err;
   }
-  const data = await res.json();
-  return (data?.text || "").trim();
+  return res.json();
 }
 
 // Coerces the model's JSON into the exact shape the UI expects, dropping any

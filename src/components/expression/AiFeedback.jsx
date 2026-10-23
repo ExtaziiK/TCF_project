@@ -1,11 +1,11 @@
-import { Sparkles, Check, ArrowUpRight, ChevronDown } from "lucide-react";
+import { Sparkles, Check, ArrowUpRight, ChevronDown, AudioLines } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 
 // Renders one AI evaluation (shared by Expression écrite & orale). The dynamic
 // text (summary, bullets, corrected version) is already localized by the model
 // via the `lang` we send; only the static labels go through t().
-export function AiFeedback({ level, score, nclc, summary, strengths = [], improvements = [], corrected, rewrites = [], compact }) {
+export function AiFeedback({ level, score, nclc, summary, strengths = [], improvements = [], corrected, rewrites = [], fluency, compact }) {
   const { c, t } = useApp();
   return (
     <Card className={`${compact ? "p-4" : "p-6"} border-2 border-blue-600/40 rise`}>
@@ -44,6 +44,8 @@ export function AiFeedback({ level, score, nclc, summary, strengths = [], improv
           </ul>
         </div>
       )}
+
+      {fluency && <FluencyFigures fluency={fluency} />}
 
       {rewrites.length > 0 && (
         <div className="mt-5 pt-4 border-t border-blue-600/20">
@@ -88,5 +90,36 @@ export function AiFeedback({ level, score, nclc, summary, strengths = [], improv
         </div>
       )}
     </Card>
+  );
+}
+
+const mmss = (secs) => `${Math.floor(secs / 60)}:${String(Math.round(secs % 60)).padStart(2, "0")}`;
+
+// Expression orale only: the fluency measured on the audio (api/_lib/fluency.js),
+// the figures behind what the grader says about hesitations and pauses.
+function FluencyFigures({ fluency: f }) {
+  const { c, t } = useApp();
+  const items = [
+    [t("Temps de parole"), `${mmss(f.speechSecs)} / ${mmss(f.recSecs)}`],
+    [t("Débit"), `${f.wpm} ${t("mots/min")}`],
+    [t("Pauses de plus de 3 s"), `${f.pauses}${f.pauses ? ` (${t("max")} ${f.longestPause} s)` : ""}`],
+    [t("Hésitations (« euh »…)"), `${f.fillers} · ${f.fillersPerMin}${t("/min")}`],
+    [t("Délai avant de répondre"), `${f.avgStartDelay} s`],
+  ];
+  return (
+    <div className="mt-5 pt-4 border-t border-blue-600/20">
+      <p className="text-xs font-bold uppercase tracking-wide text-blue-600 flex items-center gap-1.5 mb-3">
+        <AudioLines size={14} /> {t("Fluidité, mesurée sur l'audio")}
+      </p>
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+        {items.map(([label, value]) => (
+          <div key={label}>
+            <dt className={`text-xs ${c.faint}`}>{label}</dt>
+            <dd className={`text-sm font-semibold font-mono2 ${c.text}`}>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className={`mt-3 text-xs ${c.faint}`}>{t("Mesures indicatives. Quelques hésitations sont normales à l'oral ; ce sont les longues pauses fréquentes qui font baisser la note.")}</p>
+    </div>
   );
 }

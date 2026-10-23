@@ -1,10 +1,11 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
+import { groqChatJSON, groqTranscribe, groqTranscribeDetailed, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js";
 import { logAiUsage, logIncident } from "./_lib/usage.js";
 import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
 import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE } from "./_lib/eoLines.js";
+import { FILLER_PROMPT, stripFillers, measureFluency, sanitizeFluency, aggregateFluency, fluencyBrief } from "./_lib/fluency.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -126,8 +127,14 @@ The criteria you CAN judge here:
 1. Respect de la consigne — is the task actually carried out, at the expected length and register? A fluent response about a DIFFERENT subject than the one asked — not one missed point among several, a different topic entirely — is hors-sujet: see the 0-3 band below, which applies regardless of how fluent the (wrong-topic) speech is.
 2. Compétence lexicale — range and precision of the vocabulary, and repetition.
 3. Compétence morphosyntaxique — range and control of structures.
-The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
-Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
+The official grid also marks PHONOLOGY. Pronunciation and accent are invisible in a transcript: never judge or mention them.
+FLUENCY, however, you can judge. The transcript keeps the candidate's hesitations ("euh", "hum"), and you may be given FLUENCY MEASURES taken from the audio: effective speaking time, speech rate, long pauses, hesitations per minute, and the delay before answering. They are indicative (automatic timings): read them together with the transcript, the way a rater listens. Weigh them with the CEFR fluency descriptors:
+- A few hesitations and short pauses are normal in speech, even at C1: never penalise them.
+- B1: speech stays comprehensible, but pauses to search for words and repairs are FREQUENT.
+- B2: a fairly even tempo; the candidate may hesitate while searching for structures, with few noticeably long pauses.
+- C1-C2: fluent and spontaneous, almost effortless; only a conceptually difficult subject slows the flow.
+So long pauses several times a minute, a heavy density of fillers, a very slow rate (below about 80 words per minute) or long delays before answering hold the overall score at the level that fluency shows, whatever the vocabulary and grammar. A candidate who spoke for only a small part of the time available has not fully carried out the task: count it under Respect de la consigne. When fluency weighs on the score, say so in the summary or an improvement, citing the measure (e.g. "6 pauses de plus de 3 secondes"). If no measures are given, judge fluency only from what the transcript shows and do not guess.
+Allow for the spoken register. Repetitions, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
 What the overall score means — judge what is IN FRONT OF YOU against these markers, not against where candidates typically land:
 - 0-3: not a genuine attempt at the task in French — unintelligible, another language, OR a fluent response that is hors-sujet (a different subject than the one asked). Nothing here to credit, however good the French is: this is NOT the same as a response that stays on the right subject but misses length or one point among several, which stays a normal consigne-criterion penalty under SUSTAINS. If anywhere in your own reasoning you would describe the response as off-topic, that IS this band — score it here, not averaged into a higher one. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
@@ -185,11 +192,16 @@ function normalizeTranscript(s) {
     .trim();
 }
 
+const PROMPT_ECHO = normalizeTranscript(stripFillers(FILLER_PROMPT));
+
 // True when the recording carries no real speech: empty, near-silent, or only
 // a Whisper hallucination (possibly repeated).
 function isSilent(transcript) {
   if (!transcript || transcript.replace(/\s/g, "").length < 3) return true;
-  let norm = normalizeTranscript(transcript);
+  // Hesitations alone ("euh... hum") are not an answer, and on silence Whisper
+  // can echo back the prompt that primes it to keep them.
+  let norm = normalizeTranscript(stripFillers(transcript));
+  norm = norm.split(PROMPT_ECHO).join(" ");
   for (const phrase of WHISPER_HALLUCINATIONS) norm = norm.split(phrase).join(" ");
   return norm.replace(/\s/g, "").length < 3;
 }
@@ -245,7 +257,9 @@ const MIN_AUDIO_BYTES = 1024;
 // null rather than "" so the response can say `silentRecording`: the page then
 // explains a MICROPHONE problem (muted, held by another app, in-app browser)
 // instead of "no speech detected", which reads as "you said nothing".
-async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint }) {
+// `timed`: the interview turns ask for word timings and keep the hesitations,
+// for the fluency measures, and get { text, fluency } back instead of the text.
+async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint, timed = false }) {
   if (buffer.length < MIN_AUDIO_BYTES) {
     await logIncident({
       userId: user.id, endpoint, status: 0,
@@ -255,13 +269,13 @@ async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint
     return null;
   }
   const transcribeStart = Date.now();
-  const transcript = await groqTranscribe(buffer, {
-    filename: `speech.${extForMime(mime)}`,
-    mime,
-    language,
-  });
+  const opts = { filename: `speech.${extForMime(mime)}`, mime, language };
+  const result = timed
+    ? await groqTranscribeDetailed(buffer, { ...opts, prompt: FILLER_PROMPT })
+    : await groqTranscribe(buffer, opts);
   logAiUsage({ userId: user.id, endpoint, kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
-  return transcript;
+  if (!timed) return result;
+  return { text: result.text, fluency: measureFluency(result) };
 }
 
 // Voices an examiner line via the TTS provider; {} (no key / API failure)
@@ -297,12 +311,15 @@ async function dialogueTurn(res, user, body, req, claim) {
   // of asking for another exchange.
   const timeUp = body.final === true || body.final === "true";
   const history = sanitizeHistory(body.history);
+  // Each earlier answer's fluency measures, kept by the client like the dialogue.
+  const pastFluency = sanitizeFluency(body.fluency);
 
-  const buildUserMsg = (dialogue) =>
+  const buildUserMsg = (dialogue, fluency) =>
     [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
       prompt && `Consigne donnée au candidat : ${String(prompt).slice(0, 1000)}`,
       `Dialogue :\n"""\n${dialogue}\n"""`,
+      fluencyBrief(fluency),
     ]
       .filter(Boolean)
       .join("\n");
@@ -314,16 +331,20 @@ async function dialogueTurn(res, user, body, req, claim) {
   // examiner can never pass verification and be shown as the candidate's.
   const candidateSpeech = (turns) => turns.filter((m) => m.role === "candidate").map((m) => m.text).join(" ");
 
-  const grade = async (turns, closing, extra = {}) => {
+  // `measures`: the fluency of every answer graded (api/_lib/fluency.js),
+  // summed for the grader and handed back with the feedback for the page.
+  const grade = async (turns, closing, extra = {}, measures = pastFluency) => {
+    const fluency = aggregateFluency(measures);
     const gradeStart = Date.now();
     const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: finalSystem(lang, task) },
-      { role: "user", content: buildUserMsg(renderDialogue(turns)) },
+      { role: "user", content: buildUserMsg(renderDialogue(turns), fluency) },
     ], { temperature: 0 });
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - gradeStart });
     // The closing line lives here (not client-side) so it comes out in the
     // same examiner voice as the rest of the exchange.
-    return res.status(200).json({ ...extra, feedback: normalizeFeedback(raw, candidateSpeech(turns)), closing, done: true, ...(await voiceLine(user, closing)) });
+    const feedback = { ...normalizeFeedback(raw, candidateSpeech(turns)), ...(fluency ? { fluency } : {}) };
+    return res.status(200).json({ ...extra, feedback, closing, done: true, ...(await voiceLine(user, closing)) });
   };
 
   // Time ran out while the examiner was talking or the candidate had not
@@ -337,9 +358,11 @@ async function dialogueTurn(res, user, body, req, claim) {
   }
 
   const buffer = decodeAudio(audio);
-  const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue" });
+  const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue", timed: true });
   const silentRecording = heard === null || undefined;
-  const transcript = heard || "";
+  const transcript = heard?.text || "";
+  // This answer's measures; null when Whisper gave no timings.
+  const fluency = heard?.fluency || null;
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
@@ -379,10 +402,10 @@ async function dialogueTurn(res, user, body, req, claim) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
-    return res.status(200).json({ transcript, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(user, reply)) });
+    return res.status(200).json({ transcript, fluency, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(user, reply)) });
   }
 
-  return grade(candidateTurns, timeUp ? CLOSING_TIME_UP : CLOSING_DONE, { transcript });
+  return grade(candidateTurns, timeUp ? CLOSING_TIME_UP : CLOSING_DONE, { transcript, fluency }, [...pastFluency, fluency]);
 }
 
 /* ------------------------------- shared bits ------------------------------- */

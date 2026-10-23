@@ -153,8 +153,10 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, a
 // server-synthesized speech ({ audio: <base64>, audioMime }); when absent the
 // client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, attemptId, task }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+// `fluency`: the measures the server returned for each earlier answer
+// (api/_lib/fluency.js), sent back so the final grade can weigh them all.
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, emptyStreak, lang, final, attemptId, task }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // One of the examiner's fixed lines ({ line, audio?, audioMime? }), built

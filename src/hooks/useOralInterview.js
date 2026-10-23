@@ -200,6 +200,12 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
       .filter((tn) => !tn.failed && !tn.reprompt && !tn.emptyRec && !tn.meta && !tn.closing && tn.text)
       .map(({ role, text }) => ({ role, text }));
 
+  // Each graded answer's fluency measures, in order (the server can't keep them).
+  const fluencyHistory = () =>
+    turnsRef.current
+      .filter((tn) => tn.role === "candidate" && !tn.failed && !tn.emptyRec && tn.fluency)
+      .map((tn) => tn.fluency);
+
   // One turn against the server: the candidate's recording (or none, when the
   // time ran out before they answered) in, the next examiner line or the
   // grade out.
@@ -224,6 +230,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
         task: taskRef.current.task,
         history: dialogueHistory(),
+        fluency: fluencyHistory(),
         emptyStreak: emptyStreak.current,
         lang,
         final,
@@ -262,7 +269,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
 
       // A real answer resets the silent-answer streak.
       emptyStreak.current = 0;
-      if (res.transcript) addTurn({ role: "candidate", text: res.transcript, url });
+      if (res.transcript) addTurn({ role: "candidate", text: res.transcript, url, fluency: res.fluency || null });
 
       if (res.done) {
         // Examiner lines stay in French whatever the UI language — the
