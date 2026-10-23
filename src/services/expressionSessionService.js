@@ -1,6 +1,7 @@
 import { EE_COMBINATIONS } from "@/constants/writing";
 import { SPEAKING_TASKS } from "@/constants/speaking";
 import { loadArchive } from "@/services/sujetsArchiveService";
+import { EO_TIMINGS } from "../../api/_lib/eoLines.js";
 
 // Practice sessions for Expression écrite / orale, drawn from the monthly
 // subjects archive (the same data as the Ressources pages: shipped base +
@@ -20,10 +21,12 @@ const EE_META = {
   2: { t: "Tâche 2 · Message développé", words: "120 à 150 mots", min: 20 },
   3: { t: "Tâche 3 · Texte argumenté", words: "120 à 180 mots", min: 25 },
 };
+// Official EO timings (shared with the server): Tâche 2 is 5 min 30 in all,
+// 2 min of preparation then 3 min 30 of interaction.
 const EO_META = {
-  1: { t: "Tâche 1 · Entretien dirigé", prep: 0, dur: 120 },
-  2: { t: "Tâche 2 · Interaction", prep: 120, dur: 330 },
-  3: { t: "Tâche 3 · Point de vue", prep: 0, dur: 270 },
+  1: { t: "Tâche 1 · Entretien dirigé", ...EO_TIMINGS[1] },
+  2: { t: "Tâche 2 · Interaction", ...EO_TIMINGS[2] },
+  3: { t: "Tâche 3 · Point de vue", ...EO_TIMINGS[3] },
 };
 
 /* -------------------------- seen-count tracking -------------------------- */

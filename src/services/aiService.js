@@ -154,7 +154,14 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, a
 // client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
 export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, attemptId, task }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+}
+
+// The examiner's line that opens a tâche ({ line, audio?, audioMime? }), built
+// server-side from the task and its subject (api/_lib/eoLines.js). `exam` is
+// the back-to-back 12-minute run of the TCF blanc. Never counts as an analysis.
+export function speakingOpening({ task, prompt, exam, attemptId }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", action: "opening", task, prompt, exam: !!exam, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // Reads a recorded Blob as a bare base64 string (no data: prefix).

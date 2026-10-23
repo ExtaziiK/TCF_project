@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
-import { speakingDialogueTurn, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
+import { speakingDialogueTurn, speakingOpening, blobToBase64, AiError, reportClientIssue, shouldReportFromBrowser } from "@/services/aiService";
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
-import { reportMicIssue } from "@/hooks/useSpeakingSession";
 import { failureKind, failureIssue } from "@/utils/aiIssue";
+import { speak, stopSpeaking } from "@/utils/speech";
+import { openingLine, openingIsQuestion } from "../../api/_lib/eoLines.js";
 
 // What a single failed turn says, by failure kind (utils/aiIssue.js): the
 // interview carries on, so the advice ends with "answer again".
@@ -12,7 +13,17 @@ const RETRY_LINES = {
   timeout: "Votre réponse a mis trop de temps à être traitée. Répondez à nouveau ; si votre connexion est lente, préférez le Wi-Fi.",
   generic: "Votre réponse n'a pas pu être prise en compte. Répondez à nouveau.",
 };
-import { speak, stopSpeaking } from "@/utils/speech";
+
+// A microphone that never started, recorded for the admin (code "micro").
+// err.name is the useful part: NotAllowedError (permission refused),
+// NotFoundError (no microphone), NotReadableError (another app holds it).
+export function reportMicIssue(task, err, mode) {
+  reportClientIssue("eo", {
+    stage: "micro", code: "micro", status: 0, task, mode,
+    message: err ? `${err.name || "Error"}: ${err.message || ""}` : "Aucune donnée audio reçue du micro.",
+    attemptId: getFreeMockAttemptId() || undefined,
+  });
+}
 
 // Preferred recording containers, best first. Whisper accepts all of these;
 // we pick the first the browser can actually produce.
@@ -23,49 +34,66 @@ const pickMime = () =>
     : undefined;
 
 export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most this many times
-// The interview is time-boxed like the real Tâche 2: the whole exchange lasts
-// the task's speaking time (task.dur), split across as many turns as fit. Each
-// turn is capped so the dialogue keeps its back-and-forth rhythm; the candidate
-// can stop sooner to leave time for more exchanges. It ends when the shared
-// budget runs out — not after a fixed number of questions.
-const FIRST_ANSWER_SECS = 120; // the opening turn can run a little longer
-const FOLLOW_UP_ANSWER_SECS = 90; // each later turn
-const MIN_TURN_SECS = 15; // with less than this left, grade instead of starting another turn
-const DEFAULT_REVIEW_SECS = 60; // tasks without official prep still get review time
 
-// Drives the oral-interview simulation for one speaking task:
+// Longest single answer before the recording stops itself, per tâche: the
+// first one (introducing yourself, opening the role-play, stating your
+// position) runs longer than the later ones. Never beyond the time left.
+const TURN_CAPS = {
+  1: { first: 60, next: 45 },
+  2: { first: 45, next: 45 },
+  3: { first: 180, next: 90 },
+};
+const MIN_TURN_SECS = 10; // with less than this left, the answer being sent is the last one
+
+// Drives one tâche of the Expression orale as on exam day:
 //
-//   idle -> review -> rec -> processing -> speaking -> ready -> rec -> ...
-//                                       \-> done (when the task's time is up)
+//   idle -> [opening] -> [review] -> rec -> processing -> speaking -> ready -> rec -> ...
+//                                                     \-> done (when the time is up)
 //
-// The user reviews the subject, records an answer, the server transcribes it
-// and the AI interlocutor replies (spoken aloud via browser TTS while its text
-// appears in the dialogue). The exchange continues until the task's speaking
-// budget runs out, at which point the client sends `final: true` and the server
-// grades the whole conversation.
+// - opening: the examiner speaks first (Tâches 1 and 3 always: the question is
+//   asked out loud; Tâche 2 only in the full exam, to announce the part). The
+//   line comes from the server with its voice, or from eoLines.js with the
+//   browser's voice when the server can't be reached.
+// - review: Tâche 2's two minutes of preparation. Tâches 1 and 3 have none.
+// - The clock is the real one: it runs for the whole tâche — while the
+//   candidate speaks, while the examiner speaks, and while the candidate
+//   hesitates — and stops only while our server works on an answer (on exam
+//   day the examiner replies instantly). At zero the examiner cuts in, even
+//   mid-sentence, and the exchange is graded.
+// - `exam`: the TCF blanc. The candidate answers as soon as the examiner has
+//   spoken (no button), and the page hides the text of what is said.
 // The mic stream is acquired once at begin() (so the permission prompt
-// happens before the review clock) and held until the interview ends.
-export function useOralInterview(task, notify) {
+// happens before the clock) and held until the tâche ends.
+export function useOralInterview(task, notify, { exam = false } = {}) {
   const { lang, t } = useApp();
-  const [phase, setPhase] = useState("idle"); // idle | review | rec | processing | speaking | ready | done
+  const [phase, setPhaseState] = useState("idle"); // idle | opening | review | rec | processing | speaking | ready | done
   const [count, setCount] = useState(0);
-  const [turns, setTurns] = useState([]); // { id, role: "examiner"|"candidate", text, url?, failed? }
+  const [turns, setTurns] = useState([]); // { id, role: "examiner"|"candidate", text, url?, audioUrl?, failed?, reprompt?, emptyRec?, meta? }
   const [feedback, setFeedback] = useState(null);
-  const [ended, setEnded] = useState(false); // interview stopped after too many silent answers, no grade
+  const [ended, setEnded] = useState(false); // stopped after too many silent answers, no grade
   const [error, setError] = useState("");
   // Two failed turns in a row: the page asks to be refreshed (RefreshNotice,
   // with "copy the conversation" first). One alone only asks to answer again —
   // the interview carries on as it is, and a refresh would throw it away.
   // Holds the failure kind ("offline" | "timeout" | "generic") for RefreshNotice.
   const [needsRefresh, setNeedsRefresh] = useState(null);
-  // A microphone problem to explain (MicHelp) — see useSpeakingSession.
+  // A microphone problem to explain (MicHelp): the browser's error name, or
+  // "unsupported" / "silent". Null when the microphone works.
   const [micIssue, setMicIssue] = useState(null);
+  // No voice could say a line out loud: the exam mode then shows the text,
+  // or the candidate would never know what was asked.
+  const [voiceless, setVoiceless] = useState(false);
+  const [remaining, setRemaining] = useState(task.dur); // time left for the whole tâche
+  const voicelessRef = useRef(false);
   const failStreak = useRef(0);
-  const [remaining, setRemaining] = useState(task.dur); // shared speaking budget left (whole exchange)
   const nextId = useRef(1);
   const remainingRef = useRef(task.dur);
+  const clockOn = useRef(false); // the tâche's clock has started (after the preparation)
+  const timeUpSent = useRef(false); // the closing turn is on its way
+  const runId = useRef(0); // bumped on reset: a late answer from an old run is dropped
+  const phaseRef = useRef("idle");
+  const starting = useRef(false); // waiting for the mic permission (begin)
   const emptyStreak = useRef(0); // consecutive silent answers at the current question
-  const ttsHintShown = useRef(false);
   const playerRef = useRef(null); // examiner audio currently playing
   const streamRef = useRef(null);
   const recorderRef = useRef(null);
@@ -76,9 +104,10 @@ export function useOralInterview(task, notify) {
   const taskRef = useRef(task);
   taskRef.current = task;
 
-  const reviewSecs = task.prep > 0 ? task.prep : DEFAULT_REVIEW_SECS;
-  const interviewSecs = task.dur; // total speaking budget for the whole exchange
+  const reviewSecs = task.prep || 0;
+  const interviewSecs = task.dur;
 
+  const setPhase = (p) => { phaseRef.current = p; setPhaseState(p); };
   const setBudget = (secs) => { remainingRef.current = secs; setRemaining(secs); };
 
   const releaseStream = () => {
@@ -89,14 +118,16 @@ export function useOralInterview(task, notify) {
   const addTurn = (turn) => {
     const id = `turn-${nextId.current++}`;
     setTurns((ts) => [...ts, { id, ...turn }]);
+    turnsRef.current = [...turnsRef.current, { id, ...turn }];
   };
 
   // speak() stays silent when the browser has no French voice (better than an
   // English voice mangling the question); explain that once per interview.
-  // Only reachable when the server sent no ElevenLabs audio for the line.
+  // Only reachable when the server sent no audio for the line.
   const noteUnspoken = (spoken) => {
-    if (spoken || ttsHintShown.current) return;
-    ttsHintShown.current = true;
+    if (spoken || voicelessRef.current) return;
+    voicelessRef.current = true;
+    setVoiceless(true);
     notify(t("Aucune voix française sur ce navigateur : les questions s'affichent à l'écrit seulement. Essayez Microsoft Edge ou installez une voix française dans votre système."));
   };
 
@@ -120,8 +151,8 @@ export function useOralInterview(task, notify) {
     stopSpeaking();
   };
 
-  // Voices one examiner line: the server's ElevenLabs audio when available,
-  // browser TTS otherwise. `onDone(spoken)` fires exactly once.
+  // Voices one examiner line: the server's audio when available, browser TTS
+  // otherwise. `onDone(spoken)` fires exactly once.
   const sayLine = (text, audioUrl, onDone) => {
     stopExaminerAudio();
     if (!audioUrl) { speak(text, onDone); return; }
@@ -136,22 +167,40 @@ export function useOralInterview(task, notify) {
     player.play().catch(() => { if (!handled) { handled = true; speak(text, onDone); } });
   };
 
-  // Assembles the recording and plays one dialogue turn against the server:
-  // candidate transcript in, follow-up question (or final feedback) out.
-  const finalizeRecording = async (mimeType) => {
-    const chunks = chunksRef.current;
-    chunksRef.current = [];
-    const type = mimeType || pickMime() || "audio/webm";
-    const blob = new Blob(chunks, { type });
-    const url = chunks.length ? URL.createObjectURL(blob) : null;
-    if (url) objectUrlsRef.current.push(url);
+  // The examiner has finished a line: the candidate's turn. In the exam they
+  // just answer — the recording starts by itself, as speaking does in the room.
+  const afterExaminer = (spoken) => {
+    noteUnspoken(spoken);
+    if (phaseRef.current !== "speaking") return;
+    if (exam && remainingRef.current > 0) beginRecording();
+    else setPhase("ready");
+  };
+
+  const closeOut = (line, audioUrl, { grade = null, endedNoGrade = false } = {}) => {
+    releaseStream();
+    emptyStreak.current = 0;
+    addTurn({ role: "examiner", text: line, closing: true, audioUrl });
+    if (grade) setFeedback(grade);
+    if (endedNoGrade) setEnded(true);
+    setPhase("done");
+    sayLine(line, audioUrl, noteUnspoken);
+  };
+
+  // Only real exchanges are part of the dialogue: silent attempts (emptyRec),
+  // re-prompts, failed attempts and announcements (meta) are display-only.
+  const dialogueHistory = () =>
+    turnsRef.current
+      .filter((tn) => !tn.failed && !tn.reprompt && !tn.emptyRec && !tn.meta && !tn.closing && tn.text)
+      .map(({ role, text }) => ({ role, text }));
+
+  // One turn against the server: the candidate's recording (or none, when the
+  // time ran out before they answered) in, the next examiner line or the
+  // grade out.
+  const sendTurn = async ({ blob, url, type, final }) => {
+    const run = runId.current;
     setPhase("processing");
     setCount(0);
     setError("");
-
-    // The shared budget ticked down live while the candidate spoke; when too
-    // little is left, tell the server to grade instead of continuing the exchange.
-    const timeUp = remainingRef.current < MIN_TURN_SECS;
 
     const fail = (msg) => {
       if (url) addTurn({ role: "candidate", url, failed: true });
@@ -159,30 +208,20 @@ export function useOralInterview(task, notify) {
       setPhase("ready");
     };
 
-    if (!chunks.length) {
-      fail(t("Aucun son n'a été capté. Vérifiez votre micro."));
-      setMicIssue("silent");
-      reportMicIssue(taskRef.current.task, null, "entretien");
-      return;
-    }
     try {
-      const audioBase64 = await blobToBase64(blob);
-      // Only real exchanges are part of the dialogue: silent attempts
-      // (emptyRec), re-prompts, and failed attempts are display-only.
-      const history = turnsRef.current
-        .filter((tn) => !tn.failed && !tn.reprompt && !tn.emptyRec && tn.text)
-        .map(({ role, text }) => ({ role, text }));
+      const audioBase64 = blob ? await blobToBase64(blob) : "";
       const res = await speakingDialogueTurn({
         audioBase64,
         mime: type,
         prompt: taskRef.current.prompt,
         taskLabel: taskRef.current.t || `Tâche ${taskRef.current.task}`,
         task: taskRef.current.task,
-        history,
+        history: dialogueHistory(),
         emptyStreak: emptyStreak.current,
         lang,
-        final: timeUp,
+        final,
       });
+      if (run !== runId.current) return; // restarted meanwhile
       // The server answered: whatever the turn says next, the streak is over.
       failStreak.current = 0;
 
@@ -196,17 +235,11 @@ export function useOralInterview(task, notify) {
         // mic was quiet, but it's not part of the graded dialogue.
         if (url) addTurn({ role: "candidate", url, emptyRec: true });
 
-        // Cap reached: the examiner stops re-prompting and closes out —
-        // grading what was said (res.done) or ending without a grade (ended).
+        // Cap reached (or time up): the examiner stops re-prompting and closes
+        // out — grading what was said (res.done) or ending without a grade.
         if (res.capped) {
-          releaseStream();
-          emptyStreak.current = 0;
           const line = res.closing || res.reprompt || t("Nous allons nous arrêter ici.");
-          addTurn({ role: "examiner", text: line, closing: true, audioUrl: examinerAudio });
-          if (res.done) setFeedback(res.feedback || null);
-          else setEnded(true);
-          setPhase("done");
-          sayLine(line, examinerAudio, noteUnspoken);
+          closeOut(line, examinerAudio, res.done ? { grade: res.feedback || null } : { endedNoGrade: true });
           return;
         }
 
@@ -216,36 +249,29 @@ export function useOralInterview(task, notify) {
         const line = res.reprompt || t("Je n'ai pas entendu votre réponse. Réessayez.");
         addTurn({ role: "examiner", text: line, reprompt: true, audioUrl: examinerAudio });
         setPhase("speaking");
-        sayLine(line, examinerAudio, (spoken) => {
-          noteUnspoken(spoken);
-          setPhase((p) => (p === "speaking" ? "ready" : p));
-        });
+        sayLine(line, examinerAudio, afterExaminer);
         return;
       }
 
       // A real answer resets the silent-answer streak.
       emptyStreak.current = 0;
-      addTurn({ role: "candidate", text: res.transcript, url });
+      if (res.transcript) addTurn({ role: "candidate", text: res.transcript, url });
 
       if (res.done) {
-        releaseStream();
         // Examiner lines stay in French whatever the UI language — the
         // interview itself is in French, only the feedback follows `lang`.
-        const closing = res.closing || "Merci, l'entretien est terminé. Voici mon évaluation.";
-        addTurn({ role: "examiner", text: closing, closing: true, audioUrl: examinerAudio });
-        setFeedback(res.feedback || null);
-        setPhase("done");
-        sayLine(closing, examinerAudio, noteUnspoken);
+        closeOut(res.closing || "Merci, c'est terminé.", examinerAudio, { grade: res.feedback || null });
         return;
       }
 
       addTurn({ role: "examiner", text: res.reply, audioUrl: examinerAudio });
       setPhase("speaking");
-      sayLine(res.reply, examinerAudio, (spoken) => {
-        noteUnspoken(spoken);
-        setPhase((p) => (p === "speaking" ? "ready" : p));
-      });
+      sayLine(res.reply, examinerAudio, afterExaminer);
     } catch (err) {
+      if (run !== runId.current) return;
+      // A failed closing turn is NOT re-sent by the clock (at zero it would
+      // retry every second): the candidate answers again with the mic button,
+      // and that last recording is sent as the final turn.
       // 404 only — a dropped connection (status 0) is a real failure in
       // production, not the local "no serverless functions" case.
       const known =
@@ -265,15 +291,48 @@ export function useOralInterview(task, notify) {
       if (shouldReportFromBrowser(err)) {
         reportClientIssue("eo", {
           mode: "entretien", stage: "envoi", status: err?.status ?? 0, message: err?.message,
-          task: taskRef.current.task, audioBytes: blob.size, mime: type,
+          task: taskRef.current.task, audioBytes: blob?.size ?? 0, mime: type,
           attemptId: getFreeMockAttemptId() || undefined,
           shown: twice ? failureIssue(kind, "eo")?.title || "Cette page doit être actualisée pour continuer." : RETRY_LINES[kind],
         });
       }
       if (twice) { fail(""); setNeedsRefresh(kind); }
       else fail(t(RETRY_LINES[kind]));
+    }
+  };
+
+  // Assembles the recording and sends it.
+  const finalizeRecording = (mimeType) => {
+    const chunks = chunksRef.current;
+    chunksRef.current = [];
+    const type = mimeType || pickMime() || "audio/webm";
+    const blob = new Blob(chunks, { type });
+    const url = chunks.length ? URL.createObjectURL(blob) : null;
+    if (url) objectUrlsRef.current.push(url);
+
+    // The clock ran down while the candidate spoke; when too little is left,
+    // this answer is the last one and the server grades the exchange.
+    const final = remainingRef.current < MIN_TURN_SECS;
+    if (final) timeUpSent.current = true;
+
+    if (!chunks.length) {
+      setPhase("ready");
+      setError(t("Aucun son n'a été capté. Vérifiez votre micro."));
+      setMicIssue("silent");
+      reportMicIssue(taskRef.current.task, null, "entretien");
+      if (final) sendTurn({ final: true }); // time is up all the same
       return;
     }
+    sendTurn({ blob, url, type, final });
+  };
+
+  // The time ran out while the examiner was talking or before the candidate
+  // started answering: the examiner closes, and what was said is graded.
+  const endOnTime = () => {
+    if (timeUpSent.current) return;
+    timeUpSent.current = true;
+    stopExaminerAudio();
+    sendTurn({ final: true });
   };
 
   const beginRecording = () => {
@@ -295,14 +354,12 @@ export function useOralInterview(task, notify) {
     recorder.onstop = () => finalizeRecording(recorder.mimeType);
     recorderRef.current = recorder;
     recorder.start();
+    clockOn.current = true;
     setError("");
     setPhase("rec");
-    // Each turn is capped (the opening one a little longer), but never beyond the
-    // speaking budget still left for the whole exchange. The candidate can stop
-    // sooner to keep time for more back-and-forth.
     const firstAnswer = !turnsRef.current.some((tn) => tn.role === "candidate" && !tn.failed && !tn.emptyRec);
-    const cap = firstAnswer ? FIRST_ANSWER_SECS : FOLLOW_UP_ANSWER_SECS;
-    setCount(Math.max(1, Math.min(cap, remainingRef.current)));
+    const caps = TURN_CAPS[taskRef.current.task] || TURN_CAPS[2];
+    setCount(Math.max(1, Math.min(firstAnswer ? caps.first : caps.next, remainingRef.current)));
   };
 
   const finishRecording = () => {
@@ -322,15 +379,25 @@ export function useOralInterview(task, notify) {
     }
   };
 
+  const startReview = () => {
+    setPhase("review");
+    setCount(taskRef.current.prep);
+  };
+
   const reset = () => {
+    runId.current += 1;
+    starting.current = false;
     abortRecorder();
     releaseStream();
     stopExaminerAudio();
     emptyStreak.current = 0;
+    clockOn.current = false;
+    timeUpSent.current = false;
     setPhase("idle");
     setCount(0);
     setBudget(taskRef.current.dur);
     setTurns([]);
+    turnsRef.current = [];
     setFeedback(null);
     setEnded(false);
     setError("");
@@ -350,15 +417,22 @@ export function useOralInterview(task, notify) {
     objectUrlsRef.current = [];
   }, []);
 
-  // Countdown ticks during review / rec. While recording, the shared speaking
-  // budget runs down in lockstep (only the candidate's speech spends the budget).
+  // One tick a second. The preparation counts down on its own; once the
+  // tâche has started, its clock runs in every phase except while our server
+  // is working on an answer. The answer's own countdown (`count`) runs
+  // during preparation and recording.
   useEffect(() => {
-    if (phase !== "review" && phase !== "rec") return;
+    const live = ["rec", "ready", "speaking"].includes(phase);
+    if (phase !== "review" && !live) return;
     const iv = setInterval(() => {
-      setCount((x) => x - 1);
-      if (phase === "rec") setBudget(Math.max(0, remainingRef.current - 1));
+      if (phase === "review" || phase === "rec") setCount((x) => x - 1);
+      if (live && clockOn.current) {
+        setBudget(Math.max(0, remainingRef.current - 1));
+        if (remainingRef.current <= 0 && phase !== "rec") endOnTime();
+      }
     }, 1000);
     return () => clearInterval(iv);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
   // Auto-advance when the countdown hits zero: review -> record, rec -> stop.
@@ -369,14 +443,49 @@ export function useOralInterview(task, notify) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, phase]);
 
-  // Asks for the mic up front, then starts the review clock.
+  // The examiner speaks first (see the phase diagram above).
+  const playOpening = async () => {
+    const run = runId.current;
+    const tk = taskRef.current;
+    const question = openingIsQuestion(tk.task);
+    setPhase("opening");
+    let line = "";
+    let audioUrl = null;
+    try {
+      const res = await speakingOpening({ task: tk.task, prompt: tk.prompt, exam });
+      line = res.line || "";
+      audioUrl = audioUrlFromBase64(res.audio, res.audioMime);
+    } catch {
+      // Same words in the browser's voice: the tâche must still start.
+      line = openingLine(tk.task, tk.prompt, { exam });
+    }
+    if (run !== runId.current) return;
+    if (!line) { startReview(); return; }
+    addTurn({ role: "examiner", text: line, audioUrl, meta: !question });
+    // The question is part of the tâche, so its clock starts with it. The
+    // Tâche 2 announcement comes before the preparation, off the clock.
+    if (question) clockOn.current = true;
+    setPhase("speaking");
+    sayLine(line, audioUrl, (spoken) => {
+      if (question) { afterExaminer(spoken); return; }
+      noteUnspoken(spoken);
+      if (run === runId.current && phaseRef.current === "speaking") startReview();
+    });
+  };
+
+  // Asks for the mic up front, then the examiner opens the tâche.
+  // Re-entry guard: `starting` covers the wait for the mic permission, and a
+  // reset during that wait (task switch, or React's dev-mode double mount)
+  // drops that stream instead of starting a second interview.
   const begin = async () => {
-    if (phase !== "idle") return;
+    if (phaseRef.current !== "idle" || starting.current) return;
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
       setMicIssue("unsupported");
       reportMicIssue(taskRef.current.task, { name: "unsupported", message: "getUserMedia ou MediaRecorder absent" }, "entretien");
       return;
     }
+    const run = runId.current;
+    starting.current = true;
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -384,12 +493,19 @@ export function useOralInterview(task, notify) {
       setMicIssue(err?.name || "other");
       reportMicIssue(taskRef.current.task, err, "entretien");
       return;
+    } finally {
+      starting.current = false;
     }
+    if (run !== runId.current) { stream.getTracks().forEach((tr) => tr.stop()); return; }
     setMicIssue(null);
     streamRef.current = stream;
     setBudget(taskRef.current.dur);
-    setPhase("review");
-    setCount(reviewSecs);
+    clockOn.current = false;
+    timeUpSent.current = false;
+    const tk = taskRef.current;
+    if (openingIsQuestion(tk.task) || exam) playOpening();
+    else if (tk.prep > 0) startReview();
+    else beginRecording();
   };
 
   const skipReview = () => { if (phase === "review") beginRecording(); };
@@ -399,5 +515,5 @@ export function useOralInterview(task, notify) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }
