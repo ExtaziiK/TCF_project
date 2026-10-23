@@ -15,6 +15,11 @@ html{scroll-behavior:smooth}
 *:focus-visible{outline:2px solid #2E6BE6;outline-offset:2px;border-radius:8px}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .rise{animation:rise .55s cubic-bezier(.22,1,.36,1) both}
+/* The page loader (pages/index.jsx) fades in only if the page takes a moment. */
+@keyframes loader-in{from{opacity:0}to{opacity:1}}
+.loader-in{opacity:0;animation:loader-in .35s ease-out .2s forwards}
+/* Animations are switched off under reduced motion (global rule below): show it at once. */
+@media (prefers-reduced-motion:reduce){.loader-in{opacity:1}}
 .rise-1{animation-delay:.08s}.rise-2{animation-delay:.16s}.rise-3{animation-delay:.24s}.rise-4{animation-delay:.32s}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .eqbar{animation:eq 1s ease-in-out infinite;transform-origin:bottom}
