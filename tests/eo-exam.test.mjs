@@ -86,3 +86,9 @@ test("the safety ceiling still ends a runaway interview", () => {
   const history = Array.from({ length: eo.MAX_EXCHANGES * 2 }, (_, i) => ({ role: i % 2 ? "examiner" : "candidate", text: `ligne ${i}` }));
   assert.equal(eo.dialogueWillGrade({ history }), true);
 });
+
+test("every reply call ends on an explicit request (gpt-oss otherwise stops with an empty answer)", () => {
+  for (const task of [1, 2, 3]) assert.match(eo.replyRequest(task), /^Écris maintenant .*\{"reply":"\.\.\."\}$/);
+  assert.match(eo.replyRequest(2), /sans rien ajouter/);
+  assert.doesNotMatch(eo.replyRequest(1), /sans rien ajouter/); // Tâche 1 must still ask its question
+});

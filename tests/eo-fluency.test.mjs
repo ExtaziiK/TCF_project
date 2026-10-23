@@ -29,6 +29,7 @@ test("long pauses, the delay before answering and the speech rate are measured",
   assert.equal(m.words, 9); // fillers are not words
   // 8.5 s from first to last word, minus the 3.8 s silence
   assert.equal(m.speechSecs, 4.7);
+  assert.equal(m.spanSecs, 8.5);
   assert.equal(m.recSecs, 14);
 });
 
@@ -51,8 +52,8 @@ test("segments flagged as silence by Whisper are ignored when there are no word 
 
 test("the tâche's figures add up every answer, rates per minute of speech", () => {
   const agg = aggregateFluency([
-    { recSecs: 40, speechSecs: 30, words: 60, pauses: 1, longestPause: 4, startDelay: 1, fillers: 3 },
-    { recSecs: 40, speechSecs: 30, words: 60, pauses: 2, longestPause: 6, startDelay: 3, fillers: 3 },
+    { recSecs: 40, speechSecs: 30, spanSecs: 30, words: 60, pauses: 1, longestPause: 4, startDelay: 1, fillers: 3 },
+    { recSecs: 40, speechSecs: 30, spanSecs: 30, words: 60, pauses: 2, longestPause: 6, startDelay: 3, fillers: 3 },
   ]);
   assert.equal(agg.wpm, 120);
   assert.equal(agg.pauses, 3);
@@ -61,6 +62,13 @@ test("the tâche's figures add up every answer, rates per minute of speech", () 
   assert.equal(agg.avgStartDelay, 2);
   assert.equal(agg.fillersPerMin, 6);
   assert.equal(aggregateFluency([]), null);
+});
+
+test("pauses are counted per minute of answering, not per minute of speech", () => {
+  // 12 s of speech spread over 24 s with 2 long pauses: 5 per minute, not 10.
+  const agg = aggregateFluency([{ recSecs: 28, speechSecs: 12, spanSecs: 24, words: 25, pauses: 2, longestPause: 5, startDelay: 2, fillers: 4 }]);
+  assert.equal(agg.pausesPerMin, 5);
+  assert.equal(agg.wpm, 125);
 });
 
 test("measures echoed by the client are clamped", () => {

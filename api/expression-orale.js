@@ -111,6 +111,17 @@ ${NEVER_HELP}`;
 
 export const replySystem = (task) => (task === 1 ? t1System : task === 3 ? t3System : followUpSystem);
 
+// The last line of the user message: an explicit request for the next line.
+// Without it, gpt-oss-20b often "thinks" two words ("Need reply.") and stops
+// with an EMPTY answer — Groq's json_validate_failed, which broke the turn.
+// Measured live on the Tâche 2 role-play: 3/8 replies without it, 8/8 with
+// it. The Tâche 2 one also keeps the interlocutor from volunteering what was
+// not asked (it began listing hours and activities when asked for prices).
+export const replyRequest = (task) =>
+  task === 2
+    ? `Écris maintenant ta prochaine réplique : réponds seulement à ce que le candidat vient de dire ou de demander, sans rien ajouter d'autre. Format JSON : {"reply":"..."}`
+    : `Écris maintenant ta prochaine intervention, en suivant tes consignes. Format JSON : {"reply":"..."}`;
+
 // What each tâche asks of the candidate, for the grader.
 const TASK_BRIEF = {
   1: "Expression orale — Tâche 1 (Entretien dirigé). The examiner asked the candidate to introduce themselves, then asked short personal follow-up questions. Judge whether the candidate presents themselves clearly and in enough detail (family, studies or work, interests, projects), answers each question actually asked, and develops answers beyond a single sentence.",
@@ -397,7 +408,7 @@ async function dialogueTurn(res, user, body, req, claim) {
     const chatStart = Date.now();
     const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: replySystem(task) },
-      { role: "user", content: buildUserMsg(renderDialogue(candidateTurns)) },
+      { role: "user", content: `${buildUserMsg(renderDialogue(candidateTurns))}\n${replyRequest(task)}` },
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";

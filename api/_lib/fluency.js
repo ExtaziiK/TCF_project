@@ -59,11 +59,14 @@ export function measureFluency({ text, words, segments, duration }) {
   }
   const span = units[units.length - 1].end - units[0].start;
   const speechSecs = Math.max(0, span - silent);
+  // spanSecs: first word to last, pauses included — what "per minute" rates
+  // are taken over, as a listener experiences them.
   // Silence after the last word is the candidate reaching for the "done"
   // button, not hesitation: only the delay before the first word counts.
   return {
     recSecs: round1(num(duration) ?? units[units.length - 1].end),
     speechSecs: round1(speechSecs),
+    spanSecs: round1(span),
     words: wordCount,
     pauses,
     longestPause: round1(longest),
@@ -80,6 +83,7 @@ export function sanitizeFluency(raw) {
   return raw.slice(0, 40).filter((m) => m && typeof m === "object").map((m) => ({
     recSecs: clamp(m.recSecs, 600),
     speechSecs: clamp(m.speechSecs, 600),
+    spanSecs: clamp(m.spanSecs ?? m.speechSecs, 600),
     words: Math.round(clamp(m.words, 3000)),
     pauses: Math.round(clamp(m.pauses, 200)),
     longestPause: clamp(m.longestPause, 600),
@@ -88,25 +92,28 @@ export function sanitizeFluency(raw) {
   }));
 }
 
-// The whole tâche: every answer's measures added up. Rates are per minute of
-// actual speech, so a short answer and a long one weigh what they lasted.
+// The whole tâche: every answer's measures added up. The speech rate is per
+// minute of actual speech; pauses and hesitations are per minute of answering
+// (first word to last, pauses included), as a listener counts them —
+// otherwise the pauses would shrink the very minutes they are counted over.
 export function aggregateFluency(list) {
   const ms = (list || []).filter(Boolean);
   if (!ms.length) return null;
   const sum = (k) => ms.reduce((s, m) => s + (m[k] || 0), 0);
-  const speech = sum("speechSecs");
-  const minutes = speech / 60;
+  const speechMin = sum("speechSecs") / 60;
+  const spanMin = ms.reduce((s, m) => s + (m.spanSecs ?? m.speechSecs ?? 0), 0) / 60;
+  const perSpanMin = (n) => (spanMin > 0 ? round1(n / spanMin) : 0);
   return {
     answers: ms.length,
     recSecs: Math.round(sum("recSecs")),
-    speechSecs: Math.round(speech),
-    wpm: minutes > 0 ? Math.round(sum("words") / minutes) : 0,
+    speechSecs: Math.round(sum("speechSecs")),
+    wpm: speechMin > 0 ? Math.round(sum("words") / speechMin) : 0,
     pauses: sum("pauses"),
-    pausesPerMin: minutes > 0 ? round1(sum("pauses") / minutes) : 0,
+    pausesPerMin: perSpanMin(sum("pauses")),
     longestPause: round1(Math.max(...ms.map((m) => m.longestPause || 0))),
     avgStartDelay: round1(sum("startDelay") / ms.length),
     fillers: sum("fillers"),
-    fillersPerMin: minutes > 0 ? round1(sum("fillers") / minutes) : 0,
+    fillersPerMin: perSpanMin(sum("fillers")),
   };
 }
 
