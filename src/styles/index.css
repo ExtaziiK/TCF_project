@@ -186,6 +186,14 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
 @keyframes invite-ping{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(1.55);opacity:0}}
 .invite-bob{animation:invite-bob 1.8s ease-in-out infinite}
 @keyframes invite-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+/* The TCF blanc lobby's start button (MockLobby.jsx): a ring that keeps
+   pulsing out of it and a streak of light crossing it every few seconds, so
+   the one action on the page is found at a glance. Off under reduced motion
+   (global rule below). */
+.cta-live{position:relative;overflow:hidden;animation:cta-pulse 2.2s ease-out infinite}
+.cta-live::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);animation:cta-shine 3.2s ease-in-out infinite}
+@keyframes cta-pulse{0%{box-shadow:0 10px 25px -8px rgba(216,53,74,.45),0 0 0 0 rgba(108,79,224,.55)}70%,100%{box-shadow:0 10px 25px -8px rgba(216,53,74,.45),0 0 0 16px rgba(108,79,224,0)}}
+@keyframes cta-shine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 .demo-tap{animation:demo-tap 1.3s ease-in-out infinite}
 /* Landing tools showcase (ToolsShowcase): the selected tool's auto-advance bar.
    Its animationend moves to the next tool; disabled under reduced motion. */
