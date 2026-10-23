@@ -204,18 +204,6 @@ function Ratings({ ink, soft }) {
   );
 }
 
-// The courriel as the candidate wrote it, its mistakes underlined in red.
-function Original() {
-  const { c } = useApp();
-  return (
-    <p className={`text-sm leading-relaxed ${c.sub}`}>
-      {EE_SEGS.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
-        <span key={i} className="underline decoration-wavy decoration-2 underline-offset-4" style={{ textDecorationColor: "#D8354A" }}>{x.wrong}</span>
-      )))}
-    </p>
-  );
-}
-
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
   const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
@@ -223,34 +211,35 @@ function ScreenEE({ ink, soft, still }) {
   const layer = (on) => `[grid-area:1/1] ${on ? "" : "invisible"}`;
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
-      {/* Every state is stacked in one cell, the inactive ones invisible, so
-          the mock keeps one height through the loop and the page never moves.
-          Once the AI has read the text, the rating comes first, then the
-          courriel as written, then what the AI gives back — the spelling
-          fixed, then the whole rewritten at C1. */}
-      <div className="grid">
+      {/* The courriel stays at the top throughout: typed out, then — once the
+          AI has read it — with its mistakes underlined in red. The full text
+          sits invisibly underneath the typing so the box never changes height. */}
+      <p className={`grid text-sm leading-relaxed ${c.sub}`}>
+        <span className="invisible [grid-area:1/1]">{EE_TEXT}</span>
+        <span className="[grid-area:1/1]">
+          {phase >= 2
+            ? EE_SEGS.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
+              <span key={i} className="underline decoration-wavy decoration-2 underline-offset-4" style={{ textDecorationColor: "#D8354A" }}>{x.wrong}</span>
+            )))
+            : EE_TEXT.slice(0, n)}
+          {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
+        </span>
+      </p>
+      <div className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>{words} mots</div>
+      {/* Below it, what the AI gives back: its rating, then the spelling
+          fixed, then the whole rewritten at C1. Stacked in one cell, the
+          inactive states invisible, so the mock keeps one height. */}
+      <div className="grid mt-4">
         <div className={layer(phase <= 1)}>
-          <p className={`text-sm leading-relaxed ${c.sub}`}>
-            {EE_TEXT.slice(0, n)}
-            {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
-          </p>
-          <div className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>{words} mots</div>
           {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
         </div>
         <div className={layer(phase === 2)}>
-          {phase === 2 && <div className="rise"><Ratings ink={ink} soft={soft} /></div>}
-          {phase !== 2 && <div className="invisible"><Ratings ink={ink} soft={soft} /></div>}
-          <StepLabel ink={ink}>Votre courriel</StepLabel>
-          <Original />
-          <div className="mt-4" />
+          <Ratings ink={ink} soft={soft} />
           <StepLabel ink={ink}>Orthographe corrigée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected={phase === 2} /></p>
         </div>
         <div className={layer(phase === 3)}>
           <Ratings ink={ink} soft={soft} />
-          <StepLabel ink={ink}>Votre courriel</StepLabel>
-          <Original />
-          <div className="mt-4" />
           <StepLabel ink={ink}>Version C1 proposée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
             {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
