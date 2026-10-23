@@ -8,8 +8,13 @@ import { announcementBarPlugin } from "./scripts/announcementBarPlugin.mjs";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Everything under /api goes to the API server EXCEPT /api/_lib/: those are
+// shared modules the client imports too (scoreBands, sale, eoLines...), which
+// Vite itself must serve in dev. Proxied, they came back as a 500 and blanked
+// the page whenever the API server wasn't running. Vercel never serves _lib
+// as functions (underscore folders are excluded), so nothing real is lost.
 const apiProxy = () => ({
-  "/api": {
+  "^/api/(?!_lib/)": {
     target: `http://localhost:${process.env.DEV_API_PORT || 3001}`,
     changeOrigin: true,
   },

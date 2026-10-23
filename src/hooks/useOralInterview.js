@@ -90,6 +90,8 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // No voice could say a line out loud: the exam mode then shows the text,
   // or the candidate would never know what was asked.
   const [voiceless, setVoiceless] = useState(false);
+  // The live microphone, for the level meter (MicLevel) while the candidate speaks.
+  const [micStream, setMicStream] = useState(null);
   const [remaining, setRemaining] = useState(task.dur); // time left for the whole tâche
   const voicelessRef = useRef(false);
   const failStreak = useRef(0);
@@ -120,6 +122,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   const releaseStream = () => {
     streamRef.current?.getTracks().forEach((tr) => tr.stop());
     streamRef.current = null;
+    setMicStream(null);
   };
 
   const addTurn = (turn) => {
@@ -535,6 +538,7 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     if (run !== runId.current) { stream.getTracks().forEach((tr) => tr.stop()); return; }
     setMicIssue(null);
     streamRef.current = stream;
+    setMicStream(stream);
     setBudget(taskRef.current.dur);
     clockOn.current = false;
     timeUpSent.current = false;
@@ -548,5 +552,5 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }

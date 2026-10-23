@@ -5,6 +5,7 @@ import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { MicHelp } from "@/components/expression/MicHelp";
+import { MicLevel } from "@/components/expression/MicLevel";
 import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
 
@@ -39,14 +40,18 @@ const HOW_IT_WORKS = {
 // `autoStart` begins the tâche as soon as it is shown.
 export function OralInterview({ task, exam = false, autoStart = false, onFinish }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
   const [notes, setNotes] = useState("");
   const endRef = useRef(null);
   const reported = useRef(false);
   const examiner = "Examinatrice";
   // On exam day the Tâche 1 question is only asked out loud.
-  const showSubject = !(exam && task.task === 1);
-  const hideText = exam && phase !== "done" && !voiceless;
+  const showSubject = task.task !== 1;
+  // No subtitles while the tâche runs, in practice too: the candidate learns
+  // to understand by ear, as in the room. Everything said appears at the end,
+  // with each examiner line replayable, to check what they misheard. The text
+  // stays visible only when no voice could say it.
+  const hideText = phase !== "done" && !voiceless;
 
   // Keep the latest exchange in view as the dialogue grows.
   useEffect(() => {
@@ -93,7 +98,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
                 who={examiner}
                 hideText={hideText}
                 speakingNow={phase === "speaking" && i === turns.length - 1}
-                onReplay={!exam && (phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn) : null}
+                onReplay={!exam && phase === "done" && tn.role === "examiner" ? () => replay(tn) : null}
               />
             ))}
             <div ref={endRef} />
@@ -121,7 +126,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
+        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
@@ -154,6 +159,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
             <ol className={`space-y-2.5 text-sm ${c.sub} list-decimal list-inside`}>
               {(HOW_IT_WORKS[task.task] || HOW_IT_WORKS[2]).map((line) => <li key={line}>{t(line)}</li>)}
             </ol>
+            <p className={`mt-4 pt-3 border-t text-xs ${c.border} ${c.faint}`}>{t("Pas de sous-titres : écoutez, comme le jour de l'examen. Si vous n'avez pas compris, dites « Pouvez-vous répéter ? ». Tout le texte s'affiche à la fin, avec la possibilité de réécouter chaque question.")}</p>
           </Card>
         )}
       </div>
@@ -201,9 +207,10 @@ function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, exam, who, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, count, ended, exam, who, micStream, begin, skipReview, answer, stop, restart }) {
   return (
     <div className="mt-auto flex flex-col items-center gap-3">
+      <MicLevel stream={micStream} active={phase === "rec"} countSilence={!exam} />
       {(phase === "review" || phase === "rec") && (
         <p className={`font-mono2 font-bold text-3xl ${phase === "rec" ? "text-rose-600" : "text-blue-600"}`} role="timer">{fmt(count)}</p>
       )}
