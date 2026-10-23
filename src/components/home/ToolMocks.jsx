@@ -176,7 +176,7 @@ const EE_C1 = [
   " sur les charges comprises dans le loyer.",
 ];
 const EE_RATINGS = [["Orthographe", "B1"], ["Grammaire", "B2"], ["Lexique", "B2"], ["Cohérence", "C1"]];
-const EE_AFTER = [1400, 4200, 4800]; // analysing, the spelling + ratings, the C1 version
+const EE_AFTER = [1400, 3000, 5200]; // analysing, the spelling fixed + rating, then the C1 version too
 const countWords = (x) => (x.trim() ? x.trim().split(/\s+/).length : 0);
 
 function StepLabel({ ink, children }) {
@@ -212,40 +212,34 @@ function ScreenEE({ ink, soft, still }) {
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
       {/* The courriel stays at the top throughout: typed out, then — once the
-          AI has read it — with its mistakes underlined in red. The full text
-          sits invisibly underneath the typing so the box never changes height. */}
+          AI has read it — corrected in place, each mistake struck through with
+          its fix beside it. The corrected text (the longest state) sits
+          invisibly underneath so the box never changes height. */}
       <p className={`grid text-sm leading-relaxed ${c.sub}`}>
-        <span className="invisible [grid-area:1/1]">{EE_TEXT}</span>
+        <span className="invisible [grid-area:1/1]"><Corrected segs={EE_SEGS} ink={ink} corrected /></span>
         <span className="[grid-area:1/1]">
-          {phase >= 2
-            ? EE_SEGS.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
-              <span key={i} className="underline decoration-wavy decoration-2 underline-offset-4" style={{ textDecorationColor: "#D8354A" }}>{x.wrong}</span>
-            )))
-            : EE_TEXT.slice(0, n)}
+          {phase >= 2 ? <Corrected segs={EE_SEGS} ink={ink} corrected /> : EE_TEXT.slice(0, n)}
           {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
         </span>
       </p>
       <div className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>{words} mots</div>
-      {/* Below it, what the AI gives back: its rating, then the spelling
-          fixed, then the whole rewritten at C1. Stacked in one cell, the
-          inactive states invisible, so the mock keeps one height. */}
+      {/* Below it, the AI's analysis: its rating, then the courriel rewritten
+          at C1. Held in place (invisible) until it is shown, so the mock keeps
+          one height through the loop. */}
       <div className="grid mt-4">
         <div className={layer(phase <= 1)}>
           {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
         </div>
-        <div className={layer(phase === 2)}>
-          <Ratings ink={ink} soft={soft} />
-          <StepLabel ink={ink}>Orthographe corrigée</StepLabel>
-          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected={phase === 2} /></p>
-        </div>
-        <div className={layer(phase === 3)}>
-          <Ratings ink={ink} soft={soft} />
-          <StepLabel ink={ink}>Version C1 proposée</StepLabel>
-          <p className={`text-sm leading-relaxed ${c.sub}`}>
-            {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
-              <mark key={i} className="rounded px-0.5 font-semibold" style={{ background: soft, color: ink }}>{x.up}</mark>
-            )))}
-          </p>
+        <div className={layer(phase >= 2)}>
+          {phase >= 2 ? <div className="rise"><Ratings ink={ink} soft={soft} /></div> : <Ratings ink={ink} soft={soft} />}
+          <div className={phase === 3 ? "rise" : "invisible"}>
+            <StepLabel ink={ink}>Version C1 proposée</StepLabel>
+            <p className={`text-sm leading-relaxed ${c.sub}`}>
+              {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
+                <mark key={i} className="rounded px-0.5 font-semibold" style={{ background: soft, color: ink }}>{x.up}</mark>
+              )))}
+            </p>
+          </div>
         </div>
       </div>
     </Frame>
