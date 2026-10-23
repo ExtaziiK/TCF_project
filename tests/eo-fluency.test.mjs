@@ -3,7 +3,7 @@
 // fluent one.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { measureFluency, aggregateFluency, sanitizeFluency, countFillers, fluencyBrief, FILLER_PROMPT, withEndingPause, END_OF_TURN_SECS, BEFORE_SPEECH_END_SECS, LONG_PAUSE_SECS } from "../api/_lib/fluency.js";
+import { measureFluency, aggregateFluency, sanitizeFluency, countFillers, fluencyBrief, FILLER_PROMPT, withEndingPause, silenceTip, END_OF_TURN_SECS, BEFORE_SPEECH_END_SECS, LONG_PAUSE_SECS } from "../api/_lib/fluency.js";
 
 process.env.VITE_SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SERVICE_ROLE_KEY ||= "test";
@@ -108,4 +108,18 @@ test("the silence that ends a turn is longer than a counted pause, and longest f
   for (const task of [1, 2, 3]) assert.ok(END_OF_TURN_SECS[task] > LONG_PAUSE_SECS);
   assert.ok(END_OF_TURN_SECS[3] > END_OF_TURN_SECS[1]);
   assert.ok(BEFORE_SPEECH_END_SECS > END_OF_TURN_SECS[3]);
+});
+
+test("the total silent time is measured, and the turn-ending silence adds to it", () => {
+  const m = measureFluency({ text: "un deux trois", words: words([0, 0.5], [4, 4.5], [4.6, 5]), duration: 6 });
+  assert.equal(m.silentSecs, 3.5);
+  assert.equal(withEndingPause(m, 5).silentSecs, 8.5);
+});
+
+test("the candidate is told to cut the silences, with their figures, only when they weigh", () => {
+  const heavy = aggregateFluency([{ recSecs: 120, speechSecs: 70, spanSecs: 110, silentSecs: 40, words: 150, pauses: 5, longestPause: 9, startDelay: 1, fillers: 4 }]);
+  assert.match(silenceTip(heavy), /5 pause\(s\).*la plus longue : 9 s.*40 s de silence/);
+  assert.match(silenceTip(heavy, "en"), /Cut down the silences/);
+  const light = aggregateFluency([{ recSecs: 60, speechSecs: 55, spanSecs: 58, silentSecs: 3, words: 120, pauses: 1, longestPause: 3.2, startDelay: 1, fillers: 2 }]);
+  assert.equal(silenceTip(light), "");
 });

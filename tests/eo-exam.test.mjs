@@ -88,7 +88,20 @@ test("the safety ceiling still ends a runaway interview", () => {
 });
 
 test("every reply call ends on an explicit request (gpt-oss otherwise stops with an empty answer)", () => {
-  for (const task of [1, 2, 3]) assert.match(eo.replyRequest(task), /^Écris maintenant .*\{"reply":"\.\.\."\}$/);
+  for (const task of [1, 2, 3]) assert.match(eo.replyRequest(task), /Écris maintenant .*\{"reply":"\.\.\."\}$/);
+  assert.match(eo.replyRequest(3), /vient de s'arrêter de parler/);
   assert.match(eo.replyRequest(2), /sans rien ajouter/);
   assert.doesNotMatch(eo.replyRequest(1), /sans rien ajouter/); // Tâche 1 must still ask its question
+});
+
+test("Tâche 3 is a monologue: two relances at most, then the next answer is graded", () => {
+  const line = (role, i) => ({ role, text: `${role} ${i}` });
+  // opening question + 1 relance: one relance left, so the next silence gets one
+  const oneLeft = [line("examiner", 0), line("candidate", 1), line("examiner", 2), line("candidate", 3)];
+  assert.equal(eo.dialogueWillGrade({ task: 3, history: oneLeft }), false);
+  // opening question + 2 relances: none left
+  const none = [...oneLeft, line("examiner", 4), line("candidate", 5)];
+  assert.equal(eo.dialogueWillGrade({ task: 3, history: none }), true);
+  // Tâche 2 keeps the long conversation
+  assert.equal(eo.dialogueWillGrade({ task: 2, history: none }), false);
 });

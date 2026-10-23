@@ -67,6 +67,7 @@ export function measureFluency({ text, words, segments, duration }) {
     recSecs: round1(num(duration) ?? units[units.length - 1].end),
     speechSecs: round1(speechSecs),
     spanSecs: round1(span),
+    silentSecs: round1(silent),
     words: wordCount,
     pauses,
     longestPause: round1(longest),
@@ -88,6 +89,7 @@ export function withEndingPause(measure, silenceSecs) {
     pauses: measure.pauses + 1,
     longestPause: round1(Math.max(measure.longestPause, s)),
     spanSecs: round1((measure.spanSecs ?? measure.speechSecs) + s),
+    silentSecs: round1((measure.silentSecs ?? 0) + s),
   };
 }
 
@@ -106,6 +108,7 @@ export function sanitizeFluency(raw) {
     recSecs: clamp(m.recSecs, 600),
     speechSecs: clamp(m.speechSecs, 600),
     spanSecs: clamp(m.spanSecs ?? m.speechSecs, 600),
+    silentSecs: clamp(m.silentSecs, 600),
     words: Math.round(clamp(m.words, 3000)),
     pauses: Math.round(clamp(m.pauses, 200)),
     longestPause: clamp(m.longestPause, 600),
@@ -129,6 +132,7 @@ export function aggregateFluency(list) {
     answers: ms.length,
     recSecs: Math.round(sum("recSecs")),
     speechSecs: Math.round(sum("speechSecs")),
+    silentSecs: Math.round(sum("silentSecs")),
     wpm: speechMin > 0 ? Math.round(sum("words") / speechMin) : 0,
     pauses: sum("pauses"),
     pausesPerMin: perSpanMin(sum("pauses")),
@@ -152,7 +156,22 @@ export function fluencyBrief(agg) {
     `- temps de parole effectif : ${mmss(agg.speechSecs)} sur ${mmss(agg.recSecs)} d'enregistrement, en ${agg.answers} intervention(s) ;`,
     `- débit : ${agg.wpm} mots par minute de parole ;`,
     `- pauses de plus de ${LONG_PAUSE_SECS} s : ${agg.pauses} (${agg.pausesPerMin} par minute), la plus longue : ${agg.longestPause} s ;`,
+    `- temps de silence total au milieu des réponses : ${mmss(agg.silentSecs || 0)} ;`,
     `- hésitations (« euh », « hum »...) : ${agg.fillers} (${agg.fillersPerMin} par minute) ;`,
     `- délai moyen avant de commencer à répondre : ${agg.avgStartDelay} s.`,
   ].join("\n");
+}
+
+// When the silences weigh on the result, the candidate is TOLD, with their own
+// figures — not left to whether the grader thinks of it. Returned as an
+// improvement line in the feedback's language, or "" when the silences were
+// within what is normal in speech.
+export const SILENCE_TIP_PAUSES = 2;
+export const SILENCE_TIP_SECS = 15;
+export function silenceTip(agg, lang = "fr") {
+  if (!agg || (agg.pauses < SILENCE_TIP_PAUSES && (agg.silentSecs || 0) < SILENCE_TIP_SECS)) return "";
+  const total = mmss(agg.silentSecs || 0);
+  return lang === "en"
+    ? `Cut down the silences: ${agg.pauses} pause(s) over ${LONG_PAUSE_SECS} s (longest ${agg.longestPause} s), ${total} of silence in all. When you run out of ideas, keep going with a connector ("de plus", "par exemple", "d'un autre côté") rather than stopping — a rater hears every silence.`
+    : `Réduisez les silences : ${agg.pauses} pause(s) de plus de ${LONG_PAUSE_SECS} s (la plus longue : ${agg.longestPause} s), ${total} de silence au total. Quand une idée vous manque, enchaînez avec un connecteur (« de plus », « par exemple », « d'un autre côté ») plutôt que de vous arrêter : le correcteur entend chaque silence.`;
 }

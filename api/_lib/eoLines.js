@@ -48,13 +48,18 @@ export function openingLine(task, prompt, { exam = false } = {}) {
     return [
       exam ? "Merci. Nous passons à la troisième et dernière tâche :" : "Bonjour. Nous allons faire la troisième tâche de l'épreuve d'expression orale :",
       "l'expression d'un point de vue. Elle dure quatre minutes trente, sans préparation.",
-      "Je vais vous lire une question, et vous me donnerez votre opinion. Défendez-la avec des arguments et des exemples. Je pourrai vous interrompre pour vous poser des questions ou vous présenter un autre point de vue.",
+      "Je vais vous lire une question, et vous me donnerez votre opinion. Défendez-la avec des arguments et des exemples, et parlez le plus longtemps possible : si vous vous arrêtez, je vous poserai une question pour vous relancer.",
       `Voici le sujet. ${p}`,
       "Je vous écoute.",
     ].join(" ");
   }
   return "";
 }
+
+// Tâche 3 is a monologue: the examiner steps in only when the candidate falls
+// silent, at most this many times. After that the candidate keeps the floor
+// alone, and silence costs them (shown live, and in the feedback).
+export const T3_MAX_RELANCES = 2;
 
 // End of the Tâche 2 preparation: the examiner hands over to the candidate,
 // who opens the role-play.

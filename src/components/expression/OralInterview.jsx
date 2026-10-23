@@ -26,8 +26,8 @@ const HOW_IT_WORKS = {
   ],
   3: [
     "L'examinatrice vous explique la tâche et vous lit le sujet.",
-    "Donnez votre opinion et défendez-la avec des arguments et des exemples.",
-    "Elle peut vous présenter un autre point de vue : défendez ou nuancez votre position.",
+    "Donnez votre opinion et défendez-la avec des arguments et des exemples, en parlant le plus longtemps possible.",
+    "Si vous vous taisez 5 secondes, elle vous relance par une question, deux fois au maximum. Ensuite, chaque silence vous coûte des points.",
     "L'épreuve dure 4 min 30, puis l'IA évalue l'ensemble.",
   ],
 };
@@ -41,7 +41,7 @@ const HOW_IT_WORKS = {
 // `autoStart` begins the tâche as soon as it is shown.
 export function OralInterview({ task, exam = false, autoStart = false, onFinish }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify, { exam });
   const [notes, setNotes] = useState("");
   const endRef = useRef(null);
   const reported = useRef(false);
@@ -127,7 +127,7 @@ export function OralInterview({ task, exam = false, autoStart = false, onFinish 
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
+        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
@@ -208,16 +208,20 @@ function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, exam, who, task, micStream, begin, skipReview, answer, stop, restart }) {
-  const endAfter = END_OF_TURN_SECS[task] || 4;
+function InterviewControls({ c, t, phase, count, ended, exam, who, task, relancesLeft, micStream, begin, skipReview, answer, stop, restart }) {
+  // Tâche 3 with no relance left: silence no longer ends the turn — the
+  // candidate keeps the floor until the time is up, and is warned instead.
+  const alone = task === 3 && relancesLeft === 0;
+  const endAfter = alone ? 0 : END_OF_TURN_SECS[task] || 4;
   return (
     <div className="mt-auto flex flex-col items-center gap-3">
       <MicLevel
         stream={micStream}
         active={phase === "rec"}
         countSilence={!exam}
+        warnSilence={alone}
         endAfter={endAfter}
-        beforeSpeechEndAfter={BEFORE_SPEECH_END_SECS}
+        beforeSpeechEndAfter={alone ? 0 : BEFORE_SPEECH_END_SECS}
         onSilenceEnd={(secs) => stop(secs)}
       />
       {(phase === "review" || phase === "rec") && (
@@ -245,11 +249,19 @@ function InterviewControls({ c, t, phase, count, ended, exam, who, task, micStre
         </button>
       )}
       {phase === "rec" && (
-        <button onClick={() => stop()} aria-label={t("J'ai fini de parler")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
+        <button onClick={() => stop()} aria-label={alone ? t("Terminer la tâche") : t("J'ai fini de parler")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
           <Square size={22} />
         </button>
       )}
-      {phase === "rec" && <p className={`text-xs ${c.faint}`}>{`${t("Votre tour se termine après")} ${endAfter} ${t("s de silence, ou appuyez quand vous avez fini.")}`}</p>}
+      {phase === "rec" && (
+        <p className={`text-xs text-center max-w-sm ${c.faint}`}>
+          {alone
+            ? t("L'examinatrice ne vous relancera plus : continuez jusqu'à la fin du temps. Le bouton termine la tâche.")
+            : task === 3
+              ? `${t("Parlez en continu. Après")} ${endAfter} ${t("s de silence, l'examinatrice vous relance")} (${relancesLeft} ${relancesLeft > 1 ? t("fois encore") : t("fois")}).`
+              : `${t("Votre tour se termine après")} ${endAfter} ${t("s de silence, ou appuyez quand vous avez fini.")}`}
+        </p>
+      )}
       {(phase === "opening" || phase === "processing" || phase === "speaking") && (
         <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 ${c.border} ${c.faint}`}>
           {phase === "speaking" ? <Volume2 size={24} className="animate-pulse text-blue-600" /> : <Loader2 size={24} className="animate-spin" />}

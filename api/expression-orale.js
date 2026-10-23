@@ -4,8 +4,8 @@ import { groqChatJSON, groqTranscribe, groqTranscribeDetailed, normalizeFeedback
 import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js";
 import { logAiUsage, logIncident } from "./_lib/usage.js";
 import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
-import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE } from "./_lib/eoLines.js";
-import { FILLER_PROMPT, stripFillers, measureFluency, withEndingPause, sanitizeFluency, aggregateFluency, fluencyBrief } from "./_lib/fluency.js";
+import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE, T3_MAX_RELANCES } from "./_lib/eoLines.js";
+import { FILLER_PROMPT, stripFillers, measureFluency, withEndingPause, sanitizeFluency, aggregateFluency, fluencyBrief, silenceTip } from "./_lib/fluency.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -101,11 +101,11 @@ ${NEVER_HELP}`;
 
 // Tâche 3 — Expression d'un point de vue. The candidate argues; the examiner
 // steps in briefly to make them develop or defend their position.
-export const t3System = `Tu es l'examinateur de la tâche 3 (expression d'un point de vue) de l'épreuve d'Expression orale du TCF Canada. Tu as donné un sujet ; le candidat défend son opinion.
-Après chacune de ses interventions, réagis par UNE intervention courte (25 mots maximum) qui le pousse à aller plus loin. Alterne entre :
-- une objection (« Pourtant, certains pensent que... ») pour qu'il défende ou nuance sa position ;
+export const t3System = `Tu es l'examinateur de la tâche 3 (expression d'un point de vue) de l'épreuve d'Expression orale du TCF Canada. Tu as donné un sujet ; le candidat défend son opinion dans un monologue. Tu n'interviens que lorsqu'il s'arrête de parler, pour le relancer.
+Relance-le par UNE question courte (25 mots maximum) qui l'amène à développer ce qu'il a déjà dit. Choisis la plus utile :
 - une demande d'exemple concret ;
-- une demande de précision sur un argument qu'il vient d'avancer.
+- une demande de précision ou de conséquence sur un argument qu'il vient d'avancer ;
+- l'autre point de vue (« Pourtant, certains pensent que... »), pour qu'il défende ou nuance sa position.
 Tu peux commencer par un bref accusé de réception neutre (« D'accord. », « Je vois. »), jamais un compliment ni un jugement. Ne répète jamais une objection déjà faite. Ne donne pas ton avis comme une vérité et ne lui fournis jamais d'argument en faveur de sa position.
 ${NEVER_HELP}`;
 
@@ -120,7 +120,9 @@ export const replySystem = (task) => (task === 1 ? t1System : task === 3 ? t3Sys
 export const replyRequest = (task) =>
   task === 2
     ? `Écris maintenant ta prochaine réplique : réponds seulement à ce que le candidat vient de dire ou de demander, sans rien ajouter d'autre. Format JSON : {"reply":"..."}`
-    : `Écris maintenant ta prochaine intervention, en suivant tes consignes. Format JSON : {"reply":"..."}`;
+    : task === 3
+      ? `Le candidat vient de s'arrêter de parler. Écris maintenant ta relance, en suivant tes consignes. Format JSON : {"reply":"..."}`
+      : `Écris maintenant ta prochaine intervention, en suivant tes consignes. Format JSON : {"reply":"..."}`;
 
 // What each tâche asks of the candidate, for the grader.
 const TASK_BRIEF = {
@@ -227,8 +229,13 @@ function isSilent(transcript) {
 // another follow-up instead of a grade.
 export function dialogueWillGrade(body) {
   if (body?.final === true || body?.final === "true") return true;
-  return sanitizeHistory(body?.history).filter((m) => m.role === "examiner").length >= MAX_EXCHANGES;
+  return sanitizeHistory(body?.history).filter((m) => m.role === "examiner").length >= examinerCeiling(dialogueTask(body?.task));
 }
+
+// Most examiner lines a dialogue may hold before the next answer is graded
+// instead of answered. Tâche 3 is a monologue: its opening question, then at
+// most T3_MAX_RELANCES relances when the candidate falls silent.
+export const examinerCeiling = (task) => (task === 3 ? 1 + T3_MAX_RELANCES : MAX_EXCHANGES);
 
 function sanitizeHistory(raw) {
   if (!Array.isArray(raw)) return [];
@@ -331,6 +338,9 @@ async function dialogueTurn(res, user, body, req, claim) {
       prompt && `Consigne donnée au candidat : ${String(prompt).slice(0, 1000)}`,
       `Dialogue :\n"""\n${dialogue}\n"""`,
       fluencyBrief(fluency),
+      // A tip on the silences is added after grading (silenceTip): keep the
+      // grader from writing a second, vaguer one.
+      silenceTip(fluency) && "Un conseil sur les silences, avec ces chiffres, sera ajouté automatiquement aux points à améliorer : n'en écris pas un autre.",
     ]
       .filter(Boolean)
       .join("\n");
@@ -354,7 +364,16 @@ async function dialogueTurn(res, user, body, req, claim) {
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - gradeStart });
     // The closing line lives here (not client-side) so it comes out in the
     // same examiner voice as the rest of the exchange.
-    const feedback = { ...normalizeFeedback(raw, candidateSpeech(turns)), ...(fluency ? { fluency } : {}) };
+    const graded = normalizeFeedback(raw, candidateSpeech(turns));
+    // Not on a 0-3 (hors-sujet or no real attempt): the one improvement there
+    // is to attempt the task at all.
+    const tip = graded.score > 3 ? silenceTip(fluency, lang) : "";
+    const feedback = {
+      ...graded,
+      // First, so it is read: silence is the one fault every answer can fix.
+      ...(tip ? { improvements: [tip, ...(graded.improvements || [])].slice(0, 4) } : {}),
+      ...(fluency ? { fluency } : {}),
+    };
     return res.status(200).json({ ...extra, feedback, closing, done: true, ...(await voiceLine(user, closing)) });
   };
 
@@ -405,7 +424,7 @@ async function dialogueTurn(res, user, body, req, claim) {
 
   // Keep going (another examiner/interlocutor line) while there is time left
   // and we're under the safety ceiling; otherwise grade the exchange.
-  if (!timeUp && exchangesSoFar < MAX_EXCHANGES) {
+  if (!timeUp && exchangesSoFar < examinerCeiling(task)) {
     const chatStart = Date.now();
     const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: replySystem(task) },

@@ -20,8 +20,10 @@ const SILENCE_AFTER_SECS = 0.6;
 // silence once the candidate has spoken (or `beforeSpeechEndAfter` if they
 // never started) calls `onSilenceEnd(seconds)`, once, with a countdown shown
 // for the last two seconds so it never comes as a surprise.
+// `warnSilence` (Tâche 3 once the examiner has no relance left): no one will
+// step in any more, so a long silence says plainly that it costs points.
 // Reads the stream only — nothing is recorded or sent from here.
-export function MicLevel({ stream, active, countSilence = false, endAfter = 0, beforeSpeechEndAfter = 0, onSilenceEnd }) {
+export function MicLevel({ stream, active, countSilence = false, warnSilence = false, endAfter = 0, beforeSpeechEndAfter = 0, onSilenceEnd }) {
   const { c, t } = useApp();
   const barsRef = useRef([]);
   const [state, setState] = useState({ speaking: false, silence: 0, heard: false });
@@ -95,7 +97,7 @@ export function MicLevel({ stream, active, countSilence = false, endAfter = 0, b
   }, [stream, active, endAfter, beforeSpeechEndAfter]);
 
   if (!active) return null;
-  const longPause = countSilence && state.silence >= LONG_PAUSE_SECS;
+  const longPause = (countSilence || warnSilence) && state.silence >= LONG_PAUSE_SECS;
   // The turn is about to close on silence: say so for its last two seconds.
   const limit = state.heard ? endAfter : beforeSpeechEndAfter;
   const endsIn = limit > 0 && state.silence > 0 && limit - state.silence <= 2 ? Math.max(1, Math.ceil(limit - state.silence)) : 0;
@@ -104,7 +106,7 @@ export function MicLevel({ stream, active, countSilence = false, endAfter = 0, b
     : endsIn
       ? `${t("Fin de votre tour dans")} ${endsIn} s…`
       : longPause
-        ? `${t("Silence")} · ${Math.floor(state.silence)} s`
+        ? `${t("Silence")} · ${Math.floor(state.silence)} s${warnSilence ? ` — ${t("continuez à parler, le silence vous coûte des points")}` : ""}`
         : t("…");
   return (
     <div className="w-full max-w-sm flex flex-col items-center gap-2" aria-hidden="true">
@@ -118,7 +120,7 @@ export function MicLevel({ stream, active, countSilence = false, endAfter = 0, b
           />
         ))}
       </div>
-      <p className={`text-xs font-semibold h-4 ${endsIn || longPause ? "text-amber-600" : state.speaking ? "text-emerald-600" : c.faint}`}>{label}</p>
+      <p className={`text-xs font-semibold min-h-4 text-center ${endsIn || longPause ? "text-amber-600" : state.speaking ? "text-emerald-600" : c.faint}`}>{label}</p>
     </div>
   );
 }

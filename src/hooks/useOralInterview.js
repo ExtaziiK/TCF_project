@@ -4,7 +4,7 @@ import { speakingDialogueTurn, speakingOpening, blobToBase64, AiError, reportCli
 import { getFreeMockAttemptId } from "@/utils/freeMockAttempt";
 import { failureKind, failureIssue } from "@/utils/aiIssue";
 import { speak, stopSpeaking } from "@/utils/speech";
-import { openingLine, openingIsQuestion, PREP_END_LINE } from "../../api/_lib/eoLines.js";
+import { openingLine, openingIsQuestion, PREP_END_LINE, T3_MAX_RELANCES } from "../../api/_lib/eoLines.js";
 
 // What a single failed turn says, by failure kind (utils/aiIssue.js): the
 // interview carries on, so the advice ends with "answer again".
@@ -33,7 +33,12 @@ const pickMime = () =>
     ? MIME_CANDIDATES.find((m) => MediaRecorder.isTypeSupported?.(m))
     : undefined;
 
-export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most this many times
+export const MAX_EMPTY_REPROMPTS = 2;
+
+// The examiner's real lines (no announcements, re-prompts or closing).
+const examinerLines = (turns) => turns.filter((tn) => tn.role === "examiner" && !tn.meta && !tn.reprompt && !tn.closing).length;
+// Tâche 3 relances still available: the opening question doesn't count.
+export const relancesLeftIn = (turns) => Math.max(0, T3_MAX_RELANCES - Math.max(0, examinerLines(turns) - 1)); // silent answers get re-prompted at most this many times
 
 // Longest single answer before the recording stops itself, per tâche: the
 // first one (introducing yourself, opening the role-play, stating your
@@ -41,7 +46,9 @@ export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most 
 const TURN_CAPS = {
   1: { first: 60, next: 45 },
   2: { first: 45, next: 45 },
-  3: { first: 180, next: 90 },
+  // Tâche 3 is a monologue: one recording runs as long as the candidate
+  // talks, up to the time left; only a silence (or the button) ends it.
+  3: { first: Infinity, next: Infinity },
 };
 // The browser's fallback voice, when the server sent no audio: France French,
 // like the examiner's server voice (api/_lib/tts.js EXAMINER_VOICE).
@@ -331,7 +338,9 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
 
     // The clock ran down while the candidate spoke; when too little is left,
     // this answer is the last one and the server grades the exchange.
-    const final = remainingRef.current < MIN_TURN_SECS;
+    // Tâche 3 with no relance left: the candidate who stops the recording
+    // ends the tâche (the examiner has nothing more to ask).
+    const final = remainingRef.current < MIN_TURN_SECS || (taskRef.current.task === 3 && relancesLeftIn(turnsRef.current) === 0);
     if (final) timeUpSent.current = true;
 
     if (!chunks.length) {
@@ -561,5 +570,8 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
   // reusing its server-synthesized audio when it has one.
   const replay = (turn) => { if (phase === "ready" || phase === "done") sayLine(turn.text, turn.audioUrl, () => {}); };
 
-  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
+  // Tâche 3 only (null elsewhere): relances the examiner can still make.
+  const relancesLeft = task.task === 3 ? relancesLeftIn(turns) : null;
+
+  return { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue: () => setMicIssue(null), voiceless, micStream, relancesLeft, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart: reset };
 }
