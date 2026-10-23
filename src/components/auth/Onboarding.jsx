@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlertTriangle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getProfile, isValidName, isValidUsername, isUsernameAvailable, completeProfile } from "@/services/authService";
@@ -23,6 +23,25 @@ export function Onboarding() {
   const [error, setError] = useState("");
   const [accepted, setAccepted] = useState(false); // terms gate
   const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const overlay = useRef(null);
+
+  // Nothing behind the popup is usable while it is open: the page does not
+  // scroll, and everything beside it in the app shell (navbar, page, footer)
+  // is made inert — no clicks, no keyboard focus, hidden from screen readers.
+  // The terms text it opens is portalled to <body>, outside the shell, so it
+  // stays usable. Re-applied on every route change: the page element behind
+  // is rebuilt then (the popup's own move to the dashboard, to begin with).
+  useEffect(() => {
+    const el = overlay.current;
+    const siblings = el?.parentElement ? [...el.parentElement.children].filter((x) => x !== el) : [];
+    siblings.forEach((x) => { x.inert = true; });
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      siblings.forEach((x) => { x.inert = false; });
+      document.body.style.overflow = overflow;
+    };
+  }, [route]);
 
   // The popup belongs on the dashboard: a new account lands there.
   useEffect(() => { if (route !== "dashboard") nav("dashboard", { replace: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -67,7 +86,7 @@ export function Onboarding() {
   );
 
   return (
-    <div className="fixed inset-0 z-[90] grid place-items-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto"
+    <div ref={overlay} className="fixed inset-0 z-[90] grid place-items-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto"
       role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div className={`w-full max-w-lg rounded-3xl p-7 sm:p-8 shadow-2xl rise ${c.card}`}>
         <div className="mb-6">
