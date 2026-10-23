@@ -33,23 +33,13 @@ const pickMime = () =>
     ? MIME_CANDIDATES.find((m) => MediaRecorder.isTypeSupported?.(m))
     : undefined;
 
-export const MAX_EMPTY_REPROMPTS = 2;
+export const MAX_EMPTY_REPROMPTS = 2; // silent answers get re-prompted at most this many times
 
 // The examiner's real lines (no announcements, re-prompts or closing).
 const examinerLines = (turns) => turns.filter((tn) => tn.role === "examiner" && !tn.meta && !tn.reprompt && !tn.closing).length;
 // Tâche 3 relances still available: the opening question doesn't count.
-export const relancesLeftIn = (turns) => Math.max(0, T3_MAX_RELANCES - Math.max(0, examinerLines(turns) - 1)); // silent answers get re-prompted at most this many times
+export const relancesLeftIn = (turns) => Math.max(0, T3_MAX_RELANCES - Math.max(0, examinerLines(turns) - 1));
 
-// Longest single answer before the recording stops itself, per tâche: the
-// first one (introducing yourself, opening the role-play, stating your
-// position) runs longer than the later ones. Never beyond the time left.
-const TURN_CAPS = {
-  1: { first: 60, next: 45 },
-  2: { first: 45, next: 45 },
-  // Tâche 3 is a monologue: one recording runs as long as the candidate
-  // talks, up to the time left; only a silence (or the button) ends it.
-  3: { first: Infinity, next: Infinity },
-};
 // The browser's fallback voice, when the server sent no audio: France French,
 // like the examiner's server voice (api/_lib/tts.js EXAMINER_VOICE).
 const VOICE = { prefer: "fr-FR" };
@@ -386,9 +376,10 @@ export function useOralInterview(task, notify, { exam = false } = {}) {
     clockOn.current = true;
     setError("");
     setPhase("rec");
-    const firstAnswer = !turnsRef.current.some((tn) => tn.role === "candidate" && !tn.failed && !tn.emptyRec);
-    const caps = TURN_CAPS[taskRef.current.task] || TURN_CAPS[2];
-    setCount(Math.max(1, Math.min(firstAnswer ? caps.first : caps.next, remainingRef.current)));
+    // No cap on an answer: the candidate talks as long as they want, and the
+    // turn ends on their silence (MicLevel) or the button — only the tâche's
+    // own time can cut them off, as the examiner would.
+    setCount(Math.max(1, remainingRef.current));
   };
 
   const finishRecording = () => {
