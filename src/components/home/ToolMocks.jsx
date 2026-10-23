@@ -183,6 +183,27 @@ function StepLabel({ ink, children }) {
   return <p className="mb-1.5 font-mono2 text-[10px] font-bold uppercase tracking-widest" style={{ color: ink }}>{children}</p>;
 }
 
+// The AI's rating: overall level, then one per criterion.
+function Ratings({ ink, soft }) {
+  const { c } = useApp();
+  return (
+    <div className="mb-4 rounded-2xl p-3" style={{ background: soft }}>
+      <div className="flex items-center gap-2 text-sm font-bold" style={{ color: ink }}>
+        <Sparkles size={15} /> Évaluation IA
+        <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs text-white" style={{ background: ink }}>Global B2 · NCLC 8</span>
+      </div>
+      <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+        {EE_RATINGS.map(([k, v]) => (
+          <span key={k} className={`flex items-center justify-between rounded-lg px-2.5 py-1 text-xs ${c.card}`}>
+            <span className={c.sub}>{k}</span>
+            <span className="font-display font-extrabold" style={{ color: ink }}>{v}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
   const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
@@ -191,7 +212,9 @@ function ScreenEE({ ink, soft, still }) {
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
       {/* Every state is stacked in one cell, the inactive ones invisible, so
-          the mock keeps one height through the loop and the page never moves. */}
+          the mock keeps one height through the loop and the page never moves.
+          Once the AI has read the text, the rating comes first and the text —
+          spelling fixed, then rewritten at C1 — below it. */}
       <div className="grid">
         <div className={layer(phase <= 1)}>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
@@ -202,32 +225,19 @@ function ScreenEE({ ink, soft, still }) {
           {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
         </div>
         <div className={layer(phase === 2)}>
+          {phase === 2 && <div className="rise"><Ratings ink={ink} soft={soft} /></div>}
+          {phase !== 2 && <div className="invisible"><Ratings ink={ink} soft={soft} /></div>}
           <StepLabel ink={ink}>Orthographe corrigée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected={phase === 2} /></p>
         </div>
         <div className={layer(phase === 3)}>
+          <Ratings ink={ink} soft={soft} />
           <StepLabel ink={ink}>Version C1 proposée</StepLabel>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
             {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
               <mark key={i} className="rounded px-0.5 font-semibold" style={{ background: soft, color: ink }}>{x.up}</mark>
             )))}
           </p>
-        </div>
-      </div>
-      {/* The rating, once the AI has read the text: overall level, then one
-          per criterion. Held in place (invisible) before, so nothing moves. */}
-      <div className={`mt-4 rounded-2xl p-3 transition-opacity duration-500 ${phase >= 2 ? "opacity-100" : "opacity-0"}`} style={{ background: soft }}>
-        <div className="flex items-center gap-2 text-sm font-bold" style={{ color: ink }}>
-          <Sparkles size={15} /> Évaluation IA
-          <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs text-white" style={{ background: ink }}>Global B2 · NCLC 8</span>
-        </div>
-        <div className="mt-2.5 grid grid-cols-2 gap-1.5">
-          {EE_RATINGS.map(([k, v]) => (
-            <span key={k} className={`flex items-center justify-between rounded-lg px-2.5 py-1 text-xs ${c.card}`}>
-              <span className={c.sub}>{k}</span>
-              <span className="font-display font-extrabold" style={{ color: ink }}>{v}</span>
-            </span>
-          ))}
         </div>
       </div>
     </Frame>
