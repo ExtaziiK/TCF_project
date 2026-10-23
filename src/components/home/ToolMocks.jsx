@@ -150,40 +150,84 @@ function Analysing({ ink, label }) {
   );
 }
 
+// Writing: the email types itself out (three spelling mistakes in it), the AI
+// reads it, then shows what the real correction gives back — the spelling
+// fixed, a CEFR rating per criterion, and the same email rewritten at C1.
 const EE_SEGS = [
-  "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine dernière. Je souhaiterais obtenir davantage de ",
+  "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine ",
+  { wrong: "derniere", right: "dernière" },
+  ". Je souhaiterais obtenir davantage de ",
   { wrong: "précision", right: "précisions" },
   " sur le logement, notamment sur les charges qui sont ",
   { wrong: "compris", right: "comprises" },
   " dans le loyer.",
 ];
 const EE_TEXT = plainOf(EE_SEGS);
-const EE_AFTER = [1400, 4800]; // analysing, then the correction holds
+// The C1 rewrite, as plain text and upgraded phrases (highlighted).
+const EE_C1 = [
+  "Madame, Monsieur, ",
+  { up: "à la suite de" },
+  " votre annonce parue la semaine dernière, je ",
+  { up: "me permets de vous solliciter afin d'obtenir" },
+  " des précisions ",
+  { up: "complémentaires" },
+  " sur le logement, ",
+  { up: "en particulier" },
+  " sur les charges comprises dans le loyer.",
+];
+const EE_RATINGS = [["Orthographe", "B1"], ["Grammaire", "B2"], ["Lexique", "B2"], ["Cohérence", "C1"]];
+const EE_AFTER = [1400, 4200, 4800]; // analysing, the spelling + ratings, the C1 version
 const countWords = (x) => (x.trim() ? x.trim().split(/\s+/).length : 0);
+
+function StepLabel({ ink, children }) {
+  return <p className="mb-1.5 font-mono2 text-[10px] font-bold uppercase tracking-widest" style={{ color: ink }}>{children}</p>;
+}
 
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
   const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
   const words = countWords(EE_TEXT.slice(0, n));
+  const layer = (on) => `[grid-area:1/1] ${on ? "" : "invisible"}`;
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
       {/* Every state is stacked in one cell, the inactive ones invisible, so
           the mock keeps one height through the loop and the page never moves. */}
       <div className="grid">
-        <div className={`[grid-area:1/1] ${phase === 2 ? "invisible" : ""}`}>
+        <div className={layer(phase <= 1)}>
           <p className={`text-sm leading-relaxed ${c.sub}`}>
             {EE_TEXT.slice(0, n)}
             {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
           </p>
-          <div className="mt-4 flex items-center justify-between font-mono2 text-xs font-semibold" style={{ color: ink }}>
-            <span>{words} mots</span>
-          </div>
+          <div className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>{words} mots</div>
           {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
         </div>
-        <div className={`[grid-area:1/1] ${phase === 2 ? "" : "invisible"}`}>
-          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected /></p>
-          <Verdict ink={ink} soft={soft} level="B2 · NCLC 8"
-            notes={["Registre formel adapté, demande claire.", "2 accords à revoir : « des précisions », « les charges… comprises »."]} />
+        <div className={layer(phase === 2)}>
+          <StepLabel ink={ink}>Orthographe corrigée</StepLabel>
+          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected={phase === 2} /></p>
+        </div>
+        <div className={layer(phase === 3)}>
+          <StepLabel ink={ink}>Version C1 proposée</StepLabel>
+          <p className={`text-sm leading-relaxed ${c.sub}`}>
+            {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
+              <mark key={i} className="rounded px-0.5 font-semibold" style={{ background: soft, color: ink }}>{x.up}</mark>
+            )))}
+          </p>
+        </div>
+      </div>
+      {/* The rating, once the AI has read the text: overall level, then one
+          per criterion. Held in place (invisible) before, so nothing moves. */}
+      <div className={`mt-4 rounded-2xl p-3 transition-opacity duration-500 ${phase >= 2 ? "opacity-100" : "opacity-0"}`} style={{ background: soft }}>
+        <div className="flex items-center gap-2 text-sm font-bold" style={{ color: ink }}>
+          <Sparkles size={15} /> Évaluation IA
+          <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs text-white" style={{ background: ink }}>Global B2 · NCLC 8</span>
+        </div>
+        <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+          {EE_RATINGS.map(([k, v]) => (
+            <span key={k} className={`flex items-center justify-between rounded-lg px-2.5 py-1 text-xs ${c.card}`}>
+              <span className={c.sub}>{k}</span>
+              <span className="font-display font-extrabold" style={{ color: ink }}>{v}</span>
+            </span>
+          ))}
         </div>
       </div>
     </Frame>
