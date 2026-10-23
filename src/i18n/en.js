@@ -772,6 +772,7 @@ export const EN = {
   "Finalisez votre compte": "Finish setting up your account",
   "Encore quelques informations et votre espace est prêt.": "A few more details and your space is ready.",
   "Bienvenue ! Votre compte est prêt.": "Welcome! Your account is ready.",
+  "Session expirée. Reconnectez-vous.": "Session expired. Please log in again.",
   "Ce n'est pas la bonne adresse ?": "Not the right address?",
   "Modifier mon adresse": "Change my address",
   "Corrigez votre adresse, puis créez votre compte à nouveau.": "Fix your address, then create your account again.",

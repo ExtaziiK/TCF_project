@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, LogIn } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getProfile, isValidName, isValidUsername, isUsernameAvailable, completeProfile } from "@/services/authService";
 import { listProfiles, renameProfile } from "@/services/profileService";
@@ -14,13 +14,14 @@ import { COUNTRIES } from "@/constants/exam";
 // email account — until this form is submitted. It cannot be dismissed: the
 // terms have to be accepted before the account is used.
 export function Onboarding() {
-  const { c, user, notify, completeOnboarding, pendingOnboarding, route, nav, dark, t } = useApp();
+  const { c, user, notify, completeOnboarding, pendingOnboarding, route, nav, dark, t, signOut } = useApp();
   // Google hands over a name; an email account starts with none.
   const [name, setName] = useState(() => (user?.name && user.name !== user.email?.split("@")[0] ? user.name : ""));
   const [username, setUsername] = useState("");
   const [country, setCountry] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [expired, setExpired] = useState(false); // the session is gone: offer to log back in
   const [accepted, setAccepted] = useState(false); // terms gate
   const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
   const overlay = useRef(null);
@@ -67,7 +68,10 @@ export function Onboarding() {
         name, username, country, acceptedTerms: true,
         source: pendingOnboarding ? "google_onboarding" : "email_signup",
       });
-      if (err) return setError(err.message || t("Enregistrement refusé. Réessayez."));
+      if (err) {
+        setExpired(err.code === "session_expired");
+        return setError(t(err.message || "Enregistrement refusé. Réessayez."));
+      }
       // The account's first learner profile was named at signup, before there
       // was a first name ("Profil 1" for an email account): give it the name.
       try {
@@ -79,6 +83,13 @@ export function Onboarding() {
     } finally {
       setBusy(false);
     }
+  };
+
+  // Drops the dead session (which closes this popup) and opens the log-in
+  // page; the popup comes back after logging in, the account still incomplete.
+  const reconnect = async () => {
+    await signOut();
+    nav("login", { replace: true });
   };
 
   const Label = ({ htmlFor, children }) => (
@@ -116,6 +127,12 @@ export function Onboarding() {
           {error && (
             <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
               <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{error}</p>
+              {expired && (
+                <button type="button" onClick={reconnect}
+                  className="mt-3 ml-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-600 text-white text-sm font-bold transition hover:bg-rose-700">
+                  <LogIn size={15} /> {t("Se reconnecter")}
+                </button>
+              )}
             </div>
           )}
           <button type="submit" disabled={busy}
