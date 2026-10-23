@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ZoomIn, ZoomOut, Loader2, Image as ImageIcon } from "lucide-react";
-import { Card } from "@/components/common";
+import { ZoomIn, ZoomOut } from "lucide-react";
+import { Card, LogoLoader } from "@/components/common";
 import { useApp } from "@/context/AppContext";
 import { RealAudio } from "@/components/quiz/RealAudio";
 import { isImagePreloaded, markImagePreloaded } from "@/utils/imagePreload";
@@ -9,7 +9,8 @@ import { isImagePreloaded, markImagePreloaded } from "@/utils/imagePreload";
 // genuinely carry an image (CO listening illustrations, every CE document), so
 // we can hold a labelled loading placeholder in place while the picture arrives
 // — reserving the space and telling the user an image is on its way instead of
-// popping it in unannounced after a delay. The <img> loads while hidden
+// popping it in unannounced after a delay. While it loads, the frame plays the
+// Passerelle logo animation (LogoLoader), the same as a page being loaded. The <img> loads while hidden
 // (display:none), so onLoad/onError fire normally. Images prefetched by the quiz
 // (see utils/imagePreload) start "loaded", so navigating between already-seen
 // questions shows them instantly with no skeleton. In signed-media mode `src` is
@@ -43,12 +44,10 @@ function QuestionImage({ src }) {
           <div
             role="status"
             aria-live="polite"
-            className={`img-skeleton ${c.track} rounded-2xl w-full min-h-[220px] md:min-h-[280px] flex flex-col items-center justify-center gap-2`}
+            className={`${c.track} rounded-2xl w-full min-h-[220px] md:min-h-[280px] flex flex-col items-center justify-center gap-3 p-4`}
           >
-            <ImageIcon size={26} className={c.faint} aria-hidden="true" />
-            <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${c.faint}`}>
-              <Loader2 size={13} className="animate-spin" /> Chargement de l'image…
-            </span>
+            <LogoLoader fadeIn={false} className="w-56 md:w-72" />
+            <span className={`text-xs font-medium ${c.faint}`}>Chargement de l'image…</span>
           </div>
         )}
         {src && (

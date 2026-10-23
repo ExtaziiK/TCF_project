@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LogoLoader } from "@/components/common/LogoLoader";
 
 // Every page is its own chunk, fetched on first visit, so a visitor's first
 // download is the shell and the page they opened — not the admin, the guides,
@@ -7,31 +8,11 @@ import { lazy, Suspense } from "react";
 // page's prerendered HTML preloads its chunk (scripts/prerender.mjs), so
 // lazy costs no extra round trip. Each lazy page carries its
 // own Suspense boundary, so App needs no change to render one.
-// While a page's chunk downloads: the Passerelle logo animation (the intro
-// of the video ads, ads/tour/src/intro.mp4, played at 2x: 5 s, 640 px, no
-// sound, 135 KB). It fades in after a short delay (.loader-in), so a page that
-// loads at once never flashes it. With reduced motion, the last frame alone.
-const prefersReducedMotion = () => {
-  try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
-};
+// While a page's chunk downloads: the Passerelle logo animation (LogoLoader).
 function PageLoading() {
   return (
     <main className="min-h-screen pt-28 flex justify-center items-start" aria-busy="true" aria-label="Chargement">
-      {prefersReducedMotion() ? (
-        <img src="/loader-intro-poster.jpg" alt="" width="320" height="180" className="loader-in w-64 sm:w-80 h-auto rounded-3xl shadow-xl shadow-black/10" />
-      ) : (
-        <video
-          src="/loader-intro.mp4"
-          autoPlay
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          width="320"
-          height="180"
-          className="loader-in w-64 sm:w-80 h-auto rounded-3xl shadow-xl shadow-black/10"
-        />
-      )}
+      <LogoLoader className="w-64 sm:w-80" />
     </main>
   );
 }
