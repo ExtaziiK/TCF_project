@@ -61,6 +61,9 @@ function Panel({ tool, n, active = true, live, onLive, minH }) {
   const night = tool.tone === "night";
   const Demo = DEMOS[tool.route];
   const Mock = MOCKS[tool.route];
+  // Keyed on `active`, the preview remounts each time its tool is selected,
+  // so its loop always plays from the start instead of resuming wherever it
+  // froze while hidden.
   const fill = "flex-1 flex flex-col";
   return (
     <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55`, minHeight: minH || undefined }}>
@@ -76,7 +79,7 @@ function Panel({ tool, n, active = true, live, onLive, minH }) {
           </span>
         </div>
         {!Demo ? (
-          <div aria-hidden="true" className={fill}><Mock ink={ink} soft={soft} still={!active} /></div>
+          <div aria-hidden="true" className={fill}><Mock key={active ? "on" : "off"} ink={ink} soft={soft} still={!active} /></div>
         ) : live ? (
           <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
         ) : (
@@ -84,7 +87,7 @@ function Panel({ tool, n, active = true, live, onLive, minH }) {
           // sits below the mock rather than floating over it, where it hid
           // the mock's last lines.
           <div className={fill}>
-            <div aria-hidden="true" className={fill}><Mock ink={ink} soft={soft} still={!active} /></div>
+            <div aria-hidden="true" className={fill}><Mock key={active ? "on" : "off"} ink={ink} soft={soft} still={!active} /></div>
             <div className="mt-4 flex justify-center">
               <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
                 className="invite-bob inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
