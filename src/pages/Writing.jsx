@@ -100,7 +100,7 @@ function useModelAnswer(task) {
 function WritingTaskPane({ task }) {
   const { c, notify, t, nav } = useApp();
   const model = useModelAnswer(task);
-  const { text, onTextChange, notes, setNotes, left, running, setRunning, locked, overtime, continueOvertime, restart, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi } = useWritingTask(task, notify);
+  const { text, onTextChange, left, running, setRunning, locked, overtime, continueOvertime, restart, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi } = useWritingTask(task, notify);
 
   const clock = (
     <>
@@ -112,7 +112,7 @@ function WritingTaskPane({ task }) {
   return (
     <div className="grid lg:grid-cols-3 gap-5 items-start rise">
       <div className="lg:col-span-2 space-y-5">
-        <WritingEditor task={task} text={text} onTextChange={onTextChange} locked={locked} words={words} lo={lo} hi={hi} notes={notes} setNotes={setNotes} headerRight={clock} lengthHint />
+        <WritingEditor task={task} text={text} onTextChange={onTextChange} locked={locked} words={words} lo={lo} hi={hi} headerRight={clock} lengthHint />
         {locked && (
           <Card className="p-5 border-2 border-amber-500/40 flex flex-col sm:flex-row sm:items-center gap-3">
             <p className={`text-sm flex-1 ${c.sub}`}>{t("Le temps de cette tâche est écoulé. Le jour de l'examen, votre texte serait envoyé tel quel. Faites-le analyser, ou terminez-le hors temps pour vous entraîner.")}</p>
@@ -130,7 +130,7 @@ function WritingTaskPane({ task }) {
                 : t("Vous avez utilisé vos analyses IA pour cette tâche.")}
             </span>
           )}
-          {(text || notes || left < task.min * 60) && (
+          {(text || left < task.min * 60) && (
             <button type="button" onClick={restart} className={`ml-auto text-xs font-semibold flex items-center gap-1.5 ${c.faint} hover:text-rose-600`}>
               <RotateCcw size={13} /> {t("Recommencer cette tâche")}
             </button>
@@ -174,7 +174,7 @@ function WritingTaskPane({ task }) {
               <li key={tip} className="flex gap-2.5"><Check size={15} className="text-emerald-500 shrink-0 mt-0.5" />{t(tip)}</li>
             ))}
             <li className="flex gap-2.5"><Check size={15} className="text-emerald-500 shrink-0 mt-0.5" />{t("Gardez 3 minutes pour vous relire : accents, accords, a/à, et/est, -é/-er.")}</li>
-            <li className="flex gap-2.5"><Check size={15} className="text-emerald-500 shrink-0 mt-0.5" />{t("Votre texte et votre plan sont gardés si vous changez de tâche ou rechargez la page.")}</li>
+            <li className="flex gap-2.5"><Check size={15} className="text-emerald-500 shrink-0 mt-0.5" />{t("Votre texte est gardé si vous changez de tâche ou rechargez la page.")}</li>
           </ul>
         </Card>
       </div>
