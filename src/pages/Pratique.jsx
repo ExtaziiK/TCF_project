@@ -2,7 +2,7 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, EmbeddedShell } from "@/components/common/PageShell";
 import { RouteGuard } from "@/components/auth/RouteGuard";
 import { deniedReason } from "@/auth/rbac";
-import { PALETTE, toolTone } from "@/components/home/toolsData";
+import { toolTone } from "@/components/home/toolsData";
 import { PRATIQUE_MENU } from "@/constants/navigation";
 import { Carnet } from "@/pages/Carnet";
 import { Vocabulary } from "@/pages/Vocabulary";
@@ -48,15 +48,9 @@ function useTools() {
   }));
 }
 
-// `a` blended toward `b` by `w` (0–1), both #RRGGBB.
-function mix(a, b, w) {
-  const ch = (h, i) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16);
-  return `#${[0, 1, 2].map((i) => Math.round(ch(a, i) * (1 - w) + ch(b, i) * w).toString(16).padStart(2, "0")).join("")}`;
-}
-
-function Badge({ on, children, tone }) {
+function Badge({ children, tone }) {
   return (
-    <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${on ? "bg-white/25 text-white" : tone}`}>
+    <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${tone}`}>
       {children}
     </span>
   );
@@ -65,10 +59,11 @@ function Badge({ on, children, tone }) {
 // A page marker, sticking out of the notebook's left edge (`side="left"`,
 // from lg) or its top edge (small screens). Unselected: pale and set back.
 // Selected: sticks out further, filled, meeting the page's coloured edge.
+// Backgrounds stay neutral; the colour is in the outline (full colour when
+// selected) and the label.
 function Marker({ tool, on, onSelect, side }) {
-  const { t, dark } = useApp();
+  const { t, dark, c } = useApp();
   const k = toolTone(tool.tone, dark);
-  const pale = PALETTE[tool.tone][dark ? "dark" : "light"][0];
   const left = side === "left";
   const shape = left
     ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "ml-0" : "ml-4 enabled:hover:ml-2"}`
@@ -78,12 +73,12 @@ function Marker({ tool, on, onSelect, side }) {
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
       className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-all duration-300 ${left ? "" : "text-left"} ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
-        ${on ? "z-30 text-white shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
-      style={on ? { background: k.fill, borderColor: k.fill } : { background: pale, borderColor: k.edge, ...accent, color: k.ink }}>
+        ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
+      style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
       <tool.icon size={left ? 20 : 16} />
       {t(tool.l)}
-      {tool.soon && <Badge on={on} tone="bg-white/70 text-slate-700">{t("Bientôt")}</Badge>}
-      {tool.premium && !tool.soon && <Badge on={on} tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
+      {tool.soon && <Badge tone="bg-slate-500/15 text-slate-500">{t("Bientôt")}</Badge>}
+      {tool.premium && !tool.soon && <Badge tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
     </button>
   );
 }
@@ -98,9 +93,9 @@ export function Pratique() {
   const select = (r) => nav(r, { replace: true, scroll: false });
   const Tool = active.page;
   const sheet = dark ? "border-slate-700" : "border-slate-300";
-  // The page: a lighter shade of the marker's pale colour (toward white, or
-  // toward the dark canvas in dark mode).
-  const paper = mix(PALETTE[active.tone][dark ? "dark" : "light"][0], dark ? "#0B1222" : "#FFFFFF", 0.45);
+  // The page: neutral paper — the tool's colour is only in its outline, the
+  // header's rule and the faint Seyès lines.
+  const paper = dark ? "#0B1222" : "#FFFFFF";
 
   return (
     <PageShell wide eyebrow={t("Exercices")} title={t("Votre cahier d'entraînement")}
@@ -130,15 +125,15 @@ export function Pratique() {
         {/* The page. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
         <div className={`relative h-full flex flex-col rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
-          <div className="flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] text-white transition-colors duration-300" style={{ background: k.fill }}>
-            <span className="grid place-items-center w-9 h-9 rounded-xl bg-white/20 shrink-0"><active.icon size={18} /></span>
+          <div className={`flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] border-b-2 transition-colors duration-300 ${c.card}`} style={{ borderBottomColor: k.fill }}>
+            <span className="grid place-items-center w-9 h-9 rounded-xl shrink-0" style={{ background: k.panel, color: k.ink }}><active.icon size={18} /></span>
             <div className="min-w-0">
-              <p className="font-display font-extrabold text-lg leading-tight">{t(active.l)}</p>
-              <p className="text-xs font-semibold text-white/80">{t(active.tag)}</p>
+              <p className={`font-display font-extrabold text-lg leading-tight ${c.text}`}>{t(active.l)}</p>
+              <p className={`text-xs font-semibold ${c.sub}`}>{t(active.tag)}</p>
             </div>
           </div>
-          {/* Seyès-ruled paper (.seyes in index.css): tinted a lighter shade of
-              the tool's colour, with very faint lines in that colour.
+          {/* Seyès-ruled paper (.seyes in index.css): neutral, with very faint
+              lines in the tool's colour.
               `.tool-paper` gives the tool's boxes and outlined buttons a
               visible outline in its colour (also index.css). */}
           <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
