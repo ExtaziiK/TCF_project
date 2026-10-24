@@ -57,8 +57,8 @@ const DEMOS = { listening: ScreenCO, reading: ScreenCE, dictee: DicteeDemo, voca
 // showcase measures).
 function Panel({ tool, n, active = true, live, onLive, minH }) {
   const { t, dark, c } = useApp();
-  const [bg, ink, soft] = tone(tool, dark);
-  const night = tool.tone === "night";
+  // The panel itself stays neutral: only its outline carries the tool's colour.
+  const [, ink, soft] = tone(tool, dark);
   const Demo = DEMOS[tool.route];
   const Mock = MOCKS[tool.route];
   // Keyed on `active`, the preview remounts each time its tool is selected,
@@ -66,13 +66,13 @@ function Panel({ tool, n, active = true, live, onLive, minH }) {
   // froze while hidden.
   const fill = "flex-1 flex flex-col";
   return (
-    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55`, minHeight: minH || undefined }}>
+    <div className={`rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300 ${c.card}`} style={{ borderColor: ink, minHeight: minH || undefined }}>
       <div key={tool.route} className="rise flex-1 flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{String(n).padStart(2, "0")} · {t(tool.kind)}</span>
-            <h3 className={`mt-1 font-display font-extrabold text-2xl md:text-3xl ${night ? "text-white" : c.text}`}>{t(tool.t)}</h3>
-            <p className={`mt-2 text-sm md:text-base leading-relaxed ${night ? "text-white/75" : c.sub}`}>{t(tool.d)}</p>
+            <h3 className={`mt-1 font-display font-extrabold text-2xl md:text-3xl ${c.text}`}>{t(tool.t)}</h3>
+            <p className={`mt-2 text-sm md:text-base leading-relaxed ${c.sub}`}>{t(tool.d)}</p>
           </div>
           <span className="hidden sm:grid place-items-center w-12 h-12 rounded-2xl shrink-0" style={{ background: ink, color: onInk(tool) }}>
             <tool.icon size={22} />
@@ -123,8 +123,8 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       onPointerEnter={(e) => e.pointerType === "mouse" && select(i)}
       onFocus={(e) => e.currentTarget.matches(":focus-visible") && select(i)}
       aria-current={on ? "true" : undefined}
-      className={`group relative block rounded-2xl px-4 py-3 border-2 outline-none transition-colors focus-visible:ring-2 ${on ? "" : `${c.border} ${c.card} hover:bg-slate-500/5`}`}
-      style={on ? { background: soft, borderColor: `${ink}55` } : undefined}>
+      className={`group relative block rounded-2xl px-4 py-3 border-2 outline-none transition-colors focus-visible:ring-2 ${c.card} ${on ? "" : `${c.border} hover:bg-slate-500/5`}`}
+      style={on ? { borderColor: ink } : undefined}>
       <span className="flex items-center gap-3">
         <span className="grid place-items-center w-10 h-10 rounded-xl shrink-0 transition-colors"
           style={on ? { background: ink, color: onInk(tool) } : { background: soft, color: ink }}>
@@ -145,7 +145,7 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       </span>
       {/* Auto-advance progress: fills while this tool is shown, then moves on. */}
       {on && auto && (
-        <span className="absolute left-4 right-4 bottom-1.5 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,.55)" }} aria-hidden="true">
+        <span className="absolute left-4 right-4 bottom-1.5 h-1 rounded-full overflow-hidden" style={{ background: `${ink}33` }} aria-hidden="true">
           <span className="showcase-progress block h-full rounded-full" onAnimationEnd={onDone}
             style={{ background: ink, animationDuration: `${STEP_S}s`, animationPlayState: running ? "running" : "paused" }} />
         </span>
