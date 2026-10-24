@@ -112,7 +112,6 @@ export const EN = {
   "Jusqu'à 4 appareils connectés en même temps": "Up to 4 devices signed in at the same time",
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit": "Detailed AI feedback: CEFR level, what to fix, your text rewritten",
   "Entretien oral simulé avec un examinateur IA qui vous répond": "Simulated speaking interview with an AI examiner that answers you",
-  "Un nouveau sujet d'expression à chaque session": "A fresh expression subject every session",
   "avis": "reviews",
   "Avis": "Reviews",
   "Ce que disent les candidats": "What candidates say",

@@ -80,7 +80,6 @@ const SHARED_PAID_FEATS = [
   "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
   "Entretien oral simulé avec un examinateur IA qui vous répond",
-  "Un nouveau sujet d'expression à chaque session",
   // The other side of the free card's "10 minutes d'exercices par jour". It
   // belongs in every paid tier, so it lives here rather than being repeated
   // three times and drifting on the fourth.
