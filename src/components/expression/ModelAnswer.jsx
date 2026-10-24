@@ -26,9 +26,20 @@ function Highlighted({ text, keywords }) {
   );
 }
 
-const PartLabel = ({ children }) => (
-  <p className="text-[11px] font-bold uppercase tracking-widest text-emerald-600 mb-1.5">{children}</p>
-);
+const PartLabel = ({ children, words, range }) => {
+  const { t } = useApp();
+  return (
+    <p className="text-[11px] font-bold uppercase tracking-widest text-emerald-600 mb-1.5">
+      {children}
+      <span className="ml-2 normal-case tracking-normal font-semibold opacity-80">· {words} {t("mots")} ({t(range)})</span>
+    </p>
+  );
+};
+
+// Words as the exam's on-screen counter counts them: runs of non-space
+// characters — the same ruler the grader and the generator use (api/_lib/eeSpec.js).
+const countWords = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
+const RANGE = { 1: "60 à 120 mots", 2: "120 à 150 mots", 3: "120 à 180 mots" };
 
 export function ModelAnswer({ tache, answer, compact = false }) {
   const { c, t } = useApp();
@@ -38,24 +49,33 @@ export function ModelAnswer({ tache, answer, compact = false }) {
   // shape every answer written to the current rules has (version 2 by the gate,
   // 3 stored by hand), so it is only labelled on those.
   const twoParts = (answer?.version ?? 1) >= 2 && Number(tache) === 3 && paras.length >= 2;
+  // The title is typed into the exam box too, so it counts.
+  const words = answer?.words ?? countWords(`${answer?.title || ""} ${answer?.body || ""}`);
 
   return (
     <div>
-      {graded && (
-        <p className={`mb-4 inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1 bg-emerald-600/10 text-emerald-700 dark:text-emerald-400`}>
-          <ShieldCheck size={13} /> {t("Validé par notre correcteur :")} {answer.score}/20
-          {answer.words ? <span className="font-normal opacity-80">· {answer.words} {t("mots")}</span> : null}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {graded && (
+          <p className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1 bg-emerald-600/10 text-emerald-700 dark:text-emerald-400">
+            <ShieldCheck size={13} /> {t("Validé par notre correcteur :")} {answer.score}/20
+          </p>
+        )}
+        <p className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1 bg-blue-600/10 text-blue-700 dark:text-blue-400">
+          {words} {t("mots")}
+          <span className="font-normal opacity-80">
+            · {t("attendu :")} {t(RANGE[Number(tache)] || "")}{answer?.title ? ` · ${t("titre compris")}` : ""}
+          </span>
         </p>
-      )}
+      </div>
       {answer?.title && <p className={`font-display font-bold text-lg mb-3 ${c.text}`}>{answer.title}</p>}
       {twoParts ? (
         <div className="space-y-4">
           <div>
-            <PartLabel>{t("1 · Synthèse des deux documents")}</PartLabel>
+            <PartLabel words={countWords(paras[0])} range="40 à 60">{t("1 · Synthèse des deux documents")}</PartLabel>
             <Highlighted text={paras[0]} keywords={answer.keywords} />
           </div>
           <div>
-            <PartLabel>{t("2 · Votre opinion argumentée")}</PartLabel>
+            <PartLabel words={countWords(paras.slice(1).join(" "))} range="80 à 120">{t("2 · Votre opinion argumentée")}</PartLabel>
             <Highlighted text={paras.slice(1).join("\n\n")} keywords={answer.keywords} />
           </div>
         </div>
