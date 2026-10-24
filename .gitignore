@@ -21,3 +21,6 @@ dist
 # generated media name maps (opaque hash -> question) - keep local, never share
 media-inventory.csv
 media-manifest.*
+
+# Model-answer backfill logs (scripts/backfill-model-answers.mjs)
+scripts/backfill-*.log.jsonl

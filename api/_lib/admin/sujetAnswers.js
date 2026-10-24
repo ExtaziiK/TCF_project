@@ -50,7 +50,7 @@ function cleanDraft(raw, tache) {
   return base;
 }
 
-async function publish({ year, monthNum, n, tache, draft, sujet, userId, model }) {
+export async function publish({ year, monthNum, n, tache, draft, sujet, userId, model }) {
   // Re-measured from the text itself, not taken from the draft.
   const answer = assembleAnswer(tache, draft.json || {});
   const issues = measuredIssues(tache, answer, sujet);
@@ -82,11 +82,13 @@ async function publish({ year, monthNum, n, tache, draft, sujet, userId, model }
     ({ error } = await admin.from("sujets_answers").upsert({ ...legacy, body: row.title ? `${row.title}\n\n${row.body}` : row.body }, { onConflict: "section,year,month_num,n,tache" }));
   }
   if (error) throw new HttpError(500, `Enregistrement impossible : ${error.message}`);
-  // The dictée of this subject was read from the old text. Removed, so the next
-  // seed or draw records the new one; every score taken on it stays in
-  // dictee_sessions (the link is `on delete set null`).
+  // A dictée recorded from the previous version of this answer is now stale:
+  // removed, so the next seed or draw records the new text. Every score taken
+  // on it stays in dictee_sessions (the link is `on delete set null`). A dictée
+  // the dictée wrote for itself (answer_id null) is left in the library — the
+  // draw upgrades it to this answer the next time someone opens it.
   if (!before || before.body !== row.body) {
-    await admin.from("dictee_texts").delete().eq("sujet_key", sujetKeyOf(year, monthNum, n)).eq("task", tache);
+    await admin.from("dictee_texts").delete().eq("sujet_key", sujetKeyOf(year, monthNum, n)).eq("task", tache).not("answer_id", "is", null);
   }
   return { published: true, issues: [] };
 }

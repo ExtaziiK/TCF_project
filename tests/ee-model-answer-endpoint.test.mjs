@@ -57,7 +57,7 @@ if (canMock) {
             eq(k, v) { q.filters[k] = v; return q; },
             maybeSingle: async () => ({ data: null, error: null }),
             upsert: async (row) => { db.upserts.push({ table, row }); return { error: null }; },
-            delete() { const d = { eq(k, v) { (d.f ||= {})[k] = v; return d; }, then(r) { db.deletes.push({ table, ...d.f }); r({ error: null }); } }; return d; },
+            delete() { const d = { eq(k, v) { (d.f ||= {})[k] = v; return d; }, not(k, op, v) { (d.f ||= {})[`not.${k}`] = `${op} ${v}`; return d; }, then(r) { db.deletes.push({ table, ...d.f }); r({ error: null }); } }; return d; },
           };
           return q;
         },
@@ -107,7 +107,8 @@ test("a model answer is written step by step and published only at the end, with
   // Only expressions that occur in the text.
   assert.deepEqual(row.keywords, ["Dès la tombée de la nuit", "à condition de"]);
   // The subject's previous dictée is dropped so the new text gets recorded.
-  assert.deepEqual(db.deletes, [{ table: "dictee_texts", sujet_key: "2026-10-4", task: 2 }]);
+  // Only a dictée recorded from an earlier answer; a legacy one stays playable.
+  assert.deepEqual(db.deletes, [{ table: "dictee_texts", sujet_key: "2026-10-4", task: 2, "not.answer_id": "is null" }]);
 });
 
 test("a text under the bar is revised once, then left unpublished", { skip: !canMock && "needs --experimental-test-module-mocks" }, async () => {
