@@ -7,6 +7,7 @@ import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { HeroCollage } from "@/components/home/HeroCollage";
 import { ExamOverview } from "@/components/home/ExamOverview";
+import { WHY } from "@/constants/home";
 import { Sparks, MapleMark, CurvedArrow } from "@/components/home/TitleDoodles";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
@@ -105,6 +106,24 @@ function Landing() {
               ))}
             </div>
           )}
+
+          {/* WHY US — under the figures: one row of four short points, each a
+              brand-colour icon, a bold title and a single line. The long
+              versions live on the "À propos" page. */}
+          <div className="mt-12 md:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 rise rise-3">
+            {WHY.map((w, i) => (
+              <div key={w.t} className="flex items-start gap-3">
+                <span className="grid place-items-center w-11 h-11 rounded-2xl shrink-0 text-white"
+                  style={{ background: ["#2E6BE6", "#6C4FE0", "#D8354A", "#F59E0B"][i % 4] }}>
+                  <w.icon size={20} />
+                </span>
+                <div>
+                  <p className={`font-display font-bold leading-snug ${c.text}`}>{t(w.t)}</p>
+                  <p className={`mt-0.5 text-sm leading-snug ${c.sub}`}>{t(w.short)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* below: the tools showcase, live — its Compréhension orale and
               Compréhension écrite panels are real bank questions (the two demo

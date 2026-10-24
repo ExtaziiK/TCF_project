@@ -49,11 +49,13 @@ export const FEATURES = [
   { icon: GraduationCap, t: "Grammaire structurée", d: "Leçons courtes suivies d'exercices, des articles aux connecteurs.", route: "grammar" },
 ];
 
+// `short`: the one-line version shown in the landing hero's strip; `d`, the
+// full sentence, on the "À propos" page.
 export const WHY = [
-  { icon: Target, t: "Format 100 % TCF Canada", d: "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve." },
-  { icon: TrendingUp, t: "Progression mesurée", d: "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance." },
-  { icon: Leaf, t: "Pensé pour le Canada", d: "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton." },
-  { icon: Shield, t: "Corrections détaillées", d: "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée." },
+  { icon: Target, t: "Format 100 % TCF Canada", short: "Format, minutage et difficulté officiels", d: "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve." },
+  { icon: TrendingUp, t: "Progression mesurée", short: "Scores et niveau NCLC suivis à chaque séance", d: "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance." },
+  { icon: Leaf, t: "Pensé pour le Canada", short: "Contextes, accents et situations d'ici", d: "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton." },
+  { icon: Shield, t: "Corrections détaillées", short: "Réponses expliquées, écrit et oral évalués par l'IA", d: "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée." },
 ];
 
 export const TESTIMONIALS = [

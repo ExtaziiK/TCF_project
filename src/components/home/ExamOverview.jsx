@@ -2,15 +2,14 @@ import { ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { MOCK_SECTIONS } from "@/constants/mocks";
-import { WHY } from "@/constants/home";
 import { PALETTE } from "./toolsData";
 
 // The landing page's "L'épreuve en bref" section: the exam at a glance (four
 // key figures beside the title), the four épreuves as cards in the tools
 // showcase's colours — CO blue, CE red, EE violet, EO amber, as on the TCF
 // blanc boarding pass — each with its size, a bar for its share of the
-// timing and a link to the épreuve, then "Pourquoi nous choisir" as a row of
-// four tiles. Flat colours, like the rest of the page.
+// timing and a link to the épreuve. Flat colours, like the rest of the page.
+// ("Pourquoi nous choisir" lives in the hero, under the figures.)
 
 const TONES = ["blue", "rose", "violet", "amber"];
 const LONGEST = 60; // minutes — the longest épreuve, the duration bars' full width
@@ -77,16 +76,6 @@ export function ExamOverview() {
         })}
       </div>
 
-      <h3 className={`mt-14 font-display font-bold text-2xl ${c.text}`}>{t("Pourquoi nous choisir")}</h3>
-      <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {WHY.map((w) => (
-          <div key={w.t} className={`rounded-3xl border p-5 ${c.border} ${c.card}`}>
-            <span className="grid place-items-center w-10 h-10 rounded-xl bg-rose-600/10 text-rose-600"><w.icon size={18} /></span>
-            <p className={`mt-4 font-display font-bold ${c.text}`}>{t(w.t)}</p>
-            <p className={`mt-1.5 text-sm leading-relaxed ${c.sub}`}>{t(w.d)}</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
