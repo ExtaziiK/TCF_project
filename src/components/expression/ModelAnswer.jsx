@@ -1,7 +1,13 @@
 import { useMemo } from "react";
-import { BookMarked, ShieldCheck } from "lucide-react";
+import { BookMarked, ShieldCheck, BookmarkPlus, BookmarkCheck } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { highlight } from "@/services/sujetsAnswersFormat";
+import { useVocabDeck } from "@/hooks/useVocabDeck";
+
+// The sentence of the answer an expression comes from — its example in
+// « Mon lexique », so the learner reviews it in context.
+const sentenceWith = (body, k) =>
+  (String(body || "").replace(/\s+/g, " ").match(/[^.!?…]+[.!?…]+/g) || []).find((x) => x.toLowerCase().includes(k.toLowerCase()))?.trim() || "";
 
 // THE model answer of one subject, as both the « Modèle de réponse » page and
 // the writing workshop's « Exemple de réponse » show it — the same text the
@@ -43,6 +49,7 @@ const RANGE = { 1: "60 à 120 mots", 2: "120 à 150 mots", 3: "120 à 180 mots" 
 
 export function ModelAnswer({ tache, answer, compact = false }) {
   const { c, t } = useApp();
+  const deck = useVocabDeck();
   const graded = Number.isFinite(answer?.score);
   const paras = String(answer?.body || "").split(/\n{2,}/);
   // Tâche 3: the synthesis is the first paragraph, the opinion the rest — the
@@ -86,11 +93,23 @@ export function ModelAnswer({ tache, answer, compact = false }) {
         <div className={`mt-5 pt-5 border-t ${c.border}`}>
           <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-3 flex items-center gap-1.5">
             <BookMarked size={12} /> {t("Expressions à mémoriser")}
+            <span className={`ml-1 normal-case tracking-normal font-normal ${c.faint}`}>· {t("touchez pour l’ajouter à « Mon lexique »")}</span>
           </p>
           <div className="flex flex-wrap gap-2">
-            {answer.keywords.map((k, i) => (
-              <span key={i} className={`text-sm rounded-full border ${c.border} px-3 py-1.5 ${c.text}`}>{k}</span>
-            ))}
+            {answer.keywords.map((k, i) => {
+              const saved = deck.has(k);
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  disabled={saved}
+                  onClick={() => deck.add({ term: k, def: t(`Expression d’un modèle de réponse (tâche ${tache}).`), example: sentenceWith(answer.body, k), source: "modele" })}
+                  className={`text-sm rounded-full border px-3 py-1.5 inline-flex items-center gap-1.5 transition-colors ${saved ? "border-blue-600/40 bg-blue-600/10 text-blue-700 dark:text-blue-400" : `${c.border} ${c.text} hover:border-blue-600`}`}
+                >
+                  {saved ? <BookmarkCheck size={13} /> : <BookmarkPlus size={13} className="text-blue-600" />} {k}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
