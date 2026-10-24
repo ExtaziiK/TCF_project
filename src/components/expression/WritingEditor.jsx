@@ -11,7 +11,10 @@ import { Card, Pill, AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/compon
 // `locked`: the time is up — the text stays readable but takes no more input.
 // `notes`/`setNotes`: the plan (brouillon), like the scrap paper the centre
 // hands out; it is never graded.
-export function WritingEditor({ task, text, onTextChange, locked = false, words, lo, hi, notes, setNotes, headerRight = null }) {
+//
+// `lengthHint`: in the practice workshop, says what an out-of-range count
+// risks under the official rules. The TCF blanc leaves it out, like the exam.
+export function WritingEditor({ task, text, onTextChange, locked = false, words, lo, hi, notes, setNotes, headerRight = null, lengthHint = false }) {
   const { c, t } = useApp();
   const taRef = useRef(null);
   const inRange = words >= lo && words <= hi;
@@ -59,6 +62,16 @@ export function WritingEditor({ task, text, onTextChange, locked = false, words,
           {...NO_ASSIST_PROPS}
           className={`w-full p-5 bg-transparent outline-none text-[15px] leading-relaxed resize-y ${c.text}`}
         />
+        {lengthHint && words > hi && (
+          <p className="px-5 pb-3 text-xs font-semibold text-amber-600">
+            {t("Au-delà de")} {hi} {t("mots, la tâche ne respecte plus le nombre de mots exigé : selon les règles officielles, elle risque d'être évaluée « A1 non atteint ». Resserrez votre texte.")}
+          </p>
+        )}
+        {lengthHint && words > 0 && words < lo && (
+          <p className={`px-5 pb-3 text-xs ${c.faint}`}>
+            {t("Encore")} {lo - words} {t("mot(s) pour atteindre le minimum exigé. En dessous, la tâche risque d'être évaluée « A1 non atteint ».")}
+          </p>
+        )}
         {locked && (
           <p className={`px-5 pb-3 text-xs font-semibold flex items-center gap-1.5 text-amber-600`}>
             <Lock size={13} /> {t("Temps écoulé : le texte est verrouillé.")}

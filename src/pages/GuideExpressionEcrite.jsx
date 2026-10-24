@@ -1,7 +1,7 @@
 import { PenLine, Clock, ListChecks, CheckCircle2, Quote, Sparkles, ArrowRight, FileText } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill } from "@/components/common";
-import { EE_CRITERIA, EE_METHOD } from "@/constants/guideEE";
+import { EE_CRITERIA, EE_METHOD, EE_OFFICIAL_RULES } from "@/constants/guideEE";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
 
 // Numbered structure step (used by every task's "structure" list).
@@ -142,6 +142,21 @@ export function ExpressionEcriteGuideBody({ compact = false }) {
         </div>
       </Card>
 
+      {/* What can fail a tâche outright — France Éducation international's rules */}
+      <Card className={`${cardPad} ${blockGap} border-2 border-amber-500/40`}>
+        <div className="flex items-center gap-2 mb-3">
+          <ListChecks size={18} className="text-amber-600 shrink-0" />
+          <h3 className={`font-display font-bold ${compact ? "text-sm" : ""} ${c.text}`}>{t(EE_OFFICIAL_RULES.title)}</h3>
+        </div>
+        <p className={`text-sm mb-2 ${c.sub}`}>{t(EE_OFFICIAL_RULES.intro)}</p>
+        <ul className={`text-sm space-y-1.5 mb-3 list-disc list-inside ${c.text}`}>
+          {EE_OFFICIAL_RULES.items.map((x) => <li key={x}>{t(x)}</li>)}
+        </ul>
+        <ul className={`text-xs space-y-1 ${c.faint}`}>
+          {EE_OFFICIAL_RULES.notes.map((x) => <li key={x}>· {t(x)}</li>)}
+        </ul>
+      </Card>
+
       {/* The three tasks, as tabs */}
       <div role="tablist" aria-label={t("Les trois tâches")} className={`grid grid-cols-1 sm:grid-cols-3 gap-3 ${compact ? "mb-5" : "mb-6"}`}>
         {EE_METHOD.map((tk, i) => {
@@ -201,6 +216,16 @@ export function ExpressionEcriteGuideBody({ compact = false }) {
             {task.steps.map((st, i) => <Step key={st.s} i={i + 1} label={st.s} desc={st.d} />)}
           </div>
         </div>
+
+        {task.altStructure && (
+          <div className="mt-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">{t(task.altStructure.title)}</p>
+            <div className={`mb-3 rounded-2xl border ${c.border} ${c.bg} p-4 text-sm italic leading-relaxed ${c.sub}`}>{t(task.altStructure.example)}</div>
+            <div className="space-y-2.5">
+              {task.altStructure.steps.map((st, i) => <Step key={st.s} i={i + 1} label={st.s} desc={st.d} />)}
+            </div>
+          </div>
+        )}
 
         {task.examples && (
           <div className="mt-5 space-y-3">

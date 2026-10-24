@@ -16,6 +16,24 @@ export const EE_CRITERIA = [
   "Faire une synthèse et reformuler.",
 ];
 
+// What can fail a tâche outright, in France Éducation international's words
+// (Manuel du candidat, version H, février 2024 ; sujet de démonstration
+// EE00demo). Shown on the guide so a candidate learns it before being corrected.
+export const EE_OFFICIAL_RULES = {
+  title: "Les règles officielles qui peuvent faire échouer une tâche",
+  intro: "Selon le manuel du candidat de France Éducation international, une copie peut être évaluée « A1 non atteint » si :",
+  items: [
+    "le nombre de mots exigé n'est pas respecté : il faut rester entre le minimum ET le maximum de chaque tâche ;",
+    "la production est hors sujet ;",
+    "une ou plusieurs tâches ne sont pas réalisées.",
+  ],
+  notes: [
+    "Un mot = tout ensemble de signes placé entre deux espaces (c'est ainsi que l'examen compte).",
+    "Faites les tâches dans l'ordre : la tâche 1, puis la tâche 2, puis la tâche 3.",
+    "Le brouillon est détruit à la fin de l'épreuve : seul le texte rédigé dans la zone prévue est évalué.",
+  ],
+};
+
 // The three tasks, each with its brief, word range and a structured method.
 export const EE_METHOD = [
   {
@@ -25,7 +43,7 @@ export const EE_METHOD = [
     brief: "Rédaction d'un message pour décrire, raconter et/ou expliquer, adressé à un ou plusieurs destinataires dont le statut est précisé dans la consigne.",
     structureTitle: "La structure du message",
     steps: [
-      { s: "Objet", d: "Un objet court et clair. Ex. : « Mes congés à Dakar »." },
+      { s: "Objet (courriel uniquement)", d: "Si la consigne demande un courriel, un objet court et clair. Ex. : « Mes congés à Dakar ». Pour un mot, une lettre ou un message, pas d'objet." },
       { s: "Salutations", d: "Adaptez le registre au destinataire. Ex. : « Coucou Samy, comment vas-tu ? »." },
       { s: "Objectif du message", d: "Annoncez d'emblée pourquoi vous écrivez. Ex. : « Je t'écris pour te dire que je serai à Paris. »." },
       { s: "Détails de la circonstance", d: "Répondez à : qui ? quoi ? quand ? où ? avec qui ?" },
@@ -124,7 +142,7 @@ export const EE_METHOD = [
     title: "Le compte rendu / l'article",
     words: "120 à 150 mots",
     brief: "Rédaction d'un article, d'un courrier ou d'une note à l'intention de plusieurs destinataires : un compte rendu d'expérience ou un récit, accompagné de commentaires, d'opinions ou d'arguments selon un objectif (revendiquer, se réconcilier…).",
-    note: "L'objectif : raconter ou rendre compte pour plaire, attirer ou réconcilier. Pour un courriel, réutilisez la structure de la Tâche 1 ; pour un article de blog, suivez la structure ci-dessous.",
+    note: "Lisez bien la consigne : soit elle vous demande de raconter une expérience (article, billet de blog), soit de répondre à quelqu'un en conseillant, en réclamant ou en proposant (courriel, lettre). Dans les deux cas, vos commentaires, opinions ou conseils doivent être justifiés.",
     example: "Exemple de consigne : « Rédigez un article de blog sur un métier qui vous passionne, en donnant envie aux gens de s'y intéresser. »",
     structureTitle: "La structure de l'article de blog",
     steps: [
@@ -133,6 +151,20 @@ export const EE_METHOD = [
       { s: "Votre expérience", d: "Racontez votre propre expérience, avec des détails concrets." },
       { s: "Recommandations", d: "Invitez vos lecteurs à s'intéresser à l'activité. Adaptez toujours à la consigne." },
     ],
+    // The official sample tâche 2 (EE00demo) is not a story: « Vous avez reçu
+    // ce courriel de votre amie Charlotte. Vous répondez. Vous justifiez vos
+    // conseils. » — so the guide teaches that shape too.
+    altStructure: {
+      title: "La structure de la réponse (conseils, réclamation, proposition)",
+      example: "Exemple de consigne officielle : « Vous avez reçu ce courriel de votre amie Charlotte. Vous répondez. Vous justifiez vos conseils. »",
+      steps: [
+        { s: "Salutation", d: "Adaptée au destinataire : « Chère Charlotte, », « Madame, Monsieur, »." },
+        { s: "Réaction au message", d: "Montrez que vous avez lu son courriel. Ex. : « Merci pour ton message, je comprends ton hésitation. »" },
+        { s: "Premier conseil + justification", d: "Ex. : « Je te conseille de… car… » — un conseil sans raison ne compte qu'à moitié." },
+        { s: "Deuxième conseil + justification", d: "Ex. : « Par ailleurs, il vaudrait mieux… dans la mesure où… »" },
+        { s: "Conclusion et formule de congé", d: "Un encouragement ou une proposition, puis « À bientôt », « Bien à vous »…" },
+      ],
+    },
     phraseBank: {
       title: "Templates & phrases prêtes à l'emploi",
       intro: "Combinez le récit au passé composé et la description à l'imparfait. Adaptez ces modèles à l'événement du sujet.",
@@ -203,8 +235,8 @@ export const EE_METHOD = [
     words: "120 à 180 mots",
     brief: "Rédaction d'un texte (journal, site Internet, collègue, supérieur hiérarchique…) qui compare deux points de vue sur un fait de société, exprimés dans deux documents courts (~90 mots chacun), puis prend position sur le thème.",
     twoParts: [
-      { p: "1re partie · 40 à 60 mots", d: "Résumez le point de vue des deux documents." },
-      { p: "2e partie · 80 à 120 mots", d: "Donnez et argumentez votre propre point de vue sur le sujet." },
+      { p: "1re partie · 40 à 60 mots", d: "Vous présentez les deux opinions avec vos propres mots (consigne officielle)." },
+      { p: "2e partie · 80 à 120 mots", d: "Vous donnez votre position sur le thème général, commun aux deux opinions, et vous la justifiez." },
     ],
     structureTitle: "La structure",
     steps: [
@@ -241,7 +273,7 @@ export const EE_METHOD = [
           kind: "model",
           label: "3A · Argument 1 — l'aspect positif (Pour)",
           lines: [
-            "De mon avis, ce {sujet / thème} présente de nombreux avantages. Pour ma part, je suis fermement convaincu(e) que cette {démarche / stratégie / initiative} présente plusieurs avantages. Tout d'abord, {argument positif 1}. De plus, {argument positif 2}. Par ailleurs, {argument positif 3}.",
+            "À mon avis, ce {sujet / thème} présente de nombreux avantages. Pour ma part, je suis fermement convaincu(e) que cette {démarche / stratégie / initiative} mérite d'être encouragée. Tout d'abord, {argument positif 1}. De plus, {argument positif 2}. Par ailleurs, {argument positif 3}.",
           ],
         },
         {

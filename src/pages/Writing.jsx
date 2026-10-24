@@ -111,7 +111,7 @@ function WritingTaskPane({ task }) {
   return (
     <div className="grid lg:grid-cols-3 gap-5 items-start rise">
       <div className="lg:col-span-2 space-y-5">
-        <WritingEditor task={task} text={text} onTextChange={onTextChange} locked={locked} words={words} lo={lo} hi={hi} notes={notes} setNotes={setNotes} headerRight={clock} />
+        <WritingEditor task={task} text={text} onTextChange={onTextChange} locked={locked} words={words} lo={lo} hi={hi} notes={notes} setNotes={setNotes} headerRight={clock} lengthHint />
         {locked && (
           <Card className="p-5 border-2 border-amber-500/40 flex flex-col sm:flex-row sm:items-center gap-3">
             <p className={`text-sm flex-1 ${c.sub}`}>{t("Le temps de cette tâche est écoulé. Le jour de l'examen, votre texte serait envoyé tel quel. Faites-le analyser, ou terminez-le hors temps pour vous entraîner.")}</p>
