@@ -51,9 +51,9 @@ export const FEATURES = [
 
 export const WHY = [
   { icon: Target, t: "Format 100 % TCF Canada", d: "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve." },
-  { icon: TrendingUp, t: "Progression mesurée", d: "Un niveau CECR estimé après chaque session, avec un plan d'étude qui s'adapte à vous." },
+  { icon: TrendingUp, t: "Progression mesurée", d: "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance." },
   { icon: Leaf, t: "Pensé pour le Canada", d: "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton." },
-  { icon: Shield, t: "Corrections fiables", d: "Explications rédigées par des enseignants de FLE certifiés, pas seulement une bonne réponse." },
+  { icon: Shield, t: "Corrections détaillées", d: "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée." },
 ];
 
 export const TESTIMONIALS = [

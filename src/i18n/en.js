@@ -301,14 +301,21 @@ export const EN = {
   "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve.":
     "Every question follows the test's official format, timing and difficulty.",
   "Progression mesurée": "Measured progress",
-  "Un niveau CECR estimé après chaque session, avec un plan d'étude qui s'adapte à vous.":
-    "An estimated CEFR level after each session, with a study plan that adapts to you.",
+  "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance.":
+    "Your scores, your estimated NCLC level and your weak spots, tracked every session.",
   "Pensé pour le Canada": "Designed for Canada",
   "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton.":
     "Canadian contexts: Express Entry, local accents, real-life situations in Montréal or Moncton.",
-  "Corrections fiables": "Reliable corrections",
-  "Explications rédigées par des enseignants de FLE certifiés, pas seulement une bonne réponse.":
-    "Explanations written by certified French teachers, not just the right answer.",
+  "Corrections détaillées": "Detailed corrections",
+  "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée.":
+    "Every answer is explained, and the AI grades your writing and speaking: level, mistakes and an improved version.",
+  // "L'épreuve en bref" section (components/home/ExamOverview.jsx).
+  "épreuves": "tests",
+  "au total": "in total",
+  "points maximum": "maximum points",
+  "niveaux reconnus par IRCC": "levels recognised by IRCC",
+  "questions": "questions",
+  "tâches": "tasks",
 
   // ── Testimonials ─────────────────────────────────────────────────────
   // Member-written stories are shown as typed (a lookup miss returns the
