@@ -6,7 +6,8 @@
 //   node scripts/backfill-model-answers.mjs 2026-10 2026-09 [--budget 100000] [--redo]
 //
 // Months are done in the order given, combinaisons in order. Resumable: a tâche
-// whose answer was already written by the gate (version 2) is skipped, so a
+// whose answer was already written by the gate (version 2) or stored by hand
+// (version 3, scripts/store-model-answers.mjs) is skipped, so a
 // run stopped by Groq's daily allowance continues where it left off.
 //
 // --budget caps the tokens of gpt-oss-120b this run may spend (default 100 000,
@@ -78,7 +79,9 @@ outer: for (const [year, monthNum] of months) {
   const [row] = await rest(`sujets_archive?select=data&section=eq.ee&year=eq.${year}&month_num=eq.${monthNum}`);
   if (!row) { console.log(`${year}-${monthNum} : mois absent de sujets_archive, ignoré`); continue; }
   const have = await rest(`sujets_answers?select=n,tache,version&section=eq.ee&year=eq.${year}&month_num=eq.${monthNum}`);
-  const graded = new Set(have.filter((a) => a.version === 2).map((a) => `${a.n}:${a.tache}`));
+  // 2 = written by the gate, 3 = written outside it (scripts/store-model-answers.mjs):
+  // both are kept; only a pre-gate answer (1) is rewritten.
+  const graded = new Set(have.filter((a) => a.version >= 2).map((a) => `${a.n}:${a.tache}`));
   const data = row.data || [];
 
   for (let i = 0; i < data.length; i++) {

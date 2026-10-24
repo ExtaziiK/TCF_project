@@ -34,12 +34,12 @@ export async function loadAnswers(section, year, monthNum, n) {
     .eq("month_num", monthNum)
     .eq("n", n)
     .order("tache");
-  let { data, error } = await run("tache, title, body, keywords, words, score");
+  let { data, error } = await run("tache, title, body, keywords, words, score, version");
   if (error) ({ data, error } = await run("tache, body, keywords"));
   if (error) return { ok: false, error: error.message, answers: {} };
   const answers = {};
   for (const r of data || []) {
-    answers[r.tache] = { title: r.title || "", body: r.body, keywords: r.keywords || [], words: r.words ?? null, score: r.score ?? null };
+    answers[r.tache] = { title: r.title || "", body: r.body, keywords: r.keywords || [], words: r.words ?? null, score: r.score ?? null, version: r.version ?? 1 };
   }
   return { ok: true, answers };
 }

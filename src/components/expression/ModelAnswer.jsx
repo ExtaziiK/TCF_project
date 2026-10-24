@@ -35,8 +35,9 @@ export function ModelAnswer({ tache, answer, compact = false }) {
   const graded = Number.isFinite(answer?.score);
   const paras = String(answer?.body || "").split(/\n{2,}/);
   // Tâche 3: the synthesis is the first paragraph, the opinion the rest — the
-  // shape the gate writes, so it is only labelled on a graded answer.
-  const twoParts = graded && Number(tache) === 3 && paras.length >= 2;
+  // shape every answer written to the current rules has (version 2 by the gate,
+  // 3 stored by hand), so it is only labelled on those.
+  const twoParts = (answer?.version ?? 1) >= 2 && Number(tache) === 3 && paras.length >= 2;
 
   return (
     <div>
