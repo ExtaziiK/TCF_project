@@ -69,7 +69,7 @@ function ScreenCO({ ink, soft, still }) {
   );
 }
 
-const CE_PHASES = [1800, 1800, 2600]; // reading, the key sentence highlighted, the answer
+const CE_PHASES = [1400, 1400, 2200]; // reading, the key sentence highlighted, the answer
 
 function ScreenCE({ ink, soft, still }) {
   const { c } = useApp();
@@ -91,24 +91,44 @@ function ScreenCE({ ink, soft, still }) {
 // expression panels, which stay demo-only (the real analysis needs an
 // account). `len` characters are typed one by one (phase 0), then each later
 // phase holds for its duration in `after`; frozen on the last one.
-function useTypedLoop(len, after, still, msPerChar = 26) {
-  const frozen = still || prefersReduced();
-  const [phase, setPhase] = useState(0);
+// Every card's loop lasts 5 s in all — the same as the showcase's auto-advance
+// step (STEP_S in ToolsShowcase.jsx), so a visitor watching sees each one play
+// through exactly once.
+//
+// Types `len` characters over `ms`, by the clock: a timer per character drifts
+// badly at these speeds. `onDone` fires once the last one is in.
+function useTyping(len, ms, running, onDone) {
   const [n, setN] = useState(0);
   useEffect(() => {
-    if (frozen) return;
-    if (phase === 0) {
-      const id = n < len ? window.setTimeout(() => setN(n + 1), msPerChar) : window.setTimeout(() => setPhase(1), 400);
-      return () => window.clearTimeout(id);
-    }
-    const id = window.setTimeout(() => {
-      const next = (phase + 1) % (after.length + 1);
-      if (next === 0) setN(0);
-      setPhase(next);
-    }, after[phase - 1]);
+    if (!running) return undefined;
+    setN(0);
+    const start = window.performance.now();
+    let frame = 0;
+    const tick = (now) => {
+      const k = Math.min(len, Math.round((len * (now - start)) / ms));
+      setN(k);
+      if (k < len) frame = window.requestAnimationFrame(tick);
+      else onDone();
+    };
+    frame = window.requestAnimationFrame(tick);
+    // Back to 0 as the run ends, so the next one never flashes the full text.
+    return () => { window.cancelAnimationFrame(frame); setN(0); };
+  }, [running]); // eslint-disable-line react-hooks/exhaustive-deps
+  return n;
+}
+
+// Typed out over `typeMs` (phase 0), then each later phase holds for its
+// duration in `after`; frozen on the last one.
+function useTypedLoop(len, typeMs, after, still) {
+  const frozen = still || prefersReduced();
+  const [phase, setPhase] = useState(0);
+  const n = useTyping(len, typeMs, !frozen && phase === 0, () => setPhase(1));
+  useEffect(() => {
+    if (frozen || phase === 0) return undefined;
+    const id = window.setTimeout(() => setPhase((phase + 1) % (after.length + 1)), after[phase - 1]);
     return () => window.clearTimeout(id);
-  }, [phase, n, frozen, len, after, msPerChar]);
-  return frozen ? { phase: after.length, n: len } : { phase, n };
+  }, [phase, frozen, after]);
+  return frozen ? { phase: after.length, n: len } : { phase, n: phase === 0 ? n : len };
 }
 
 // A text with mistakes: plain strings, and { wrong, right } pairs. Typed, it
@@ -150,40 +170,97 @@ function Analysing({ ink, label }) {
   );
 }
 
+// Writing: the email types itself out (three spelling mistakes in it), the AI
+// reads it, then shows what the real correction gives back — the spelling
+// fixed, a CEFR rating per criterion, and the same email rewritten at C1.
 const EE_SEGS = [
-  "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine dernière. Je souhaiterais obtenir davantage de ",
+  "Madame, Monsieur, je me permets de vous écrire au sujet de l'annonce parue la semaine ",
+  { wrong: "derniere", right: "dernière" },
+  ". Je souhaiterais obtenir davantage de ",
   { wrong: "précision", right: "précisions" },
   " sur le logement, notamment sur les charges qui sont ",
   { wrong: "compris", right: "comprises" },
   " dans le loyer.",
 ];
 const EE_TEXT = plainOf(EE_SEGS);
-const EE_AFTER = [1400, 4800]; // analysing, then the correction holds
+// The C1 rewrite, as plain text and upgraded phrases (highlighted).
+const EE_C1 = [
+  "Madame, Monsieur, ",
+  { up: "à la suite de" },
+  " votre annonce parue la semaine dernière, je ",
+  { up: "me permets de vous solliciter afin d'obtenir" },
+  " des précisions ",
+  { up: "complémentaires" },
+  " sur le logement, ",
+  { up: "en particulier" },
+  " sur les charges comprises dans le loyer.",
+];
+const EE_RATINGS = [["Orthographe", "B1"], ["Grammaire", "B2"], ["Lexique", "B2"], ["Cohérence", "C1"]];
+const EE_TYPE = 1600; // typing; then analysing, the spelling fixed + rating, then the C1 version too
+const EE_AFTER = [600, 1200, 1600];
 const countWords = (x) => (x.trim() ? x.trim().split(/\s+/).length : 0);
+
+function StepLabel({ ink, children }) {
+  return <p className="mb-1.5 font-mono2 text-[10px] font-bold uppercase tracking-widest" style={{ color: ink }}>{children}</p>;
+}
+
+// The AI's rating: overall level, then one per criterion.
+function Ratings({ ink, soft }) {
+  const { c } = useApp();
+  return (
+    <div className="mb-4 rounded-2xl p-3" style={{ background: soft }}>
+      <div className="flex items-center gap-2 text-sm font-bold" style={{ color: ink }}>
+        <Sparkles size={15} /> Évaluation IA
+        <span className="ml-auto rounded-full px-2.5 py-0.5 text-xs text-white" style={{ background: ink }}>Global B2 · NCLC 8</span>
+      </div>
+      <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+        {EE_RATINGS.map(([k, v]) => (
+          <span key={k} className={`flex items-center justify-between rounded-lg px-2.5 py-1 text-xs ${c.card}`}>
+            <span className={c.sub}>{k}</span>
+            <span className="font-display font-extrabold" style={{ color: ink }}>{v}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ScreenEE({ ink, soft, still }) {
   const { c } = useApp();
-  const { phase, n } = useTypedLoop(EE_TEXT.length, EE_AFTER, still);
+  const { phase, n } = useTypedLoop(EE_TEXT.length, EE_TYPE, EE_AFTER, still);
   const words = countWords(EE_TEXT.slice(0, n));
+  const layer = (on) => `[grid-area:1/1] ${on ? "" : "invisible"}`;
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 2 · COURRIEL">
-      {/* Every state is stacked in one cell, the inactive ones invisible, so
-          the mock keeps one height through the loop and the page never moves. */}
-      <div className="grid">
-        <div className={`[grid-area:1/1] ${phase === 2 ? "invisible" : ""}`}>
-          <p className={`text-sm leading-relaxed ${c.sub}`}>
-            {EE_TEXT.slice(0, n)}
-            {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
-          </p>
-          <div className="mt-4 flex items-center justify-between font-mono2 text-xs font-semibold" style={{ color: ink }}>
-            <span>{words} mots</span>
-          </div>
+      {/* The courriel stays at the top throughout: typed out, then — once the
+          AI has read it — corrected in place, each mistake struck through with
+          its fix beside it. The corrected text (the longest state) sits
+          invisibly underneath so the box never changes height. */}
+      <p className={`grid text-sm leading-relaxed ${c.sub}`}>
+        <span className="invisible [grid-area:1/1]"><Corrected segs={EE_SEGS} ink={ink} corrected /></span>
+        <span className="[grid-area:1/1]">
+          {phase >= 2 ? <Corrected segs={EE_SEGS} ink={ink} corrected /> : EE_TEXT.slice(0, n)}
+          {phase === 0 && <span className="caret-blink inline-block w-[2px] h-[1.1em] align-[-0.2em] ml-0.5" style={{ background: ink }} />}
+        </span>
+      </p>
+      <div className="mt-3 font-mono2 text-xs font-semibold" style={{ color: ink }}>{words} mots</div>
+      {/* Below it, the AI's analysis: its rating, then the courriel rewritten
+          at C1. Held in place (invisible) until it is shown, so the mock keeps
+          one height through the loop. */}
+      <div className="grid mt-4">
+        <div className={layer(phase <= 1)}>
           {phase === 1 && <Analysing ink={ink} label="L'IA lit votre texte…" />}
         </div>
-        <div className={`[grid-area:1/1] ${phase === 2 ? "" : "invisible"}`}>
-          <p className={`text-sm leading-relaxed ${c.sub}`}><Corrected segs={EE_SEGS} ink={ink} corrected /></p>
-          <Verdict ink={ink} soft={soft} level="B2 · NCLC 8"
-            notes={["Registre formel adapté, demande claire.", "2 accords à revoir : « des précisions », « les charges… comprises »."]} />
+        <div className={layer(phase >= 2)}>
+          {phase >= 2 ? <div className="rise"><Ratings ink={ink} soft={soft} /></div> : <Ratings ink={ink} soft={soft} />}
+          <div className={phase === 3 ? "rise" : "invisible"}>
+            <StepLabel ink={ink}>Version C1 proposée</StepLabel>
+            <p className={`text-sm leading-relaxed ${c.sub}`}>
+              {EE_C1.map((x, i) => (typeof x === "string" ? <span key={i}>{x}</span> : (
+                <mark key={i} className="rounded px-0.5 font-semibold" style={{ background: soft, color: ink }}>{x.up}</mark>
+              )))}
+            </p>
+          </div>
         </div>
       </div>
     </Frame>
@@ -199,14 +276,16 @@ const EO_SEGS = [
   " Montréal depuis l'été dernier.",
 ];
 const EO_TEXT = plainOf(EO_SEGS);
-const EO_AFTER = [1400, 4800];
+const EO_TYPE = 2200; // recording; then listening, then the corrections
+const EO_AFTER = [700, 2100];
 
 function ScreenEO({ ink, soft, still }) {
   const { c } = useApp();
-  const { phase, n } = useTypedLoop(EO_TEXT.length, EO_AFTER, still, 45);
+  const { phase, n } = useTypedLoop(EO_TEXT.length, EO_TYPE, EO_AFTER, still);
   const bars = [20, 45, 70, 50, 85, 60, 35, 75, 55, 90, 40, 65, 30, 80, 50, 60, 25, 70];
   const recording = phase === 0;
-  const secs = Math.floor((n * 45) / 1000);
+  // The timer counts the recording as if it were real time (about 30 s).
+  const secs = Math.round((n / EO_TEXT.length) * 30);
   return (
     <Frame ink={ink} soft={soft} label="TÂCHE 1 · ENTRETIEN">
       <div className="flex items-center gap-4">
@@ -250,33 +329,25 @@ function ScreenEO({ ink, soft, still }) {
 const DICTEE = { before: "Les candidats qui se sont ", wrong: "préparé", right: "préparés", after: " régulièrement obtiennent de meilleurs résultats." };
 const DICTEE_TEXT = DICTEE.before + DICTEE.wrong + DICTEE.after;
 const DICTEE_STEPS = ["Écoute", "Vous écrivez", "Correction"];
-const LISTEN_MS = 2200;
-const TYPE_MS_PER_CHAR = 35;
-const CHECK_MS = 4200;
+// 5 s in all: listening, typing, a beat, then the correction.
+const LISTEN_MS = 1000;
+const TYPE_MS = 1600;
+const PAUSE_MS = 200;
+const CHECK_MS = 2200;
 
 function useDicteeLoop(still) {
-  const reduced = still || (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  const [phase, setPhase] = useState(reduced ? 2 : 0);
-  const [typed, setTyped] = useState(reduced ? DICTEE_TEXT.length : 0);
-  const done = typed >= DICTEE_TEXT.length;
+  const reduced = still || prefersReduced();
+  const [phase, setPhase] = useState(0); // 0 listening, 1 typing, 2 correction
+  const n = useTyping(DICTEE_TEXT.length, TYPE_MS, !reduced && phase === 1,
+    () => window.setTimeout(() => setPhase(2), PAUSE_MS));
   // Listening, then the correction, each hold for a fixed time.
   useEffect(() => {
-    if (reduced || phase === 1) return;
-    if (phase === 0) setTyped(0);
+    if (reduced || phase === 1) return undefined;
     const timer = window.setTimeout(() => setPhase(phase === 0 ? 1 : 0), phase === 0 ? LISTEN_MS : CHECK_MS);
     return () => window.clearTimeout(timer);
   }, [phase, reduced]);
-  // Typing: one character per tick, then a short pause before the correction.
-  useEffect(() => {
-    if (reduced || phase !== 1) return;
-    if (done) {
-      const timer = window.setTimeout(() => setPhase(2), 400);
-      return () => window.clearTimeout(timer);
-    }
-    const timer = window.setTimeout(() => setTyped((n) => n + 1), TYPE_MS_PER_CHAR);
-    return () => window.clearTimeout(timer);
-  }, [phase, typed, done, reduced]);
-  return { phase, typed };
+  if (reduced) return { phase: 2, typed: DICTEE_TEXT.length };
+  return { phase, typed: phase === 0 ? 0 : phase === 1 ? n : DICTEE_TEXT.length };
 }
 
 function ScreenDictee({ ink, soft, still }) {
@@ -292,7 +363,7 @@ function ScreenDictee({ ink, soft, still }) {
     </>
   );
   return (
-    <div className="rounded-3xl p-5 md:p-6" style={{ background: soft }}>
+    <div className="flex-1 rounded-3xl p-5 md:p-6" style={{ background: soft }}>
       {/* Step indicator + score (shown once corrected). */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-1.5">
@@ -341,7 +412,7 @@ function ScreenDictee({ ink, soft, still }) {
   );
 }
 
-const VOCAB_PHASES = [2200, 2400, 1000]; // the word, its definition, "Je sais" pressed
+const VOCAB_PHASES = [1800, 2200, 1000]; // the word, its definition, "Je sais" pressed
 
 function ScreenVocab({ ink, soft, still }) {
   const { c } = useApp();
@@ -375,7 +446,7 @@ function ScreenVocab({ ink, soft, still }) {
   );
 }
 
-const GRAMMAR_PHASES = [1600, 1400, 2600]; // the blank, a wrong pick, the right form
+const GRAMMAR_PHASES = [1400, 1200, 2400]; // the blank, a wrong pick, the right form
 
 function ScreenGrammar({ ink, soft, still }) {
   const { c } = useApp();

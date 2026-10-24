@@ -62,6 +62,10 @@ export function AppProvider({ children }) {
   // persisted: a preview you can forget you left on is a support ticket about
   // the admin link having vanished.
   const [visitorPreview, setVisitorPreview] = useState(false);
+  // True while the log-in / sign-up form is on screen — on its own page, or
+  // standing in for a members-only page after a sign-out. AuthPage sets it;
+  // AppShell then hides the navbar and the announcement bar.
+  const [authScreen, setAuthScreen] = useState(false);
   // The first-login guided tour (TourOverlay.jsx): null while inactive, else
   // an index into TOUR_STEPS. Started once, right after a brand-new account's
   // very first sign-in — see startTour() below and its call sites in
@@ -383,10 +387,13 @@ export function AppProvider({ children }) {
   };
   const back = () => window.history.back();
 
+  // Signing out lands on the landing page, not on the page left behind —
+  // which, members-only, would only show the log-in form.
   const signOut = async () => {
     await authSignOut();
     setUser(null);
     setPendingOnboarding(false);
+    nav("home", { replace: true });
   };
 
   // Self-service deletion from the profile page. The server deactivates the
@@ -426,17 +433,27 @@ export function AppProvider({ children }) {
   };
 
   // An account still missing its first name, username, country or terms: a
-  // brand-new Google registration (pendingOnboarding, set on the OAuth return)
-  // or an email one created with only an address and a password
-  // (user.profilePending, which survives reloads and other devices). Either
-  // way the profile popup (Onboarding.jsx) shows over the dashboard until it
-  // is filled in. Staff accounts are never asked.
-  const needsProfile = !!user && !user.admin && !user.owner && (pendingOnboarding || !!user.profilePending);
+  // brand-new Google registration (pendingOnboarding, set on the OAuth return),
+  // an email one created with only an address and a password
+  // (user.profilePending), or any account with no country on file — which is
+  // also what keeps a Google registration in the popup after a reload, since
+  // pendingOnboarding does not survive one. The popup (Onboarding.jsx) blocks
+  // the whole site until it is filled in. Staff accounts are never asked.
+  const needsProfile = !!user && !user.admin && !user.owner && !user.moderator
+    && (pendingOnboarding || !!user.profilePending || !user.country);
 
   // The popup is done: the account is complete. Every completion is a brand-new
   // account by construction, so the guided tour starts here (the email path
   // holds it back in AuthPage.jsx until this point).
-  const completeOnboarding = () => { setPendingOnboarding(false); nav("dashboard", { replace: true }); startTour(); };
+  const completeOnboarding = async () => {
+    // Pick up the saved country / cleared flag at once, rather than waiting on
+    // the auth listener, so the popup cannot linger a beat after "Terminer".
+    const session = await getSession();
+    if (session) setUser(mapSupabaseUser(session));
+    setPendingOnboarding(false);
+    nav("dashboard", { replace: true });
+    startTour();
+  };
 
   // startTour()/nextTourStep()/endTour() are the only surface the rest of the
   // app touches; TourOverlay.jsx owns everything about how a step is shown.
@@ -510,7 +527,7 @@ export function AppProvider({ children }) {
     user, setUser, authReady, signOut, deactivateAccount, role,
     ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,
-    pendingOnboarding, needsProfile, completeOnboarding,
+    pendingOnboarding, needsProfile, completeOnboarding, authScreen, setAuthScreen,
     resolvingOAuth,
     tourStep, startTour, nextTourStep, endTour,
     c,

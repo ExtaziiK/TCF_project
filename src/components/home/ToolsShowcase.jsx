@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowRight, Plane, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
@@ -50,35 +50,44 @@ const DEMOS = { listening: ScreenCO, reading: ScreenCE, dictee: DicteeDemo, voca
 // The selected tool's panel: kind, title, description, screen, link. Until
 // `live`, the screen is the mock, and only its "Essayer maintenant" button
 // calls `onLive` — hovering or clicking elsewhere leaves the animation playing.
-function Panel({ tool, n, active = true, live, onLive }) {
+// `minH` (desktop, preview state only): the height every previewing panel
+// shares, the tallest preview's — the screen slot then stretches, its card
+// filling the extra room, so a short preview has no gap under it. Unset, the
+// panel takes its own height (a live demo, the mobile accordion, and while the
+// showcase measures).
+function Panel({ tool, n, active = true, live, onLive, minH }) {
   const { t, dark, c } = useApp();
-  const [bg, ink, soft] = tone(tool, dark);
-  const night = tool.tone === "night";
+  // The panel itself stays neutral: only its outline carries the tool's colour.
+  const [, ink, soft] = tone(tool, dark);
   const Demo = DEMOS[tool.route];
   const Mock = MOCKS[tool.route];
+  // Keyed on `active`, the preview remounts each time its tool is selected,
+  // so its loop always plays from the start instead of resuming wherever it
+  // froze while hidden.
+  const fill = "flex-1 flex flex-col";
   return (
-    <div className="rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300" style={{ background: bg, borderColor: `${ink}55` }}>
-      <div key={tool.route} className="rise flex flex-col gap-5">
+    <div className={`rounded-[32px] p-6 md:p-8 flex flex-col gap-5 border-2 transition-colors duration-300 ${c.card}`} style={{ borderColor: ink, minHeight: minH || undefined }}>
+      <div key={tool.route} className="rise flex-1 flex flex-col gap-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{String(n).padStart(2, "0")} · {t(tool.kind)}</span>
-            <h3 className={`mt-1 font-display font-extrabold text-2xl md:text-3xl ${night ? "text-white" : c.text}`}>{t(tool.t)}</h3>
-            <p className={`mt-2 text-sm md:text-base leading-relaxed ${night ? "text-white/75" : c.sub}`}>{t(tool.d)}</p>
+            <h3 className={`mt-1 font-display font-extrabold text-2xl md:text-3xl ${c.text}`}>{t(tool.t)}</h3>
+            <p className={`mt-2 text-sm md:text-base leading-relaxed ${c.sub}`}>{t(tool.d)}</p>
           </div>
           <span className="hidden sm:grid place-items-center w-12 h-12 rounded-2xl shrink-0" style={{ background: ink, color: onInk(tool) }}>
             <tool.icon size={22} />
           </span>
         </div>
         {!Demo ? (
-          <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+          <div aria-hidden="true" className={fill}><Mock key={active ? "on" : "off"} ink={ink} soft={soft} still={!active} /></div>
         ) : live ? (
           <Demo ink={ink} soft={soft} onInk={onInk(tool)} active={active} />
         ) : (
           // The mock is a picture; the button under it is the only way in. It
           // sits below the mock rather than floating over it, where it hid
           // the mock's last lines.
-          <div>
-            <div aria-hidden="true"><Mock ink={ink} soft={soft} still={!active} /></div>
+          <div className={fill}>
+            <div aria-hidden="true" className={fill}><Mock key={active ? "on" : "off"} ink={ink} soft={soft} still={!active} /></div>
             <div className="mt-4 flex justify-center">
               <button type="button" onClick={onLive} aria-label={`${t("Essayer maintenant")} : ${t(tool.t)}`}
                 className="invite-bob inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-opacity hover:opacity-90 outline-none focus-visible:ring-2"
@@ -114,8 +123,8 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       onPointerEnter={(e) => e.pointerType === "mouse" && select(i)}
       onFocus={(e) => e.currentTarget.matches(":focus-visible") && select(i)}
       aria-current={on ? "true" : undefined}
-      className={`group relative block rounded-2xl px-4 py-3 border-2 outline-none transition-colors focus-visible:ring-2 ${on ? "" : `${c.border} ${c.card} hover:bg-slate-500/5`}`}
-      style={on ? { background: soft, borderColor: `${ink}55` } : undefined}>
+      className={`group relative block rounded-2xl px-4 py-3 border-2 outline-none transition-colors focus-visible:ring-2 ${c.card} ${on ? "" : `${c.border} hover:bg-slate-500/5`}`}
+      style={on ? { borderColor: ink } : undefined}>
       <span className="flex items-center gap-3">
         <span className="grid place-items-center w-10 h-10 rounded-xl shrink-0 transition-colors"
           style={on ? { background: ink, color: onInk(tool) } : { background: soft, color: ink }}>
@@ -136,7 +145,7 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
       </span>
       {/* Auto-advance progress: fills while this tool is shown, then moves on. */}
       {on && auto && (
-        <span className="absolute left-4 right-4 bottom-1.5 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,.55)" }} aria-hidden="true">
+        <span className="absolute left-4 right-4 bottom-1.5 h-1 rounded-full overflow-hidden" style={{ background: `${ink}33` }} aria-hidden="true">
           <span className="showcase-progress block h-full rounded-full" onAnimationEnd={onDone}
             style={{ background: ink, animationDuration: `${STEP_S}s`, animationPlayState: running ? "running" : "paused" }} />
         </span>
@@ -252,6 +261,33 @@ export function ToolsShowcase({ tinted = false }) {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+  // Every panel still showing its preview gets the same height on desktop:
+  // the tallest preview's. Measured with no height applied (so the panels
+  // report their natural size), then applied; redone whenever the showcase's
+  // width changes, since the text wraps differently. Panels already turned
+  // into a live demo are left out and keep their own height.
+  const panelRefs = useRef([]);
+  const [mockH, setMockH] = useState(null);
+  const [measureKey, setMeasureKey] = useState(0);
+  useEffect(() => {
+    if (!wide || !ref.current || typeof window.ResizeObserver === "undefined") return undefined;
+    let width = 0;
+    const ro = new window.ResizeObserver(([entry]) => {
+      const w = Math.round(entry.contentRect.width);
+      if (w !== width) { width = w; setMeasureKey((k) => k + 1); }
+    });
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, [wide]);
+  // The display font arriving after the first measure changes every height.
+  useEffect(() => { document.fonts?.ready.then(() => setMeasureKey((k) => k + 1)); }, []);
+  useEffect(() => { setMockH(null); }, [measureKey, live]);
+  useLayoutEffect(() => {
+    if (!wide || mockH !== null) return;
+    const heights = TOOLS.map((tl, i) => (live.has(tl.route) ? 0 : panelRefs.current[i]?.offsetHeight || 0));
+    const max = Math.max(...heights);
+    if (max > 0) setMockH(max);
+  }, [wide, mockH, live]);
   // The comprehension panels stay mounted while hidden (so an answer survives
   // a look at another tool), so a clip still playing is paused on switch.
   useEffect(() => {
@@ -304,8 +340,10 @@ export function ToolsShowcase({ tinted = false }) {
           {TOOLS.map((tl, i) => {
             const on = i === active;
             return (
-              <div key={tl.route} className={on ? "" : "invisible absolute inset-x-0 top-0 [&_*]:!transition-none"} aria-hidden={on ? undefined : "true"}>
-                <Panel tool={tl} n={i + 1} active={on} live={live.has(tl.route)} onLive={() => goLive(tl.route)} />
+              <div key={tl.route} ref={(el) => { panelRefs.current[i] = el; }}
+                className={on ? "" : "invisible absolute inset-x-0 top-0 [&_*]:!transition-none"} aria-hidden={on ? undefined : "true"}>
+                <Panel tool={tl} n={i + 1} active={on} live={live.has(tl.route)} onLive={() => goLive(tl.route)}
+                  minH={live.has(tl.route) ? null : mockH} />
               </div>
             );
           })}

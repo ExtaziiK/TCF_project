@@ -23,7 +23,7 @@ import { speak, stopSpeaking } from "@/utils/speech";
 export function Frame({ ink, soft, label, children }) {
   const { c } = useApp();
   return (
-    <div className={`rounded-3xl p-5 md:p-6 ${c.card}`} style={{ boxShadow: `0 0 0 2px ${soft}` }}>
+    <div className={`flex-1 rounded-3xl p-5 md:p-6 ${c.card}`} style={{ boxShadow: `0 0 0 2px ${soft}` }}>
       <div className="flex items-center justify-between mb-4">
         <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{label}</span>
         <span className="flex gap-1.5" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} className="w-2 h-2 rounded-full" style={{ background: soft }} />)}</span>

@@ -180,7 +180,8 @@ export function isNewlyCreatedUser(authUser) {
 // "email_signup" or "google_onboarding".
 export async function completeProfile({ name, username, country, acceptedTerms, source = "google_onboarding" }) {
   const { data: { user } } = await (await getSupabase()).auth.getUser();
-  if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
+  // `code` lets the popup offer a way back in rather than just the message.
+  if (!user) return { error: { code: "session_expired", message: "Session expirée. Reconnectez-vous." } };
   const meta = user.user_metadata || {};
   // The authoritative consent record is the terms_acceptances row below; this
   // metadata copy is kept only so both signup paths look alike in the Supabase

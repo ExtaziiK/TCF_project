@@ -55,7 +55,7 @@ export function TermsDialog({ open, onClose, onAccept }) {
   // `position: fixed` children. Without the portal, `inset-0` covered the card
   // instead of the viewport and the sheet appeared inline, half off-screen.
   return createPortal(
-    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+    <div className="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose} role="dialog" aria-modal="true" aria-label={t("Conditions générales d'utilisation")}>
       {/* No `rise` here: it would re-create the very containing block the
           portal exists to escape, for anything fixed inside the sheet. */}

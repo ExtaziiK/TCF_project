@@ -1,11 +1,13 @@
-import { ArrowRight, ChevronRight, MousePointerClick } from "lucide-react";
+import { ArrowRight, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { Card, Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
+import { Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { HeroCollage } from "@/components/home/HeroCollage";
+import { ExamOverview } from "@/components/home/ExamOverview";
+import { WhyTicker } from "@/components/home/WhyTicker";
 import { Sparks, MapleMark, CurvedArrow } from "@/components/home/TitleDoodles";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
@@ -13,12 +15,10 @@ import { PricingPlans } from "@/components/pricing/PricingPlans";
 import { SaleStrip } from "@/components/pricing/SaleBanner";
 import { SectionDecor } from "@/components/decor/SectionDecor";
 import { WaveSection, TINT } from "@/components/decor/WaveSection";
-import { WHY } from "@/constants/home";
 import { usePricingSelection } from "@/hooks/usePricingSelection";
 import { useHomeStats } from "@/hooks/useHomeStats";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useRatingSummary } from "@/hooks/useRatingSummary";
-import { MOCK_SECTIONS } from "@/constants/mocks";
 
 // Logged-in users land on their personal dashboard; the marketing landing
 // below is for signed-out traffic — and for staff who asked to see it, via the
@@ -107,6 +107,10 @@ function Landing() {
             </div>
           )}
 
+          {/* WHY US — under the figures, on one line: the title, then the
+              arguments scrolling up one after the other (WhyTicker). */}
+          <div className="mt-12 md:mt-14 rise rise-3"><WhyTicker /></div>
+
           {/* below: the tools showcase, live — its Compréhension orale and
               Compréhension écrite panels are real bank questions (the two demo
               cards that used to sit here), the other tools are previews. The
@@ -165,31 +169,7 @@ function Landing() {
 
       {/* EXAM OVERVIEW */}
       <WaveSection {...look(2)} decor="overview">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <SectionHead eyebrow={t("L'épreuve en bref")} title={t("Comprendre le TCF Canada")} sub={t("Un test unique, quatre épreuves obligatoires, un score sur 699 points converti en niveaux NCLC pour votre dossier IRCC.")} />
-            <div className="space-y-3">
-              {MOCK_SECTIONS.map((s) => (
-                <div key={s.t} className={`flex items-center gap-4 p-4 rounded-2xl border ${c.border} ${c.card}`}>
-                  <span className="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><s.icon size={18} /></span>
-                  <div className="flex-1"><p className={`font-semibold text-sm ${c.text}`}>{t(s.t)}</p><p className={`text-xs font-mono2 ${c.faint}`}>{t(s.d)}</p></div>
-                  <ChevronRight size={16} className={c.faint} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <Card className="p-7 md:p-9">
-            <h3 className={`font-display font-bold text-xl ${c.text} mb-6`}>{t("Pourquoi nous choisir")}</h3>
-            <div className="space-y-6">
-              {WHY.map((w) => (
-                <div key={w.t} className="flex gap-4">
-                  <span className="w-10 h-10 rounded-xl bg-rose-600/10 text-rose-600 flex items-center justify-center shrink-0"><w.icon size={18} /></span>
-                  <div><p className={`font-semibold ${c.text}`}>{t(w.t)}</p><p className={`text-sm mt-1 ${c.sub}`}>{t(w.d)}</p></div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+        <ExamOverview />
       </WaveSection>
 
       {/* NCLC CALCULATOR */}

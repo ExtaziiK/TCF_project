@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AlertTriangle, LogIn } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getProfile, isValidName, isValidUsername, isUsernameAvailable, completeProfile } from "@/services/authService";
 import { listProfiles, renameProfile } from "@/services/profileService";
@@ -14,15 +14,35 @@ import { COUNTRIES } from "@/constants/exam";
 // email account — until this form is submitted. It cannot be dismissed: the
 // terms have to be accepted before the account is used.
 export function Onboarding() {
-  const { c, user, notify, completeOnboarding, pendingOnboarding, route, nav, dark, t } = useApp();
+  const { c, user, notify, completeOnboarding, pendingOnboarding, route, nav, dark, t, signOut } = useApp();
   // Google hands over a name; an email account starts with none.
   const [name, setName] = useState(() => (user?.name && user.name !== user.email?.split("@")[0] ? user.name : ""));
   const [username, setUsername] = useState("");
   const [country, setCountry] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [expired, setExpired] = useState(false); // the session is gone: offer to log back in
   const [accepted, setAccepted] = useState(false); // terms gate
   const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const overlay = useRef(null);
+
+  // Nothing behind the popup is usable while it is open: the page does not
+  // scroll, and everything beside it in the app shell (navbar, page, footer)
+  // is made inert — no clicks, no keyboard focus, hidden from screen readers.
+  // The terms text it opens is portalled to <body>, outside the shell, so it
+  // stays usable. Re-applied on every route change: the page element behind
+  // is rebuilt then (the popup's own move to the dashboard, to begin with).
+  useEffect(() => {
+    const el = overlay.current;
+    const siblings = el?.parentElement ? [...el.parentElement.children].filter((x) => x !== el) : [];
+    siblings.forEach((x) => { x.inert = true; });
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      siblings.forEach((x) => { x.inert = false; });
+      document.body.style.overflow = overflow;
+    };
+  }, [route]);
 
   // The popup belongs on the dashboard: a new account lands there.
   useEffect(() => { if (route !== "dashboard") nav("dashboard", { replace: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -48,7 +68,10 @@ export function Onboarding() {
         name, username, country, acceptedTerms: true,
         source: pendingOnboarding ? "google_onboarding" : "email_signup",
       });
-      if (err) return setError(err.message || t("Enregistrement refusé. Réessayez."));
+      if (err) {
+        setExpired(err.code === "session_expired");
+        return setError(t(err.message || "Enregistrement refusé. Réessayez."));
+      }
       // The account's first learner profile was named at signup, before there
       // was a first name ("Profil 1" for an email account): give it the name.
       try {
@@ -62,12 +85,19 @@ export function Onboarding() {
     }
   };
 
+  // Drops the dead session (which closes this popup) and opens the log-in
+  // page; the popup comes back after logging in, the account still incomplete.
+  const reconnect = async () => {
+    await signOut();
+    nav("login", { replace: true });
+  };
+
   const Label = ({ htmlFor, children }) => (
     <label htmlFor={htmlFor} className={`block mb-1.5 text-sm font-semibold ${c.text}`}>{children}<span className="text-rose-500"> *</span></label>
   );
 
   return (
-    <div className="fixed inset-0 z-[90] grid place-items-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto"
+    <div ref={overlay} className="fixed inset-0 z-[90] grid place-items-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto"
       role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div className={`w-full max-w-lg rounded-3xl p-7 sm:p-8 shadow-2xl rise ${c.card}`}>
         <div className="mb-6">
@@ -99,9 +129,11 @@ export function Onboarding() {
               <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{error}</p>
             </div>
           )}
-          <button type="submit" disabled={busy}
-            className={`w-full py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`}>
-            {busy ? t("Enregistrement…") : t("Terminer")}
+          {/* Once the session has expired, saving can't work: the main button
+              becomes "Se reconnecter" instead. */}
+          <button type={expired ? "button" : "submit"} onClick={expired ? reconnect : undefined} disabled={busy}
+            className={`w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`}>
+            {expired ? <><LogIn size={16} /> {t("Se reconnecter")}</> : busy ? t("Enregistrement…") : t("Terminer")}
           </button>
         </form>
       </div>

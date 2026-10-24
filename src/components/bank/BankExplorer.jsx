@@ -452,10 +452,11 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
 
   return (
     <PageShell wide eyebrow={t(eyebrow)} title={t(title)} sub={t(sub)} back={back}>
-      {/* The épreuve picker: four tiles, one colour each. The selected one is
-          filled with its colour, lifted and checked, and points down at the
-          panel below, which takes the same colour — so it is always obvious
-          which épreuve the quizzes belong to. */}
+      {/* The épreuve picker: four tiles, one colour each. Backgrounds stay
+          neutral — the colour is in the outlines: the selected tile is
+          outlined in full colour, lifted and checked, and points down at the
+          panel below, outlined the same way — so it is always obvious which
+          épreuve the quizzes belong to. */}
       {hub && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
           {sections.map((s) => {
@@ -466,31 +467,31 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             return (
               <button key={s} data-tour={`bank-${s}`} aria-pressed={on}
                 onClick={() => { setSection(s); setGuideOpen(false); }}
-                className={`relative text-left rounded-3xl p-4 md:p-5 border-2 transition duration-300 ${on ? "-translate-y-1 shadow-xl" : `${c.card} hover:-translate-y-0.5 hover:shadow-md`}`}
-                style={on ? { background: k.fill, borderColor: k.fill, boxShadow: `0 18px 36px -14px ${k.fill}88` } : { borderColor: `${k.ink}33` }}>
+                className={`relative text-left rounded-3xl p-4 md:p-5 border-2 transition duration-300 ${c.card} ${on ? "-translate-y-1 shadow-xl" : "hover:-translate-y-0.5 hover:shadow-md"}`}
+                style={on ? { borderColor: k.fill, boxShadow: `0 18px 36px -14px ${k.fill}66` } : { borderColor: `${k.ink}33` }}>
                 <span className="flex items-start justify-between gap-2">
-                  <span className="grid place-items-center w-11 h-11 rounded-2xl" style={on ? { background: "rgba(255,255,255,.2)", color: "#FFFFFF" } : { background: k.soft, color: k.ink }}>
+                  <span className="grid place-items-center w-11 h-11 rounded-2xl" style={{ background: k.soft, color: k.ink }}>
                     <e.icon size={21} />
                   </span>
-                  {on && <span className="grid place-items-center w-6 h-6 rounded-full bg-white" style={{ color: k.fill }}><Check size={14} strokeWidth={3} /></span>}
+                  {on && <span className="grid place-items-center w-6 h-6 rounded-full text-white" style={{ background: k.fill }}><Check size={14} strokeWidth={3} /></span>}
                 </span>
-                <span className={`mt-3 block font-display font-extrabold text-base md:text-lg leading-tight ${on ? "text-white" : c.text}`}>{t(SECTION_LABELS[s])}</span>
-                <span className={`mt-1 block text-xs font-semibold ${on ? "text-white/80" : c.faint}`}>{meta}</span>
-                <span className={`mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${on ? "bg-white/20 text-white" : ""}`}
-                  style={on ? undefined : { background: k.soft, color: k.ink }}>
+                <span className={`mt-3 block font-display font-extrabold text-base md:text-lg leading-tight ${c.text}`}>{t(SECTION_LABELS[s])}</span>
+                <span className={`mt-1 block text-xs font-semibold ${c.faint}`}>{meta}</span>
+                <span className="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold"
+                  style={{ background: k.soft, color: k.ink }}>
                   {workshops?.[s] ? t("Correction par IA") : `${bank[s].length} ${t("Quizz")}`}
                 </span>
                 {/* Pointer into the panel (one row of tiles only, from lg): centred on
                     the panel's top edge — 20px gap + the tile's 4px lift. */}
-                {on && <span aria-hidden="true" className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-5 h-5 rotate-45 border-l-2 border-t-2"
-                  style={{ bottom: -35, background: k.panel, borderColor: k.edge }} />}
+                {on && <span aria-hidden="true" className={`hidden lg:block absolute left-1/2 -translate-x-1/2 w-5 h-5 rotate-45 border-l-2 border-t-2 ${c.bg}`}
+                  style={{ bottom: -35, borderColor: k.fill }} />}
               </button>
             );
           })}
         </div>
       )}
       <div className={hub ? "rounded-[28px] border-2 p-3 sm:p-5 md:p-6 transition-colors duration-300" : undefined}
-        style={hub ? { background: tone.panel, borderColor: tone.edge, "--tool-fill": tone.fill } : undefined}>
+        style={hub ? { borderColor: tone.fill, "--tool-fill": tone.fill } : undefined}>
       {freeTier && !showWorkshop && quizzes.length > 0 && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
           <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>

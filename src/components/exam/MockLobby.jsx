@@ -122,7 +122,8 @@ export function BoardingCta({ freeUsedUp, freeAvailable, disabled, onStart }) {
   }
   return (
     <>
-      <Btn variant="accent" className="w-full !py-4 !text-lg" icon={Play} disabled={disabled} onClick={onStart}>
+      {/* Animated (pulsing ring + light sweep, .cta-live) while it can be pressed. */}
+      <Btn variant="accent" className={`w-full !py-4 !text-lg ${disabled ? "" : "cta-live"}`} icon={Play} disabled={disabled} onClick={onStart}>
         {t(freeAvailable ? "Commencer mon TCF blanc gratuit" : "Commencer l'examen")}
       </Btn>
       <p className={`text-xs ${c.sub}`}>

@@ -50,7 +50,7 @@ export function PageShell({ eyebrow, title, sub, children, wide, back, tight, ce
       )}
       <SectionHead as="h1" eyebrow={eyebrow} title={title} sub={sub} tight={tight} center={center} big={big} aside={aside} />
       {k ? (
-        <div className="rounded-[28px] border-2 p-3 sm:p-5 md:p-6" style={{ background: k.panel, borderColor: k.edge, "--tool-fill": k.fill }}>
+        <div className="rounded-[28px] border-2 p-3 sm:p-5 md:p-6" style={{ borderColor: k.fill, "--tool-fill": k.fill }}>
           {children}
         </div>
       ) : children}

@@ -1,6 +1,6 @@
 import {
   Headphones, BookOpen, PenLine, Mic, Languages, GraduationCap,
-  Target, TrendingUp, Leaf, Shield,
+  Target, TrendingUp, Leaf, Shield, Sparkles, Wallet,
 } from "lucide-react";
 
 // Where a home stat draws its number from. `questions`, `series` and
@@ -49,11 +49,22 @@ export const FEATURES = [
   { icon: GraduationCap, t: "Grammaire structurée", d: "Leçons courtes suivies d'exercices, des articles aux connecteurs.", route: "grammar" },
 ];
 
+// "Pourquoi nous choisir ?" in the landing hero, under the figures: four
+// points, a title and one line each. No price in the copy — prices are edited
+// in the admin, so a figure here would go stale.
+export const WHY_HERO = [
+  { icon: Target, t: "Format 100 % TCF Canada", d: "Format, minutage et difficulté officiels" },
+  { icon: Sparkles, t: "Correction détaillée avec IA", d: "Réponses expliquées, écrit et oral évalués" },
+  { icon: TrendingUp, t: "Suivi de progression", d: "Scores et niveau NCLC suivis à chaque séance" },
+  { icon: Wallet, t: "Tarif compétitif", d: "Accès complet à petit prix, sans engagement" },
+];
+
+// The "À propos" page's arguments, each with its full sentence.
 export const WHY = [
   { icon: Target, t: "Format 100 % TCF Canada", d: "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve." },
-  { icon: TrendingUp, t: "Progression mesurée", d: "Un niveau CECR estimé après chaque session, avec un plan d'étude qui s'adapte à vous." },
+  { icon: TrendingUp, t: "Progression mesurée", d: "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance." },
   { icon: Leaf, t: "Pensé pour le Canada", d: "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton." },
-  { icon: Shield, t: "Corrections fiables", d: "Explications rédigées par des enseignants de FLE certifiés, pas seulement une bonne réponse." },
+  { icon: Shield, t: "Corrections détaillées", d: "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée." },
 ];
 
 export const TESTIMONIALS = [

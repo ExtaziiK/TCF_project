@@ -112,7 +112,6 @@ export const EN = {
   "Jusqu'à 4 appareils connectés en même temps": "Up to 4 devices signed in at the same time",
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit": "Detailed AI feedback: CEFR level, what to fix, your text rewritten",
   "Entretien oral simulé avec un examinateur IA qui vous répond": "Simulated speaking interview with an AI examiner that answers you",
-  "Un nouveau sujet d'expression à chaque session": "A fresh expression subject every session",
   "avis": "reviews",
   "Avis": "Reviews",
   "Ce que disent les candidats": "What candidates say",
@@ -225,6 +224,12 @@ export const EN = {
 
   // ── Home / landing ───────────────────────────────────────────────────
   "La plateforme complète pour se préparer au": "The complete platform to prepare for the",
+  // Footer (components/layout/Footer.jsx).
+  "La plateforme complète pour se préparer au TCF Canada : questions au format officiel, TCF blancs notés, correction par IA et suivi continu.":
+    "The complete platform to prepare for the TCF Canada: official-format questions, scored mock exams, AI feedback and continuous tracking.",
+  "Commencer gratuitement": "Start for free",
+  "Mon tableau de bord": "My dashboard",
+  "Sujets du mois": "Topics of the month",
   "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
     "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",
   "Commencer à pratiquer gratuitement": "Start practicing for free",
@@ -301,14 +306,29 @@ export const EN = {
   "Chaque question respecte le format, le minutage et la difficulté officiels de l'épreuve.":
     "Every question follows the test's official format, timing and difficulty.",
   "Progression mesurée": "Measured progress",
-  "Un niveau CECR estimé après chaque session, avec un plan d'étude qui s'adapte à vous.":
-    "An estimated CEFR level after each session, with a study plan that adapts to you.",
+  "Vos scores, votre niveau NCLC estimé et vos points faibles, suivis à chaque séance.":
+    "Your scores, your estimated NCLC level and your weak spots, tracked every session.",
   "Pensé pour le Canada": "Designed for Canada",
   "Contextes canadiens : Entrée express, accents d'ici, situations de la vie à Montréal ou Moncton.":
     "Canadian contexts: Express Entry, local accents, real-life situations in Montréal or Moncton.",
-  "Corrections fiables": "Reliable corrections",
-  "Explications rédigées par des enseignants de FLE certifiés, pas seulement une bonne réponse.":
-    "Explanations written by certified French teachers, not just the right answer.",
+  "Corrections détaillées": "Detailed corrections",
+  "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée.":
+    "Every answer is explained, and the AI grades your writing and speaking: level, mistakes and an improved version.",
+  // "Pourquoi nous choisir ?" in the landing hero (constants/home.js WHY_HERO).
+  "Pourquoi nous choisir ?": "Why choose us?",
+  "Format, minutage et difficulté officiels": "Official format, timing and difficulty",
+  "Correction détaillée avec IA": "Detailed AI correction",
+  "Réponses expliquées, écrit et oral évalués": "Explained answers, writing and speaking graded",
+  "Scores et niveau NCLC suivis à chaque séance": "Scores and NCLC level tracked every session",
+  "Tarif compétitif": "Competitive pricing",
+  "Accès complet à petit prix, sans engagement": "Full access at a low price, no commitment",
+  // "L'épreuve en bref" section (components/home/ExamOverview.jsx).
+  "épreuves": "tests",
+  "au total": "in total",
+  "points maximum": "maximum points",
+  "niveaux reconnus par IRCC": "levels recognised by IRCC",
+  "questions": "questions",
+  "tâches": "tasks",
 
   // ── Testimonials ─────────────────────────────────────────────────────
   // Member-written stories are shown as typed (a lookup miss returns the
@@ -772,6 +792,7 @@ export const EN = {
   "Finalisez votre compte": "Finish setting up your account",
   "Encore quelques informations et votre espace est prêt.": "A few more details and your space is ready.",
   "Bienvenue ! Votre compte est prêt.": "Welcome! Your account is ready.",
+  "Session expirée. Reconnectez-vous.": "Session expired. Please log in again.",
   "Ce n'est pas la bonne adresse ?": "Not the right address?",
   "Modifier mon adresse": "Change my address",
   "Corrigez votre adresse, puis créez votre compte à nouveau.": "Fix your address, then create your account again.",

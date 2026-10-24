@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles } from "lucide-react";
+import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles, ArrowLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
@@ -81,8 +81,11 @@ function SidePanel() {
   );
 }
 
+// Always shown without the navbar (it reports itself through setAuthScreen,
+// and AppShell hides the bar), so it carries its own "Accueil" button.
 export function AuthPage({ mode }) {
-  const { c, nav, notify, t, user, startTour, dark } = useApp();
+  const { c, nav, notify, t, user, startTour, dark, setAuthScreen } = useApp();
+  useEffect(() => { setAuthScreen(true); return () => setAuthScreen(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [view, setView] = useState(mode); // login | register | reset
   const [showPw, setShowPw] = useState(false);
   const [identifier, setIdentifier] = useState(""); // login: username or email
@@ -237,9 +240,13 @@ export function AuthPage({ mode }) {
   if (user) return null;
 
   return (
-    <main className="min-h-screen grid lg:grid-cols-2">
+    <main className="relative min-h-screen grid lg:grid-cols-2">
+      <button type="button" onClick={() => nav("home")}
+        className={`absolute top-4 left-4 sm:top-5 sm:left-5 z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm transition hover:-translate-x-0.5 ${c.card} ${c.border} ${c.text}`}>
+        <ArrowLeft size={16} /> {t("Accueil")}
+      </button>
       <SidePanel />
-      <div className="flex items-center justify-center px-5 sm:px-10 pt-28 pb-16">
+      <div className="flex items-center justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-16">
       <div className="w-full max-w-md rise">
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">
