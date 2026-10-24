@@ -3,11 +3,12 @@ import { ArrowRight, BookmarkPlus, BookmarkCheck, CheckCircle2, XCircle, RotateC
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { useVocabDeck } from "@/hooks/useVocabDeck";
-import { BLANK, choicesFor, fillBlank, replaceVague, roundOrder } from "@/utils/vocabExercise";
+import { BLANK, choicesFor, fillBlank, replaceVague, roundOrder, stripHint } from "@/utils/vocabExercise";
 
-// One multiple-choice vocabulary exercise, shared by « Le mot précis » and
-// « Le bon connecteur ». Each item is a sentence with either a vague passage to
-// replace (`vague`) or a blank to fill (`___`), four choices, and an
+// One multiple-choice vocabulary exercise, shared by all six (mot précis,
+// connecteurs, collocations, registre, faux amis, familles de mots). Each item
+// is a sentence with a vague passage to replace (`vague`), a blank to fill
+// (`___`), or a word whose meaning is asked (`focus`) — four choices, and an
 // explanation. A round shows every item once before any repeats.
 //
 // Every wrong answer puts the right one in « Mon lexique » — the word the
@@ -21,6 +22,14 @@ function Sentence({ item, chosen }) {
   // The passage in play, highlighted: the vague words, or the blank (filled in
   // once answered).
   const mark = (txt, tone) => <mark className={`rounded px-1 py-0.5 font-semibold ${tone}`}>{txt}</mark>;
+  if (item.focus) {
+    const [before, after] = item.sentence.split(item.focus);
+    return (
+      <p className={`text-lg leading-relaxed ${c.text}`}>
+        {before}{mark(item.focus, "bg-blue-600/10 text-blue-700 dark:text-blue-400")}{after}
+      </p>
+    );
+  }
   if (item.vague) {
     const [before, after] = item.sentence.split(item.vague);
     return (
@@ -56,12 +65,16 @@ export function ChoiceExercise({ items, question, source, relations = null }) {
 
   // What goes into the deck: the right answer, its explanation, and the
   // corrected sentence as the example.
-  const deckEntry = (x) => ({
-    term: x.answer.replace(/['’]$/, "").trim(),
-    def: x.why,
-    example: x.vague ? replaceVague(x.sentence, x.vague, x.answer) : fillBlank(x.sentence, x.answer),
-    source,
-  });
+  // A meaning question keeps the word as the card, with its meaning first.
+  // The base word in brackets (« (décider) ») is dropped from the example.
+  const deckEntry = (x) => x.focus
+    ? { term: x.focus.toLowerCase(), def: `${x.answer}. ${x.why}`, example: x.sentence, source }
+    : {
+      term: x.answer.replace(/['’]$/, "").trim(),
+      def: x.why,
+      example: stripHint(x.vague ? replaceVague(x.sentence, x.vague, x.answer) : fillBlank(x.sentence, x.answer)),
+      source,
+    };
 
   const choose = async (choice) => {
     if (answered) return;
@@ -108,7 +121,7 @@ export function ChoiceExercise({ items, question, source, relations = null }) {
       </div>
 
       <p className={`text-xs font-bold uppercase tracking-widest text-blue-600 mb-3`}>{t(question)}</p>
-      <Sentence item={item} chosen={answered ? item.answer : null} />
+      <Sentence item={item} chosen={answered && !item.focus ? item.answer : null} />
 
       <div className="mt-6 grid sm:grid-cols-2 gap-2.5">
         {choices.map((o) => {

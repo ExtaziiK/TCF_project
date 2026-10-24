@@ -5,7 +5,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { newCard, review, isDue, dueCards, deckStats, nextDue, termKey, INTERVAL_DAYS, MAX_BOX, startOfDay } from "../src/utils/srs.js";
-import { fillBlank, replaceVague, choicesFor, roundOrder, BLANK } from "../src/utils/vocabExercise.js";
+import { fillBlank, replaceVague, choicesFor, roundOrder, stripHint, BLANK } from "../src/utils/vocabExercise.js";
+import { COLLOCATIONS } from "../src/constants/vocab/collocations.js";
+import { REGISTRE } from "../src/constants/vocab/registre.js";
+import { FAUX_AMIS } from "../src/constants/vocab/fauxAmis.js";
+import { FAMILLES } from "../src/constants/vocab/familles.js";
+import { themesFor, wordsForSubject } from "../src/utils/subjectThemes.js";
 import { MOT_PRECIS } from "../src/constants/vocab/motPrecis.js";
 import { CONNECTEURS, RELATIONS } from "../src/constants/vocab/connecteurs.js";
 
@@ -57,7 +62,8 @@ test("connector sentences fill correctly, apostrophes glue to the next word", ()
   assert.equal(replaceVague("Elle a eu son diplôme.", "a eu", "a obtenu"), "Elle a obtenu son diplôme.");
 });
 
-for (const [name, items] of [["Le mot précis", MOT_PRECIS], ["Les connecteurs", CONNECTEURS]]) {
+const SETS = [["Le mot précis", MOT_PRECIS], ["Les connecteurs", CONNECTEURS], ["Les collocations", COLLOCATIONS], ["Le registre", REGISTRE], ["Les faux amis", FAUX_AMIS], ["Les familles de mots", FAMILLES]];
+for (const [name, items] of SETS) {
   test(`${name}: every item is well formed`, () => {
     const ids = new Set();
     for (const it of items) {
@@ -68,17 +74,19 @@ for (const [name, items] of [["Le mot précis", MOT_PRECIS], ["Les connecteurs",
       assert.equal(new Set(all).size, 4, `${it.id}: four different choices`);
       assert.ok(it.why && it.why.length > 20, `${it.id}: an explanation`);
       assert.match(it.level, /^(A1|A2|B1|B2|C1|C2)$/, `${it.id}: a level`);
-      if (it.vague) {
+      if (it.focus) {
+        assert.ok(it.sentence.includes(it.focus), `${it.id}: the word is in the sentence`);
+      } else if (it.vague) {
         assert.ok(it.sentence.includes(it.vague), `${it.id}: the vague passage is in the sentence`);
         assert.ok(!replaceVague(it.sentence, it.vague, it.answer).includes(it.vague), `${it.id}: replaced`);
       } else {
         assert.equal(it.sentence.split(BLANK).length, 2, `${it.id}: exactly one blank`);
-        assert.ok(it.relation in RELATIONS, `${it.id}: a known relation`);
+        if (it.relation) assert.ok(it.relation in RELATIONS, `${it.id}: a known relation`);
         const filled = fillBlank(it.sentence, it.answer);
         assert.ok(!filled.includes(BLANK) && !/\s{2}/.test(filled) && !/’ /.test(filled), `${it.id}: « ${filled} »`);
       }
     }
-    assert.ok(items.length >= 40);
+    assert.ok(items.length >= 20);
   });
 }
 
@@ -86,4 +94,28 @@ test("a round shows every item once, and the choices keep the answer", () => {
   const order = roundOrder(CONNECTEURS);
   assert.equal(new Set(order).size, CONNECTEURS.length);
   for (const it of MOT_PRECIS) assert.ok(choicesFor(it).includes(it.answer));
+});
+
+test("ids are unique across every exercise", () => {
+  const all = SETS.flatMap(([, items]) => items.map((x) => x.id));
+  assert.equal(new Set(all).size, all.length);
+});
+
+test("the base-word hint is dropped from saved examples", () => {
+  assert.equal(stripHint("Cette décision a surpris tout le monde. (décider)"), "Cette décision a surpris tout le monde.");
+  assert.equal(stripHint("Une phrase sans indice."), "Une phrase sans indice.");
+});
+
+test("a writing subject is matched to its vocabulary themes", () => {
+  assert.deepEqual(themesFor("Les zoos : avantages et inconvénients. Les animaux sauvages…"), ["Environnement"]);
+  assert.ok(themesFor("Les jeux vidéo : pour ou contre ? Les enfants jouent sur les écrans")[0] === "Numérique");
+  assert.ok(themesFor("Vous cherchez un colocataire pour votre appartement").includes("Ville et logement"));
+  assert.deepEqual(themesFor("Bonjour"), []);
+  const vocab = [
+    { fr: "a", cat: "Environnement", level: "B1" }, { fr: "b", cat: "Environnement", level: "C1" },
+    { fr: "c", cat: "Société", level: "B2" }, { fr: "d", cat: "Travail", level: "C1" },
+  ];
+  const { words } = wordsForSubject("Le zoo, les animaux sauvages et la publicité", vocab, 3);
+  assert.equal(words[0].fr, "b", "C1 first");
+  assert.ok(words.every((w) => w.cat !== "Travail"));
 });

@@ -1,13 +1,12 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { Calendar, Zap, RotateCcw, Heart, Shuffle, ArrowRight, BookOpen, BookmarkPlus, BookmarkCheck, Target, Link2, Brain } from "lucide-react";
+import { Calendar, Zap, RotateCcw, Heart, Shuffle, ArrowRight, BookOpen, BookmarkPlus, BookmarkCheck, Dumbbell, Brain } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { TOUR_STEPS } from "@/constants/tour";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { VOCAB, VOCAB_CATS } from "@/constants/vocabulary";
-import { MOT_PRECIS } from "@/constants/vocab/motPrecis";
-import { CONNECTEURS, RELATIONS } from "@/constants/vocab/connecteurs";
-import { ChoiceExercise } from "@/components/vocab/ChoiceExercise";
+import { ExerciseHub } from "@/components/vocab/ExerciseHub";
 import { MyDeck } from "@/components/vocab/MyDeck";
+import { SpeakButton } from "@/components/vocab/SpeakButton";
 import { useVocabDeck } from "@/hooks/useVocabDeck";
 
 // CEFR level → Pill tone. A1–A2 (beginner) green, B1–B2 (intermediate) blue,
@@ -39,14 +38,13 @@ const makeQuiz = (pool) => {
   return { word, options: shuffle([word.fr, ...distractors]) };
 };
 
-// The page's four sections. « Les mots » is the original deck of themed words;
-// the two exercises train what the Expression grids score — the precise word
-// (lexique) and the right connector (cohérence); « Mon lexique » is the
-// learner's own deck, reviewed with spaced repetition.
+// The page's three sections. « Les mots » is the deck of themed words;
+// « Exercices » trains what the Expression grids score — the precise word,
+// connectors, collocations, register, faux amis, word families; « Mon
+// lexique » is the learner's own deck, reviewed with spaced repetition.
 const SECTIONS = [
   { id: "mots", label: "Les mots", icon: BookOpen },
-  { id: "precis", label: "Le mot précis", icon: Target },
-  { id: "connecteurs", label: "Les connecteurs", icon: Link2 },
+  { id: "exercices", label: "Exercices", icon: Dumbbell },
   { id: "lexique", label: "Mon lexique", icon: Brain },
 ];
 
@@ -104,14 +102,14 @@ export function Vocabulary() {
         <p className="text-xs font-bold uppercase tracking-widest text-rose-600">{t("Mot du jour")}</p>
         <Pill tone={LEVEL_TONE[daily.level]} className="!px-2 !py-0.5 ml-auto">{daily.level}</Pill>
       </div>
-      <p className={`font-display font-bold ${c.text}`}>{daily.fr}</p>
+      <p className={`font-display font-bold flex items-center gap-1 ${c.text}`}>{daily.fr} <SpeakButton text={daily.fr} size={15} /></p>
       <p className={`text-xs leading-relaxed ${c.sub}`}>{daily.def} — <span className="italic">« {daily.ex} »</span></p>
     </Card>
   );
 
   return (
     <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Apprenez les mots, entraînez-vous à choisir le mot précis et le bon connecteur, et révisez votre propre lexique.")}>
-      <div role="tablist" aria-label={t("Sections du vocabulaire")} className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-7">
+      <div role="tablist" aria-label={t("Sections du vocabulaire")} className="grid grid-cols-3 gap-2 mb-7">
         {SECTIONS.map((sec) => {
           const on = section === sec.id;
           const Icon = sec.icon;
@@ -127,18 +125,7 @@ export function Vocabulary() {
         })}
       </div>
 
-      {section === "precis" && (
-        <>
-          <p className={`max-w-2xl mx-auto text-sm mb-5 ${c.sub}`}>{t("Le correcteur pénalise les mots vagues : chose, faire, il y a, bien, beaucoup. Choisissez l’expression qui dit la même chose avec précision.")}</p>
-          <ChoiceExercise items={MOT_PRECIS} source="mot-precis" question="Quelle expression remplace le mieux le passage souligné ?" />
-        </>
-      )}
-      {section === "connecteurs" && (
-        <>
-          <p className={`max-w-2xl mx-auto text-sm mb-5 ${c.sub}`}>{t("Un connecteur se choisit selon la relation entre les idées : opposition, cause, conséquence, condition… Un connecteur employé à contresens coûte des points en cohérence.")}</p>
-          <ChoiceExercise items={CONNECTEURS} source="connecteur" relations={RELATIONS} question="Quel connecteur convient ?" />
-        </>
-      )}
+      {section === "exercices" && <ExerciseHub />}
       {section === "lexique" && <MyDeck />}
 
       {section === "mots" && (<>
@@ -199,6 +186,7 @@ export function Vocabulary() {
                   <Heart size={22} fill={favs.includes(card.fr) ? "currentColor" : "none"} />
                 </span>
                 <p className={`font-display font-bold text-4xl md:text-5xl leading-tight ${c.text}`}>{card.fr}</p>
+                <SpeakButton text={card.fr} size={20} className="mt-3" inline />
                 <p className={`mt-5 text-sm ${c.faint}`}>{t("Cliquez pour voir la définition")}</p>
               </button>
               <button onClick={tapCard} className="fface fback absolute inset-0 rounded-3xl p-10 flex flex-col justify-center text-left text-white grad-brand shadow-xl" aria-label={t("Mot suivant")}>

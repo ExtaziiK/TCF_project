@@ -34,3 +34,6 @@ export function roundOrder(items, rnd = Math.random) {
   }
   return ids;
 }
+
+// « Cette décision a surpris tout le monde. (décider) » → without the hint.
+export const stripHint = (sentence) => String(sentence).replace(/\s*\([^()]*\)\s*$/, "").trim();

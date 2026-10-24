@@ -3,6 +3,7 @@ import { Brain, CheckCircle2, RotateCcw, Trash2, Eye, Library, Sparkles } from "
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { useVocabDeck } from "@/hooks/useVocabDeck";
+import { SpeakButton } from "@/components/vocab/SpeakButton";
 import { MAX_BOX, nextDue } from "@/utils/srs";
 
 // « Mon lexique » — the learner's own deck and its daily review.
@@ -12,7 +13,7 @@ import { MAX_BOX, nextDue } from "@/utils/srs";
 // the example and says honestly whether they knew it. Known words come back
 // later and later (src/utils/srs.js); forgotten ones come back tomorrow.
 
-const SOURCE_LABEL = { vocab: "Vocabulaire", "mot-precis": "Le mot précis", connecteur: "Connecteur", modele: "Modèle de réponse" };
+const SOURCE_LABEL = { vocab: "Vocabulaire", "mot-precis": "Le mot précis", connecteur: "Connecteur", collocation: "Collocation", registre: "Registre", "faux-ami": "Faux ami", famille: "Famille de mots", modele: "Modèle de réponse" };
 
 const fmtDay = (t, lang) => new Date(t).toLocaleDateString(lang === "en" ? "en-CA" : "fr-CA", { weekday: "long", day: "numeric", month: "long" });
 
@@ -61,6 +62,7 @@ function ReviewSession({ deck, onDone }) {
         <span className={`text-xs font-mono2 ${c.faint}`}>{pos + 1} / {queue.length}</span>
       </div>
       <p className={`text-center font-display font-bold text-3xl leading-tight ${c.text}`}>{card.term}</p>
+      <div className="flex justify-center mt-1"><SpeakButton text={card.term} size={18} /></div>
       {!shown ? (
         <div className="mt-8 text-center">
           <p className={`text-sm ${c.sub}`}>{t("Que signifie ce mot ? Dans quelle phrase l’emploieriez-vous ?")}</p>
@@ -131,7 +133,7 @@ export function MyDeck() {
             {list.map((x) => (
               <li key={x.term} className="py-3 flex items-start gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className={`font-semibold ${c.text}`}>{x.term}</p>
+                  <p className={`font-semibold flex items-center gap-1 ${c.text}`}>{x.term} <SpeakButton text={x.term} size={14} /></p>
                   {x.def && <p className={`text-xs mt-0.5 line-clamp-2 ${c.sub}`}>{x.def}</p>}
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">

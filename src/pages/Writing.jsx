@@ -17,6 +17,7 @@ import { useExpressionTask } from "@/context/ExpressionTaskContext";
 import { ModelAnswer } from "@/components/expression/ModelAnswer";
 import { loadAnswers } from "@/services/sujetsAnswersService";
 import { handOff } from "@/utils/handoff";
+import { SubjectVocabulary } from "@/components/vocab/SubjectVocabulary";
 
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
@@ -145,6 +146,7 @@ function WritingTaskPane({ task }) {
         {ai && <AiFeedback level={ai.level} score={ai.score} nclc={ai.nclc} summary={ai.summary} strengths={ai.strengths} improvements={ai.improvements} corrected={ai.corrected} rewrites={ai.rewrites} />}
       </div>
       <div className="space-y-5">
+        <SubjectVocabulary prompt={task.prompt} />
         <Card className="p-6">
           <button onClick={() => setShowSample(!showSample)} className="w-full flex items-center justify-between" aria-expanded={showSample}>
             <span className={`font-display font-bold ${c.text}`}>{t("Exemple de réponse")}</span>
