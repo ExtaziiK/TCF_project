@@ -224,6 +224,12 @@ export const EN = {
 
   // ── Home / landing ───────────────────────────────────────────────────
   "La plateforme complète pour se préparer au": "The complete platform to prepare for the",
+  // Footer (components/layout/Footer.jsx).
+  "La plateforme complète pour se préparer au TCF Canada : questions au format officiel, TCF blancs notés, correction par IA et suivi continu.":
+    "The complete platform to prepare for the TCF Canada: official-format questions, scored mock exams, AI feedback and continuous tracking.",
+  "Commencer gratuitement": "Start for free",
+  "Mon tableau de bord": "My dashboard",
+  "Sujets du mois": "Topics of the month",
   "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
     "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",
   "Commencer à pratiquer gratuitement": "Start practicing for free",
