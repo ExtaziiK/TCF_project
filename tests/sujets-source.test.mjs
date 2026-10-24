@@ -12,7 +12,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { countSubjects, sourceKey, provenanceKeys, itemsOf, treeOf, mergeMonth } from "../api/_lib/sujetsSource.js";
+import { countSubjects, sourceKey, provenanceKeys, itemsOf, treeOf, mergeMonth, slotsFor } from "../api/_lib/sujetsSource.js";
 import { toLines, tidy } from "../api/_lib/sujets/html.js";
 import { parseEE, parseEO, monthsFrom } from "../api/_lib/sujets/reussir.js";
 
@@ -189,7 +189,9 @@ test("EE: a re-run imports only the combinaison that appeared since", () => {
 
   const merged = mergeMonth("ee", published, fresh);
   assert.equal(merged.length, 3);
-  assert.deepEqual(merged.map((s) => s.n), [1, 2, 3], "renumbered in place");
+  // Numbers are identities (model answers, dictées and public links use them):
+  // the existing combinaisons keep theirs, the new one takes the next.
+  assert.deepEqual(merged.map((s) => s.n), [3, 1, 2], "existing numbers kept, the new one numbered after them");
   assert.equal(merged[0].t3.theme, "Thème 3", "the newest combinaison leads, as on the source");
   assert.deepEqual(merged.slice(1).map((s) => s.t1), ["REFORMULÉ 0", "REFORMULÉ 1"], "already-published wording is left alone");
 
@@ -256,4 +258,24 @@ test("tidy fixes French punctuation spacing without touching times or URLs", () 
   // tight in the rare sentence that has one.
   assert.equal(tidy("Rendez-vous à 14:30 précises."), "Rendez-vous à 14:30 précises.");
   assert.equal(tidy("Voir https://exemple.fr/page pour en savoir plus."), "Voir https://exemple.fr/page pour en savoir plus.");
+});
+
+test("EE: a merge never renumbers what is published, even with gaps or missing numbers", () => {
+  // n is what the model answers, the dictées and the public links point at.
+  const published = [{ n: 7, t1: "a" }, { n: 3, t1: "b" }, { t1: "c" }];
+  const merged = mergeMonth("ee", published, [{ t1: "new 1" }, { t1: "new 2" }]);
+  // "c" was addressed by its position (3), but "b" already holds 3: it takes a
+  // free number instead of sharing one.
+  assert.deepEqual(merged.map((s) => [s.t1, s.n]), [["new 1", 9], ["new 2", 10], ["a", 7], ["b", 3], ["c", 8]]);
+  assert.equal(new Set(merged.map((s) => s.n)).size, merged.length, "every number is unique");
+  // A second import adds after the highest number again.
+  const again = mergeMonth("ee", merged, [{ t1: "new 3" }]);
+  assert.equal(again[0].n, 11);
+  assert.deepEqual(again.slice(1).map((s) => s.n), merged.map((s) => s.n));
+});
+
+test("EE import rewords tâches 1 and 2 only: tâche 3 keeps the source's theme and documents", () => {
+  const data = [{ t1: "Écrivez à votre ami.", t2: "Racontez une fête.", t3: { theme: "Les zoos", doc1: "Document un.", doc2: "Document deux." } }];
+  const texts = slotsFor("ee", data).map((s) => s.text);
+  assert.deepEqual(texts, ["Écrivez à votre ami.", "Racontez une fête."]);
 });

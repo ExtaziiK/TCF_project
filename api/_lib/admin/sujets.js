@@ -60,6 +60,7 @@ export default async function handler(req, res) {
       mode: result.mode,
       data: result.data,
       fresh: result.fresh,
+      repeats: result.repeats,
       counts: result.counts,
       kept: result.kept,
     });

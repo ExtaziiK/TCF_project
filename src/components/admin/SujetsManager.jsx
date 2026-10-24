@@ -108,8 +108,16 @@ export function SujetsManager() {
     );
   };
 
+  // How many combinaisons of the month on the page already have a model answer
+  // — a "replace" publish rebuilds the month and would leave those answers
+  // pointing at subjects that no longer carry their number.
+  const answeredIn = (y, mn) =>
+    ((years.find((x) => x.year === y)?.months || []).find((m) => m.monthNum === mn)?.data || []).filter(hasAnswer).length;
+
   const publish = async () => {
     const p = proposal;
+    const answered = p.section === "ee" ? answeredIn(p.year, p.monthNum) : 0;
+    if (p.mode === "replace" && answered > 0 && !window.confirm(`${p.month} ${p.year} a déjà ${answered} combinaison(s) avec un modèle de réponse. Remplacer le mois les détachera de leur sujet : il faudra régénérer les réponses de ce mois. Continuer ?`)) return;
     const done = p.mode === "merge" ? "ajouté(s) à" : "publié sur";
     const r = await run(() => saveMonth(section, p.year, p.monthNum, p.data), `${p.counts.added} sujet(s) ${done} ${p.month} ${p.year}.`);
     if (!r?.ok) return;
@@ -305,7 +313,7 @@ export function SujetsManager() {
         </Card>
       )}
 
-      {proposal && <ImportPreview p={proposal} busy={busy} c={c} onPublish={publish} onCancel={() => setProposal(null)} />}
+      {proposal && <ImportPreview p={proposal} busy={busy} c={c} answered={proposal.section === "ee" ? answeredIn(proposal.year, proposal.monthNum) : 0} onPublish={publish} onCancel={() => setProposal(null)} />}
 
       {loading ? (
         <Card className="p-10 text-center"><p className={`text-sm ${c.faint}`}>Chargement…</p></Card>
@@ -339,8 +347,11 @@ export function SujetsManager() {
 // "replace" overwrites a month the importer can't match against, "new" creates
 // it. In merge mode the panel lists only the additions — the rest of the month
 // is already visible in the editor below.
-function ImportPreview({ p, busy, c, onPublish, onCancel }) {
+function ImportPreview({ p, busy, c, answered = 0, onPublish, onCancel }) {
   const merging = p.mode === "merge";
+  // Additions already present in a recent month (the exam reuses subjects):
+  // n → the month it was seen in, or null when matched by meaning only.
+  const repeats = new Map((p.repeats || []).map((r) => [r.n, r.month]));
   const shown = merging ? p.fresh : p.data;
   const unit = p.section === "ee" ? "combinaison(s)" : "sujet(s)";
   const nothingNew = p.counts.added === 0;
@@ -391,6 +402,16 @@ function ImportPreview({ p, busy, c, onPublish, onCancel }) {
           Ajout à {p.month} {p.year}, qui contient déjà {p.counts.existing} {unit}. Les sujets existants ne sont pas modifiés.
         </Notice>
       )}
+      {p.mode === "replace" && answered > 0 && (
+        <Notice tone="amber" c={c}>
+          Attention : {answered} combinaison(s) de ce mois ont déjà un modèle de réponse. Remplacer le mois les détachera de leur sujet, et il faudra régénérer les réponses.
+        </Notice>
+      )}
+      {repeats.size > 0 && (
+        <Notice tone="plain" c={c}>
+          {repeats.size} combinaison(s) marquée(s) « déjà vue » figurent aussi dans un mois récent : l’examen réutilise des sujets. Retirez-les après publication si vous ne voulez pas de doublon.
+        </Notice>
+      )}
       {p.mode === "replace" && (
         <Notice tone="amber" c={c}>
           {p.month} {p.year} existe déjà avec {p.counts.existing} {unit}, mais sans trace d'origine : impossible de savoir ce qui vient de la source, donc publier remplacera entièrement ce mois. Les prochains imports pourront, eux, ajouter sans écraser.
@@ -413,6 +434,11 @@ function ImportPreview({ p, busy, c, onPublish, onCancel }) {
               <div className="flex-1 min-w-0 space-y-1.5 text-sm">
                 <p className={c.text}><span className="font-semibold text-blue-600">T1 · </span>{s.t1}</p>
                 <p className={c.text}><span className="font-semibold text-blue-600">T2 · </span>{s.t2}</p>
+                {repeats.has(s.n) && (
+                  <p className="inline-flex text-[11px] font-bold uppercase tracking-wider rounded-full px-2 py-0.5 bg-amber-500/15 text-amber-700 dark:text-amber-400">
+                    Déjà vue{repeats.get(s.n) ? ` · ${repeats.get(s.n)}` : " récemment"}
+                  </p>
+                )}
                 {s.t3?.theme && <p className={c.text}><span className="font-semibold text-blue-600">T3 · </span>{s.t3.theme}</p>}
                 {s.t3?.doc1 && <p className={`text-xs ${c.sub}`}><span className="font-semibold">Doc 1 · </span>{s.t3.doc1}</p>}
                 {s.t3?.doc2 && <p className={`text-xs ${c.sub}`}><span className="font-semibold">Doc 2 · </span>{s.t3.doc2}</p>}
