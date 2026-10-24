@@ -28,7 +28,7 @@ test("Tâche 3 requires a synthesis of both documents AND an argued opinion", ()
 
 test("each tâche gets its own brief, and an unknown one none", () => {
   assert.match(ee.eeSystem("fr", 1), /a MESSAGE \(60-120 words\)/);
-  assert.match(ee.eeSystem("fr", 2), /ARTICLE, LETTER, BLOG POST/);
+  assert.match(ee.eeSystem("fr", 2), /ARTICLE, LETTER, NOTE, BLOG POST or REPLY/);
   assert.doesNotMatch(ee.eeSystem("fr", undefined), /THIS TÂCHE/);
 });
 

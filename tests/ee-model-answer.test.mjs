@@ -25,8 +25,9 @@ test("the generator and the grader share one set of rules", () => {
 test("Tâche 3's consigne asks for the comparison AND the opinion", () => {
   const c = consigneFor(3, { t3: { theme: "Les zoos", doc1: "Pour.", doc2: "Contre." } });
   assert.match(c, /Document 1 : Pour\./);
-  assert.match(c, /comparez les deux points de vue/);
-  assert.match(c, /votre opinion/);
+  // France Éducation international's own wording (sample paper EE00demo).
+  assert.match(c, /vous présentez les deux opinions avec vos propres mots \(entre 40 et 60 mots\)/);
+  assert.match(c, /vous donnez votre position sur le thème général, commun à ces deux opinions \(entre 80 et 120 mots\)/);
   assert.equal(consigneFor(3, { t3: {} }), "");
 });
 
@@ -123,4 +124,30 @@ test("slips the grader quotes as « wrong » → « right » are recognised, rew
 
 test("only expressions that really occur in the text are kept to memorise", () => {
   assert.deepEqual(usableKeywords(["« En revanche »", "en revanche", "absent ici", "ok"], "En revanche, il pleut."), ["En revanche"]);
+});
+
+test("the official word-count rule caps a text outside the range, whatever the model said", async () => {
+  const { applyLengthRule, lengthBreach, LENGTH_CAP } = await import("../api/_lib/eeSpec.js");
+  assert.equal(lengthBreach("120 à 150 mots", 135), null);
+  assert.equal(lengthBreach("120 à 150 mots", 150), null, "the maximum itself is allowed");
+  assert.deepEqual(lengthBreach("120 à 150 mots", 151), { lo: 120, hi: 150, words: 151, short: false });
+  const fb = { score: 16, level: "C1", criteria: { consigne: 17, lexique: 16 }, improvements: ["Varier le lexique."] };
+  const over = applyLengthRule(fb, "120 à 150 mots", 162);
+  assert.equal(over.score, LENGTH_CAP);
+  assert.equal(over.criteria.consigne, 8);
+  assert.equal(over.criteria.lexique, 16, "language criteria are not punished for length");
+  assert.match(over.improvements[0], /162 mots, au-dessus du maximum de 150/);
+  assert.match(over.improvements[0], /A1 non atteint/);
+  const short = applyLengthRule({ ...fb }, "60 à 120 mots", 41);
+  assert.match(short.improvements[0], /sous le minimum de 60/);
+  // In range: untouched.
+  assert.deepEqual(applyLengthRule(fb, "120 à 150 mots", 140), fb);
+  // A weak text keeps its own lower score.
+  assert.equal(applyLengthRule({ ...fb, score: 6 }, "120 à 150 mots", 170).score, 6);
+});
+
+test("the grader is told whether the length respects the range, computed in code", async () => {
+  const { eeUserMessage } = await import("../api/_lib/eeGrader.js");
+  assert.match(eeUserMessage({ targetWords: "60 à 120 mots", wordCount: 130, text: "x" }), /HORS de la fourchette exigée \(trop long\)/);
+  assert.match(eeUserMessage({ targetWords: "60 à 120 mots", wordCount: 90, text: "x" }), /conforme à la fourchette/);
 });

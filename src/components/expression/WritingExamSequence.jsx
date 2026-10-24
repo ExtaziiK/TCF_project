@@ -110,7 +110,8 @@ export function WritingExamSequence({ tasks, examKey = "" }) {
         <h3 className={`font-display font-bold text-xl mb-3 flex items-center gap-2 ${c.text}`}><PenLine size={20} className="text-blue-600" /> {t("Expression écrite : 60 minutes, trois tâches")}</h3>
         <ul className={`space-y-2 text-sm ${c.sub} list-disc list-inside mb-6`}>
           <li>{t("Un seul chronomètre de 60 minutes pour les trois tâches : à vous de répartir votre temps.")}</li>
-          <li>{t("Passez librement d'une tâche à l'autre : rien n'est perdu.")}</li>
+          <li>{t("Consigne officielle : faites les tâches dans l'ordre, de la tâche 1 à la tâche 3. Vous pouvez revenir sur une tâche : rien n'est perdu.")}</li>
+          <li>{t("Respectez le nombre de mots minimum et maximum de chaque tâche : hors fourchette, une tâche peut être évaluée « A1 non atteint ».")}</li>
           <li>{t("Pas de correcteur orthographique, pas d'exemple de réponse, pas d'analyse pendant l'épreuve.")}</li>
           <li>{t("À la fin du temps, vos trois textes sont envoyés automatiquement, terminés ou non.")}</li>
           <li>{t("La correction arrive à la fin : une note globale /20, puis le détail de chaque tâche.")}</li>

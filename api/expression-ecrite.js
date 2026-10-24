@@ -5,7 +5,7 @@ import { recordFailure, handleClientError } from "./_lib/failureContext.js";
 import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
 import { nonLatinLetterShare, NOT_LATIN_SCRIPT } from "./_lib/scriptCheck.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { EE_TASK_BRIEFS } from "./_lib/eeSpec.js";
+import { EE_TASK_BRIEFS, applyLengthRule } from "./_lib/eeSpec.js";
 import { eeSystem, eeUserMessage } from "./_lib/eeGrader.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -117,7 +117,8 @@ export default async function handler(req, res) {
     // number.
     // `text` is passed so the rewrites can be checked against what the
     // candidate actually wrote — see normalizeFeedback.
-    res.status(200).json({ ...normalizeFeedback(raw, text), aiLeft: claim?.left });
+    // The official word-count rule, applied whatever the model wrote.
+    res.status(200).json({ ...applyLengthRule(normalizeFeedback(raw, text), targetWords, wordCount), aiLeft: claim?.left });
   } catch (err) {
     // Record the failure as well as the successes — but ONLY when the request
     // actually reached Groq. ai_usage_log exists to meter GROQ calls, and the

@@ -61,9 +61,10 @@ function composeT3(t3) {
   if (t3?.theme) parts.push(`« ${t3.theme} »`);
   if (t3?.doc1) parts.push(`Document 1 : ${t3.doc1}`);
   if (t3?.doc2) parts.push(`Document 2 : ${t3.doc2}`);
-  // The exam's two required parts, said as the exam says them — the grader
-  // and the model answers hold the candidate to both (api/_lib/eeSpec.js).
-  parts.push("Vous comparez les deux points de vue exprimés dans les documents ci-dessus (40 à 60 mots), puis vous donnez votre opinion sur le thème, à l'aide d'arguments et d'exemples (80 à 120 mots).");
+  // The exam's two required parts, in France Éducation international's own
+  // wording (sample paper EE00demo) — the grader and the model answers hold
+  // the candidate to both (api/_lib/eeSpec.js).
+  parts.push("Vous écrivez un texte qui comprend deux parties : dans la première partie, vous présentez les deux opinions avec vos propres mots (entre 40 et 60 mots) ; dans la deuxième partie, vous donnez votre position sur le thème général, commun à ces deux opinions (entre 80 et 120 mots).");
   return parts.join("\n\n");
 }
 

@@ -43,9 +43,10 @@ export const TASK_LABEL = {
 };
 
 // The consigne as the grader and the generator both read it. Tâche 3's
-// instruction is the official one: compare the two points of view, THEN give
-// your own — the same wording the workshop shows the candidate.
-export const T3_INSTRUCTION = "Vous comparez les deux points de vue exprimés dans les documents ci-dessus (40 à 60 mots), puis vous donnez votre opinion sur le thème, à l'aide d'arguments et d'exemples (80 à 120 mots).";
+// instruction is France Éducation international's own wording (sample paper
+// EE00demo): two parts, the two opinions in the candidate's words, THEN their
+// position — the same text the workshop shows the candidate.
+export const T3_INSTRUCTION = "Vous écrivez un texte qui comprend deux parties : dans la première partie, vous présentez les deux opinions avec vos propres mots (entre 40 et 60 mots) ; dans la deuxième partie, vous donnez votre position sur le thème général, commun à ces deux opinions (entre 80 et 120 mots).";
 
 export function consigneFor(task, sujet) {
   if (task === 1) return String(sujet?.t1 || "").trim();

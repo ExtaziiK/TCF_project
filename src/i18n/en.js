@@ -1451,6 +1451,8 @@ export const EN = {
   "Rédigez d'abord votre texte, puis comparez-le au modèle C1-C2 de ce sujet : même structure, même fourchette de mots que le jour de l'examen.": "Write your text first, then compare it with this subject's C1-C2 model answer: same structure and word range as on exam day.",
   "Faire la dictée de ce corrigé": "Take this model answer as a dictation",
   "attendu :": "expected:",
+  "Consigne officielle : faites les tâches dans l'ordre, de la tâche 1 à la tâche 3. Vous pouvez revenir sur une tâche : rien n'est perdu.": "Official instruction: do the tasks in order, from task 1 to task 3. You can go back to a task: nothing is lost.",
+  "Respectez le nombre de mots minimum et maximum de chaque tâche : hors fourchette, une tâche peut être évaluée « A1 non atteint ».": "Respect the minimum and maximum word count of each task: outside the range, a task can be graded \"A1 not reached\".",
   "titre compris": "title included",
   "60 à 120 mots": "60 to 120 words",
   "120 à 150 mots": "120 to 150 words",

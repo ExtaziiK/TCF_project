@@ -1,4 +1,4 @@
-import { EE_TASK_BRIEFS } from "./eeSpec.js";
+import { EE_TASK_BRIEFS, lengthBreach, LENGTH_CAP } from "./eeSpec.js";
 
 // The Expression écrite grader's prompt, shared by the two things that grade:
 // api/expression-ecrite.js, which marks a candidate's text, and the model
@@ -13,8 +13,8 @@ ${taskBrief(task)}
 
 SCORE. The TCF scores this épreuve OUT OF 20, so give a score /20 — not a CEFR level. Rate five criteria /20, then set the overall score at the level the candidate SUSTAINS (not an average: one strong criterion does not lift weak language, one slip does not sink solid work).
 1. Consigne — task carried out, right text type and register, and length if a word count was given. A text that answers a DIFFERENT subject than the one given — not one missed point among several, a different topic entirely — is hors-sujet. This is not a consigne penalty inside an otherwise normal score: see the 0-3 band below, which applies regardless of how fluent the (wrong-topic) writing is.
-The candidate's word count is GIVEN to you above. Use that number; do not count the words yourself and never contradict it. If it falls inside the target range, the length is correct — say nothing about it and apply no length penalty.
-LENGTH BELONGS TO THIS CRITERION AND NO OTHER. A short text still shows whatever range and control its sentences show: mark cohérence, lexique, morphosyntaxe and orthographe on the LANGUAGE alone, exactly as you would if the text were the right length. Never lower them because the text is short — that is punishing the same fault four times. Only if the text is under three quarters of the minimum does the OVERALL score cap at 9, and even then the criteria keep their true values. A text well OVER the maximum is the mirror case: note briefly that it overshoots (concision is part of the task), but this is a minor consigne point only — it never caps the overall score, and cohérence/lexique/morphosyntaxe/orthographe stay judged on the language alone, not discounted for length in either direction. With no word count given, say nothing about length.
+The candidate's word count and whether it RESPECTS the range are GIVEN to you above, computed by the exam's own rule (one word = any group of signs between two spaces). Use them; do not count the words yourself and never contradict them. If the length is marked as respected, say nothing about it and apply no length penalty.
+The official TCF rule is strict: the candidate MUST respect the minimum AND the maximum, and a task that does not « pourrait être évaluée A1 non atteint ». So a text marked OUT OF RANGE — too short or too long — has Consigne at 8 or below and an OVERALL score of at most ${LENGTH_CAP}; one of the improvements says so plainly. LENGTH BELONGS TO THE CONSIGNE CRITERION AND NO OTHER: mark cohérence, lexique, morphosyntaxe and orthographe on the LANGUAGE alone, exactly as you would if the text were the right length — never punish the same fault four times. With no word count given, say nothing about length.
 2. Cohérence — organisation and linking of ideas: real connectors rather than sentences juxtaposed with "et"/"mais".
 3. Lexique — range, precision, repetition.
 4. Morphosyntaxe — range and control of tenses, agreement, subordination.
@@ -51,6 +51,9 @@ export function eeUserMessage({ taskLabel = "", prompt = "", targetWords = "", w
     prompt && `Consigne : ${String(prompt).slice(0, 1000)}`,
     targetWords && `Nombre de mots attendu : ${String(targetWords).slice(0, 20)}`,
     `Nombre de mots réellement écrits : ${wordCount}`,
+    targetWords && (lengthBreach(targetWords, wordCount)
+      ? `Longueur : HORS de la fourchette exigée (${lengthBreach(targetWords, wordCount).short ? "trop court" : "trop long"}) — règle officielle : note plafonnée.`
+      : "Longueur : conforme à la fourchette exigée."),
     copied >= warnAt &&
       `ALERTE : ${Math.round(copied * 100)} % de cette réponse est repris mot pour mot de la consigne ci-dessus. Ce qui est recopié n'est pas de la production du candidat et ne peut lui valoir aucun point de lexique ni de morphosyntaxe.`,
     `Réponse du candidat :\n"""\n${String(text).slice(0, 4000)}\n"""`,

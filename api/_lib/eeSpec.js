@@ -1,3 +1,5 @@
+import { levelsFromScore } from "./levels.js";
+
 // The Expression écrite rules, in ONE place.
 //
 // Three things read them and they must never disagree: the grader that marks a
@@ -23,11 +25,57 @@ export const EE_WORDS_LABEL = { 1: "60 à 120 mots", 2: "120 à 150 mots", 3: "1
 export const T3_SYNTHESIS = [40, 60];
 export const T3_OPINION = [80, 120];
 
-// Words as the exam's on-screen counter counts them: runs of non-space
-// characters. The grader is handed this number, so the generator must measure
-// with the same ruler — two counters a few words apart near a limit is how a
-// "model" ends up out of range.
+// Words as the exam counts them — « 1 mot = tout ensemble de signes placé
+// entre deux espaces » (France Éducation international, sample paper EE00demo):
+// runs of non-space characters. The grader is handed this number, so the
+// generator must measure with the same ruler — two counters a few words apart
+// near a limit is how a "model" ends up out of range.
 export const examWords = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
+
+/* --------------------------- the official length rule ---------------------- */
+
+// « Vous devez respecter le nombre de mots minimum et maximum exigé pour chaque
+// tâche » (sample paper) — and the candidate manual (Version H, 2024): « La copie
+// d'expression écrite pourrait être évaluée "A1 non atteint" si chaque tâche
+// n'est pas réalisée avec le nombre de mots exigé ». Out of range is therefore
+// never a detail: the grade is capped here, in code, whatever the model says.
+export const LENGTH_CAP = 9;
+
+// "60 à 120 mots" → [60, 120]; null when no range can be read.
+export function rangeOf(targetWords) {
+  const nums = String(targetWords || "").match(/\d+/g)?.map(Number) || [];
+  return nums.length >= 2 ? [nums[0], nums[1]] : null;
+}
+
+// → null when the count respects the range (or there is no range), otherwise
+// { lo, hi, words, short }.
+export function lengthBreach(targetWords, words) {
+  const r = rangeOf(targetWords);
+  if (!r || !Number.isFinite(words)) return null;
+  const [lo, hi] = r;
+  return words < lo || words > hi ? { lo, hi, words, short: words < lo } : null;
+}
+
+// Caps a normalised feedback when the count breaks the official range, and
+// says why first. Levels come from the /20 through the official table, so they
+// are recomputed from the capped score.
+export function applyLengthRule(fb, targetWords, words) {
+  const b = lengthBreach(targetWords, words);
+  if (!b || !fb || fb.notAnAnswer) return fb;
+  const out = { ...fb, improvements: [lengthWarning(b), ...(fb.improvements || []).filter((x) => !/nombre de mots|word count/i.test(x))].slice(0, 4) };
+  if (Number.isFinite(fb.score) && fb.score > LENGTH_CAP) {
+    const lv = levelsFromScore(LENGTH_CAP);
+    Object.assign(out, { score: lv.score, level: lv.level, nclc: lv.nclc, lengthCapped: true });
+  }
+  if (out.criteria && Number.isFinite(out.criteria.consigne)) out.criteria = { ...out.criteria, consigne: Math.min(out.criteria.consigne, 8) };
+  return out;
+}
+
+// The sentence the candidate reads when their text is out of range.
+export const lengthWarning = (b) =>
+  b.short
+    ? `Votre texte compte ${b.words} mots, sous le minimum de ${b.lo} exigé. Selon les règles officielles du TCF, une tâche qui ne respecte pas le nombre de mots peut être évaluée « A1 non atteint » : la note est donc plafonnée à ${LENGTH_CAP}/20. Développez votre texte pour atteindre ${b.lo} à ${b.hi} mots.`
+    : `Votre texte compte ${b.words} mots, au-dessus du maximum de ${b.hi} autorisé. Selon les règles officielles du TCF, une tâche qui ne respecte pas le nombre de mots peut être évaluée « A1 non atteint » : la note est donc plafonnée à ${LENGTH_CAP}/20. Resserrez votre texte entre ${b.lo} et ${b.hi} mots.`;
 
 /* ------------------------------- the grader ------------------------------- */
 
@@ -37,7 +85,7 @@ export const examWords = (s) => String(s || "").trim().split(/\s+/).filter(Boole
 // label.
 export const EE_TASK_BRIEFS = {
   1: `THIS TÂCHE — Tâche 1, a MESSAGE (60-120 words) to the recipient named in the consigne, to describe, narrate or explain. Under Consigne, check: every point the consigne asks for is covered; the register fits the recipient (« tu » for a friend or relative, « vous » for a superior, a stranger or an institution) and stays consistent; it reads as a message — an opening, the purpose stated early, a closing formula. A requested point left out is a real consigne penalty; a missing greeting alone is minor.`,
-  2: `THIS TÂCHE — Tâche 2, an ARTICLE, LETTER, BLOG POST or NOTE (120-150 words) for several readers: the account of an experience or event AND the writer's impressions or opinion. Under Consigne, check: both are there — the account (narrated, usually in the past: passé composé for events, imparfait for background, used correctly) and the opinion; it suits the publication named (a title is welcome for an article or blog post); it is organised in paragraphs. An account with no opinion, or an opinion with no account, carries out only half of the task.`,
+  2: `THIS TÂCHE — Tâche 2, an ARTICLE, LETTER, NOTE, BLOG POST or REPLY (120-150 words) for one or several readers. The official definition: an account of an experience or a récit, ACCOMPANIED by comments, opinions or arguments that serve a goal (to claim, to convince, to advise, to reconcile…). Under Consigne, check: the text does what THIS consigne asks — when it asks to tell an experience, the account is there (narrated in the past: passé composé for events, imparfait for background, used correctly) AND the writer's comments or opinion; when it asks to answer, advise or claim, the advice or claim is given AND justified, as the consigne requires; it suits the publication or recipient named (a title is welcome for an article or blog post); it is organised in paragraphs. An account with no comment, or an opinion that is never justified, carries out only half of the task.`,
   3: `THIS TÂCHE — Tâche 3, COMPARING TWO POINTS OF VIEW (120-180 words) given in two short documents. It has TWO REQUIRED PARTS: (1) a SYNTHESIS that restates the position of BOTH documents, neutrally and in the candidate's own words (about 40-60 words); (2) the candidate's OWN OPINION, clearly stated and argued with reasons and examples (about 80-120 words). Under Consigne, check: both parts are present; the synthesis covers both documents, not one; it is reformulated, not copied (copied phrases earn no lexique or morphosyntaxe credit); the opinion is argued, not just announced. A text with no synthesis (only an opinion), or whose synthesis covers one document only, misses a required part: Consigne at 8 or below and the OVERALL score at most 11, whatever the quality of the language — and say in an improvement which part is missing.`,
 };
 
@@ -56,10 +104,11 @@ Structure obligatoire, dans cet ordre :
 - "signature" : un prénom courant.
 Registre : « tu » pour un ami ou un proche, « vous » pour un supérieur, un inconnu ou une institution — et le même du début à la fin.
 Un message ne porte pas de titre : "title" vaut "".`,
-  2: `TÂCHE 2 — un ARTICLE, BILLET DE BLOG, COURRIER ou NOTE destiné à plusieurs lecteurs. ${EE_WORDS_LABEL[2]} : écris entre ${EE_AIM[2][0]} et ${EE_AIM[2][1]} mots, titre compris, jamais plus.
-Deux éléments sont OBLIGATOIRES, sinon la tâche n'est faite qu'à moitié :
-1) le RÉCIT de l'expérience ou de l'événement, raconté au passé : passé composé pour les faits, imparfait pour le décor et les sentiments, plus-que-parfait si un fait précède l'autre ;
-2) les IMPRESSIONS et l'OPINION de l'auteur, argumentées, avec une recommandation ou une invitation adressée aux lecteurs.
+  2: `TÂCHE 2 — un ARTICLE, BILLET DE BLOG, COURRIER, NOTE ou RÉPONSE destiné à un ou plusieurs lecteurs. ${EE_WORDS_LABEL[2]} : écris entre ${EE_AIM[2][0]} et ${EE_AIM[2][1]} mots, titre compris, jamais plus.
+Fais exactement ce que demande la consigne. Le plus souvent, deux éléments sont OBLIGATOIRES, sinon la tâche n'est faite qu'à moitié :
+1) le RÉCIT ou le compte rendu de l'expérience, raconté au passé : passé composé pour les faits, imparfait pour le décor et les sentiments, plus-que-parfait si un fait précède l'autre ;
+2) les COMMENTAIRES, l'OPINION ou les ARGUMENTS de l'auteur, au service d'un objectif (convaincre, recommander, réclamer, conseiller), avec une recommandation ou une invitation adressée aux lecteurs.
+Si la consigne demande plutôt de répondre, de conseiller ou de réclamer, fais-le et JUSTIFIE chaque conseil ou demande.
 Structure : "title" = un titre accrocheur pour un article ou un billet de blog ("" pour un courrier ou une note) ; "body" = 3 paragraphes : présentation succincte et attirante du sujet, récit au passé avec des détails concrets, impressions et recommandation. Pour un courrier, ouvre et ferme le corps par une formule d'appel et de congé.
 Registre courant soutenu, adressé à des lecteurs, pas à un ami.`,
   3: `TÂCHE 3 — COMPARER DEUX POINTS DE VUE puis donner le sien. ${EE_WORDS_LABEL[3]} : écris entre ${EE_AIM[3][0]} et ${EE_AIM[3][1]} mots, titre compris, jamais plus.
