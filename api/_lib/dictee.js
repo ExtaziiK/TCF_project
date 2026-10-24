@@ -2,17 +2,24 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "@supabase/supabase-js";
-import { HttpError, groqChatJSON } from "./groq.js";
+import { HttpError } from "./groq.js";
 import { synthesizeFrench } from "./tts.js";
+import { dictationText } from "./eeSpec.js";
 
-// The dictée's server half: find a sujet, write the model answer nobody has
-// written yet, and cut it into the units a candidate types one at a time.
+// The dictée's server half: find a sujet, read its model answer, and cut it
+// into the units a candidate types one at a time.
 //
-// The archive holds 476 sujets × 3 tâches of PROMPTS and not one model answer,
-// so the text taken down under dictation has to be generated. Everything here
-// exists to make that generation happen exactly once per (sujet, tâche): the
-// result is cached in dictee_texts and every later candidate hears the same
-// recording of the same text, which is what makes two scores comparable.
+// The text is NOT written here. It is the subject's model answer — the one in
+// sujets_answers, written and graded once (api/_lib/eeModelAnswer.js) and also
+// shown on the subject's « Modèle de réponse » page and as the workshop's
+// example. A candidate who studied the corrigé then takes it down under
+// dictation, so the structures they heard are the ones they read. Each
+// (sujet, tâche) is recorded once and cached in dictee_texts with a link to its
+// answer; every later candidate hears the same recording of the same text,
+// which is what makes two scores comparable.
+//
+// Texts the dictée wrote for itself before (answer_id null) stay playable until
+// the subject's model answer replaces them.
 
 // Built on first use rather than at import. The splitter below is pure and is
 // held to a fixture table by tests/dictee-split.test.mjs, which imports this
@@ -290,60 +297,52 @@ export function splitGroups(text) {
   return sentencesOf(text, false).flatMap(splitClause);
 }
 
-/* ------------------------------- generation ------------------------------- */
+/* ---------------------------- the model answer ---------------------------- */
 
-// Tâche 1 and 2 are practical texts, tâche 3 is the argued essay — which is why
-// only tâche 3 is written at C2. Lengths follow the real épreuve.
-const TASK_SPEC = {
-  1: { level: "C1", words: "90 à 120", kind: "un message ou une lettre personnelle adressée à la personne indiquée par la consigne" },
-  2: { level: "C1", words: "120 à 160", kind: "le texte demandé par la consigne (article, billet de blog, courriel ou compte rendu), avec le registre qui convient" },
-  3: { level: "C2", words: "180 à 220", kind: "un texte argumenté qui confronte les deux documents, prend position et la défend" },
-};
+// The level a dictée is labelled with: the grade its model answer cleared
+// (16+ is the grader's C2 band). A model answer from before the gate has no
+// grade, and is labelled by what it was asked for.
+const levelOf = (answer) => (answer?.score >= 16 ? "C2" : "C1");
 
-const system = (spec) => `Tu es un formateur FLE qui rédige des corrigés modèles pour le TCF Canada, épreuve d'Expression écrite.
+// What a voice cannot read and a candidate could not be fairly asked to type:
+// digits, symbols, brackets and quotation marks. Model answers written by the
+// gate never contain them (eeSpec.js EE_DICTATION_RULES); one from before may.
+export const undictable = (text) => /[\d%€$&/#+=@()[\]«»"“”]/.test(text);
 
-Rédige ${spec.kind}. Niveau visé : ${spec.level}. Longueur : ${spec.words} mots.
+// The model answer of one (sujet, tâche), or null.
+export async function readAnswer(sujet) {
+  if (!Number.isInteger(sujet?.year) || !Number.isInteger(sujet?.monthNum) || !Number.isInteger(sujet?.n)) return null;
+  const run = (cols) => admin()
+    .from("sujets_answers")
+    .select(cols)
+    .eq("section", "ee").eq("year", sujet.year).eq("month_num", sujet.monthNum).eq("n", sujet.n).eq("tache", sujet.task)
+    .maybeSingle();
+  let { data, error } = await run("id, body, score, version");
+  // 20261024_ee_model_answers.sql not applied yet: no score, no version.
+  if (error) ({ data, error } = await run("id, body"));
+  return error ? null : data;
+}
 
-Le texte sera DICTÉ : une voix de synthèse le lira phrase par phrase et un candidat l'écrira sous la dictée. Cela impose des règles absolues.
-- Phrases de 8 à 20 mots. Jamais de phrase de plus de 25 mots.
-- Écris tous les nombres en toutes lettres : « vingt pour cent », jamais « 20 % » ; « deux mille vingt-six », jamais « 2026 ».
-- Aucune abréviation, aucun sigle, aucune adresse, aucun symbole (%, €, &, /, #).
-- Aucun titre, aucune liste, aucun tiret de liste, aucune parenthèse, aucun guillemet.
-- Pas de nom propre inhabituel : seuls des noms courants et faciles à écrire sont admis.
-- Le texte est un seul bloc de prose continue, sans saut de ligne.
+// Every sujet key whose model answer for this tâche can be dictated — what a
+// new dictée can be recorded from.
+export async function answeredKeysFor(task) {
+  const { data, error } = await admin().from("sujets_answers").select("year, month_num, n, body").eq("section", "ee").eq("tache", task);
+  if (error) return new Set();
+  return new Set((data || []).filter((r) => !undictable(dictationText({ task, body: r.body }))).map((r) => sujetKeyOf(r.year, r.month_num, r.n)));
+}
 
-La langue doit mériter le niveau ${spec.level} : connecteurs variés, subordination réelle, lexique précis, temps maîtrisés. C'est un modèle que le candidat doit avoir intérêt à copier.
-Ton français doit être irréprochable — la moindre faute sera dictée puis comptée comme une erreur au candidat.
-
-Réponds UNIQUEMENT par un objet JSON minifié : {"text":"<le texte>"}`;
-
-// Writes and caches the model answer for one (sujet, tâche). Returns the row.
-export async function generateText(sujet) {
-  const spec = TASK_SPEC[sujet.task];
-  // Warmer than the graders (temperature 0) on purpose: this is prose, not a
-  // verdict, and it is written once and then frozen in the cache, so there is
-  // nothing for sampling noise to make inconsistent.
-  const { json, usage, model } = await groqChatJSON(
-    [
-      { role: "system", content: system(spec) },
-      { role: "user", content: `Consigne :\n${sujet.prompt.slice(0, 2000)}` },
-    ],
-    { temperature: 0.4, maxTokens: 1200 },
-  );
-  const text = typeof json?.text === "string" ? json.text.replace(/\s+/g, " ").trim() : "";
-  if (wordCount(text) < 40) throw new HttpError(502, "Le corrigé généré est inexploitable. Réessayez.");
+// The dictée text of one model answer, already cut. Throws when the answer
+// cannot be dictated, so nothing half-usable is cached.
+export function textFromAnswer(answer, task) {
+  const text = dictationText({ task, body: answer?.body || "" });
+  if (wordCount(text) < 40 || undictable(text)) throw new HttpError(409, "Le modèle de réponse de ce sujet ne peut pas être dicté.");
   const sentences = splitSentences(text);
   const groups = splitGroups(text);
-  if (sentences.length < 3) throw new HttpError(502, "Le corrigé généré est inexploitable. Réessayez.");
   // The join is what the candidate is scored against, so a text whose atoms do
-  // not rebuild it is thrown away rather than cached — a cached one would go on
+  // not rebuild it is refused rather than cached — a cached one would go on
   // marking people down against words nobody read for as long as the row lives.
-  if (groups.join(" ") !== text) throw new HttpError(502, "Le découpage du corrigé a échoué. Réessayez.");
-  // `model` is the one that actually answered — groqChatJSON walks a fallback
-  // chain on a 429, so the first model in the list is not necessarily the one
-  // that did the work, and metering the wrong one makes the admin's per-model
-  // budget read as spent where it isn't.
-  return { text, sentences, groups, level: spec.level, words: wordCount(text), usage, model };
+  if (sentences.length < 3 || groups.join(" ") !== text) throw new HttpError(409, "Le modèle de réponse de ce sujet ne se découpe pas en dictée.");
+  return { text, sentences, groups, level: levelOf(answer), words: wordCount(text) };
 }
 
 // What Azure is asked to SAY for one group, which is not always what the
@@ -369,19 +368,31 @@ export async function cachedKeysFor(task) {
   return new Set((data || []).map((r) => r.sujet_key));
 }
 
-const ROW_COLUMNS = "id, level, text, sentences, audio, groups, groups_audio, words, featured_on, created_at";
+const LEGACY_COLUMNS = "id, level, text, sentences, audio, groups, groups_audio, words, featured_on, created_at";
+const ROW_COLUMNS = `${LEGACY_COLUMNS}, answer_id`;
 
 export async function readCached(sujetKey, task) {
-  const { data, error } = await admin()
+  const run = (cols) => admin()
     .from("dictee_texts")
-    .select(ROW_COLUMNS)
+    .select(cols)
     .eq("sujet_key", sujetKey)
     .eq("task", task)
     .maybeSingle();
+  let { data, error } = await run(ROW_COLUMNS);
+  // answer_id comes with 20261024_ee_model_answers.sql; before it, the row
+  // reads as a legacy one.
+  if (error) ({ data, error } = await run(LEGACY_COLUMNS));
   // A missing table (42P01) means the migration has not been applied: fall
-  // through to generating every time rather than failing the feature outright.
+  // through to recording every time rather than failing the feature outright.
   if (error) return null;
   return data;
+}
+
+// Which sujet keys have a dictée already recorded FROM their model answer.
+export async function answerKeysFor(task) {
+  const { data, error } = await admin().from("dictee_texts").select("sujet_key").eq("task", task).not("answer_id", "is", null);
+  if (error) return new Set();
+  return new Set((data || []).map((r) => r.sujet_key));
 }
 
 /* ------------------------- the daily spending cap -------------------------- */
@@ -502,10 +513,10 @@ export async function synthesizeGroups(groups) {
 // their recordings, cached for everyone who ever draws it afterwards. Shared by
 // the daily cron and the on-demand burst so there is one definition of what a
 // dictée is, and it returns the meters both of them have to log.
-export async function mintDictee(sujet, { featuredOn = null } = {}) {
-  const chatStart = Date.now();
-  const made = await generateText(sujet);
-  const chatMs = Date.now() - chatStart;
+export async function mintDictee(sujet, { featuredOn = null, answer = null } = {}) {
+  const source = answer || (await readAnswer(sujet));
+  if (!source) throw new HttpError(409, "Ce sujet n'a pas encore de modèle de réponse : sa dictée sera disponible dès qu'il sera rédigé.");
+  const made = textFromAnswer(source, sujet.task);
 
   const ttsStart = Date.now();
   const tts = await synthesizeGroups(made.groups);
@@ -523,21 +534,26 @@ export async function mintDictee(sujet, { featuredOn = null } = {}) {
     audio: null,
     words: made.words,
     featured_on: featuredOn,
+    answer_id: source.id || null,
   });
 
   return {
     row: { id, ...made, groupsAudio: tts?.audio || null },
-    chat: { usage: made.usage, model: made.model, ms: chatMs },
     tts: tts ? { chars: tts.chars, bytes: tts.bytes, ms: ttsMs } : null,
   };
 }
 
 export async function writeCached(row) {
-  const { data, error } = await admin()
+  const upsert = (r) => admin()
     .from("dictee_texts")
-    .upsert(row, { onConflict: "sujet_key,task" })
+    .upsert(r, { onConflict: "sujet_key,task" })
     .select("id")
     .maybeSingle();
+  let { data, error } = await upsert(row);
+  // answer_id comes with 20261024_ee_model_answers.sql.
+  if (error && /answer_id/.test(error.message || "")) {
+    ({ data, error } = await upsert(Object.fromEntries(Object.entries(row).filter(([k]) => k !== "answer_id"))));
+  }
   if (error) {
     console.warn("dictee_texts upsert:", error.message);
     return null;

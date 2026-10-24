@@ -4,7 +4,7 @@ import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
 import { saveMonth, deleteMonth, monthLabel, MONTH_LABELS, SECTION_LABEL } from "@/services/sujetsArchiveService";
-import { generateSujetsFromSource, generateSujetAnswers } from "@/services/adminService";
+import { generateSujetsFromSource, generateSujetAnswer } from "@/services/adminService";
 import { hasAnswer, markAnswered } from "@/services/sujetsAnswersService";
 
 const YEAR_NOW = new Date().getFullYear();
@@ -144,45 +144,74 @@ export function SujetsManager() {
     return run(() => saveMonth(section, yearObj.year, monthObj.monthNum, data), "Sujet supprimé.");
   };
 
-  // Writes the C1-C2 model answers for the month on screen. One request per
-  // combinaison: api/admin runs under a 60s cap and a month is ~21 answers, so
-  // a single call could never finish. Combinaisons that already have answers
-  // are skipped unless `redo` is set, which makes a re-run after a partial
-  // failure cheap instead of billing the whole month again.
+  // Writes THE C1-C2 model answer of every tâche of the month on screen — the
+  // text the Modèle de réponse page, the workshop's example and the dictée all
+  // use. Each answer is a short series of steps (write, fix, proofread, grade,
+  // revise: api/_lib/eeModelAnswer.js), one request each, because Groq's
+  // per-minute allowance cannot hold a whole answer in one 60 s call; the draft
+  // is carried from one request to the next, and a 429 is waited out here.
+  // Only a text our own grader marks 16/20 or more is published.
   //
-  // The `a` flag that lights up the public "Voir un modèle de réponse" link is
-  // written once at the end, in a single saveMonth, rather than per combinaison
-  // — one write, and the archive payload is never left half-marked.
+  // Combinaisons that already have answers are skipped unless `redo` is set,
+  // which makes a re-run after a partial failure cheap. The `a` flag that
+  // lights up the public "Voir un modèle de réponse" link is written once at
+  // the end, in a single saveMonth, for the combinaisons that got every tâche.
   const generateAnswers = async (redo = false) => {
     if (section !== "ee" || !monthObj) return;
+    const posed = (s) => [1, 2, 3].filter((k) => (k === 1 ? s.t1 : k === 2 ? s.t2 : s.t3?.theme || s.t3?.doc1 || s.t3?.doc2));
     const todo = monthObj.data
       .map((s, i) => ({ s, n: s.n ?? i + 1 }))
       .filter(({ s }) => redo || !hasAnswer(s));
     if (!todo.length) return notify("Toutes les combinaisons de ce mois ont déjà un modèle de réponse.");
 
     const { year: y, monthNum } = { year: yearObj.year, monthNum: monthObj.monthNum };
+    const total = todo.reduce((sum, { s }) => sum + posed(s).length, 0);
     const done = [];
     const failed = [];
-    const warnings = [];
-    setAnswering({ done: 0, total: todo.length });
-    // `busy` too, not just `answering`: the run takes minutes, and without it
+    const scores = [];
+    let stopped = null;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    setAnswering({ done: 0, total, label: "" });
+    // `busy` too, not just `answering`: the run takes a while, and without it
     // the month could be deleted or edited underneath the loop.
     setBusy(true);
     try {
-      for (const { s, n } of todo) {
-        const r = await generateSujetAnswers({ section: "ee", year: y, monthNum, n, t1: s.t1, t2: s.t2, t3: s.t3 });
-        if (r?.ok === false || r?.error) {
-          failed.push(`${n} : ${r.error || "échec"}`);
-        } else if (r?.missing?.length) {
-          // Some tâches of this subject produced nothing. Do NOT mark it as
-          // answered: the public link would promise a full corrigé and the page
-          // would show a hole. It stays in the "à compléter" set for a re-run.
-          failed.push(`${n} : tâche(s) ${r.missing.join(", ")} manquante(s)`);
-        } else {
-          done.push(n);
-          if (r?.warnings?.length) warnings.push(...r.warnings.map((w) => `Combinaison ${n} — ${w}`));
+      outer: for (const { s, n } of todo) {
+        let complete = true;
+        for (const tache of posed(s)) {
+          let draft = null;
+          let label = "rédaction";
+          let waits = 0;
+          for (;;) {
+            setAnswering((p) => ({ ...p, label: `Combinaison ${n} · tâche ${tache} · ${label}` }));
+            const r = await generateSujetAnswer({ section: "ee", year: y, monthNum, n, tache, t1: s.t1, t2: s.t2, t3: s.t3, draft });
+            if (!r.ok) {
+              // Groq's per-minute limit (or our own pacing): wait and resend the
+              // same draft. A wait of several minutes is the DAILY allowance —
+              // stop there, everything published so far stays.
+              if (r.status === 429 && (r.retryAfterMs || 0) <= 120_000 && waits < 8) {
+                waits += 1;
+                setAnswering((p) => ({ ...p, label: `Combinaison ${n} · tâche ${tache} · pause Groq…` }));
+                await wait(Math.min(Math.max(r.retryAfterMs || 20_000, 5_000), 65_000));
+                continue;
+              }
+              if (r.status === 429) { stopped = r.error; complete = false; break outer; }
+              failed.push(`${n} · tâche ${tache} : ${r.error || "échec"}`);
+              complete = false;
+              break;
+            }
+            const d = r.data;
+            if (d.done) {
+              if (d.published) scores.push(d.grade?.score);
+              else { failed.push(`${n} · tâche ${tache} : non publié, ${d.reason}`); complete = false; }
+              break;
+            }
+            draft = d.draft;
+            label = d.nextLabel || label;
+          }
+          setAnswering((p) => ({ ...p, done: p.done + 1 }));
         }
-        setAnswering((p) => ({ ...p, done: p.done + 1 }));
+        if (complete) done.push(n);
       }
     } finally {
       setAnswering(null);
@@ -193,14 +222,15 @@ export function SujetsManager() {
       // Re-read nothing: mark the copy we generated from, then let run() reload.
       await run(() => saveMonth(section, y, monthNum, markAnswered(monthObj.data, done)));
     }
+    const avg = scores.length ? ` (note moyenne ${(scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)}/20)` : "";
     notify(
-      failed.length
-        ? `${done.length} modèle(s) écrit(s), ${failed.length} incomplet(s) — ${failed[0]}. Relancez « Compléter ».`
-        : warnings.length
-          ? `${done.length} modèle(s) publié(s) pour ${monthObj.month} ${y} — ${warnings.length} hors fourchette de mots.`
-          : `${done.length} modèle(s) de réponse publié(s) pour ${monthObj.month} ${y}.`,
+      stopped
+        ? `${scores.length} modèle(s) publié(s)${avg}. Quota Groq atteint : relancez « Compléter » plus tard. ${stopped}`
+        : failed.length
+          ? `${scores.length} modèle(s) publié(s)${avg}, ${failed.length} non publié(s) — ${failed[0]}. Relancez « Compléter ».`
+          : `${scores.length} modèle(s) de réponse publié(s) pour ${monthObj.month} ${y}${avg}.`,
     );
-    if (warnings.length) console.warn("Modèles hors fourchette de mots :", warnings);
+    if (failed.length) console.warn("Modèles non publiés :", failed);
   };
 
   return (
@@ -253,13 +283,14 @@ export function SujetsManager() {
           <div className="flex-1 min-w-[220px]">
             <p className={`text-sm font-semibold ${c.text}`}>Modèles de réponse · {monthObj.month} {yearObj.year}</p>
             <p className={`text-xs ${c.sub}`}>
-              Rédige un corrigé C1-C2 pour les trois tâches de chaque combinaison, avec les expressions à mémoriser, et le publie pour les abonnés Premium.
+              Rédige le corrigé C1-C2 de chaque tâche (structure et fourchette officielles, relecture, puis notre propre correcteur : publié seulement à 16/20 ou plus). Ce même texte sert d'exemple dans l'atelier et de dictée.
               {answeredCount > 0 && ` ${answeredCount}/${monthObj.data.length} déjà fait(s).`}
             </p>
           </div>
           {answering ? (
             <span className={`text-sm font-semibold ${c.sub} flex items-center gap-2`}>
-              <Loader2 size={15} className="animate-spin" /> {answering.done}/{answering.total} — ~{Math.max(1, Math.round((answering.total - answering.done) * 0.4))} min
+              <Loader2 size={15} className="animate-spin" /> {answering.done}/{answering.total} tâches — ~{Math.max(1, Math.round((answering.total - answering.done) * 1.5))} min
+              {answering.label && <span className={`font-normal ${c.faint}`}>· {answering.label}</span>}
             </span>
           ) : (
             <div className="flex items-center gap-2">

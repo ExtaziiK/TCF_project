@@ -85,12 +85,20 @@ export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
 // `temperature` defaults low because the graders must be reproducible; the
 // subjects importer raises it, since rewording the same source twice with
 // identical output would defeat the point.
-export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2 } = {}) {
+// `startWith` moves one model to the front of the chain (the rest keep their
+// order as fallbacks) and `reasoningEffort` raises the thinking budget — both
+// only for writing that is generated once and kept, like the model answers;
+// every live grading call keeps the defaults. `fallback: false` keeps the call
+// on that one model: a model answer written by a weaker fallback is worse than
+// one written a minute later, so the caller waits out the 429 instead.
+export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2, startWith = null, reasoningEffort = "low", fallback = true } = {}) {
+  const first = CHAT_MODELS.filter((m) => m.id === startWith);
+  const chain = startWith ? (fallback ? [...first, ...CHAT_MODELS.filter((m) => m.id !== startWith)] : first) : CHAT_MODELS;
   let res, model, body;
   // Only a 429 moves to the next model. Anything else — a malformed request, an
   // unparseable reply — would fail identically everywhere, and retrying it just
   // spends a second model's allowance to reach the same error.
-  for (const candidate of CHAT_MODELS) {
+  for (const candidate of chain) {
     model = candidate.id;
     // A per-model note is appended to the FIRST system message rather than sent
     // as a separate one: some models weight a trailing system turn oddly, and
@@ -105,7 +113,7 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // that on failure, err.requestPayload below can attach the EXACT body of
     // whichever attempt actually got refused — the last one, since the loop
     // only reruns on a 429.
-    body = { model, messages: payload, temperature, max_tokens: maxTokens, reasoning_effort: "low", response_format: { type: "json_object" } };
+    body = { model, messages: payload, temperature, max_tokens: maxTokens, reasoning_effort: reasoningEffort, response_format: { type: "json_object" } };
     res = await fetch(`${GROQ_BASE}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },

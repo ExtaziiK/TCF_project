@@ -6,14 +6,16 @@ import { DicteePlayer } from "@/components/dictee/DicteePlayer";
 import { DicteeReport } from "@/components/dictee/DicteeReport";
 import { SEGMENT_MODES, segmentMode } from "@/utils/dicteeSegments";
 import { useDictee } from "@/hooks/useDictee";
+import { takeHandoff } from "@/utils/handoff";
 
 // La dictée — Expression écrite.
 //
-// A sujet is drawn from the EE archive, its C1/C2 model answer is read aloud in
-// sense groups, and the candidate writes down what they hear with no help of
+// A sujet is drawn from the EE archive, its C1-C2 model answer — the very text
+// of its « Modèle de réponse » page and the workshop's example — is read aloud
+// in sense groups, and the candidate writes down what they hear with no help of
 // any kind. It is the only exercise on the site that trains listening and
-// spelling in the same movement, and it runs on content the site already owns:
-// 476 sujets whose model answers had never been written until now.
+// spelling in the same movement, on the structures the candidate is meant to
+// reuse in their own writing.
 //
 // WHAT IS ON OFFER. Three texts are written every night, one per tâche, and
 // every text ever written stays available — so the page leads with today's
@@ -23,9 +25,9 @@ import { useDictee } from "@/hooks/useDictee";
 // on the button rather than discovered by clicking it.
 
 const TASKS = [
-  { n: 1, label: "Tâche 1", kind: "Message ou lettre", words: "~100 mots", level: "C1" },
-  { n: 2, label: "Tâche 2", kind: "Article, courriel ou billet", words: "~140 mots", level: "C1" },
-  { n: 3, label: "Tâche 3", kind: "Texte argumenté", words: "~200 mots", level: "C2" },
+  { n: 1, label: "Tâche 1", kind: "Message ou lettre", words: "~100 mots", level: "C1-C2" },
+  { n: 2, label: "Tâche 2", kind: "Article, courriel ou billet", words: "~135 mots", level: "C1-C2" },
+  { n: 3, label: "Tâche 3", kind: "Texte argumenté", words: "~160 mots", level: "C1-C2" },
 ];
 
 export function Dictee() {
@@ -45,6 +47,17 @@ export function Dictee() {
   const budget = d.library?.budget || null;
 
   const pickTask = (n) => { setTask(n); setSujetKey(null); };
+
+  // « Faire la dictée de ce corrigé », from a Modèle de réponse page or the
+  // workshop: start that subject's dictée straight away.
+  useEffect(() => {
+    const h = takeHandoff("dictee");
+    if (!h?.sujetKey || ![1, 2, 3].includes(h.task)) return;
+    setTask(h.task);
+    setSujetKey(h.sujetKey);
+    d.start(h.task, h.sujetKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pickRandom = () => {
     const pool = [...featured, ...shelf];
@@ -200,7 +213,7 @@ export function Dictee() {
 
           {loading && (
             <p className={`mt-3 text-xs ${c.faint}`}>
-              {t("Si ce sujet n'a jamais été dicté, son corrigé est en train d'être rédigé et enregistré. Une fois seulement.")}
+              {t("Si ce sujet n'a jamais été dicté, son modèle de réponse est en train d'être enregistré. Une fois seulement.")}
             </p>
           )}
           {d.notice && <PlanNotice notice={d.notice} />}

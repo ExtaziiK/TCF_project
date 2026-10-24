@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Sparkles, BookMarked, FileText } from "lucide-react";
+import { CalendarDays, Sparkles, FileText, PenLine, Headphones } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Pill } from "@/components/common";
+import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { useSujetsArchive } from "@/hooks/useSujetsArchive";
-import { loadAnswers, highlight } from "@/services/sujetsAnswersService";
+import { loadAnswers } from "@/services/sujetsAnswersService";
 import { monthLabel } from "@/services/sujetsArchiveService";
+import { ModelAnswer } from "@/components/expression/ModelAnswer";
+import { handOff } from "@/utils/handoff";
 
 // Premium page behind « Voir un modèle de réponse » on the Expression écrite
 // archive. The route carries which subject to show — "sujet-reponse/2026-09/3"
@@ -28,24 +30,16 @@ function parseRoute(route) {
   return { year: Number(m[1]), monthNum: Number(m[2]), n: Number(m[3]) };
 }
 
-// The model answer, with the memorisable expressions picked out. Highlighting
-// is done at render time from the stored keyword list, so the body itself stays
-// clean text — copyable, and free of markup that would age badly.
-function AnswerBody({ body, keywords }) {
-  const { c } = useApp();
-  const parts = useMemo(() => highlight(body, keywords), [body, keywords]);
-  return (
-    <p className={`text-[15px] leading-[1.85] whitespace-pre-line ${c.text}`}>
-      {parts.map((p, i) =>
-        p.strong
-          ? <strong key={i} className="font-semibold text-blue-700 dark:text-blue-400 bg-blue-600/10 rounded px-1 py-0.5 box-decoration-clone">{p.text}</strong>
-          : <span key={i}>{p.text}</span>,
-      )}
-    </p>
-  );
+// The consigne as the candidate needs it beside the answer: for tâche 3 the
+// theme AND both documents, since the first part of the answer is their
+// synthesis.
+function consigneOf(tache, s) {
+  if (!s) return "";
+  if (tache !== 3) return s[`t${tache}`] || "";
+  return [s.t3?.theme, s.t3?.doc1 && `Document 1 : ${s.t3.doc1}`, s.t3?.doc2 && `Document 2 : ${s.t3.doc2}`].filter(Boolean).join("\n\n");
 }
 
-function TaskAnswer({ tache, consigne, answer }) {
+function TaskAnswer({ tache, consigne, answer, onWrite, onDictee }) {
   const { c, t } = useApp();
   const meta = TASK_META[tache];
   return (
@@ -66,19 +60,13 @@ function TaskAnswer({ tache, consigne, answer }) {
 
       {answer ? (
         <>
-          <AnswerBody body={answer.body} keywords={answer.keywords} />
-          {answer.keywords?.length > 0 && (
-            <div className={`mt-5 pt-5 border-t ${c.border}`}>
-              <p className="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-3 flex items-center gap-1.5">
-                <BookMarked size={12} /> {t("Expressions à mémoriser")}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {answer.keywords.map((k, i) => (
-                  <span key={i} className={`text-sm rounded-full border ${c.border} px-3 py-1.5 ${c.text}`}>{k}</span>
-                ))}
-              </div>
-            </div>
-          )}
+          <ModelAnswer tache={tache} answer={answer} />
+          {/* The same subject, practised: write your own text and have it
+              corrected, then take this one down under dictation. */}
+          <div className={`mt-5 pt-5 border-t ${c.border} flex flex-wrap gap-2`}>
+            {onWrite && <Btn small variant="ghost" icon={PenLine} onClick={onWrite}>{t("Rédiger ma version")}</Btn>}
+            {onDictee && <Btn small variant="ghost" icon={Headphones} onClick={onDictee}>{t("Faire la dictée de ce corrigé")}</Btn>}
+          </div>
         </>
       ) : (
         <p className={`text-sm ${c.faint}`}>{t("Le modèle de cette tâche n'a pas encore été rédigé.")}</p>
@@ -88,7 +76,7 @@ function TaskAnswer({ tache, consigne, answer }) {
 }
 
 export function SujetModeleReponse() {
-  const { c, t, route } = useApp();
+  const { c, t, route, nav } = useApp();
   const { loading: archiveLoading, years } = useSujetsArchive("ee");
   const [state, setState] = useState({ loading: true, answers: {} });
 
@@ -133,7 +121,7 @@ export function SujetModeleReponse() {
       back
       eyebrow={t("Expression écrite · Modèle de réponse")}
       title={`${t("Combinaison")} ${n} — ${monthLabel(monthNum)} ${year}`}
-      sub={t("Un modèle rédigé au niveau C1-C2 pour chaque tâche. Les expressions surlignées sont réutilisables dans n'importe quel sujet de la même tâche : ce sont elles qu'il faut mémoriser.")}
+      sub={t("Un modèle C1-C2 pour chaque tâche, qui respecte la structure et la fourchette de mots de l'examen. Les expressions surlignées sont réutilisables dans n'importe quel sujet de la même tâche : ce sont elles qu'il faut mémoriser.")}
     >
       <div className="flex flex-wrap gap-2 mb-6">
         <Pill tone="blue"><CalendarDays size={12} /> {monthLabel(monthNum)} {year}</Pill>
@@ -153,8 +141,10 @@ export function SujetModeleReponse() {
             <TaskAnswer
               key={k}
               tache={k}
-              consigne={k === 3 ? combinaison?.t3?.theme : combinaison?.[`t${k}`]}
+              consigne={consigneOf(k, combinaison)}
               answer={state.answers[k]}
+              onWrite={combinaison ? () => { handOff("ee", { year, monthNum, n, task: k }); nav("writing"); } : null}
+              onDictee={() => { handOff("dictee", { task: k, sujetKey: `${year}-${monthNum}-${n}` }); nav("dictee"); }}
             />
           ))}
         </div>

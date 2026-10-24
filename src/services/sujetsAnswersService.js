@@ -22,17 +22,24 @@ export { ANSWER_TACHES, hasAnswer, markAnswered, highlight } from "@/services/su
 // Every stored answer for one combinaison, keyed by tâche. Empty when the
 // reader is not Premium (RLS), when the month predates the feature, or when
 // generation never ran — the page tells those apart via `hasAnswer`.
+//
+// `title`, `words` and `score` (the grade the quality gate gave it) exist from
+// migration 20261024_ee_model_answers.sql; before it they read as absent.
 export async function loadAnswers(section, year, monthNum, n) {
-  const { data, error } = await (await getSupabase())
+  const run = async (cols) => (await getSupabase())
     .from("sujets_answers")
-    .select("tache, body, keywords")
+    .select(cols)
     .eq("section", section)
     .eq("year", year)
     .eq("month_num", monthNum)
     .eq("n", n)
     .order("tache");
+  let { data, error } = await run("tache, title, body, keywords, words, score");
+  if (error) ({ data, error } = await run("tache, body, keywords"));
   if (error) return { ok: false, error: error.message, answers: {} };
   const answers = {};
-  for (const r of data || []) answers[r.tache] = { body: r.body, keywords: r.keywords || [] };
+  for (const r of data || []) {
+    answers[r.tache] = { title: r.title || "", body: r.body, keywords: r.keywords || [], words: r.words ?? null, score: r.score ?? null };
+  }
   return { ok: true, answers };
 }

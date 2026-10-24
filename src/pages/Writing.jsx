@@ -1,4 +1,5 @@
-import { Play, Sparkles, ChevronDown, Check, Loader2, RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Play, Sparkles, ChevronDown, Check, Loader2, RotateCcw, Headphones } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, TimerChip } from "@/components/common";
 import { WritingEditor } from "@/components/expression/WritingEditor";
@@ -13,6 +14,9 @@ import { FreeExpressionNotice } from "@/components/expression/FreeExpressionNoti
 import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { OFFICIAL_TASKS } from "@/services/expressionSessionService";
 import { useExpressionTask } from "@/context/ExpressionTaskContext";
+import { ModelAnswer } from "@/components/expression/ModelAnswer";
+import { loadAnswers } from "@/services/sujetsAnswersService";
+import { handOff } from "@/utils/handoff";
 
 // Premium module backed by the question bank (section "ee") once quizzes
 // exist there; until then the interactive writing workshop below is shown.
@@ -49,10 +53,12 @@ function WritingWorkshop() {
 // starts fresh instead of reopening this one.
 export function WritingWorkshopBody({ inExam = false, examKey = "" } = {}) {
   const { c, t } = useApp();
-  const { loading, tasks, isFreeTier } = useExpressionSession("ee");
+  const { loading, tasks, isFreeTier, focus } = useExpressionSession("ee");
   // Shared with the guide side panel when both are on screen (Exams hub); local
   // state otherwise (standalone page / mock runner).
   const [active, setActive] = useExpressionTask(OFFICIAL_TASKS[0]);
+  // Sent here by a Modèle de réponse page: open the tâche it was showing.
+  useEffect(() => { if (focus) setActive(focus); }, [focus, setActive]);
 
   if (loading) return <WorkshopSkeleton />;
   // TCF blanc: the three tâches on one 60-minute clock, graded at the end.
@@ -74,8 +80,25 @@ export function WritingWorkshopBody({ inExam = false, examKey = "" } = {}) {
   );
 }
 
+// The subject's model answer — the same text as its Modèle de réponse page and
+// its dictée — for an archive subject. Premium only: the table's RLS returns
+// nothing to anyone else, and the built-in seed subjects carry their own
+// `sample` instead.
+function useModelAnswer(task) {
+  const [answer, setAnswer] = useState(null);
+  const ref = task.ref;
+  useEffect(() => {
+    if (!ref) return undefined;
+    let live = true;
+    loadAnswers("ee", ref.year, ref.monthNum, ref.n).then((r) => { if (live) setAnswer(r.answers?.[task.task] || null); });
+    return () => { live = false; };
+  }, [ref, task.task]);
+  return answer;
+}
+
 function WritingTaskPane({ task }) {
-  const { c, notify, t } = useApp();
+  const { c, notify, t, nav } = useApp();
+  const model = useModelAnswer(task);
   const { text, onTextChange, notes, setNotes, left, running, setRunning, locked, overtime, continueOvertime, restart, showSample, setShowSample, ai, analyze, analyzing, failed, words, lo, hi } = useWritingTask(task, notify);
 
   const clock = (
@@ -128,11 +151,18 @@ function WritingTaskPane({ task }) {
             <ChevronDown size={18} className={`text-blue-600 transition-transform ${showSample ? "rotate-180" : ""}`} />
           </button>
           {showSample ? (
-            task.sample
+            model ? (
+              <div className="mt-4 rise">
+                <ModelAnswer tache={task.task} answer={model} />
+                <Btn small variant="ghost" className="mt-4" icon={Headphones} onClick={() => { handOff("dictee", { task: task.task, sujetKey: `${task.ref.year}-${task.ref.monthNum}-${task.ref.n}` }); nav("dictee"); }}>
+                  {t("Faire la dictée de ce corrigé")}
+                </Btn>
+              </div>
+            ) : task.sample
               ? <p className={`mt-4 text-sm leading-relaxed ${c.sub} rise`}>{task.sample}</p>
               : <p className={`mt-3 text-sm ${c.faint}`}>{t("Pas encore d'exemple pour ce sujet.")}</p>
           ) : (
-            <p className={`mt-3 text-sm ${c.faint}`}>{t("Rédigez d'abord votre texte, puis comparez-le à une réponse de niveau B2/C1.")}</p>
+            <p className={`mt-3 text-sm ${c.faint}`}>{t("Rédigez d'abord votre texte, puis comparez-le au modèle C1-C2 de ce sujet : même structure, même fourchette de mots que le jour de l'examen.")}</p>
           )}
         </Card>
         <Card className="p-6">
