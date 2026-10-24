@@ -245,12 +245,15 @@ export const EE_METHOD = [
       { s: "Votre point de vue", d: "" },
     ],
     examples: [
-      { label: "Résumer les deux documents", quote: "De nos jours, la question de l'utilisation d'Internet par les enfants divise l'opinion publique. Certains pensent que [résumé du document A] l'Internet rend les enfants paresseux et improductifs. À l'inverse, [résumé du document B] d'autres y voient un véritable support de connaissances et de développement de l'imagination." },
+      { label: "Résumer les deux documents", quote: "De nos jours, la question de l'utilisation d'Internet par les enfants divise l'opinion publique. Certains pensent que [résumé du document A] Internet rend les enfants paresseux et improductifs. À l'inverse, [résumé du document B] d'autres y voient un véritable support de connaissances et de développement de l'imagination." },
       { label: "Introduire votre point de vue", quote: "À ce sujet, il est important de reconnaître qu'il devient aujourd'hui difficile d'appréhender la dynamique des sociétés actuelles en négligeant le rôle d'Internet. Cet outil est devenu incontournable ; c'est pourquoi il faut y associer un contrôle parental pour réguler les heures de connexion et choisir les sites adaptés à l'âge des enfants." },
     ],
     phraseBank: {
       title: "Templates & phrases prêtes à l'emploi",
-      intro: "Présentez les avantages et les inconvénients du sujet, puis prenez position de façon réfléchie et équilibrée.",
+      // Sized to the official limits: the synthesis takes 40-60 words, the
+      // position 80-120 — room for two developed arguments, one example and a
+      // nuance, not for three arguments on each side.
+      intro: "Partie 1 : présentez les deux opinions sans prendre parti (40 à 60 mots). Partie 2 : donnez votre position avec deux arguments justifiés, un exemple concret, une nuance et une conclusion (80 à 120 mots). Trois arguments ne tiennent pas dans la limite.",
       sections: [
         {
           kind: "phrases",
@@ -264,16 +267,16 @@ export const EE_METHOD = [
         },
         {
           kind: "model",
-          label: "2 · Introduction",
+          label: "2 · Partie 1 — la synthèse des deux documents (40 à 60 mots)",
           lines: [
-            "{Le sujet / La thématique} occupe une place importante dans notre vie. Le premier document {met en avant / souligne / présente} {les avantages / les aspects positifs}. Toutefois, le deuxième document {met en avant / souligne} {ses inconvénients / ses aspects négatifs}.",
+            "Les deux documents s'opposent sur {le thème}. Le premier {affirme / estime / souligne} que {la position du document 1, avec vos propres mots}. Le second {soutient au contraire / rappelle en revanche} que {la position du document 2, avec vos propres mots}.",
           ],
         },
         {
           kind: "model",
-          label: "3A · Argument 1 — l'aspect positif (Pour)",
+          label: "3A · Partie 2 — votre position et votre premier argument",
           lines: [
-            "À mon avis, ce {sujet / thème} présente de nombreux avantages. Pour ma part, je suis fermement convaincu(e) que cette {démarche / stratégie / initiative} mérite d'être encouragée. Tout d'abord, {argument positif 1}. De plus, {argument positif 2}. Par ailleurs, {argument positif 3}.",
+            "À mon avis, {votre position, en une phrase claire}. En effet, {argument 1}, comme le montre {un exemple concret : une expérience, un fait, un lieu}.",
           ],
         },
         {
@@ -289,9 +292,9 @@ export const EE_METHOD = [
         },
         {
           kind: "model",
-          label: "3B · Argument 2 — l'aspect négatif (Contre / Nuance)",
+          label: "3B · Deuxième argument, puis la nuance",
           lines: [
-            "Néanmoins, il faut prendre en compte les inconvénients. Certes, il existe des avantages, mais il ne faut pas négliger les inconvénients. D'abord, {inconvénient 1}. Ensuite, {inconvénient 2}. Qui plus est, {inconvénient 3}.",
+            "De plus, {argument 2}, ce qui {sa conséquence}. Certes, {la limite ou l'argument du camp opposé}. Néanmoins, {votre réponse à cette limite}.",
           ],
         },
         {
@@ -301,9 +304,9 @@ export const EE_METHOD = [
         },
         {
           kind: "model",
-          label: "4 · Conclusion",
+          label: "4 · Conclusion nuancée",
           lines: [
-            "En conclusion, après avoir examiné les deux avis, il semble évident qu'il faut adopter une mesure réfléchie et la mettre en œuvre avec équilibre. À titre personnel, je reste convaincu(e) que {votre prise de position finale}.",
+            "En définitive, {votre position, reformulée en une phrase}, à condition que {la condition qui la rend juste}.",
           ],
         },
       ],
