@@ -7,7 +7,7 @@ import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { HeroCollage } from "@/components/home/HeroCollage";
 import { ExamOverview } from "@/components/home/ExamOverview";
-import { WHY } from "@/constants/home";
+import { WHY_HERO } from "@/constants/home";
 import { Sparks, MapleMark, CurvedArrow } from "@/components/home/TitleDoodles";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { ScoreCalculator } from "@/components/calculator/ScoreCalculator";
@@ -107,16 +107,16 @@ function Landing() {
             </div>
           )}
 
-          {/* WHY US — under the figures: one row of four short points, each a
-              plain icon, a bold title and a single line. The long versions
-              live on the "À propos" page. */}
-          <div className="mt-12 md:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 rise rise-3">
-            {WHY.map((w) => (
+          {/* WHY US — under the figures: a title, then one row of four short
+              points, each a plain icon, a bold title and a single line. */}
+          <h2 className={`mt-12 md:mt-14 font-display font-bold text-xl md:text-2xl ${c.text} rise rise-3`}>{t("Pourquoi nous choisir ?")}</h2>
+          <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 rise rise-3">
+            {WHY_HERO.map((w) => (
               <div key={w.t} className="flex items-start gap-3">
                 <w.icon size={22} className={`shrink-0 mt-0.5 ${c.sub}`} aria-hidden="true" />
                 <div>
                   <p className={`font-display font-bold leading-snug ${c.text}`}>{t(w.t)}</p>
-                  <p className={`mt-0.5 text-sm leading-snug ${c.sub}`}>{t(w.short)}</p>
+                  <p className={`mt-0.5 text-sm leading-snug ${c.sub}`}>{t(w.d)}</p>
                 </div>
               </div>
             ))}

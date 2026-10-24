@@ -308,11 +308,14 @@ export const EN = {
   "Corrections détaillées": "Detailed corrections",
   "Chaque réponse est expliquée, et l'IA évalue votre écrit et votre oral : niveau, erreurs et version améliorée.":
     "Every answer is explained, and the AI grades your writing and speaking: level, mistakes and an improved version.",
-  // "Pourquoi nous choisir" one-liners in the landing hero (constants/home.js WHY.short).
+  // "Pourquoi nous choisir ?" in the landing hero (constants/home.js WHY_HERO).
+  "Pourquoi nous choisir ?": "Why choose us?",
   "Format, minutage et difficulté officiels": "Official format, timing and difficulty",
+  "Correction détaillée avec IA": "Detailed AI correction",
+  "Réponses expliquées, écrit et oral évalués": "Explained answers, writing and speaking graded",
   "Scores et niveau NCLC suivis à chaque séance": "Scores and NCLC level tracked every session",
-  "Contextes, accents et situations d'ici": "Canadian contexts, accents and situations",
-  "Réponses expliquées, écrit et oral évalués par l'IA": "Explained answers, writing and speaking graded by AI",
+  "Tarif compétitif": "Competitive pricing",
+  "Accès complet à petit prix, sans engagement": "Full access at a low price, no commitment",
   // "L'épreuve en bref" section (components/home/ExamOverview.jsx).
   "épreuves": "tests",
   "au total": "in total",
