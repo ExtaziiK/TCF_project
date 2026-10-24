@@ -127,17 +127,13 @@ export function Onboarding() {
           {error && (
             <div className="p-4 rounded-2xl bg-rose-600/10 border border-rose-600/30 rise">
               <p className="text-sm text-rose-600 flex items-start gap-2"><AlertTriangle size={15} className="shrink-0 mt-0.5" />{error}</p>
-              {expired && (
-                <button type="button" onClick={reconnect}
-                  className="mt-3 ml-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-600 text-white text-sm font-bold transition hover:bg-rose-700">
-                  <LogIn size={15} /> {t("Se reconnecter")}
-                </button>
-              )}
             </div>
           )}
-          <button type="submit" disabled={busy}
-            className={`w-full py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`}>
-            {busy ? t("Enregistrement…") : t("Terminer")}
+          {/* Once the session has expired, saving can't work: the main button
+              becomes "Se reconnecter" instead. */}
+          <button type={expired ? "button" : "submit"} onClick={expired ? reconnect : undefined} disabled={busy}
+            className={`w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`}>
+            {expired ? <><LogIn size={16} /> {t("Se reconnecter")}</> : busy ? t("Enregistrement…") : t("Terminer")}
           </button>
         </form>
       </div>
