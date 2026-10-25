@@ -316,7 +316,11 @@ export function ToolsShowcase({ tinted = false }) {
 
   return (
     <div ref={ref}>
-      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-start">
+      {/* From lg, the tools (list + panel) at 80 % of their natural size: the
+          block takes 80 % of the width and is laid out at a zoom of 0.8, so
+          everything in it — text, spacing, previews — shrinks in proportion.
+          Phones keep full size, for legibility. */}
+      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-start lg:w-4/5 lg:mx-auto lg:[zoom:0.8]">
         <nav aria-label="Outils" className="flex flex-col gap-1.5">
           {TOOLS.map((tl, i) => (
             <div key={tl.route}>
