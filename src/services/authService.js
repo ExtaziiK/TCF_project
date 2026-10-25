@@ -290,8 +290,12 @@ export async function updateUsername(username) {
   const clean = String(username).trim().toLowerCase();
   const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
-  const { error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id);
+  // `.select()` so a write the database refused (row-level security) is
+  // reported: without it an update that changes no row still "succeeds", and
+  // the profile page said "Profil mis à jour" over a username left as it was.
+  const { data, error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id).select("username");
   if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
+  if (!error && !data?.length) return { error: { message: "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous." } };
   return { error };
 }
 

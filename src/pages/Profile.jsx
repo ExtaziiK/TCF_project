@@ -10,6 +10,7 @@ import { TestimonialForm } from "@/components/testimonial/TestimonialForm";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { PlanStatus, GOLD_BTN } from "@/components/dashboard/PlanStatus";
+import { renameProfile } from "@/services/profileService";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -39,7 +40,7 @@ function ProfileSection({ icon: Icon, title, desc, children }) {
 }
 
 export function Profile() {
-  const { c, user, role, nav, notify, dark, setDark, signOut, t } = useApp();
+  const { c, user, role, nav, notify, dark, setDark, signOut, t, profiles, reloadProfiles } = useApp();
   const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const [name, setName] = useState(user.name || "");
@@ -84,6 +85,16 @@ export function Profile() {
       if (nameChanged) {
         const { error } = await updateDisplayName(name);
         if (error) return notify(error.message);
+        // The name in the navbar and on the dashboard is the learner profile's
+        // (learner_profiles), not the account's: with a single profile they are
+        // the same person, so rename it too — otherwise the change saved here
+        // never shows anywhere. Several profiles are several people, each named
+        // in the profile chooser.
+        if (profiles?.length === 1) {
+          const r = await renameProfile(profiles[0].id, name);
+          if (!r.ok && r.error) return notify(t(r.error));
+          await reloadProfiles?.();
+        }
       }
       notify(t("Profil mis à jour."));
     } finally {

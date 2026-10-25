@@ -418,6 +418,8 @@ export const EN = {
     "Manage your details, your access and your preferences.",
   "Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
     "Full access unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
+  "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous.":
+    "The username change was refused. Please try again or contact us.",
   // Upgrade gate (components/auth/RouteGuard.jsx).
   "Accès complet":
     "Full access",
