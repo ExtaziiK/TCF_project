@@ -9,7 +9,7 @@ import { PageShell, Card, Pill, Btn, StarRating } from "@/components/common";
 import { TestimonialForm } from "@/components/testimonial/TestimonialForm";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
-import { PlanStatus } from "@/components/dashboard/PlanStatus";
+import { PlanStatus, GOLD_BTN } from "@/components/dashboard/PlanStatus";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -195,7 +195,7 @@ export function Profile() {
           ) : (
             <div className="space-y-3">
               <p className={`text-sm ${c.sub}`}>{t("Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}</p>
-              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
+              <Btn small variant="accent" style={GOLD_BTN} icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
             </div>
           )}
         </ProfileSection>

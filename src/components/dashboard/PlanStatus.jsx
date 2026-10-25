@@ -12,6 +12,14 @@ import { currentPlanLabel } from "@/constants/pricing";
 // its name and end date, and a quiet « Prolonger » — a pass is a one-time
 // purchase that does not renew, so extending it is buying another. Staff
 // without a pass see nothing.
+// « Passer Premium » in gold, here and in the profile's « Mon accès » section:
+// a gold gradient with dark text (white would not read on the light end).
+export const GOLD_BTN = {
+  background: "linear-gradient(135deg,#B8860B,#E9B949 55%,#F6D365)",
+  color: "#2A1D02",
+  boxShadow: "0 10px 24px -10px rgba(184,134,11,.65)",
+};
+
 const fmtDate = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
 
 export function PlanStatus({ className = "" }) {
@@ -24,7 +32,7 @@ export function PlanStatus({ className = "" }) {
     return (
       <div className={`flex flex-wrap items-center gap-2 ${className}`}>
         <span className={`${chip} ${c.sub}`}>{t("Compte gratuit")}</span>
-        <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
+        <Btn small variant="accent" style={GOLD_BTN} icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
       </div>
     );
   }
