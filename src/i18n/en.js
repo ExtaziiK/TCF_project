@@ -420,6 +420,21 @@ export const EN = {
     "Full access unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
   "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous.":
     "The username change was refused. Please try again or contact us.",
+  // Log-in / sign-up page (components/auth/AuthPage.jsx).
+  "Connexion ou inscription":
+    "Log in or sign up",
+  "Inscription":
+    "Sign up",
+  "Bon retour":
+    "Welcome back",
+  "Créer votre":
+    "Create your",
+  "compte":
+    "account",
+  "Gratuit · sans carte bancaire · prêt en 30 secondes":
+    "Free · no credit card · ready in 30 seconds",
+  "Connexion sécurisée":
+    "Secure login",
   // Upgrade gate (components/auth/RouteGuard.jsx).
   "Accès complet":
     "Full access",
