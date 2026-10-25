@@ -418,6 +418,17 @@ export const EN = {
     "Manage your details, your access and your preferences.",
   "Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
     "Full access unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
+  // Upgrade gate (components/auth/RouteGuard.jsx).
+  "Accès complet":
+    "Full access",
+  "Ce module fait partie de l'accès complet":
+    "This module is part of full access",
+  "Un accès payant débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
+    "A paid pass unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
+  "Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.":
+    "The 80 quizzes, dictation, review, the mock exams and AI correction of writing and speaking.",
+  "À partir de":
+    "From",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",

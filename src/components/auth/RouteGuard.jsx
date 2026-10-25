@@ -4,6 +4,7 @@ import { PageShell, Card, Btn } from "@/components/common";
 import { lazy, Suspense } from "react";
 import { deniedReason } from "@/auth/rbac";
 import { PRATIQUE_ROUTES } from "@/constants/navigation";
+import { useLivePlans } from "@/hooks/useLivePlans";
 
 // Routes that argue their own case instead of showing the generic gate.
 //
@@ -76,16 +77,24 @@ function RegisterGate() {
 }
 
 // Shown to free users who open premium content.
+//
+// The passes are one-time purchases, not a subscription, and their prices are
+// set in the admin (Stripe): the starting price is read live, like the pricing
+// cards do, and left out until it is known rather than printed from a figure
+// that may be out of date.
 function UpgradeGate() {
   const { c, nav, t } = useApp();
+  const plans = useLivePlans();
+  const cheapest = plans.find((p) => p.slug && p.priceState === "live");
   return (
-    <PageShell eyebrow={t("Contenu Premium")} title={t("Ce module fait partie de l'abonnement Premium")} sub={t("Passez au forfait Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}>
+    <PageShell eyebrow={t("Accès complet")} title={t("Ce module fait partie de l'accès complet")} sub={t("Un accès payant débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}>
       <Card className="max-w-xl mx-auto p-8 text-center border-2 border-blue-600/40">
         <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Crown size={22} /></span>
         <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Débloquez tout Passerelle")}</p>
-        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les quatre épreuves, plus de quiz, TCF blancs complets et analyse IA, dès 4,99 $ l'accès.")}</p>
+        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.")}</p>
+        {cheapest && <p className={`text-sm mt-1 font-semibold ${c.text}`}>{t("À partir de")} {cheapest.price} · {t(cheapest.per)}</p>}
         <div className="mt-6 flex justify-center gap-3">
-          <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
+          <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les tarifs")}</Btn>
           <Btn variant="ghost" onClick={() => nav("practice")}>{t("Continuer en gratuit")}</Btn>
         </div>
       </Card>
