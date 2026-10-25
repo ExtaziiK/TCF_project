@@ -348,6 +348,61 @@ export const EN = {
     "It is included in every plan, along with the timed mock exams, the eighty quizzes and AI correction.",
   "Voir les tarifs":
     "See pricing",
+  // Visitors' « Sujets du mois » page (components/auth/ProductPitch.jsx).
+  "combinaisons écrites":
+    "writing combinations",
+  "sujets oraux":
+    "speaking topics",
+  "Combinaison":
+    "Combination",
+  "Créez un compte gratuit pour voir tous les sujets":
+    "Create a free account to see every topic",
+  "Les sujets qui tombent en ce moment au TCF Canada":
+    "The topics coming up right now at the TCF Canada",
+  "Chaque mois, les sujets d'expression écrite et orale qui circulent en session, rassemblés et classés par tâche, pour préparer en priorité ce qui vous attend.":
+    "Every month, the writing and speaking topics going around in exam sessions, gathered and sorted by task, so you prepare first for what is waiting for you.",
+  "Préparez les sujets de ce mois":
+    "Prepare this month's topics",
+  "Tous les sujets du mois":
+    "All of this month's topics",
+  "Écrit et oral, dès qu'ils sont publiés.":
+    "Writing and speaking, as soon as they are published.",
+  "Entraînez-vous dessus":
+    "Practise on them",
+  "L'archive complète":
+    "The full archive",
+  "Les sujets des mois précédents, en accès libre.":
+    "Previous months' topics, freely available.",
+  "Modèles de réponse":
+    "Model answers",
+  "Un modèle rédigé pour chaque sujet, avec un accès payant.":
+    "A written model for each topic, with a paid pass.",
+  "Pourquoi les préparer":
+    "Why prepare them",
+  "Ce qui vous attend le jour J":
+    "What awaits you on the day",
+  "Ce qui tombe en ce moment":
+    "What is coming up now",
+  "Les sujets qui circulent ce mois-ci, pas des sujets inventés : vous travaillez sur ce que d'autres candidats viennent de recevoir.":
+    "The topics going around this month, not invented ones: you work on what other candidates have just been given.",
+  "Classés par tâche":
+    "Sorted by task",
+  "À l'écrit, des combinaisons de trois tâches comme à l'examen ; à l'oral, les tâches 2 et 3, partie par partie.":
+    "For writing, three-task combinations as in the exam; for speaking, tasks 2 and 3, part by part.",
+  "Mis à jour chaque mois":
+    "Updated every month",
+  "Un nouveau mois remplace le précédent, qui rejoint l'archive. La liste reste toujours d'actualité.":
+    "A new month replaces the previous one, which joins the archive. The list always stays current.",
+  "En accès libre":
+    "Freely available",
+  "L'archive des anciens sujets":
+    "The archive of past topics",
+  "Tous les sujets des mois précédents, consultables sans compte.":
+    "Every topic from previous months, viewable without an account.",
+  "depuis":
+    "since",
+  "Voir les anciens sujets":
+    "See past topics",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",

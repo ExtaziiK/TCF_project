@@ -34,11 +34,13 @@ const MocksPitch = pitch("MocksPitch");
 const ExamsPitch = pitch("ExamsPitch");
 const ExercicesPitch = pitch("ExercicesPitch");
 const DicteeVisitorPitch = pitch("DicteeVisitorPitch");
+const SujetsPitch = pitch("SujetsPitch");
 const VISITOR_PITCH = {
   mocks: MocksPitch,
   ...Object.fromEntries(["exams", "practice", "listening", "reading", "writing", "speaking"].map((r) => [r, ExamsPitch])),
   ...Object.fromEntries([...PRATIQUE_ROUTES].filter((r) => r !== "dictee").map((r) => [r, ExercicesPitch])),
   dictee: DicteeVisitorPitch,
+  "sujets-actualite": SujetsPitch,
 };
 const Gate = ({ children }) => <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>{children}</Suspense>;
 
