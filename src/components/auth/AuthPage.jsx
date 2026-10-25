@@ -301,7 +301,10 @@ export function AuthPage({ mode }) {
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">
             <img src="/logo-mark.webp" alt="" width="36" height="36" className="w-9 h-9 object-contain" />
-            <span className="font-display font-extrabold text-lg text-blue-600">Passerelle</span>
+            {/* Same wordmark as the navbar's (layout/Logo.jsx). */}
+            <span className={`font-display font-bold text-lg leading-none ${c.text}`}>
+              Passerelle<span className="block text-[10px] font-body font-semibold tracking-widest uppercase text-blue-600">TCF Canada</span>
+            </span>
           </span>
           {/* Log in / sign up, one click apart. */}
           {(view === "login" || view === "register") && !verify && (
