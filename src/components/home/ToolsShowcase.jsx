@@ -316,11 +316,7 @@ export function ToolsShowcase({ tinted = false }) {
 
   return (
     <div ref={ref}>
-      {/* From lg, the tools (list + panel) at 80 % of their natural size: the
-          block takes 80 % of the width and is laid out at a zoom of 0.8, so
-          everything in it — text, spacing, previews — shrinks in proportion.
-          Phones keep full size, for legibility. */}
-      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-start lg:w-4/5 lg:mx-auto lg:[zoom:0.8]">
+      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-10 items-start">
         <nav aria-label="Outils" className="flex flex-col gap-1.5">
           {TOOLS.map((tl, i) => (
             <div key={tl.route}>
@@ -342,7 +338,12 @@ export function ToolsShowcase({ tinted = false }) {
             Reaching into the panel stops the auto-advance, so it never
             switches away mid-question. */}
         {wide && (
-        <div className="relative" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
+        {/* The panel column is drawn at a zoom of 0.8: it keeps its full width
+            (an auto width is not scaled), its contents shrink, and with longer
+            lines the card comes out about 20 % shorter than at full size. The
+            heights measured above are taken inside it, so the shared height
+            follows. */}
+        <div className="relative [zoom:0.8]" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
           {TOOLS.map((tl, i) => {
             const on = i === active;
             return (
