@@ -72,6 +72,10 @@ export function AppProvider({ children }) {
   // AuthPage.jsx / completeOnboarding.
   const [tourStep, setTourStep] = useState(null);
   const forcingOut = useRef(false);
+  // True while a sign-out the user asked for is still finishing server-side:
+  // the app already shows them signed out, so a session event arriving in
+  // that window (a token refresh) must not put them back (see signOut).
+  const signingOut = useRef(false);
   // { scheduledFor, emailed } while the "account deactivated" popup is showing (right after a self-service deletion request).
   const [deletionNotice, setDeletionNotice] = useState(null);
 
@@ -159,7 +163,10 @@ export function AppProvider({ children }) {
       setResolvingOAuth(false);
       setAuthReady(true);
     });
-    const subscription = onAuthStateChange((session) => setUser(mapSupabaseUser(session)));
+    const subscription = onAuthStateChange((session) => {
+      if (signingOut.current && session) return;
+      setUser(mapSupabaseUser(session));
+    });
     return () => subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -387,13 +394,22 @@ export function AppProvider({ children }) {
   };
   const back = () => window.history.back();
 
-  // Signing out lands on the landing page, not on the page left behind —
-  // which, members-only, would only show the log-in form.
+  // Signing out lands on the landing page at once. The app drops the user
+  // FIRST, then lets the server-side sign-out (freeing this device's slot,
+  // ending the Supabase session) finish in the background. Waiting for it
+  // first made the click take a detour: the menu sent the still-signed-in
+  // user "home", the home page bounced them to the dashboard, and only a
+  // second later did the sign-out land them on the landing page.
   const signOut = async () => {
-    await authSignOut();
+    signingOut.current = true;
     setUser(null);
     setPendingOnboarding(false);
     nav("home", { replace: true });
+    try {
+      await authSignOut();
+    } finally {
+      signingOut.current = false;
+    }
   };
 
   // Self-service deletion from the profile page. The server deactivates the
