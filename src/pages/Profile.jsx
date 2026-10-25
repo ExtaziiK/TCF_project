@@ -9,6 +9,7 @@ import { PageShell, Card, Pill, Btn, StarRating } from "@/components/common";
 import { TestimonialForm } from "@/components/testimonial/TestimonialForm";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
+import { PlanStatus } from "@/components/dashboard/PlanStatus";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -106,7 +107,7 @@ export function Profile() {
   };
 
   return (
-    <PageShell back eyebrow={t("Mon compte")} title={t("Profil et paramètres")} sub={t("Gérez vos informations, votre abonnement et vos préférences.")}>
+    <PageShell back eyebrow={t("Mon compte")} title={t("Profil et paramètres")} sub={t("Gérez vos informations, votre accès et vos préférences.")}>
       {/* identity header */}
       <Card className="p-6 mb-5 flex items-center gap-5">
         <span className="w-16 h-16 rounded-full grad-brand text-white text-2xl font-bold flex items-center justify-center shrink-0">{(user.name || "?")[0].toUpperCase()}</span>
@@ -115,10 +116,10 @@ export function Profile() {
             <h2 className={`font-display font-bold text-xl ${c.text}`}>{user.name}</h2>
             {user.owner && <Pill tone="amber"><Shield size={12} /> Owner</Pill>}
             {user.admin && <Pill tone="blue"><Shield size={12} /> Admin</Pill>}
-            {isPremium ? <Pill tone="blue"><Crown size={12} /> {currentPlanLabel(user.planLabel) || "Premium"}</Pill> : <Pill tone="slate">{t("Basic")}</Pill>}
           </div>
           {initialUsername && <p className={`text-sm ${c.sub}`}>@{initialUsername}</p>}
           <p className={`text-sm ${c.faint}`}>{user.email}</p>
+          <PlanStatus className="mt-3" />
         </div>
       </Card>
 
@@ -178,7 +179,7 @@ export function Profile() {
         </ProfileSection>
 
         {/* subscription */}
-        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Basic.")}>
+        <ProfileSection icon={CreditCard} title={t("Mon accès")} desc={t(isPremium ? "Votre accès complet est actif." : "Vous utilisez le compte gratuit.")}>
           {isPremium ? (
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>
@@ -193,8 +194,8 @@ export function Profile() {
             </div>
           ) : (
             <div className="space-y-3">
-              <p className={`text-sm ${c.sub}`}>{t("Passez à Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}</p>
-              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à Premium")}</Btn>
+              <p className={`text-sm ${c.sub}`}>{t("Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}</p>
+              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à un accès complet")}</Btn>
             </div>
           )}
         </ProfileSection>

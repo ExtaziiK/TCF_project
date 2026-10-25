@@ -82,7 +82,9 @@ export const NAV_LINKS = [
   // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
   // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
   { l: "Sujets EE/EO", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
-  { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
+  // Visitors only: a signed-in account reaches the pricing page from its plan
+  // status, on the dashboard and the profile (dashboard/PlanStatus.jsx).
+  { l: "Tarifs", r: "pricing", roles: [ROLES.VISITOR], icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
 ];
 

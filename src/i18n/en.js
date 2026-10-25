@@ -399,6 +399,25 @@ export const EN = {
     "Previous months' topics, back to 2022.",
   "Tous les sujets des mois précédents, classés par année et par mois, pour vous entraîner sur ce qui est déjà tombé.":
     "Every topic from previous months, sorted by year and month, to practise on what has already come up.",
+  // Plan status on the dashboard and profile (components/dashboard/PlanStatus.jsx).
+  "Compte gratuit":
+    "Free account",
+  "Passer à un accès complet":
+    "Upgrade to full access",
+  "jusqu'au":
+    "until",
+  "Prolonger":
+    "Extend",
+  "Mon accès":
+    "My access",
+  "Votre accès complet est actif.":
+    "Your full access is active.",
+  "Vous utilisez le compte gratuit.":
+    "You are on the free account.",
+  "Gérez vos informations, votre accès et vos préférences.":
+    "Manage your details, your access and your preferences.",
+  "Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
+    "Full access unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",
