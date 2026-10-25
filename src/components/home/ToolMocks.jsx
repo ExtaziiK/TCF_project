@@ -26,6 +26,26 @@ function usePhase(durations, still) {
   return frozen ? durations.length - 1 : p;
 }
 
+// The filler at the foot of a preview (Frame's `footer`): a small label, a
+// line of context, and optionally a progress bar.
+function Note({ ink, soft, label, children, done, total, unit }) {
+  const { c } = useApp();
+  return (
+    <>
+      <p className="font-mono2 text-[10px] font-bold uppercase tracking-widest" style={{ color: ink }}>{label}</p>
+      <p className={`mt-1 text-sm leading-relaxed ${c.sub}`}>{children}</p>
+      {total ? (
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: soft }}>
+            <div className="h-full rounded-full" style={{ width: `${(done / total) * 100}%`, background: ink }} />
+          </div>
+          <span className="font-mono2 text-[11px] font-bold" style={{ color: ink }}>{done} / {total} {unit}</span>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 // `right` lights the answer up; `wrong` marks a first, mistaken pick.
 function Options({ ink, soft, items, right, wrong }) {
   return (
@@ -53,7 +73,11 @@ function ScreenCO({ ink, soft, still }) {
   const phase = usePhase(CO_PHASES, still);
   const bars = [30, 55, 40, 75, 50, 90, 60, 80, 45, 70, 35, 85, 55, 65, 40, 95, 50, 72, 38, 60, 82, 46, 68, 52, 88, 42];
   return (
-    <Frame ink={ink} soft={soft} label="QUESTION 12 / 39">
+    <Frame ink={ink} soft={soft} label="QUESTION 12 / 39" footer={
+      <Note ink={ink} soft={soft} label="Explication" done={12} total={39} unit="questions">
+        On entend « rayon », « caisse » et « promotion » : la femme fait ses courses, elle est dans un magasin.
+      </Note>
+    }>
       <div className="flex items-center gap-3">
         <span className="grid place-items-center w-11 h-11 rounded-full shrink-0" style={{ background: ink, color: "#FFFFFF" }}><Play size={18} fill="currentColor" /></span>
         <div className="flex-1 flex items-end gap-[3px] h-12">
@@ -75,7 +99,11 @@ function ScreenCE({ ink, soft, still }) {
   const { c } = useApp();
   const phase = usePhase(CE_PHASES, still);
   return (
-    <Frame ink={ink} soft={soft} label="DOCUMENT 7">
+    <Frame ink={ink} soft={soft} label="DOCUMENT 7" footer={
+      <Note ink={ink} soft={soft} label="Explication" done={7} total={39} unit="questions">
+        « Prolongés d'autant » : les jours de fermeture s'ajoutent à la durée de l'abonnement.
+      </Note>
+    }>
       <div className={`space-y-2 text-sm leading-relaxed ${c.sub}`}>
         <p>Avis aux résidents : la piscine municipale fermera ses portes du 3 au 17 août pour des travaux d'entretien.{" "}
           <mark className="rounded px-1 font-semibold transition-colors duration-500" style={phase >= 1 ? { background: soft, color: ink } : { background: "transparent", color: "inherit" }}>Les abonnements seront prolongés d'autant.</mark>
@@ -287,7 +315,11 @@ function ScreenEO({ ink, soft, still }) {
   // The timer counts the recording as if it were real time (about 30 s).
   const secs = Math.round((n / EO_TEXT.length) * 30);
   return (
-    <Frame ink={ink} soft={soft} label="TÂCHE 1 · ENTRETIEN">
+    <Frame ink={ink} soft={soft} label="TÂCHE 1 · ENTRETIEN" footer={
+      <Note ink={ink} soft={soft} label="Conseil">
+        Structurez votre réponse : présentation, parcours, projet. Variez les connecteurs : d'abord, ensuite, enfin.
+      </Note>
+    }>
       <div className="flex items-center gap-4">
         <span className="relative grid place-items-center w-14 h-14 rounded-full shrink-0" style={{ background: recording ? "#D8354A" : ink, color: "#FFFFFF" }}>
           {recording && <span className="invite-ping absolute inset-0 rounded-full border-2" style={{ borderColor: "#D8354A" }} />}
@@ -363,7 +395,7 @@ function ScreenDictee({ ink, soft, still }) {
     </>
   );
   return (
-    <div className="flex-1 rounded-3xl p-5 md:p-6" style={{ background: soft }}>
+    <div className="flex-1 flex flex-col rounded-3xl p-5 md:p-6" style={{ background: soft }}>
       {/* Step indicator + score (shown once corrected). */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-1.5">
@@ -408,6 +440,20 @@ function ScreenDictee({ ink, soft, still }) {
       <div className={`mt-3 rounded-xl px-3 py-2 text-sm text-white/85 bg-white/10 transition-opacity duration-500 ${phase === 2 ? "opacity-100" : "opacity-0"}`}>
         <span className="font-bold" style={{ color: ink }}>Accord du participe passé</span> : avec « être », il s'accorde avec le sujet, « les candidats ».
       </div>
+
+      {/* The breakdown under it, growing to fill the height the showcase
+          gives this preview (see Frame's `footer`). */}
+      <div className="mt-4 flex-1 flex flex-col justify-center rounded-2xl px-4 py-3 bg-white/5">
+        <p className="font-mono2 text-[10px] font-bold uppercase tracking-widest" style={{ color: ink }}>Votre bilan</p>
+        <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+          {[["12 / 13", "mots justes"], ["100 %", "accents"], ["1", "accord à revoir"]].map(([v, l]) => (
+            <div key={l} className="rounded-xl px-2 py-2 bg-white/5">
+              <p className="font-display font-extrabold text-base" style={{ color: ink }}>{v}</p>
+              <p className="text-[11px] text-white/60 leading-tight">{l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -418,7 +464,11 @@ function ScreenVocab({ ink, soft, still }) {
   const { c } = useApp();
   const phase = usePhase(VOCAB_PHASES, still);
   return (
-    <Frame ink={ink} soft={soft} label="THÈME · IMMIGRATION">
+    <Frame ink={ink} soft={soft} label="THÈME · IMMIGRATION" footer={
+      <Note ink={ink} soft={soft} label="Votre progression" done={8} total={20} unit="cartes">
+        6 mots acquis, 2 à revoir : ils reviendront dans vos prochaines révisions.
+      </Note>
+    }>
       {/* The stack peeks out above the front card, never below it. */}
       <div className="relative h-36">
         <div className="absolute inset-x-12 top-0 bottom-8 rounded-2xl -rotate-2" style={{ background: soft }} />
@@ -452,7 +502,11 @@ function ScreenGrammar({ ink, soft, still }) {
   const { c } = useApp();
   const phase = usePhase(GRAMMAR_PHASES, still);
   return (
-    <Frame ink={ink} soft={soft} label="LEÇON · LE SUBJONCTIF">
+    <Frame ink={ink} soft={soft} label="LEÇON · LE SUBJONCTIF" footer={
+      <Note ink={ink} soft={soft} label="Règle" done={3} total={10} unit="exercices">
+        Il faut que, bien que, pour que… + subjonctif présent : que je vienne, que tu viennes, qu'il vienne.
+      </Note>
+    }>
       <p className={`text-sm leading-relaxed ${c.sub}`}>
         Après <span className="font-bold" style={{ color: ink }}>il faut que</span>, le verbe se met au subjonctif.
       </p>
