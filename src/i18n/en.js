@@ -320,14 +320,12 @@ export const EN = {
     "Dictation and review",
   "Incluses dans les accès payants.":
     "Included in the paid passes.",
-  "En action":
-    "In action",
-  "Trois outils, en un coup d'œil":
-    "Three tools at a glance",
   "Le cahier":
     "The notebook",
   "Six outils, un seul cahier":
     "Six tools, one notebook",
+  "Chaque outil a son marque-page et sa couleur, comme dans votre espace.":
+    "Each tool has its own bookmark and colour, just like in your space.",
   "Un corrigé C1 écrit mot à mot, corrigé aussitôt":
     "A C1 model text written word for word, corrected at once",
   "Cartes par thème : immigration, travail, vie quotidienne":

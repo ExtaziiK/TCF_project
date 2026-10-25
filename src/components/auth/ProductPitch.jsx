@@ -5,8 +5,7 @@ import { MockPass } from "@/components/home/ToolsShowcase";
 import { EpreuveCards } from "@/components/home/ExamOverview";
 import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
-import { MOCKS } from "@/components/home/ToolMocks";
-import { PALETTE, TOOLS } from "@/components/home/toolsData";
+import { PALETTE } from "@/components/home/toolsData";
 import { heroShot } from "@/components/home/heroShots";
 
 // What a VISITOR sees on the three « Produit » pages of the navbar — TCF
@@ -14,7 +13,7 @@ import { heroShot } from "@/components/home/heroShots";
 // one generic "create a free account" gate; each now makes its own case, from
 // pieces the site already shows elsewhere: the app's real screens (the
 // landing collage's captures), the TCF blanc boarding pass, the épreuve
-// cards, the live demo questions and the tools' animated previews. Every page
+// cards, the live demo questions and the notebook's tools. Every page
 // ends on the same two buttons: create a free account, or log in. Rendered by
 // RouteGuard for reason "register" only (a free account that needs a forfait
 // keeps the upgrade gate).
@@ -187,16 +186,72 @@ export function ExamsPitch() {
 
 // ── Exercices ────────────────────────────────────────────────────────────────
 
-// The notebook's six tools, as listed in the Exercices hub.
+// The notebook's six tools, each in its colour in the Exercices hub
+// (pages/Pratique.jsx) and with a small illustration of what it does.
 const NOTEBOOK = [
-  { icon: PenLine, l: "La dictée", d: "Un corrigé C1 écrit mot à mot, corrigé aussitôt", paid: true },
-  { icon: BookOpen, l: "Vocabulaire", d: "Cartes par thème : immigration, travail, vie quotidienne" },
-  { icon: SpellCheck, l: "Grammaire", d: "Leçons courtes suivies d'exercices" },
-  { icon: Languages, l: "Conjugaison", d: "Les temps du TCF, leçon puis exercices" },
-  { icon: NotebookPen, l: "Carnet d'erreurs", d: "Vos fautes, regroupées pour les retravailler" },
-  { icon: ListChecks, l: "Révision", d: "Les questions manquées, en séances ciblées", paid: true },
+  { icon: PenLine, tone: "navy", l: "La dictée", d: "Un corrigé C1 écrit mot à mot, corrigé aussitôt", paid: true, demo: "dictee" },
+  { icon: BookOpen, tone: "mint", l: "Vocabulaire", d: "Cartes par thème : immigration, travail, vie quotidienne", demo: "vocab" },
+  { icon: SpellCheck, tone: "fuchsia", l: "Grammaire", d: "Leçons courtes suivies d'exercices", demo: "grammar" },
+  { icon: Languages, tone: "cyan", l: "Conjugaison", d: "Les temps du TCF, leçon puis exercices", demo: "conj" },
+  { icon: NotebookPen, tone: "amber", l: "Carnet d'erreurs", d: "Vos fautes, regroupées pour les retravailler", demo: "carnet" },
+  { icon: ListChecks, tone: "rose", l: "Révision", d: "Les questions manquées, en séances ciblées", paid: true, demo: "revision" },
 ];
-const PREVIEWS = ["dictee", "vocabulary", "grammar"];
+
+// The little picture at the foot of each tool's card — the tool's own
+// content in miniature, in its colours. Illustrations: French on purpose.
+function ToolDemo({ kind, ink, soft }) {
+  const { c } = useApp();
+  const chip = "rounded-lg px-2 py-1 text-xs font-semibold";
+  if (kind === "dictee") {
+    return (
+      <p className={`font-mono2 text-xs leading-relaxed ${c.sub}`}>
+        Les candidats qui se sont <span className="line-through decoration-2" style={{ textDecorationColor: "#D8354A" }}>préparé</span>{" "}
+        <span className="font-bold rounded px-1" style={{ background: soft, color: ink }}>préparés</span> régulièrement…
+      </p>
+    );
+  }
+  if (kind === "vocab") {
+    return (
+      <div className="flex items-center gap-2">
+        <span className={`${chip} border-2`} style={{ borderColor: ink, color: ink }}>le permis de travail</span>
+        <span className={`${chip}`} style={{ background: soft, color: ink }}>Je sais ✓</span>
+      </div>
+    );
+  }
+  if (kind === "grammar") {
+    return (
+      <p className={`text-sm ${c.text}`}>
+        Il faut que tu <span className="font-bold border-b-2 px-1" style={{ borderColor: ink, color: ink }}>viennes</span> demain.
+      </p>
+    );
+  }
+  if (kind === "conj") {
+    return (
+      <div className="grid grid-cols-3 gap-1.5 text-center">
+        {[["je", "viens"], ["tu", "viens"], ["il", "vient"]].map(([p, v]) => (
+          <span key={p} className={`${chip}`} style={{ background: soft, color: ink }}>{p} <b>{v}</b></span>
+        ))}
+      </div>
+    );
+  }
+  if (kind === "carnet") {
+    return (
+      <div className="flex flex-wrap gap-1.5">
+        {[["Accords", 3], ["Accents", 2], ["Prépositions", 1]].map(([l, n]) => (
+          <span key={l} className={`${chip}`} style={{ background: soft, color: ink }}>{l} ×{n}</span>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: soft }}>
+        <div className="h-full w-2/3 rounded-full" style={{ background: ink }} />
+      </div>
+      <span className="font-mono2 text-[11px] font-bold" style={{ color: ink }}>8 / 12 revues</span>
+    </div>
+  );
+}
 
 export function ExercicesPitch() {
   const { c, t, dark } = useApp();
@@ -211,39 +266,33 @@ export function ExercicesPitch() {
         { icon: Crown, t: "La dictée et la révision", d: "Incluses dans les accès payants." },
       ]}>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
-        <SectionTitle eyebrow="En action" title="Trois outils, en un coup d'œil" />
-        <div className="grid lg:grid-cols-3 gap-5">
-          {PREVIEWS.map((r) => {
-            const tool = TOOLS.find((x) => x.route === r);
-            const [, ink, soft] = PALETTE[tool.tone][dark ? "dark" : "light"];
-            const Mock = MOCKS[r];
-            return (
-              <div key={r} className={`flex flex-col rounded-[28px] border-2 p-5 ${c.card}`} style={{ borderColor: ink }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="grid place-items-center w-10 h-10 rounded-xl text-white" style={{ background: ink }}><tool.icon size={18} /></span>
-                  <p className={`font-display font-bold ${c.text}`}>{t(tool.t)}</p>
+        <SectionTitle eyebrow="Le cahier" title="Six outils, un seul cahier"
+          sub="Chaque outil a son marque-page et sa couleur, comme dans votre espace." />
+        {/* Drawn as a notebook: a neutral sheet with a binding down its left
+            edge, and the tools as cards with a coloured tab, their icon and a
+            miniature of what they do. */}
+        <div className={`relative rounded-[28px] border-2 pl-10 sm:pl-14 pr-4 sm:pr-6 py-6 ${c.card} ${c.border}`}>
+          <div aria-hidden="true" className="absolute left-3 sm:left-5 top-6 bottom-6 flex flex-col justify-around">
+            {Array.from({ length: 9 }, (_, i) => <span key={i} className={`w-3 h-3 rounded-full border-2 ${c.border}`} />)}
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {NOTEBOOK.map((n) => {
+              const [, ink, soft] = PALETTE[n.tone][dark ? "dark" : "light"];
+              return (
+                <div key={n.l} className={`flex flex-col rounded-2xl border-2 border-l-[6px] p-5 ${c.card}`} style={{ borderColor: `${ink}44`, borderLeftColor: ink }}>
+                  <div className="flex items-center gap-3">
+                    <span className="grid place-items-center w-10 h-10 rounded-xl shrink-0" style={{ background: soft, color: ink }}><n.icon size={19} /></span>
+                    <p className={`font-display font-bold ${c.text}`}>
+                      {t(n.l)}
+                      {n.paid && <span className="ml-2 align-middle px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900">{t("Premium")}</span>}
+                    </p>
+                  </div>
+                  <p className={`mt-2 text-sm leading-relaxed flex-1 ${c.sub}`}>{t(n.d)}</p>
+                  <div aria-hidden="true" className={`mt-4 pt-4 border-t border-dashed ${c.border}`}><ToolDemo kind={n.demo} ink={ink} soft={soft} /></div>
                 </div>
-                <div aria-hidden="true" className="flex-1 flex flex-col"><Mock ink={ink} soft={soft} /></div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
-        <SectionTitle eyebrow="Le cahier" title="Six outils, un seul cahier" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {NOTEBOOK.map((n) => (
-            <div key={n.l} className={`flex items-start gap-3 rounded-3xl border p-5 ${c.border} ${c.card}`}>
-              <n.icon size={22} className={`shrink-0 mt-0.5 ${c.sub}`} aria-hidden="true" />
-              <div>
-                <p className={`font-display font-bold ${c.text}`}>
-                  {t(n.l)}
-                  {n.paid && <span className="ml-2 align-middle px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-400 text-slate-900">{t("Premium")}</span>}
-                </p>
-                <p className={`mt-1 text-sm leading-relaxed ${c.sub}`}>{t(n.d)}</p>
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
       </section>
     </PitchLayout>
