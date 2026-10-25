@@ -139,6 +139,17 @@ export async function submitTestimonial({ name, origin, level, body, rating, ano
 // after their first TCF blanc, rather than after every exam. Counts rows of any
 // status, so someone whose review is still pending — or was rejected — is not
 // asked again.
+// Re-signs the member's own reviews with their new first name, after a change
+// in the profile (members cannot update reviews directly — see
+// 20261025_testimonial_rename.sql). Anonymous reviews keep their public label.
+// Returns { ok }; a database without the migration answers "function not found",
+// reported as unavailable so the profile save itself is never undone by it.
+export async function renameMyTestimonials(name) {
+  const { error } = await (await getSupabase()).rpc("rename_my_testimonials", { p_name: name });
+  if (!error) return { ok: true };
+  return { ok: false, unavailable: error.code === "PGRST202" || error.code === "42883", error: error.message };
+}
+
 export async function hasReviewed() {
   const { data: auth } = await (await getSupabase()).auth.getUser();
   const userId = auth?.user?.id;

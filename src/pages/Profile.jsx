@@ -11,6 +11,7 @@ import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { PlanStatus, GOLD_BTN } from "@/components/dashboard/PlanStatus";
 import { renameProfile } from "@/services/profileService";
+import { renameMyTestimonials } from "@/services/testimonialsService";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -95,6 +96,10 @@ export function Profile() {
           if (!r.ok && r.error) return notify(t(r.error));
           await reloadProfiles?.();
         }
+        // Reviews were signed with the name at posting time: re-sign them.
+        // Best effort — the name is saved either way.
+        const rv = await renameMyTestimonials(normalizeName(name));
+        if (!rv.ok && !rv.unavailable) console.warn("rename_my_testimonials:", rv.error);
       }
       notify(t("Profil mis à jour."));
     } finally {
