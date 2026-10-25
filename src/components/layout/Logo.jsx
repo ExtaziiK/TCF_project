@@ -24,7 +24,7 @@ export function Logo({ onNavigate }) {
       aria-label={canPreviewAsVisitor ? "Passerelle — accueil (aperçu visiteur)" : "Passerelle — accueil"}
     >
       <img
-        src="/logo-mark.webp"
+        src="/logo-mark.svg"
         alt=""
         width="48"
         height="48"

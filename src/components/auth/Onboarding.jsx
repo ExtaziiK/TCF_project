@@ -101,7 +101,7 @@ export function Onboarding() {
       role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
       <div className={`w-full max-w-lg rounded-3xl p-7 sm:p-8 shadow-2xl rise ${c.card}`}>
         <div className="mb-6">
-          <img src="/logo-mark.webp" alt="" width="40" height="40" className="w-10 h-10 object-contain" />
+          <img src="/logo-mark.svg" alt="" width="40" height="40" className="w-10 h-10 object-contain" />
           <h2 id="onboarding-title" className={`font-display font-bold text-2xl mt-4 ${c.text}`}>{t("Finalisez votre compte")}</h2>
           <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Encore quelques informations et votre espace est prêt.")}</p>
         </div>
