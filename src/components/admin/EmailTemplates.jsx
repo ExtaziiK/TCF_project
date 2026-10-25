@@ -15,8 +15,14 @@ import { DEFAULT_WELCOME, WELCOME_MAX_CHARS, WELCOME_WINDOW_DAYS, renderWelcome 
 // others share AccountEmailEditor. Support replies are not listed — their text
 // is written per message, from the Messages tab. « Nouveau courriel » writes a
 // one-off email to one address (ComposeEmail).
-// The automatic emails first, then the ones sent by hand (`audience`).
-const ORDER = ["welcome", ...Object.keys(EMAIL_TEMPLATES).sort((x, y) => !!EMAIL_TEMPLATES[x].audience - !!EMAIL_TEMPLATES[y].audience)];
+// In the order an account meets them: the confirmation code (sent by Supabase),
+// the welcome email, the other automatic ones, then the ones sent by hand (`audience`).
+const rank = (id) => (EMAIL_TEMPLATES[id].supabase ? -1 : EMAIL_TEMPLATES[id].audience ? 1 : 0);
+const ORDER = [
+  ...Object.keys(EMAIL_TEMPLATES).filter((id) => rank(id) < 0),
+  "welcome",
+  ...Object.keys(EMAIL_TEMPLATES).filter((id) => rank(id) >= 0).sort((x, y) => rank(x) - rank(y)),
+];
 const TITLES = { welcome: "Bienvenue", ...Object.fromEntries(Object.entries(EMAIL_TEMPLATES).map(([k, t]) => [k, t.title])) };
 
 export function EmailTemplatesTab() {
@@ -56,8 +62,9 @@ export function EmailTemplatesTab() {
 // The welcome email: on/off, its wording, a live preview
 // (rendered by the very function the server sends with, so what is shown is
 // what goes out), a test send to yourself, and a catch-up send to the recent
-// signups who never got it. The account emails sent by Supabase itself
-// (confirmation code, password reset) are still edited in its dashboard.
+// signups who never got it. The confirmation code, sent by Supabase itself,
+// is edited with the others and exported to its dashboard (AccountEmailEditor);
+// the password reset is still edited there directly.
 
 const FIELDS = [
   ["subject", "Objet", 1],
