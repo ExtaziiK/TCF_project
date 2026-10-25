@@ -10,7 +10,7 @@
 // motion, it is the finished logo (public/loader-intro-final.webp, 25 KB)
 // popping in instead.
 //
-// Used while a page downloads (pages/index.jsx) and while a quiz image loads
+// Used while a quiz loads (BankLoading) and while a quiz image loads
 // (BankQuestionMedia). `className` sizes it; `fadeIn` shows it only after a
 // short delay, so a wait that ends at once never flashes it.
 

@@ -1,10 +1,11 @@
-import { Loader2, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card } from "@/components/common/Card";
 import { Btn } from "@/components/common/Btn";
+import { LogoLoader } from "@/components/common/LogoLoader";
 
 // Shown while a quiz chunk downloads (services/bankService loads the bank on
-// demand). `error` = the download failed: offer a retry rather than a spinner
+// demand), with the Passerelle logo animation (LogoLoader). `error` = the download failed: offer a retry rather than a spinner
 // that never ends. Extra props (data-tour…) land on a wrapper, so a guided-tour
 // target stays in the page while its content loads.
 export function BankLoading({ error, onRetry, label = "Chargement des questions…", className = "", ...rest }) {
@@ -18,9 +19,10 @@ export function BankLoading({ error, onRetry, label = "Chargement des questions�
           {onRetry && <Btn small variant="ghost" icon={RefreshCw} onClick={onRetry}>{t("Réessayer")}</Btn>}
         </>
       ) : (
-        <span className={`inline-flex items-center gap-2 text-sm font-medium ${c.faint}`}>
-          <Loader2 size={16} className="animate-spin text-blue-600" /> {t(label)}
-        </span>
+        <>
+          <LogoLoader className="w-72 max-w-full sm:w-96" />
+          <span className={`text-sm font-medium ${c.faint}`}>{t(label)}</span>
+        </>
       )}
     </Card>
     </div>
