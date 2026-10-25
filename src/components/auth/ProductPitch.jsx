@@ -7,6 +7,7 @@ import { DemoQuestion } from "@/components/home/DemoQuestion";
 import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { PALETTE } from "@/components/home/toolsData";
 import { heroShot } from "@/components/home/heroShots";
+import { STEPS as DICTEE_STEPS, FEATURES as DICTEE_FEATURES, TheDiagnosis } from "@/components/dictee/DicteePitch";
 
 // What a VISITOR sees on the three « Produit » pages of the navbar — TCF
 // blanc, Épreuves, Exercices — which all need an account. They used to share
@@ -60,10 +61,10 @@ function SectionTitle({ eyebrow, title, sub }) {
 }
 
 // Four points: icon, title, one line.
-function Perks({ items }) {
+function Perks({ items, cols = "lg:grid-cols-4" }) {
   const { c, t } = useApp();
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className={`grid sm:grid-cols-2 ${cols} gap-4`}>
       {items.map((p) => (
         <div key={p.t} className={`rounded-3xl border p-5 ${c.border} ${c.card}`}>
           <p.icon size={22} className={c.sub} aria-hidden="true" />
@@ -77,7 +78,8 @@ function Perks({ items }) {
 
 // The page: hero (pitch + a real screen), the page's own sections, its four
 // points, and a closing call to action.
-function PitchLayout({ eyebrow, title, sub, shot, children, perks, closing }) {
+function PitchLayout({ eyebrow, title, sub, shot, children, perks, closing, closingNote,
+  perksEyebrow = "Avec un compte gratuit", perksTitle = "Ce que vous obtenez", perksCols }) {
   const { c, t } = useApp();
   return (
     <main className="pt-28 md:pt-32 pb-20">
@@ -92,11 +94,12 @@ function PitchLayout({ eyebrow, title, sub, shot, children, perks, closing }) {
       </section>
       {children}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
-        <SectionTitle eyebrow="Avec un compte gratuit" title="Ce que vous obtenez" />
-        <Perks items={perks} />
+        <SectionTitle eyebrow={perksEyebrow} title={perksTitle} />
+        <Perks items={perks} cols={perksCols} />
       </section>
       <section className="max-w-3xl mx-auto px-4 sm:px-6 mt-20 text-center">
         <h2 className={`font-display font-extrabold text-2xl md:text-3xl ${c.text}`}>{t(closing)}</h2>
+        {closingNote && <div className={`mt-3 text-sm ${c.sub}`}>{closingNote}</div>}
         <div className="mt-6"><Actions center /></div>
       </section>
     </main>
@@ -292,6 +295,59 @@ export function ExercicesPitch() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+    </PitchLayout>
+  );
+}
+
+// ── La dictée ────────────────────────────────────────────────────────────────
+
+// The visitors' version of the dictée's sales page, in the same format as the
+// other product pages. Same copy and claims as the members' version
+// (components/dictee/DicteePitch.jsx — see there for where each is enforced);
+// a free account opening the dictée in its notebook still gets that one.
+export function DicteeVisitorPitch() {
+  const { c, t } = useApp();
+  return (
+    <PitchLayout eyebrow="La dictée · Premium" title="L'exercice qui vous dit d'où viennent vraiment vos fautes" shot="dictee"
+      sub="Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte, sans correcteur et sans aide. Puis le compte exact de ce que vous avez entendu, et de ce que vous avez su écrire."
+      perksEyebrow="Les détails" perksTitle="Une dictée faite comme il faut" perksCols="lg:grid-cols-3"
+      perks={DICTEE_FEATURES}
+      closing="La dictée fait partie des accès payants"
+      closingNote={
+        <>
+          {t("Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les quatre-vingts quiz et la correction IA.")}{" "}
+          <RouteLink r="pricing" className="font-semibold text-blue-600 hover:underline">{t("Voir les tarifs")}</RouteLink>
+        </>
+      }>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
+        <SectionTitle eyebrow="Le déroulé" title="Écouter, écrire, comprendre" />
+        <ol className="grid md:grid-cols-3 gap-4">
+          {DICTEE_STEPS.map((s, i) => (
+            <li key={s.t} className={`rounded-3xl border p-6 ${c.border} ${c.card}`}>
+              <div className="flex items-center gap-3">
+                <span className="grid place-items-center w-9 h-9 rounded-full font-display font-extrabold text-sm text-white" style={{ background: "#1F2E66" }}>{i + 1}</span>
+                <s.icon size={20} className={c.sub} aria-hidden="true" />
+              </div>
+              <p className={`mt-4 font-display font-bold text-lg ${c.text}`}>{t(s.t)}</p>
+              <p className={`mt-1.5 text-sm leading-relaxed ${c.sub}`}>{t(s.d)}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-20">
+        <TheDiagnosis />
+      </section>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
+        <div className={`rounded-3xl border p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5 ${c.border} ${c.card}`}>
+          <span className="grid place-items-center w-14 h-14 rounded-2xl shrink-0 font-display font-extrabold text-xl text-white" style={{ background: "#1F2E66" }}>+1</span>
+          <div>
+            <p className={`font-display font-bold text-lg ${c.text}`}>{t("Une nouvelle dictée chaque jour")}</p>
+            <p className={`mt-1.5 text-sm leading-relaxed ${c.sub}`}>
+              {t("Chaque nuit, un corrigé inédit est rédigé et enregistré pour chacune des trois tâches d'expression écrite. Et rien ne disparaît : tout ce qui a été écrit reste dans la bibliothèque, pour vous comme pour les autres. Plus vous revenez, plus il y en a.")}
+            </p>
           </div>
         </div>
       </section>

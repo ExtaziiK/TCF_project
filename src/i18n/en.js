@@ -338,6 +338,16 @@ export const EN = {
     "Your mistakes, gathered to work on again",
   "Les questions manquées, en séances ciblées":
     "Missed questions, in targeted sessions",
+  "Écouter, écrire, comprendre":
+    "Listen, write, understand",
+  "Les détails":
+    "The details",
+  "La dictée fait partie des accès payants":
+    "Dictation is part of the paid passes",
+  "Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les quatre-vingts quiz et la correction IA.":
+    "It is included in every plan, along with the timed mock exams, the eighty quizzes and AI correction.",
+  "Voir les tarifs":
+    "See pricing",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",
