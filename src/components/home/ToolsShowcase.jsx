@@ -336,13 +336,13 @@ export function ToolsShowcase({ tinted = false }) {
             `transition-all` inside (the CE document's box) kept that panel
             showing over the next one for a moment.
             Reaching into the panel stops the auto-advance, so it never
-            switches away mid-question. */}
-        {wide && (
-        {/* The panel column is drawn at a zoom of 0.8: it keeps its full width
-            (an auto width is not scaled), its contents shrink, and with longer
+            switches away mid-question.
+            The column is drawn at a zoom of 0.8: it keeps its full width (an
+            auto width is not scaled), its contents shrink, and with longer
             lines the card comes out about 20 % shorter than at full size. The
             heights measured above are taken inside it, so the shared height
             follows. */}
+        {wide && (
         <div className="relative [zoom:0.8]" onPointerEnter={() => setAuto(false)} onFocusCapture={() => setAuto(false)}>
           {TOOLS.map((tl, i) => {
             const on = i === active;
