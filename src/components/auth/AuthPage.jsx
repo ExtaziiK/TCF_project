@@ -300,7 +300,7 @@ export function AuthPage({ mode }) {
       <div className="w-full max-w-md rise">
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">
-            <img src="/logo-mark.svg" alt="" width="36" height="36" className="w-9 h-9 object-contain" />
+            <img src="/logo-mark.webp" alt="" width="36" height="36" className="w-9 h-9 object-contain" />
             <span className="font-display font-extrabold text-lg text-blue-600">Passerelle</span>
           </span>
           {/* Log in / sign up, one click apart. */}
