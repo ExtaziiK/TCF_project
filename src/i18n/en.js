@@ -357,7 +357,7 @@ export const EN = {
   "Vos scores TCF convertis en niveaux NCLC": "Your TCF scores converted into NCLC levels",
   "Tout le déroulé du TCF Canada, épreuve par épreuve": "How the TCF Canada works, test by test",
   "Conseils et méthodes pour réussir": "Tips and methods to succeed",
-  "Ce qu'en disent nos candidats": "What our candidates say",
+  "Les sujets d'expression écrite et orale à préparer en priorité": "The writing and speaking topics to prepare first",
   "Sujets du mois": "Topics of the month",
   "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
     "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",

@@ -6,7 +6,7 @@ import { AUTHENTICATED, ADMIN_ONLY, ROLES, canUseNotebook } from "@/auth/rbac";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper, Star,
+  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -88,8 +88,9 @@ export const NAV_LINKS = [
 
 // The desktop bar for VISITORS, laid out the way SaaS sites usually are —
 // two dropdowns that describe the offer (« Produit »: TCF blanc, Épreuves,
-// Exercices; « Ressources »: guide, blog, avis, calculateur), then « Tarifs »,
-// with « Connexion » and the sign-up call to action on the right. The logo is
+// Exercices; « Ressources »: guide, blog, calculateur, sujets du mois), then
+// « Tarifs » and « Avis », with « Connexion » and the sign-up call to action
+// on the right. The logo is
 // the way home, so there is no « Accueil » link. A visitor opening a page that
 // needs an account (Exercices) gets the route guard's log-in / sign-up. Signed-in accounts keep the
 // working bar above (NAV_LINKS); the mobile drawer is the same for both.
@@ -103,11 +104,11 @@ export const VISITOR_MENUS = [
   { l: "Ressources", items: [
     { l: "Guide de l'examen", r: "guide", icon: Compass, d: "Tout le déroulé du TCF Canada, épreuve par épreuve" },
     { l: "Blog", r: "blog", icon: Newspaper, d: "Conseils et méthodes pour réussir" },
-    { l: "Avis", r: "avis", icon: Star, d: "Ce qu'en disent nos candidats" },
     { l: "Calculateur", r: "calculator", icon: Calculator, d: "Vos scores TCF convertis en niveaux NCLC" },
+    { l: "Sujets du mois", r: "sujets-actualite", icon: Sparkles, d: "Les sujets d'expression écrite et orale à préparer en priorité" },
   ] },
 ];
-export const VISITOR_LINKS = [{ l: "Tarifs", r: "pricing" }];
+export const VISITOR_LINKS = [{ l: "Tarifs", r: "pricing" }, { l: "Avis", r: "avis" }];
 
 // Extra entries that only exist in the mobile menu for signed-in users.
 // All three sit in the top group, above the study sections and under no
