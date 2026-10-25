@@ -80,8 +80,9 @@ export const NAV_LINKS = [
   // Trending monthly EE/EO subjects to prepare — featured like "Épreuves",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
   // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
-  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
-  { l: "Sujets EE/EO", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
+  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback,
+  // shown until that month is known (sujetsLatestService.js).
+  { l: "Sujets du mois", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
   // Visitors only: a signed-in account reaches the pricing page from its plan
   // status, on the dashboard and the profile (dashboard/PlanStatus.jsx).
   { l: "Tarifs", r: "pricing", roles: [ROLES.VISITOR], icon: CreditCard, group: "tools" },
