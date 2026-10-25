@@ -8,8 +8,7 @@ import { DemoQuestionCE } from "@/components/home/DemoQuestionCE";
 import { PALETTE } from "@/components/home/toolsData";
 import { heroShot } from "@/components/home/heroShots";
 import { STEPS as DICTEE_STEPS, FEATURES as DICTEE_FEATURES, TheDiagnosis } from "@/components/dictee/DicteePitch";
-import { useSujetsArchive } from "@/hooks/useSujetsArchive";
-import { countEOSujets } from "@/components/sujets/renderers";
+import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestService";
 
 // What a VISITOR sees on the three « Produit » pages of the navbar — TCF
 // blanc, Épreuves, Exercices — which all need an account. They used to share
@@ -359,38 +358,31 @@ export function DicteeVisitorPitch() {
 
 // ── Sujets du mois ───────────────────────────────────────────────────────────
 
-// The newest month in an archive (years newest first, as useSujetsArchive
-// returns them), or null.
-const latestOf = (years) => (years[0]?.months || []).reduce((best, m) => (!best || m.monthNum > best.monthNum ? m : best), null);
-
-// The hero's visual: the real current month, previewed. Its counts, and the
-// first writing combinaison with tâche 1 readable — tâches 2 and 3 blurred
-// behind a lock. The archive is public (sujets-ee / sujets-eo), only the
-// current month is behind an account, so showing one subject gives nothing
-// away that the archive does not.
-function SujetsTeaser({ ee, eo }) {
-  const { c, t } = useApp();
-  const month = latestOf(ee.years);
-  const eoMonth = latestOf(eo.years);
-  const first = month?.data?.[0];
-  if (ee.loading || !month || !first) return <div className={`h-80 rounded-3xl animate-pulse ${c.track}`} aria-busy="true" />;
+// The hero's visual: an illustration of the month's page, not its content.
+// The subjects — current month and archive alike — are for signed-in accounts
+// only and are never requested for a visitor; the only real thing here is the
+// month's name, which ships with the app (virtual:sujets-latest, read without
+// any request: `useLatestSujetsMonth(false)`).
+function SujetsTeaser() {
+  const { c, t, lang } = useApp();
+  const month = useLatestSujetsMonth(false);
+  const label = sujetsMonthLabel(month, lang, t("Sujets du mois"));
   const pill = `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${c.border} ${c.sub}`;
+  // Placeholder lines, of varied lengths, standing in for the subjects.
+  const lines = (widths) => widths.map((w, i) => <span key={i} className={`block h-2.5 rounded-full ${c.track}`} style={{ width: `${w}%` }} />);
   return (
     <div className={`rounded-3xl border-2 p-6 ${c.card}`} style={{ borderColor: "#6C4FE0" }}>
       <div className="flex flex-wrap items-center gap-2">
-        <span className={pill}><CalendarDays size={13} /> {t(month.month)} {ee.years[0].year}</span>
-        <span className={pill}><FileText size={13} /> {month.data.length} {t("combinaisons écrites")}</span>
-        {eoMonth && <span className={pill}><Mic size={13} /> {countEOSujets(eoMonth.data)} {t("sujets oraux")}</span>}
+        <span className={pill}><CalendarDays size={13} /> {label}{month ? ` ${month.year}` : ""}</span>
+        <span className={pill}><FileText size={13} /> {t("Expression écrite")}</span>
+        <span className={pill}><Mic size={13} /> {t("Expression orale")}</span>
       </div>
-      <p className="mt-5 font-mono2 text-xs font-bold uppercase tracking-widest" style={{ color: "#6C4FE0" }}>{t("Combinaison")} 1 · {t("Tâche")} 1</p>
-      <p className={`mt-2 text-sm leading-relaxed ${c.text}`}>{first.t1}</p>
-      {/* Tâches 2 and 3, there but unreadable: the account is the key. */}
-      <div className="relative mt-5">
-        <div aria-hidden="true" className="space-y-4 blur-[5px] select-none pointer-events-none">
-          {[["2", first.t2], ["3", first.t3]].map(([n, text]) => (
+      <div aria-hidden="true" className="relative mt-6">
+        <div className="space-y-6 blur-[3px] select-none">
+          {[1, 2, 3].map((n) => (
             <div key={n}>
               <p className="font-mono2 text-xs font-bold uppercase tracking-widest" style={{ color: "#6C4FE0" }}>{t("Tâche")} {n}</p>
-              <p className={`mt-1 text-sm leading-relaxed ${c.sub}`}>{String(text || "").slice(0, 220)}</p>
+              <div className="mt-2 space-y-2">{lines(n === 1 ? [96, 88, 54] : n === 2 ? [92, 97, 81, 40] : [90, 84, 66])}</div>
             </div>
           ))}
         </div>
@@ -404,33 +396,17 @@ function SujetsTeaser({ ee, eo }) {
   );
 }
 
-// The public archive's size, for the band that points visitors at it.
-function archiveTotals(ee, eo) {
-  const sum = (years, f) => years.reduce((a, y) => a + y.months.reduce((b, m) => b + f(m), 0), 0);
-  const firstYear = Math.min(...[...ee.years, ...eo.years].map((y) => y.year));
-  return {
-    ready: !ee.loading && !eo.loading,
-    ee: sum(ee.years, (m) => m.data.length),
-    eo: sum(eo.years, (m) => countEOSujets(m.data)),
-    since: Number.isFinite(firstYear) ? firstYear : null,
-  };
-}
-
 export function SujetsPitch() {
   const { c, t, nav } = useApp();
-  // Both archives loaded once, for the preview and the archive band alike.
-  const ee = useSujetsArchive("ee");
-  const eo = useSujetsArchive("eo");
-  const totals = archiveTotals(ee, eo);
   return (
     <PitchLayout eyebrow="Sujets du mois" title="Les sujets qui tombent en ce moment au TCF Canada"
       sub="Chaque mois, les sujets d'expression écrite et orale qui circulent en session, rassemblés et classés par tâche, pour préparer en priorité ce qui vous attend."
-      visual={<SujetsTeaser ee={ee} eo={eo} />}
+      visual={<SujetsTeaser />}
       closing="Préparez les sujets de ce mois"
       perks={[
         { icon: CalendarDays, t: "Tous les sujets du mois", d: "Écrit et oral, dès qu'ils sont publiés." },
         { icon: Sparkles, t: "Entraînez-vous dessus", d: "Un sujet d'expression écrite et un d'orale, avec analyse IA." },
-        { icon: Archive, t: "L'archive complète", d: "Les sujets des mois précédents, en accès libre." },
+        { icon: Archive, t: "L'archive complète", d: "Les sujets des mois précédents, depuis 2022." },
         { icon: Crown, t: "Modèles de réponse", d: "Un modèle rédigé pour chaque sujet, avec un accès payant." },
       ]}>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
@@ -452,18 +428,11 @@ export function SujetsPitch() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
         <div className={`rounded-3xl border-2 p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 ${c.card}`} style={{ borderColor: "#6C4FE0" }}>
           <div className="flex-1">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6C4FE0" }}>{t("En accès libre")}</p>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6C4FE0" }}>{t("Avec un compte gratuit")}</p>
             <p className={`mt-2 font-display font-extrabold text-2xl ${c.text}`}>{t("L'archive des anciens sujets")}</p>
-            <p className={`mt-1.5 text-sm leading-relaxed ${c.sub}`}>{t("Tous les sujets des mois précédents, consultables sans compte.")}</p>
+            <p className={`mt-1.5 text-sm leading-relaxed ${c.sub}`}>{t("Tous les sujets des mois précédents, classés par année et par mois, pour vous entraîner sur ce qui est déjà tombé.")}</p>
           </div>
-          {totals.ready && (
-            <dl className="flex gap-6">
-              <div><dd className="font-display font-extrabold text-3xl grad-text">{totals.ee}</dd><dt className={`text-xs ${c.sub}`}>{t("combinaisons écrites")}</dt></div>
-              <div><dd className="font-display font-extrabold text-3xl grad-text">{totals.eo}</dd><dt className={`text-xs ${c.sub}`}>{t("sujets oraux")}</dt></div>
-              {totals.since && <div><dd className="font-display font-extrabold text-3xl grad-text">{totals.since}</dd><dt className={`text-xs ${c.sub}`}>{t("depuis")}</dt></div>}
-            </dl>
-          )}
-          <Btn variant="ghost" icon={ArrowRight} onClick={() => nav("sujets-ee")}>{t("Voir les anciens sujets")}</Btn>
+          <Btn variant="accent" icon={ArrowRight} onClick={() => nav("register")}>{t("Créer un compte gratuitement")}</Btn>
         </div>
       </section>
     </PitchLayout>

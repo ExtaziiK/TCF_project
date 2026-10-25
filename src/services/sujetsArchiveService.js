@@ -30,11 +30,27 @@ function toYears(rows) {
     }));
 }
 
-// Shipped fallback: /data/sujets-<section>.json ships EE months with `sujets`
-// and EO months with `taches`; normalize both to a `data` array.
+// The signed-in session's headers for /api/public/sujets, or null without
+// one — in which case nothing is requested at all.
+async function sessionHeaders() {
+  const { data } = await (await getSupabase()).auth.getSession();
+  const token = data?.session?.access_token;
+  if (!token) return null;
+  const headers = { Authorization: `Bearer ${token}` };
+  const { getDeviceSessionId } = await import("@/services/authService");
+  const device = getDeviceSessionId();
+  if (device) headers["x-device-session"] = device;
+  return headers;
+}
+
+// The shipped base, from /api/public/sujets — signed-in accounts only (the
+// files are no longer public). EE months come with `sujets` and EO months with
+// `taches`; normalize both to a `data` array.
 export async function fetchShipped(section) {
   try {
-    const res = await fetch(`/data/sujets-${section}.json`, { cache: "no-cache" });
+    const headers = await sessionHeaders();
+    if (!headers) return [];
+    const res = await fetch(`/api/public/sujets?section=${section}`, { headers });
     if (!res.ok) return [];
     const json = await res.json();
     const rows = [];
@@ -47,11 +63,13 @@ export async function fetchShipped(section) {
   }
 }
 
-// Reads the whole archive for a section. The shipped JSON is always the base
+// Reads the whole archive for a section (signed-in only). The shipped JSON is always the base
 // (every imported subject is kept, no seeding step); rows in the DB are admin
 // additions/edits that override the same month on top of that base. So a fresh
 // database shows the full built-in set, and admin changes layer over it.
 export async function loadArchive(section) {
+  // Signed-in accounts only: a visitor's browser never asks for the archive.
+  if (!(await sessionHeaders())) return { years: [] };
   const map = new Map();
   for (const r of await fetchShipped(section)) map.set(`${r.year}-${r.monthNum}`, r);
   const { data, error } = await (await getSupabase()).from("sujets_archive").select("year, month_num, data").eq("section", section);

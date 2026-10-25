@@ -41,6 +41,8 @@ const VISITOR_PITCH = {
   ...Object.fromEntries([...PRATIQUE_ROUTES].filter((r) => r !== "dictee").map((r) => [r, ExercicesPitch])),
   dictee: DicteeVisitorPitch,
   "sujets-actualite": SujetsPitch,
+  "sujets-ee": SujetsPitch,
+  "sujets-eo": SujetsPitch,
 };
 const Gate = ({ children }) => <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>{children}</Suspense>;
 

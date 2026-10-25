@@ -64,13 +64,14 @@ const rowsFrom = (json) => {
 //
 // The file ships with the deployment (vercel.json includeFiles), so reading it
 // is a filesystem call with no auth, no network and no gateway in between.
+// The archive lives in data/sujets — outside public/, so it is never served
+// to the open web (signed-in accounts get it from /api/public/sujets).
 const SHIPPED_PATHS = [
-  path.join(process.cwd(), "public", "data", "sujets-ee.json"),
-  path.join(process.cwd(), "dist", "data", "sujets-ee.json"),
-  fileURLToPath(new URL("../../public/data/sujets-ee.json", import.meta.url)),
+  path.join(process.cwd(), "data", "sujets", "sujets-ee.json"),
+  fileURLToPath(new URL("../../data/sujets/sujets-ee.json", import.meta.url)),
 ];
 
-async function fetchShipped(req) {
+async function fetchShipped() {
   if (shippedCache) return shippedCache;
 
   for (const file of SHIPPED_PATHS) {
@@ -83,23 +84,9 @@ async function fetchShipped(req) {
     }
   }
 
-  // Last resort: the HTTP path, kept for any runtime whose bundle drops the
-  // file. Now with the content actually verified, so a login page or an error
-  // page is reported as what it is instead of surfacing as a parse error.
-  const proto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0];
-  const host = req.headers["x-forwarded-host"] || req.headers.host;
-  const res = await fetch(`${proto}://${host}/data/sujets-ee.json`).catch(() => null);
-  const body = res && res.ok ? await res.text().catch(() => "") : "";
-  if (!body || body.trimStart().startsWith("<")) {
-    throw new HttpError(502, "Le recueil de sujets est inaccessible depuis le serveur. Si ce déploiement est protégé par Vercel Deployment Protection, désactivez-la ou testez en production.");
-  }
-  try {
-    shippedCache = rowsFrom(JSON.parse(body));
-  } catch (err) {
-    if (err instanceof HttpError) throw err;
-    throw new HttpError(502, "Le recueil de sujets est illisible.");
-  }
-  return shippedCache;
+  // No HTTP fallback any more: the file is no longer public, so a runtime
+  // whose bundle dropped it has nothing to fetch — say so plainly.
+  throw new HttpError(502, "Le recueil de sujets est introuvable sur le serveur.");
 }
 
 export const sujetKeyOf = (year, monthNum, n) => `${year}-${monthNum}-${n}`;
@@ -107,9 +94,9 @@ export const sujetKeyOf = (year, monthNum, n) => `${year}-${monthNum}-${n}`;
 // Every (sujet, tâche) the archive can offer, flattened. Tâche 3 needs both
 // documents to be present — a themed subject with one missing document cannot
 // be answered, so it is not offered.
-export async function listSujets(req) {
+export async function listSujets() {
   const map = new Map();
-  for (const r of await fetchShipped(req)) map.set(`${r.year}-${r.monthNum}`, r);
+  for (const r of await fetchShipped()) map.set(`${r.year}-${r.monthNum}`, r);
   const { data } = await admin().from("sujets_archive").select("year, month_num, data").eq("section", "ee");
   for (const r of data || []) map.set(`${r.year}-${r.month_num}`, { year: r.year, monthNum: r.month_num, data: r.data });
 

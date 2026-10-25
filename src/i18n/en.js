@@ -371,8 +371,6 @@ export const EN = {
     "Practise on them",
   "L'archive complète":
     "The full archive",
-  "Les sujets des mois précédents, en accès libre.":
-    "Previous months' topics, freely available.",
   "Modèles de réponse":
     "Model answers",
   "Un modèle rédigé pour chaque sujet, avec un accès payant.":
@@ -393,16 +391,14 @@ export const EN = {
     "Updated every month",
   "Un nouveau mois remplace le précédent, qui rejoint l'archive. La liste reste toujours d'actualité.":
     "A new month replaces the previous one, which joins the archive. The list always stays current.",
-  "En accès libre":
-    "Freely available",
   "L'archive des anciens sujets":
     "The archive of past topics",
-  "Tous les sujets des mois précédents, consultables sans compte.":
-    "Every topic from previous months, viewable without an account.",
-  "depuis":
-    "since",
   "Voir les anciens sujets":
     "See past topics",
+  "Les sujets des mois précédents, depuis 2022.":
+    "Previous months' topics, back to 2022.",
+  "Tous les sujets des mois précédents, classés par année et par mois, pour vous entraîner sur ce qui est déjà tombé.":
+    "Every topic from previous months, sorted by year and month, to practise on what has already come up.",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",

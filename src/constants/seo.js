@@ -107,9 +107,8 @@ export const ROUTE_META = {
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
   // Route-guarded (AUTHENTICATED in rbac.js), so a crawler only ever reaches
-  // the register gate here — noindex, per the policy at the top of this file.
-  // The public archives below (sujets-ee / sujets-eo) carry the same subjects
-  // and are the pages that should rank.
+  // the visitors' pitch here — noindex, per the policy at the top of this file.
+  // Same for the archives below (sujets-ee / sujets-eo): signed-in only now.
   "sujets-actualite": {
     path: "/sujets-actualite",
     title: "Sujets EE/EO du mois — TCF Canada",
@@ -122,6 +121,7 @@ export const ROUTE_META = {
     title: "Anciens sujets d'expression écrite — archive par mois",
     description:
       "L'archive des sujets d'expression écrite du TCF Canada, classés par année et par mois : les combinaisons des trois tâches dans leur formulation réelle, pour vous entraîner.",
+    noindex: true,
   },
   // Base entry for the model answers. The real pages are sub-routes carrying
   // the month and combinaison ("sujet-reponse/2026-09/3"), resolved by
@@ -140,6 +140,7 @@ export const ROUTE_META = {
     title: "Anciens sujets d'expression orale — archive par mois",
     description:
       "L'archive des sujets d'expression orale du TCF Canada, classés par année et par mois : les sujets de la Tâche 2 (interaction) et de la Tâche 3 (point de vue), par partie.",
+    noindex: true,
   },
   register: {
     path: "/inscription",
