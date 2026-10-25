@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { listProfiles, readActiveProfileId, writeActiveProfileId } from "@/services/profileService";
+import { listProfiles, readActiveProfileId, writeActiveProfileId, renameProfile } from "@/services/profileService";
 import { setActiveProfileId } from "@/utils/activeProfile";
 import { deriveRole, ROLES } from "@/auth/rbac";
 
@@ -76,6 +76,28 @@ export function useProfiles(user) {
   }, [userId, select]);
 
   useEffect(() => { setReady(false); load(); }, [load]);
+
+  // An account entitled to one profile has no chooser, so nothing else can
+  // name that profile: keep it in step with the account's first name. Repairs
+  // a profile left with an old name (renamed before the profile page synced
+  // it, or created before the account had a first name) the next time the
+  // account loads.
+  // Not while the account is still finishing sign-up: its "name" is then only
+  // the start of its email address.
+  const accountName = user?.profilePending ? "" : user?.name || "";
+  const single = maxProfilesFor(user) <= 1 && profiles.length === 1;
+  useEffect(() => {
+    if (!single || !accountName) return;
+    const want = accountName.trim().replace(/\s+/g, " ").slice(0, 30);
+    const p = profiles[0];
+    if (!want || p.name === want) return;
+    renameProfile(p.id, want).then((r) => {
+      if (!r.ok) return;
+      const next = { ...p, name: want };
+      setProfiles([next]);
+      setActive((a) => (a?.id === p.id ? next : a));
+    });
+  }, [single, accountName, profiles]);
 
   // Back to the chooser, keeping the profiles already loaded.
   const switchProfile = useCallback(() => {

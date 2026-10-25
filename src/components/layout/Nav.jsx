@@ -130,7 +130,10 @@ export function Nav({ barOffset = false }) {
 
   const navLinks = navLinksForRole(NAV_LINKS, role);
   const mobileGroups = mobileNavForRole(role, user);
-  const name = user ? (activeProfile?.name || user.name) : "";
+  // The learner profile's name only where an account really holds several
+  // people (a chooser to switch between them); otherwise the account's own
+  // first name — the one the profile page edits.
+  const name = user ? (((maxProfiles > 1 || profiles.length > 1) ? activeProfile?.name : null) || user.name) : "";
   // The account's plan, shown in the account menu and at the top of the drawer.
   // Free accounts get a label too: it is the honest place to say why half the
   // site is locked.
