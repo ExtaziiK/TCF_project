@@ -110,7 +110,7 @@ function toRow(u, profiles) {
   return {
     id: u.id,
     email: u.email,
-    name: u.user_metadata?.name || u.user_metadata?.full_name || null,
+    name: u.user_metadata?.display_name || u.user_metadata?.name || u.user_metadata?.full_name || null,
     username: p.username || null,
     plan: meta.plan || "Basic",
     planLabel: meta.plan_label || null,
@@ -184,7 +184,7 @@ async function handleGet(req, res) {
   if (search) {
     users = users.filter((u) =>
       (u.email || "").toLowerCase().includes(search) ||
-      (u.user_metadata?.name || "").toLowerCase().includes(search) ||
+      (u.user_metadata?.display_name || u.user_metadata?.name || "").toLowerCase().includes(search) ||
       (profiles[u.id]?.username || "").toLowerCase().includes(search)
     );
   }

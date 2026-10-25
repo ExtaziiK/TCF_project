@@ -47,7 +47,7 @@ export const greetingLine = (firstName) => {
 
 // First name from an auth account, as the greeting uses it.
 export const firstNameOf = (user) =>
-  String(user?.user_metadata?.name || user?.user_metadata?.full_name || "").trim().split(/\s+/)[0] || "";
+  String(user?.user_metadata?.display_name || user?.user_metadata?.name || user?.user_metadata?.full_name || "").trim().split(/\s+/)[0] || "";
 
 export function signedLetter(site, inner) {
   return `

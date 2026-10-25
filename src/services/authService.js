@@ -190,7 +190,7 @@ export async function completeProfile({ name, username, country, acceptedTerms, 
   const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
   {
     const { error } = await (await getSupabase()).auth.updateUser({
-      data: { ...meta, ...(name ? { name: normalizeName(name) } : {}), ...(country ? { country } : {}), ...consent, profile_pending: false },
+      data: { ...meta, ...(name ? { name: normalizeName(name), display_name: normalizeName(name) } : {}), ...(country ? { country } : {}), ...consent, profile_pending: false },
     });
     if (error) return { error };
   }
@@ -248,7 +248,10 @@ export function mapSupabaseUser(session) {
   if (!authUser) return null;
   return {
     id: authUser.id,
-    name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
+    // `display_name` first: it is the name chosen on the site (profile page,
+    // sign-up popup). `name` / `full_name` are rewritten from Google on every
+    // Google sign-in, which silently undid a renamed profile at the next login.
+    name: authUser.user_metadata?.display_name || authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
     // An email account created with only an address and a password: first
@@ -278,10 +281,12 @@ export async function getProfile() {
   return { username: data?.username || null, createdAt: user.created_at };
 }
 
-// Updates the display name (user_metadata.name), preserving other metadata.
+// Updates the display name, preserving other metadata. Written to
+// `display_name`, which Google sign-in leaves alone (it rewrites `name` and
+// `full_name` at every login); `name` is kept in step for older readers.
 export async function updateDisplayName(name) {
   const { data: { user } } = await (await getSupabase()).auth.getUser();
-  return (await getSupabase()).auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name) } });
+  return (await getSupabase()).auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name), display_name: normalizeName(name) } });
 }
 
 // Renames the username in the profiles table. Stored lowercased; the unique
