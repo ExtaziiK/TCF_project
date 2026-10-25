@@ -10,7 +10,7 @@ import { recordSocialClick } from "@/services/socialClicksService";
 // stays untracked — a mailto: is not a channel visit and would only muddy the
 // figures it sat next to.
 const channels = [
-  { label: "Courriel", d: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: Mail, tone: "text-blue-600 bg-blue-600/10" },
+  { label: "Adresse email", d: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: Mail, tone: "text-blue-600 bg-blue-600/10" },
   ...SOCIAL.map((s) => ({ label: s.label, d: s.handle, sub: s.d, href: socialHref(s), icon: SOCIAL_ICON[s.key], tone: s.tone, external: true, network: s.key })),
 ];
 
@@ -27,7 +27,7 @@ export function Contact() {
   // read); the message lands in the admin dashboard's inbox.
   const send = async () => {
     if (!form.name.trim() || !form.message.trim()) return setError(t("Indiquez au moins votre nom et votre message."));
-    if (!/.+@.+\..+/.test(form.email)) return setError(t("Entrez une adresse courriel valide."));
+    if (!/.+@.+\..+/.test(form.email)) return setError(t("Entrez une adresse email valide."));
     setBusy(true);
     const { ok } = await submitContactMessage({ ...form, userId: user?.id });
     setBusy(false);
@@ -44,13 +44,13 @@ export function Contact() {
             <div className="text-center py-10 rise">
               <CheckCircle2 size={40} className="text-emerald-500 mx-auto" />
               <p className={`mt-4 font-display font-bold text-lg ${c.text}`}>{t("Message envoyé")}</p>
-              <p className={`mt-1 text-sm ${c.sub}`}>{t("Merci ! Vous recevrez une réponse à votre courriel sous 24 h.")}</p>
+              <p className={`mt-1 text-sm ${c.sub}`}>{t("Merci ! Vous recevrez une réponse à votre adresse email sous 24 h.")}</p>
             </div>
           ) : (
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <input value={form.name} onChange={set("name")} placeholder={t("Votre nom")} aria-label={t("Nom")} className={inp} />
-                <input value={form.email} onChange={set("email")} placeholder={t("Votre courriel")} aria-label={t("Courriel")} type="email" className={inp} />
+                <input value={form.email} onChange={set("email")} placeholder={t("Votre adresse email")} aria-label={t("Adresse email")} type="email" className={inp} />
               </div>
               <input value={form.subject} onChange={set("subject")} placeholder={t("Sujet")} aria-label={t("Sujet")} className={inp} />
               <textarea value={form.message} onChange={set("message")} placeholder={t("Votre message…")} aria-label={t("Message")} rows={5} maxLength={4000} className={inp} />

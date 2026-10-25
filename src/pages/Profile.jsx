@@ -158,10 +158,10 @@ export function Profile() {
               </div>
             </div>
             <div>
-              <label className={`text-xs font-semibold ${c.sub}`}>{t("Courriel")}</label>
+              <label className={`text-xs font-semibold ${c.sub}`}>{t("Adresse email")}</label>
               <div className="relative mt-1.5">
                 <Mail size={16} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input value={user.email} disabled aria-label={t("Courriel")} className={`${inp} pl-10 opacity-60 cursor-not-allowed`} />
+                <input value={user.email} disabled aria-label={t("Adresse email")} className={`${inp} pl-10 opacity-60 cursor-not-allowed`} />
               </div>
             </div>
             <Btn small icon={Check} disabled={savingProfile} onClick={saveProfile}>{t(savingProfile ? "Enregistrement…" : "Enregistrer")}</Btn>

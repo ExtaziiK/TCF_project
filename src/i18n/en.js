@@ -349,10 +349,6 @@ export const EN = {
   "Voir les tarifs":
     "See pricing",
   // Visitors' « Sujets du mois » page (components/auth/ProductPitch.jsx).
-  "combinaisons écrites":
-    "writing combinations",
-  "sujets oraux":
-    "speaking topics",
   "Combinaison":
     "Combination",
   "Créez un compte gratuit pour voir tous les sujets":
@@ -421,6 +417,16 @@ export const EN = {
   "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous.":
     "The username change was refused. Please try again or contact us.",
   // Log-in / sign-up page (components/auth/AuthPage.jsx).
+  "Nom d'utilisateur ou adresse email":
+    "Username or email address",
+  "Adresse email":
+    "Email address",
+  "Entrez une adresse email valide.":
+    "Enter a valid email address.",
+  "Votre adresse email":
+    "Your email address",
+  "Confirmez votre adresse email avant de vous connecter.":
+    "Confirm your email address before logging in.",
   "Connexion ou inscription":
     "Log in or sign up",
   "Inscription":
@@ -431,10 +437,6 @@ export const EN = {
     "Create your",
   "compte":
     "account",
-  "Gratuit · sans carte bancaire · prêt en 30 secondes":
-    "Free · no credit card · ready in 30 seconds",
-  "Connexion sécurisée":
-    "Secure login",
   // Upgrade gate (components/auth/RouteGuard.jsx).
   "Accès complet":
     "Full access",
@@ -992,7 +994,7 @@ export const EN = {
   "Notre équipe répond en moins de 24 h ouvrables, en français ou en anglais.":
     "Our team replies within one business day, in French or in English.",
   "Message envoyé": "Message sent",
-  "Merci ! Vous recevrez une réponse à votre courriel sous 24 h.": "Thank you! You will receive a reply by email within 24 hours.",
+  "Merci ! Vous recevrez une réponse à votre adresse email sous 24 h.": "Thank you! You will receive a reply by email within 24 hours.",
   "Votre nom": "Your name",
   "Nom": "Name",
   "Votre courriel": "Your email",
@@ -1028,7 +1030,7 @@ export const EN = {
   "Réinitialiser le mot de passe": "Reset your password",
   "Reprenez votre préparation là où vous l'avez laissée.": "Pick up your preparation right where you left off.",
   "Gratuit, sans carte bancaire. Prêt en 30 secondes.": "Free, no credit card. Ready in 30 seconds.",
-  "Entrez votre courriel : nous vous enverrons un lien sécurisé.": "Enter your email: we will send you a secure link.",
+  "Entrez votre adresse email : nous vous enverrons un lien sécurisé.": "Enter your email: we will send you a secure link.",
   "Bon retour parmi nous !": "Great to see you again!",
   "Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés).":
     "First name: 2 to 40 characters, letters only (accents, - and ' allowed).",
@@ -1573,7 +1575,7 @@ export const EN = {
   "Choisissez un mot de passe d'au moins 6 caractères.": "Choose a password of at least 6 characters.",
   "La longueur compte plus que les caractères spéciaux.": "Length matters more than special characters.",
   "Ce mot de passe est trop courant.": "This password is too common.",
-  "Évitez de reprendre votre courriel ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
+  "Évitez de reprendre votre adresse email ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
   "Allongez-le : la longueur protège plus que les caractères spéciaux.":
     "Make it longer — length protects better than special characters.",
   "Mot de passe mis à jour.": "Password updated.",

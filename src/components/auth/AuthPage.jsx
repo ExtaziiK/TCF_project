@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles, ArrowLeft, ArrowRight, Star, ShieldCheck } from "lucide-react";
+import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles, ArrowLeft, ArrowRight, Star } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
@@ -75,9 +75,8 @@ function SidePanel() {
         ))}
         {[[130, 560, 0], [680, 210, 1]].map(([x, y, k]) => (
           <g key={k} transform={`translate(${x} ${y})`}>
-            <g className={moving ? "auth-twinkle" : ""} style={{ animationDelay: `${k * -1.4}s` }}>
-              <path fill={bg} stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d={STAR_PATH} />
-            </g>
+            <path className={moving ? "auth-twinkle" : ""} style={{ animationDelay: `${k * -1.4}s` }}
+              fill={bg} stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d={STAR_PATH} />
           </g>
         ))}
       </svg>
@@ -118,7 +117,7 @@ function SidePanel() {
                 <p className="mt-5 inline-flex items-center gap-1.5 text-sm">
                   {[0, 1, 2, 3, 4].map((k) => <Star key={k} size={15} className="text-amber-500" fill={k < Math.round(rating.average) ? "currentColor" : "none"} />)}
                   <strong className="font-display ml-1">{rating.average.toFixed(1).replace(".", ",")}</strong>
-                  <span className="opacity-70">· {rating.count} {t("avis")}</span>
+                  <span className="opacity-70">/ 5</span>
                 </p>
               )}
             </div>
@@ -294,7 +293,10 @@ export function AuthPage({ mode }) {
         <ArrowLeft size={16} /> {t("Accueil")}
       </button>
       <SidePanel />
-      <div className="flex items-center justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-16">
+      {/* Anchored from the top, not centred: the login and sign-up forms differ
+          in height, and centring shifted every field when switching between
+          them. */}
+      <div className="flex items-start justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-[12vh]">
       <div className="w-full max-w-md rise">
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">
@@ -320,7 +322,7 @@ export function AuthPage({ mode }) {
                 : t("Réinitialiser le mot de passe")}
           </h1>
           <p className={`text-sm mt-2 ${c.sub}`}>
-            {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre courriel : nous vous enverrons un lien sécurisé.")}
+            {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre adresse email : nous vous enverrons un lien sécurisé.")}
           </p>
         </div>
         {verify ? (
@@ -375,12 +377,12 @@ export function AuthPage({ mode }) {
             )}
             {view === "login" ? (
               <div>
-                <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou courriel")}</Label>
+                <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou adresse email")}</Label>
                 <input id="login-identifier" autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
               </div>
             ) : (
               <div>
-                <Label htmlFor="register-email">{t("Adresse courriel")}</Label>
+                <Label htmlFor="register-email">{t("Adresse email")}</Label>
                 <input id="register-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
@@ -416,11 +418,7 @@ export function AuthPage({ mode }) {
               {view === "login" ? t("Se connecter") : view === "register" ? t("Créer mon compte") : t("Envoyer le lien")}
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </button>
-            {/* A line of reassurance under the action. */}
-            <p className={`flex items-center justify-center gap-1.5 text-xs ${c.faint}`}>
-              <ShieldCheck size={14} />
-              {view === "register" ? t("Gratuit · sans carte bancaire · prêt en 30 secondes") : t("Connexion sécurisée")}
-            </p>
+
             <p className={`pt-2 text-center text-sm ${c.sub}`}>
               {view === "login" ? (<>{t("Pas encore de compte ?")} <button type="button" onClick={() => goView("register")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("S'inscrire")}</button></>) : (<>{t("Déjà inscrit·e ?")} <button type="button" onClick={() => goView("login")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("Se connecter")}</button></>)}
             </p>

@@ -41,7 +41,6 @@ export function Avis() {
         <Card className="p-6 mb-8 max-w-md mx-auto text-center">
           <p className={`font-display font-extrabold text-4xl ${c.text}`}>{rating.average.toLocaleString("fr-CA")}</p>
           <div className="mt-2 flex justify-center"><StarRating value={Math.round(rating.average)} size={20} /></div>
-          <p className={`mt-2 text-sm ${c.sub}`}>{rating.count} {t("avis notés")}</p>
         </Card>
       )}
 

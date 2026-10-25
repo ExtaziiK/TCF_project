@@ -471,7 +471,7 @@ export function passwordHint(password, { email, username } = {}) {
   const uname = String(username || "").toLowerCase();
   if (WEAK_PASSWORDS.some((w) => lower === w || lower.startsWith(w))) return "Ce mot de passe est trop courant.";
   if ((local.length >= 3 && lower.includes(local)) || (uname.length >= 3 && lower.includes(uname))) {
-    return "Évitez de reprendre votre courriel ou votre nom d'utilisateur.";
+    return "Évitez de reprendre votre adresse email ou votre nom d'utilisateur.";
   }
   if (pw.length < 10) return "Allongez-le : la longueur protège plus que les caractères spéciaux.";
   return null;
@@ -506,7 +506,7 @@ export async function signIn({ identifier, password }) {
   // email sign-in so login still works — without username or lockout.
   if (res.status === 404) {
     if (!String(identifier).includes("@")) {
-      return { ok: false, message: "En développement local, connectez-vous avec votre courriel." };
+      return { ok: false, message: "En développement local, connectez-vous avec votre adresse email." };
     }
     const { data, error } = await (await getSupabase()).auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
@@ -539,7 +539,7 @@ export async function signIn({ identifier, password }) {
     return { ok: false, locked: true, retryAfter: json.retryAfter, message: `Trop de tentatives. Réessayez dans ${mins} min ou réinitialisez votre mot de passe.` };
   }
   if (json.needsConfirmation) {
-    return { ok: false, needsConfirmation: true, message: "Confirmez votre adresse courriel avant de vous connecter." };
+    return { ok: false, needsConfirmation: true, message: "Confirmez votre adresse email avant de vous connecter." };
   }
   return {
     ok: false,
