@@ -5,6 +5,7 @@ import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 // Staff-only, and carrying the whole site index: fetched when first opened.
 const SearchOverlay = lazy(() => import("@/components/layout/SearchOverlay").then((m) => ({ default: m.SearchOverlay })));
+import { hasStoredSession } from "@/services/supabaseClient";
 import { NAV_LINKS, VISITOR_MENUS, VISITOR_LINKS, navLinksForRole, mobileNavForRole, PRATIQUE_ROUTES as HUB_ROUTES } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePendingValidations } from "@/hooks/usePendingValidations";
@@ -62,7 +63,14 @@ function CountBadge({ n, className = "" }) {
 }
 
 export function Nav({ barOffset = false }) {
-  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles, tourStep } = useApp();
+  const { c, dark, setDark, lang, setLang, t, nav, route, user, signOut, notify, role, profiles, activeProfile, switchProfile, maxProfiles, tourStep, authReady } = useApp();
+  // On a reload, the session is read asynchronously: until it is, `role` is
+  // "visitor" even for a signed-in member, and the bar used to draw the
+  // visitor version (Produit / Ressources, Connexion, S'inscrire) for a beat
+  // before switching to theirs. A browser with a saved session holds the
+  // account-dependent parts back until the session is known; a browser with
+  // none is a visitor, and gets the visitor bar at once.
+  const pending = !authReady && hasStoredSession();
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null); // which dropdown is open (by label)
   // The guided tour force-opens "Pratique" for its step rather than waiting
@@ -201,7 +209,7 @@ export function Nav({ barOffset = false }) {
 
           {/* Visitors: the SaaS-style bar — two describing dropdowns and
               « Tarifs », plain text, no track (VISITOR_MENUS). */}
-          {role === ROLES.VISITOR && (
+          {role === ROLES.VISITOR && !pending && (
             <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
               {VISITOR_MENUS.map((m) => {
                 const isOpen = openMenu === m.l;
@@ -386,7 +394,7 @@ export function Nav({ barOffset = false }) {
                   </div>
                 )}
               </div>
-            ) : (
+            ) : pending ? null : (
               // A quiet « Connexion » and one call to action.
               <div className="hidden md:flex items-center gap-1 ml-1">
                 <button type="button" onClick={() => go("login")} className={`px-3.5 py-2 rounded-full text-sm font-semibold ${c.sub} ${c.hoverSoft}`}>{t("Connexion")}</button>
@@ -418,7 +426,7 @@ export function Nav({ barOffset = false }) {
                     <button onClick={() => { setOpen(false); switchProfile(); }} aria-label={t("Changer de profil")} title={t("Changer de profil")} className={`p-3 rounded-2xl border shrink-0 ${c.border} ${c.sub} ${c.hoverSoft}`}><Users size={18} /></button>
                   )}
                 </div>
-              ) : (
+              ) : pending ? null : (
                 <div className="grid grid-cols-2 gap-2">
                   <Btn small variant="ghost" onClick={() => go("login")}>{t("Connexion")}</Btn>
                   <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
