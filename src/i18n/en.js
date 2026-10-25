@@ -402,8 +402,8 @@ export const EN = {
   // Plan status on the dashboard and profile (components/dashboard/PlanStatus.jsx).
   "Compte gratuit":
     "Free account",
-  "Passer à un accès complet":
-    "Upgrade to full access",
+  "Passer Premium":
+    "Go Premium",
   "jusqu'au":
     "until",
   "Prolonger":

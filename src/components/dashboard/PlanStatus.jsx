@@ -24,7 +24,7 @@ export function PlanStatus({ className = "" }) {
     return (
       <div className={`flex flex-wrap items-center gap-2 ${className}`}>
         <span className={`${chip} ${c.sub}`}>{t("Compte gratuit")}</span>
-        <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à un accès complet")}</Btn>
+        <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
       </div>
     );
   }

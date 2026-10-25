@@ -195,7 +195,7 @@ export function Profile() {
           ) : (
             <div className="space-y-3">
               <p className={`text-sm ${c.sub}`}>{t("Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}</p>
-              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à un accès complet")}</Btn>
+              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
             </div>
           )}
         </ProfileSection>
