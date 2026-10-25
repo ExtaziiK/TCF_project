@@ -305,7 +305,7 @@ export function AuthPage({ mode }) {
           </span>
           {/* Log in / sign up, one click apart. */}
           {(view === "login" || view === "register") && !verify && (
-            <div className={`mt-6 inline-flex p-1 rounded-full ${c.track}`} role="tablist" aria-label={t("Connexion ou inscription")}>
+            <div className={`mt-6 flex w-fit p-1 rounded-full ${c.track}`} role="tablist" aria-label={t("Connexion ou inscription")}>
               {[["login", "Connexion"], ["register", "Inscription"]].map(([v, l]) => (
                 <button key={v} type="button" role="tab" aria-selected={view === v} onClick={() => goView(v)}
                   className={`px-5 py-2 rounded-full text-sm font-bold transition ${view === v ? `${c.card} ${c.text} shadow-sm` : c.sub}`}>
