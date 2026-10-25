@@ -22,6 +22,21 @@ import { PRATIQUE_ROUTES } from "@/constants/navigation";
 const DicteePitch = lazy(() => import("@/components/dictee/DicteePitch").then((m) => ({ default: m.DicteePitch })));
 const AuthPage = lazy(() => import("@/components/auth/AuthPage").then((m) => ({ default: m.AuthPage })));
 const PITCH_PAGES = { dictee: DicteePitch };
+
+// What a VISITOR (reason "register") sees on the navbar's « Produit » pages
+// instead of the generic sign-up gate: one pitch per product, each arguing its
+// own case (components/auth/ProductPitch.jsx). The old per-épreuve routes open
+// the Épreuves hub, and every tool of the Exercices notebook but la dictée
+// (which has its own pitch above) opens the notebook's.
+const pitch = (name) => lazy(() => import("@/components/auth/ProductPitch").then((m) => ({ default: m[name] })));
+const MocksPitch = pitch("MocksPitch");
+const ExamsPitch = pitch("ExamsPitch");
+const ExercicesPitch = pitch("ExercicesPitch");
+const VISITOR_PITCH = {
+  mocks: MocksPitch,
+  ...Object.fromEntries(["exams", "practice", "listening", "reading", "writing", "speaking"].map((r) => [r, ExamsPitch])),
+  ...Object.fromEntries([...PRATIQUE_ROUTES].filter((r) => r !== "dictee").map((r) => [r, ExercicesPitch])),
+};
 const Gate = ({ children }) => <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>{children}</Suspense>;
 
 // Landing shown to visitors who try to open the free practice (or any
@@ -110,6 +125,8 @@ export function RouteGuard({ route, children, inner }) {
   // is an account page, the other a 403.
   const Pitch = PITCH_PAGES[route];
   if (Pitch && (reason === "register" || reason === "upgrade")) return <Gate><Pitch reason={reason} /></Gate>;
+  const VisitorPitch = VISITOR_PITCH[route];
+  if (VisitorPitch && reason === "register") return <Gate><VisitorPitch /></Gate>;
   if (reason === "register") return <RegisterGate />;
   if (reason === "login") return <Gate><AuthPage mode="login" /></Gate>;
   if (reason === "upgrade") return <UpgradeGate />;

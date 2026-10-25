@@ -163,7 +163,9 @@ function Item({ tool, i, active, select, auto, running, onDone }) {
 const ROUTE = [["CO", "blue", "35 min"], ["CE", "rose", "60 min"], ["EE", "violet", "60 min"], ["EO", "amber", "12 min"]];
 const BARCODE = [3, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2, 1];
 
-function MockPass({ tinted }) {
+// `cta`: the stub's button — "Passer un TCF blanc" by default; a visitor's
+// pitch page points it at the sign-up instead.
+export function MockPass({ tinted, cta = { l: "Passer un TCF blanc", r: "mocks" } }) {
   const { t, dark, c } = useApp();
   const blue = PALETTE.blue[dark ? "dark" : "light"];
   // The section behind the ticket, which the notches have to match.
@@ -224,9 +226,9 @@ function MockPass({ tinted }) {
       </div>
 
       <div className="md:w-72 p-6 md:p-8 flex flex-col items-center justify-center gap-4 rounded-b-[28px] md:rounded-bl-none md:rounded-r-[28px]" style={{ background: blue[0] }}>
-        <RouteLink r="mocks" className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold whitespace-nowrap text-white transition hover:gap-3"
+        <RouteLink r={cta.r} className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold whitespace-nowrap text-white transition hover:gap-3"
           style={{ background: blue[1] }}>
-          {t("Passer un TCF blanc")} <ArrowRight size={16} />
+          {t(cta.l)} <ArrowRight size={16} />
         </RouteLink>
         <div className="flex items-stretch gap-[2px] h-12" aria-hidden="true">
           {BARCODE.map((w, i) => <span key={i} style={{ width: w * 2, background: i % 2 ? "transparent" : (dark ? "#CBD5E1" : "#1E293B") }} />)}

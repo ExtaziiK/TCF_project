@@ -1,4 +1,5 @@
 import { useApp } from "@/context/AppContext";
+import { darkShot, lightShot } from "./heroShots";
 
 // The landing hero's product collage: real screens of the app laid out in 3D
 // beside the pitch. Two screens sit at the back along the top, the TCF blanc
@@ -30,10 +31,6 @@ import { useApp } from "@/context/AppContext";
 // are in src/assets/hero/light/ under the same names. A pair must share its
 // proportions (the épreuves light capture is trimmed to the dark one's), or
 // one of the two gets cropped in its frame.
-const DARK = import.meta.glob("/src/assets/hero/*.webp", { eager: true, query: "?url", import: "default" });
-const LIGHT = import.meta.glob("/src/assets/hero/light/*.webp", { eager: true, query: "?url", import: "default" });
-const darkShot = (name) => DARK[`/src/assets/hero/${name}.webp`];
-const lightShot = (name) => LIGHT[`/src/assets/hero/light/${name}.webp`] || darkShot(name);
 
 // [screen, position, width, depth px, float delay s] — back to front.
 const SCREENS = [

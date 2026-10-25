@@ -22,7 +22,7 @@ function split(d) {
 }
 
 export function ExamOverview() {
-  const { c, t, dark } = useApp();
+  const { c, t } = useApp();
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
       <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8 lg:gap-12 items-end">
@@ -43,14 +43,28 @@ export function ExamOverview() {
         </dl>
       </div>
 
-      <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <EpreuveCards className="mt-10" />
+
+    </div>
+  );
+}
+
+// The four épreuves as cards in the tools showcase's colours (CO blue, CE red,
+// EE violet, EO amber): size, a bar for the épreuve's share of the timing, a
+// line of description and a link. Neutral background, coloured outline. `to`
+// sends every card to one route (the sign-up, on a visitor's pitch page) and
+// `cta` names that link.
+export function EpreuveCards({ to, cta = "S'entraîner", className = "" }) {
+  const { c, t, dark } = useApp();
+  return (
+    <div className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-4 ${className}`}>
         {MOCK_SECTIONS.map((s, i) => {
-          const [bg, ink, soft] = PALETTE[TONES[i]][dark ? "dark" : "light"];
+          const [, ink, soft] = PALETTE[TONES[i]][dark ? "dark" : "light"];
           const { count, unit, min } = split(s.d);
           return (
-            <RouteLink key={s.t} r={s.route}
-              className="group flex flex-col rounded-3xl border-2 p-5 transition hover:-translate-y-1"
-              style={{ background: bg, borderColor: `${ink}55` }}>
+            <RouteLink key={s.t} r={to || s.route}
+              className={`group flex flex-col rounded-3xl border-2 p-5 transition hover:-translate-y-1 ${c.card}`}
+              style={{ borderColor: ink }}>
               <div className="flex items-center justify-between">
                 <span className="grid place-items-center w-11 h-11 rounded-2xl text-white" style={{ background: ink }}><s.icon size={20} /></span>
                 <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>0{i + 1}</span>
@@ -69,13 +83,11 @@ export function ExamOverview() {
               </div>
               <p className={`mt-4 text-sm leading-relaxed flex-1 ${c.sub}`}>{t(s.desc)}</p>
               <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold transition-all group-hover:gap-2.5" style={{ color: ink }}>
-                {t("S'entraîner")} <ArrowRight size={15} />
+                {t(cta)} <ArrowRight size={15} />
               </span>
             </RouteLink>
           );
         })}
-      </div>
-
     </div>
   );
 }

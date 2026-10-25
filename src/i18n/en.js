@@ -229,6 +229,117 @@ export const EN = {
     "The complete platform to prepare for the TCF Canada: official-format questions, scored mock exams, AI feedback and continuous tracking.",
   "Commencer gratuitement": "Start for free",
   "Mon tableau de bord": "My dashboard",
+  // Visitors' pitch pages (components/auth/ProductPitch.jsx).
+  "Gratuit, sans carte bancaire — prêt en 30 secondes.":
+    "Free, no credit card — ready in 30 seconds.",
+  "Avec un compte gratuit":
+    "With a free account",
+  "Ce que vous obtenez":
+    "What you get",
+  "Passez un vrai TCF blanc, gratuitement":
+    "Take a real mock TCF, for free",
+  "Les quatre épreuves enchaînées en conditions réelles : minutées, notées sur 699 et converties en niveaux NCLC. Chaque examen est tiré au hasard dans la banque, jamais deux fois le même.":
+    "All four tests back to back in real conditions: timed, scored out of 699 and converted into NCLC levels. Each exam is drawn at random from the bank, never the same twice.",
+  "Votre premier TCF blanc vous attend":
+    "Your first mock exam is waiting",
+  "1 TCF blanc complet":
+    "1 full mock exam",
+  "Les quatre épreuves, correction IA incluse.":
+    "All four tests, AI correction included.",
+  "Et son équivalence en niveaux NCLC pour IRCC.":
+    "And its NCLC equivalent for IRCC.",
+  "Niveau, erreurs et version améliorée de votre écrit et de votre oral.":
+    "Level, mistakes and an improved version of your writing and speaking.",
+  "Progression sauvegardée":
+    "Progress saved",
+  "Interrompez, reprenez là où vous en étiez.":
+    "Stop, then pick up where you left off.",
+  "Le déroulé":
+    "How it works",
+  "Comment se passe un TCF blanc":
+    "How a mock exam works",
+  "Créez votre compte":
+    "Create your account",
+  "30 secondes, sans carte bancaire. Votre premier TCF blanc complet est offert.":
+    "30 seconds, no credit card. Your first full mock exam is free.",
+  "Enchaînez les quatre épreuves":
+    "Take the four tests in a row",
+  "2 h 47 minutées comme le jour J. Faites une pause quand vous voulez : la progression est sauvegardée.":
+    "2 h 47, timed like the real day. Take a break whenever you want: your progress is saved.",
+  "Recevez votre résultat":
+    "Get your result",
+  "Un score sur 699 par épreuve, converti en NCLC, et la correction IA de votre écrit et de votre oral.":
+    "A score out of 699 per test, converted into NCLC, and AI correction of your writing and speaking.",
+  "Après l'examen":
+    "After the exam",
+  "Votre résultat, converti en NCLC":
+    "Your result, converted into NCLC",
+  "Le score de chaque épreuve est traduit en niveau NCLC, celui que demande IRCC pour Entrée express et la citoyenneté. Vous savez où vous en êtes, et ce qu'il reste à gagner.":
+    "Each test's score is translated into the NCLC level IRCC asks for, for Express Entry and citizenship. You know where you stand, and what is left to gain.",
+  "Essayer le calculateur NCLC":
+    "Try the NCLC calculator",
+  "Les quatre épreuves du TCF Canada, au format officiel":
+    "The four TCF Canada tests, in the official format",
+  "40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Le premier quiz de chaque épreuve est offert.":
+    "40 listening quizzes, 40 reading quizzes, and the writing and speaking tasks corrected by AI. The first quiz of each test is free.",
+  "Commencez par le premier quiz de chaque épreuve":
+    "Start with the first quiz of each test",
+  "Un quiz par épreuve":
+    "One quiz per test",
+  "Le premier quiz de chaque épreuve, au format officiel.":
+    "The first quiz of each test, in the official format.",
+  "Écrit et oral corrigés":
+    "Writing and speaking corrected",
+  "Un sujet d'expression écrite et un d'orale, avec analyse IA.":
+    "One writing and one speaking subject, with AI analysis.",
+  "Réponses expliquées":
+    "Explained answers",
+  "Chaque question corrigée, avec son explication.":
+    "Every question corrected, with its explanation.",
+  "Vos scores et vos signets, gardés d'une séance à l'autre.":
+    "Your scores and bookmarks, kept from one session to the next.",
+  "Le format":
+    "The format",
+  "Quatre épreuves, une seule plateforme":
+    "Four tests, one platform",
+  "Essayez deux vraies questions":
+    "Try two real questions",
+  "Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.":
+    "Listen to or read the document, then click an answer: the correction shows up right away.",
+  "La dictée, le vocabulaire, la grammaire et la conjugaison réunis dans un seul cahier, pour combler vos lacunes entre deux épreuves.":
+    "Dictation, vocabulary, grammar and conjugation in a single notebook, to fill your gaps between two tests.",
+  "Ouvrez votre cahier d'entraînement":
+    "Open your practice notebook",
+  "Cartes et leçons sans limite.":
+    "Cards and lessons without limit.",
+  "Leçons illimitées, 10 minutes d'exercices par jour.":
+    "Unlimited lessons, 10 minutes of exercises a day.",
+  "Pour situer votre niveau dès le départ.":
+    "To find your level from the start.",
+  "La dictée et la révision":
+    "Dictation and review",
+  "Incluses dans les accès payants.":
+    "Included in the paid passes.",
+  "En action":
+    "In action",
+  "Trois outils, en un coup d'œil":
+    "Three tools at a glance",
+  "Le cahier":
+    "The notebook",
+  "Six outils, un seul cahier":
+    "Six tools, one notebook",
+  "Un corrigé C1 écrit mot à mot, corrigé aussitôt":
+    "A C1 model text written word for word, corrected at once",
+  "Cartes par thème : immigration, travail, vie quotidienne":
+    "Cards by theme: immigration, work, daily life",
+  "Leçons courtes suivies d'exercices":
+    "Short lessons followed by exercises",
+  "Les temps du TCF, leçon puis exercices":
+    "The TCF's tenses, lesson then exercises",
+  "Vos fautes, regroupées pour les retravailler":
+    "Your mistakes, gathered to work on again",
+  "Les questions manquées, en séances ciblées":
+    "Missed questions, in targeted sessions",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",
