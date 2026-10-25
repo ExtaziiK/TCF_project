@@ -6,11 +6,13 @@ import { enforceRateLimit } from "./_lib/ratelimit.js";
 import {
   listSujets, readCached, patchCached, mintDictee, synthesizeGroups, isComplete,
   splitGroups, listLibrary, generatedToday, today, DAILY_TOTAL,
+  readAnswer, answeredKeysFor, cachedKeysFor,
 } from "./_lib/dictee.js";
 import { claimDicteeDraw } from "./_lib/dictee-quota.js";
 
-// Serves one dictée: a sujet from the Expression écrite archive, the C1/C2
-// model answer written for it, and that answer read aloud in sense groups.
+// Serves one dictée: a sujet from the Expression écrite archive, its model
+// answer — the same text its « Modèle de réponse » page shows — and that answer
+// read aloud in sense groups.
 //
 // ACCESS. Premium only. `dictee: PREMIUM` in src/auth/rbac.js is the matching
 // half and the two must never drift: this line is the one that actually holds,
@@ -141,7 +143,11 @@ export default async function handler(req, res) {
     // own history so a random draw does not hand back last week's dictée.
     const exclude = new Set(Array.isArray(req.body?.exclude) ? req.body.exclude.slice(0, 60).map(String) : []);
 
-    const pool = (await listSujets(req)).filter((s) => s.task === task);
+    // Only a sujet that can be served: already recorded, or with a model answer
+    // to record. A dictée is never written here any more — it is the subject's
+    // corrigé, written once in Admin › Sujets.
+    const [all, recorded, answered] = await Promise.all([listSujets(req), cachedKeysFor(task), answeredKeysFor(task)]);
+    const pool = all.filter((s) => s.task === task && (recorded.has(s.key) || answered.has(s.key)));
     if (!pool.length) throw new HttpError(404, "Aucun sujet disponible pour cette tâche.");
 
     /* ---- the sujet ---- */
@@ -152,8 +158,11 @@ export default async function handler(req, res) {
     } else {
       // No key named: draw one the candidate has not done, preferring anything
       // already in the library so the common case stays instant.
+      // The intro's « sujet inédit » is this path: a model answer nobody has
+      // taken down yet comes first, then anything the candidate has not done.
       const fresh = pool.filter((s) => !exclude.has(s.key));
-      const from = fresh.length ? fresh : pool;
+      const unrecorded = fresh.filter((s) => !recorded.has(s.key));
+      const from = unrecorded.length ? unrecorded : fresh.length ? fresh : pool;
       sujet = from[Math.floor(Math.random() * from.length)];
     }
 
@@ -177,11 +186,27 @@ export default async function handler(req, res) {
       }
     }
 
+    /* ---- a dictée the subject's model answer has replaced ---- */
+    // A text the dictée once wrote for itself, now that the subject has its
+    // model answer: recorded again from the answer when the day has a slot,
+    // served as it is otherwise. (`answer_id` is undefined, not null, before
+    // 20261024_ee_model_answers.sql — those rows are left alone.)
+    let answer = null;
+    let upgrade = false;
+    if (groups.length && row?.answer_id === null && answered.has(sujet.key) && (await generatedToday()) < DAILY_TOTAL) {
+      answer = await readAnswer(sujet);
+      upgrade = Boolean(answer);
+    }
+
     /* ---- not in the library at all: is there a slot to spend? ---- */
     // Asked BEFORE the candidate's own allowance is claimed, so a draw that
     // cannot be served does not cost a Starter one of their three dictées.
-    const needsMint = !groups.length;
-    if (needsMint && (await generatedToday()) >= DAILY_TOTAL) {
+    const needsMint = !groups.length || upgrade;
+    if (needsMint && !answer) {
+      answer = await readAnswer(sujet);
+      if (!answer) throw new HttpError(409, "Ce sujet n'a pas encore de modèle de réponse : sa dictée sera disponible dès qu'il sera rédigé.");
+    }
+    if (needsMint && !upgrade && (await generatedToday()) >= DAILY_TOTAL) {
       // Deliberately a 409 and not a 500: nothing failed. The client turns
       // this into "revenez demain, ou choisissez dans la bibliothèque".
       throw new HttpError(409, "Les dictées inédites du jour sont épuisées. La bibliothèque reste ouverte, et trois nouveaux textes arrivent cette nuit.");
@@ -196,11 +221,7 @@ export default async function handler(req, res) {
     /* ---- write it, if nobody ever has ---- */
     let justMinted = false;
     if (needsMint) {
-      const minted = await mintDictee(sujet);
-      logAiUsage({
-        userId: user.id, endpoint: "dictee", kind: "chat",
-        model: minted.chat.model || CHAT_MODEL_NAME, usage: minted.chat.usage, durationMs: minted.chat.ms,
-      });
+      const minted = await mintDictee(sujet, { answer });
       if (minted.tts) {
         // Neural TTS bills per character, so characters are what is metered.
         logAiUsage({

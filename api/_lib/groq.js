@@ -85,12 +85,20 @@ export const TRANSCRIBE_MODEL_NAME = TRANSCRIBE_MODEL;
 // `temperature` defaults low because the graders must be reproducible; the
 // subjects importer raises it, since rewording the same source twice with
 // identical output would defeat the point.
-export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2 } = {}) {
+// `startWith` moves one model to the front of the chain (the rest keep their
+// order as fallbacks) and `reasoningEffort` raises the thinking budget — both
+// only for writing that is generated once and kept, like the model answers;
+// every live grading call keeps the defaults. `fallback: false` keeps the call
+// on that one model: a model answer written by a weaker fallback is worse than
+// one written a minute later, so the caller waits out the 429 instead.
+export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0.2, startWith = null, reasoningEffort = "low", fallback = true } = {}) {
+  const first = CHAT_MODELS.filter((m) => m.id === startWith);
+  const chain = startWith ? (fallback ? [...first, ...CHAT_MODELS.filter((m) => m.id !== startWith)] : first) : CHAT_MODELS;
   let res, model, body;
   // Only a 429 moves to the next model. Anything else — a malformed request, an
   // unparseable reply — would fail identically everywhere, and retrying it just
   // spends a second model's allowance to reach the same error.
-  for (const candidate of CHAT_MODELS) {
+  for (const candidate of chain) {
     model = candidate.id;
     // A per-model note is appended to the FIRST system message rather than sent
     // as a separate one: some models weight a trailing system turn oddly, and
@@ -105,7 +113,7 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // that on failure, err.requestPayload below can attach the EXACT body of
     // whichever attempt actually got refused — the last one, since the loop
     // only reruns on a 429.
-    body = { model, messages: payload, temperature, max_tokens: maxTokens, reasoning_effort: "low", response_format: { type: "json_object" } };
+    body = { model, messages: payload, temperature, max_tokens: maxTokens, reasoning_effort: reasoningEffort, response_format: { type: "json_object" } };
     res = await fetch(`${GROQ_BASE}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${groqKey()}`, "Content-Type": "application/json" },
@@ -177,11 +185,42 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
 }
 
 // Transcribes an audio buffer with Whisper. Returns the transcript text.
-export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "audio/webm", language } = {}) {
+export async function groqTranscribe(buffer, opts = {}) {
+  const data = await transcribeRequest(buffer, opts);
+  return (data?.text || "").trim();
+}
+
+// The same, with timings: { text, words, segments, duration }, for the
+// Expression orale fluency measures (api/_lib/fluency.js). `prompt` primes
+// Whisper's style (there: keep the hesitations). If Groq refuses the timed
+// format (400), the plain transcription still lets the turn go through —
+// with no timings, so no measures, rather than no answer.
+export async function groqTranscribeDetailed(buffer, { prompt, ...opts } = {}) {
+  try {
+    const data = await transcribeRequest(buffer, { ...opts, prompt, verbose: true });
+    return {
+      text: (data?.text || "").trim(),
+      words: Array.isArray(data?.words) ? data.words : [],
+      segments: Array.isArray(data?.segments) ? data.segments : [],
+      duration: data?.duration ?? null,
+    };
+  } catch (err) {
+    if (err.upstreamStatus !== 400) throw err;
+    console.warn("groq transcription: format horodaté refusé, repli sur le texte seul:", err.upstreamDetail);
+    return { text: await groqTranscribe(buffer, opts), words: [], segments: [], duration: null };
+  }
+}
+
+async function transcribeRequest(buffer, { filename = "audio.webm", mime = "audio/webm", language, prompt, verbose = false } = {}) {
   const form = new FormData();
   form.append("model", TRANSCRIBE_MODEL);
   if (language) form.append("language", language);
-  form.append("response_format", "json");
+  if (prompt) form.append("prompt", prompt);
+  form.append("response_format", verbose ? "verbose_json" : "json");
+  if (verbose) {
+    form.append("timestamp_granularities[]", "word");
+    form.append("timestamp_granularities[]", "segment");
+  }
   form.append("temperature", "0");
   form.append("file", new Blob([buffer], { type: mime }), filename);
 
@@ -202,11 +241,10 @@ export async function groqTranscribe(buffer, { filename = "audio.webm", mime = "
     // spoke; logging it into a diagnostic table is a privacy step this
     // feature has no reason to take, and the metadata is what actually
     // distinguishes a working call from a refused one.
-    err.requestPayload = { model: TRANSCRIBE_MODEL, mime, filename, audioBytes: buffer.length, language: language || null };
+    err.requestPayload = { model: TRANSCRIBE_MODEL, mime, filename, audioBytes: buffer.length, language: language || null, verbose };
     throw err;
   }
-  const data = await res.json();
-  return (data?.text || "").trim();
+  return res.json();
 }
 
 // Coerces the model's JSON into the exact shape the UI expects, dropping any

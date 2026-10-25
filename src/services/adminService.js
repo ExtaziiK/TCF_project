@@ -43,7 +43,9 @@ async function adminFetch(path, options = {}) {
   }
   if (res.status === 404) return { ok: false, unavailable: true };
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) return { ok: false, error: json.error || `Erreur ${res.status}` };
+  // status and retryAfterMs travel so a caller that can wait (the model-answer
+  // generator, on Groq's per-minute limit) knows for how long.
+  if (!res.ok) return { ok: false, error: json.error || `Erreur ${res.status}`, status: res.status, retryAfterMs: json.retryAfterMs || null };
   return { ok: true, data: json };
 }
 
@@ -179,14 +181,15 @@ export function generateSujetsFromSource(section, known = []) {
   return adminFetch("/api/admin/sujets", { method: "POST", body: JSON.stringify({ section, known }) });
 }
 
-// Writes the three model answers for ONE Expression écrite combinaison and
-// stores them. One combinaison per call on purpose — the whole month would run
-// past the serverless time limit; the caller loops. See
+// Advances THE model answer of one Expression écrite (combinaison, tâche) by
+// one step — write, fix, proofread, grade or revise — and publishes it on the
+// last one if it cleared the bar. The caller sends back the `draft` it got
+// until `done`, and waits `retryAfterMs` on a 429. See
 // api/_lib/admin/sujetAnswers.js.
-export function generateSujetAnswers({ section, year, monthNum, n, t1, t2, t3 }) {
+export function generateSujetAnswer({ section, year, monthNum, n, tache, t1, t2, t3, draft = null }) {
   return adminFetch("/api/admin/sujet-answers", {
     method: "POST",
-    body: JSON.stringify({ section, year, monthNum, n, t1, t2, t3 }),
+    body: JSON.stringify({ section, year, monthNum, n, tache, t1, t2, t3, draft }),
   });
 }
 

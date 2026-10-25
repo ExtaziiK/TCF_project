@@ -1,9 +1,11 @@
 import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { groqChatJSON, groqTranscribe, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
-import { synthesizeFrench, TTS_MODEL_NAME } from "./_lib/tts.js";
+import { groqChatJSON, groqTranscribe, groqTranscribeDetailed, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
+import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js";
 import { logAiUsage, logIncident } from "./_lib/usage.js";
 import { recordFailure, handleClientError, serverContext } from "./_lib/failureContext.js";
+import { openingLine, PREP_END_LINE, CLOSING_TIME_UP, CLOSING_DONE, T3_MAX_RELANCES } from "./_lib/eoLines.js";
+import { FILLER_PROMPT, stripFillers, measureFluency, withEndingPause, sanitizeFluency, aggregateFluency, fluencyBrief, silenceTip } from "./_lib/fluency.js";
 
 // Expression orale — AI evaluation of a candidate's spoken response.
 // 1) Whisper (whisper-large-v3-turbo) transcribes the recording.
@@ -14,14 +16,15 @@ import { recordFailure, handleClientError, serverContext } from "./_lib/failureC
 // Two modes share this function (one endpoint keeps us inside Vercel Hobby's
 // 12-function cap, same reason api/admin is consolidated):
 //   - default: one-shot transcript + evaluation (legacy flow)
-//   - mode "dialogue": one turn of the Tâche 2 (Interaction) simulation —
-//     transcribe the candidate's answer, then either reply in character as the
-//     candidate's interlocutor (never as a helper) or grade the whole exchange.
-//     The interview ends, and is graded, at whichever comes first: the
-//     candidate's answer after MAX_EXCHANGES follow-ups, or the client's
-//     speaking timer running out (it sends `final: true` on that turn). The
-//     client keeps the dialogue state and sends it back as `history`; the
-//     function stays stateless.
+//   - mode "dialogue": one turn of a tâche run as a live interview, like the
+//     exam (Tâche 1 entretien dirigé, Tâche 2 interaction, Tâche 3 point de
+//     vue) — transcribe the candidate's answer, then either reply in
+//     character (never as a helper) or grade the whole exchange. The
+//     interview ends, and is graded, when the client's clock runs out (it
+//     sends `final: true`, with or without a last recording), or at the
+//     MAX_EXCHANGES safety ceiling. The client keeps the dialogue state and
+//     sends it back as `history`; the function stays stateless.
+//     `action: "opening"` voices the examiner's line that opens a tâche.
 
 const system = (lang) => `You are a certified TCF Canada examiner grading the Expression orale (spoken expression) section from a TRANSCRIPT of the candidate's speech.
 Assess: relevance to the task, task coverage, vocabulary range, grammar, and fluency/coherence. You only have the transcript, so DO NOT judge pronunciation or accent.
@@ -54,37 +57,82 @@ Respond with ONLY a minified JSON object of this exact shape:
 
 /* ------------------------- dialogue (interview) mode ------------------------ */
 
-// The interview ends on TIME (the client sends `final: true` when the task's
-// speaking budget runs out), not on a fixed number of exchanges. This is only a
-// safety ceiling so a broken/tampered client can't loop forever: at this many
-// interlocutor replies the server grades regardless of what the client asked.
-// How many follow-up questions the interlocutor asks before the interview ends
-// and is graded. Tâche 2 is a short interaction, not an open conversation: the
-// candidate speaks, gets three follow-ups, answers the last one, and the
-// exchange is evaluated. The client's speaking timer can still end it earlier
-// (`final: true`); this is what ends it on its own.
-export const MAX_EXCHANGES = 3;
+// The interview ends on TIME: the client sends `final: true` when the task's
+// clock runs out, as the examiner cuts in on exam day. This is only a safety
+// ceiling so a broken/tampered client can't loop forever: at this many
+// examiner/interlocutor lines the server grades regardless of what the client
+// asked. A strong Tâche 2 candidate asks 8 to 10 questions in 3 min 30, so the
+// ceiling sits well above that.
+export const MAX_EXCHANGES = 16;
+
+// Which tâche a request is about (1, 2 or 3). Anything else is the Tâche 2
+// interaction, the only dialogue that existed before Tâches 1 and 3 became
+// interviews too.
+export const dialogueTask = (raw) => ([1, 2, 3].includes(Number(raw)) ? Number(raw) : 2);
 
 // The exchange itself is always in French (it's a French exam); only the
 // final feedback follows the user's UI language, like the one-shot mode.
-// The AI plays the CANDIDATE'S INTERLOCUTOR (the person they're talking to),
-// NOT an examiner: it reacts briefly and realistically and never helps,
-// mirroring how Tâche 2 (Interaction) actually runs.
-export const followUpSystem = `Tu es l'interlocuteur de la tâche 2 de l'épreuve d'Expression orale du TCF Canada. Tu joues uniquement le rôle de la personne avec laquelle le candidat échange. Tu ne l'aides jamais, tu ne corriges jamais ses erreurs, tu ne donnes ni idées, ni suggestions, ni vocabulaire. Tu réponds uniquement à la dernière intervention du candidat par UNE phrase courte, naturelle et réaliste, comme le ferait une personne dans une conversation. Ne pose jamais de question, sauf si la consigne de la tâche l'exige explicitement. Tes réponses doivent rester neutres, parfois peu développées, et ne doivent pas relancer la conversation de manière artificielle. Ne sors jamais du contexte de la tâche et n'ajoute aucune explication ou commentaire.
-Règles supplémentaires :
-- Réponds en une seule phrase complète.
-- Maximum 10 à 15 mots.
-- Ton naturel, poli et neutre.
-- Ne reformule pas les propos du candidat.
-- Ne donne aucun conseil, aucune correction et aucun indice.
-- Ne fais pas avancer la conversation plus que nécessaire.
-- Ne pose aucune question.
-- Réagis uniquement à ce que le candidat vient de dire.
+// Shared by every tâche: what the AI must never do, and the reply format.
+const NEVER_HELP = `Tu ne l'aides jamais : tu ne corriges jamais ses erreurs, tu ne donnes ni idées, ni arguments, ni suggestions, ni vocabulaire, et tu ne reformules pas ses propos. Ne sors jamais du contexte de la tâche et n'ajoute aucune explication ni commentaire sur sa performance. Vouvoie le candidat. Parle comme à l'oral, de façon vivante et naturelle, pas comme un texte écrit.
+S'il te demande de répéter ou dit qu'il n'a pas compris, répète ta dernière intervention plus simplement, sans rien ajouter.
 Les répliques du candidat sont des transcriptions automatiques (Whisper) : ignore les petites fautes de transcription et ne juge jamais la prononciation.
-Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réponse, en français>"}`;
+Réponds UNIQUEMENT avec un objet JSON minifié de cette forme : {"reply":"<ta réplique, en français>"}`;
 
-export const finalSystem = (lang) => `You are a certified TCF Canada examiner grading the Expression orale — Tâche 2 (Interaction). In this task the candidate carries out a real-life exchange (asking for information, making a request, arranging something, etc.) with an interlocutor whose role was played by an assistant; that interlocutor only reacted briefly and never helped. You are given the full dialogue; the candidate's lines are Whisper transcripts, so ignore minor transcription noise and DO NOT judge pronunciation or accent.
-Evaluate ONLY the candidate's contributions: relevance to the task, how well they carried out the interaction (asking clear and appropriate questions, reacting to the interlocutor, and sustaining the exchange), vocabulary range, grammar, and fluency/coherence.
+// Tâche 1 — Entretien dirigé. The examiner asked the candidate to introduce
+// themselves and keeps the conversation going with short personal questions.
+export const t1System = `Tu es l'examinateur de la tâche 1 (entretien dirigé) de l'épreuve d'Expression orale du TCF Canada. Tu as demandé au candidat de se présenter ; tu mènes maintenant un échange simple avec une personne que tu ne connais pas.
+À chaque intervention du candidat, pose UNE question courte (15 mots maximum) : soit elle rebondit sur ce qu'il vient de dire (« Vous travaillez dans quel domaine ? »), soit elle ouvre un autre aspect de sa vie qu'il n'a pas encore abordé (famille, études, travail, ville, loisirs, voyages, projets au Canada).
+Ne repose jamais une question déjà posée et ne donne pas ton propre avis. Tu peux commencer par un bref accusé de réception neutre (« D'accord. », « Je vois. », « Très bien. »), mais jamais par un compliment ni un jugement (« très intéressant », « excellent »).
+${NEVER_HELP}`;
+
+// Tâche 2 — Exercice en interaction. The AI plays the person the candidate
+// is talking to (the club employee, the landlord...). The candidate leads,
+// but a real examiner in role ANSWERS: prices, hours, places, conditions —
+// invented, and consistent with what was already said. Without that the
+// candidate has nothing to react to, which is not how the exam runs.
+export const followUpSystem = `Tu es l'interlocuteur de la tâche 2 (exercice en interaction) de l'épreuve d'Expression orale du TCF Canada. Tu joues uniquement le rôle de la personne que le candidat sollicite dans la situation décrite par la consigne (employé, vendeur, propriétaire, voisin, ami...). C'est le candidat qui mène l'échange et qui pose les questions.
+Règles :
+- Réponds à ce que le candidat vient de dire, en 1 ou 2 phrases courtes (30 mots maximum), naturelles et polies, comme une vraie personne dans cette situation.
+- Quand il pose une question, donne une réponse CONCRÈTE et plausible (prix, horaires, adresse, durée, conditions, documents à fournir...) que tu inventes, en restant cohérent avec ce que tu as déjà dit dans l'échange.
+- Ne donne pas d'informations qu'il n'a pas demandées et ne relance pas la conversation à sa place : s'il ne pose pas de question (salutation, remerciement, remarque), réponds brièvement et laisse-le poursuivre.
+- Si sa question est floue ou incomplète, tu peux demander une courte précision (« Pour quel jour ? »).
+- Au plus UNE fois dans tout l'échange, et pas dès le début, tu peux introduire une petite difficulté réaliste (complet, condition supplémentaire, horaire qui ne convient pas) à laquelle il devra réagir.
+${NEVER_HELP}`;
+
+// Tâche 3 — Expression d'un point de vue. The candidate argues; the examiner
+// steps in briefly to make them develop or defend their position.
+export const t3System = `Tu es l'examinateur de la tâche 3 (expression d'un point de vue) de l'épreuve d'Expression orale du TCF Canada. Tu as donné un sujet ; le candidat défend son opinion dans un monologue. Tu n'interviens que lorsqu'il s'arrête de parler, pour le relancer.
+Relance-le par UNE question courte (25 mots maximum) qui l'amène à développer ce qu'il a déjà dit. Choisis la plus utile :
+- une demande d'exemple concret ;
+- une demande de précision ou de conséquence sur un argument qu'il vient d'avancer ;
+- l'autre point de vue (« Pourtant, certains pensent que... »), pour qu'il défende ou nuance sa position.
+Tu peux commencer par un bref accusé de réception neutre (« D'accord. », « Je vois. »), jamais un compliment ni un jugement. Ne répète jamais une objection déjà faite. Ne donne pas ton avis comme une vérité et ne lui fournis jamais d'argument en faveur de sa position.
+${NEVER_HELP}`;
+
+export const replySystem = (task) => (task === 1 ? t1System : task === 3 ? t3System : followUpSystem);
+
+// The last line of the user message: an explicit request for the next line.
+// Without it, gpt-oss-20b often "thinks" two words ("Need reply.") and stops
+// with an EMPTY answer — Groq's json_validate_failed, which broke the turn.
+// Measured live on the Tâche 2 role-play: 3/8 replies without it, 8/8 with
+// it. The Tâche 2 one also keeps the interlocutor from volunteering what was
+// not asked (it began listing hours and activities when asked for prices).
+export const replyRequest = (task) =>
+  task === 2
+    ? `Écris maintenant ta prochaine réplique : réponds seulement à ce que le candidat vient de dire ou de demander, sans rien ajouter d'autre. Format JSON : {"reply":"..."}`
+    : task === 3
+      ? `Le candidat vient de s'arrêter de parler. Écris maintenant ta relance, en suivant tes consignes. Format JSON : {"reply":"..."}`
+      : `Écris maintenant ta prochaine intervention, en suivant tes consignes. Format JSON : {"reply":"..."}`;
+
+// What each tâche asks of the candidate, for the grader.
+const TASK_BRIEF = {
+  1: "Expression orale — Tâche 1 (Entretien dirigé). The examiner asked the candidate to introduce themselves, then asked short personal follow-up questions. Judge whether the candidate presents themselves clearly and in enough detail (family, studies or work, interests, projects), answers each question actually asked, and develops answers beyond a single sentence.",
+  2: "Expression orale — Tâche 2 (Interaction). The candidate carries out a real-life exchange (asking for information, making a request, arranging something, etc.) with an interlocutor whose role was played by an assistant; that interlocutor answered the candidate's questions but never helped. Judge how well the candidate carried out the interaction: opening it appropriately, asking clear, varied and relevant questions, reacting to the answers and to any difficulty raised, and closing politely.",
+  3: "Expression orale — Tâche 3 (Expression d'un point de vue). The examiner gave a question and stepped in with objections or requests for examples. Judge whether the candidate states a clear opinion, supports it with organised arguments and concrete examples, and responds to the examiner's objections by defending or nuancing their position.",
+};
+
+export const finalSystem = (lang, task = 2) => `You are a certified TCF Canada examiner grading the ${TASK_BRIEF[dialogueTask(task)]} You are given the full dialogue; the candidate's lines are Whisper transcripts, so ignore minor transcription noise and DO NOT judge pronunciation or accent.
+Evaluate ONLY the candidate's contributions, never the examiner's or interlocutor's lines: relevance to the task, how well they carried it out, vocabulary range, grammar, and fluency/coherence.
 Be encouraging but honest and concrete.
 GRADE THE WAY A TCF RATER DOES. The TCF Canada scores Expression orale OUT OF 20, not in CEFR letters, so give a score out of 20 — the scale of the official grid and of the candidate's score report.
 Score each criterion out of 20 first, then the overall score, placed at the level the candidate SUSTAINS rather than a blind average.
@@ -92,8 +140,14 @@ The criteria you CAN judge here:
 1. Respect de la consigne — is the task actually carried out, at the expected length and register? A fluent response about a DIFFERENT subject than the one asked — not one missed point among several, a different topic entirely — is hors-sujet: see the 0-3 band below, which applies regardless of how fluent the (wrong-topic) speech is.
 2. Compétence lexicale — range and precision of the vocabulary, and repetition.
 3. Compétence morphosyntaxique — range and control of structures.
-The official grid also marks PHONOLOGY, and you cannot: you are reading a Whisper transcript, so pronunciation, accent and fluency are invisible to you. Ignore that criterion entirely rather than guessing at it, and never mention pronunciation.
-Allow for the spoken register. Repetitions, hesitations, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
+The official grid also marks PHONOLOGY. Pronunciation and accent are invisible in a transcript: never judge or mention them.
+FLUENCY, however, you can judge. The transcript keeps the candidate's hesitations ("euh", "hum"), and you may be given FLUENCY MEASURES taken from the audio: effective speaking time, speech rate, long pauses, hesitations per minute, and the delay before answering. They are indicative (automatic timings): read them together with the transcript, the way a rater listens. Weigh them with the CEFR fluency descriptors:
+- A few hesitations and short pauses are normal in speech, even at C1: never penalise them.
+- B1: speech stays comprehensible, but pauses to search for words and repairs are FREQUENT.
+- B2: a fairly even tempo; the candidate may hesitate while searching for structures, with few noticeably long pauses.
+- C1-C2: fluent and spontaneous, almost effortless; only a conceptually difficult subject slows the flow.
+So long pauses several times a minute, a heavy density of fillers, a very slow rate (below about 80 words per minute) or long delays before answering hold the overall score at the level that fluency shows, whatever the vocabulary and grammar. A candidate who spoke for only a small part of the time available has not fully carried out the task: count it under Respect de la consigne. When fluency weighs on the score, say so in the summary or an improvement, citing the measure (e.g. "6 pauses de plus de 3 secondes"). If no measures are given, judge fluency only from what the transcript shows and do not guess.
+Allow for the spoken register. Repetitions, restarts and simpler syntax are normal in speech and must not be marked as harshly as in writing; transcription noise is not a candidate error.
 What the overall score means — judge what is IN FRONT OF YOU against these markers, not against where candidates typically land:
 - 0-3: not a genuine attempt at the task in French — unintelligible, another language, OR a fluent response that is hors-sujet (a different subject than the one asked). Nothing here to credit, however good the French is: this is NOT the same as a response that stays on the right subject but misses length or one point among several, which stays a normal consigne-criterion penalty under SUSTAINS. If anywhere in your own reasoning you would describe the response as off-topic, that IS this band — score it here, not averaged into a higher one. This is BELOW the A2 band, not a soft version of it.
 - 4-5 (A2): isolated words and formulaic sentences, very limited vocabulary.
@@ -102,8 +156,8 @@ What the overall score means — judge what is IN FRONT OF YOU against these mar
 - 14-15 (C1): fluent and nuanced, precise vocabulary, controlled structures. Look for: idiomatic connectors beyond the basic set ("en définitive", "cela dit", "dans la mesure où"), correct conditional or subjunctive where the answer calls for it, and genuine nuance (weighing both sides, qualifying a claim) rather than a flat opinion. One or two minor slips do not pull a text showing these back to B2.
 - 16-20 (C2): everything C1 shows, plus total ease with register throughout the response (not just one strong moment) and no errors at all, including subtle ones.
 A response showing the C1 markers above IS C1 — do not cap it at B2 out of caution, and one clearly showing the C2 markers IS C2. Underscoring a strong response misleads a candidate exactly as much as inflating a weak one: told they speak at B2 when they speak at C1, they may retake an exam they didn't need to. As background only, most real candidates OVERALL sit between 6 and 13 — that is a population statistic, not a target, and it must never pull down a response that clearly shows the C1 or C2 markers above. Do not inflate either: a generous score for a weak response misleads someone about to pay for a real exam. If the transcript gives you nothing to credit, score 0-3 — do not reach for a mid-range number just because one is expected.
-REWRITES — pick 3 to 5 passages of the CANDIDATE's OWN words, copied word for word from their lines in the dialogue, and show each at a higher level. NEVER a line spoken by the interlocutor. Choose what gains most: flat or repeated vocabulary, vague words ("chose", "faire", "il y a"), a clumsy structure. NEVER rewrite a hesitation, restart or filler word by itself ("euh", a repeated "donc") — those are normal in speech, not a fault to fix; pick passages for their VOCABULARY or GRAMMAR, not their disfluency.
-- "before": copied WORD FOR WORD from one of the candidate's own lines — never the interlocutor's. Never paraphrased, never invented, never the same passage twice.
+REWRITES — pick 3 to 5 passages of the CANDIDATE's OWN words, copied word for word from their lines in the dialogue, and show each at a higher level. NEVER a line spoken by the examiner or interlocutor. Choose what gains most: flat or repeated vocabulary, vague words ("chose", "faire", "il y a"), a clumsy structure. NEVER rewrite a hesitation, restart or filler word by itself ("euh", a repeated "donc") — those are normal in speech, not a fault to fix; pick passages for their VOCABULARY or GRAMMAR, not their disfluency.
+- "before": copied WORD FOR WORD from one of the candidate's own lines — never the examiner's or interlocutor's. Never paraphrased, never invented, never the same passage twice.
 - "after": a genuine rewrite of that exact passage — same meaning, clearly higher level: precise vocabulary, better connector, cleaner structure. NEVER a placeholder — if you cannot rewrite the passage for real, drop that pair instead of inventing one.
 - "why": one short phrase, e.g. "vocabulaire plus précis".
 NEVER for a 0-3 response: there is nothing worth polishing about a fluent answer to the wrong question, or about unintelligible speech.
@@ -151,11 +205,16 @@ function normalizeTranscript(s) {
     .trim();
 }
 
+const PROMPT_ECHO = normalizeTranscript(stripFillers(FILLER_PROMPT));
+
 // True when the recording carries no real speech: empty, near-silent, or only
 // a Whisper hallucination (possibly repeated).
 function isSilent(transcript) {
   if (!transcript || transcript.replace(/\s/g, "").length < 3) return true;
-  let norm = normalizeTranscript(transcript);
+  // Hesitations alone ("euh... hum") are not an answer, and on silence Whisper
+  // can echo back the prompt that primes it to keep them.
+  let norm = normalizeTranscript(stripFillers(transcript));
+  norm = norm.split(PROMPT_ECHO).join(" ");
   for (const phrase of WHISPER_HALLUCINATIONS) norm = norm.split(phrase).join(" ");
   return norm.replace(/\s/g, "").length < 3;
 }
@@ -170,8 +229,13 @@ function isSilent(transcript) {
 // another follow-up instead of a grade.
 export function dialogueWillGrade(body) {
   if (body?.final === true || body?.final === "true") return true;
-  return sanitizeHistory(body?.history).filter((m) => m.role === "examiner").length >= MAX_EXCHANGES;
+  return sanitizeHistory(body?.history).filter((m) => m.role === "examiner").length >= examinerCeiling(dialogueTask(body?.task));
 }
+
+// Most examiner lines a dialogue may hold before the next answer is graded
+// instead of answered. Tâche 3 is a monologue: its opening question, then at
+// most T3_MAX_RELANCES relances when the candidate falls silent.
+export const examinerCeiling = (task) => (task === 3 ? 1 + T3_MAX_RELANCES : MAX_EXCHANGES);
 
 function sanitizeHistory(raw) {
   if (!Array.isArray(raw)) return [];
@@ -211,7 +275,9 @@ const MIN_AUDIO_BYTES = 1024;
 // null rather than "" so the response can say `silentRecording`: the page then
 // explains a MICROPHONE problem (muted, held by another app, in-app browser)
 // instead of "no speech detected", which reads as "you said nothing".
-async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint }) {
+// `timed`: the interview turns ask for word timings and keep the hesitations,
+// for the fluency measures, and get { text, fluency } back instead of the text.
+async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint, timed = false }) {
   if (buffer.length < MIN_AUDIO_BYTES) {
     await logIncident({
       userId: user.id, endpoint, status: 0,
@@ -221,13 +287,35 @@ async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint
     return null;
   }
   const transcribeStart = Date.now();
-  const transcript = await groqTranscribe(buffer, {
-    filename: `speech.${extForMime(mime)}`,
-    mime,
-    language,
-  });
+  const opts = { filename: `speech.${extForMime(mime)}`, mime, language };
+  const result = timed
+    ? await groqTranscribeDetailed(buffer, { ...opts, prompt: FILLER_PROMPT })
+    : await groqTranscribe(buffer, opts);
   logAiUsage({ userId: user.id, endpoint, kind: "transcription", model: TRANSCRIBE_MODEL_NAME, audioBytes: buffer.length, durationMs: Date.now() - transcribeStart });
-  return transcript;
+  if (!timed) return result;
+  return { text: result.text, fluency: measureFluency(result) };
+}
+
+// Voices an examiner line via the TTS provider; {} (no key / API failure)
+// degrades to a text-only turn, spoken client-side if a voice exists there.
+// Character count is metered as "tokens" — neural TTS bills per character.
+async function voiceLine(user, line) {
+  const ttsStart = Date.now();
+  const tts = await synthesizeFrench(line, { voice: EXAMINER_VOICE });
+  if (!tts) return {};
+  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
+  return { audio: tts.audio, audioMime: "audio/mpeg" };
+}
+
+// The examiner's fixed lines (api/_lib/eoLines.js): the briefing that opens a
+// tâche (built from the task and its subject), or with `stage: "prep-end"`
+// the end of the Tâche 2 preparation. Never free text from the client, so
+// this can't be used as a general text-to-speech service. Nothing is graded.
+async function openingTurn(res, user, body) {
+  const task = dialogueTask(body.task);
+  const line = body.stage === "prep-end" ? PREP_END_LINE : openingLine(task, body.prompt, { exam: body.exam === true });
+  if (!line) return res.status(200).json({ line: "" });
+  return res.status(200).json({ line, ...(await voiceLine(user, line)) });
 }
 
 // `claim` is the analysis reserved for a turn that was expected to grade
@@ -236,42 +324,79 @@ async function transcribeOrSilence(req, user, buffer, { mime, language, endpoint
 // end of its interview with nothing left to grade it.
 async function dialogueTurn(res, user, body, req, claim) {
   const { audio = "", mime = "audio/webm", prompt = "", taskLabel = "", lang = "fr" } = body;
-  // The client sets this when the task's speaking time has run out: grade now
-  // instead of asking for another exchange.
+  const task = dialogueTask(body.task);
+  // The client sets this when the task's time has run out: grade now instead
+  // of asking for another exchange.
   const timeUp = body.final === true || body.final === "true";
-  const buffer = decodeAudio(audio);
-
-  const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue" });
-  const silentRecording = heard === null || undefined;
-  const transcript = heard || "";
-
+  // `finished`: the candidate chose "Terminer cette tâche" — the examiner
+  // closes without saying the time ran out.
+  const endLine = body.finished === true ? CLOSING_DONE : CLOSING_TIME_UP;
   const history = sanitizeHistory(body.history);
+  // Each earlier answer's fluency measures, kept by the client like the dialogue.
+  const pastFluency = sanitizeFluency(body.fluency);
 
-  // Voices an examiner line via the TTS provider; null (no key / API failure)
-  // degrades to a text-only turn, spoken client-side if a voice exists there.
-  // Character count is metered as "tokens" — neural TTS bills per character.
-  const voiceLine = async (line) => {
-    const ttsStart = Date.now();
-    const tts = await synthesizeFrench(line);
-    if (!tts) return {};
-    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "tts", model: TTS_MODEL_NAME, usage: { total_tokens: line.length }, audioBytes: tts.bytes, durationMs: Date.now() - ttsStart });
-    return { audio: tts.audio, audioMime: "audio/mpeg" };
-  };
-
-  const buildUserMsg = (dialogue) =>
+  const buildUserMsg = (dialogue, fluency) =>
     [
       taskLabel && `Tâche : ${String(taskLabel).slice(0, 200)}`,
       prompt && `Consigne donnée au candidat : ${String(prompt).slice(0, 1000)}`,
       `Dialogue :\n"""\n${dialogue}\n"""`,
+      fluencyBrief(fluency),
+      // A tip on the silences is added after grading (silenceTip): keep the
+      // grader from writing a second, vaguer one.
+      silenceTip(fluency) && "Un conseil sur les silences, avec ces chiffres, sera ajouté automatiquement aux points à améliorer : n'en écris pas un autre.",
     ]
       .filter(Boolean)
       .join("\n");
-  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? "Interlocuteur" : "Candidat"} : ${m.text}`).join("\n");
+  const speaker = task === 2 ? "Interlocuteur" : "Examinateur";
+  const renderDialogue = (turns) => turns.map((m) => `${m.role === "examiner" ? speaker : "Candidat"} : ${m.text}`).join("\n");
   // What normalizeFeedback verifies a rewrite's "before" against — the
   // candidate's OWN lines only, joined. Built the same way renderDialogue
   // reads `turns`, so a "before" quote that actually belongs to the
-  // interlocutor can never pass verification and be shown as the candidate's.
+  // examiner can never pass verification and be shown as the candidate's.
   const candidateSpeech = (turns) => turns.filter((m) => m.role === "candidate").map((m) => m.text).join(" ");
+
+  // `measures`: the fluency of every answer graded (api/_lib/fluency.js),
+  // summed for the grader and handed back with the feedback for the page.
+  const grade = async (turns, closing, extra = {}, measures = pastFluency) => {
+    const fluency = aggregateFluency(measures);
+    const gradeStart = Date.now();
+    const { json: raw, usage, model: usedModel } = await groqChatJSON([
+      { role: "system", content: finalSystem(lang, task) },
+      { role: "user", content: buildUserMsg(renderDialogue(turns), fluency) },
+    ], { temperature: 0 });
+    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - gradeStart });
+    // The closing line lives here (not client-side) so it comes out in the
+    // same examiner voice as the rest of the exchange.
+    const graded = normalizeFeedback(raw, candidateSpeech(turns));
+    // Not on a 0-3 (hors-sujet or no real attempt): the one improvement there
+    // is to attempt the task at all.
+    const tip = graded.score > 3 ? silenceTip(fluency, lang) : "";
+    const feedback = {
+      ...graded,
+      // First, so it is read: silence is the one fault every answer can fix.
+      ...(tip ? { improvements: [tip, ...(graded.improvements || [])].slice(0, 4) } : {}),
+      ...(fluency ? { fluency } : {}),
+    };
+    return res.status(200).json({ ...extra, feedback, closing, done: true, ...(await voiceLine(user, closing)) });
+  };
+
+  // Time ran out while the examiner was talking or the candidate had not
+  // started answering yet: there is no new recording, only what was said.
+  if (timeUp && !audio) {
+    if (!history.some((m) => m.role === "candidate")) {
+      await releaseAiUse(claim);
+      return res.status(200).json({ empty: true, capped: true, ended: true, reprompt: endLine, ...(await voiceLine(user, endLine)) });
+    }
+    return grade(history, endLine, { transcript: "" });
+  }
+
+  const buffer = decodeAudio(audio);
+  const heard = await transcribeOrSilence(req, user, buffer, { mime, language: "fr", endpoint: "expression-orale-dialogue", timed: true });
+  const silentRecording = heard === null || undefined;
+  const transcript = heard?.text || "";
+  // This answer's measures; null when Whisper gave no timings. `silenceEnd`:
+  // the page ended the turn after that many seconds of silence (counted as a pause).
+  const fluency = withEndingPause(heard?.fluency || null, body.silenceEnd);
 
   // Nothing intelligible was said (silence, or only a Whisper hallucination).
   // Re-prompt the candidate to answer — up to MAX_EMPTY_REPROMPTS times — WITHOUT
@@ -284,53 +409,37 @@ async function dialogueTurn(res, user, body, req, claim) {
     if (!timeUp && emptyStreak < MAX_EMPTY_REPROMPTS) {
       await releaseAiUse(claim);
       const line = EMPTY_REPROMPTS[Math.min(emptyStreak, EMPTY_REPROMPTS.length - 1)];
-      return res.status(200).json({ empty: true, silentRecording, transcript: "", reprompt: line, ...(await voiceLine(line)) });
+      return res.status(200).json({ empty: true, silentRecording, transcript: "", reprompt: line, ...(await voiceLine(user, line)) });
     }
     if (!history.some((m) => m.role === "candidate")) {
       await releaseAiUse(claim);
       const line = "Je n'ai pas entendu de réponse. Nous allons nous arrêter ici ; vous pourrez reprendre l'entretien quand vous le souhaitez.";
-      return res.status(200).json({ empty: true, silentRecording, capped: true, ended: true, reprompt: line, ...(await voiceLine(line)) });
+      return res.status(200).json({ empty: true, silentRecording, capped: true, ended: true, reprompt: line, ...(await voiceLine(user, line)) });
     }
-    const gradeStart = Date.now();
-    const { json: rawGrade, usage: gradeUsage, model: usedModel } = await groqChatJSON([
-      { role: "system", content: finalSystem(lang) },
-      { role: "user", content: buildUserMsg(renderDialogue(history)) },
-    ], { temperature: 0 });
-    logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage: gradeUsage, durationMs: Date.now() - gradeStart });
-    const closing = "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici. Voici mon évaluation.";
     // The current turn was silence, not speech — only the PRIOR history has
-    // anything the candidate actually said, so that alone is what a rewrite
-    // gets verified against.
-    return res.status(200).json({ empty: true, silentRecording, capped: true, done: true, feedback: normalizeFeedback(rawGrade, candidateSpeech(history)), closing, ...(await voiceLine(closing)) });
+    // anything the candidate actually said, so that alone is what gets graded.
+    const closing = timeUp ? endLine : "Je n'ai pas entendu votre réponse. Nous allons nous arrêter ici.";
+    return grade(history, closing, { empty: true, silentRecording, capped: true });
   }
 
   const exchangesSoFar = history.filter((m) => m.role === "examiner").length;
   const candidateTurns = [...history, { role: "candidate", text: transcript.slice(0, 4000) }];
-  const userMsg = buildUserMsg(renderDialogue(candidateTurns));
 
-  // Keep going (another interlocutor reply) while there is time left and we're
-  // under the safety ceiling; otherwise fall through and grade the exchange.
-  const chatStart = Date.now();
-  if (!timeUp && exchangesSoFar < MAX_EXCHANGES) {
+  // Keep going (another examiner/interlocutor line) while there is time left
+  // and we're under the safety ceiling; otherwise grade the exchange.
+  if (!timeUp && exchangesSoFar < examinerCeiling(task)) {
+    const chatStart = Date.now();
     const { json: raw, usage, model: usedModel } = await groqChatJSON([
-      { role: "system", content: followUpSystem },
-      { role: "user", content: userMsg },
+      { role: "system", content: replySystem(task) },
+      { role: "user", content: `${buildUserMsg(renderDialogue(candidateTurns))}\n${replyRequest(task)}` },
     ]);
     logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
     const reply = typeof raw.reply === "string" ? raw.reply.trim().slice(0, 600) : "";
     if (!reply) throw new HttpError(502, "The AI returned a response we couldn't parse.");
-    return res.status(200).json({ transcript, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(reply)) });
+    return res.status(200).json({ transcript, fluency, reply, exchange: exchangesSoFar + 1, done: false, ...(await voiceLine(user, reply)) });
   }
 
-  const { json: raw, usage, model: usedModel } = await groqChatJSON([
-    { role: "system", content: finalSystem(lang) },
-    { role: "user", content: userMsg },
-  ], { temperature: 0 });
-  logAiUsage({ userId: user.id, endpoint: "expression-orale-dialogue", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - chatStart });
-  // The closing line lives here (not client-side) so it comes out in the same
-  // examiner voice as the follow-ups.
-  const closing = "Merci, l'entretien est terminé. Voici mon évaluation.";
-  return res.status(200).json({ transcript, feedback: normalizeFeedback(raw, candidateSpeech(candidateTurns)), closing, done: true, ...(await voiceLine(closing)) });
+  return grade(candidateTurns, timeUp ? endLine : CLOSING_DONE, { transcript, fluency }, [...pastFluency, fluency]);
 }
 
 /* ------------------------------- shared bits ------------------------------- */
@@ -367,6 +476,8 @@ export default async function handler(req, res) {
     // end the conversation after two exchanges instead of capping evaluations.
     // Their pace stays bounded by enforceRateLimit above.
     const isDialogue = req.body?.mode === "dialogue";
+    // An opening line is a fixed sentence voiced, not an analysis.
+    if (isDialogue && req.body?.action === "opening") return await openingTurn(res, user, req.body);
     if (!isDialogue || dialogueWillGrade(req.body)) {
       claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
     }

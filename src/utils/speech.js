@@ -22,24 +22,26 @@ if (canSpeak()) {
 // Chrome's "Google français", Safari's "Enhanced"). Rank by quality first —
 // a natural fr-FR voice beats a robotic fr-CA one — with fr-CA only as a
 // tiebreak (TCF Canada oblige).
-function scoreVoice(v) {
+function scoreVoice(v, prefer) {
   const name = v.name.toLowerCase();
   let s = 0;
   if (/natural|neural/.test(name)) s += 8; // Edge neural voices
   if (/premium|enhanced/.test(name)) s += 6; // Safari high-quality voices
   if (/google/.test(name)) s += 5; // Chrome's "Google français"
   if (!v.localService) s += 3; // network voices are usually neural
-  if (/^fr[-_]ca/i.test(v.lang)) s += 1;
+  // Tiebreak on the accent: fr-CA by default (TCF Canada oblige), or the one
+  // the caller asks for (the oral examiner speaks France French).
+  if (new RegExp(`^${prefer ? prefer.replace("-", "[-_]") : "fr[-_]ca"}`, "i").test(v.lang)) s += 1;
   return s;
 }
 
-function pickFrenchVoice() {
+function pickFrenchVoice(prefer) {
   if (!voices.length) refreshVoices();
   // Match by lang, with the name as fallback (some engines expose French
   // voices with an empty or malformed lang).
   const fr = voices.filter((v) => /^fr([-_]|$)/i.test(v.lang) || /fran[cç]ais|french/i.test(v.name));
   if (!fr.length) return null;
-  return fr.reduce((best, v) => (scoreVoice(v) > scoreVoice(best) ? v : best));
+  return fr.reduce((best, v) => (scoreVoice(v, prefer) > scoreVoice(best, prefer) ? v : best));
 }
 
 // The model occasionally emits typographic characters that trip TTS engines
@@ -83,7 +85,8 @@ function whenVoicesReady(cb) {
 // replacing it: the dictée's speed control has to compose with the slowdown a
 // robotic voice needs, not throw it away, so 0.8× on a robotic voice is
 // 0.8 × 0.92 and on a neural one is 0.8 × 1.
-export function speak(text, onEnd, { rateScale = 1 } = {}) {
+// `prefer` ("fr-FR") picks that accent among voices of equal quality.
+export function speak(text, onEnd, { rateScale = 1, prefer } = {}) {
   const cleaned = canSpeak() ? cleanForSpeech(text || "") : "";
   if (!cleaned) { onEnd?.(false); return; }
   const synth = window.speechSynthesis;
@@ -94,7 +97,7 @@ export function speak(text, onEnd, { rateScale = 1 } = {}) {
 
   whenVoicesReady(() => {
     if (ended) return;
-    const voice = pickFrenchVoice();
+    const voice = pickFrenchVoice(prefer);
     if (!voice) { finish(false); return; }
     const u = new window.SpeechSynthesisUtterance(cleaned);
     u.voice = voice;

@@ -1,9 +1,13 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { Calendar, Zap, RotateCcw, Heart, Shuffle, ArrowRight, BookOpen } from "lucide-react";
+import { Calendar, Zap, RotateCcw, Heart, Shuffle, ArrowRight, BookOpen, BookmarkPlus, BookmarkCheck, Dumbbell, Brain } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { TOUR_STEPS } from "@/constants/tour";
 import { PageShell, Card, Pill, Btn } from "@/components/common";
 import { VOCAB, VOCAB_CATS } from "@/constants/vocabulary";
+import { ExerciseHub } from "@/components/vocab/ExerciseHub";
+import { MyDeck } from "@/components/vocab/MyDeck";
+import { SpeakButton } from "@/components/vocab/SpeakButton";
+import { useVocabDeck } from "@/hooks/useVocabDeck";
 
 // CEFR level → Pill tone. A1–A2 (beginner) green, B1–B2 (intermediate) blue,
 // C1 (advanced) red, C2 (mastery) gold — mirrors the brand's difficulty ramp.
@@ -34,14 +38,26 @@ const makeQuiz = (pool) => {
   return { word, options: shuffle([word.fr, ...distractors]) };
 };
 
+// The page's three sections. « Les mots » is the deck of themed words;
+// « Exercices » trains what the Expression grids score — the precise word,
+// connectors, collocations, register, faux amis, word families; « Mon
+// lexique » is the learner's own deck, reviewed with spaced repetition.
+const SECTIONS = [
+  { id: "mots", label: "Les mots", icon: BookOpen },
+  { id: "exercices", label: "Exercices", icon: Dumbbell },
+  { id: "lexique", label: "Mon lexique", icon: Brain },
+];
+
 export function Vocabulary() {
   const { c, favs, toggleFav, t, tourStep } = useApp();
+  const deck = useVocabDeck();
+  const [section, setSection] = useState("mots");
   const [cat, setCat] = useState("Tous");
   // Quiz first; the cards are the « Mode apprentissage ». The guided tour's
   // vocabulary step points at a card, so it switches to the cards while on it.
   const [mode, setMode] = useState("quiz");
   const touring = tourStep != null && TOUR_STEPS[tourStep]?.route === "vocabulary";
-  useEffect(() => { if (touring) setMode("cards"); }, [touring]);
+  useEffect(() => { if (touring) { setSection("mots"); setMode("cards"); } }, [touring]);
 
   const pool = useMemo(() => VOCAB.filter((v) => cat === "Tous" || v.cat === cat), [cat]);
 
@@ -86,13 +102,33 @@ export function Vocabulary() {
         <p className="text-xs font-bold uppercase tracking-widest text-rose-600">{t("Mot du jour")}</p>
         <Pill tone={LEVEL_TONE[daily.level]} className="!px-2 !py-0.5 ml-auto">{daily.level}</Pill>
       </div>
-      <p className={`font-display font-bold ${c.text}`}>{daily.fr}</p>
+      <p className={`font-display font-bold flex items-center gap-1 ${c.text}`}>{daily.fr} <SpeakButton text={daily.fr} size={15} /></p>
       <p className={`text-xs leading-relaxed ${c.sub}`}>{daily.def} — <span className="italic">« {daily.ex} »</span></p>
     </Card>
   );
 
   return (
-    <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Testez-vous, ou révisez les cartes en mode apprentissage.")}>
+    <PageShell tone="mint" icon={BookOpen} back wide aside={motDuJour} eyebrow={t("Vocabulaire")} title={t("Le lexique de votre nouvelle vie")} sub={t("Apprenez les mots, entraînez-vous à choisir le mot précis et le bon connecteur, et révisez votre propre lexique.")}>
+      <div role="tablist" aria-label={t("Sections du vocabulaire")} className="grid grid-cols-3 gap-2 mb-7">
+        {SECTIONS.map((sec) => {
+          const on = section === sec.id;
+          const Icon = sec.icon;
+          return (
+            <button key={sec.id} role="tab" aria-selected={on} onClick={() => setSection(sec.id)}
+              className={`px-4 py-3 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 transition-colors ${on ? "bg-[var(--tool-fill,#2563EB)] text-white shadow-md shadow-black/10" : `border ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}`}>
+              <Icon size={15} /> {t(sec.label)}
+              {sec.id === "lexique" && deck.stats.due > 0 && (
+                <span className={`ml-1 text-[11px] font-bold rounded-full px-1.5 py-0.5 ${on ? "bg-white/25" : "bg-rose-600 text-white"}`}>{deck.stats.due}</span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {section === "exercices" && <ExerciseHub />}
+      {section === "lexique" && <MyDeck />}
+
+      {section === "mots" && (<>
       <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between mb-6">
         <div className="flex gap-2 flex-wrap">
           {VOCAB_CATS.map((ct) => (
@@ -119,7 +155,7 @@ export function Vocabulary() {
                 {quiz.options.map((o) => {
                   const st = qSel === null ? "idle" : o === quiz.word.fr ? "right" : o === qSel ? "wrong" : "dim";
                   return (
-                    <button key={o} disabled={qSel !== null} onClick={() => setQSel(o)} className={`w-full text-left px-5 py-3 rounded-2xl border text-sm font-medium transition-all
+                    <button key={o} disabled={qSel !== null} onClick={() => { setQSel(o); if (o !== quiz.word.fr) deck.add({ term: quiz.word.fr, def: quiz.word.def, example: quiz.word.ex, source: "vocab" }); }} className={`w-full text-left px-5 py-3 rounded-2xl border text-sm font-medium transition-all
                       ${st === "idle" ? `${c.border} ${c.text} hover:border-blue-600 hover:bg-blue-600/5` : ""}
                       ${st === "right" ? "border-emerald-500 bg-emerald-500/10 text-emerald-600" : ""}
                       ${st === "wrong" ? "border-rose-500 bg-rose-500/10 text-rose-600" : ""}
@@ -131,6 +167,7 @@ export function Vocabulary() {
                 <div className="mt-5 flex items-center gap-3">
                   <Btn small icon={ArrowRight} onClick={nextQuiz}>{t("Mot suivant")}</Btn>
                   <span className={`text-sm italic ${c.sub}`}>« {quiz.word.ex} »</span>
+                  {qSel !== quiz.word.fr && <span className="text-xs font-semibold text-blue-600 flex items-center gap-1"><BookmarkCheck size={14} /> {t("Ajouté à « Mon lexique »")}</span>}
                 </div>
               )}
             </>
@@ -149,6 +186,7 @@ export function Vocabulary() {
                   <Heart size={22} fill={favs.includes(card.fr) ? "currentColor" : "none"} />
                 </span>
                 <p className={`font-display font-bold text-4xl md:text-5xl leading-tight ${c.text}`}>{card.fr}</p>
+                <SpeakButton text={card.fr} size={20} className="mt-3" inline />
                 <p className={`mt-5 text-sm ${c.faint}`}>{t("Cliquez pour voir la définition")}</p>
               </button>
               <button onClick={tapCard} className="fface fback absolute inset-0 rounded-3xl p-10 flex flex-col justify-center text-left text-white grad-brand shadow-xl" aria-label={t("Mot suivant")}>
@@ -159,14 +197,18 @@ export function Vocabulary() {
               </button>
             </div>
           </div>
-          <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="mt-6 flex items-center justify-center gap-3 flex-wrap">
             <Btn small variant="ghost" icon={Shuffle} onClick={nextCard}>{t("Mot suivant")}</Btn>
+            {deck.has(card.fr)
+              ? <span className="text-xs font-semibold text-blue-600 flex items-center gap-1"><BookmarkCheck size={14} /> {t("Dans « Mon lexique »")}</span>
+              : <Btn small variant="soft" icon={BookmarkPlus} onClick={() => deck.add({ term: card.fr, def: card.def, example: card.ex, source: "vocab" })}>{t("+ Mon lexique")}</Btn>}
             {revealed && <Btn small variant="soft" icon={RotateCcw} onClick={() => setRevealed(false)}>{t("Cacher")}</Btn>}
           </div>
         </div>
       ) : (
         <p className={`text-center py-10 text-sm ${c.faint}`}>{t("Aucun mot dans cette catégorie.")}</p>
       )}
+      </>)}
     </PageShell>
   );
 }

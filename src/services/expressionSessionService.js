@@ -1,6 +1,7 @@
 import { EE_COMBINATIONS } from "@/constants/writing";
 import { SPEAKING_TASKS } from "@/constants/speaking";
 import { loadArchive } from "@/services/sujetsArchiveService";
+import { EO_TIMINGS } from "../../api/_lib/eoLines.js";
 
 // Practice sessions for Expression écrite / orale, drawn from the monthly
 // subjects archive (the same data as the Ressources pages: shipped base +
@@ -20,10 +21,12 @@ const EE_META = {
   2: { t: "Tâche 2 · Message développé", words: "120 à 150 mots", min: 20 },
   3: { t: "Tâche 3 · Texte argumenté", words: "120 à 180 mots", min: 25 },
 };
+// Official EO timings (shared with the server): Tâche 2 is 5 min 30 in all,
+// 2 min of preparation then 3 min 30 of interaction.
 const EO_META = {
-  1: { t: "Tâche 1 · Entretien dirigé", prep: 0, dur: 120 },
-  2: { t: "Tâche 2 · Interaction", prep: 120, dur: 330 },
-  3: { t: "Tâche 3 · Point de vue", prep: 0, dur: 270 },
+  1: { t: "Tâche 1 · Entretien dirigé", ...EO_TIMINGS[1] },
+  2: { t: "Tâche 2 · Interaction", ...EO_TIMINGS[2] },
+  3: { t: "Tâche 3 · Point de vue", ...EO_TIMINGS[3] },
 };
 
 /* -------------------------- seen-count tracking -------------------------- */
@@ -58,7 +61,10 @@ function composeT3(t3) {
   if (t3?.theme) parts.push(`« ${t3.theme} »`);
   if (t3?.doc1) parts.push(`Document 1 : ${t3.doc1}`);
   if (t3?.doc2) parts.push(`Document 2 : ${t3.doc2}`);
-  parts.push("Deux points de vue s'opposent sur cette question. Rédigez un texte argumenté dans lequel vous exposez votre opinion, à l'aide d'arguments et d'exemples.");
+  // The exam's two required parts, in France Éducation international's own
+  // wording (sample paper EE00demo) — the grader and the model answers hold
+  // the candidate to both (api/_lib/eeSpec.js).
+  parts.push("Vous écrivez un texte qui comprend deux parties : dans la première partie, vous présentez les deux opinions avec vos propres mots (entre 40 et 60 mots) ; dans la deuxième partie, vous donnez votre position sur le thème général, commun à ces deux opinions (entre 80 et 120 mots).");
   return parts.join("\n\n");
 }
 
@@ -67,16 +73,18 @@ async function buildEECombos() {
   const { years } = await loadArchive("ee");
   const combos = [];
   for (const y of years) for (const m of y.months) (m.data || []).forEach((s, i) => {
-    if (s.t1 || s.t2 || s.t3) combos.push({ id: `ee-${m.key}-${s.n ?? i + 1}`, s });
+    // `ref` locates the subject's model answer (sujets_answers), which the
+    // workshop shows as its example.
+    if (s.t1 || s.t2 || s.t3) combos.push({ id: `ee-${m.key}-${s.n ?? i + 1}`, s, ref: { year: y.year, monthNum: m.monthNum, n: s.n ?? i + 1 } });
   });
   return combos;
 }
 
-function eeTasksFromCombo({ id, s }) {
+function eeTasksFromCombo({ id, s, ref = null }) {
   return OFFICIAL_TASKS.map((task) => {
-    if (task === 1) return s.t1 ? { task, id: `${id}-t1`, ...EE_META[1], sample: "", prompt: s.t1 } : { task, empty: true };
-    if (task === 2) return s.t2 ? { task, id: `${id}-t2`, ...EE_META[2], sample: "", prompt: s.t2 } : { task, empty: true };
-    return s.t3 ? { task, id: `${id}-t3`, ...EE_META[3], sample: "", prompt: composeT3(s.t3) } : { task, empty: true };
+    if (task === 1) return s.t1 ? { task, id: `${id}-t1`, ...EE_META[1], sample: "", ref, prompt: s.t1 } : { task, empty: true };
+    if (task === 2) return s.t2 ? { task, id: `${id}-t2`, ...EE_META[2], sample: "", ref, prompt: s.t2 } : { task, empty: true };
+    return s.t3 ? { task, id: `${id}-t3`, ...EE_META[3], sample: "", ref, prompt: composeT3(s.t3) } : { task, empty: true };
   });
 }
 
@@ -128,13 +136,17 @@ export function freeExpressionSession(section) {
 //
 // `free` pins the subject instead of rotating: a free account practises the
 // same one every visit, which is what its two AI analyses per tâche are for.
-export async function generateExpressionSession(userId, section, { free = false } = {}) {
+//
+// `pin` ({ year, monthNum, n }) opens that EE combinaison instead of drawing
+// one — the « Rédiger ma version » link of a Modèle de réponse page.
+export async function generateExpressionSession(userId, section, { free = false, pin = null } = {}) {
   if (free) return freeExpressionSession(section);
   const seen = readSeen(userId);
   if (section === "ee") {
     const combos = await buildEECombos();
     if (!combos.length) return generateWritingCombinationSession(userId);
-    const combo = pickLeastSeen(combos, seen) || combos[0];
+    const pinned = pin && combos.find((x) => x.ref.year === pin.year && x.ref.monthNum === pin.monthNum && x.ref.n === pin.n);
+    const combo = pinned || pickLeastSeen(combos, seen) || combos[0];
     recordSeen(userId, [combo.id]);
     return eeTasksFromCombo(combo);
   }

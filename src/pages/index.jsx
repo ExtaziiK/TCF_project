@@ -1,5 +1,4 @@
 import { lazy, Suspense } from "react";
-import { Loader2 } from "lucide-react";
 
 // Every page is its own chunk, fetched on first visit, so a visitor's first
 // download is the shell and the page they opened — not the admin, the guides,
@@ -8,12 +7,10 @@ import { Loader2 } from "lucide-react";
 // page's prerendered HTML preloads its chunk (scripts/prerender.mjs), so
 // lazy costs no extra round trip. Each lazy page carries its
 // own Suspense boundary, so App needs no change to render one.
+// While a page's chunk downloads: an empty page. The Passerelle logo
+// animation (LogoLoader) is kept for quizzes loading (BankLoading).
 function PageLoading() {
-  return (
-    <main className="min-h-screen pt-32 flex justify-center" aria-busy="true">
-      <Loader2 size={22} className="animate-spin text-blue-600 opacity-60" />
-    </main>
-  );
+  return <main className="min-h-screen" aria-busy="true" aria-label="Chargement" />;
 }
 
 function lazyPage(load, name) {

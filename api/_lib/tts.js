@@ -8,6 +8,10 @@
 // swap via AZURE_SPEECH_VOICE (e.g. fr-CA-AntoineNeural, fr-CA-JeanNeural,
 // fr-CA-ThierryNeural, or an fr-FR voice like fr-FR-DeniseNeural).
 const DEFAULT_VOICE = "fr-CA-SylvieNeural";
+// The Expression orale examiner speaks France French (owner's choice): a
+// natural female fr-FR voice, swappable via AZURE_EO_VOICE without touching
+// the dictée's voice above.
+export const EXAMINER_VOICE = process.env.AZURE_EO_VOICE || "fr-FR-DeniseNeural";
 export const TTS_MODEL_NAME = "azure-neural-tts";
 
 export function xmlEscape(s) {
@@ -18,11 +22,12 @@ export function xmlEscape(s) {
 // ~10 s follow-up around 60 KB — negligible next to the recording the client
 // just uploaded. The v1 REST endpoint accepts the subscription key directly,
 // so there's no token-exchange round trip.
-export async function synthesizeFrench(text) {
+// `voice` overrides the default voice for one call (the oral examiner).
+export async function synthesizeFrench(text, { voice: voiceOverride } = {}) {
   const key = process.env.AZURE_SPEECH_KEY;
   const region = process.env.AZURE_SPEECH_REGION;
   if (!key || !region || !text) return null;
-  const voice = process.env.AZURE_SPEECH_VOICE || DEFAULT_VOICE;
+  const voice = voiceOverride || process.env.AZURE_SPEECH_VOICE || DEFAULT_VOICE;
   const lang = voice.slice(0, 5); // "fr-CA" / "fr-FR"
   const ssml = `<speak version='1.0' xml:lang='${lang}'><voice name='${voice}'>${xmlEscape(text)}</voice></speak>`;
   try {

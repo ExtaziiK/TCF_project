@@ -14,7 +14,7 @@ import { PRIVACY_DRAFT } from "@/constants/legalMeta";
 // policy that names no controller is worth as little as terms that name no
 // publisher.
 export { PRIVACY_DRAFT };
-export const PRIVACY_UPDATED = "30 juillet 2026";
+export const PRIVACY_UPDATED = "23 octobre 2026";
 
 export const PRIVACY_DRAFT_NOTICE =
   "Ce document est rédigé mais n'est pas encore en vigueur. La version applicable sera publiée en même temps que les conditions générales d'utilisation.";
@@ -32,7 +32,7 @@ export const PRIVACY_SECTIONS = [
     p: [
       "Compte : le prénom ou le nom que vous saisissez, votre nom d'utilisateur, votre adresse de courriel, votre pays et votre mot de passe, ce dernier étant conservé sous forme chiffrée et jamais lisible par nous. Si vous vous connectez avec Google, nous recevons de Google votre adresse de courriel, votre nom et un identifiant technique — jamais votre mot de passe Google.",
       "Utilisation du Service : vos résultats de quiz, vos réponses, vos tentatives de TCF blancs, les questions mises en signet et les niveaux estimés qui en découlent. Ces données servent à afficher votre progression.",
-      "Expression écrite et orale : les textes que vous rédigez et les enregistrements que vous soumettez pour correction. Les enregistrements audio ne sont pas conservés — ils sont transmis pour transcription puis supprimés. Nous journalisons uniquement des données techniques sans contenu (taille du fichier, durée du traitement, volume de texte analysé), pour suivre les coûts et prévenir les abus.",
+      "Expression écrite et orale : les textes que vous rédigez et les enregistrements que vous soumettez pour correction. Les enregistrements sont transmis pour transcription et correction. Chaque tâche d'expression orale terminée est en outre enregistrée en entier (votre voix et celle de l'examinateur virtuel) et conservée dans votre compte pour que vous puissiez la réécouter : vous seul y avez accès, vous pouvez supprimer chaque enregistrement à tout moment, seuls les 30 plus récents sont gardés, et tous sont effacés avec votre compte. Nous journalisons par ailleurs uniquement des données techniques sans contenu (taille du fichier, durée du traitement, volume de texte analysé), pour suivre les coûts et prévenir les abus.",
       "Paiement : nous conservons un identifiant client du prestataire de paiement, le forfait acheté et sa date d'échéance. Nous ne recevons ni ne conservons vos numéros de carte bancaire. Pour un paiement manuel par CCP ou BaridiMob, nous conservons la demande et les éléments que vous nous transmettez pour vérifier le versement.",
       "Preuve d'acceptation des conditions générales : la version acceptée, la date et l'heure, votre adresse IP et votre navigateur. Cette donnée existe pour prouver votre consentement en cas de litige, et pour rien d'autre.",
       "Sécurité et sessions : les identifiants techniques de vos appareils connectés, la date de votre dernière activité, ainsi que des compteurs anti-abus indexés sur l'adresse IP pour limiter les tentatives de connexion et l'usage automatisé.",

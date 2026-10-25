@@ -139,15 +139,15 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // The strings of a month, each with a setter that writes the rewrite back into
 // the parsed tree.
-function slotsFor(section, data) {
+export function slotsFor(section, data) {
   const slots = [];
   if (section === "ee") {
+    // Only tâches 1 and 2 are reworded. Tâche 3 — its theme and its two
+    // documents — is kept exactly as the source reports it, by the owner's
+    // decision: the documents are what the candidate summarises, so they must
+    // stay the ones candidates actually read on exam day.
     for (const s of data) {
       for (const k of ["t1", "t2"]) if (s[k]) slots.push({ text: s[k], apply: (v) => { s[k] = v; } });
-      // The tâche 3 theme is a heading, not an instruction — flagged so the
-      // model rewrites it as a title instead of turning it into a task.
-      if (s.t3?.theme) slots.push({ text: s.t3.theme, title: true, apply: (v) => { s.t3.theme = v; } });
-      for (const k of ["doc1", "doc2"]) if (s.t3?.[k]) slots.push({ text: s.t3[k], apply: (v) => { s.t3[k] = v; } });
     }
   } else {
     for (const t of data) for (const p of t.parties) p.sujets.forEach((text, i) => slots.push({ text, apply: (v) => { p.sujets[i] = v; } }));
@@ -307,8 +307,26 @@ async function rewriteBatch(items, insist = false, deadline = Infinity) {
 export function mergeMonth(section, existing, fresh) {
   if (section === "ee") {
     // The source lists its newest combinaison first and our archive follows
-    // that order, so new ones go on top; `n` is then just the position.
-    return [...fresh, ...(existing || [])].map((s, i) => ({ ...s, n: i + 1 }));
+    // that order, so new ones go on top. But `n` is an IDENTITY, not a
+    // position: the model answers (sujets_answers), the dictées (sujet_key
+    // "<year>-<month>-<n>") and the public « sujet-reponse/2026-10/3 » links all
+    // point at a combinaison by its number. Renumbering on every import used to
+    // move each published answer onto a different subject. So existing
+    // combinaisons keep their number, and the new ones take the next free ones.
+    // An old entry saved without a number has always been addressed by its
+    // position (s.n ?? i + 1 everywhere it is read), so it keeps that — unless
+    // another combinaison already holds that number, in which case it takes a
+    // free one rather than silently sharing an identity.
+    const list = existing || [];
+    const taken = new Set(list.map((s) => s.n).filter((n) => n != null));
+    let next = Math.max(0, ...taken, list.length);
+    const kept = list.map((s, i) => {
+      if (s.n != null) return s;
+      const n = taken.has(i + 1) ? ++next : i + 1;
+      taken.add(n);
+      return { ...s, n };
+    });
+    return [...fresh.map((s) => ({ ...s, n: ++next })), ...kept];
   }
   const out = (existing || []).map((t) => ({ ...t, parties: (t.parties || []).map((p) => ({ ...p, sujets: [...(p.sujets || [])], src: [...(p.src || [])] })) }));
   for (const t of fresh) {
@@ -421,6 +439,31 @@ async function pickMonth(section) {
 // first import spends part of its time waiting on rate limits; when that eats
 // the budget the rewording stops and the leftovers come back flagged in `kept`
 // rather than the request being killed with nothing to show.
+// Subjects come back from one month to the next (the exam reuses them), so a
+// fresh combinaison may already sit in one of the other months we sent. It is
+// not dropped — a month's list is what candidates reported that month — but
+// flagged in the preview, so the admin can decide. `others` is the `known`
+// list minus the target month. Returns [{ n, month }].
+async function earlierRepeats(section, fresh, others, deadline) {
+  if (section !== "ee" || !fresh.length || !others.length || Date.now() >= deadline) return [];
+  const against = [];
+  for (const m of others) for (const it of itemsOf(section, m.data)) against.push({ ...it, id: against.length, month: m.key });
+  if (!against.length) return [];
+  const candidates = fresh.map((s, i) => ({ text: [s.t1, s.t2, s.t3?.theme].filter(Boolean).join(" — "), id: 100000 + i, n: s.n }));
+  const fingerprints = new Map(against.map((it) => [it.key, it.month]));
+  const out = [];
+  const rest = [];
+  // Exact source text first (free), then meaning for the rest.
+  fresh.forEach((s, i) => {
+    const month = s.src && fingerprints.get(s.src);
+    if (month) out.push({ n: s.n, month });
+    else rest.push(candidates[i]);
+  });
+  const dupes = await findDuplicates(rest, against, { deadline }).catch(() => new Set());
+  for (const c of rest) if (dupes.has(c.id)) out.push({ n: c.n, month: null });
+  return out;
+}
+
 export async function importLatest(section, { known = [], budgetMs = 45000 } = {}) {
   const startedAt = Date.now();
   const deadline = startedAt + budgetMs;
@@ -478,6 +521,11 @@ export async function importLatest(section, { known = [], budgetMs = 45000 } = {
   const added = countSubjects(section, fresh);
   const { kept, usage, total } = added ? await reformulate(section, fresh, { deadline }) : { kept: [], usage: null, total: 0 };
   const data = mode === "merge" ? mergeMonth(section, existing, fresh) : fresh;
+  // The numbers the new combinaisons carry in `data` (merge renumbers them
+  // after the existing ones), so the flags below point at the right cards.
+  const freshInData = mode === "merge" ? data.slice(0, fresh.length) : fresh;
+  const others = (known || []).filter((m) => m?.key && m.key !== monthKeyOf(target) && countSubjects(section, m.data));
+  const repeats = await earlierRepeats(section, freshInData, others, deadline);
 
   return {
     section,
@@ -488,7 +536,8 @@ export async function importLatest(section, { known = [], budgetMs = 45000 } = {
     unreachable,
     mode,
     data, // the complete month to save
-    fresh, // just the additions, for the review panel
+    fresh: freshInData, // just the additions, for the review panel
+    repeats, // [{ n, month }]: additions already present in a recent month
     counts: {
       found,
       added,

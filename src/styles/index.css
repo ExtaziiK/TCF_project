@@ -15,6 +15,18 @@ html{scroll-behavior:smooth}
 *:focus-visible{outline:2px solid #2E6BE6;outline-offset:2px;border-radius:8px}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .rise{animation:rise .55s cubic-bezier(.22,1,.36,1) both}
+/* The page loader (pages/index.jsx) fades in only if the page takes a moment. */
+@keyframes loader-in{from{opacity:0}to{opacity:1}}
+.loader-in{opacity:0;animation:loader-in .35s ease-out .2s forwards}
+/* Animations are switched off under reduced motion (global rule below): show it at once. */
+@media (prefers-reduced-motion:reduce){.loader-in{opacity:1}}
+/* LogoLoader: the brand glow breathing behind the logo, and the still logo
+   (Safari / iPhone, reduced motion) popping in. Under reduced motion the
+   global rule stops both: the glow rests at its base opacity. */
+.logo-glow{opacity:.22;animation:logo-glow 2.6s ease-in-out infinite}
+@keyframes logo-glow{0%,100%{opacity:.16;transform:scale(.92)}50%{opacity:.34;transform:scale(1.06)}}
+.logo-pop{animation:logo-pop .7s cubic-bezier(.22,1.4,.36,1) both}
+@keyframes logo-pop{from{opacity:0;transform:scale(.86) translateY(8px)}to{opacity:1;transform:none}}
 .rise-1{animation-delay:.08s}.rise-2{animation-delay:.16s}.rise-3{animation-delay:.24s}.rise-4{animation-delay:.32s}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .eqbar{animation:eq 1s ease-in-out infinite;transform-origin:bottom}

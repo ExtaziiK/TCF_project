@@ -1,42 +1,129 @@
-import { useEffect, useRef } from "react";
-import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Mic, Square, ChevronRight, Loader2, AlertCircle, Volume2, RotateCcw, MessageCircle, MicOff, NotebookPen, Timer, TimerOff, Headphones, CheckCircle2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill } from "@/components/common";
 import { AiFeedback } from "@/components/expression/AiFeedback";
 import { RefreshNotice } from "@/components/expression/RefreshNotice";
 import { MicHelp } from "@/components/expression/MicHelp";
+import { MicLevel } from "@/components/expression/MicLevel";
 import { useOralInterview } from "@/hooks/useOralInterview";
 import { fmt } from "@/utils/format";
+import { END_OF_TURN_SECS, BEFORE_SPEECH_END_SECS } from "../../../api/_lib/fluency.js";
 
-// The oral-exam interview simulation for one task: the subject with review
-// time, then a recorded dialogue with the AI examiner — the user answers,
-// the examiner's follow-up arrives as text and voice, three times, and the
-// whole conversation is graded at the end.
-export function OralInterview({ task }) {
+// How each tâche runs, in the side panel before it starts.
+const HOW_IT_WORKS = {
+  1: [
+    "L'examinatrice parle en premier : elle vous explique la tâche, puis vous demande de vous présenter.",
+    "Répondez dès qu'elle a fini de parler : l'enregistrement démarre tout seul, et votre tour se termine quand vous vous taisez quelques secondes.",
+    "Elle vous pose ensuite des questions de relance. Le chronomètre tourne en continu pendant 2 minutes.",
+    "À la fin, l'IA évalue l'ensemble de l'entretien.",
+  ],
+  2: [
+    "L'examinatrice vous explique la tâche et vous lit la situation.",
+    "Préparez-vous pendant 2 minutes : notez les questions à poser.",
+    "Quand elle vous dit « c'est à vous », commencez : saluez, présentez votre demande, posez vos questions.",
+    "Elle joue l'autre personne et vous répond avec des informations concrètes. L'échange dure 3 min 30.",
+  ],
+  3: [
+    "L'examinatrice vous explique la tâche et vous lit le sujet.",
+    "Donnez votre opinion et défendez-la avec des arguments et des exemples, en parlant le plus longtemps possible.",
+    "Si vous vous taisez 5 secondes, elle vous relance par une question, deux fois au maximum. Ensuite, chaque silence vous coûte des points.",
+    "L'épreuve dure 4 min 30, puis l'IA évalue l'ensemble.",
+  ],
+};
+
+// Whether the clocks are shown (time left, countdowns). Hiding them trains the
+// candidate to feel the length of a tâche, as on exam day, where the examiner
+// may not show the time. Remembered per mode, across tâches and visits; the
+// TCF blanc starts hidden, practice starts shown. Storage may be unavailable
+// (private mode): the default then applies each time.
+const CLOCK_KEY = (exam) => `passerelle.eo.showClock.${exam ? "exam" : "practice"}`;
+function useShowClock(exam) {
+  const [show, setShow] = useState(() => {
+    try {
+      const v = window.localStorage.getItem(CLOCK_KEY(exam));
+      return v === null ? !exam : v === "1";
+    } catch { return !exam; }
+  });
+  const set = (next) => {
+    setShow(next);
+    try { window.localStorage.setItem(CLOCK_KEY(exam), next ? "1" : "0"); } catch { /* not remembered */ }
+  };
+  return [show, set];
+}
+
+// One tâche of the Expression orale, run as on exam day (useOralInterview):
+// the examiner speaks first where they do on exam day, the clock runs the
+// whole time, and the exchange is graded at the end.
+// `exam`: the TCF blanc — the text of what is said stays hidden until the
+// end, as in the room you only hear it, and the feedback waits for the
+// report; `onFinish({ feedback, ended })` hands the result to the exam, and
+// `autoStart` begins the tâche as soon as it is shown.
+export function OralInterview({ task, exam = false, autoStart = false, onFinish }) {
   const { c, notify, t } = useApp();
-  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, replay, restart } = useOralInterview(task, notify);
+  const { phase, count, turns, feedback, ended, error, needsRefresh, micIssue, clearMicIssue, voiceless, micStream, relancesLeft, conversation, saveState, remaining, interviewSecs, reviewSecs, begin, skipReview, answer, stop, finishTask, replay, restart } = useOralInterview(task, notify, { exam });
+  const [notes, setNotes] = useState("");
+  const [showClock, setShowClock] = useShowClock(exam);
   const endRef = useRef(null);
+  const reported = useRef(false);
+  const examiner = "Examinatrice";
+  // On exam day the Tâche 1 question is only asked out loud.
+  const showSubject = task.task !== 1;
+  // No subtitles while the tâche runs, in practice too: the candidate learns
+  // to understand by ear, as in the room. Everything said appears at the end,
+  // with each examiner line replayable, to check what they misheard. The text
+  // stays visible only when no voice could say it.
+  const hideText = phase !== "done" && !voiceless;
 
   // Keep the latest exchange in view as the dialogue grows.
   useEffect(() => {
     if (turns.length) endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [turns.length, phase]);
 
+  // The exam moves from one part to the next on the candidate's click, so
+  // the next part starts right away (that click also lets its audio play).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (autoStart) begin(); }, []);
+
+  useEffect(() => {
+    if (phase !== "done" || reported.current) return;
+    reported.current = true;
+    onFinish?.({ feedback, ended });
+  }, [phase, feedback, ended, onFinish]);
+
+  const restartAll = () => { reported.current = false; setNotes(""); restart(); };
+
   return (
-    <div className="grid lg:grid-cols-3 gap-5 rise">
+    <div className="grid lg:grid-cols-3 gap-5 items-start rise">
       <Card className="lg:col-span-2 p-6 flex flex-col">
         <div className="flex items-center justify-between gap-2 flex-wrap mb-4">
           <div className="flex gap-2 flex-wrap">
-            <Pill tone="blue">{t("Lecture du sujet :")} {fmt(reviewSecs)}</Pill>
+            <Pill tone="blue">{reviewSecs ? `${t("Préparation :")} ${fmt(reviewSecs)}` : t("Sans préparation")}</Pill>
             <Pill tone="red">{t("Temps de l'épreuve :")} {fmt(interviewSecs)}</Pill>
           </div>
-          <Pill tone={remaining <= 30 ? "amber" : "slate"}>{t("Temps restant :")} {fmt(remaining)}</Pill>
+          <div className="flex items-center gap-2">
+            {showClock && <Pill tone={remaining <= 30 ? "amber" : "slate"}>{t("Temps restant :")} {fmt(remaining)}</Pill>}
+            <button
+              onClick={() => setShowClock(!showClock)}
+              aria-pressed={!showClock}
+              className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 ${c.border} ${c.card} ${c.sub} ${c.hoverSoft}`}
+            >
+              {showClock ? <TimerOff size={14} /> : <Timer size={14} />} {showClock ? t("Masquer le temps") : t("Afficher le temps")}
+            </button>
+          </div>
         </div>
+        {showClock && (
+          <p className={`-mt-2 mb-4 text-xs ${c.faint}`}>
+            {t("Le jour de l'examen, l'examinatrice ne vous indiquera pas forcément le temps restant. Entraînez-vous aussi sans chrono : apprenez à sentir la durée de chaque tâche et à continuer de parler jusqu'à ce qu'elle vous arrête.")}
+          </p>
+        )}
 
-        <div className={`p-4 rounded-2xl border-2 border-blue-600/30 mb-5 ${phase === "review" ? "ring-2 ring-blue-600/20" : ""}`}>
-          <p className={`text-[11px] font-bold uppercase tracking-wide text-blue-600 mb-1.5`}>{t("Sujet")}</p>
-          <p className={`leading-relaxed font-medium ${c.text}`}>{task.prompt}</p>
-        </div>
+        {showSubject && (
+          <div className={`p-4 rounded-2xl border-2 border-blue-600/30 mb-5 ${phase === "review" ? "ring-2 ring-blue-600/20" : ""}`}>
+            <p className={`text-[11px] font-bold uppercase tracking-wide text-blue-600 mb-1.5`}>{t("Sujet")}</p>
+            <p className={`leading-relaxed font-medium ${c.text}`}>{task.prompt}</p>
+          </div>
+        )}
 
         {turns.length > 0 && (
           <div className="space-y-3 mb-5 max-h-[26rem] overflow-y-auto pr-1">
@@ -44,13 +131,17 @@ export function OralInterview({ task }) {
               <DialogueBubble
                 key={tn.id}
                 turn={tn}
+                who={examiner}
+                hideText={hideText}
                 speakingNow={phase === "speaking" && i === turns.length - 1}
-                onReplay={(phase === "ready" || phase === "done") && tn.role === "examiner" ? () => replay(tn) : null}
+                onReplay={!exam && phase === "done" && tn.role === "examiner" ? () => replay(tn) : null}
               />
             ))}
             <div ref={endRef} />
           </div>
         )}
+
+        {phase === "done" && <ConversationPlayer c={c} t={t} conversation={conversation} saveState={saveState} />}
 
         <MicHelp code={micIssue} onClose={clearMicIssue} task={task.task} />
         {error && (
@@ -67,32 +158,46 @@ export function OralInterview({ task }) {
               copyLabel="Copier l'échange"
               copyText={turns
                 .filter((tn) => tn.text && !tn.failed && !tn.emptyRec)
-                .map((tn) => `${tn.role === "examiner" ? "Examinateur" : "Vous"} : ${tn.text}`)
+                .map((tn) => `${tn.role === "examiner" ? examiner : "Vous"} : ${tn.text}`)
                 .join("\n\n")}
             />
           </div>
         )}
 
-        <InterviewControls c={c} t={t} phase={phase} count={count} ended={ended} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={restart} />
+        <InterviewControls c={c} t={t} phase={phase} canFinish={phase === "rec" || ((phase === "ready" || phase === "speaking") && turns.some((tn) => tn.role === "candidate" && tn.text))} finishTask={finishTask} count={count} ended={ended} exam={exam} who={examiner} task={task.task} relancesLeft={relancesLeft} showClock={showClock} micStream={micStream} begin={begin} skipReview={skipReview} answer={answer} stop={stop} restart={exam ? null : restartAll} />
       </Card>
 
       <div className="space-y-5">
-        {feedback ? (
+        {task.task === 2 && phase !== "idle" && (
+          <Card className="p-5">
+            <label htmlFor={`eo-notes-${task.id}`} className={`font-display font-bold mb-2 flex items-center gap-2 ${c.text}`}>
+              <NotebookPen size={17} className="text-blue-600" /> {t("Brouillon")}
+            </label>
+            <p className={`text-xs mb-3 ${c.faint}`}>{t("Comme la feuille que le centre vous donne : notez les questions à poser.")}</p>
+            <textarea
+              id={`eo-notes-${task.id}`}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              rows={7}
+              spellCheck={false}
+              className={`w-full p-3 rounded-xl border text-sm leading-relaxed resize-y ${c.border} ${c.card} ${c.text}`}
+            />
+          </Card>
+        )}
+        {feedback && !exam ? (
           <AiFeedback compact {...feedback} />
         ) : ended ? (
           <Card className="p-6 border-2 border-amber-500/40">
             <h3 className={`font-display font-bold mb-2 flex items-center gap-2 ${c.text}`}><MicOff size={17} className="text-amber-600" /> {t("Entretien interrompu")}</h3>
             <p className={`text-sm ${c.sub}`}>{t("Nous n'avons rien entendu à plusieurs reprises, alors l'entretien s'est arrêté. Vérifiez votre micro, puis relancez un entretien.")}</p>
           </Card>
-        ) : (
+        ) : !(task.task === 2 && phase !== "idle") && (
           <Card className="p-6">
             <h3 className={`font-display font-bold mb-3 flex items-center gap-2 ${c.text}`}><MessageCircle size={17} className="text-blue-600" /> {t("Comment ça marche")}</h3>
             <ol className={`space-y-2.5 text-sm ${c.sub} list-decimal list-inside`}>
-              <li>{t("Prenez connaissance du sujet pendant le temps de lecture.")}</li>
-              <li>{t("Répondez à voix haute — votre réponse est transcrite.")}</li>
-              <li>{t("L'interlocuteur IA vous répond, à l'écrit et à l'oral.")}</li>
-              <li>{t("À la fin, l'IA évalue l'ensemble de l'entretien.")}</li>
+              {(HOW_IT_WORKS[task.task] || HOW_IT_WORKS[2]).map((line) => <li key={line}>{t(line)}</li>)}
             </ol>
+            <p className={`mt-4 pt-3 border-t text-xs ${c.border} ${c.faint}`}>{t("Pas de sous-titres : écoutez, comme le jour de l'examen. Si vous n'avez pas compris, dites « Pouvez-vous répéter ? ». Tout le texte s'affiche à la fin, avec la possibilité de réécouter chaque question.")}</p>
           </Card>
         )}
       </div>
@@ -100,22 +205,22 @@ export function OralInterview({ task }) {
   );
 }
 
-function DialogueBubble({ turn, speakingNow, onReplay }) {
+function DialogueBubble({ turn, who, hideText, speakingNow, onReplay }) {
   const { c, t } = useApp();
   if (turn.role === "examiner") {
-    // Silent-answer re-prompts read as a softer aside, not a graded question.
-    const isReprompt = turn.reprompt;
+    // Silent-answer re-prompts and announcements read as a softer aside.
+    const aside = turn.reprompt || turn.meta;
     return (
       <div className="flex justify-start">
-        <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-md border ${isReprompt ? "bg-amber-500/10 border-amber-500/25" : "bg-blue-600/10 border-blue-600/20"}`}>
-          <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 flex items-center gap-1.5 ${isReprompt ? "text-amber-600" : "text-blue-600"}`}>
-            {isReprompt ? t("Interlocuteur · relance micro") : t("Interlocuteur")}
+        <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-md border ${aside ? "bg-amber-500/10 border-amber-500/25" : "bg-blue-600/10 border-blue-600/20"}`}>
+          <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 flex items-center gap-1.5 ${aside ? "text-amber-600" : "text-blue-600"}`}>
+            {turn.reprompt ? `${t(who)} · ${t("relance micro")}` : t(who)}
             {speakingNow && <Volume2 size={13} className="animate-pulse" />}
             {onReplay && (
               <button onClick={onReplay} aria-label={t("Réécouter la question")} className="hover:opacity-70 transition-opacity"><Volume2 size={13} /></button>
             )}
           </p>
-          <p className={`text-sm leading-relaxed ${c.text}`}>{turn.text}</p>
+          <p className={`text-sm leading-relaxed ${hideText ? `italic ${c.faint}` : c.text}`}>{hideText ? t("Écoutez…") : turn.text}</p>
         </div>
       </div>
     );
@@ -126,28 +231,48 @@ function DialogueBubble({ turn, speakingNow, onReplay }) {
     <div className="flex justify-end">
       <div className={`max-w-[85%] px-4 py-3 rounded-2xl rounded-br-md border ${muted ? "border-amber-500/40" : c.border}`}>
         <p className={`text-[11px] font-bold uppercase tracking-wide mb-1 ${muted ? "text-amber-600" : c.faint}`}>{label}</p>
-        {turn.text && <p className={`text-sm leading-relaxed ${c.sub}`}>{turn.text}</p>}
-        {turn.url && <audio controls src={turn.url} className="w-full mt-2 h-9" />}
+        {hideText ? (
+          !muted && <p className={`text-sm italic ${c.faint}`}>{t("Réponse enregistrée.")}</p>
+        ) : (
+          <>
+            {turn.text && <p className={`text-sm leading-relaxed ${c.sub}`}>{turn.text}</p>}
+            {turn.url && <audio controls src={turn.url} className="w-full mt-2 h-9" />}
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 // Bottom control strip: one clear action (or status) per phase.
-function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answer, stop, restart }) {
+function InterviewControls({ c, t, phase, canFinish, finishTask, count, ended, exam, who, task, relancesLeft, showClock, micStream, begin, skipReview, answer, stop, restart }) {
+  // Tâche 3 with no relance left: silence no longer ends the turn — the
+  // candidate keeps the floor until the time is up, and is warned instead.
+  const alone = task === 3 && relancesLeft === 0;
+  const endAfter = alone ? 0 : END_OF_TURN_SECS[task] || 4;
   return (
-    <div className="mt-auto flex flex-col items-center gap-3">
-      {(phase === "review" || phase === "rec") && (
+    <div className="mt-auto pt-6 flex flex-col items-center gap-3">
+      <MicLevel
+        stream={micStream}
+        active={phase === "rec"}
+        countSilence={!exam}
+        warnSilence={alone}
+        endAfter={endAfter}
+        beforeSpeechEndAfter={alone ? 0 : BEFORE_SPEECH_END_SECS}
+        onSilenceEnd={(secs) => stop(secs)}
+      />
+      {showClock && (phase === "review" || phase === "rec") && (
         <p className={`font-mono2 font-bold text-3xl ${phase === "rec" ? "text-rose-600" : "text-blue-600"}`} role="timer">{fmt(count)}</p>
       )}
       <p className={`text-sm font-semibold ${c.sub}`}>
         {phase === "idle" && t("Prêt·e quand vous l'êtes.")}
-        {phase === "review" && t("Lisez le sujet et préparez vos idées… l'enregistrement démarrera automatiquement.")}
-        {phase === "rec" && (<span className="inline-flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-rose-600 rec-dot" /> {t("Enregistrement en cours")}</span>)}
-        {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'interlocuteur vous écoute…")}</span>)}
-        {phase === "speaking" && (<span className="inline-flex items-center gap-2 text-blue-600"><Volume2 size={14} className="animate-pulse" /> {t("L'interlocuteur parle…")}</span>)}
+        {phase === "opening" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t("L'examinatrice prend la parole…")}</span>)}
+        {phase === "review" && t("Préparez-vous… à la fin du temps, c'est à vous de commencer la conversation.")}
+        {phase === "rec" && (<span className="inline-flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-rose-600 rec-dot" /> {t("À vous — enregistrement en cours")}</span>)}
+        {phase === "processing" && (<span className="inline-flex items-center gap-2"><Loader2 size={14} className="animate-spin text-blue-600" /> {t(`${who} vous écoute…`)}</span>)}
+        {phase === "speaking" && (<span className="inline-flex items-center gap-2 text-blue-600"><Volume2 size={14} className="animate-pulse" /> {t(`${who} parle…`)}</span>)}
         {phase === "ready" && t("À vous de répondre.")}
-        {phase === "done" && (ended ? t("Entretien interrompu, faute de réponse audible.") : t("Entretien terminé — consultez votre évaluation."))}
+        {phase === "done" && (ended ? t("Entretien interrompu, faute de réponse audible.") : exam ? t("Partie terminée.") : t("Entretien terminé — consultez votre évaluation."))}
       </p>
 
       {phase === "idle" && (
@@ -155,19 +280,28 @@ function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answe
           <Mic size={18} /> {t("Commencer l'entretien")}
         </button>
       )}
-      {phase === "review" && (
-        <button onClick={skipReview} aria-label={t("Passer la lecture et parler maintenant")} className={`w-16 h-16 rounded-full flex items-center justify-center border-2 border-blue-600 text-blue-600 shadow-xl transition-transform hover:scale-105 ${c.card}`}>
+      {phase === "review" && !exam && (
+        <button onClick={skipReview} aria-label={t("Passer la préparation et parler maintenant")} className={`w-16 h-16 rounded-full flex items-center justify-center border-2 border-blue-600 text-blue-600 shadow-xl transition-transform hover:scale-105 ${c.card}`}>
           <ChevronRight size={26} />
         </button>
       )}
       {phase === "rec" && (
-        <button onClick={stop} aria-label={t("Arrêter")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
+        <button onClick={() => stop()} aria-label={alone ? t("Terminer la tâche") : t("J'ai fini de parler")} className="w-16 h-16 rounded-full flex items-center justify-center bg-rose-600 text-white shadow-xl shadow-rose-600/30 transition-transform hover:scale-105">
           <Square size={22} />
         </button>
       )}
-      {(phase === "processing" || phase === "speaking") && (
+      {phase === "rec" && (
+        <p className={`text-xs text-center max-w-sm ${c.faint}`}>
+          {alone
+            ? t("L'examinatrice ne vous relancera plus : continuez jusqu'à la fin du temps. Le bouton termine la tâche.")
+            : task === 3
+              ? `${t("Parlez en continu. Après")} ${endAfter} ${t("s de silence, l'examinatrice vous relance")} (${relancesLeft} ${relancesLeft > 1 ? t("fois encore") : t("fois")}).`
+              : `${t("Votre tour se termine après")} ${endAfter} ${t("s de silence, ou appuyez quand vous avez fini.")}`}
+        </p>
+      )}
+      {(phase === "opening" || phase === "processing" || phase === "speaking") && (
         <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 ${c.border} ${c.faint}`}>
-          {phase === "processing" ? <Loader2 size={24} className="animate-spin" /> : <Volume2 size={24} className="animate-pulse text-blue-600" />}
+          {phase === "speaking" ? <Volume2 size={24} className="animate-pulse text-blue-600" /> : <Loader2 size={24} className="animate-spin" />}
         </div>
       )}
       {phase === "ready" && (
@@ -175,11 +309,59 @@ function InterviewControls({ c, t, phase, count, ended, begin, skipReview, answe
           <Mic size={24} />
         </button>
       )}
-      {phase === "done" && (
+      {canFinish && <FinishTaskButton c={c} t={t} exam={exam} onFinish={finishTask} />}
+      {phase === "done" && restart && (
         <button onClick={restart} className={`px-5 py-2.5 rounded-full border font-semibold text-sm flex items-center gap-2 ${c.card} ${c.border} ${c.sub} ${c.hoverSoft}`}>
           <RotateCcw size={15} /> {t("Refaire un entretien")}
         </button>
       )}
+    </div>
+  );
+}
+
+// "Terminer cette tâche", under the controls while the exchange runs. A second
+// click confirms, so a stray tap can't end a tâche the candidate was still in.
+function FinishTaskButton({ c, t, exam, onFinish }) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (!armed) return undefined;
+    const id = setTimeout(() => setArmed(false), 4000);
+    return () => clearTimeout(id);
+  }, [armed]);
+  return (
+    <button
+      type="button"
+      onClick={() => (armed ? onFinish() : setArmed(true))}
+      className={`mt-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${armed ? "border-rose-600 text-rose-600 bg-rose-600/10" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}
+    >
+      {armed ? (exam ? t("Confirmer : terminer cette partie") : t("Confirmer : terminer et voir l'évaluation")) : t("Terminer cette tâche")}
+    </button>
+  );
+}
+
+// The whole tâche as one recording, to listen to yourself: right after the
+// examiner's closing line, then kept in « Mes enregistrements ».
+function ConversationPlayer({ c, t, conversation, saveState }) {
+  if (conversation === false) return null; // this browser couldn't record it
+  if (!conversation) {
+    return (
+      <p className={`mb-5 text-sm flex items-center gap-2 ${c.faint}`}>
+        <Loader2 size={14} className="animate-spin" /> {t("Préparation de l'enregistrement de l'échange…")}
+      </p>
+    );
+  }
+  return (
+    <div className={`mb-5 p-4 rounded-2xl border ${c.border}`}>
+      <p className={`font-display font-bold text-sm mb-1 flex items-center gap-2 ${c.text}`}>
+        <Headphones size={16} className="text-blue-600" /> {t("Réécoutez votre échange")}
+      </p>
+      <p className={`text-xs mb-3 ${c.faint}`}>{t("Toute la tâche, comme elle s'est déroulée : écoutez vos hésitations, vos silences et vos tournures pour progresser.")}</p>
+      <audio controls src={conversation.url} className="w-full" />
+      <p className={`mt-2 text-xs flex items-center gap-1.5 ${saveState === "error" ? "text-amber-600" : c.faint}`}>
+        {saveState === "saving" && (<><Loader2 size={12} className="animate-spin" /> {t("Sauvegarde dans « Mes enregistrements »…")}</>)}
+        {saveState === "saved" && (<><CheckCircle2 size={12} className="text-emerald-500" /> {t("Sauvegardé dans « Mes enregistrements », sur la page Expression orale.")}</>)}
+        {saveState === "error" && t("Cet enregistrement n'a pas pu être sauvegardé : écoutez-le ici, il ne sera pas conservé.")}
+      </p>
     </div>
   );
 }

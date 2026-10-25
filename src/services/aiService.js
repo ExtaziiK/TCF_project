@@ -153,8 +153,22 @@ export function evaluateSpeaking({ audioBase64, mime, prompt, taskLabel, lang, a
 // server-synthesized speech ({ audio: <base64>, audioMime }); when absent the
 // client falls back to browser TTS. `empty: true` means no speech was
 // detected — the caller should re-prompt instead of advancing the dialogue.
-export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, attemptId, task }) {
-  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64, mime, prompt, taskLabel, history, emptyStreak, lang, final, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+// `fluency`: the measures the server returned for each earlier answer
+// (api/_lib/fluency.js), sent back so the final grade can weigh them all.
+// `silenceEnd`: seconds of silence that ended this answer, when it was the
+// silence and not the button that closed the turn. `finished`: the candidate
+// ended the tâche early ("Terminer cette tâche"), sent with `final`.
+export function speakingDialogueTurn({ audioBase64, mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, finished, attemptId, task }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", audio: audioBase64 || "", mime, prompt, taskLabel, history, fluency, silenceEnd, emptyStreak, lang, final, finished: finished || undefined, task, attemptId: attemptId ?? getFreeMockAttemptId() });
+}
+
+// One of the examiner's fixed lines ({ line, audio?, audioMime? }), built
+// server-side (api/_lib/eoLines.js): the briefing that opens a tâche, from the
+// task and its subject — `exam` is the back-to-back 12-minute run of the TCF
+// blanc — or, with `stage: "prep-end"`, the end of the Tâche 2 preparation.
+// Never counts as an analysis.
+export function speakingOpening({ task, prompt, exam, stage, attemptId }) {
+  return postJSON("/api/expression-orale", { mode: "dialogue", action: "opening", task, prompt, exam: !!exam, stage, attemptId: attemptId ?? getFreeMockAttemptId() });
 }
 
 // Reads a recorded Blob as a bare base64 string (no data: prefix).

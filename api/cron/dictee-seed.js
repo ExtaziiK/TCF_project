@@ -1,11 +1,10 @@
-import { CHAT_MODEL_NAME } from "../_lib/groq.js";
 import { TTS_MODEL_NAME } from "../_lib/tts.js";
 import { logAiUsage } from "../_lib/usage.js";
-import { listSujets, cachedKeysFor, mintDictee, generatedToday, today, DAILY_SEED } from "../_lib/dictee.js";
+import { listSujets, cachedKeysFor, answerKeysFor, answeredKeysFor, mintDictee, generatedToday, today, DAILY_SEED } from "../_lib/dictee.js";
 
 // La dictée du jour — the nightly seeder (see vercel.json → crons).
 //
-// Writes DAILY_SEED new texts a night, one per tâche, and stamps them
+// Records DAILY_SEED new texts a night, one per tâche, and stamps them
 // `featured_on = today` so the intro can show them as the day's three. Every
 // text it has ever written stays in the library for ever, so what a candidate
 // can practise on grows by three a day and never shrinks: a month in, ninety
@@ -35,6 +34,11 @@ const BUDGET_MS = 45_000;
 // handful don't come up night after night.
 const RECENT_WINDOW = 20;
 
+// The texts are the subjects' model answers (sujets_answers, written in
+// Admin › Sujets): the seeder only RECORDS them — no Groq call. It takes, in
+// order, a subject whose answer has no dictée yet, then one still served by a
+// text the dictée wrote for itself before the two were unified, so the
+// library moves over to the model answers a few texts a night.
 const pickSujet = (pool, cached) => {
   const uncached = pool.filter((s) => !cached.has(s.key));
   if (!uncached.length) return null;
@@ -74,18 +78,15 @@ export default async function handler(req, res) {
         continue;
       }
       try {
-        const cached = await cachedKeysFor(task);
-        const sujet = pickSujet(all.filter((s) => s.task === task), cached);
+        const [cached, fromAnswers, answered] = await Promise.all([cachedKeysFor(task), answerKeysFor(task), answeredKeysFor(task)]);
+        const withAnswer = all.filter((s) => s.task === task && answered.has(s.key));
+        const sujet = pickSujet(withAnswer, cached) || pickSujet(withAnswer, fromAnswers);
         if (!sujet) {
-          summary.skipped.push(`tâche ${task} : tous les sujets sont déjà dans la bibliothèque`);
+          summary.skipped.push(`tâche ${task} : chaque modèle de réponse a déjà sa dictée`);
           continue;
         }
 
         const minted = await mintDictee(sujet, { featuredOn: today() });
-        logAiUsage({
-          userId: null, endpoint: "dictee-seed", kind: "chat",
-          model: minted.chat.model || CHAT_MODEL_NAME, usage: minted.chat.usage, durationMs: minted.chat.ms,
-        });
         if (minted.tts) {
           logAiUsage({
             userId: null, endpoint: "dictee-seed", kind: "tts", model: TTS_MODEL_NAME,
