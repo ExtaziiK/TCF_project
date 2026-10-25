@@ -96,7 +96,7 @@ export function PlanCard({ p, compact, promo, index = 0, currency }) {
 
   // Straight to payment: no interstitial between the button and Stripe.
   const subscribe = async () => {
-    if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); return nav("register"); }
+    if (!user) { notify(t("Créez un compte gratuit pour acheter votre accès.")); return nav("register"); }
     // Algerian dinar: hand off to the on-site manual-payment page instead of Stripe.
     // Carry the promo across too, or the buyer sees a discounted card price
     // and is then asked to transfer the full amount.

@@ -437,8 +437,8 @@ export const EN = {
   // ── Pricing page ─────────────────────────────────────────────────────
   "Abonnements": "Plans",
   "Un forfait pour chaque étape de votre préparation": "A plan for every stage of your preparation",
-  "Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
-    "Pay in US dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
+  "Un paiement unique pour la durée de votre choix, sans abonnement ni renouvellement automatique. Paiement sécurisé via Stripe.":
+    "A one-time payment for the length of your choice, with no subscription and no automatic renewal. Secure payment via Stripe.",
   "Afficher les prix dans une autre devise": "Show prices in another currency",
   "Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.":
     "Payment in Algerian dinars by CCP or BaridiMob, activated once the receipt has been checked.",
@@ -628,7 +628,9 @@ export const EN = {
   "Suivi et score estimé": "Progress tracking and score estimate",
   "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment.":
     "Your progress saved, plus a TCF / NCLC score calculator to gauge your level anytime.",
-  "Créez un compte gratuit pour vous abonner.": "Create a free account to subscribe.",
+  "Créez un compte gratuit pour acheter votre accès.": "Create a free account to buy your access.",
+  "Choisissez votre accès": "Choose your access",
+  "Sans abonnement": "No subscription",
   "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil.":
     "Your Premium subscription is already active. Manage it from your profile.",
   "Impossible de démarrer le paiement. Réessayez.": "Could not start the checkout. Please try again.",
