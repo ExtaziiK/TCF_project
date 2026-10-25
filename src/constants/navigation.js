@@ -6,7 +6,7 @@ import { AUTHENTICATED, ADMIN_ONLY, ROLES, canUseNotebook } from "@/auth/rbac";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck, NotebookPen, Dumbbell,
+  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper, HelpCircle, Star, Info,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -85,6 +85,29 @@ export const NAV_LINKS = [
   { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
 ];
+
+// The desktop bar for VISITORS, laid out the way SaaS sites usually are —
+// two dropdowns that describe the offer (« Produit », « Ressources »), then
+// « Tarifs », with « Connexion » and the sign-up call to action on the right.
+// The logo is the way home, so there is no « Accueil » link. Every route here
+// is public, or opens its own pitch (la dictée). Signed-in accounts keep the
+// working bar above (NAV_LINKS); the mobile drawer is the same for both.
+export const VISITOR_MENUS = [
+  { l: "Produit", items: [
+    { l: "TCF blanc", r: "mocks", icon: ClipboardCheck, d: "Les quatre épreuves en conditions réelles, notées sur 699" },
+    { l: "Épreuves", r: "exams", icon: GraduationCap, d: "Compréhension et expression, au format officiel" },
+    { l: "La dictée", r: "dictee", icon: PenLine, d: "Un corrigé C1 à écrire mot à mot, corrigé aussitôt" },
+    { l: "Calculateur NCLC", r: "calculator", icon: Calculator, d: "Vos scores TCF convertis en niveaux NCLC" },
+  ] },
+  { l: "Ressources", items: [
+    { l: "Guide de l'examen", r: "guide", icon: Compass, d: "Tout le déroulé du TCF Canada, épreuve par épreuve" },
+    { l: "Blog", r: "blog", icon: Newspaper, d: "Conseils et méthodes pour réussir" },
+    { l: "FAQ", r: "faq", icon: HelpCircle, d: "Les réponses aux questions fréquentes" },
+    { l: "Avis", r: "avis", icon: Star, d: "Ce qu'en disent nos candidats" },
+    { l: "À propos", r: "about", icon: Info, d: "Qui sommes-nous, et pourquoi Passerelle" },
+  ] },
+];
+export const VISITOR_LINKS = [{ l: "Tarifs", r: "pricing" }];
 
 // Extra entries that only exist in the mobile menu for signed-in users.
 // All three sit in the top group, above the study sections and under no

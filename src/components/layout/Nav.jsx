@@ -5,7 +5,7 @@ import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
 // Staff-only, and carrying the whole site index: fetched when first opened.
 const SearchOverlay = lazy(() => import("@/components/layout/SearchOverlay").then((m) => ({ default: m.SearchOverlay })));
-import { NAV_LINKS, navLinksForRole, mobileNavForRole, PRATIQUE_ROUTES as HUB_ROUTES } from "@/constants/navigation";
+import { NAV_LINKS, VISITOR_MENUS, VISITOR_LINKS, navLinksForRole, mobileNavForRole, PRATIQUE_ROUTES as HUB_ROUTES } from "@/constants/navigation";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePendingValidations } from "@/hooks/usePendingValidations";
 import { ROLES, isStaff } from "@/auth/rbac";
@@ -199,7 +199,51 @@ export function Nav({ barOffset = false }) {
             </defs>
           </svg>
 
-          {/* Links: a segmented track, the current page filled in its colour. */}
+          {/* Visitors: the SaaS-style bar — two describing dropdowns and
+              « Tarifs », plain text, no track (VISITOR_MENUS). */}
+          {role === ROLES.VISITOR && (
+            <nav className="hidden xl:flex items-center gap-1" aria-label={t("Navigation principale")}>
+              {VISITOR_MENUS.map((m) => {
+                const isOpen = openMenu === m.l;
+                const here = m.items.some((it) => it.r === route);
+                return (
+                  <div key={m.l} className="relative" onMouseEnter={() => setOpenMenu(m.l)} onMouseLeave={() => setOpenMenu(null)}>
+                    <button type="button" onClick={() => setOpenMenu(isOpen ? null : m.l)} aria-expanded={isOpen}
+                      className={`px-3.5 py-2 rounded-full text-sm font-semibold flex items-center gap-1 transition-colors ${here || isOpen ? c.text : c.sub} ${dark ? "hover:text-white" : "hover:text-slate-900"}`}>
+                      {t(m.l)} <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {isOpen && (
+                      <div className="absolute top-full left-0 pt-3 w-[22rem]">
+                        <div className={`rounded-2xl border ${c.border} ${c.card} shadow-2xl p-2 rise`}>
+                          {m.items.map((it) => (
+                            <RouteLink key={it.r} r={it.r} onNavigate={closeAll}
+                              className={`flex items-start gap-3 px-3 py-2.5 rounded-xl ${c.hoverSoft} group`}>
+                              <span className={`grid place-items-center w-9 h-9 rounded-xl shrink-0 border ${c.border} ${c.sub} group-hover:text-blue-600 transition-colors`}>
+                                <it.icon size={17} />
+                              </span>
+                              <span className="min-w-0">
+                                <span className={`block text-sm font-semibold ${c.text}`}>{t(it.l)}</span>
+                                <span className={`block text-xs leading-snug ${c.faint}`}>{t(it.d)}</span>
+                              </span>
+                            </RouteLink>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              {VISITOR_LINKS.map((n) => (
+                <RouteLink key={n.r} r={n.r} onNavigate={closeAll} aria-current={route === n.r ? "page" : undefined}
+                  className={`px-3.5 py-2 rounded-full text-sm font-semibold transition-colors ${route === n.r ? c.text : c.sub} ${dark ? "hover:text-white" : "hover:text-slate-900"}`}>
+                  {t(n.l)}
+                </RouteLink>
+              ))}
+            </nav>
+          )}
+
+          {/* Signed in — links: a segmented track, the current page filled in its colour. */}
+          {role !== ROLES.VISITOR && (
           <nav className={`hidden xl:flex items-center gap-1 p-1 rounded-full ${track}`} aria-label={t("Navigation principale")}>
             {navLinks.map((n) => {
               // Keyed on the route, not the label: the label is copy and may change.
@@ -248,6 +292,7 @@ export function Nav({ barOffset = false }) {
               );
             })}
           </nav>
+          )}
 
           <div className="flex items-center gap-1.5">
             {/* Utilities, grouped in one compact pill. */}
@@ -342,9 +387,10 @@ export function Nav({ barOffset = false }) {
                 )}
               </div>
             ) : (
-              <div className="hidden md:flex items-center gap-2 ml-1">
-                <Btn small variant="ghost" onClick={() => go("login")}>{t("Connexion")}</Btn>
-                <Btn small onClick={() => go("register")}>{t("S'inscrire")}</Btn>
+              // A quiet « Connexion » and one call to action.
+              <div className="hidden md:flex items-center gap-1 ml-1">
+                <button type="button" onClick={() => go("login")} className={`px-3.5 py-2 rounded-full text-sm font-semibold ${c.sub} ${c.hoverSoft}`}>{t("Connexion")}</button>
+                <Btn small variant="accent" onClick={() => go("register")}>{t("S'inscrire gratuitement")}</Btn>
               </div>
             )}
 
