@@ -232,16 +232,13 @@ export const EN = {
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
   "Produit": "Product",
   "S'inscrire gratuitement": "Sign up for free",
-  "Calculateur NCLC": "NCLC calculator",
   "Les quatre épreuves en conditions réelles, notées sur 699": "All four tests in real conditions, scored out of 699",
   "Compréhension et expression, au format officiel": "Comprehension and expression, in the official format",
-  "Un corrigé C1 à écrire mot à mot, corrigé aussitôt": "A C1 model text to write word for word, corrected at once",
+  "Dictée, vocabulaire, grammaire et conjugaison": "Dictation, vocabulary, grammar and conjugation",
   "Vos scores TCF convertis en niveaux NCLC": "Your TCF scores converted into NCLC levels",
   "Tout le déroulé du TCF Canada, épreuve par épreuve": "How the TCF Canada works, test by test",
   "Conseils et méthodes pour réussir": "Tips and methods to succeed",
-  "Les réponses aux questions fréquentes": "Answers to common questions",
   "Ce qu'en disent nos candidats": "What our candidates say",
-  "Qui sommes-nous, et pourquoi Passerelle": "Who we are, and why Passerelle",
   "Sujets du mois": "Topics of the month",
   "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
     "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",
