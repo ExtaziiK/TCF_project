@@ -118,8 +118,12 @@ export function ConjugationQuiz({ tense, mode, onModeChange, blocked = false, re
         <ProgressBar pct={pct} />
       </div>
 
-      {/* key: a fresh exercise state (input, verdict) for every question */}
-      <ConjugationExercise key={`${round}-${index}`} q={item} mode={mode} onAnswer={answer} autoFocus />
+      {/* key: a fresh exercise state (input, verdict) for every question.
+          The answer box takes the cursor, except for the very first exercise on
+          a touch screen: there, focusing it would pop the keyboard up as soon as
+          the tool opens. Once the candidate is answering, it stays open anyway. */}
+      <ConjugationExercise key={`${round}-${index}`} q={item} mode={mode} onAnswer={answer}
+        autoFocus={index > 0 || round > 0 || !window.matchMedia?.("(pointer: coarse)").matches} />
 
       <div className="mt-5 flex items-center gap-3">
         <Btn small icon={index + 1 >= items.length ? Flag : ArrowRight} onClick={next}>
