@@ -71,7 +71,7 @@ function Marker({ tool, on, onSelect, side, sink }) {
   const left = side === "left";
   const shape = left
     ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "translate-x-0" : "translate-x-4 enabled:hover:translate-x-2"}`
-    : `flex-1 md:flex-none justify-center min-w-0 rounded-t-2xl px-2 md:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "translate-y-0" : "translate-y-3 enabled:hover:translate-y-1.5"}`;
+    : `flex-1 md:flex-none justify-center min-w-0 rounded-t-2xl px-1 md:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "translate-y-0" : "translate-y-3 enabled:hover:translate-y-1.5"}`;
   const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
@@ -100,9 +100,12 @@ function Marker({ tool, on, onSelect, side, sink }) {
 // 2px border so the straight edge stops where the curve starts. A top marker's
 // foot sinks into the page by `sink` px (measured, see Pratique): its curves
 // end on the page's top border, and the foot below is covered so the side
-// lines don't run on into the page.
-const R = 14;
+// lines don't run on into the page. Top curves are a little smaller (10px):
+// the marker row is inset from the page's rounded corners by corner radius +
+// curve (px-8), so the first and last markers' curves land on the straight
+// top edge, not on a corner.
 function Joins({ left, sink, line, fill }) {
+  const R = left ? 14 : 10;
   const arc = (at) => ({ width: R, height: R, background: `radial-gradient(circle at ${at}, transparent ${R - 2}px, ${line} ${R - 2}px, ${line} ${R}px, ${fill} ${R}px)` });
   const base = "pointer-events-none absolute";
   return left ? (
@@ -158,7 +161,7 @@ export function Pratique() {
       {/* Small screens: the markers poke out of the notebook's top edge, in
           one row (icons only on phones, so it fits; from md it scrolls
           sideways if needed); the page overlaps their feet. */}
-      <nav ref={topNav} aria-label={t("Exercices")} className="lg:hidden flex items-end gap-2 px-4 md:px-6 md:overflow-x-auto -mb-4">
+      <nav ref={topNav} aria-label={t("Exercices")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-8 md:overflow-x-auto -mb-4">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" sink={sink} />)}
       </nav>
 
