@@ -128,18 +128,21 @@ export const EMAIL_TEMPLATES = {
     },
   },
   // The 2026-10-25 release: new design, EE/EO as on exam day, 200+ dictées,
-  // the cahier d'entraînement and the carnet d'erreurs. No offer in it — the
-  // point is "you progress for real", never "a shortcut to the exam".
+  // the cahier d'entraînement and the carnet d'erreurs — the point is "you
+  // progress for real", never "a shortcut to the exam". Since 2026-10-26 it
+  // also carries a launch code: PASSE20 (20 % off in Stripe; PASSE25, first
+  // asked for, does not exist there), valid until Thursday 29 October.
   announce: {
     key: "email_announce_platform",
     title: "Annonce : la nouvelle plateforme",
-    when: "Envoyé à la main, avec le bouton ci-dessous, à tous les comptes ou à tous sauf les abonnés en cours. Personne ne reçoit deux fois le même objet : changer l'objet en fait un nouvel envoi.",
+    when: "Envoyé à la main, avec le bouton ci-dessous, à tous les comptes ou à tous sauf les abonnés en cours. Personne ne reçoit deux fois le même objet : changer l'objet en fait un nouvel envoi. Le code de l'encadré doit exister et être actif dans Stripe.",
     audience: true,
     audiences: ["all", "free"],
+    promo: { code: "PASSE20", text: "**-20 %** sur votre forfait" },
     placeholders: {},
     defaults: {
       subject: "TCF Passerelle fait peau neuve : un entraînement fidèle au jour de l'examen",
-      body: "**TCF Passerelle** fait peau neuve ! Nous avons redessiné toute la plateforme et revu chacun de ses outils, avec un seul objectif : **vous faire réellement progresser, pour que le jour de l'examen, rien ne vous surprenne.**\n\n[▶ Voir la nouvelle plateforme en vidéo (2 min)](video)\n\n**1. Un nouveau design, plus clair.** Les épreuves d'un côté, les exercices de l'autre, et un tableau de bord qui vous montre quoi travailler ensuite.\n\n**2. L'expression écrite et orale, comme le jour J.** À l'écrit : même chronomètre, mêmes consignes, même nombre de mots, et une correction exigeante sur la grille officielle, notée sur 20. À l'oral : une examinatrice vous interroge, vous répondez à voix haute avec les temps officiels et sans sous-titres, puis vous recevez une note et des conseils précis.\n\n**3. La dictée : plus de 200 textes**, écrits à partir de vrais sujets d'examen. Vous les écrivez mot à mot et chaque faute est corrigée aussitôt.\n\n**4. Votre cahier d'entraînement.** La dictée, le vocabulaire, la grammaire, la conjugaison et la révision réunis dans un seul cahier, pour combler vos lacunes un peu chaque jour.\n\n**5. Le carnet d'erreurs.** Vos questions manquées et vos fautes de dictée y arrivent automatiquement, pour les retravailler jusqu'à ne plus les refaire.\n\n**Notre philosophie :** TCF Passerelle n'est pas un raccourci, et aucun outil ne passera l'examen à votre place. Le jour J, c'est vous, face à votre feuille et à votre micro. Notre rôle est de vous y amener avec un vrai niveau : des conditions réelles, des corrections honnêtes et des exercices ciblés. C'est cette progression qui fait la différence sur votre score.\n\n[Découvrir la nouvelle plateforme](accueil)\n\nBonne préparation,",
+      body: "**TCF Passerelle** fait peau neuve ! Nous avons revu toute la plateforme avec un seul objectif : **vous faire réellement progresser, pour que le jour de l'examen, rien ne vous surprenne.**\n\n[▶ Voir la nouvelle plateforme en vidéo (2 min)](video)\n\n**1. Un nouveau design, plus clair.** Les épreuves d'un côté, les exercices de l'autre, et un tableau de bord qui vous montre quoi travailler ensuite.\n\n**2. L'écrit et l'oral, comme le jour J.** Mêmes consignes, même chronomètre, même nombre de mots, et une correction exigeante sur la grille officielle. À l'oral, une examinatrice vous interroge, sans sous-titres, puis vous recevez une note sur 20 et des conseils précis.\n\n**3. La dictée : plus de 200 textes**, tirés de vrais sujets d'examen et corrigés mot à mot.\n\n**4. Votre cahier d'entraînement :** dictée, vocabulaire, grammaire, conjugaison et révision, réunis dans un seul cahier.\n\n**5. Le carnet d'erreurs :** vos fautes y arrivent toutes seules, pour les retravailler jusqu'à ne plus les refaire.\n\n**Notre philosophie :** TCF Passerelle n'est pas un raccourci. Le jour J, c'est vous, face à votre feuille et à votre micro. Notre rôle est de vous y amener avec un vrai niveau, construit jour après jour.\n\nVous recevez ce courriel parce que vous faites partie de nos utilisateurs. Pour fêter la nouvelle plateforme, voici un code de **-20 %**, valable jusqu'au **jeudi 29 octobre** :\n\n{encadre}\n\n[Découvrir la nouvelle plateforme](accueil)\n\nBonne préparation,",
     },
   },
   premiumWelcome: {
