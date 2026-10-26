@@ -68,7 +68,7 @@ export const SOCIAL = [
     // raw, outside t().
     handle: "Passerelle TCF Canada",
     d: "Actualités, conseils et annonces",
-    url: "https://www.facebook.com/profile.php?id=100078002736992",
+    url: "https://www.facebook.com/profile.php?id=61593360993965",
     tone: "bg-[#1877F2]/10",
   },
   {
