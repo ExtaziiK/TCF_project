@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, EmbeddedShell } from "@/components/common/PageShell";
 import { RouteGuard } from "@/components/auth/RouteGuard";
@@ -61,7 +62,7 @@ function Badge({ children, tone }) {
 // Selected: sticks out further, filled, meeting the page's coloured edge.
 // Backgrounds stay neutral; the colour is in the outline (full colour when
 // selected) and the label.
-function Marker({ tool, on, onSelect, side }) {
+function Marker({ tool, on, onSelect, side, sink }) {
   const { t, dark, c } = useApp();
   const k = toolTone(tool.tone, dark);
   const left = side === "left";
@@ -75,7 +76,7 @@ function Marker({ tool, on, onSelect, side }) {
         disabled:opacity-55 disabled:cursor-not-allowed
         ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
-      {on && <Joins left={left} line={k.fill} fill={dark ? "#0F172A" : "#FFFFFF"} />}
+      {on && <Joins left={left} sink={sink} line={k.fill} fill={dark ? "#0F172A" : "#FFFFFF"} />}
       <tool.icon size={left ? 20 : 16} />
       {t(tool.l)}
       {tool.soon && <Badge tone="bg-slate-500/15 text-slate-500">{t("Bientôt")}</Badge>}
@@ -88,11 +89,12 @@ function Marker({ tool, on, onSelect, side }) {
 // corner, its outline bends into the page edge along a small curve on each
 // side (a concave quarter circle: transparent inside, the outline on the
 // arc, the marker's colour beyond it). Each one overlaps the marker's own
-// 2px border so the straight edge stops where the curve starts. On top
-// markers the foot that sinks into the page is also covered, so the side
-// lines don't run on into it.
+// 2px border so the straight edge stops where the curve starts. A top marker's
+// foot sinks into the page by `sink` px (measured, see Pratique): its curves
+// end on the page's top border, and the foot below is covered so the side
+// lines don't run on into the page.
 const R = 14;
-function Joins({ left, line, fill }) {
+function Joins({ left, sink, line, fill }) {
   const arc = (at) => ({ width: R, height: R, background: `radial-gradient(circle at ${at}, transparent ${R - 2}px, ${line} ${R - 2}px, ${line} ${R}px, ${fill} ${R}px)` });
   const base = "pointer-events-none absolute";
   return left ? (
@@ -102,9 +104,9 @@ function Joins({ left, line, fill }) {
     </>
   ) : (
     <>
-      <span aria-hidden="true" className={base} style={{ ...arc("0 0"), left: -R, bottom: 14 }} />
-      <span aria-hidden="true" className={base} style={{ ...arc("100% 0"), right: -R, bottom: 14 }} />
-      <span aria-hidden="true" className={base} style={{ left: -2, right: -2, bottom: 0, height: 14, background: fill }} />
+      <span aria-hidden="true" className={base} style={{ ...arc("0 0"), left: -R, bottom: sink - 2 }} />
+      <span aria-hidden="true" className={base} style={{ ...arc("100% 0"), right: -R, bottom: sink - 2 }} />
+      <span aria-hidden="true" className={base} style={{ left: -2, right: -2, bottom: 0, height: Math.max(0, sink - 2), background: fill }} />
     </>
   );
 }
@@ -117,6 +119,23 @@ export function Pratique() {
     || tools.find((x) => !x.soon && !x.premium) || tools.find((x) => !x.soon) || tools[0];
   const k = toolTone(active.tone, dark);
   const select = (r) => nav(r, { replace: true, scroll: false });
+  // How far the selected top marker's foot reaches into the page, measured
+  // rather than assumed: its curves have to land exactly on the page's edge.
+  const topNav = useRef(null);
+  const page = useRef(null);
+  const [sink, setSink] = useState(16);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const tab = topNav.current?.querySelector('[aria-current="page"]');
+      if (!tab || !page.current || !tab.offsetParent) return;
+      setSink(Math.round(tab.getBoundingClientRect().bottom - page.current.getBoundingClientRect().top));
+    };
+    measure();
+    const ro = new window.ResizeObserver(measure);
+    if (topNav.current) ro.observe(topNav.current);
+    if (page.current) ro.observe(page.current);
+    return () => ro.disconnect();
+  }, [active.r]);
   const Tool = active.page;
   const sheet = dark ? "border-slate-700" : "border-slate-300";
   // The page: neutral paper — the tool's colour is only in its outline, the
@@ -128,8 +147,8 @@ export function Pratique() {
       sub={t("Six outils, un seul cahier : choisissez un marque-page.")}>
       {/* Small screens: the markers poke out of the notebook's top edge, in a
           row that scrolls sideways; the page overlaps their feet. */}
-      <nav aria-label={t("Exercices")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
-        {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" />)}
+      <nav ref={topNav} aria-label={t("Exercices")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
+        {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" sink={sink} />)}
       </nav>
 
       {/* Tall, narrow markers: icon above the name. The row stretches, so the
@@ -150,7 +169,7 @@ export function Pratique() {
 
         {/* The page. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
-        <div className={`relative h-full flex flex-col rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
+        <div ref={page} className={`relative h-full flex flex-col rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
           <div className={`flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] border-b-2 transition-colors duration-300 ${c.card}`} style={{ borderBottomColor: k.fill }}>
             <span className="grid place-items-center w-9 h-9 rounded-xl shrink-0" style={{ background: k.panel, color: k.ink }}><active.icon size={18} /></span>
             <div className="min-w-0">
