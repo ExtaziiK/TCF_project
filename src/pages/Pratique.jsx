@@ -75,11 +75,37 @@ function Marker({ tool, on, onSelect, side }) {
         disabled:opacity-55 disabled:cursor-not-allowed
         ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
+      {on && <Joins left={left} line={k.fill} fill={dark ? "#0F172A" : "#FFFFFF"} />}
       <tool.icon size={left ? 20 : 16} />
       {t(tool.l)}
       {tool.soon && <Badge tone="bg-slate-500/15 text-slate-500">{t("Bientôt")}</Badge>}
       {tool.premium && !tool.soon && <Badge tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
     </button>
+  );
+}
+
+// The selected marker's join with the page: instead of meeting it at a sharp
+// corner, its outline bends into the page edge along a small curve on each
+// side (a concave quarter circle: transparent inside, the outline on the
+// arc, the marker's colour beyond it). Each one overlaps the marker's own
+// 2px border so the straight edge stops where the curve starts. On top
+// markers the foot that sinks into the page is also covered, so the side
+// lines don't run on into it.
+const R = 14;
+function Joins({ left, line, fill }) {
+  const arc = (at) => ({ width: R, height: R, background: `radial-gradient(circle at ${at}, transparent ${R - 2}px, ${line} ${R - 2}px, ${line} ${R}px, ${fill} ${R}px)` });
+  const base = "pointer-events-none absolute";
+  return left ? (
+    <>
+      <span aria-hidden="true" className={base} style={{ ...arc("0 0"), right: 0, top: -R }} />
+      <span aria-hidden="true" className={base} style={{ ...arc("0 100%"), right: 0, bottom: -R }} />
+    </>
+  ) : (
+    <>
+      <span aria-hidden="true" className={base} style={{ ...arc("0 0"), left: -R, bottom: 14 }} />
+      <span aria-hidden="true" className={base} style={{ ...arc("100% 0"), right: -R, bottom: 14 }} />
+      <span aria-hidden="true" className={base} style={{ left: -2, right: -2, bottom: 0, height: 14, background: fill }} />
+    </>
   );
 }
 
