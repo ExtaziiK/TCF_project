@@ -76,7 +76,7 @@ function Marker({ tool, on, onSelect, side, sink }) {
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
       title={left ? undefined : t(tool.l)}
-      className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-[transform,color,border-color,box-shadow,opacity,filter] duration-300 ease-out ${left ? "" : "text-left"} ${shape}
+      className={`relative flex items-center gap-2 border-2 text-sm font-bold ${on ? "" : "transition-[transform,color,border-color,box-shadow,opacity,filter] duration-300 ease-out"} ${left ? "" : "text-left"} ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
         ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
@@ -104,7 +104,7 @@ function Marker({ tool, on, onSelect, side, sink }) {
 const R = 14;
 function Joins({ left, sink, line, fill }) {
   const arc = (at) => ({ width: R, height: R, background: `radial-gradient(circle at ${at}, transparent ${R - 2}px, ${line} ${R - 2}px, ${line} ${R}px, ${fill} ${R}px)` });
-  const base = "pointer-events-none absolute join-in";
+  const base = "pointer-events-none absolute";
   return left ? (
     <>
       <span aria-hidden="true" className={base} style={{ ...arc("0 0"), right: 0, top: -R }} />
@@ -181,7 +181,7 @@ export function Pratique() {
         {/* The page. `--tool-fill` lets selected tabs/chips inside the tool
             take its colour (see PageShell). */}
         <div ref={page} className={`relative h-full flex flex-col rounded-[22px] border-2 shadow-sm ${sheet}`} style={{ "--tool-fill": k.fill, borderLeftColor: k.fill, borderLeftWidth: 6 }}>
-          <div className={`flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] border-b-2 transition-colors duration-300 ${c.card}`} style={{ borderBottomColor: k.fill }}>
+          <div className={`flex items-center gap-3 px-5 md:px-8 py-3.5 rounded-tr-[20px] rounded-tl-[16px] border-b-2 ${c.card}`} style={{ borderBottomColor: k.fill }}>
             <span className="grid place-items-center w-9 h-9 rounded-xl shrink-0" style={{ background: k.panel, color: k.ink }}><active.icon size={18} /></span>
             <div className="min-w-0">
               <p className={`font-display font-extrabold text-lg leading-tight ${c.text}`}>{t(active.l)}</p>
@@ -195,7 +195,7 @@ export function Pratique() {
           <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-3 md:pr-8 pl-8 md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
             style={{ "--paper": paper, "--fine": `${k.ink}08`, "--main": `${k.ink}12`, "--margin": `${k.ink}30`, "--outline": `${k.ink}66` }}>
             <EmbeddedShell.Provider value>
-              <div key={active.r} className="tool-in"><RouteGuard route={active.r} inner><Tool /></RouteGuard></div>
+              <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
             </EmbeddedShell.Provider>
           </div>
         </div>
