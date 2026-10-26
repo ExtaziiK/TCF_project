@@ -2778,16 +2778,19 @@ export function Admin() {
 
   // The console's sections, grouped by purpose in the sidebar. `d` is the
   // one-line description shown in each section's header.
-  // Order set by the owner (2026-10-26): Contenu, Pilotage, Communauté, Sécurité.
-  // The console still opens on Aperçu (`tab` starts at "overview").
+  // Order set by the owner (2026-10-26): Aperçu alone at the top, with no
+  // heading (it is where the console opens), then Contenu, Pilotage,
+  // Communauté, Sécurité.
   const groups = [
+    { l: "", items: [
+      { id: "overview", l: "Aperçu", icon: LayoutDashboard, d: "Les chiffres clés de la plateforme, en direct." },
+    ] },
     { l: "Contenu", items: [
       { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
       { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
       { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
     ] },
     { l: "Pilotage", items: [
-      { id: "overview", l: "Aperçu", icon: LayoutDashboard, d: "Les chiffres clés de la plateforme, en direct." },
       { id: "revenue", l: "Revenus", icon: Wallet, d: "Ventes et recettes, par période." },
       { id: "traffic", l: "Trafic", icon: Globe, d: "Visites du site et provenance du trafic." },
       { id: "usage", l: "Utilisation", icon: Gauge, d: "Consommation de l'IA, limites et incidents." },
@@ -2834,8 +2837,8 @@ export function Admin() {
           {/* Desktop: the sections grouped under small headings. */}
           <Card className="hidden lg:block p-3">
             {groups.map((g, gi) => (
-              <div key={g.l} className={gi ? `mt-3 pt-3 border-t ${c.border}` : ""}>
-                <p className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{g.l}</p>
+              <div key={g.l || gi} className={gi ? `mt-3 pt-3 border-t ${c.border}` : ""}>
+                {g.l && <p className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{g.l}</p>}
                 <div role="tablist" className="space-y-0.5">
                   {g.items.map((x) => {
                     const on = tab === x.id;
