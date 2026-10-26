@@ -70,13 +70,13 @@ function Marker({ tool, on, onSelect, side, sink }) {
   const k = toolTone(tool.tone, dark);
   const left = side === "left";
   const shape = left
-    ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "ml-0" : "ml-4 enabled:hover:ml-2"}`
-    : `flex-1 md:flex-none justify-center min-w-0 rounded-t-2xl px-2 md:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
+    ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "translate-x-0" : "translate-x-4 enabled:hover:translate-x-2"}`
+    : `flex-1 md:flex-none justify-center min-w-0 rounded-t-2xl px-2 md:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "translate-y-0" : "translate-y-3 enabled:hover:translate-y-1.5"}`;
   const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
       title={left ? undefined : t(tool.l)}
-      className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-all duration-300 ${left ? "" : "text-left"} ${shape}
+      className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-[transform,color,border-color,box-shadow,opacity,filter] duration-300 ease-out ${left ? "" : "text-left"} ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
         ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
@@ -104,7 +104,7 @@ function Marker({ tool, on, onSelect, side, sink }) {
 const R = 14;
 function Joins({ left, sink, line, fill }) {
   const arc = (at) => ({ width: R, height: R, background: `radial-gradient(circle at ${at}, transparent ${R - 2}px, ${line} ${R - 2}px, ${line} ${R}px, ${fill} ${R}px)` });
-  const base = "pointer-events-none absolute";
+  const base = "pointer-events-none absolute join-in";
   return left ? (
     <>
       <span aria-hidden="true" className={base} style={{ ...arc("0 0"), right: 0, top: -R }} />
@@ -134,9 +134,11 @@ export function Pratique() {
   const [sink, setSink] = useState(16);
   useLayoutEffect(() => {
     const measure = () => {
-      const tab = topNav.current?.querySelector('[aria-current="page"]');
-      if (!tab || !page.current || !tab.offsetParent) return;
-      setSink(Math.round(tab.getBoundingClientRect().bottom - page.current.getBoundingClientRect().top));
+      // The nav's bottom is where every marker's foot ends (items-end); the
+      // selected one itself may still be sliding up, so it isn't measured.
+      const bar = topNav.current;
+      if (!bar || !page.current || !bar.offsetParent) return;
+      setSink(Math.round(bar.getBoundingClientRect().bottom - page.current.getBoundingClientRect().top));
     };
     measure();
     const ro = new window.ResizeObserver(measure);
@@ -193,7 +195,7 @@ export function Pratique() {
           <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-3 md:pr-8 pl-8 md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
             style={{ "--paper": paper, "--fine": `${k.ink}08`, "--main": `${k.ink}12`, "--margin": `${k.ink}30`, "--outline": `${k.ink}66` }}>
             <EmbeddedShell.Provider value>
-              <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
+              <div key={active.r} className="tool-in"><RouteGuard route={active.r} inner><Tool /></RouteGuard></div>
             </EmbeddedShell.Provider>
           </div>
         </div>

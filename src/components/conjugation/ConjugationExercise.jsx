@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, X, AlertTriangle, CornerDownLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
@@ -24,6 +24,9 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
   const [chosen, setChosen] = useState(null);
   const inputRef = useRef(null);
   const done = verdict !== null;
+  // Focus the input without scrolling to it: `autoFocus` would scroll the
+  // page down to the exercise when the tool opens (its marker in the cahier).
+  useEffect(() => { if (autoFocus) inputRef.current?.focus({ preventScroll: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const settle = (v, given) => {
     setVerdict(v);
@@ -99,7 +102,6 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
             <input
               ref={inputRef}
               value={typed}
-              autoFocus={autoFocus}
               disabled={done}
               onChange={(e) => setTyped(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
