@@ -59,6 +59,9 @@ function Badge({ children, tone }) {
 
 // A page marker, sticking out of the notebook's left edge (`side="left"`,
 // from lg) or its top edge (small screens). Unselected: pale and set back.
+// On phones the six top markers share the width equally and show only their
+// icon — the page's header right below names the selected tool — so they all
+// fit without scrolling; the name comes back from md.
 // Selected: sticks out further, filled, meeting the page's coloured edge.
 // Backgrounds stay neutral; the colour is in the outline (full colour when
 // selected) and the label.
@@ -68,19 +71,24 @@ function Marker({ tool, on, onSelect, side, sink }) {
   const left = side === "left";
   const shape = left
     ? `flex-col justify-center text-center rounded-l-2xl px-2.5 py-5 border-r-0 leading-tight ${on ? "ml-0" : "ml-4 enabled:hover:ml-2"}`
-    : `shrink-0 rounded-t-2xl px-3.5 sm:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
+    : `flex-1 md:flex-none justify-center min-w-0 rounded-t-2xl px-2 md:px-4 pt-2.5 pb-6 border-b-0 whitespace-nowrap ${on ? "mt-0" : "mt-3 enabled:hover:mt-1.5"}`;
   const accent = left ? { borderLeftColor: k.fill, borderLeftWidth: 5 } : { borderTopColor: k.fill, borderTopWidth: 4 };
   return (
     <button type="button" onClick={onSelect} disabled={tool.soon} aria-current={on ? "page" : undefined}
+      title={left ? undefined : t(tool.l)}
       className={`relative flex items-center gap-2 border-2 text-sm font-bold transition-all duration-300 ${left ? "" : "text-left"} ${shape}
         disabled:opacity-55 disabled:cursor-not-allowed
         ${c.card} ${on ? "z-30 shadow-md" : `z-0 ${tool.premium ? "grayscale opacity-60 hover:opacity-90" : ""}`}`}
       style={on ? { borderColor: k.fill, color: k.ink } : { borderColor: k.edge, ...accent, color: k.ink }}>
       {on && <Joins left={left} sink={sink} line={k.fill} fill={dark ? "#0F172A" : "#FFFFFF"} />}
-      <tool.icon size={left ? 20 : 16} />
-      {t(tool.l)}
-      {tool.soon && <Badge tone="bg-slate-500/15 text-slate-500">{t("Bientôt")}</Badge>}
-      {tool.premium && !tool.soon && <Badge tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
+      <tool.icon size={left ? 20 : 18} className="shrink-0 md:w-4 md:h-4" />
+      <span className={left ? "contents" : "sr-only md:not-sr-only md:contents"}>
+        {t(tool.l)}
+        {tool.soon && <Badge tone="bg-slate-500/15 text-slate-500">{t("Bientôt")}</Badge>}
+        {tool.premium && !tool.soon && <Badge tone="bg-amber-400 text-slate-900">{t("Premium")}</Badge>}
+      </span>
+      {/* Phones, icon only: a dot stands in for the Premium badge. */}
+      {!left && tool.premium && !tool.soon && <span aria-hidden="true" className="md:hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-400" />}
     </button>
   );
 }
@@ -145,9 +153,10 @@ export function Pratique() {
   return (
     <PageShell wide eyebrow={t("Exercices")} title={t("Votre cahier d'entraînement")}
       sub={t("Six outils, un seul cahier : choisissez un marque-page.")}>
-      {/* Small screens: the markers poke out of the notebook's top edge, in a
-          row that scrolls sideways; the page overlaps their feet. */}
-      <nav ref={topNav} aria-label={t("Exercices")} className="lg:hidden flex items-end gap-1.5 sm:gap-2 px-6 overflow-x-auto -mb-4">
+      {/* Small screens: the markers poke out of the notebook's top edge, in
+          one row (icons only on phones, so it fits; from md it scrolls
+          sideways if needed); the page overlaps their feet. */}
+      <nav ref={topNav} aria-label={t("Exercices")} className="lg:hidden flex items-end gap-2 px-4 md:px-6 md:overflow-x-auto -mb-4">
         {tools.map((tl) => <Marker key={tl.r} tool={tl} on={tl.r === active.r} onSelect={() => select(tl.r)} side="top" sink={sink} />)}
       </nav>
 
