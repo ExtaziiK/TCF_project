@@ -88,8 +88,8 @@ export function signedLetter(site, inner) {
 // Tarifs page — the code must be active in Stripe while it is filmed.
 export const PROMO_GIFS = {
   PASSE20: { src: "/promo-passe20.gif", width: 400, height: 126 }, // the 2026-10 announcement's
-  TCF30: { src: "/promo-tcf30.gif", width: 400, height: 193 },
-  TCF50: { src: "/promo-tcf50.gif", width: 400, height: 229 }, // the 2026-09 campaign's
+  TCF30: { src: "/promo-tcf30.gif", width: 400, height: 126 },
+  TCF50: { src: "/promo-tcf50.gif", width: 400, height: 126 }, // the 2026-09 campaign's
 };
 
 // The page that walks through using a code (src/pages/CodePromo.jsx).
