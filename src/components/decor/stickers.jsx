@@ -101,44 +101,56 @@ export function Flight({ color, width = 220, flip, tilt = 0, lead = "plane" }) {
 
 // Alive: the eyes blink, and every few seconds it stretches up, swaps its grin
 // for a round "O" and lets out a "Boo !". Stickers sharing a page are put out of
-// step by their tilt. Under prefers-reduced-motion it rests on the grin (the
+// step by their tilt (booDelay). Under prefers-reduced-motion it rests on the grin (the
 // "O" and the "Boo !" are hidden by default, not by the animation).
+// Puts stickers sharing a page out of step (Pumpkin, Ghost), keyed on the tilt.
+const booDelay = (tilt) => ({ animationDelay: `${-((Math.abs(tilt) * 0.37) % 4.2).toFixed(2)}s` });
+
 export function Pumpkin({ color = "#EA6A12", size = 56, tilt = 0 }) {
   const deep = deepOf(color);
-  const delay = { animationDelay: `${-((Math.abs(tilt) * 0.37) % 4.2).toFixed(2)}s` };
+  const delay = booDelay(tilt);
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" overflow="visible" style={{ transform: `rotate(${tilt}deg)` }}>
-      <g className="pumpkin-boo" style={delay}>
+      <g className="boo-boo" style={delay}>
         <path d="M50 30c-1-9 2-17 10-22" stroke="#3F7D2C" strokeWidth="6" strokeLinecap="round" fill="none" />
         <ellipse cx="31" cy="62" rx="23" ry="30" fill={deep} />
         <ellipse cx="69" cy="62" rx="23" ry="30" fill={deep} />
         <ellipse cx="50" cy="62" rx="24" ry="33" fill={color} />
         <g fill="#2A1606">
-          <g className="pumpkin-blink">
+          <g className="boo-blink">
             <path d="M31 56l7-11 7 11Z" />
             <path d="M55 56l7-11 7 11Z" />
           </g>
-          <path className="pumpkin-grin" style={delay} d="M30 68c7 13 33 13 40 0-4 2-7 3-10 2l-3 4-4-4-4 4-4-4-3 4-3-4c-3 1-6 0-9-2Z" />
-          <ellipse className="pumpkin-o" style={delay} cx="50" cy="73" rx="8" ry="10" opacity="0" />
+          <path className="boo-grin" style={delay} d="M30 68c7 13 33 13 40 0-4 2-7 3-10 2l-3 4-4-4-4 4-4-4-3 4-3-4c-3 1-6 0-9-2Z" />
+          <ellipse className="boo-o" style={delay} cx="50" cy="73" rx="8" ry="10" opacity="0" />
         </g>
       </g>
-      <text className="pumpkin-say" style={delay} x="0" y="22" opacity="0" fill={color}
+      <text className="boo-say" style={delay} x="0" y="22" opacity="0" fill={color}
         fontFamily="inherit" fontWeight="800" fontSize="19">Boo !</text>
     </svg>
   );
 }
 
+// Same life as the pumpkin: blinks, and on the same loop rises, opens its
+// mouth wide and says "Boo !".
 export function Ghost({ color, size = 56, tilt = 0 }) {
   const { dark } = useApp();
+  const delay = booDelay(tilt);
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
-      <path d="M22 90V46a28 28 0 0 1 56 0v44l-9-8-9 8-10-8-10 8-9-8Z" fill={dark ? "#E9E7F7" : "#FFFFFF"}
-        stroke={color} strokeWidth="5" strokeLinejoin="round" />
-      <g fill="#1F1A2E">
-        <ellipse cx="40" cy="48" rx="5" ry="7" />
-        <ellipse cx="60" cy="48" rx="5" ry="7" />
-        <ellipse cx="50" cy="65" rx="6" ry="5" />
+    <svg width={size} height={size} viewBox="0 0 100 100" overflow="visible" style={{ transform: `rotate(${tilt}deg)` }}>
+      <g className="boo-boo" style={delay}>
+        <path d="M22 90V46a28 28 0 0 1 56 0v44l-9-8-9 8-10-8-10 8-9-8Z" fill={dark ? "#E9E7F7" : "#FFFFFF"}
+          stroke={color} strokeWidth="5" strokeLinejoin="round" />
+        <g fill="#1F1A2E">
+          <g className="boo-blink">
+            <ellipse cx="40" cy="48" rx="5" ry="7" />
+            <ellipse cx="60" cy="48" rx="5" ry="7" />
+          </g>
+          <ellipse className="boo-mouth" style={delay} cx="50" cy="65" rx="6" ry="5" />
+        </g>
       </g>
+      <text className="boo-say" style={delay} x="0" y="14" opacity="0" fill={color}
+        fontFamily="inherit" fontWeight="800" fontSize="19">Boo !</text>
     </svg>
   );
 }
