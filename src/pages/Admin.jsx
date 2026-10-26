@@ -2787,7 +2787,7 @@ export function Admin() {
     ] },
     { l: "Contenu", items: [
       { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
-      { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
+      { id: "questions", l: "Sujets du mois", icon: FileText, d: "Les sujets du mois d'expression écrite et orale." },
       { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
     ] },
     { l: "Pilotage", items: [
