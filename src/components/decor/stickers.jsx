@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useApp } from "@/context/AppContext";
 
 // Themed "stickers" that fill the empty sides of the landing page: French
@@ -75,16 +76,19 @@ export function Maple({ color, size = 56, tilt = 0 }) {
   );
 }
 
-// Dashed flight path ending in a paper plane (or, for Halloween, a bat); the
+// Dashed flight path ending in a paper plane (or, for Halloween, a bat; for
+// the 1er Novembre, the Algerian flag); the
 // dashes travel along it.
 export function Flight({ color, width = 220, flip, tilt = 0, lead = "plane" }) {
   return (
-    <svg width={width} height={width / 2} viewBox="0 0 220 110" fill="none"
+    <svg width={width} height={width / 2} viewBox="0 0 220 110" fill="none" overflow="visible"
       style={{ transform: `${flip ? "scaleX(-1) " : ""}rotate(${tilt}deg)` }}>
       <path className="decor-dash" d="M6 102C56 104 62 40 112 46s70 34 86-20" stroke={color} strokeWidth="2.5"
         strokeLinecap="round" strokeDasharray="2 9" />
       {lead === "bat" ? (
         <g transform="translate(176 8) scale(.44)"><BatShape color={color} /></g>
+      ) : lead === "flag" ? (
+        <g transform="translate(194.5 -1) scale(.3)"><FlagShape /></g>
       ) : (
         <g transform="translate(192 4) rotate(20)">
           <path d="M0 12 26 0 18 26 12 16Z" fill={color} />
@@ -259,6 +263,113 @@ export function Garland({ color, width = 220, flip, tilt = 0 }) {
             cx={x} cy={y + 11} rx="5" ry="7.5" fill={BULB_COLORS[i % BULB_COLORS.length]} />
         </g>
       ))}
+    </svg>
+  );
+}
+
+/* ── 1er Novembre (Algeria) ─────────────────────────────────────────────────
+ * The anniversary of the 1 November 1954 uprising that opened the war of
+ * independence — a national day of pride and remembrance, not a party. So the
+ * stickers are its own symbols, drawn soberly: the flag, its crescent and star,
+ * Maqam Echahid (the Martyrs' Memorial in Algiers, three palm leaves raised
+ * around an eternal flame) and an olive branch for the peace that was won.
+ * Flag colours are the official ones; nothing here shows weapons or combat. */
+
+export const DZ = { green: "#006233", red: "#D21034", white: "#FFFFFF" };
+
+// Crescent opening to the right: the outer circle (cx, cy, R) minus an inner
+// one of radius r shifted right by d. One path, so no mask (and no ids).
+const crescent = (cx, cy, R, r, d) => {
+  const a = (R * R - r * r + d * d) / (2 * d);
+  const h = Math.sqrt(R * R - a * a);
+  const x = (cx + a).toFixed(2), y1 = (cy - h).toFixed(2), y2 = (cy + h).toFixed(2);
+  return `M${x} ${y1}A${R} ${R} 0 1 0 ${x} ${y2}A${r} ${r} 0 ${a > d ? 1 : 0} 1 ${x} ${y1}Z`;
+};
+// Five-pointed star turned so a point faces the crescent, as on the flag.
+const starTurned = (cx, cy, R, r, turn) =>
+  "M" + Array.from({ length: 10 }, (_, i) => {
+    const t = (Math.PI / 5) * i - Math.PI / 2 + turn;
+    const d = i % 2 ? r : R;
+    return `${(cx + d * Math.cos(t)).toFixed(1)} ${(cy + d * Math.sin(t)).toFixed(1)}`;
+  }).join("L") + "Z";
+
+// The emblem in a 100×100 box: crescent centred, star inside its horns.
+const EMBLEM_CRESCENT = crescent(46, 50, 30, 24, 9);
+const EMBLEM_STAR = starTurned(60, 50, 14, 5.6, -Math.PI / 2 - 0.3);
+
+// Flag at 3:2 on a pole, the fly edge rippled. The halves and the emblem are
+// drawn flat and clipped to the rippled outline, which reads as a flag in the
+// wind at sticker size. Drawn in a 100×100 box; also the lead of the flight
+// path (Flight lead="flag").
+export function FlagShape() {
+  const clip = useId();
+  return (
+    <g>
+      <rect x="10" y="8" width="4" height="88" rx="2" fill="#8A6A3D" />
+      <circle cx="12" cy="7" r="4" fill="#C9A227" />
+      <clipPath id={clip}>
+        <path d="M14 14C34 6 52 22 72 14S92 12 94 14V66C80 60 70 76 52 70S28 58 14 66Z" />
+      </clipPath>
+      <g clipPath={`url(#${clip})`}>
+        <rect x="14" y="4" width="40" height="72" fill={DZ.green} />
+        <rect x="54" y="4" width="42" height="72" fill={DZ.white} />
+        <g transform="translate(54 40) scale(.36) translate(-50 -50)" fill={DZ.red}>
+          <path d={EMBLEM_CRESCENT} />
+          <path d={EMBLEM_STAR} />
+        </g>
+      </g>
+      <path d="M14 14C34 6 52 22 72 14S92 12 94 14V66C80 60 70 76 52 70S28 58 14 66Z" fill="none" stroke="#0F172A" strokeOpacity=".12" strokeWidth="1.5" />
+    </g>
+  );
+}
+
+export function DzFlag({ size = 56, tilt = 0 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
+      <FlagShape />
+    </svg>
+  );
+}
+
+export function CrescentStar({ color = DZ.red, size = 56, tilt = 0 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
+      <path d={EMBLEM_CRESCENT} fill={color} />
+      <path d={EMBLEM_STAR} fill={color} />
+    </svg>
+  );
+}
+
+// Maqam Echahid, front view: the two outer palm leaves curving in, the middle
+// one behind them, all meeting under the lantern at the top, on its plinth,
+// with the eternal flame at the foot.
+export function Maqam({ color = DZ.green, size = 56, tilt = 0 }) {
+  const { dark } = useApp();
+  const stone = dark ? "#E2E8F0" : "#F1F5F9";
+  const line = dark ? "#94A3B8" : "#64748B";
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
+      <path d="M44 86C45 60 47 34 50 12C53 34 55 60 56 86Z" fill={stone} stroke={line} strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M20 86C26 60 38 36 48 18L50 12 49 26C42 46 35 66 33 86Z" fill={color} />
+      <path d="M80 86C74 60 62 36 52 18L50 12 51 26C58 46 65 66 67 86Z" fill={color} />
+      <rect x="45.5" y="20" width="9" height="7" rx="1.5" fill={stone} stroke={line} strokeWidth="1.2" />
+      <rect x="12" y="86" width="76" height="6" rx="1.5" fill={line} />
+      <path d="M50 84c-4-3-4-7 0-11 0 3 3 4 3 7s-1.5 4-3 4Z" fill="#E8A10C" />
+      <path d="M50 84c-2-1.5-2-3.5 0-6 0 2 1.5 2.5 1.5 4s-.8 2-1.5 2Z" fill={DZ.red} />
+    </svg>
+  );
+}
+
+export function OliveBranch({ color = DZ.green, size = 56, tilt = 0 }) {
+  const leaves = [[30, 70, -40], [38, 58, 35], [44, 50, -45], [52, 40, 30], [57, 33, -50], [65, 24, 25], [70, 18, -35]];
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
+      <path d="M18 88C34 66 56 40 78 12" stroke="#7A5A30" strokeWidth="3" strokeLinecap="round" fill="none" />
+      {leaves.map(([x, y, r], i) => (
+        <ellipse key={i} cx={x} cy={y} rx="11" ry="4.2" fill={color} transform={`rotate(${r} ${x} ${y}) translate(${i % 2 ? 9 : -9} 0)`} />
+      ))}
+      <ellipse cx="47" cy="60" rx="4" ry="5" fill="#3F4B1F" />
+      <ellipse cx="62" cy="40" rx="3.6" ry="4.6" fill="#3F4B1F" />
     </svg>
   );
 }

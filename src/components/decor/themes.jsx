@@ -5,6 +5,7 @@ import { waveDepth } from "./WaveSection";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
   Pumpkin, Ghost, Bat, Snowflake, Tree, Gift, Ornament, Garland,
+  DZ, DzFlag, CrescentStar, Maqam, OliveBranch,
 } from "./stickers";
 
 // Seasonal restyling of the sticker layouts (SectionDecor). A theme never moves
@@ -31,6 +32,27 @@ const THEMES = {
       "Génial !": "Terrifiant !",
       "Prêt ?": "Boo !",
       "À bientôt au Canada !": "Joyeux Halloween !",
+    },
+  },
+  // 1 November 1954: the start of Algeria's war of independence, a national day
+  // of pride and remembrance (most of our candidates are Algerian). Flag green
+  // and red, gold for the commemoration; the phrases are the ones heard that
+  // day — no jokes, no "fête" confetti.
+  novembre: {
+    // The flag itself keeps the official green; the text colour is a shade
+    // lighter so it still reads on the dark canvas.
+    colors: { [blue]: "#13894F", [violet]: DZ.red, [red]: "#0E7C4A", [amber]: "#B8892B" },
+    shapes: [[DzFlag], [Maqam], [CrescentStar, DZ.red], [OliveBranch, DZ.green]],
+    flight: [Flight, { lead: "flag" }],
+    text: {
+      "Bonjour !": "Vive l'Algérie !",
+      "On y va ?": "تحيا الجزائر",
+      "Bravo !": "Gloire à nos martyrs",
+      "À vous de jouer !": "1er Novembre 1954",
+      "Regardez !": "Novembre 1954",
+      "Prêt ?": "1954",
+      "Merci !": "Gloire à nos chouhada",
+      "À bientôt au Canada !": "Bonne fête de la Révolution !",
     },
   },
   christmas: {
