@@ -2800,7 +2800,14 @@ export function Admin() {
 
   // The console's sections, grouped by purpose in the sidebar. `d` is the
   // one-line description shown in each section's header.
+  // Order set by the owner (2026-10-26): Contenu, Pilotage, Communauté, Sécurité.
+  // The console still opens on Aperçu (`tab` starts at "overview").
   const groups = [
+    { l: "Contenu", items: [
+      { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
+      { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
+      { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
+    ] },
     { l: "Pilotage", items: [
       { id: "overview", l: "Aperçu", icon: LayoutDashboard, d: "Les chiffres clés de la plateforme, en direct." },
       { id: "revenue", l: "Revenus", icon: Wallet, d: "Ventes et recettes, par période." },
@@ -2812,11 +2819,6 @@ export function Admin() {
       { id: "requests", l: "Demandes", icon: Inbox, d: "Paiements en dinars à valider." },
       { id: "messages", l: "Messages", icon: MessageCircle, d: "Messages reçus par le formulaire de contact." },
       { id: "emails", l: "Emails", icon: Mail, d: "Modèles des emails envoyés aux membres." },
-    ] },
-    { l: "Contenu", items: [
-      { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
-      { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
-      { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
     ] },
     { l: "Sécurité", items: [
       { id: "audit", l: "Journal", icon: ScrollText, d: "Historique des actions sensibles." },
