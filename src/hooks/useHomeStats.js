@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { getHomeStats, getStudentCount } from "@/services/settingsService";
+import { getHomeStats, getLiveStats } from "@/services/settingsService";
 import { resolveStatValue } from "@/constants/contentStats";
-import { HOME_STATS_DEFAULT } from "@/constants/home";
+import { HOME_STATS_DEFAULT, LIVE_SOURCES } from "@/constants/home";
 
 // The landing page's "Statistique" band. Live content counts are recomputed
-// here, the student count is read from the database, published site counts
-// come from the stored snapshot.
+// here, the database figures come from /api/public/stats (one cached call).
 //
 // The band sits in the hero, so it renders on the first frame instead of
 // waiting for those two round trips: from the config and student count this
@@ -31,9 +30,7 @@ export function useHomeStats() {
     (async () => {
       const cfg = await getHomeStats();
       // Only pay for the extra round-trip when a row actually asks for it.
-      const live = cfg.items.some((it) => it.src === "students")
-        ? { students: await getStudentCount() }
-        : null;
+      const live = cfg.items.some((it) => LIVE_SOURCES.includes(it.src)) ? await getLiveStats() : null;
       if (cancelled) return;
       setState({ cfg, live });
       try { window.localStorage.setItem(CACHE, JSON.stringify({ cfg, live })); } catch { /* not critical */ }

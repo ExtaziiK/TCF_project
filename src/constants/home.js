@@ -3,41 +3,58 @@ import {
   Target, TrendingUp, Leaf, Shield, Sparkles, Wallet,
 } from "lucide-react";
 
-// Where a home stat draws its number from. `questions`, `series` and
-// `exercises` are counted live from the shipped content and `students` from the
-// database on every page load; `users`, `quizzes` and `exams` are snapshots the
-// admin publishes from the live Supabase figures (a logged-out visitor cannot
-// read those tables); `manual` is free text.
+// Where a home stat draws its number from. Every source but `manual` is
+// automatic: `questions`, `series` and `exercises` are counted from the shipped
+// content, the others (LIVE_SOURCES) come from /api/public/stats, which counts
+// the database server-side — a logged-out visitor cannot read those tables.
+// `manual` is free text.
+// Until 2026-10-26 `users`, `quizzes` and `exams` were snapshots the admin
+// re-published by hand; `quizzes` and `exams` are live now under the same ids,
+// and a saved `users` row reads as `students` (settingsService).
 // Declared here rather than in contentStats.js so settingsService can validate
 // a saved config without pulling the whole quiz bank into its bundle.
-export const STAT_SOURCES = ["questions", "series", "exercises", "students", "users", "quizzes", "exams", "manual"];
+export const LIVE_SOURCES = ["students", "quizzes", "exams", "answers", "dictees", "corrections"];
+export const STAT_SOURCES = ["questions", "series", "exercises", ...LIVE_SOURCES, "manual"];
+export const LEGACY_SOURCES = { users: "students" };
 
 export const STAT_SOURCE_LABELS = {
   questions: "Auto · questions du banc",
   series: "Auto · séries d'entraînement",
   exercises: "Auto · exercices grammaire & vocabulaire",
   students: "Auto · étudiants inscrits",
-  users: "Site · étudiants inscrits (figé)",
-  quizzes: "Site · quiz complétés",
-  exams: "Site · TCF blancs terminés",
+  quizzes: "Auto · quiz complétés",
+  exams: "Auto · TCF blancs terminés",
+  answers: "Auto · réponses enregistrées",
+  dictees: "Auto · textes de dictée",
+  corrections: "Auto · corrections par l'IA",
   manual: "Valeur libre",
 };
+
+// The label a row gets when its source is picked, so a new row is ready to
+// save without typing.
+export const STAT_DEFAULT_LABELS = {
+  questions: "questions type TCF",
+  series: "séries d'entraînement",
+  exercises: "exercices grammaire & vocabulaire",
+  students: "étudiants inscrits",
+  quizzes: "quiz complétés",
+  exams: "TCF blancs terminés",
+  answers: "réponses enregistrées",
+  dictees: "textes de dictée",
+  corrections: "corrections par l'IA",
+  manual: "",
+};
+
+export const MAX_HOME_STATS = 8;
 
 // The statistics band on the landing page. Admin-editable and toggleable
 // (Admin › Accueil › Statistique, stored in site_settings.home_stats); this is
 // the shape used until an admin saves their own — every figure is real, none is
-// invented. `src` picks where the number comes from (see contentStats.js):
-// content counts and the student count resolve live on every page load, site
-// counts start at 0 and grow as the admin republishes them from the live
-// Supabase figures.
+// invented, and every one updates by itself (see contentStats.js).
 export const HOME_STATS_DEFAULT = {
   enabled: true,
-  items: [
-    { src: "questions", n: "", l: "questions type TCF" },
-    { src: "series", n: "", l: "séries d'entraînement" },
-    { src: "exercises", n: "", l: "exercices grammaire & vocabulaire" },
-    { src: "students", n: "", l: "étudiants inscrits" },
-  ],
+  items: ["questions", "series", "exercises", "students", "answers", "quizzes", "dictees", "corrections"]
+    .map((src) => ({ src, n: "", l: STAT_DEFAULT_LABELS[src] })),
 };
 
 export const FEATURES = [
