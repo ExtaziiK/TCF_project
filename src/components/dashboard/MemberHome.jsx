@@ -14,6 +14,7 @@ import { listMistakes, bankQuestionIds, ownContentCardOk } from "@/services/mist
 import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES, canUseNotebook } from "@/auth/rbac";
 import { requestOpenQuiz } from "@/utils/openQuizRequest";
+import { PlanStatus } from "@/components/dashboard/PlanStatus";
 
 /* ------------------------------ small pieces ----------------------------- */
 
@@ -329,7 +330,8 @@ export function MemberHome() {
   );
 
   return (
-    <PageShell wide eyebrow={t("Tableau de bord")} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}>
+    <PageShell wide eyebrow={t("Tableau de bord")} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}
+      aside={<PlanStatus />}>
       <DzRequestStatus />
       {loading ? <Skeleton /> : <DashboardView data={data} toReview={toReview} />}
     </PageShell>

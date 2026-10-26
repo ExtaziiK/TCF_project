@@ -12,10 +12,20 @@ template → paste the subject and the message body → **Save**.
 | File | Supabase template | Subject line |
 |---|---|---|
 | [`reset-password.html`](reset-password.html) | Reset Password | `Réinitialisez votre mot de passe Passerelle` |
-| [`confirm-signup.html`](confirm-signup.html) | Confirm signup | `Votre code de confirmation Passerelle` |
+| [`confirm-signup.html`](confirm-signup.html) | Confirm signup | `Votre code de confirmation TCF Passerelle` |
 
 Paste the file's whole contents, `<!DOCTYPE html>` included — Supabase sends the
 body as-is, so a complete document is what gets delivered.
+
+## Confirm signup is edited from the admin tool
+
+Its wording lives with the other emails, in Administration → Emails →
+« Code de confirmation (inscription) » (`confirmSignup` in
+`api/_lib/emailTemplates.js`), and uses the same letter (logo, greeting,
+signature). Supabase still does the sending, so saving there changes nothing
+on its own: « Copier l’objet » and « Copier le HTML pour Supabase » give what to
+paste into the dashboard. `confirm-signup.html` here is the default text,
+exported the same way.
 
 ## Confirm signup sends a CODE, not a link
 

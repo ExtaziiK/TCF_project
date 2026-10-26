@@ -20,15 +20,24 @@ import { speak, stopSpeaking } from "@/utils/speech";
 // so work in progress survives a look at another tool, so anything that makes
 // sound has to stop itself.
 
-export function Frame({ ink, soft, label, children }) {
+// `footer`: an extra box at the bottom that grows to fill whatever height the
+// frame is given beyond its content — the showcase stretches every preview to
+// the tallest one's height, and this is what fills the difference instead of
+// an empty band.
+export function Frame({ ink, soft, label, children, footer }) {
   const { c } = useApp();
   return (
-    <div className={`flex-1 rounded-3xl p-5 md:p-6 ${c.card}`} style={{ boxShadow: `0 0 0 2px ${soft}` }}>
+    <div className={`flex-1 flex flex-col rounded-3xl p-5 md:p-6 ${c.card}`} style={{ boxShadow: `0 0 0 2px ${soft}` }}>
       <div className="flex items-center justify-between mb-4">
         <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>{label}</span>
         <span className="flex gap-1.5" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} className="w-2 h-2 rounded-full" style={{ background: soft }} />)}</span>
       </div>
       {children}
+      {footer && (
+        <div className="mt-4 flex-1 flex flex-col justify-center rounded-2xl px-4 py-3" style={{ background: `${soft}66` }}>
+          {footer}
+        </div>
+      )}
     </div>
   );
 }

@@ -190,7 +190,7 @@ export async function completeProfile({ name, username, country, acceptedTerms, 
   const consent = acceptedTerms ? { terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() } : {};
   {
     const { error } = await (await getSupabase()).auth.updateUser({
-      data: { ...meta, ...(name ? { name: normalizeName(name) } : {}), ...(country ? { country } : {}), ...consent, profile_pending: false },
+      data: { ...meta, ...(name ? { name: normalizeName(name), display_name: normalizeName(name) } : {}), ...(country ? { country } : {}), ...consent, profile_pending: false },
     });
     if (error) return { error };
   }
@@ -248,7 +248,10 @@ export function mapSupabaseUser(session) {
   if (!authUser) return null;
   return {
     id: authUser.id,
-    name: authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
+    // `display_name` first: it is the name chosen on the site (profile page,
+    // sign-up popup). `name` / `full_name` are rewritten from Google on every
+    // Google sign-in, which silently undid a renamed profile at the next login.
+    name: authUser.user_metadata?.display_name || authUser.user_metadata?.name || authUser.user_metadata?.full_name || authUser.email.split("@")[0],
     email: authUser.email,
     country: authUser.user_metadata?.country || null,
     // An email account created with only an address and a password: first
@@ -278,10 +281,12 @@ export async function getProfile() {
   return { username: data?.username || null, createdAt: user.created_at };
 }
 
-// Updates the display name (user_metadata.name), preserving other metadata.
+// Updates the display name, preserving other metadata. Written to
+// `display_name`, which Google sign-in leaves alone (it rewrites `name` and
+// `full_name` at every login); `name` is kept in step for older readers.
 export async function updateDisplayName(name) {
   const { data: { user } } = await (await getSupabase()).auth.getUser();
-  return (await getSupabase()).auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name) } });
+  return (await getSupabase()).auth.updateUser({ data: { ...(user?.user_metadata || {}), name: normalizeName(name), display_name: normalizeName(name) } });
 }
 
 // Renames the username in the profiles table. Stored lowercased; the unique
@@ -290,8 +295,12 @@ export async function updateUsername(username) {
   const clean = String(username).trim().toLowerCase();
   const { data: { user } } = await (await getSupabase()).auth.getUser();
   if (!user) return { error: { message: "Session expirée. Reconnectez-vous." } };
-  const { error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id);
+  // `.select()` so a write the database refused (row-level security) is
+  // reported: without it an update that changes no row still "succeeds", and
+  // the profile page said "Profil mis à jour" over a username left as it was.
+  const { data, error } = await (await getSupabase()).from("profiles").update({ username: clean }).eq("id", user.id).select("username");
   if (error?.code === "23505") return { error: { message: "Ce nom d'utilisateur est déjà pris." } };
+  if (!error && !data?.length) return { error: { message: "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous." } };
   return { error };
 }
 
@@ -462,7 +471,7 @@ export function passwordHint(password, { email, username } = {}) {
   const uname = String(username || "").toLowerCase();
   if (WEAK_PASSWORDS.some((w) => lower === w || lower.startsWith(w))) return "Ce mot de passe est trop courant.";
   if ((local.length >= 3 && lower.includes(local)) || (uname.length >= 3 && lower.includes(uname))) {
-    return "Évitez de reprendre votre courriel ou votre nom d'utilisateur.";
+    return "Évitez de reprendre votre adresse email ou votre nom d'utilisateur.";
   }
   if (pw.length < 10) return "Allongez-le : la longueur protège plus que les caractères spéciaux.";
   return null;
@@ -497,7 +506,7 @@ export async function signIn({ identifier, password }) {
   // email sign-in so login still works — without username or lockout.
   if (res.status === 404) {
     if (!String(identifier).includes("@")) {
-      return { ok: false, message: "En développement local, connectez-vous avec votre courriel." };
+      return { ok: false, message: "En développement local, connectez-vous avec votre adresse email." };
     }
     const { data, error } = await (await getSupabase()).auth.signInWithPassword({ email: identifier, password });
     if (error) return { ok: false, message: error.message };
@@ -530,7 +539,7 @@ export async function signIn({ identifier, password }) {
     return { ok: false, locked: true, retryAfter: json.retryAfter, message: `Trop de tentatives. Réessayez dans ${mins} min ou réinitialisez votre mot de passe.` };
   }
   if (json.needsConfirmation) {
-    return { ok: false, needsConfirmation: true, message: "Confirmez votre adresse courriel avant de vous connecter." };
+    return { ok: false, needsConfirmation: true, message: "Confirmez votre adresse email avant de vous connecter." };
   }
   return {
     ok: false,

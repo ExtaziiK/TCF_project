@@ -5,6 +5,7 @@ import gift from "../_lib/public/gift.js";
 import account from "../_lib/public/account.js";
 import countdown from "../_lib/public/countdown.js";
 import support from "../_lib/public/support.js";
+import sujets from "../_lib/public/sujets.js";
 
 // Single serverless function for the small unauthenticated endpoints, exactly
 // as api/admin/[resource].js does for the back office.
@@ -32,6 +33,7 @@ const handlers = {
   account,
   countdown, // the sale's countdown as an animated GIF, for emails
   support, // "Problème technique — besoin d'assistance": inbox row + email to the team
+  sujets, // the subjects archive — signed-in only, despite the folder's name
 };
 
 export default async function handler(req, res) {

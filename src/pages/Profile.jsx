@@ -9,6 +9,9 @@ import { PageShell, Card, Pill, Btn, StarRating } from "@/components/common";
 import { TestimonialForm } from "@/components/testimonial/TestimonialForm";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
+import { PlanStatus, GOLD_BTN } from "@/components/dashboard/PlanStatus";
+import { renameProfile } from "@/services/profileService";
+import { renameMyTestimonials } from "@/services/testimonialsService";
 import {
   getProfile, updateDisplayName, updateUsername, updatePassword,
   isValidName, isValidUsername, isUsernameAvailable, normalizeName, validatePassword,
@@ -38,7 +41,7 @@ function ProfileSection({ icon: Icon, title, desc, children }) {
 }
 
 export function Profile() {
-  const { c, user, role, nav, notify, dark, setDark, signOut, t } = useApp();
+  const { c, user, role, nav, notify, dark, setDark, signOut, t, profiles, reloadProfiles } = useApp();
   const inp = `w-full px-4 py-3 rounded-2xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   const [name, setName] = useState(user.name || "");
@@ -83,6 +86,20 @@ export function Profile() {
       if (nameChanged) {
         const { error } = await updateDisplayName(name);
         if (error) return notify(error.message);
+        // The name in the navbar and on the dashboard is the learner profile's
+        // (learner_profiles), not the account's: with a single profile they are
+        // the same person, so rename it too — otherwise the change saved here
+        // never shows anywhere. Several profiles are several people, each named
+        // in the profile chooser.
+        if (profiles?.length === 1) {
+          const r = await renameProfile(profiles[0].id, name);
+          if (!r.ok && r.error) return notify(t(r.error));
+          await reloadProfiles?.();
+        }
+        // Reviews were signed with the name at posting time: re-sign them.
+        // Best effort — the name is saved either way.
+        const rv = await renameMyTestimonials(normalizeName(name));
+        if (!rv.ok && !rv.unavailable) console.warn("rename_my_testimonials:", rv.error);
       }
       notify(t("Profil mis à jour."));
     } finally {
@@ -106,7 +123,7 @@ export function Profile() {
   };
 
   return (
-    <PageShell back eyebrow={t("Mon compte")} title={t("Profil et paramètres")} sub={t("Gérez vos informations, votre abonnement et vos préférences.")}>
+    <PageShell back eyebrow={t("Mon compte")} title={t("Profil et paramètres")} sub={t("Gérez vos informations, votre accès et vos préférences.")}>
       {/* identity header */}
       <Card className="p-6 mb-5 flex items-center gap-5">
         <span className="w-16 h-16 rounded-full grad-brand text-white text-2xl font-bold flex items-center justify-center shrink-0">{(user.name || "?")[0].toUpperCase()}</span>
@@ -115,10 +132,10 @@ export function Profile() {
             <h2 className={`font-display font-bold text-xl ${c.text}`}>{user.name}</h2>
             {user.owner && <Pill tone="amber"><Shield size={12} /> Owner</Pill>}
             {user.admin && <Pill tone="blue"><Shield size={12} /> Admin</Pill>}
-            {isPremium ? <Pill tone="blue"><Crown size={12} /> {currentPlanLabel(user.planLabel) || "Premium"}</Pill> : <Pill tone="slate">{t("Basic")}</Pill>}
           </div>
           {initialUsername && <p className={`text-sm ${c.sub}`}>@{initialUsername}</p>}
           <p className={`text-sm ${c.faint}`}>{user.email}</p>
+          <PlanStatus className="mt-3" />
         </div>
       </Card>
 
@@ -141,10 +158,10 @@ export function Profile() {
               </div>
             </div>
             <div>
-              <label className={`text-xs font-semibold ${c.sub}`}>{t("Courriel")}</label>
+              <label className={`text-xs font-semibold ${c.sub}`}>{t("Adresse email")}</label>
               <div className="relative mt-1.5">
                 <Mail size={16} className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${c.faint}`} />
-                <input value={user.email} disabled aria-label={t("Courriel")} className={`${inp} pl-10 opacity-60 cursor-not-allowed`} />
+                <input value={user.email} disabled aria-label={t("Adresse email")} className={`${inp} pl-10 opacity-60 cursor-not-allowed`} />
               </div>
             </div>
             <Btn small icon={Check} disabled={savingProfile} onClick={saveProfile}>{t(savingProfile ? "Enregistrement…" : "Enregistrer")}</Btn>
@@ -178,7 +195,7 @@ export function Profile() {
         </ProfileSection>
 
         {/* subscription */}
-        <ProfileSection icon={CreditCard} title={t("Abonnement")} desc={t(isPremium ? "Votre forfait Premium est actif." : "Vous utilisez le forfait gratuit Basic.")}>
+        <ProfileSection icon={CreditCard} title={t("Mon accès")} desc={t(isPremium ? "Votre accès complet est actif." : "Vous utilisez le compte gratuit.")}>
           {isPremium ? (
             <div className="space-y-3">
               <div className={`p-4 rounded-2xl bg-blue-600/10`}>
@@ -193,8 +210,8 @@ export function Profile() {
             </div>
           ) : (
             <div className="space-y-3">
-              <p className={`text-sm ${c.sub}`}>{t("Passez à Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}</p>
-              <Btn small variant="accent" icon={Crown} onClick={() => nav("pricing")}>{t("Passer à Premium")}</Btn>
+              <p className={`text-sm ${c.sub}`}>{t("Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}</p>
+              <Btn small variant="accent" style={GOLD_BTN} icon={Crown} onClick={() => nav("pricing")}>{t("Passer Premium")}</Btn>
             </div>
           )}
         </ProfileSection>

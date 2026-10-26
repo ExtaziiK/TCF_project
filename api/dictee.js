@@ -78,7 +78,7 @@ const LIBRARY_LIMIT = 80;
 const labelOf = (sujet) => (sujet.theme ? sujet.theme : sujet.prompt).replace(/\s+/g, " ").trim().slice(0, 240);
 
 async function sendLibrary(req, res) {
-  const [sujets, rows, used] = await Promise.all([listSujets(req), listLibrary(LIBRARY_LIMIT), generatedToday()]);
+  const [sujets, rows, used] = await Promise.all([listSujets(), listLibrary(LIBRARY_LIMIT), generatedToday()]);
 
   // (sujetKey, tâche) → the archive entry, so a cached row can be given its
   // prompt, its month and its theme.
@@ -146,7 +146,7 @@ export default async function handler(req, res) {
     // Only a sujet that can be served: already recorded, or with a model answer
     // to record. A dictée is never written here any more — it is the subject's
     // corrigé, written once in Admin › Sujets.
-    const [all, recorded, answered] = await Promise.all([listSujets(req), cachedKeysFor(task), answeredKeysFor(task)]);
+    const [all, recorded, answered] = await Promise.all([listSujets(), cachedKeysFor(task), answeredKeysFor(task)]);
     const pool = all.filter((s) => s.task === task && (recorded.has(s.key) || answered.has(s.key)));
     if (!pool.length) throw new HttpError(404, "Aucun sujet disponible pour cette tâche.");
 

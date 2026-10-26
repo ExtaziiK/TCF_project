@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles, ArrowLeft } from "lucide-react";
+import { Mail, Eye, EyeOff, CheckCircle2, AlertTriangle, BookOpen, Trophy, Sparkles, ArrowLeft, ArrowRight, Star } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { signIn, signUp, resetPassword, signInWithGoogle, mapSupabaseUser, consumeFirstLogin, authErrorMessage, validatePassword, verifySignupCode, resendSignupCode, abandonPendingSignup, CONFIRM_CODE_LENGTH } from "@/services/authService";
 import { PasswordMeter } from "@/components/auth/PasswordMeter";
 import { CodeInput } from "@/components/auth/CodeInput";
 import { useHomeStats } from "@/hooks/useHomeStats";
+import { useRatingSummary } from "@/hooks/useRatingSummary";
+import { BRAND, Bubble, Tile, Tag } from "@/components/decor/stickers";
 
 function GoogleIcon(props) {
   return (
@@ -24,57 +26,102 @@ function GoogleIcon(props) {
 // real figures (the same "Statistique" band, same admin switch); with the band
 // switched off it falls back to three plain feature lines. Decorative line and
 // sparkles are aria-hidden.
-function Sparkle({ x, y, color }) {
+const PANEL_ICONS = [BookOpen, Trophy, Sparkles];
+const PANEL_FALLBACK = ["Questions au format officiel", "TCF blancs notés sur 699", "Correction par IA de l'écrit et de l'oral"];
+
+// A flat Canadian flag, as in the landing page's collage.
+function Flag({ className = "" }) {
   return (
-    <path transform={`translate(${x} ${y})`} fill={color} stroke={color} strokeWidth="2" strokeLinejoin="round"
-      d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
+    <svg viewBox="0 0 200 100" className={className} aria-hidden="true">
+      <rect width="200" height="100" fill="#FFFFFF" />
+      <rect width="50" height="100" fill="#D52B1E" />
+      <rect x="150" width="50" height="100" fill="#D52B1E" />
+      <path fill="#D52B1E" transform="translate(64 14) scale(0.72)"
+        d="M50 3l8 17 9-5-3 25 15-12 4 8 12-2-6 15 6 5-22 16 4 10-23-4v22h-8V76l-23 4 4-10L5 54l6-5-6-15 12 2 4-8 15 12-3-25 9 5Z" />
+    </svg>
   );
 }
 
-const PANEL_ICONS = [BookOpen, Trophy, Sparkles];
-const PANEL_FALLBACK = ["Questions au format officiel", "TCF blancs notés sur 699", "Correction par IA de l'écrit et de l'oral"];
+const STAR_PATH = "M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z";
+const LINE = "M0 760H90a40 40 0 0 0 40-40V470a40 40 0 0 1 40-40H260 M540 400H640a40 40 0 0 0 40-40V120a40 40 0 0 1 40-40H800";
+// The two runs of the line, separately, for the light that travels them.
+const RUNS = ["M0 760H90a40 40 0 0 0 40-40V470a40 40 0 0 1 40-40H260", "M540 400H640a40 40 0 0 0 40-40V120a40 40 0 0 1 40-40H800"];
 
 function SidePanel() {
   const { t, dark } = useApp();
   const stats = useHomeStats();
+  const rating = useRatingSummary(); // null until there are enough reviews to mean anything
   const ink = dark ? "#C7D2E3" : "#14204A";
+  const bg = dark ? "#13234A" : "#C9DAFB";
+  const moving = typeof window === "undefined" || !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   const rows = stats.enabled && stats.items.length
     ? stats.items.slice(0, 3).map((it) => ({ key: it.key, strong: it.value, text: t(it.label) }))
     : PANEL_FALLBACK.map((l) => ({ key: l, strong: null, text: t(l) }));
+  const { blue, violet, red, amber } = BRAND;
   return (
-    <aside className="hidden lg:block relative overflow-hidden" style={{ background: dark ? "#13234A" : "#C9DAFB" }}>
+    <aside className="hidden lg:block relative overflow-hidden" style={{ background: bg }}>
+      {/* A soft glow in the brand colours, behind everything. */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <div className="absolute -left-24 top-1/4 w-96 h-96 rounded-full blur-3xl" style={{ background: blue, opacity: dark ? 0.35 : 0.22 }} />
+        <div className="absolute -right-16 bottom-10 w-80 h-80 rounded-full blur-3xl" style={{ background: violet, opacity: dark ? 0.3 : 0.18 }} />
+      </div>
       <svg aria-hidden="true" className="absolute inset-0 w-full h-full" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" fill="none">
-        <path stroke={ink} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-          d="M0 760H90a40 40 0 0 0 40-40V470a40 40 0 0 1 40-40H260 M540 400H640a40 40 0 0 0 40-40V120a40 40 0 0 1 40-40H800" />
-        <Sparkle x={130} y={560} color={dark ? "#13234A" : "#C9DAFB"} />
-        <Sparkle x={680} y={210} color={dark ? "#13234A" : "#C9DAFB"} />
-        <g fill="none">
-          <path transform="translate(130 560)" stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
-          <path transform="translate(680 210)" stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d="M0 -24C2 -6 6 -2 24 0C6 2 2 6 0 24C-2 6 -6 2 -24 0C-6 -2 -2 -6 0 -24Z" />
-        </g>
+        <path stroke={ink} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" d={LINE} />
+        {/* A small light running along each part of the line. */}
+        {moving && RUNS.map((d, k) => (
+          <circle key={k} r="5" fill={k ? violet : blue}>
+            <animateMotion dur={k ? "7s" : "6s"} begin={k ? "-3s" : "0s"} repeatCount="indefinite" path={d} />
+          </circle>
+        ))}
+        {[[130, 560, 0], [680, 210, 1]].map(([x, y, k]) => (
+          <g key={k} transform={`translate(${x} ${y})`}>
+            <path className={moving ? "auth-twinkle" : ""} style={{ animationDelay: `${k * -1.4}s` }}
+              fill={bg} stroke={ink} strokeWidth="2.5" strokeLinejoin="round" d={STAR_PATH} />
+          </g>
+        ))}
       </svg>
+
       <div className="relative h-full min-h-screen flex items-center justify-center p-10">
-        <div className="w-full max-w-sm rounded-3xl border-2 px-8 py-8 text-center"
-          style={{ borderColor: ink, background: dark ? "#0B1222" : "#FFFDF8", color: ink }}>
-          <p className="font-display text-xl leading-snug">
-            {t("Tout pour réussir le")} <strong className="font-extrabold">{t("TCF Canada")}</strong>
-          </p>
-          <ul className="mt-6 space-y-3">
-            {rows.map((r, i) => {
-              const Icon = PANEL_ICONS[i % PANEL_ICONS.length];
-              return (
-                <li key={r.key} className="flex items-center gap-3 rounded-full border-2 px-4 py-2.5 text-left" style={{ borderColor: ink }}>
-                  <span className="grid place-items-center w-8 h-8 rounded-full shrink-0 text-white" style={{ background: ["#2E6BE6", "#D8354A", "#6C4FE0"][i % 3] }}>
-                    <Icon size={16} />
-                  </span>
-                  <span className="text-sm leading-tight">
-                    {r.strong && <strong className="font-display font-extrabold text-base mr-1">{r.strong}</strong>}
-                    {r.text}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+        <div className="relative">
+          {/* The site's stickers, floating around the card. */}
+          <div aria-hidden="true" className="absolute -top-10 -left-14 decor-float"><Tag text="699 pts" color={amber} tilt={-6} /></div>
+          <div aria-hidden="true" className="absolute -top-6 -right-12 decor-float-slow"><Bubble text="Bonjour !" color={blue} solid tilt={6} tail="right" /></div>
+          <div aria-hidden="true" className="absolute -bottom-8 -left-10 decor-sway"><Tile ch="É" pts={3} color={red} tilt={-8} /></div>
+          <div aria-hidden="true" className="absolute -bottom-10 -right-10 decor-float"><Tag text="NCLC 9" color={violet} tilt={5} /></div>
+          <div aria-hidden="true" className="absolute top-1/2 -right-16 decor-sway"><Flag className="w-12 h-6 shadow-md" /></div>
+
+          <div className={moving ? "hero-float" : ""}>
+            <div className="w-full max-w-sm rounded-3xl border-2 px-8 py-8 text-center shadow-[8px_8px_0_0_rgba(20,32,74,.18)]"
+              style={{ borderColor: ink, background: dark ? "#0B1222" : "#FFFDF8", color: ink }}>
+              <p className="font-display text-xl leading-snug">
+                {t("Tout pour réussir le")} <strong className="font-extrabold">{t("TCF Canada")}</strong>
+              </p>
+              <ul className="mt-6 space-y-3">
+                {rows.map((r, i) => {
+                  const Icon = PANEL_ICONS[i % PANEL_ICONS.length];
+                  return (
+                    <li key={r.key} className="flex items-center gap-3 rounded-full border-2 px-4 py-2.5 text-left transition-transform hover:-translate-y-0.5" style={{ borderColor: ink }}>
+                      <span className="grid place-items-center w-8 h-8 rounded-full shrink-0 text-white" style={{ background: ["#2E6BE6", "#D8354A", "#6C4FE0"][i % 3] }}>
+                        <Icon size={16} />
+                      </span>
+                      <span className="text-sm leading-tight">
+                        {r.strong && <strong className="font-display font-extrabold text-base mr-1">{r.strong}</strong>}
+                        {r.text}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+              {/* The members' own rating, once there are enough reviews. */}
+              {rating && (
+                <p className="mt-5 inline-flex items-center gap-1.5 text-sm">
+                  {[0, 1, 2, 3, 4].map((k) => <Star key={k} size={15} className="text-amber-500" fill={k < Math.round(rating.average) ? "currentColor" : "none"} />)}
+                  <strong className="font-display ml-1">{rating.average.toFixed(1).replace(".", ",")}</strong>
+                  <span className="opacity-70">/ 5</span>
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -114,7 +161,7 @@ export function AuthPage({ mode }) {
     if (user) nav(user.admin || user.owner ? "admin" : "dashboard", { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+  const inp = `w-full px-4 py-3 rounded-xl border text-sm outline-none transition-shadow focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15 ${c.inputCls}`;
   // A field's label, above it; `required` adds the red asterisk.
   const Label = ({ htmlFor, children, required = true }) => (
     <label htmlFor={htmlFor} className={`block mb-1.5 text-sm font-semibold ${c.text}`}>
@@ -123,7 +170,7 @@ export function AuthPage({ mode }) {
   );
   // The page's main button: solid ink, white on the light theme, as on the
   // reference — the brand gradient stays for the rest of the site.
-  const solidBtn = `w-full py-3.5 rounded-full text-sm font-bold transition hover:opacity-90 disabled:opacity-50 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`;
+  const solidBtn = `group w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-bold transition hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:hover:translate-y-0 ${dark ? "bg-white text-slate-900" : "bg-slate-900 text-white"}`;
 
   const goView = (v) => { setView(v); setLockMsg(""); setNotice(""); };
 
@@ -246,18 +293,39 @@ export function AuthPage({ mode }) {
         <ArrowLeft size={16} /> {t("Accueil")}
       </button>
       <SidePanel />
-      <div className="flex items-center justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-16">
+      {/* Anchored from the top, not centred: the login and sign-up forms differ
+          in height, and centring shifted every field when switching between
+          them. */}
+      <div className="flex items-start justify-center px-5 sm:px-10 pb-16 pt-20 lg:pt-[12vh]">
       <div className="w-full max-w-md rise">
         <div className="mb-7">
           <span className="inline-flex items-center gap-2">
             <img src="/logo-mark.webp" alt="" width="36" height="36" className="w-9 h-9 object-contain" />
-            <span className="font-display font-extrabold text-lg text-blue-600">Passerelle</span>
+            {/* Same wordmark as the navbar's (layout/Logo.jsx). */}
+            <span className={`font-display font-bold text-lg leading-none ${c.text}`}>
+              Passerelle<span className="block text-[10px] font-body font-semibold tracking-widest uppercase text-blue-600">TCF Canada</span>
+            </span>
           </span>
+          {/* Log in / sign up, one click apart. */}
+          {(view === "login" || view === "register") && !verify && (
+            <div className={`mt-6 flex w-fit p-1 rounded-full ${c.track}`} role="tablist" aria-label={t("Connexion ou inscription")}>
+              {[["login", "Connexion"], ["register", "Inscription"]].map(([v, l]) => (
+                <button key={v} type="button" role="tab" aria-selected={view === v} onClick={() => goView(v)}
+                  className={`px-5 py-2 rounded-full text-sm font-bold transition ${view === v ? `${c.card} ${c.text} shadow-sm` : c.sub}`}>
+                  {t(l)}
+                </button>
+              ))}
+            </div>
+          )}
           <h1 className={`font-display font-bold text-3xl mt-5 ${c.text}`}>
-            {view === "login" ? t("Bon retour !") : view === "register" ? t("Créer votre compte") : t("Réinitialiser le mot de passe")}
+            {view === "login"
+              ? <>{t("Bon retour")} <span className="grad-text">!</span></>
+              : view === "register"
+                ? <>{t("Créer votre")} <span className="grad-text">{t("compte")}</span></>
+                : t("Réinitialiser le mot de passe")}
           </h1>
           <p className={`text-sm mt-2 ${c.sub}`}>
-            {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre courriel : nous vous enverrons un lien sécurisé.")}
+            {view === "login" ? t("Reprenez votre préparation là où vous l'avez laissée.") : view === "register" ? t("Gratuit, sans carte bancaire. Prêt en 30 secondes.") : t("Entrez votre adresse email : nous vous enverrons un lien sécurisé.")}
           </p>
         </div>
         {verify ? (
@@ -312,12 +380,12 @@ export function AuthPage({ mode }) {
             )}
             {view === "login" ? (
               <div>
-                <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou courriel")}</Label>
+                <Label htmlFor="login-identifier">{t("Nom d'utilisateur ou adresse email")}</Label>
                 <input id="login-identifier" autoComplete="username" value={identifier} onChange={(e) => { setIdentifier(e.target.value); setLockMsg(""); setNotice(""); }} className={inp} />
               </div>
             ) : (
               <div>
-                <Label htmlFor="register-email">{t("Adresse courriel")}</Label>
+                <Label htmlFor="register-email">{t("Adresse email")}</Label>
                 <input id="register-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
               </div>
             )}
@@ -351,7 +419,9 @@ export function AuthPage({ mode }) {
             )}
             <button type="submit" className={solidBtn} disabled={busy}>
               {view === "login" ? t("Se connecter") : view === "register" ? t("Créer mon compte") : t("Envoyer le lien")}
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </button>
+
             <p className={`pt-2 text-center text-sm ${c.sub}`}>
               {view === "login" ? (<>{t("Pas encore de compte ?")} <button type="button" onClick={() => goView("register")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("S'inscrire")}</button></>) : (<>{t("Déjà inscrit·e ?")} <button type="button" onClick={() => goView("login")} className={`font-semibold underline underline-offset-2 hover:text-blue-600 ${c.text}`}>{t("Se connecter")}</button></>)}
             </p>

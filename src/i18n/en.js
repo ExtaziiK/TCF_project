@@ -229,6 +229,235 @@ export const EN = {
     "The complete platform to prepare for the TCF Canada: official-format questions, scored mock exams, AI feedback and continuous tracking.",
   "Commencer gratuitement": "Start for free",
   "Mon tableau de bord": "My dashboard",
+  // Visitors' pitch pages (components/auth/ProductPitch.jsx).
+  "Gratuit, sans carte bancaire — prêt en 30 secondes.":
+    "Free, no credit card — ready in 30 seconds.",
+  "Avec un compte gratuit":
+    "With a free account",
+  "Ce que vous obtenez":
+    "What you get",
+  "Passez un vrai TCF blanc, gratuitement":
+    "Take a real mock TCF, for free",
+  "Les quatre épreuves enchaînées en conditions réelles : minutées, notées sur 699 et converties en niveaux NCLC. Chaque examen est tiré au hasard dans la banque, jamais deux fois le même.":
+    "All four tests back to back in real conditions: timed, scored out of 699 and converted into NCLC levels. Each exam is drawn at random from the bank, never the same twice.",
+  "Votre premier TCF blanc vous attend":
+    "Your first mock exam is waiting",
+  "1 TCF blanc complet":
+    "1 full mock exam",
+  "Les quatre épreuves, correction IA incluse.":
+    "All four tests, AI correction included.",
+  "Et son équivalence en niveaux NCLC pour IRCC.":
+    "And its NCLC equivalent for IRCC.",
+  "Niveau, erreurs et version améliorée de votre écrit et de votre oral.":
+    "Level, mistakes and an improved version of your writing and speaking.",
+  "Progression sauvegardée":
+    "Progress saved",
+  "Interrompez, reprenez là où vous en étiez.":
+    "Stop, then pick up where you left off.",
+  "Le déroulé":
+    "How it works",
+  "Comment se passe un TCF blanc":
+    "How a mock exam works",
+  "Créez votre compte":
+    "Create your account",
+  "30 secondes, sans carte bancaire. Votre premier TCF blanc complet est offert.":
+    "30 seconds, no credit card. Your first full mock exam is free.",
+  "Enchaînez les quatre épreuves":
+    "Take the four tests in a row",
+  "2 h 47 minutées comme le jour J. Faites une pause quand vous voulez : la progression est sauvegardée.":
+    "2 h 47, timed like the real day. Take a break whenever you want: your progress is saved.",
+  "Recevez votre résultat":
+    "Get your result",
+  "Un score sur 699 par épreuve, converti en NCLC, et la correction IA de votre écrit et de votre oral.":
+    "A score out of 699 per test, converted into NCLC, and AI correction of your writing and speaking.",
+  "Après l'examen":
+    "After the exam",
+  "Votre résultat, converti en NCLC":
+    "Your result, converted into NCLC",
+  "Le score de chaque épreuve est traduit en niveau NCLC, celui que demande IRCC pour Entrée express et la citoyenneté. Vous savez où vous en êtes, et ce qu'il reste à gagner.":
+    "Each test's score is translated into the NCLC level IRCC asks for, for Express Entry and citizenship. You know where you stand, and what is left to gain.",
+  "Essayer le calculateur NCLC":
+    "Try the NCLC calculator",
+  "Les quatre épreuves du TCF Canada, au format officiel":
+    "The four TCF Canada tests, in the official format",
+  "40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Le premier quiz de chaque épreuve est offert.":
+    "40 listening quizzes, 40 reading quizzes, and the writing and speaking tasks corrected by AI. The first quiz of each test is free.",
+  "Commencez par le premier quiz de chaque épreuve":
+    "Start with the first quiz of each test",
+  "Un quiz par épreuve":
+    "One quiz per test",
+  "Le premier quiz de chaque épreuve, au format officiel.":
+    "The first quiz of each test, in the official format.",
+  "Écrit et oral corrigés":
+    "Writing and speaking corrected",
+  "Un sujet d'expression écrite et un d'orale, avec analyse IA.":
+    "One writing and one speaking subject, with AI analysis.",
+  "Réponses expliquées":
+    "Explained answers",
+  "Chaque question corrigée, avec son explication.":
+    "Every question corrected, with its explanation.",
+  "Vos scores et vos signets, gardés d'une séance à l'autre.":
+    "Your scores and bookmarks, kept from one session to the next.",
+  "Le format":
+    "The format",
+  "Quatre épreuves, une seule plateforme":
+    "Four tests, one platform",
+  "Essayez deux vraies questions":
+    "Try two real questions",
+  "Écoutez ou lisez le document, puis cliquez sur une réponse : la correction s'affiche aussitôt.":
+    "Listen to or read the document, then click an answer: the correction shows up right away.",
+  "La dictée, le vocabulaire, la grammaire et la conjugaison réunis dans un seul cahier, pour combler vos lacunes entre deux épreuves.":
+    "Dictation, vocabulary, grammar and conjugation in a single notebook, to fill your gaps between two tests.",
+  "Ouvrez votre cahier d'entraînement":
+    "Open your practice notebook",
+  "Cartes et leçons sans limite.":
+    "Cards and lessons without limit.",
+  "Leçons illimitées, 10 minutes d'exercices par jour.":
+    "Unlimited lessons, 10 minutes of exercises a day.",
+  "Pour situer votre niveau dès le départ.":
+    "To find your level from the start.",
+  "La dictée et la révision":
+    "Dictation and review",
+  "Incluses dans les accès payants.":
+    "Included in the paid passes.",
+  "Le cahier":
+    "The notebook",
+  "Six outils, un seul cahier":
+    "Six tools, one notebook",
+  "Chaque outil a son marque-page et sa couleur, comme dans votre espace.":
+    "Each tool has its own bookmark and colour, just like in your space.",
+  "Un corrigé C1 écrit mot à mot, corrigé aussitôt":
+    "A C1 model text written word for word, corrected at once",
+  "Cartes par thème : immigration, travail, vie quotidienne":
+    "Cards by theme: immigration, work, daily life",
+  "Leçons courtes suivies d'exercices":
+    "Short lessons followed by exercises",
+  "Les temps du TCF, leçon puis exercices":
+    "The TCF's tenses, lesson then exercises",
+  "Vos fautes, regroupées pour les retravailler":
+    "Your mistakes, gathered to work on again",
+  "Les questions manquées, en séances ciblées":
+    "Missed questions, in targeted sessions",
+  "Écouter, écrire, comprendre":
+    "Listen, write, understand",
+  "Les détails":
+    "The details",
+  "La dictée fait partie des accès payants":
+    "Dictation is part of the paid passes",
+  "Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les quatre-vingts quiz et la correction IA.":
+    "It is included in every plan, along with the timed mock exams, the eighty quizzes and AI correction.",
+  "Voir les tarifs":
+    "See pricing",
+  // Visitors' « Sujets du mois » page (components/auth/ProductPitch.jsx).
+  "Combinaison":
+    "Combination",
+  "Créez un compte gratuit pour voir tous les sujets":
+    "Create a free account to see every topic",
+  "Les sujets qui tombent en ce moment au TCF Canada":
+    "The topics coming up right now at the TCF Canada",
+  "Chaque mois, les sujets d'expression écrite et orale qui circulent en session, rassemblés et classés par tâche, pour préparer en priorité ce qui vous attend.":
+    "Every month, the writing and speaking topics going around in exam sessions, gathered and sorted by task, so you prepare first for what is waiting for you.",
+  "Préparez les sujets de ce mois":
+    "Prepare this month's topics",
+  "Tous les sujets du mois":
+    "All of this month's topics",
+  "Écrit et oral, dès qu'ils sont publiés.":
+    "Writing and speaking, as soon as they are published.",
+  "Entraînez-vous dessus":
+    "Practise on them",
+  "L'archive complète":
+    "The full archive",
+  "Modèles de réponse":
+    "Model answers",
+  "Un modèle rédigé pour chaque sujet, avec un accès payant.":
+    "A written model for each topic, with a paid pass.",
+  "Pourquoi les préparer":
+    "Why prepare them",
+  "Ce qui vous attend le jour J":
+    "What awaits you on the day",
+  "Ce qui tombe en ce moment":
+    "What is coming up now",
+  "Les sujets qui circulent ce mois-ci, pas des sujets inventés : vous travaillez sur ce que d'autres candidats viennent de recevoir.":
+    "The topics going around this month, not invented ones: you work on what other candidates have just been given.",
+  "Classés par tâche":
+    "Sorted by task",
+  "À l'écrit, des combinaisons de trois tâches comme à l'examen ; à l'oral, les tâches 2 et 3, partie par partie.":
+    "For writing, three-task combinations as in the exam; for speaking, tasks 2 and 3, part by part.",
+  "Mis à jour chaque mois":
+    "Updated every month",
+  "Un nouveau mois remplace le précédent, qui rejoint l'archive. La liste reste toujours d'actualité.":
+    "A new month replaces the previous one, which joins the archive. The list always stays current.",
+  "L'archive des anciens sujets":
+    "The archive of past topics",
+  "Voir les anciens sujets":
+    "See past topics",
+  "Les sujets des mois précédents, depuis 2022.":
+    "Previous months' topics, back to 2022.",
+  "Tous les sujets des mois précédents, classés par année et par mois, pour vous entraîner sur ce qui est déjà tombé.":
+    "Every topic from previous months, sorted by year and month, to practise on what has already come up.",
+  // Plan status on the dashboard and profile (components/dashboard/PlanStatus.jsx).
+  "Compte gratuit":
+    "Free account",
+  "Passer Premium":
+    "Go Premium",
+  "jusqu'au":
+    "until",
+  "Prolonger":
+    "Extend",
+  "Mon accès":
+    "My access",
+  "Votre accès complet est actif.":
+    "Your full access is active.",
+  "Vous utilisez le compte gratuit.":
+    "You are on the free account.",
+  "Gérez vos informations, votre accès et vos préférences.":
+    "Manage your details, your access and your preferences.",
+  "Un accès complet débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
+    "Full access unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
+  "La modification du nom d'utilisateur a été refusée. Réessayez ou contactez-nous.":
+    "The username change was refused. Please try again or contact us.",
+  // Log-in / sign-up page (components/auth/AuthPage.jsx).
+  "Nom d'utilisateur ou adresse email":
+    "Username or email address",
+  "Adresse email":
+    "Email address",
+  "Entrez une adresse email valide.":
+    "Enter a valid email address.",
+  "Votre adresse email":
+    "Your email address",
+  "Confirmez votre adresse email avant de vous connecter.":
+    "Confirm your email address before logging in.",
+  "Connexion ou inscription":
+    "Log in or sign up",
+  "Inscription":
+    "Sign up",
+  "Bon retour":
+    "Welcome back",
+  "Créer votre":
+    "Create your",
+  "compte":
+    "account",
+  // Upgrade gate (components/auth/RouteGuard.jsx).
+  "Accès complet":
+    "Full access",
+  "Ce module fait partie de l'accès complet":
+    "This module is part of full access",
+  "Un accès payant débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
+    "A paid pass unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
+  "Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.":
+    "The 80 quizzes, dictation, review, the mock exams and AI correction of writing and speaking.",
+  "À partir de":
+    "From",
+  // Visitor navbar (constants/navigation.js VISITOR_MENUS).
+  "Produit": "Product",
+  "S'inscrire gratuitement": "Sign up for free",
+  "Les quatre épreuves en conditions réelles, notées sur 699": "All four tests in real conditions, scored out of 699",
+  "Compréhension et expression, au format officiel": "Comprehension and expression, in the official format",
+  "Dictée, vocabulaire, grammaire et conjugaison": "Dictation, vocabulary, grammar and conjugation",
+  "Vos scores TCF convertis en niveaux NCLC": "Your TCF scores converted into NCLC levels",
+  "Tout le déroulé du TCF Canada, épreuve par épreuve": "How the TCF Canada works, test by test",
+  "Conseils et méthodes pour réussir": "Tips and methods to succeed",
+  "Les sujets d'expression écrite et orale à préparer en priorité": "The writing and speaking topics to prepare first",
   "Sujets du mois": "Topics of the month",
   "Les 4 épreuves du TCF Canada : des questions au format officiel, des TCF blancs notés, une correction par IA de vos textes et de votre oral, et un suivi continu.":
     "All 4 TCF Canada tests: official-format questions, scored mock exams, AI feedback on your writing and speaking, and continuous progress tracking.",
@@ -427,8 +656,8 @@ export const EN = {
   // ── Pricing page ─────────────────────────────────────────────────────
   "Abonnements": "Plans",
   "Un forfait pour chaque étape de votre préparation": "A plan for every stage of your preparation",
-  "Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.":
-    "Pay in US dollars, securely via Stripe. Change or cancel anytime from your dashboard.",
+  "Un paiement unique pour la durée de votre choix, sans abonnement ni renouvellement automatique. Paiement sécurisé via Stripe.":
+    "A one-time payment for the length of your choice, with no subscription and no automatic renewal. Secure payment via Stripe.",
   "Afficher les prix dans une autre devise": "Show prices in another currency",
   "Paiement en dinar algérien par CCP ou BaridiMob, avec activation après vérification du reçu.":
     "Payment in Algerian dinars by CCP or BaridiMob, activated once the receipt has been checked.",
@@ -618,7 +847,9 @@ export const EN = {
   "Suivi et score estimé": "Progress tracking and score estimate",
   "Votre progression enregistrée et un calculateur de score TCF / NCLC pour situer votre niveau à tout moment.":
     "Your progress saved, plus a TCF / NCLC score calculator to gauge your level anytime.",
-  "Créez un compte gratuit pour vous abonner.": "Create a free account to subscribe.",
+  "Créez un compte gratuit pour acheter votre accès.": "Create a free account to buy your access.",
+  "Choisissez votre accès": "Choose your access",
+  "Sans abonnement": "No subscription",
   "Votre abonnement Premium est déjà actif. Gérez-le depuis votre profil.":
     "Your Premium subscription is already active. Manage it from your profile.",
   "Impossible de démarrer le paiement. Réessayez.": "Could not start the checkout. Please try again.",
@@ -763,7 +994,7 @@ export const EN = {
   "Notre équipe répond en moins de 24 h ouvrables, en français ou en anglais.":
     "Our team replies within one business day, in French or in English.",
   "Message envoyé": "Message sent",
-  "Merci ! Vous recevrez une réponse à votre courriel sous 24 h.": "Thank you! You will receive a reply by email within 24 hours.",
+  "Merci ! Vous recevrez une réponse à votre adresse email sous 24 h.": "Thank you! You will receive a reply by email within 24 hours.",
   "Votre nom": "Your name",
   "Nom": "Name",
   "Votre courriel": "Your email",
@@ -799,7 +1030,7 @@ export const EN = {
   "Réinitialiser le mot de passe": "Reset your password",
   "Reprenez votre préparation là où vous l'avez laissée.": "Pick up your preparation right where you left off.",
   "Gratuit, sans carte bancaire. Prêt en 30 secondes.": "Free, no credit card. Ready in 30 seconds.",
-  "Entrez votre courriel : nous vous enverrons un lien sécurisé.": "Enter your email: we will send you a secure link.",
+  "Entrez votre adresse email : nous vous enverrons un lien sécurisé.": "Enter your email: we will send you a secure link.",
   "Bon retour parmi nous !": "Great to see you again!",
   "Prénom : 2 à 40 caractères, lettres uniquement (accents, - et ' acceptés).":
     "First name: 2 to 40 characters, letters only (accents, - and ' allowed).",
@@ -1344,7 +1575,7 @@ export const EN = {
   "Choisissez un mot de passe d'au moins 6 caractères.": "Choose a password of at least 6 characters.",
   "La longueur compte plus que les caractères spéciaux.": "Length matters more than special characters.",
   "Ce mot de passe est trop courant.": "This password is too common.",
-  "Évitez de reprendre votre courriel ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
+  "Évitez de reprendre votre adresse email ou votre nom d'utilisateur.": "Avoid reusing your email or username.",
   "Allongez-le : la longueur protège plus que les caractères spéciaux.":
     "Make it longer — length protects better than special characters.",
   "Mot de passe mis à jour.": "Password updated.",

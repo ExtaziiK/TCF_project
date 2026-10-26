@@ -79,7 +79,7 @@ export function CheckoutDz() {
 
   useEffect(() => {
     if (!plan) { nav("pricing"); return; }
-    if (!user) { notify(t("Créez un compte gratuit pour vous abonner.")); nav("register"); return; }
+    if (!user) { notify(t("Créez un compte gratuit pour acheter votre accès.")); nav("register"); return; }
     getPaymentDz().then(setCfg);
   }, [plan, user]); // eslint-disable-line react-hooks/exhaustive-deps
 

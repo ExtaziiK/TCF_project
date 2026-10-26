@@ -119,6 +119,10 @@ export const PAGE_ACCESS = {
   // Monthly EE/EO trending subjects: signed-in only (free or paid), not public.
   // A visitor is sent to the register gate (see deniedReason).
   "sujets-actualite": AUTHENTICATED,
+  // The archives of past months, like the current one: signed-in only (the
+  // data itself is served to sessions only — api/_lib/public/sujets.js).
+  "sujets-ee": AUTHENTICATED,
+  "sujets-eo": AUTHENTICATED,
   bank: ADMIN_ONLY,
   // Révision : la moitié difficile de chaque quiz — 1600 questions avec leur
   // corrigé — en lecture ou en entraînement. Réservée aux abonnés : c'est la

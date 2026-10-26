@@ -82,7 +82,7 @@ async function countOf(table, filter) {
 //   { id, label, sub, pill, tone, right, at }
 // `at` is an ISO timestamp the client formats; `pill` is a short badge.
 
-const displayName = (u) => u?.user_metadata?.name || u?.user_metadata?.full_name || u?.email || null;
+const displayName = (u) => u?.user_metadata?.display_name || u?.user_metadata?.name || u?.user_metadata?.full_name || u?.email || null;
 
 const premiumActive = (meta, now = Date.now()) =>
   meta.plan === "Premium" && (!meta.premium_until || Date.parse(meta.premium_until) > now);

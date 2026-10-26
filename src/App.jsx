@@ -95,7 +95,9 @@ function AppShell() {
       {showAnnounce && <AnnouncementBar messages={bar.messages} />}
       {!authPage && <Nav barOffset={showAnnounce} />}
       <div key={PRATIQUE_ROUTES.has(route) ? "pratique" : route} className={showAnnounce ? "pt-10" : undefined}><RouteGuard route={route}><Page /></RouteGuard></div>
-      <Footer />
+      {/* The log-in and sign-up pages stand alone: no footer either (its top
+          margin showed as a strip under their full-height panel). */}
+      {!authPage && <Footer />}
       <VisitorPreviewBar />
       {/* A new account finishing its profile: a popup over the dashboard. */}
       {needsProfile && <Onboarding />}

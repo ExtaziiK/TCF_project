@@ -170,7 +170,7 @@ if (!origin) {
 const { ROUTE_META, SITE_NAME, DEFAULT_SHARE_IMAGE, routeJsonLd, siteJsonLd, ROUTE_JSONLD_ID, SITE_JSONLD_ID } = await loadRouteMeta();
 
 // The main public pages, for every page's <noscript>.
-const NOSCRIPT_LINKS = ["home", "guide", "calculator", "sujets-ee", "sujets-eo", "blog", "pricing", "faq"]
+const NOSCRIPT_LINKS = ["home", "guide", "calculator", "blog", "pricing", "faq"]
   .filter((r) => ROUTE_META[r]?.path)
   .map((r) => ({ href: ROUTE_META[r].path, label: r === "home" ? "Accueil" : ROUTE_META[r].title }));
 
@@ -260,7 +260,7 @@ await fs.writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");
     "",
     "Passerelle est une plateforme indépendante, en français, pour les candidats au TCF Canada (Test de connaissance du français pour le Canada, utilisé pour l'immigration et la citoyenneté canadiennes). Le contenu public est consultable sans compte ; les quiz, TCF blancs et analyses IA demandent un compte gratuit ou un abonnement.",
     "",
-    section("Préparer le TCF Canada", ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "calculator", "sujets-ee", "sujets-eo"]),
+    section("Préparer le TCF Canada", ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "calculator"]),
     section("Passerelle", ["home", "pricing", "register", "avis", "faq", "about", "contact"]),
     section("Blogue", ["blog", ...articles]),
     section("Optional", ["terms", "privacy", "accessibility"]),

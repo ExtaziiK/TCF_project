@@ -4,6 +4,7 @@ import { PageShell, Card, Btn } from "@/components/common";
 import { lazy, Suspense } from "react";
 import { deniedReason } from "@/auth/rbac";
 import { PRATIQUE_ROUTES } from "@/constants/navigation";
+import { useLivePlans } from "@/hooks/useLivePlans";
 
 // Routes that argue their own case instead of showing the generic gate.
 //
@@ -22,6 +23,28 @@ import { PRATIQUE_ROUTES } from "@/constants/navigation";
 const DicteePitch = lazy(() => import("@/components/dictee/DicteePitch").then((m) => ({ default: m.DicteePitch })));
 const AuthPage = lazy(() => import("@/components/auth/AuthPage").then((m) => ({ default: m.AuthPage })));
 const PITCH_PAGES = { dictee: DicteePitch };
+
+// What a VISITOR (reason "register") sees on the navbar's « Produit » pages
+// instead of the generic sign-up gate: one pitch per product, each arguing its
+// own case (components/auth/ProductPitch.jsx). The old per-épreuve routes open
+// the Épreuves hub, and every tool of the Exercices notebook opens the
+// notebook's — but la dictée, which has its own (the visitors' version of the
+// DicteePitch above, which free accounts still get).
+const pitch = (name) => lazy(() => import("@/components/auth/ProductPitch").then((m) => ({ default: m[name] })));
+const MocksPitch = pitch("MocksPitch");
+const ExamsPitch = pitch("ExamsPitch");
+const ExercicesPitch = pitch("ExercicesPitch");
+const DicteeVisitorPitch = pitch("DicteeVisitorPitch");
+const SujetsPitch = pitch("SujetsPitch");
+const VISITOR_PITCH = {
+  mocks: MocksPitch,
+  ...Object.fromEntries(["exams", "practice", "listening", "reading", "writing", "speaking"].map((r) => [r, ExamsPitch])),
+  ...Object.fromEntries([...PRATIQUE_ROUTES].filter((r) => r !== "dictee").map((r) => [r, ExercicesPitch])),
+  dictee: DicteeVisitorPitch,
+  "sujets-actualite": SujetsPitch,
+  "sujets-ee": SujetsPitch,
+  "sujets-eo": SujetsPitch,
+};
 const Gate = ({ children }) => <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>{children}</Suspense>;
 
 // Landing shown to visitors who try to open the free practice (or any
@@ -54,16 +77,24 @@ function RegisterGate() {
 }
 
 // Shown to free users who open premium content.
+//
+// The passes are one-time purchases, not a subscription, and their prices are
+// set in the admin (Stripe): the starting price is read live, like the pricing
+// cards do, and left out until it is known rather than printed from a figure
+// that may be out of date.
 function UpgradeGate() {
   const { c, nav, t } = useApp();
+  const plans = useLivePlans();
+  const cheapest = plans.find((p) => p.slug && p.priceState === "live");
   return (
-    <PageShell eyebrow={t("Contenu Premium")} title={t("Ce module fait partie de l'abonnement Premium")} sub={t("Passez au forfait Premium pour débloquer tous les modules, les TCF blancs complets et l'analyse IA.")}>
+    <PageShell eyebrow={t("Accès complet")} title={t("Ce module fait partie de l'accès complet")} sub={t("Un accès payant débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.")}>
       <Card className="max-w-xl mx-auto p-8 text-center border-2 border-blue-600/40">
         <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Crown size={22} /></span>
         <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Débloquez tout Passerelle")}</p>
-        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les quatre épreuves, plus de quiz, TCF blancs complets et analyse IA, dès 4,99 $ l'accès.")}</p>
+        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.")}</p>
+        {cheapest && <p className={`text-sm mt-1 font-semibold ${c.text}`}>{t("À partir de")} {cheapest.price} · {t(cheapest.per)}</p>}
         <div className="mt-6 flex justify-center gap-3">
-          <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les forfaits")}</Btn>
+          <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les tarifs")}</Btn>
           <Btn variant="ghost" onClick={() => nav("practice")}>{t("Continuer en gratuit")}</Btn>
         </div>
       </Card>
@@ -108,6 +139,8 @@ export function RouteGuard({ route, children, inner }) {
   // "you need a forfait" itself — it is the same argument either way, only the
   // button at the end differs. "login" and "forbidden" are never pitched: one
   // is an account page, the other a 403.
+  const VisitorPitch = VISITOR_PITCH[route];
+  if (VisitorPitch && reason === "register") return <Gate><VisitorPitch /></Gate>;
   const Pitch = PITCH_PAGES[route];
   if (Pitch && (reason === "register" || reason === "upgrade")) return <Gate><Pitch reason={reason} /></Gate>;
   if (reason === "register") return <RegisterGate />;

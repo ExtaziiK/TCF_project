@@ -1,5 +1,5 @@
 // Vite plugin: `virtual:sujets-latest` = { ee: "2026-08", eo: "2026-08" } — the
-// newest month in the shipped subjects archive (public/data/sujets-<section>.json).
+// newest month in the shipped subjects archive (data/sujets/sujets-<section>.json).
 // The nav names its "Sujets du mois" link after that month; reading it here
 // costs nothing at runtime, where the files themselves are ~650 KB each.
 // Months added later by an admin live in Supabase, and
@@ -27,7 +27,7 @@ async function latestOf(file) {
 }
 
 export function sujetsLatestPlugin({ root }) {
-  const fileFor = (s) => path.join(root, "public/data", `sujets-${s}.json`);
+  const fileFor = (s) => path.join(root, "data/sujets", `sujets-${s}.json`);
   return {
     name: "sujets-latest",
     resolveId: (id) => (id === ID ? `\0${ID}` : null),

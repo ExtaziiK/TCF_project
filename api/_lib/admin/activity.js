@@ -379,7 +379,7 @@ export default async function handler(req, res) {
       user: {
         id: account.id,
         email: account.email,
-        name: account.user_metadata?.name || account.user_metadata?.full_name || null,
+        name: account.user_metadata?.display_name || account.user_metadata?.name || account.user_metadata?.full_name || null,
         username: profile[0]?.username || null,
         lastSeenAt: profile[0]?.last_seen_at || null,
         createdAt: account.created_at,

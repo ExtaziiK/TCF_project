@@ -41,7 +41,7 @@ export function pendingSummary(u) {
   const meta = u.user_metadata || {};
   return {
     email: u.email,
-    name: meta.name || meta.full_name || null,
+    name: meta.display_name || meta.name || meta.full_name || null,
     createdAt: u.created_at,
     lastSignIn: u.last_sign_in_at || null,
     provider: u.app_metadata?.provider || "email",

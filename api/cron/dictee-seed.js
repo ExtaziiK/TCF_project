@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, summary });
     }
 
-    const all = await listSujets(req);
+    const all = await listSujets();
     // One per tâche, in order, so a day that only has room for one still adds
     // variety across the week rather than always topping up tâche 1.
     const tasks = [1, 2, 3].slice(0, room);

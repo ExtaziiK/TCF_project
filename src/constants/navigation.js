@@ -6,7 +6,7 @@ import { AUTHENTICATED, ADMIN_ONLY, ROLES, canUseNotebook } from "@/auth/rbac";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck, NotebookPen, Dumbbell,
+  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -80,11 +80,38 @@ export const NAV_LINKS = [
   // Trending monthly EE/EO subjects to prepare — featured like "Épreuves",
   // but signed-in only (free or paid), so it's hidden from visitors (roles must
   // match sujets-actualite's PAGE_ACCESS list in rbac.js). The label shown is
-  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback.
-  { l: "Sujets EE/EO", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
-  { l: "Tarifs", r: "pricing", icon: CreditCard, group: "tools" },
+  // the newest month's (« Sujets de septembre », Nav.jsx); `l` is the fallback,
+  // shown until that month is known (sujetsLatestService.js).
+  { l: "Sujets du mois", r: "sujets-actualite", tier: "featured", roles: AUTHENTICATED, icon: Sparkles, group: "prep" },
+  // Visitors only: a signed-in account reaches the pricing page from its plan
+  // status, on the dashboard and the profile (dashboard/PlanStatus.jsx).
+  { l: "Tarifs", r: "pricing", roles: [ROLES.VISITOR], icon: CreditCard, group: "tools" },
   { l: "Calculateur", r: "calculator", icon: Calculator, group: "tools" },
 ];
+
+// The desktop bar for VISITORS, laid out the way SaaS sites usually are —
+// two dropdowns that describe the offer (« Produit »: TCF blanc, Épreuves,
+// Exercices; « Ressources »: guide, blog, calculateur, sujets du mois), then
+// « Tarifs » and « Avis », with « Connexion » and the sign-up call to action
+// on the right. The logo is
+// the way home, so there is no « Accueil » link. A visitor opening a page that
+// needs an account (Exercices) gets the route guard's log-in / sign-up. Signed-in accounts keep the
+// working bar above (NAV_LINKS); the mobile drawer is the same for both.
+export const VISITOR_MENUS = [
+  { l: "Produit", items: [
+    { l: "TCF blanc", r: "mocks", icon: ClipboardCheck, d: "Les quatre épreuves en conditions réelles, notées sur 699" },
+    { l: "Épreuves", r: "exams", icon: GraduationCap, d: "Compréhension et expression, au format officiel" },
+    // The Exercices hub: la dictée is one of its tools, alongside the others.
+    { l: "Exercices", r: "entrainement", icon: Dumbbell, d: "Dictée, vocabulaire, grammaire et conjugaison" },
+  ] },
+  { l: "Ressources", items: [
+    { l: "Guide de l'examen", r: "guide", icon: Compass, d: "Tout le déroulé du TCF Canada, épreuve par épreuve" },
+    { l: "Blog", r: "blog", icon: Newspaper, d: "Conseils et méthodes pour réussir" },
+    { l: "Calculateur", r: "calculator", icon: Calculator, d: "Vos scores TCF convertis en niveaux NCLC" },
+    { l: "Sujets du mois", r: "sujets-actualite", icon: Sparkles, d: "Les sujets d'expression écrite et orale à préparer en priorité" },
+  ] },
+];
+export const VISITOR_LINKS = [{ l: "Tarifs", r: "pricing" }, { l: "Avis", r: "avis" }];
 
 // Extra entries that only exist in the mobile menu for signed-in users.
 // All three sit in the top group, above the study sections and under no

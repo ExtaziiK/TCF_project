@@ -21,7 +21,8 @@ import { PageShell, Card, Pill, Btn } from "@/components/common";
 // Marketing that outruns the code is a support ticket, so if any of those
 // change, this copy changes with them.
 
-const STEPS = [
+// Shared with the visitors' version of this page (auth/ProductPitch.jsx).
+export const STEPS = [
   {
     icon: Headphones,
     t: "Vous écoutez",
@@ -39,7 +40,7 @@ const STEPS = [
   },
 ];
 
-const FEATURES = [
+export const FEATURES = [
   { icon: Ear, t: "Lu par groupes de sens", d: "La coupe tombe là où un lecteur reprend son souffle, jamais au milieu d'une idée." },
   { icon: Gauge, t: "Trois longueurs d'écoute", d: "Un groupe à la fois pour débuter, la phrase entière comme le jour J. Et quatre vitesses." },
   { icon: PenLine, t: "Les accents comptent", d: "Comme pour un correcteur du TCF. La ponctuation et les majuscules, non." },
@@ -51,7 +52,7 @@ const FEATURES = [
 // The one thing that sells this exercise, so it gets its own block rather than
 // a line in the grid: two candidates on 60 % have completely different problems
 // and the report is what tells them apart.
-function TheDiagnosis() {
+export function TheDiagnosis() {
   const { c, t } = useApp();
   return (
     <Card className="p-6 md:p-8 border-2 border-blue-600/30">
@@ -155,7 +156,7 @@ export function DicteePitch({ reason }) {
             <Crown size={22} />
           </span>
           <h3 className={`font-display font-extrabold text-xl sm:text-2xl mt-4 ${c.text}`}>
-            {isVisitor ? t("La dictée fait partie de l'abonnement") : t("Débloquez la dictée")}
+            {isVisitor ? t("La dictée fait partie des accès payants") : t("Débloquez la dictée")}
           </h3>
           <p className={`mt-2 text-sm max-w-lg mx-auto ${c.sub}`}>
             {t("Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.")}

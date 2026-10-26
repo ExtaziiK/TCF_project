@@ -35,7 +35,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
   const { data, error } = await (await getSupabase()).from("subscription_requests").insert({
     user_id: u.id,
     email: u.email || null,
-    name: u.user_metadata?.name || u.user_metadata?.full_name || null,
+    name: u.user_metadata?.display_name || u.user_metadata?.name || u.user_metadata?.full_name || null,
     plan: String(plan).slice(0, 60),
     plan_days: planDays || null,
     method: method === "baridimob" ? "baridimob" : "ccp",

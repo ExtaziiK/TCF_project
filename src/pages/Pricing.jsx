@@ -14,12 +14,12 @@ export function Pricing() {
   const trust = [
     { icon: Shield, t: s.currency.code === "DZD" ? "Paiement local sécurisé" : "Paiement chiffré Stripe" },
     { icon: RotateCcw, t: "Satisfait ou remboursé" },
-    { icon: CreditCard, t: "Sans engagement" },
+    { icon: CreditCard, t: "Sans abonnement" },
   ];
 
   return (
-    <PageShell back wide center eyebrow={t("Abonnements")} title={t("Choisissez votre plan")}
-      sub={t("Payez en dollars américains, en toute sécurité via Stripe. Changez ou annulez à tout moment depuis votre tableau de bord.")}>
+    <PageShell back wide center eyebrow={t("Tarifs")} title={t("Choisissez votre accès")}
+      sub={t("Un paiement unique pour la durée de votre choix, sans abonnement ni renouvellement automatique. Paiement sécurisé via Stripe.")}>
       <PricingPlans s={s} />
 
       {/* Trust band: one strip, three reassurances. */}
