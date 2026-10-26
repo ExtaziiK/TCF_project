@@ -192,10 +192,11 @@ export function Carnet() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-1.5" role="group" aria-label={t("Épreuve")}>
+        {/* Wraps on a phone: five chips in one row made the page wider than the screen. */}
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t("Épreuve")}>
           {["all", "co", "ce", "dictee", "conj"].map((s) => (
             <button key={s} onClick={() => switchSection(s)} aria-pressed={section === s}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${section === s ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border whitespace-nowrap transition-colors ${section === s ? "border-blue-600 bg-blue-600/10 text-blue-600" : `${c.border} ${c.sub} ${c.hoverSoft}`}`}>
               {s === "all" ? t("Toutes") : t(SOURCE_LABELS[s])}
             </button>
           ))}

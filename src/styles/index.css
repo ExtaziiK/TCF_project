@@ -217,7 +217,7 @@ input[type="range"].range-brand::-moz-range-thumb{width:18px;height:18px;border:
    so the tools' white cards still stand out on it: fine lines
    every 8px, a stronger one every 32px, and the red margin line. The margin
    sits at 36px (76px from md) — the page's left padding starts past it. */
-.seyes{--paper:#FCFAF5;--fine:rgba(59,130,246,.10);--main:rgba(59,130,246,.28);--margin:rgba(239,68,68,.55);--mx:36px;
+.seyes{--paper:#FCFAF5;--fine:rgba(59,130,246,.10);--main:rgba(59,130,246,.28);--margin:rgba(239,68,68,.55);--mx:20px;
   background-color:var(--paper);
   background-image:linear-gradient(to right,transparent calc(var(--mx) - 1px),var(--margin) calc(var(--mx) - 1px),var(--margin) calc(var(--mx) + 1px),transparent calc(var(--mx) + 1px)),
     repeating-linear-gradient(to bottom,transparent 0 31px,var(--main) 31px 32px),

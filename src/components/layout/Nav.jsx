@@ -194,7 +194,12 @@ export function Nav({ barOffset = false }) {
   return (
     <>
       <header className={`fixed ${barOffset ? "top-10" : "top-0"} inset-x-0 z-40 px-3 sm:px-4 pt-2.5 md:pt-3`}>
-        <div className={`max-w-7xl mx-auto h-14 md:h-[60px] pl-4 pr-2 sm:pl-5 rounded-full border backdrop-blur-xl flex items-center justify-between gap-3 transition-shadow duration-300
+        {/* The bar floats a few pixels below the top: without this, page text
+            scrolled up through that gap and showed above the bar (very visible
+            on phones). The page colour fills it, fading out behind the bar. */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-full pointer-events-none"
+          style={{ background: `linear-gradient(to bottom, ${dark ? "#020617" : "#EDF1F7"} 35%, transparent)` }} />
+        <div className={`relative max-w-7xl mx-auto h-14 md:h-[60px] pl-4 pr-2 sm:pl-5 rounded-full border backdrop-blur-xl flex items-center justify-between gap-3 transition-shadow duration-300
           ${c.nav} ${c.navBorder} ${scrolled || open ? "shadow-lg shadow-slate-900/[0.07]" : ""}`}>
           <Logo onNavigate={closeAll} />
 

@@ -6,12 +6,14 @@ import { useApp } from "@/context/AppContext";
 export function Segmented({ items, value, onChange, label }) {
   const { c, t } = useApp();
   return (
-    <div className={`inline-flex flex-wrap p-1 rounded-full border ${c.border} ${c.card}`} role="group" aria-label={label}>
+    // Always one line: allowed to wrap, two long labels broke into two rows
+    // inside the pill on a phone. Too wide for the screen, it scrolls sideways.
+    <div className={`inline-flex max-w-full overflow-x-auto p-1 rounded-full border ${c.border} ${c.card}`} role="group" aria-label={label}>
       {items.map(({ id, label: l, Icon }) => {
         const on = value === id;
         return (
           <button type="button" key={id} onClick={() => onChange(id)} aria-pressed={on}
-            className={`px-3.5 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1.5 transition-colors ${on ? "bg-[var(--tool-fill,#2563EB)] text-white" : `${c.sub} ${c.hoverSoft}`}`}>
+            className={`shrink-0 whitespace-nowrap px-3 sm:px-3.5 py-1.5 rounded-full text-[13px] sm:text-sm font-semibold flex items-center gap-1.5 transition-colors ${on ? "bg-[var(--tool-fill,#2563EB)] text-white" : `${c.sub} ${c.hoverSoft}`}`}>
             {Icon && <Icon size={14} aria-hidden="true" />} {t(String(l))}
           </button>
         );

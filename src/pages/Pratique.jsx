@@ -136,7 +136,7 @@ export function Pratique() {
               lines in the tool's colour.
               `.tool-paper` gives the tool's boxes and outlined buttons a
               visible outline in its colour (also index.css). */}
-          <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-4 md:pr-8 pl-[52px] md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
+          <div className={`seyes tool-paper flex-1 rounded-br-[20px] rounded-bl-[16px] py-6 md:py-8 pr-3 md:pr-8 pl-8 md:pl-[92px] ${dark ? "seyes-dark" : ""}`}
             style={{ "--paper": paper, "--fine": `${k.ink}08`, "--main": `${k.ink}12`, "--margin": `${k.ink}30`, "--outline": `${k.ink}66` }}>
             <EmbeddedShell.Provider value>
               <RouteGuard route={active.r} inner><Tool key={active.r} /></RouteGuard>
