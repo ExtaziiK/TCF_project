@@ -60,6 +60,10 @@ const THEMES = {
       "Prêt ?": "1954",
       "Merci !": "Gloire à nos chouhada",
       "À bientôt au Canada !": "Bonne fête de la Révolution !",
+      // « Glory and eternity to our righteous martyrs » — on the landing page
+      // (Génial !) and on every other page (Courage !).
+      "Génial !": "المجد والخلود لشهدائنا الأبرار",
+      "Courage !": "المجد والخلود لشهدائنا الأبرار",
     },
   },
   christmas: {

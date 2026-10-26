@@ -35,7 +35,7 @@ export function Bubble({ text, color, solid, tail = "left", tilt = 0 }) {
   const bg = solid ? color : dark ? "#0F172A" : "#FFFFFF";
   return (
     <div className="relative" style={{ transform: `rotate(${tilt}deg)` }}>
-      <div className="px-4 py-2.5 rounded-2xl font-display font-bold text-sm whitespace-nowrap border-2"
+      <div dir="auto" className="px-4 py-2.5 rounded-2xl font-display font-bold text-sm whitespace-nowrap border-2"
         style={{ background: bg, color: solid ? "#FFFFFF" : color, borderColor: color, boxShadow: `4px 4px 0 ${soft(color)}` }}>
         {text}
       </div>
