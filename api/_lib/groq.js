@@ -19,25 +19,18 @@ const GROQ_BASE = "https://api.groq.com/openai/v1";
 //
 // 20b leads because it is the cheaper model and has been producing the grades
 // measured against the rubric; 120b is the relief valve, not the default.
-// llama grades the same texts two to four points high — 16/20 C2 where the
-// gpt-oss pair says 12/20 B2 — and the inflation is not linear: accurate at A2,
-// +2 at B1, +2 to +4 at B2. This anchor closed about half that gap in testing
-// (16 -> 14 on the reference text). It does NOT make llama equivalent, and it
-// is attached to llama alone so the primary's calibration is untouched.
-const LLAMA_CALIBRATION = `
-CALIBRATION — you grade too generously; correct for it.
-A text that argues clearly with varied vocabulary, real connectors and controlled subordination, with only occasional errors, is 12/20 (B2). It is NOT 15 or 16. Reserve 14-15 for genuinely nuanced writing with idiomatic range, and 16+ for near-native work you would not correct.
-A text of short juxtaposed sentences with repeated basic vocabulary and frequent errors is 4-5/20 (A2).
-Before answering, check your overall score against these two anchors and lower it if it sits above the first without clearly earning it.`;
+// llama-3.3-70b-versatile used to be a third bucket after both gpt-oss models.
+// Groq retired it (404 "model_not_found", checked 2026-10-25), and as the last
+// link it turned every saturated chain into a 502 "analysis failed" instead of
+// the 429 "saturé, réessayez" a candidate should see. Removed rather than
+// replaced: it graded 2-4 points high and needed its own calibration, and an
+// uncalibrated stand-in would hand out exactly the inflated grades the strict
+// EE grader exists to prevent. A model may still carry a `calibration` note,
+// appended to the system prompt in groqChatJSON.
 
 const CHAT_MODELS = [
   { id: "openai/gpt-oss-20b" },
   { id: "openai/gpt-oss-120b" },
-  // Third bucket (100K/day of its own), reached only when both gpt-oss models
-  // are spent. A grade from here is not interchangeable with the ones above —
-  // ai_usage_log records which model served each call, so a run of llama grades
-  // is identifiable if a candidate ever disputes one.
-  { id: "llama-3.3-70b-versatile", calibration: LLAMA_CALIBRATION },
 ];
 const CHAT_MODEL = CHAT_MODELS[0].id;
 
@@ -52,7 +45,6 @@ const CHAT_MODEL = CHAT_MODELS[0].id;
 export const MODEL_DAILY_TOKENS = {
   "openai/gpt-oss-20b": 200_000,
   "openai/gpt-oss-120b": 200_000,
-  "llama-3.3-70b-versatile": 100_000,
 };
 export const CHAT_MODEL_IDS = CHAT_MODELS.map((m) => m.id);
 const TRANSCRIBE_MODEL = "whisper-large-v3-turbo";
@@ -142,7 +134,7 @@ export async function groqChatJSON(messages, { maxTokens = 2000, temperature = 0
     // The model that actually refused — the LAST one tried, i.e. the end of the
     // fallback chain. Callers used to meter the failure against CHAT_MODEL_NAME,
     // so every 429 in the admin was blamed on the primary even though the whole
-    // chain was spent; the dashboard read "20b refuses" while 120b and llama had
+    // chain was spent; the dashboard read "20b refuses" while 120b had
     // already been tried and refused too.
     err.model = model;
     // Groq's own sentence, which names the exhausted bucket and the wait. It is
