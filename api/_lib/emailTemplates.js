@@ -42,7 +42,12 @@ export const LINK_TARGETS = {
   revision: "/revision",
   dictee: "/dictee",
   contact: "/contact",
+  // A full URL is kept as is: the 2026-10-25 platform video on YouTube.
+  video: "https://youtu.be/zuGLfcPvZik",
 };
+
+// A target's URL: a site path goes on the site's origin, a full URL is kept.
+export const linkUrl = (site, path) => (/^https?:\/\//.test(path) ? path : `${site}${path}`);
 
 // The family-profiles line of the "your plan is active" emails: Pro holds 2
 // profiles, Ultimate 4 (src/hooks/useProfiles.js maxProfilesFor, including the
@@ -134,7 +139,7 @@ export const EMAIL_TEMPLATES = {
     placeholders: {},
     defaults: {
       subject: "TCF Passerelle fait peau neuve : un entraînement fidèle au jour de l'examen",
-      body: "**TCF Passerelle** fait peau neuve ! Nous avons redessiné toute la plateforme et revu chacun de ses outils, avec un seul objectif : **vous faire réellement progresser, pour que le jour de l'examen, rien ne vous surprenne.**\n\n**1. Un nouveau design, plus clair.** Les épreuves d'un côté, les exercices de l'autre, et un tableau de bord qui vous montre quoi travailler ensuite.\n\n**2. L'expression écrite et orale, comme le jour J.** À l'écrit : même chronomètre, mêmes consignes, même nombre de mots, et une correction exigeante sur la grille officielle, notée sur 20. À l'oral : une examinatrice vous interroge, vous répondez à voix haute avec les temps officiels et sans sous-titres, puis vous recevez une note et des conseils précis.\n\n**3. La dictée : plus de 200 textes**, écrits à partir de vrais sujets d'examen. Vous les écrivez mot à mot et chaque faute est corrigée aussitôt.\n\n**4. Votre cahier d'entraînement.** La dictée, le vocabulaire, la grammaire, la conjugaison et la révision réunis dans un seul cahier, pour combler vos lacunes un peu chaque jour.\n\n**5. Le carnet d'erreurs.** Vos questions manquées et vos fautes de dictée y arrivent automatiquement, pour les retravailler jusqu'à ne plus les refaire.\n\n**Notre philosophie :** TCF Passerelle n'est pas un raccourci, et aucun outil ne passera l'examen à votre place. Le jour J, c'est vous, face à votre feuille et à votre micro. Notre rôle est de vous y amener avec un vrai niveau : des conditions réelles, des corrections honnêtes et des exercices ciblés. C'est cette progression qui fait la différence sur votre score.\n\n[Découvrir la nouvelle plateforme](accueil)\n\nBonne préparation,",
+      body: "**TCF Passerelle** fait peau neuve ! Nous avons redessiné toute la plateforme et revu chacun de ses outils, avec un seul objectif : **vous faire réellement progresser, pour que le jour de l'examen, rien ne vous surprenne.**\n\n[▶ Voir la nouvelle plateforme en vidéo (2 min)](video)\n\n**1. Un nouveau design, plus clair.** Les épreuves d'un côté, les exercices de l'autre, et un tableau de bord qui vous montre quoi travailler ensuite.\n\n**2. L'expression écrite et orale, comme le jour J.** À l'écrit : même chronomètre, mêmes consignes, même nombre de mots, et une correction exigeante sur la grille officielle, notée sur 20. À l'oral : une examinatrice vous interroge, vous répondez à voix haute avec les temps officiels et sans sous-titres, puis vous recevez une note et des conseils précis.\n\n**3. La dictée : plus de 200 textes**, écrits à partir de vrais sujets d'examen. Vous les écrivez mot à mot et chaque faute est corrigée aussitôt.\n\n**4. Votre cahier d'entraînement.** La dictée, le vocabulaire, la grammaire, la conjugaison et la révision réunis dans un seul cahier, pour combler vos lacunes un peu chaque jour.\n\n**5. Le carnet d'erreurs.** Vos questions manquées et vos fautes de dictée y arrivent automatiquement, pour les retravailler jusqu'à ne plus les refaire.\n\n**Notre philosophie :** TCF Passerelle n'est pas un raccourci, et aucun outil ne passera l'examen à votre place. Le jour J, c'est vous, face à votre feuille et à votre micro. Notre rôle est de vous y amener avec un vrai niveau : des conditions réelles, des corrections honnêtes et des exercices ciblés. C'est cette progression qui fait la différence sur votre score.\n\n[Découvrir la nouvelle plateforme](accueil)\n\nBonne préparation,",
     },
   },
   premiumWelcome: {
@@ -260,7 +265,7 @@ export function renderEmail(id, cfg, { firstName = "", vars, site, greeting }) {
   const t = EMAIL_TEMPLATES[id];
   const c = normalizeEmail(id, cfg);
   const v = { ...t.placeholders, ...(vars || {}) };
-  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
+  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, linkUrl(site, path)]));
   const html = signedLetter(site, `
     ${greeting ?? greetingLine(firstName)}
     ${paragraphs(fill(c.body, v), { last: "4px", links, custom: {
@@ -310,7 +315,7 @@ export const COMPOSE_DEFAULTS = {
 };
 
 export function renderComposed({ subject, body }, { firstName = "", site }) {
-  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
+  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, linkUrl(site, path)]));
   const html = signedLetter(site, `
     ${greetingLine(firstName)}
     ${paragraphs(String(body || ""), { last: "4px", links })}
