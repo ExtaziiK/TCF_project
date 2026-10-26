@@ -88,8 +88,8 @@ export function ThemePreview({ theme }) {
  * Falling snow for Christmas, spiders dropping on their thread for Halloween,
  * nothing by default. SectionDecor draws it in its own decoration layer, so
  * like the stickers it always sits BEHIND the section's content (the content
- * is positioned after it) and in front of the section's background only. It
- * shows at every screen size, unlike the stickers. Transform-only loops; under
+ * is positioned after it) and in front of the section's background only. The snow
+ * shows at every screen size; the spiders only on lg and up, like the stickers. Transform-only loops; under
  * prefers-reduced-motion the global rule stops them and their resting position
  * is out of view, so the layer simply disappears. */
 
@@ -158,6 +158,8 @@ const SPIDERS = [
 // md:h-32, lg:h-40). Each spider is clipped by a box starting at its anchor,
 // so when it climbs back it vanishes into the curve instead of showing over the
 // section above.
+// Computer screens only (lg and up): on a phone the threads cut straight
+// through the text, which fills the whole width.
 // `count` (2–4) keeps the two outer spiders and adds inner ones; with three,
 // the seed picks which side gets the extra one.
 function Spiders({ seed, wave, count = 4 }) {
@@ -165,7 +167,7 @@ function Spiders({ seed, wave, count = 4 }) {
   const color = dark ? "#C4B5FD" : "#2B2238";
   const shown = count >= 4 ? SPIDERS : count === 3 ? [...SPIDERS.slice(0, 2), SPIDERS[2 + (seed % 2)]] : SPIDERS.slice(0, 2);
   return (
-    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none hidden lg:block [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
       {shown.map((s, i) => {
         // Sections start their spiders at different moments, so they never drop in step.
         const anim = { animationDuration: `${s.duration}s`, animationDelay: `${-((seed * 3.1 + i * 4.3) % s.duration).toFixed(1)}s` };
