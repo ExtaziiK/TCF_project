@@ -81,14 +81,14 @@ test("every model rate limited surfaces a saturation message, not a raw 502", as
 test("a refusal names the model that actually refused, and why", async () => {
   // What the admin dashboard meters. The endpoints used to log every failure
   // against CHAT_MODEL_NAME, so a saturated chain was always blamed on the
-  // primary — the Utilisation tab said "20b refuses" while 120b and llama had
+  // primary — the Utilisation tab said "20b refuses" while 120b had
   // been tried and refused too. The error carries the LAST model tried, and
   // Groq's own sentence, so ai_usage_log records both.
   stub(() => rateLimited());
   await assert.rejects(
     () => groqChatJSON([{ role: "user", content: "x" }]),
     (err) => {
-      assert.equal(err.model, "llama-3.3-70b-versatile", "the end of the chain is what refused");
+      assert.equal(err.model, "openai/gpt-oss-120b", "the end of the chain is what refused");
       assert.equal(err.upstreamStatus, 429);
       assert.match(err.upstreamDetail, /Rate limit reached/, "Groq's reason is kept for the admin");
       return true;
@@ -101,7 +101,7 @@ test("a refusal carries the exact request body that was sent — the failing att
   // payload that actually got refused. The primary is rate limited (its
   // request must NOT be what gets attached); the fallback that follows it is
   // what actually failed with a 400, so THAT payload is what err.requestPayload
-  // must carry — calibration included, since llama's is appended in place.
+  // must carry, exactly as sent.
   stub((m) => (m === "openai/gpt-oss-20b" ? rateLimited() : new Response(JSON.stringify({ error: { message: "bad request" } }), { status: 400 })));
   await assert.rejects(
     () => groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "texte du candidat" }]),
@@ -137,18 +137,17 @@ test("an unparseable (but 200 OK) reply still carries the Groq markers", async (
   );
 });
 
-test("reaches llama only after both gpt-oss models, and calibrates it", async () => {
-  const asked = stub((m) => (m.startsWith("openai/") ? rateLimited() : ok()));
-  const { model } = await groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]);
-  assert.deepEqual(asked, ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "llama-3.3-70b-versatile"]);
-  assert.equal(model, "llama-3.3-70b-versatile");
-
-  // llama grades 2-4 points high, so it carries an anchor the others must NOT
-  // get: changing the primary's calibration to correct a last-resort fallback
-  // would be the wrong trade.
-  const [first, , third] = sentBodies;
-  assert.equal(first.messages[0].content, "GRADE.", "the primary's prompt is untouched");
-  assert.match(third.messages[0].content, /CALIBRATION/);
-  assert.match(third.messages[0].content, /^GRADE\./, "the note is appended to the instructions, not sent separately");
-  assert.equal(third.messages.length, 2, "no extra system turn is added");
+test("the chain ends at 120b: no retired model is asked, and a spent chain reads as saturé", async () => {
+  // llama-3.3-70b-versatile was the third link until Groq retired it; its 404
+  // turned every saturated chain into a 502 "analysis failed".
+  const asked = stub(() => rateLimited());
+  await assert.rejects(
+    () => groqChatJSON([{ role: "system", content: "GRADE." }, { role: "user", content: "x" }]),
+    (err) => {
+      assert.equal(err.status, 429);
+      assert.match(err.message, /saturé/);
+      return true;
+    },
+  );
+  assert.deepEqual(asked, ["openai/gpt-oss-20b", "openai/gpt-oss-120b"]);
 });

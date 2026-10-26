@@ -166,7 +166,8 @@ export function SectionDecor({ variant, from = "lg", wave = null }) {
   useParallax();
   const [ref, height] = useElementHeight();
   const theme = useSiteTheme();
-  const items = themed(variant === "page" ? pageItems(height) : LAYOUTS[variant] || [], theme);
+  const seed = Object.keys(LAYOUTS).indexOf(variant);
+  const items = themed(variant === "page" ? pageItems(height) : LAYOUTS[variant] || [], theme, Math.max(0, seed) * 2);
   // All stickers are drawn at 80% of their layout size (they read as too big);
   // the landing page's are on top of that 30% larger than the other pages'
   // side decor (the "page" layout).
@@ -175,7 +176,6 @@ export function SectionDecor({ variant, from = "lg", wave = null }) {
   // number between 2 and 4 (features 2, video 4, overview 3, testimonials 2,
   // calculator 4, pricing 3, cta 2), so the page doesn't look stamped out; the
   // hero and the other pages keep all four.
-  const seed = Object.keys(LAYOUTS).indexOf(variant);
   const spiders = variant === "hero" || variant === "page" ? 4 : 2 + ((seed * 5 + 1) % 3);
   const show = { md: "hidden md:block", lg: "hidden lg:block", xl: "hidden xl:block", "2xl": "hidden 2xl:block" }[from];
   return (

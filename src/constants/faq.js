@@ -58,7 +58,7 @@ export const FAQS = [
       "Appuyez sur Appliquer : un message confirme la remise et les prix baissent.",
       "Choisissez votre forfait : la remise vous suit jusqu'au paiement.",
     ],
-    gif: { src: "/promo-tcf30.gif", width: 400, height: 193, alt: "Un code promo tapé dans « Vous avez un code promo ? », puis appliqué" },
+    gif: { src: "/promo-tcf30.gif", width: 400, height: 126, alt: "Un code promo tapé dans « Vous avez un code promo ? », puis appliqué" },
     link: { label: "Aller à la page Tarifs", route: "pricing" },
   },
   {

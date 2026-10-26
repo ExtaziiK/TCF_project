@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
-import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats, getStudentCount } from "@/services/settingsService";
-import { STAT_SOURCES, STAT_SOURCE_LABELS } from "@/constants/home";
-import { AUTO_SOURCES, SNAPSHOT_SOURCES, resolveStatValue } from "@/constants/contentStats";
+import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats, getLiveStats } from "@/services/settingsService";
+import { STAT_SOURCES, STAT_SOURCE_LABELS, STAT_DEFAULT_LABELS, LIVE_SOURCES, MAX_HOME_STATS } from "@/constants/home";
+import { AUTO_SOURCES, resolveStatValue } from "@/constants/contentStats";
 import { sanitizeRichText, richTextHasContent } from "@/utils/richText";
 import { ANNOUNCEMENTS } from "@/constants/announcements";
 import { SujetsManager } from "@/components/admin/SujetsManager";
@@ -371,34 +371,39 @@ function AnnouncementBarTab() {
 
 // Editor for the "Statistique" band on the public landing page
 // (site_settings.home_stats). Values are never invented here: a row either
-// counts the shipped content live, or reads the student count from the database
-// on every page load, or holds a figure pulled from the live database with
-// "Actualiser depuis le site", or is typed by hand.
+// counts the shipped content, or reads a live database figure through
+// /api/public/stats on every page load, or is typed by hand (« Valeur libre »).
 function HomeStatsTab() {
   const { c, notify } = useApp();
   const [cfg, setCfg] = useState(null);
   const [busy, setBusy] = useState(false);
-  const [live, setLive] = useState(null); // /api/admin/stats payload, once fetched
-  const [pulling, setPulling] = useState(false);
-  // Live student count: undefined until fetched, null if the RPC is missing.
-  const [students, setStudents] = useState(undefined);
+  // /api/public/stats: undefined until fetched, null if it failed.
+  const [live, setLive] = useState(undefined);
   const inp = `w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
 
   useEffect(() => { getHomeStats().then(setCfg); }, []);
 
   // Read once, the moment a row first asks for it — the same call the public
   // landing page makes, so the preview shows exactly what a visitor will see.
-  const needsStudents = !!cfg?.items.some((it) => it.src === "students");
+  const needsLive = !!cfg?.items.some((it) => LIVE_SOURCES.includes(it.src));
   useEffect(() => {
-    if (!needsStudents) return undefined;
+    if (!needsLive || live !== undefined) return undefined;
     let cancelled = false;
-    getStudentCount().then((n) => { if (!cancelled) setStudents(n); });
+    getLiveStats().then((j) => { if (!cancelled) setLive(j); });
     return () => { cancelled = true; };
-  }, [needsStudents]);
-  const liveStudents = typeof students === "number" ? { students } : null;
+  }, [needsLive, live]);
+  const liveData = live || null;
 
   const setItem = (i, k, v) => setCfg((p) => ({ ...p, items: p.items.map((x, j) => (j === i ? { ...x, [k]: v } : x)) }));
-  const add = () => setCfg((p) => ({ ...p, items: [...p.items, { src: "manual", n: "", l: "" }] }));
+  // A new source brings its usual label, unless one was typed by hand.
+  const setSource = (i, src) => setCfg((p) => ({ ...p, items: p.items.map((x, j) => (j !== i ? x : {
+    ...x, src, l: !x.l.trim() || Object.values(STAT_DEFAULT_LABELS).includes(x.l) ? STAT_DEFAULT_LABELS[src] : x.l,
+  })) }));
+  // A new row starts on the first source not yet in the band.
+  const add = () => setCfg((p) => {
+    const src = AUTO_SOURCES.find((x) => !p.items.some((it) => it.src === x)) || "manual";
+    return { ...p, items: [...p.items, { src, n: "", l: STAT_DEFAULT_LABELS[src] }] };
+  });
   const remove = (i) => setCfg((p) => ({ ...p, items: p.items.filter((_, j) => j !== i) }));
   const move = (i, d) => setCfg((p) => {
     const a = [...p.items];
@@ -408,27 +413,12 @@ function HomeStatsTab() {
     return { ...p, items: a };
   });
 
-  // Copies the current database figures into every row bound to a site source,
-  // so going live is one click rather than four manual edits.
-  const pull = async () => {
-    setPulling(true);
-    const r = await fetchAdminStats();
-    setPulling(false);
-    if (!r.ok) return notify(r.unavailable ? "Chiffres du site indisponibles en dev local (fonctions serverless absentes)." : "Lecture des chiffres du site impossible.");
-    setLive(r.data);
-    setCfg((p) => ({
-      ...p,
-      items: p.items.map((it) => (SNAPSHOT_SOURCES[it.src] ? { ...it, n: String(SNAPSHOT_SOURCES[it.src](r.data) ?? 0) } : it)),
-    }));
-    notify("Chiffres du site copiés. Enregistrez pour les publier.");
-  };
-
   const save = async () => {
     setBusy(true);
-    // The live student count is also stored as the row's value, so the public
-    // page has a last-known figure to show if the read ever fails.
-    const payload = typeof students === "number"
-      ? { ...cfg, items: cfg.items.map((it) => (it.src === "students" ? { ...it, n: String(students) } : it)) }
+    // The live figures are also stored as the rows' values, so the public page
+    // has a last-known number to show if the read ever fails.
+    const payload = liveData
+      ? { ...cfg, items: cfg.items.map((it) => (LIVE_SOURCES.includes(it.src) && Number.isFinite(liveData[it.src]) ? { ...it, n: String(liveData[it.src]) } : it)) }
       : cfg;
     const r = await setHomeStats(payload);
     setBusy(false);
@@ -451,9 +441,9 @@ function HomeStatsTab() {
         </div>
         <p className={`text-sm mb-5 ${c.sub}`}>
           La bande de statistiques sur la page d'accueil publique. Désactivez-la pour la faire disparaître entièrement.
-          Les sources « Auto » se mettent à jour toutes seules — le contenu du site est compté à chaque visite, et
-          « Auto · étudiants inscrits » lit le nombre de comptes réels (comptes admin exclus). Les sources « Site » se
-          remplissent avec « Actualiser depuis le site » et restent figées jusqu'à la prochaine actualisation.
+          Tous les chiffres « Auto » se mettent à jour tout seuls : le contenu du site est compté à chaque visite, et les
+          chiffres de la base (étudiants inscrits, comptes admin exclus · quiz · TCF blancs · réponses · dictées ·
+          corrections par l'IA) sont relus toutes les cinq minutes. Jusqu'à {MAX_HOME_STATS} chiffres ; 3, 6 ou 8 font des lignes complètes.
         </p>
 
         <div className="space-y-2">
@@ -462,10 +452,10 @@ function HomeStatsTab() {
             return (
               <div key={i} className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                 <span className={`text-xs font-mono2 w-5 text-center shrink-0 ${c.faint}`}>{i + 1}</span>
-                <select value={it.src} onChange={(e) => setItem(i, "src", e.target.value)} aria-label={`Source du chiffre ${i + 1}`} className={`${inp} sm:w-64 shrink-0`}>
+                <select value={it.src} onChange={(e) => setSource(i, e.target.value)} aria-label={`Source du chiffre ${i + 1}`} className={`${inp} sm:w-64 shrink-0`}>
                   {STAT_SOURCES.map((s) => <option key={s} value={s}>{STAT_SOURCE_LABELS[s]}</option>)}
                 </select>
-                <input value={auto ? resolveStatValue(it, liveStudents) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
+                <input value={auto ? resolveStatValue(it, liveData) : it.n} onChange={(e) => setItem(i, "n", e.target.value)} disabled={auto} maxLength={24}
                   placeholder="Valeur" aria-label={`Valeur du chiffre ${i + 1}`} className={`${inp} sm:w-28 shrink-0 disabled:opacity-60`} />
                 <input value={it.l} onChange={(e) => setItem(i, "l", e.target.value)} maxLength={60} placeholder="Libellé (ex. étudiants inscrits)"
                   aria-label={`Libellé du chiffre ${i + 1}`} className={`flex-1 min-w-[12rem] ${inp}`} />
@@ -481,26 +471,14 @@ function HomeStatsTab() {
 
         <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2 flex-wrap">
-            <Btn small variant="ghost" icon={Plus} disabled={cfg.items.length >= 6} onClick={add}>Ajouter un chiffre</Btn>
-            <Btn small variant="ghost" disabled={pulling} onClick={pull}>
-              <RefreshCw size={16} className={pulling ? "animate-spin" : ""} aria-hidden="true" />
-              {pulling ? "Lecture…" : "Actualiser depuis le site"}
-            </Btn>
+            <Btn small variant="ghost" icon={Plus} disabled={cfg.items.length >= MAX_HOME_STATS} onClick={add}>Ajouter un chiffre</Btn>
           </div>
           <Btn small icon={Save} disabled={busy} onClick={save}>{busy ? "Enregistrement…" : "Enregistrer"}</Btn>
         </div>
 
-        {live && (
-          <p className={`mt-3 text-xs ${c.faint}`}>
-            Données réelles lues à l'instant — {live.users.total} inscrits · {live.activity.quizzesTotal} quiz complétés · {live.activity.examsCompleted} TCF blancs terminés.
-          </p>
-        )}
-
-        {needsStudents && students === null && (
+        {needsLive && live === null && (
           <p className="mt-3 text-xs text-amber-500">
-            « Auto · étudiants inscrits » n'a pas pu être lu : appliquez la migration
-            <code className="mx-1">supabase/migrations/20260729_student_count.sql</code>
-            dans Supabase. En attendant, la dernière valeur enregistrée s'affiche.
+            Les chiffres en direct n'ont pas pu être lus (/api/public/stats). En attendant, la dernière valeur enregistrée s'affiche.
           </p>
         )}
       </Card>
@@ -511,7 +489,7 @@ function HomeStatsTab() {
           <div className={`rounded-2xl border ${c.border} ${c.tint} px-4 py-8 grid grid-cols-2 gap-6 ${preview.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4"}`}>
             {preview.map((it, i) => (
               <div key={i} className="text-center">
-                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it, liveStudents)}</p>
+                <p className="font-display font-extrabold text-3xl grad-text">{resolveStatValue(it, liveData)}</p>
                 <p className={`mt-1.5 text-sm ${c.sub}`}>{it.l}</p>
               </div>
             ))}
@@ -575,7 +553,7 @@ function SiteThemeTab() {
       <h3 className={`font-display font-bold mb-1.5 ${c.text}`}>Thème du site</h3>
       <p className={`text-sm mb-5 ${c.sub}`}>Habille les décorations de toutes les pages (autocollants dans les marges, neige ou araignées) pour une saison. Le contenu et les couleurs de la marque ne changent pas.</p>
 
-      <div role="radiogroup" aria-label="Thème du site" className="grid md:grid-cols-3 gap-4">
+      <div role="radiogroup" aria-label="Thème du site" className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
         {SITE_THEMES.map((th) => {
           const on = pick === th.id;
           return (
@@ -2800,9 +2778,19 @@ export function Admin() {
 
   // The console's sections, grouped by purpose in the sidebar. `d` is the
   // one-line description shown in each section's header.
+  // Order set by the owner (2026-10-26): Aperçu alone at the top, with no
+  // heading (it is where the console opens), then Contenu, Pilotage,
+  // Communauté, Sécurité.
   const groups = [
-    { l: "Pilotage", items: [
+    { l: "", items: [
       { id: "overview", l: "Aperçu", icon: LayoutDashboard, d: "Les chiffres clés de la plateforme, en direct." },
+    ] },
+    { l: "Contenu", items: [
+      { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
+      { id: "questions", l: "Sujets du mois", icon: FileText, d: "Les sujets du mois d'expression écrite et orale." },
+      { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
+    ] },
+    { l: "Pilotage", items: [
       { id: "revenue", l: "Revenus", icon: Wallet, d: "Ventes et recettes, par période." },
       { id: "traffic", l: "Trafic", icon: Globe, d: "Visites du site et provenance du trafic." },
       { id: "usage", l: "Utilisation", icon: Gauge, d: "Consommation de l'IA, limites et incidents." },
@@ -2812,11 +2800,6 @@ export function Admin() {
       { id: "requests", l: "Demandes", icon: Inbox, d: "Paiements en dinars à valider." },
       { id: "messages", l: "Messages", icon: MessageCircle, d: "Messages reçus par le formulaire de contact." },
       { id: "emails", l: "Emails", icon: Mail, d: "Modèles des emails envoyés aux membres." },
-    ] },
-    { l: "Contenu", items: [
-      { id: "home", l: "Accueil", icon: Megaphone, d: "Bandeau, annonce, statistiques et avis de l'accueil." },
-      { id: "questions", l: "Sujets (EE·EO)", icon: FileText, d: "Les sujets d'expression écrite et orale." },
-      { id: "pricing", l: "Tarifs", icon: Coins, d: "Prix des passes, codes promo et liens cadeaux." },
     ] },
     { l: "Sécurité", items: [
       { id: "audit", l: "Journal", icon: ScrollText, d: "Historique des actions sensibles." },
@@ -2854,8 +2837,8 @@ export function Admin() {
           {/* Desktop: the sections grouped under small headings. */}
           <Card className="hidden lg:block p-3">
             {groups.map((g, gi) => (
-              <div key={g.l} className={gi ? `mt-3 pt-3 border-t ${c.border}` : ""}>
-                <p className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{g.l}</p>
+              <div key={g.l || gi} className={gi ? `mt-3 pt-3 border-t ${c.border}` : ""}>
+                {g.l && <p className={`px-3 pb-1.5 text-[10px] font-bold uppercase tracking-widest ${c.faint}`}>{g.l}</p>}
                 <div role="tablist" className="space-y-0.5">
                   {g.items.map((x) => {
                     const on = tab === x.id;

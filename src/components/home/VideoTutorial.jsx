@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
-const VIDEO_ID = "WozRDzMEdtw";
+const VIDEO_ID = "zuGLfcPvZik";
 const ORIGIN = "https://www.youtube-nocookie.com";
 
 // The tutorial video, which starts itself when the visitor scrolls to it.

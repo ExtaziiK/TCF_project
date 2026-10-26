@@ -5,6 +5,7 @@ import { waveDepth } from "./WaveSection";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
   Pumpkin, Ghost, Bat, Snowflake, Tree, Gift, Ornament, Garland,
+  DZ, DzFlag, CrescentStar, Photo1954, Year1954,
 } from "./stickers";
 
 // Seasonal restyling of the sticker layouts (SectionDecor). A theme never moves
@@ -33,6 +34,38 @@ const THEMES = {
       "À bientôt au Canada !": "Joyeux Halloween !",
     },
   },
+  // 1 November 1954: the start of Algeria's war of independence, a national day
+  // of pride and remembrance (most of our candidates are Algerian). Flag green
+  // and red, gold for the commemoration; the phrases are the ones heard that
+  // day — no jokes, no "fête" confetti.
+  novembre: {
+    // The flag itself keeps the official green; the text colour is a shade
+    // lighter so it still reads on the dark canvas.
+    colors: { [blue]: "#13894F", [violet]: DZ.red, [red]: "#0E7C4A", [amber]: "#B8892B" },
+    // Every other sticker is a flag; between them the crescent and star, the
+    // founding photograph and the year (the owner asked on 2026-10-26 for more
+    // flags, the photo and « 1954 », and no Maqam Echahid). Each section starts
+    // the cycle two further on (SectionDecor's offset), so with two leaves per
+    // section the hero gets flag + crescent — nothing large behind its screen
+    // collage — features, testimonials and cta the photo, video and the inner
+    // pages the year.
+    shapes: [[DzFlag], [CrescentStar, DZ.red], [DzFlag], [Photo1954], [DzFlag], [Year1954]],
+    flight: [Flight, { lead: "flag" }],
+    text: {
+      "Bonjour !": "Vive l'Algérie !",
+      "On y va ?": "تحيا الجزائر",
+      "Bravo !": "Gloire à nos martyrs",
+      "À vous de jouer !": "1er Novembre 1954",
+      "Regardez !": "Novembre 1954",
+      "Prêt ?": "1954",
+      "Merci !": "Gloire à nos chouhada",
+      "À bientôt au Canada !": "Bonne fête de la Révolution !",
+      // « Glory and eternity to our righteous martyrs » — on the landing page
+      // (Génial !) and on every other page (Courage !).
+      "Génial !": "المجد والخلود لشهدائنا الأبرار",
+      "Courage !": "المجد والخلود لشهدائنا الأبرار",
+    },
+  },
   christmas: {
     colors: { [blue]: "#D62839", [violet]: "#1E8A4C", [red]: "#2F7FC1", [amber]: "#D4A017" },
     shapes: [[Snowflake, "#5AA9E6"], [Tree, "#1E8A4C"], [Gift, "#D62839"], [Ornament]],
@@ -50,10 +83,12 @@ const THEMES = {
 };
 
 // Layout rows are [Sticker, props, ...placement]; the placement passes through.
-export function themed(items, theme) {
+// `offset` is where this layout starts in the theme's cycle of shapes, so the
+// sections of one page do not all show the same first two.
+export function themed(items, theme, offset = 0) {
   const spec = THEMES[theme];
   if (!spec) return items;
-  let leaf = 0;
+  let leaf = offset;
   return items.map(([Sticker, props, ...rest]) => {
     const p = { ...props, color: spec.colors[props.color] || props.color };
     if (p.text) p.text = spec.text[p.text] || p.text;
@@ -88,8 +123,8 @@ export function ThemePreview({ theme }) {
  * Falling snow for Christmas, spiders dropping on their thread for Halloween,
  * nothing by default. SectionDecor draws it in its own decoration layer, so
  * like the stickers it always sits BEHIND the section's content (the content
- * is positioned after it) and in front of the section's background only. It
- * shows at every screen size, unlike the stickers. Transform-only loops; under
+ * is positioned after it) and in front of the section's background only. The snow
+ * shows at every screen size; the spiders only on lg and up, like the stickers. Transform-only loops; under
  * prefers-reduced-motion the global rule stops them and their resting position
  * is out of view, so the layer simply disappears. */
 
@@ -158,6 +193,8 @@ const SPIDERS = [
 // md:h-32, lg:h-40). Each spider is clipped by a box starting at its anchor,
 // so when it climbs back it vanishes into the curve instead of showing over the
 // section above.
+// Computer screens only (lg and up): on a phone the threads cut straight
+// through the text, which fills the whole width.
 // `count` (2–4) keeps the two outer spiders and adds inner ones; with three,
 // the seed picks which side gets the extra one.
 function Spiders({ seed, wave, count = 4 }) {
@@ -165,7 +202,7 @@ function Spiders({ seed, wave, count = 4 }) {
   const color = dark ? "#C4B5FD" : "#2B2238";
   const shown = count >= 4 ? SPIDERS : count === 3 ? [...SPIDERS.slice(0, 2), SPIDERS[2 + (seed % 2)]] : SPIDERS.slice(0, 2);
   return (
-    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none hidden lg:block [--cap:80px] md:[--cap:128px] lg:[--cap:160px]">
       {shown.map((s, i) => {
         // Sections start their spiders at different moments, so they never drop in step.
         const anim = { animationDuration: `${s.duration}s`, animationDelay: `${-((seed * 3.1 + i * 4.3) % s.duration).toFixed(1)}s` };

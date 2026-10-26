@@ -84,10 +84,12 @@ export function signedLetter(site, inner) {
 // Animations of a code being typed and applied on the Tarifs page, by code.
 // Shown in emails and on /code-promo only for the code they show, so changing
 // the promo code never pairs it with a GIF of another one. A new code gets its
-// GIF the way promo-tcf30.gif was made (modeled on ads/capture-promo-dz.mjs).
+// GIF from ads/gifs/record-gifs.mjs (GIF=promo CODE=<code>), on the live
+// Tarifs page — the code must be active in Stripe while it is filmed.
 export const PROMO_GIFS = {
-  TCF30: { src: "/promo-tcf30.gif", width: 400, height: 193 },
-  TCF50: { src: "/promo-tcf50.gif", width: 400, height: 229 }, // the 2026-09 campaign's
+  PASSE20: { src: "/promo-passe20.gif", width: 400, height: 126 }, // the 2026-10 announcement's
+  TCF30: { src: "/promo-tcf30.gif", width: 400, height: 126 },
+  TCF50: { src: "/promo-tcf50.gif", width: 400, height: 126 }, // the 2026-09 campaign's
 };
 
 // The page that walks through using a code (src/pages/CodePromo.jsx).
@@ -133,6 +135,21 @@ export function resultsBox(summary) {
       </td></tr>
       <tr><td style="padding:8px 20px 14px 20px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">${rows}</table>
+      </td></tr>
+    </table>`;
+}
+
+/* ---------------------------- confirmation code ---------------------------- */
+
+// The signup confirmation code, in the promo box's dashed frame. In the
+// template pasted into Supabase, `code` is "{{ .Token }}".
+export function codeBox(code) {
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px 0;">
+      <tr><td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background:#eff6ff;border:2px dashed #2563eb;border-radius:12px;">
+          <tr><td align="center" style="padding:14px 28px;font-family:Consolas,Menlo,Monaco,monospace;font-size:32px;line-height:40px;font-weight:800;letter-spacing:6px;color:#1d4ed8;">${escapeHtml(code)}</td></tr>
+        </table>
       </td></tr>
     </table>`;
 }

@@ -5,7 +5,7 @@ import { recordFailure, handleClientError } from "./_lib/failureContext.js";
 import { copiedShare, COPIED_HARD, COPIED_WARN } from "./_lib/copiedPrompt.js";
 import { nonLatinLetterShare, NOT_LATIN_SCRIPT } from "./_lib/scriptCheck.js";
 import { enforceRateLimit } from "./_lib/ratelimit.js";
-import { EE_TASK_BRIEFS, applyLengthRule } from "./_lib/eeSpec.js";
+import { EE_TASK_BRIEFS, applyLengthRule, applyCriteriaCaps } from "./_lib/eeSpec.js";
 import { eeSystem, eeUserMessage } from "./_lib/eeGrader.js";
 
 // Expression écrite — AI evaluation of a candidate's written response.
@@ -105,10 +105,15 @@ export default async function handler(req, res) {
     // temperature 0: a grade must not move when the same text is submitted
     // again. Sampling noise that renames a level between two presses of the
     // same button destroys the candidate's trust in every grade we give.
+    // 120b at medium reasoning: tested live on the same off-topic-example text,
+    // 20b at low effort scored it 13, 8 and 15 and never flagged the example;
+    // 120b at medium caught it every time (9, 11) and kept a strong text at 15.
+    // Reasoning tokens count against max_tokens on gpt-oss, hence the raise:
+    // at 2000 the JSON came back empty. 20b still serves when 120b is spent.
     const { json: raw, usage, model: usedModel } = await groqChatJSON([
       { role: "system", content: eeSystem(lang, req.body?.task) },
       { role: "user", content: userMsg },
-    ], { temperature: 0 });
+    ], { temperature: 0, startWith: "openai/gpt-oss-120b", reasoningEffort: "medium", maxTokens: 6000 });
     logAiUsage({ userId: user.id, endpoint: "expression-ecrite", kind: "chat", model: usedModel || CHAT_MODEL_NAME, usage, durationMs: Date.now() - startedAt });
 
     // How many analyses are left on this tache: 2 for a free account, 3 per
@@ -118,7 +123,7 @@ export default async function handler(req, res) {
     // `text` is passed so the rewrites can be checked against what the
     // candidate actually wrote — see normalizeFeedback.
     // The official word-count rule, applied whatever the model wrote.
-    res.status(200).json({ ...applyLengthRule(normalizeFeedback(raw, text), targetWords, wordCount), aiLeft: claim?.left });
+    res.status(200).json({ ...applyLengthRule(applyCriteriaCaps(normalizeFeedback(raw, text), raw), targetWords, wordCount), aiLeft: claim?.left });
   } catch (err) {
     // Record the failure as well as the successes — but ONLY when the request
     // actually reached Groq. ai_usage_log exists to meter GROQ calls, and the

@@ -1,4 +1,5 @@
 import { getBankSummary } from "@/services/bankService";
+import { STAT_SOURCES, LIVE_SOURCES } from "@/constants/home";
 
 // Real counts of the practice content the app actually ships, so the figures on
 // the landing page can never drift from what a visitor really gets.
@@ -30,29 +31,21 @@ export const EXERCISE_COUNT = GRAMMAR_EXERCISES + VOCAB_CARDS + EE_TASKS + EO_TA
 // French grouping ("3 120"), matching the site's fr-CA copy.
 export const formatCount = (n) => Number(n || 0).toLocaleString("fr-CA");
 
-// Which stat sources the admin refreshes from /api/admin/stats, and where each
-// one reads its value in that payload.
-export const SNAPSHOT_SOURCES = {
-  users: (s) => s.users?.total,
-  quizzes: (s) => s.activity?.quizzesTotal,
-  exams: (s) => s.activity?.examsCompleted,
-};
+// Sources that need no admin upkeep — all of them but « Valeur libre »: their
+// number is fetched or computed on every page load, so the editor shows them
+// read-only.
+export const AUTO_SOURCES = STAT_SOURCES.filter((s) => s !== "manual");
 
-// Sources that need no admin upkeep: their number is fetched or computed on
-// every page load, so the editor shows them read-only.
-export const AUTO_SOURCES = ["questions", "series", "exercises", "students"];
-
-// Turns a stored stat item into the string shown on the page. Auto sources are
-// recomputed on every render; everything else falls back to the stored value.
-// `live` carries the figures that must be fetched rather than computed
-// ({ students }); `students` degrades to the last value saved with the config,
-// so a failed fetch (or a database still missing the migration) shows the last
-// known count instead of dropping the band to 0.
+// Turns a stored stat item into the string shown on the page. Content counts
+// are recomputed on every render; LIVE_SOURCES read `live`, the payload of
+// /api/public/stats ({ students, quizzes, exams, answers, dictees,
+// corrections }), and degrade to the last value saved with the config, so a
+// failed fetch shows the last known count instead of dropping the band to 0.
 export function resolveStatValue(item, live) {
   if (item.src === "manual") return item.n;
   if (item.src === "questions") return formatCount(countBank().questions);
   if (item.src === "series") return formatCount(countBank().series);
   if (item.src === "exercises") return formatCount(EXERCISE_COUNT);
-  if (item.src === "students") return formatCount(live?.students ?? item.n);
-  return formatCount(item.n); // users / quizzes / exams snapshot
+  if (LIVE_SOURCES.includes(item.src)) return formatCount(live?.[item.src] ?? item.n);
+  return formatCount(item.n);
 }

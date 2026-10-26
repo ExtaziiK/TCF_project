@@ -3,7 +3,7 @@ import { eeSystem, eeUserMessage } from "./eeGrader.js";
 import { copiedShare } from "./copiedPrompt.js";
 import {
   EE_WRITER_RULES, EE_LEVEL_RULES, EE_DICTATION_RULES, EE_WORDS_LABEL,
-  assembleAnswer, structureIssues, dictationIssues,
+  assembleAnswer, structureIssues, dictationIssues, applyCriteriaCaps,
 } from "./eeSpec.js";
 
 // THE model answer of one Expression écrite (subject, tâche): written once,
@@ -313,7 +313,7 @@ export async function nextStep(draft, sujet) {
       { role: "system", content: eeSystem("fr", task) },
       { role: "user", content: eeUserMessage({ taskLabel: TASK_LABEL[task], prompt: consigne, targetWords: EE_WORDS_LABEL[task], wordCount: d.answer.words, text }) },
     ], { temperature: 0 });
-    const fb = normalizeFeedback(json, text);
+    const fb = applyCriteriaCaps(normalizeFeedback(json, text), json);
     d.grade = { score: fb.score, criteria: fb.criteria, summary: fb.summary, improvements: fb.improvements };
     // The grader is told to quote every slip as « wrong » → « right ». A slip
     // it quotes is one our own correction would show the candidate, so it is

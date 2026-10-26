@@ -1,4 +1,4 @@
-import { paragraphs, signedLetter, greetingLine, promoBox, resultsBox, countdownBox } from "./emailLayout.js";
+import { paragraphs, signedLetter, greetingLine, promoBox, resultsBox, countdownBox, codeBox, escapeHtml } from "./emailLayout.js";
 import { SALE, saleActive } from "./sale.js";
 import { summarizeScore, SAMPLE_SCORE, practiceTips } from "./mockResults.js";
 
@@ -42,7 +42,12 @@ export const LINK_TARGETS = {
   revision: "/revision",
   dictee: "/dictee",
   contact: "/contact",
+  // A full URL is kept as is: the 2026-10-25 platform video on YouTube.
+  video: "https://youtu.be/zuGLfcPvZik",
 };
+
+// A target's URL: a site path goes on the site's origin, a full URL is kept.
+export const linkUrl = (site, path) => (/^https?:\/\//.test(path) ? path : `${site}${path}`);
 
 // The family-profiles line of the "your plan is active" emails: Pro holds 2
 // profiles, Ultimate 4 (src/hooks/useProfiles.js maxProfilesFor, including the
@@ -122,6 +127,24 @@ export const EMAIL_TEMPLATES = {
       body: "La **promo du week-end** est lancée sur **TCF Passerelle** : **−60 % sur tous les forfaits**, jusqu'au **{fin}**.\n\n{compteur}\n\nToute la banque de questions avec les corrigés, les TCF blancs chronométrés, la dictée et les simulations d'expression écrite et orale corrigées par IA, à prix réduit.\n\n[Profiter de −60 %](tarifs)\n\nAprès samedi, les prix reviennent à la normale.\n\nBonne préparation,",
     },
   },
+  // The 2026-10-25 release: new design, EE/EO as on exam day, 200+ dictées,
+  // the cahier d'entraînement and the carnet d'erreurs — the point is "you
+  // progress for real", never "a shortcut to the exam". Since 2026-10-26 it
+  // also carries a launch code: PASSE20 (20 % off in Stripe; PASSE25, first
+  // asked for, does not exist there), valid until Thursday 29 October.
+  announce: {
+    key: "email_announce_platform",
+    title: "Annonce : la nouvelle plateforme",
+    when: "Envoyé à la main, avec le bouton ci-dessous, à tous les comptes ou à tous sauf les abonnés en cours. Personne ne reçoit deux fois le même objet : changer l'objet en fait un nouvel envoi. Le code de l'encadré doit exister et être actif dans Stripe.",
+    audience: true,
+    audiences: ["all", "free"],
+    promo: { code: "PASSE20", text: "**-20 %** sur votre forfait" },
+    placeholders: {},
+    defaults: {
+      subject: "TCF Passerelle fait peau neuve : un entraînement fidèle au jour de l'examen",
+      body: "**TCF Passerelle** fait peau neuve ! Nous avons revu toute la plateforme avec un seul objectif : **vous faire réellement progresser, pour que le jour de l'examen, rien ne vous surprenne.**\n\n[▶ Voir la nouvelle plateforme en vidéo (2 min)](video)\n\n**1. Un nouveau design, plus clair.** Les épreuves d'un côté, les exercices de l'autre, et un tableau de bord qui vous montre quoi travailler ensuite.\n\n**2. L'écrit et l'oral, comme le jour J.** Mêmes consignes, même chronomètre, même nombre de mots, et une correction exigeante sur la grille officielle. À l'oral, une examinatrice vous interroge, sans sous-titres, puis vous recevez une note sur 20 et des conseils précis.\n\n**3. La dictée : plus de 200 textes**, tirés de vrais sujets d'examen et corrigés mot à mot.\n\n**4. Votre cahier d'entraînement :** dictée, vocabulaire, grammaire, conjugaison et révision, réunis dans un seul cahier.\n\n**5. Le carnet d'erreurs :** vos fautes y arrivent toutes seules, pour les retravailler jusqu'à ne plus les refaire.\n\n**Notre philosophie :** TCF Passerelle n'est pas un raccourci. Le jour J, c'est vous, face à votre feuille et à votre micro. Notre rôle est de vous y amener avec un vrai niveau, construit jour après jour.\n\nVous recevez ce courriel parce que vous faites partie de nos utilisateurs. Pour fêter la nouvelle plateforme, voici un code de **-20 %**, valable jusqu'au **jeudi 29 octobre** :\n\n{encadre}\n\n[Découvrir la nouvelle plateforme](accueil)\n\nBonne préparation,",
+    },
+  },
   premiumWelcome: {
     key: "email_premium_welcome",
     title: "Bienvenue dans Premium (carte)",
@@ -174,6 +197,23 @@ export const EMAIL_TEMPLATES = {
       body: "Comme vous l'avez demandé, votre compte **TCF Passerelle** et toutes les données qui y étaient associées ont été définitivement supprimés.\n\nVous pouvez recréer un compte à tout moment avec la même adresse courriel, mais votre ancienne progression ne pourra pas être récupérée.\n\nMerci d'avoir préparé votre TCF avec nous, et bonne chance pour la suite !",
     },
   },
+  // The first email of all: the signup code. Sent by Supabase Auth, not by the
+  // site, so saving here changes nothing on its own — the editor exports the
+  // HTML to paste into Supabase (supabaseTemplate below). A code, never a
+  // link: see docs/email-templates/README.md before adding one.
+  confirmSignup: {
+    key: "email_confirm_signup",
+    title: "Code de confirmation (inscription)",
+    when: "Le premier courriel reçu : envoyé par Supabase dès l'inscription par courriel, avec le code à saisir sur le site. Supabase l'envoie lui-même — après « Enregistrer », copiez l'objet et le HTML et collez-les dans Supabase (Authentication → Emails → Confirm signup).",
+    supabase: true,
+    // Supabase fills these: {email} = {{ .Email }}, and the paragraph {code}
+    // becomes the code box around {{ .Token }} (_code: data, not text).
+    placeholders: { email: "marie.dupont@exemple.com", _code: "48213067" },
+    defaults: {
+      subject: "Votre code de confirmation TCF Passerelle",
+      body: "Bienvenue sur **TCF Passerelle** ! Pour activer le compte lié à **{email}**, saisissez ce code dans l'onglet resté ouvert sur le site :\n\n{code}\n\nCe code est valable une heure et ne sert qu'une fois.\n\nVous n'êtes pas à l'origine de cette inscription ? Ignorez simplement ce message : sans ce code, aucun compte ne sera activé.\n\nÀ très vite,",
+    },
+  },
 };
 
 // CCP / BaridiMob are Algerian payment methods, offered on the DZD tab only to
@@ -223,20 +263,46 @@ const fill = (text, vars) => String(text).replace(/\{([a-z]+)\}/gi, (m, k) => (k
 
 // → { subject, html }. `vars` defaults to the template's sample values, which
 // is what the preview and a test send use.
-export function renderEmail(id, cfg, { firstName = "", vars, site }) {
+// `greeting` replaces the "Bonjour …," line with ready HTML (the Supabase export).
+export function renderEmail(id, cfg, { firstName = "", vars, site, greeting }) {
   const t = EMAIL_TEMPLATES[id];
   const c = normalizeEmail(id, cfg);
   const v = { ...t.placeholders, ...(vars || {}) };
-  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
+  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, linkUrl(site, path)]));
   const html = signedLetter(site, `
-    ${greetingLine(firstName)}
+    ${greeting ?? greetingLine(firstName)}
     ${paragraphs(fill(c.body, v), { last: "4px", links, custom: {
       ...(t.promo ? { "{encadre}": promoBox(site, c.promoCode, c.promoText) } : {}),
       ...(v._score ? { "{resultats}": resultsBox(summarizeScore(v._score)) } : {}),
       ...(t.countdown ? { "{compteur}": saleActive() ? countdownBox(site) : "" } : {}),
+      ...(t.supabase ? { "{code}": codeBox(v._code) } : {}),
     } })}
   `);
   return { subject: fill(c.subject.trim() || t.defaults.subject, v), html };
+}
+
+// The template to paste into Supabase (Authentication → Emails), for an email
+// it sends itself (`supabase`): the same letter, with Supabase's Go-template
+// variables in place of the samples, as a whole document (Supabase sends the
+// body as-is). The greeting uses the name given at signup, when there is one.
+export function supabaseTemplate(id, cfg, site) {
+  const { subject, html } = renderEmail(id, cfg, {
+    site,
+    vars: { email: "{{ .Email }}", _code: "{{ .Token }}" },
+    greeting: `<p style="margin:0 0 14px 0;">{{ if .Data.name }}Bonjour {{ .Data.name }},{{ else }}Bonjour,{{ end }}</p>`,
+  });
+  return {
+    subject,
+    html: `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(subject)}</title></head>
+<body style="margin:0;padding:0;background:#e2e8f0;">
+<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Votre code de confirmation : {{ .Token }}</div>
+${html.trim()}
+</body>
+</html>
+`,
+  };
 }
 
 // A one-off email written from Administration → Emails → « Nouveau courriel »,
@@ -252,7 +318,7 @@ export const COMPOSE_DEFAULTS = {
 };
 
 export function renderComposed({ subject, body }, { firstName = "", site }) {
-  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, `${site}${path}`]));
+  const links = Object.fromEntries(Object.entries(LINK_TARGETS).map(([k, path]) => [k, linkUrl(site, path)]));
   const html = signedLetter(site, `
     ${greetingLine(firstName)}
     ${paragraphs(String(body || ""), { last: "4px", links })}

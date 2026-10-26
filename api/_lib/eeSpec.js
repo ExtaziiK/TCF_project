@@ -71,6 +71,33 @@ export function applyLengthRule(fb, targetWords, words) {
   return out;
 }
 
+// The overall score can never float above the criteria it is built from. The
+// model, asked for "the level the candidate sustains", kept handing out 14-15
+// over a text whose own criteria said 10 or 11 somewhere — so the ceiling is
+// enforced here, in code, whatever the model wrote:
+//   - at most 2 points above the weakest criterion;
+//   - at most 1 point above Consigne (a task half-done is not a good text);
+//   - Orthographe at 10 or below caps at 12, at 7 or below at 9 (the prompt's rule);
+//   - the content flags the grader sets (raw.contentFaults): a main example
+//     beside the point caps at 11, generic content throughout at 13. Tested
+//     live, the model named an off-point example in its feedback and still
+//     scored the text 13 — so it states the fault, and the cap is applied here.
+export function applyCriteriaCaps(fb, raw = {}) {
+  if (!fb || fb.notAnAnswer || !Number.isFinite(fb.score) || fb.score <= 3) return fb;
+  const c = fb.criteria || {};
+  const vals = Object.values(c).filter(Number.isFinite);
+  let cap = vals.length ? Math.min(...vals) + 2 : 20;
+  if (Number.isFinite(c.consigne)) cap = Math.min(cap, c.consigne + 1);
+  if (Number.isFinite(c.orthographe)) cap = Math.min(cap, c.orthographe <= 7 ? 9 : c.orthographe <= 10 ? 12 : 20);
+  const faults = raw?.contentFaults || {};
+  const offPoint = faults.offPointExample;
+  if (offPoint === true || (typeof offPoint === "string" && offPoint.trim())) cap = Math.min(cap, 11);
+  if (faults.genericThroughout === true) cap = Math.min(cap, 13);
+  if (fb.score <= cap) return fb;
+  const lv = levelsFromScore(cap);
+  return { ...fb, score: lv.score, level: lv.level, nclc: lv.nclc, criteriaCapped: true };
+}
+
 // The sentence the candidate reads when their text is out of range.
 export const lengthWarning = (b) =>
   b.short

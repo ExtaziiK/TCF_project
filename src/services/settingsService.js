@@ -1,7 +1,7 @@
 import { getSupabase } from "@/services/supabaseClient";
 import { WELCOME_EMAIL_KEY, WELCOME_MAX_CHARS, normalizeWelcome, parseWelcome } from "../../api/_lib/welcomeTemplate.js";
 import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, normalizeEmail, parseEmail } from "../../api/_lib/emailTemplates.js";
-import { HOME_STATS_DEFAULT, STAT_SOURCES } from "@/constants/home";
+import { HOME_STATS_DEFAULT, STAT_SOURCES, LEGACY_SOURCES, MAX_HOME_STATS } from "@/constants/home";
 import { DEFAULT_SITE_THEME, isSiteTheme } from "@/constants/siteThemes";
 
 // Admin-editable, publicly-readable site settings (site_settings table + RLS,
@@ -92,12 +92,12 @@ export async function setAnnouncementBar(cfg) {
  * content counts until an admin customises it. */
 
 const HOME_STATS = "home_stats";
-const MAX_STATS = 6;
+const MAX_STATS = MAX_HOME_STATS;
 
 function normalizeHomeStats(cfg) {
   const items = (Array.isArray(cfg?.items) ? cfg.items : [])
     .map((it) => ({
-      src: STAT_SOURCES.includes(it?.src) ? it.src : "manual",
+      src: STAT_SOURCES.includes(it?.src) ? it.src : LEGACY_SOURCES[it?.src] || "manual",
       n: String(it?.n ?? "").slice(0, 24),
       l: String(it?.l ?? "").slice(0, 60),
     }))
@@ -154,18 +154,22 @@ export async function setSiteTheme(theme) {
   return { ok: !error, error: error?.message };
 }
 
-/* ── Live student count (home stats "Auto · étudiants inscrits") ─────────── */
+/* ── Live figures (home stats "Auto" sources) ───────────────────────────── */
 
-// Number of registered learners, staff accounts excluded. Goes through the
-// registered_students_count() RPC (supabase/migrations/20260729_student_count.sql)
-// because the anon key can read neither auth.users nor other people's profiles
-// rows; the function returns the aggregate only. Returns null when the
-// migration isn't applied or the call fails, so callers fall back to the last
-// saved figure rather than publishing a 0.
-export async function getStudentCount() {
-  const { data, error } = await (await getSupabase()).rpc("registered_students_count");
-  const n = Number(data);
-  return error || !Number.isFinite(n) ? null : n;
+// The database counts behind the home page's live statistics — students,
+// quizzes, exams, answers, dictées, AI corrections — made server-side by
+// /api/public/stats, since the anon key can read none of those tables, and
+// cached there for five minutes. Returns null when the call fails, so callers
+// fall back to the last saved figures rather than publishing zeros.
+export async function getLiveStats() {
+  try {
+    const res = await fetch("/api/public/stats");
+    if (!res.ok || !(res.headers.get("content-type") || "").includes("json")) return null;
+    const j = await res.json();
+    return j && typeof j === "object" && Object.keys(j).length ? j : null;
+  } catch {
+    return null;
+  }
 }
 
 /* ── DZD (Algeria) manual-payment config ────────────────────────────────────

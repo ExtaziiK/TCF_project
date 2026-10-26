@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Mail, Save, Send, RotateCcw, Users } from "lucide-react";
+import { Mail, Save, Send, RotateCcw, Users, Copy } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Btn } from "@/components/common";
 import { getEmailTemplate, setEmailTemplate } from "@/services/settingsService";
 import { sendEmailTest, fetchOfferStatus, sendOfferBatch } from "@/services/adminService";
 import { SendProgress } from "@/components/admin/SendProgress";
-import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, LINK_TARGETS, renderEmail } from "../../../api/_lib/emailTemplates.js";
+import { EMAIL_TEMPLATES, EMAIL_MAX_CHARS, LINK_TARGETS, renderEmail, supabaseTemplate } from "../../../api/_lib/emailTemplates.js";
 
 // Editor for one of the automatic account emails (reminder, expired,
 // deactivated, deleted): on/off, subject, body, live preview, test send. The
@@ -61,6 +61,17 @@ export function AccountEmailEditor({ id, onEnabled }) {
     onEnabled?.(enabled);
     notify(enabled ? "Courriel activé." : "Courriel désactivé.");
   };
+  // Emails Supabase sends itself (`supabase`): the subject and the full HTML,
+  // with its {{ .Token }} variables, to paste into its dashboard.
+  const copy = async (what) => {
+    const out = supabaseTemplate(id, cfg, "https://www.tcfpasserelle.com");
+    try {
+      await navigator.clipboard.writeText(out[what]);
+      notify(what === "html" ? "HTML copié : collez-le dans Supabase (Message body)." : "Objet copié : collez-le dans Supabase (Subject).");
+    } catch {
+      notify("Copie impossible dans ce navigateur.");
+    }
+  };
   const test = async () => {
     setBusy("test");
     const r = await sendEmailTest(id, cfg);
@@ -103,13 +114,13 @@ export function AccountEmailEditor({ id, onEnabled }) {
       <Card className="p-6">
         <div className="flex items-center justify-between gap-3 mb-1.5">
           <h3 className={`flex items-center gap-2 font-display font-bold ${c.text}`}><Mail size={17} className="text-blue-600" /> {t.title}</h3>
-          <button onClick={toggle} disabled={busy !== null} role="switch" aria-checked={saved.enabled} aria-label={`Activer : ${t.title}`}
+          {!t.supabase && <button onClick={toggle} disabled={busy !== null} role="switch" aria-checked={saved.enabled} aria-label={`Activer : ${t.title}`}
             className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${saved.enabled ? "bg-blue-600" : c.track}`}>
             <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${saved.enabled ? "translate-x-5" : ""}`} />
-          </button>
+          </button>}
         </div>
         <p className={`text-sm ${c.sub}`}>
-          {t.when} {saved.enabled ? <strong className="text-emerald-600">Activé.</strong> : <strong className="text-amber-600">Désactivé — aucun envoi.</strong>}
+          {t.when} {t.supabase ? null : saved.enabled ? <strong className="text-emerald-600">Activé.</strong> : <strong className="text-amber-600">Désactivé — aucun envoi.</strong>}
         </p>
         {t.audience && audience?.unavailable && (
           <p className={`mt-3 text-sm ${c.faint}`}>Liste indisponible ici{audience.error ? ` (${audience.error})` : " (fonctions serverless absentes en local)"}.</p>
@@ -152,6 +163,7 @@ export function AccountEmailEditor({ id, onEnabled }) {
             {names.length > 0 && (
               <p>Remplacés à l&apos;envoi : {names.map((n) => <span key={n} className={`${code} mr-1`}>{`{${n}}`}</span>)} <span>(exemple dans l&apos;aperçu)</span></p>
             )}
+            {t.supabase && <p>Code : un paragraphe seul <span className={code}>{"{code}"}</span> affiche le code de confirmation dans son encadré.</p>}
             {"_score" in t.placeholders && <p>Résultats : un paragraphe seul <span className={code}>{"{resultats}"}</span> (score, niveau et NCLC par épreuve).</p>}
             {t.promo && <p>Encadré du code : un paragraphe seul <span className={code}>{"{encadre}"}</span> (code, animation et lien « Voir les étapes ») ; code vide = pas d&apos;encadré.</p>}
             {t.countdown && <p>Promo en cours : un paragraphe seul <span className={code}>{"{compteur}"}</span> affiche le compte à rebours animé, <span className={code}>{"{fin}"}</span> la date de fin. Vides quand aucune promo ne tourne.</p>}
@@ -181,6 +193,8 @@ export function AccountEmailEditor({ id, onEnabled }) {
           <div className="flex items-center gap-2 flex-wrap">
             <Btn icon={Save} disabled={busy !== null || !dirty || size > EMAIL_MAX_CHARS} onClick={save}>{busy === "save" ? "Enregistrement…" : "Enregistrer"}</Btn>
             <Btn variant="ghost" icon={Send} disabled={busy !== null} onClick={test}>{busy === "test" ? "Envoi…" : "M'envoyer un test"}</Btn>
+            {t.supabase && <Btn variant="ghost" icon={Copy} disabled={busy !== null} onClick={() => copy("subject")}>Copier l&apos;objet</Btn>}
+            {t.supabase && <Btn variant="ghost" icon={Copy} disabled={busy !== null} onClick={() => copy("html")}>Copier le HTML pour Supabase</Btn>}
             <Btn variant="ghost" icon={RotateCcw} disabled={busy !== null} onClick={() => setCfg({ ...t.defaults, ...(t.promo ? { promoCode: t.promo.code, promoText: t.promo.text } : {}), enabled: cfg.enabled })}>Texte par défaut</Btn>
           </div>
         </Card>

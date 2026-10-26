@@ -9,6 +9,7 @@ export const DEFAULT_SITE_THEME = "default";
 export const SITE_THEMES = [
   { id: "default", label: "Par défaut", description: "Bulles, lettres accentuées, feuilles d'érable et avion en papier." },
   { id: "halloween", label: "Halloween", description: "Citrouilles, fantômes, chauves-souris et araignées qui descendent au bout de leur fil." },
+  { id: "novembre", label: "1er Novembre", description: "Anniversaire du 1er novembre 1954 : drapeaux algériens, la photo des six chefs historiques, « 1954 », croissant et étoile, rameau d'olivier, en vert, blanc et rouge." },
   { id: "christmas", label: "Noël", description: "Neige qui tombe derrière le contenu, sapins, cadeaux, boules et guirlandes lumineuses." },
 ];
 

@@ -316,6 +316,12 @@ export function Nav({ barOffset = false }) {
               {isStaff(role) && (
                 <button onClick={() => setSearchOpen(true)} aria-label={t("Rechercher")} className={iconBtn}><Search size={17} /></button>
               )}
+              {/* One click to the back office, without opening the account menu. */}
+              {isStaff(role) && (
+                <button onClick={() => go("admin")} aria-label={t("Administration")} title={t("Administration")}
+                  aria-current={route === "admin" ? "page" : undefined}
+                  className={`${iconBtn} ${route === "admin" ? "!text-blue-600" : ""}`}><Shield size={17} /></button>
+              )}
               <button onClick={() => setLang(lang === "fr" ? "en" : "fr")} aria-label={lang === "fr" ? "Switch to English" : "Passer au français"}
                 className={`${iconBtn} text-[11px] font-bold tracking-wide w-9`}>{lang === "fr" ? "EN" : "FR"}</button>
               <button onClick={() => setDark(!dark)} aria-label={dark ? t("Mode clair") : t("Mode sombre")} className={iconBtn}>{dark ? <Sun size={17} /> : <Moon size={17} />}</button>
