@@ -46,19 +46,22 @@ export function TestimonialForm({ onSent, submitLabel = "Envoyer mon avis", chil
     }
   };
 
+  // Stars and comment are required (red asterisk); the other fields say
+  // "facultatif". Checked in submit() so the message is ours, not the browser's.
   return (
     <form onSubmit={submit}>
-      <p className={label}>{t("Votre note")}</p>
+      <p id="testimonial-rating" className={label}>{t("Votre note")} <span className="text-red-500" aria-hidden="true">*</span></p>
       <div className="mt-2">
         <StarRating value={rating} onChange={setRating} size={30} />
       </div>
 
-      <label htmlFor="testimonial-body" className={`${label} mt-5`}>{t("Votre commentaire")}</label>
+      <label htmlFor="testimonial-body" className={`${label} mt-5`}>{t("Votre commentaire")} <span className="text-red-500" aria-hidden="true">*</span></label>
       <textarea
         id="testimonial-body"
         value={body}
         onChange={(e) => setBody(e.target.value.slice(0, MAX_BODY))}
         rows={4}
+        aria-required="true"
         placeholder={t("Ce qui vous a le plus aidé, ce qui vous a surpris, ce que vous diriez à un candidat qui hésite encore…")}
         className={`${inp} mt-2 resize-y`}
       />
