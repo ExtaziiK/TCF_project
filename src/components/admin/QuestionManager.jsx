@@ -78,7 +78,7 @@ function QuestionStats({ questionId }) {
       {stat.attempts === 0 ? (
         <p className={`text-sm ${c.faint}`}>Aucune tentative enregistrée pour l'instant — les statistiques apparaîtront dès que des étudiants auront pratiqué cette question.</p>
       ) : (
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {tiles.map((t) => (
             <div key={t.label}>
               <p className={`font-display font-extrabold text-2xl ${c.text}`}>{t.value}</p>

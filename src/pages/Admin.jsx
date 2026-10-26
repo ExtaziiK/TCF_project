@@ -2819,9 +2819,12 @@ export function Admin() {
     <PageShell back wide eyebrow="Administration" title="Console de la plateforme" sub="Comptes, contenu, ventes et activité, en direct depuis la base de données.">
       {/* Console layout: a grouped section sidebar on desktop (sticky), a
           horizontally scrollable chip row on mobile; inbox sections carry a
-          live counter. */}
-      <div className="grid lg:grid-cols-[240px_minmax(0,1fr)] gap-6 items-start">
-        <nav aria-label="Sections d'administration" className="lg:sticky lg:top-24">
+          live counter. On a phone the single column is pinned to the screen
+          width (minmax(0,1fr)): left to size itself, it grew to the widest
+          thing inside — the chip row, a table — and the whole page scrolled
+          sideways. */}
+      <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] gap-6 items-start">
+        <nav aria-label="Sections d'administration" className="min-w-0 lg:sticky lg:top-24">
           {/* Mobile: one scrolling row of chips. */}
           <div role="tablist" className="lg:hidden flex gap-1.5 overflow-x-auto -mx-4 px-4 pb-2">
             {all.map((x) => {
