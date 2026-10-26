@@ -5,7 +5,7 @@ import { waveDepth } from "./WaveSection";
 import {
   BRAND, Bubble, Tile, Tag, Maple, Flight,
   Pumpkin, Ghost, Bat, Snowflake, Tree, Gift, Ornament, Garland,
-  DZ, DzFlag, CrescentStar, Maqam, OliveBranch,
+  DZ, DzFlag, CrescentStar, Photo1954, Year1954,
 } from "./stickers";
 
 // Seasonal restyling of the sticker layouts (SectionDecor). A theme never moves
@@ -42,7 +42,14 @@ const THEMES = {
     // The flag itself keeps the official green; the text colour is a shade
     // lighter so it still reads on the dark canvas.
     colors: { [blue]: "#13894F", [violet]: DZ.red, [red]: "#0E7C4A", [amber]: "#B8892B" },
-    shapes: [[DzFlag], [Maqam], [CrescentStar, DZ.red], [OliveBranch, DZ.green]],
+    // Every other sticker is a flag; between them the crescent and star, the
+    // founding photograph and the year (the owner asked on 2026-10-26 for more
+    // flags, the photo and « 1954 », and no Maqam Echahid). Each section starts
+    // the cycle two further on (SectionDecor's offset), so with two leaves per
+    // section the hero gets flag + crescent — nothing large behind its screen
+    // collage — features, testimonials and cta the photo, video and the inner
+    // pages the year.
+    shapes: [[DzFlag], [CrescentStar, DZ.red], [DzFlag], [Photo1954], [DzFlag], [Year1954]],
     flight: [Flight, { lead: "flag" }],
     text: {
       "Bonjour !": "Vive l'Algérie !",
@@ -72,10 +79,12 @@ const THEMES = {
 };
 
 // Layout rows are [Sticker, props, ...placement]; the placement passes through.
-export function themed(items, theme) {
+// `offset` is where this layout starts in the theme's cycle of shapes, so the
+// sections of one page do not all show the same first two.
+export function themed(items, theme, offset = 0) {
   const spec = THEMES[theme];
   if (!spec) return items;
-  let leaf = 0;
+  let leaf = offset;
   return items.map(([Sticker, props, ...rest]) => {
     const p = { ...props, color: spec.colors[props.color] || props.color };
     if (p.text) p.text = spec.text[p.text] || p.text;

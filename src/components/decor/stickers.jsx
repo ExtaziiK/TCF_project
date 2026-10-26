@@ -270,9 +270,9 @@ export function Garland({ color, width = 220, flip, tilt = 0 }) {
 /* ── 1er Novembre (Algeria) ─────────────────────────────────────────────────
  * The anniversary of the 1 November 1954 uprising that opened the war of
  * independence — a national day of pride and remembrance, not a party. So the
- * stickers are its own symbols, drawn soberly: the flag, its crescent and star,
- * Maqam Echahid (the Martyrs' Memorial in Algiers, three palm leaves raised
- * around an eternal flame) and an olive branch for the peace that was won.
+ * stickers are its own symbols, drawn soberly: the flag (often), its crescent
+ * and star, the photograph of the six leaders who launched it, the year itself
+ * and an olive branch for the peace that was won.
  * Flag colours are the official ones; nothing here shows weapons or combat. */
 
 export const DZ = { green: "#006233", red: "#D21034", white: "#FFFFFF" };
@@ -340,23 +340,34 @@ export function CrescentStar({ color = DZ.red, size = 56, tilt = 0 }) {
   );
 }
 
-// Maqam Echahid, front view: the two outer palm leaves curving in, the middle
-// one behind them, all meeting under the lantern at the top, on its plinth,
-// with the eternal flame at the foot.
-export function Maqam({ color = DZ.green, size = 56, tilt = 0 }) {
+// The founding photograph of 1 November 1954 — the six leaders who launched
+// the revolution — as a tilted print with « 1954 » written under it. A real
+// photo, so it stays a photo in both themes: only the paper follows dark mode.
+export function Photo1954({ size = 56, tilt = 0 }) {
   const { dark } = useApp();
-  const stone = dark ? "#E2E8F0" : "#F1F5F9";
-  const line = dark ? "#94A3B8" : "#64748B";
+  const w = Math.round(size * 2);
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `rotate(${tilt}deg)` }}>
-      <path d="M44 86C45 60 47 34 50 12C53 34 55 60 56 86Z" fill={stone} stroke={line} strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M20 86C26 60 38 36 48 18L50 12 49 26C42 46 35 66 33 86Z" fill={color} />
-      <path d="M80 86C74 60 62 36 52 18L50 12 51 26C58 46 65 66 67 86Z" fill={color} />
-      <rect x="45.5" y="20" width="9" height="7" rx="1.5" fill={stone} stroke={line} strokeWidth="1.2" />
-      <rect x="12" y="86" width="76" height="6" rx="1.5" fill={line} />
-      <path d="M50 84c-4-3-4-7 0-11 0 3 3 4 3 7s-1.5 4-3 4Z" fill="#E8A10C" />
-      <path d="M50 84c-2-1.5-2-3.5 0-6 0 2 1.5 2.5 1.5 4s-.8 2-1.5 2Z" fill={DZ.red} />
-    </svg>
+    <div style={{ width: w, padding: Math.round(w * 0.06), paddingBottom: 0, transform: `rotate(${tilt}deg)`,
+      background: dark ? "#F1F5F9" : "#FFFFFF", boxShadow: "0 6px 14px rgba(15,23,42,.22)", borderRadius: 3 }}>
+      <img src="/decor/six-historiques-1954.jpg" alt="" width={250} height={232} loading="lazy" decoding="async"
+        style={{ display: "block", width: "100%", height: "auto", filter: "grayscale(1) contrast(1.05)" }} />
+      <p className="font-display font-extrabold text-center leading-none" style={{ color: DZ.green, fontSize: Math.round(w * 0.13), padding: `${Math.round(w * 0.05)}px 0` }}>
+        1954
+      </p>
+    </div>
+  );
+}
+
+// « 1954 » in the flag's colours: green, then white edged in green, the year's
+// last two digits in red — read as one word at sticker size.
+export function Year1954({ size = 56, tilt = 0 }) {
+  const fs = Math.round(size * 0.78);
+  const white = { color: DZ.white, WebkitTextStroke: `${Math.max(1.5, fs / 22)}px ${DZ.green}`, paintOrder: "stroke fill" };
+  return (
+    <div className="font-display font-extrabold leading-none whitespace-nowrap select-none"
+      style={{ fontSize: fs, letterSpacing: "-0.02em", transform: `rotate(${tilt}deg)`, textShadow: "0 3px 0 rgba(15,23,42,.12)" }}>
+      <span style={{ color: DZ.green }}>1</span><span style={white}>9</span><span style={{ color: DZ.red }}>54</span>
+    </div>
   );
 }
 
