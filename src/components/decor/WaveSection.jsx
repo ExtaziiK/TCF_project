@@ -76,7 +76,13 @@ export function WaveSection({ tinted = false, wave = null, flip = false, decor, 
   const { dark } = useApp();
   const tint = dark ? TINT.dark : TINT.light;
   return (
-    <section id={id} className={`relative ${className}`} style={{ background: tinted ? tint : dark ? undefined : "#FFFFFF" }}>
+    // Every WaveSection sits below the landing page's fold, so the browser may
+    // skip its style, layout and paint until it nears the viewport — about
+    // half the page's 1 900 elements at load. The 1000px is only a placeholder
+    // height until a section is first rendered; `auto` then remembers the real
+    // one. Paint containment clips overflow, which the decor layer already does.
+    <section id={id} className={`relative ${className}`}
+      style={{ background: tinted ? tint : dark ? undefined : "#FFFFFF", contentVisibility: "auto", containIntrinsicSize: "auto 1000px" }}>
       {wave !== null && !tinted && <WaveCap shape={wave} flip={flip} color={tint} />}
       {decor && <SectionDecor variant={decor} wave={wave !== null && !tinted ? { shape: wave, flip } : null} />}
       {/* Room for the curve, so it never runs over the section's content. */}
