@@ -21,6 +21,78 @@ export const POST_INDEX = [
     "read": "13 min"
   },
   {
+    "id": 18,
+    "slug": "rendez-vous-tcf-canada-algerie",
+    "iso": "2026-10-27",
+    "date": "27 octobre 2026",
+    "cat": "Comprendre le test",
+    "t": "Rendez-vous TCF Canada en Algérie : comment réserver sa place en 2026",
+    "excerpt": "Cinq antennes de l'Institut français, une plateforme gérée par VFS Global, des places qui partent en quelques minutes : la méthode complète pour décrocher un rendez-vous TCF Canada en Algérie.",
+    "hero": {
+      "src": "/blogue/passeport.jpg",
+      "alt": "Deux passeports posés sur une table en bois",
+      "w": 960,
+      "h": 640,
+      "caption": "En Algérie, la difficulté n'est pas l'examen : c'est la place. Les créneaux du TCF Canada partent souvent en quelques minutes."
+    },
+    "words": 1390,
+    "read": "8 min"
+  },
+  {
+    "id": 19,
+    "slug": "rendez-vous-tcf-canada-maroc",
+    "iso": "2026-10-27",
+    "date": "27 octobre 2026",
+    "cat": "Comprendre le test",
+    "t": "Rendez-vous TCF Canada au Maroc : centres, prix et inscription en 2026",
+    "excerpt": "2 900 Dhs, une inscription 100 % en ligne sur le site de l'Institut français de votre ville, et des règles strictes sur les reports : le guide complet pour réserver le TCF Canada au Maroc.",
+    "hero": {
+      "src": "/blogue/salle-examen.jpg",
+      "alt": "Une salle d'examen vide, tables individuelles alignées",
+      "w": 1024,
+      "h": 684,
+      "caption": "Au Maroc, une quinzaine de centres font passer le TCF Canada. La bonne nouvelle : il y a presque toujours une session dans les semaines qui viennent, quelque part."
+    },
+    "words": 1208,
+    "read": "7 min"
+  },
+  {
+    "id": 20,
+    "slug": "rendez-vous-tcf-canada-tunisie",
+    "iso": "2026-10-27",
+    "date": "27 octobre 2026",
+    "cat": "Comprendre le test",
+    "t": "Rendez-vous TCF Canada en Tunisie : réserver sa place en 2026",
+    "excerpt": "Rendez-vous en ligne, inscription et paiement sur place, sept pôles de l'Institut français et des Alliances françaises : comment réserver le TCF Canada en Tunisie, et ce qu'il faut prévoir.",
+    "hero": {
+      "src": "/blogue/bureau-documents.jpg",
+      "alt": "Documents administratifs et stylo posés sur un bureau",
+      "w": 960,
+      "h": 640,
+      "caption": "En Tunisie, l'inscription se fait en deux temps : un rendez-vous pris en ligne, puis le dossier et le paiement au guichet."
+    },
+    "words": 1041,
+    "read": "6 min"
+  },
+  {
+    "id": 21,
+    "slug": "rendez-vous-tcf-canada-cameroun",
+    "iso": "2026-10-27",
+    "date": "27 octobre 2026",
+    "cat": "Comprendre le test",
+    "t": "Rendez-vous TCF Canada au Cameroun : Yaoundé, Douala, Garoua, Dschang",
+    "excerpt": "Institut français à Yaoundé et Douala, Alliances françaises à Garoua et Dschang : où passer le TCF Canada au Cameroun, combien il coûte, et comment s'inscrire sans tomber dans les arnaques.",
+    "hero": {
+      "src": "/blogue/carnet-notes.jpg",
+      "alt": "Carnet ouvert et stylo posés sur une table claire",
+      "w": 960,
+      "h": 640,
+      "caption": "Au Cameroun, les sessions du TCF Canada affichent souvent complet. Les candidats qui obtiennent une place sont ceux qui suivent les annonces et ont leur dossier prêt."
+    },
+    "words": 1097,
+    "read": "6 min"
+  },
+  {
     "id": 16,
     "slug": "expression-orale-tache-3-methode",
     "iso": "2026-10-15",

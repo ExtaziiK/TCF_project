@@ -29,12 +29,16 @@ import { post as habitudesC1 } from "./posts/5-habitudes-etude-niveau-c1.js";
 import { post as pointQuiManque } from "./posts/expression-ecrite-le-point-qui-manque.js";
 import { post as oralTache3 } from "./posts/expression-orale-tache-3-methode.js";
 import { post as meilleursSites } from "./posts/meilleurs-sites-tcf-canada.js";
+import { post as rdvAlgerie } from "./posts/rendez-vous-tcf-canada-algerie.js";
+import { post as rdvMaroc } from "./posts/rendez-vous-tcf-canada-maroc.js";
+import { post as rdvTunisie } from "./posts/rendez-vous-tcf-canada-tunisie.js";
+import { post as rdvCameroun } from "./posts/rendez-vous-tcf-canada-cameroun.js";
 
 const ALL = [
   quEstCe, quiDoitPasser, format, quatreEpreuves, notation, quelNiveau,
   sePreparer, planEtude, tcfOuTef, scoreNclc, expressionEcrite,
   changements2026, entreeExpress, habitudesC1, pointQuiManque, oralTache3,
-  meilleursSites,
+  meilleursSites, rdvAlgerie, rdvMaroc, rdvTunisie, rdvCameroun,
 ];
 
 // Category → Pill tone, so the index and the article header agree on the
