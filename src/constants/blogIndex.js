@@ -8,8 +8,8 @@ export const POST_INDEX = [
     "iso": "2026-10-27",
     "date": "27 octobre 2026",
     "cat": "Méthode",
-    "t": "Les meilleurs sites pour préparer le TCF Canada : le comparatif complet",
-    "excerpt": "Ressources officielles, banques de QCM, plateformes de simulation, cours particuliers : ce que vaut chaque option, critère par critère, et pourquoi nous pensons que Passerelle coche le plus de cases.",
+    "t": "Les meilleurs sites pour le TCF Canada : Passerelle, TCFCAD et Réussir TCF Canada comparés",
+    "excerpt": "Trois sites, les mêmes critères : format, correction de l'écrit et de l'oral, examens blancs, prix. Le comparatif détaillé, tableaux à l'appui, et pourquoi nous pensons que Passerelle l'emporte.",
     "hero": {
       "src": "/blogue/ordinateur-etude.jpg",
       "alt": "Ordinateur portable ouvert sur un bureau, à côté d'un carnet de notes",
@@ -17,7 +17,7 @@ export const POST_INDEX = [
       "h": 640,
       "caption": "Le bon site n'est pas celui qui a le plus de questions. C'est celui qui reproduit le mieux les conditions de l'examen et qui vous dit précisément quoi corriger."
     },
-    "words": 1860,
+    "words": 1875,
     "read": "10 min"
   },
   {
