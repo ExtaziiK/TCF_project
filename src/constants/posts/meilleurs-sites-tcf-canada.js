@@ -46,7 +46,7 @@ export const post = {
         ["Examen blanc complet", "Oui, noté sur 699", "Oui, 4 épreuves", "Non précisé"],
         ["Vocabulaire, grammaire, dictée", "Oui", "Non annoncé", "Non annoncé"],
         ["Cours avec professeur", "Non", "En option", "Oui, c'est le cœur"],
-        ["Essai gratuit", "Compte gratuit permanent", "3 séries par épreuve", "Corrigés d'actualité"],
+        ["Essai gratuit", "3 quiz par épreuve, à vie", "3 séries par épreuve", "Corrigés d'actualité"],
         ["Prix pour un mois", "19,99 $", "24,99 $", "29 $ + simulateur"],
       ],
     }, caption: "Passerelle, TCFCAD et Réussir TCF Canada, d'après leurs sites consultés le 27 octobre 2026. « Non annoncé » : l'information ne figure pas sur leur site." },
@@ -107,7 +107,7 @@ export const post = {
         ["Durée", "Pour toujours", "15 jours", "30 jours", "90 jours"],
         ["Simulations IA", "1 sujet EE + 1 EO", "6 EE + 6 EO par jour", "Illimitées", "Illimitées"],
         ["TCF blancs notés sur 699", "1 complet", "3 par jour", "Illimités", "Illimités"],
-        ["Quiz CO et CE", "1 par épreuve", "Les 80", "Les 80", "Les 80"],
+        ["Quiz CO et CE", "3 par épreuve", "Les 80", "Les 80", "Les 80"],
         ["La dictée", "—", "3 par tâche et par jour", "Sans limite", "Sans limite"],
         ["Conjugaison", "10 min d'exercices par jour", "Illimitée", "Illimitée", "Illimitée"],
         ["Vocabulaire et grammaire", "Sans limite", "Sans limite", "Sans limite", "Sans limite"],
@@ -148,7 +148,7 @@ export const post = {
     { cta: {
       r: "register",
       label: "Créer un compte gratuit",
-      text: "Un TCF blanc complet noté sur 699, un sujet d'expression écrite et un d'expression orale corrigés par l'IA, et un quiz dans chaque épreuve : de quoi juger Passerelle sur pièces, gratuitement.",
+      text: "Un TCF blanc complet noté sur 699, un sujet d'expression écrite et un d'expression orale corrigés par l'IA, et les trois premiers quiz de chaque épreuve : de quoi juger Passerelle sur pièces, gratuitement.",
     } },
 
     "Un dernier mot. Le meilleur site pour le TCF Canada est celui que vous ouvrirez tous les jours pendant les semaines qui vous séparent de l'examen. Nous avons construit Passerelle pour qu'il soit celui-là : complet, fidèle au test, et assez précis dans ses corrections pour que chaque séance vous rapproche d'un palier NCLC.",

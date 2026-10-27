@@ -30,7 +30,7 @@ export const TOUR_STEPS = [
   {
     target: "nav-exams",
     title: "Bienvenue sur Passerelle !",
-    body: "Quatre épreuves, chacune avec ses quiz. Un premier quiz est offert partout.",
+    body: "Quatre épreuves, chacune avec ses quiz. Les trois premiers sont offerts partout.",
   },
   {
     target: "bank-co",

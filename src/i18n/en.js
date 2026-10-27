@@ -280,14 +280,14 @@ export const EN = {
     "Try the NCLC calculator",
   "Les quatre épreuves du TCF Canada, au format officiel":
     "The four TCF Canada tests, in the official format",
-  "40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Le premier quiz de chaque épreuve est offert.":
-    "40 listening quizzes, 40 reading quizzes, and the writing and speaking tasks corrected by AI. The first quiz of each test is free.",
-  "Commencez par le premier quiz de chaque épreuve":
-    "Start with the first quiz of each test",
-  "Un quiz par épreuve":
-    "One quiz per test",
-  "Le premier quiz de chaque épreuve, au format officiel.":
-    "The first quiz of each test, in the official format.",
+  "40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts.":
+    "40 listening quizzes, 40 reading quizzes, and the writing and speaking tasks corrected by AI. The first three quizzes of each test are free.",
+  "Commencez par les trois premiers quiz de chaque épreuve":
+    "Start with the first three quizzes of each test",
+  "Trois quiz par épreuve":
+    "Three quizzes per test",
+  "Les trois premiers quiz de chaque épreuve, au format officiel.":
+    "The first three quizzes of each test, in the official format.",
   "Écrit et oral corrigés":
     "Writing and speaking corrected",
   "Un sujet d'expression écrite et un d'orale, avec analyse IA.":
@@ -720,7 +720,7 @@ export const EN = {
   "Choisir Starter": "Choose Starter",
   "Choisir Pro": "Choose Pro",
   "Choisir Ultimate": "Choose Ultimate",
-  "Un quiz offert dans chaque épreuve": "One free quiz in every test section",
+  "3 quiz offerts dans chaque épreuve": "3 free quizzes in every test section",
   "Corrections détaillées et explications": "Detailed corrections and explanations",
   "La dictée : toute la bibliothèque, sans limite": "Dictation: the whole library, no limit",
   // Starter's capped version of the line above (3 per tâche per day).
@@ -873,8 +873,8 @@ export const EN = {
     "Open the NCLC calculator",
   "Qu'est-ce qui est gratuit, et qu'apporte un forfait ?":
     "What is free, and what does a plan add?",
-  "Avec un compte gratuit : un quiz dans chaque épreuve, un TCF blanc complet, un sujet d'essai en expression écrite et orale avec correction par IA, les cartes de vocabulaire, la grammaire, la conjugaison et les sujets du mois. Un forfait débloque toute la banque de questions, la Révision (les questions les plus difficiles avec leur corrigé), la dictée, les modèles de réponse des sujets du mois et davantage de TCF blancs et de simulations IA.":
-    "With a free account: one quiz in each test section, one full mock exam, a trial subject in writing and speaking with AI correction, vocabulary cards, grammar, conjugation and the subjects of the month. A plan unlocks the whole question bank, Revision (the hardest questions with their answers), the dictation, the model answers for the subjects of the month, and more mock exams and AI simulations.",
+  "Avec un compte gratuit : les trois premiers quiz de chaque épreuve, un TCF blanc complet, un sujet d'essai en expression écrite et orale avec correction par IA, les cartes de vocabulaire, la grammaire, la conjugaison et les sujets du mois. Un forfait débloque toute la banque de questions, la Révision (les questions les plus difficiles avec leur corrigé), la dictée, les modèles de réponse des sujets du mois et davantage de TCF blancs et de simulations IA.":
+    "With a free account: the first three quizzes of each test section, one full mock exam, a trial subject in writing and speaking with AI correction, vocabulary cards, grammar, conjugation and the subjects of the month. A plan unlocks the whole question bank, Revision (the hardest questions with their answers), the dictation, the model answers for the subjects of the month, and more mock exams and AI simulations.",
   "Comparer les forfaits":
     "Compare the plans",
   "Est-ce un abonnement qui se renouvelle ?":
@@ -1889,8 +1889,8 @@ export const EN = {
   "Masqué aux membres": "Hidden from members",
   "Ce quiz est en cours de révision par notre équipe. Il sera de nouveau disponible très bientôt.": "Our team is reviewing this quiz. It will be available again very soon.",
   "En révision : masqué aux membres, visible uniquement par l'équipe.": "Under review: hidden from members, visible to the team only.",
-  "Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.":
-    "Free plan: the first quiz of each section is open. Go Premium to unlock all the others.",
+  "Offre gratuite : les trois premiers quiz de chaque épreuve sont ouverts. Passez au Premium pour débloquer tous les autres.":
+    "Free plan: the first three quizzes of each section are open. Go Premium to unlock all the others.",
   "Débloquer": "Unlock",
   "Vos quatre épreuves, réunies en un seul endroit": "Your four sections, all in one place",
   "Compréhension et expression, à l'oral comme à l'écrit. Choisissez une épreuve ci-dessous, puis lancez un quiz dans les conditions réelles de l'examen.":
@@ -2944,8 +2944,8 @@ export const EN = {
   "Suivant": "Next",
   "Terminer": "Done",
   "Bienvenue sur Passerelle !": "Welcome to Passerelle!",
-  "Quatre épreuves, chacune avec ses quiz. Un premier quiz est offert partout.":
-    "Four skills, each with its own quizzes. A first quiz is free everywhere.",
+  "Quatre épreuves, chacune avec ses quiz. Les trois premiers sont offerts partout.":
+    "Four skills, each with its own quizzes. The first three are free everywhere.",
   "Écoutez, répondez, puis Suivante. Le score s'affiche à la fin.":
     "Listen, answer, then Next. The score shows up at the end.",
   "Lisez le texte, répondez, puis Suivante.": "Read the text, answer, then Next.",

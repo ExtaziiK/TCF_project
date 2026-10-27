@@ -42,12 +42,18 @@ function epreuveColors(section, dark) {
 // panel. Each descriptor carries its header meta and a compact-aware Body.
 const GUIDE_PANELS = { co: CO_GUIDE_PANEL, ce: CE_GUIDE_PANEL, ee: EE_GUIDE_PANEL, eo: EO_GUIDE_PANEL };
 
+// How many quizzes per épreuve a free account may play: the first ones of the
+// grid, which is sorted by quiz number. api/media.js signs the media of quizzes
+// 1 to FREE_QUIZ_COUNT for free accounts under the same name — change both
+// together, or the extra quizzes open with no audio and no images.
+const FREE_QUIZ_COUNT = 3;
+
 // Compact quiz tile for the épreuves grid. The section is already shown by the
 // tabs above the grid and the page header, so it's dropped here to keep the
 // card small. The corner badge and colour encode state at a glance:
 // emerald = completed (all questions answered), orange = completed but some
 // questions left unanswered, blue = ready to start, amber lock = Premium-only
-// (free tier, everything past quiz 1 of each épreuve).
+// (free tier, everything past the first FREE_QUIZ_COUNT of each épreuve).
 // Hovering (or focusing) a completed card reveals its actions — "Résultats"
 // (reopens the most recent attempt that carries per-question detail; not
 // necessarily the best-scoring one on the card, and hidden until such a
@@ -338,8 +344,9 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
   const [bestScores, setBestScores] = useState({});
   const [reviewableAttempts, setReviewableAttempts] = useState({});
 
-  // Free tier: only the first quiz of each épreuve is playable — the rest are
-  // locked and route to the upgrade page. Premium/admin never hit this.
+  // Free tier: only the first FREE_QUIZ_COUNT quizzes of each épreuve are
+  // playable — the rest are locked and route to the upgrade page.
+  // Premium/admin never hit this.
   const freeTier = role === ROLES.FREE_USER;
   const goUpgrade = () => { notify(t("Ce quiz fait partie de l'abonnement Premium.")); nav("pricing"); };
   const staff = isStaff(role);
@@ -355,7 +362,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       if (idx < 0) continue;
       const qz = bank[s][idx];
       setSection(s);
-      if ((isUnderReview(qz) && !staff) || (freeTier && idx > 0)) return;
+      if ((isUnderReview(qz) && !staff) || (freeTier && idx >= FREE_QUIZ_COUNT)) return;
       openQuiz(qz);
       return;
     }
@@ -495,7 +502,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       {freeTier && !showWorkshop && quizzes.length > 0 && (
         <Card className="p-4 mb-6 flex items-center gap-3 border-blue-600/30">
           <span className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0"><Lock size={16} /></span>
-          <p className={`text-sm ${c.sub}`}>{t("Offre gratuite : le premier quiz de chaque épreuve est ouvert. Passez au Premium pour débloquer tous les autres.")}</p>
+          <p className={`text-sm ${c.sub}`}>{t("Offre gratuite : les trois premiers quiz de chaque épreuve sont ouverts. Passez au Premium pour débloquer tous les autres.")}</p>
           <Btn small variant="accent" className="ml-auto shrink-0" onClick={() => nav("pricing")}>{t("Débloquer")}</Btn>
         </Card>
       )}
@@ -526,7 +533,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
           {quizzes.map((qz, idx) => {
-            const locked = freeTier && idx > 0;
+            const locked = freeTier && idx >= FREE_QUIZ_COUNT;
             const review = isUnderReview(qz);
             const best = bestScores[`bank-${qz.id}`];
             const reviewAttempt = reviewableAttempts[`bank-${qz.id}`];

@@ -6,7 +6,7 @@ import { SpeakingStudioBody } from "@/pages/Speaking";
 // The unified "Épreuves" hub. The four TCF épreuves (compréhension orale
 // & écrite, expression orale & écrite) all live here, switched with the tabs
 // on top of the quiz grid. Access is gated by the route guard: premium/admin
-// play everything, free users get quiz 1 of each épreuve and locks on the
+// play everything, free users get the first 3 quizzes of each épreuve and locks on the
 // rest (handled inside BankExplorer), visitors hit the register gate.
 //
 // EE/EO have no MCQ quizzes in the bank — their "exam" is the expression

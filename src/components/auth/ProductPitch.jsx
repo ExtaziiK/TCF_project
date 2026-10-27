@@ -21,7 +21,7 @@ import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestS
 // keeps the upgrade gate).
 //
 // Claims stay within what a free account really gets (see the Basic plan's
-// `feats` in constants/pricing.js): one quiz per épreuve, one full TCF blanc
+// `feats` in constants/pricing.js): three quizzes per épreuve, one full TCF blanc
 // with AI correction, one writing and one speaking subject with AI analysis,
 // vocabulary and grammar lessons without limit.
 
@@ -164,10 +164,10 @@ export function MocksPitch() {
 export function ExamsPitch() {
   return (
     <PitchLayout eyebrow="Épreuves" title="Les quatre épreuves du TCF Canada, au format officiel" shot="epreuves"
-      sub="40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Le premier quiz de chaque épreuve est offert."
-      closing="Commencez par le premier quiz de chaque épreuve"
+      sub="40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts."
+      closing="Commencez par les trois premiers quiz de chaque épreuve"
       perks={[
-        { icon: GraduationCap, t: "Un quiz par épreuve", d: "Le premier quiz de chaque épreuve, au format officiel." },
+        { icon: GraduationCap, t: "Trois quiz par épreuve", d: "Les trois premiers quiz de chaque épreuve, au format officiel." },
         { icon: Sparkles, t: "Écrit et oral corrigés", d: "Un sujet d'expression écrite et un d'orale, avec analyse IA." },
         { icon: CheckCircle2, t: "Réponses expliquées", d: "Chaque question corrigée, avec son explication." },
         { icon: Save, t: "Suivi de progression", d: "Vos scores et vos signets, gardés d'une séance à l'autre." },
@@ -266,7 +266,7 @@ export function ExercicesPitch() {
       perks={[
         { icon: BookOpen, t: "Vocabulaire et grammaire", d: "Cartes et leçons sans limite." },
         { icon: Languages, t: "Conjugaison", d: "Leçons illimitées, 10 minutes d'exercices par jour." },
-        { icon: Headphones, t: "Un quiz par épreuve", d: "Pour situer votre niveau dès le départ." },
+        { icon: Headphones, t: "Trois quiz par épreuve", d: "Pour situer votre niveau dès le départ." },
         { icon: Crown, t: "La dictée et la révision", d: "Incluses dans les accès payants." },
       ]}>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">

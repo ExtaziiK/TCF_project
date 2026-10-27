@@ -78,11 +78,11 @@ export const canUseNotebook = (role) => NOTEBOOK_PUBLIC || ADMIN_ONLY.includes(r
 export const PAGE_ACCESS = {
   practice: AUTHENTICATED,
   // The unified épreuves hub (CO/CE/EO/EE). Open to any signed-in user; free
-  // users get in but only quiz 1 of each épreuve is playable (locks live in
+  // users get in but only the first 3 quizzes of each épreuve are playable (locks live in
   // BankExplorer). Visitors fall through to the register gate.
   exams: AUTHENTICATED,
   // These addresses now open the Épreuves hub on the CO / CE tab, which applies
-  // the free plan's locks itself (quiz 1 of each épreuve open) — same policy
+  // the free plan's locks itself (first 3 quizzes of each épreuve open) — same policy
   // as "exams", so a free account reaches its free quiz instead of a gate.
   listening: AUTHENTICATED,
   reading: AUTHENTICATED,

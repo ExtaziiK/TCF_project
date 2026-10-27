@@ -35,7 +35,7 @@ export const FAQS = [
   {
     id: "gratuit-ou-forfait",
     q: "Qu'est-ce qui est gratuit, et qu'apporte un forfait ?",
-    a: "Avec un compte gratuit : un quiz dans chaque épreuve, un TCF blanc complet, un sujet d'essai en expression écrite et orale avec correction par IA, les cartes de vocabulaire, la grammaire, la conjugaison et les sujets du mois. Un forfait débloque toute la banque de questions, la Révision (les questions les plus difficiles avec leur corrigé), la dictée, les modèles de réponse des sujets du mois et davantage de TCF blancs et de simulations IA.",
+    a: "Avec un compte gratuit : les trois premiers quiz de chaque épreuve, un TCF blanc complet, un sujet d'essai en expression écrite et orale avec correction par IA, les cartes de vocabulaire, la grammaire, la conjugaison et les sujets du mois. Un forfait débloque toute la banque de questions, la Révision (les questions les plus difficiles avec leur corrigé), la dictée, les modèles de réponse des sujets du mois et davantage de TCF blancs et de simulations IA.",
     link: { label: "Comparer les forfaits", route: "pricing" },
   },
   {

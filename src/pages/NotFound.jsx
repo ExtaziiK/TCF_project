@@ -11,7 +11,7 @@ import { PageShell, Card, Btn, RouteLink } from "@/components/common";
 // reads as "this is an error page", since the host still answers 200.
 const SUGGESTIONS = [
   { r: "guide", t: "Guide du TCF Canada", d: "Le format des quatre épreuves, le barème et les niveaux." },
-  { r: "practice", t: "Pratique gratuite", d: "Un quiz offert dans chaque épreuve, au format officiel." },
+  { r: "practice", t: "Pratique gratuite", d: "Trois quiz offerts dans chaque épreuve, au format officiel." },
   { r: "pricing", t: "Tarifs", d: "Les forfaits et ce que débloque l'accès Premium." },
   { r: "blog", t: "Blog", d: "Conseils de préparation et repères pour l'immigration." },
 ];

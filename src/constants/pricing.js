@@ -109,7 +109,7 @@ export const PLANS = [
     featured: false,
     slug: null, // free plan: nothing to buy
     feats: [
-      "Un quiz offert dans chaque épreuve",
+      "3 quiz offerts dans chaque épreuve",
       // One only, and it is enforced by the attempt itself — see
       // examService.findFreeAttempt and requirePremiumOrFreeMock. Keep the
       // wording honest about the limit: it is the first thing a free user

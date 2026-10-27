@@ -17,7 +17,7 @@ export const POST_INDEX = [
       "h": 640,
       "caption": "Le bon site n'est pas celui qui a le plus de questions. C'est celui qui reproduit le mieux les conditions de l'examen et qui vous dit précisément quoi corriger."
     },
-    "words": 2367,
+    "words": 2372,
     "read": "13 min"
   },
   {
