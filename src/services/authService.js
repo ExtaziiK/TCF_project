@@ -125,8 +125,26 @@ export async function checkDeviceSession(userId) {
 // live connections. Goes through a security-definer RPC (clients can't write the
 // column directly). Fails open: a missing function (pre-migration) or a network
 // blip just means this ping is skipped, never an error the user sees.
+//
+// The ping also carries the device kind, shown as an icon in the admin Users
+// view. Before 20261027_last_seen_device.sql is run the function takes no
+// argument and refuses the call, so it is retried bare: presence must never
+// stop working because of the icon.
 export async function touchLastSeen() {
-  try { await (await getSupabase()).rpc("touch_last_seen"); } catch { /* presence is best-effort */ }
+  try {
+    const sb = await getSupabase();
+    const { error } = await sb.rpc("touch_last_seen", { p_device: deviceKind() });
+    if (error) await sb.rpc("touch_last_seen");
+  } catch { /* presence is best-effort */ }
+}
+
+// Phones and tablets are "mobile", everything else "desktop". iPadOS reports a
+// Mac user agent, so a "Macintosh" with a touch screen is an iPad.
+function deviceKind() {
+  const ua = navigator.userAgent || "";
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) return "mobile";
+  if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) return "mobile";
+  return "desktop";
 }
 
 // OAuth logins redirect away before we can act, so we flag the intent (which

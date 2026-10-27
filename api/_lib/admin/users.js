@@ -123,6 +123,8 @@ function toRow(u, profiles) {
     lastSignInAt: u.last_sign_in_at || null,
     lastSeenAt: p.last_seen_at || null,
     online: isOnline(p.last_seen_at),
+    // "mobile" | "desktop" | null — the device of the latest presence ping.
+    lastSeenDevice: p.last_seen_device || null,
   };
 }
 
@@ -160,7 +162,13 @@ async function handleGet(req, res) {
   // Usernames + presence come from profiles; fetched for the full window so
   // search can match usernames and "online now" is computed over everyone
   // (one indexed query, id list bounded by MAX_SCAN).
-  const { data: profileRows } = await admin.from("profiles").select("id, username, last_seen_at").in("id", users.map((u) => u.id));
+  // last_seen_device comes from 20261027_last_seen_device.sql; until it is run
+  // the column is missing and the query fails, so it is retried without it —
+  // the list then simply shows no device icons.
+  const ids = users.map((u) => u.id);
+  let profileQuery = await admin.from("profiles").select("id, username, last_seen_at, last_seen_device").in("id", ids);
+  if (profileQuery.error) profileQuery = await admin.from("profiles").select("id, username, last_seen_at").in("id", ids);
+  const profileRows = profileQuery.data;
   const profiles = Object.fromEntries((profileRows || []).map((p) => [p.id, p]));
 
   // Live connections + most recent logins are reported over ALL accounts,

@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck,
+  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck, Laptop,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
@@ -73,6 +73,22 @@ const USER_FILTERS = [
 const when = (iso) =>
   iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
 const dateOnly = (iso) => (iso ? new Date(iso).toLocaleDateString("fr-CA", { day: "2-digit", month: "short", year: "numeric" }) : "—");
+
+// Phone or laptop next to a member's name: the device of their latest
+// presence ping (profiles.last_seen_device). Nothing for accounts never seen
+// since the device started being recorded.
+function DeviceIcon({ device, size = 13 }) {
+  const { c } = useApp();
+  if (device !== "mobile" && device !== "desktop") return null;
+  const Icon = device === "mobile" ? Smartphone : Laptop;
+  const label = device === "mobile" ? "Sur mobile" : "Sur ordinateur";
+  return (
+    <span title={label} className={`inline-flex shrink-0 ${c.faint}`}>
+      <Icon size={size} aria-hidden="true" />
+      <span className="sr-only">{label}</span>
+    </span>
+  );
+}
 
 // Shown when a data source needs either the serverless routes (absent under
 // plain `vite`) or a migration that hasn't been applied yet.
@@ -1006,6 +1022,7 @@ function UsersTab() {
                     <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
                   </span>
                   <span className={`text-xs font-medium ${c.text}`}>{o.name || o.username || o.email}</span>
+                  <DeviceIcon device={o.lastSeenDevice} size={12} />
                 </span>
               ))}
               {data.onlineCount > data.onlineUsers.length && (
@@ -1030,6 +1047,7 @@ function UsersTab() {
                     {r.online && <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />}
                   </span>
                   <span className={`text-sm font-medium truncate ${c.text}`}>{r.name || r.username || r.email}</span>
+                  <DeviceIcon device={r.lastSeenDevice} />
                   <span className={`ml-auto text-xs font-mono2 shrink-0 ${c.faint}`}>{when(r.lastSignInAt)}</span>
                 </div>
               ))}
@@ -1160,7 +1178,7 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
               {u.online && <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="En ligne" />}
             </span>
             <div className="min-w-0">
-              <p className={`font-medium truncate group-hover:text-blue-600 transition-colors ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}</p>
+              <p className={`font-medium truncate group-hover:text-blue-600 transition-colors ${c.text}`}>{u.name || u.username || "—"}{isSelf && <span className="ml-2 text-[10px] font-bold text-blue-600">VOUS</span>}{u.online && <span className="ml-2 text-[10px] font-bold text-emerald-600">EN LIGNE</span>}{u.online && <span className="ml-1.5 align-[-2px] inline-flex"><DeviceIcon device={u.lastSeenDevice} /></span>}</p>
               <p className={`text-xs truncate ${c.faint}`}>{u.email}{u.username ? ` · @${u.username}` : ""}</p>
             </div>
           </button>
