@@ -103,8 +103,14 @@ export function VideoTutorial() {
               className="absolute inset-0 w-full h-full group"
               aria-label={t("Lire la vidéo de présentation")}
             >
+              {/* YouTube's WebP thumbnails: the 1280 px one is under half the
+                  JPEG's weight, and phones get the 640 px one. sddefault is
+                  4:3 with the 16:9 frame letterboxed inside, which object-cover
+                  crops away exactly. */}
               <img
-                src={`https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+                src={`https://i.ytimg.com/vi_webp/${VIDEO_ID}/maxresdefault.webp`}
+                srcSet={`https://i.ytimg.com/vi_webp/${VIDEO_ID}/sddefault.webp 640w, https://i.ytimg.com/vi_webp/${VIDEO_ID}/maxresdefault.webp 1280w`}
+                sizes="(min-width: 896px) 896px, 100vw"
                 alt=""
                 loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
