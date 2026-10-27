@@ -28,11 +28,13 @@ import { post as entreeExpress } from "./posts/entree-express-points-francais.js
 import { post as habitudesC1 } from "./posts/5-habitudes-etude-niveau-c1.js";
 import { post as pointQuiManque } from "./posts/expression-ecrite-le-point-qui-manque.js";
 import { post as oralTache3 } from "./posts/expression-orale-tache-3-methode.js";
+import { post as meilleursSites } from "./posts/meilleurs-sites-tcf-canada.js";
 
 const ALL = [
   quEstCe, quiDoitPasser, format, quatreEpreuves, notation, quelNiveau,
   sePreparer, planEtude, tcfOuTef, scoreNclc, expressionEcrite,
   changements2026, entreeExpress, habitudesC1, pointQuiManque, oralTache3,
+  meilleursSites,
 ];
 
 // Category → Pill tone, so the index and the article header agree on the

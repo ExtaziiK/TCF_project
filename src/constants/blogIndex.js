@@ -3,6 +3,24 @@
 // routes need on every page. The bodies live in the blog page's chunk.
 export const POST_INDEX = [
   {
+    "id": 17,
+    "slug": "meilleurs-sites-tcf-canada",
+    "iso": "2026-10-27",
+    "date": "27 octobre 2026",
+    "cat": "Méthode",
+    "t": "Les meilleurs sites pour préparer le TCF Canada : le comparatif complet",
+    "excerpt": "Ressources officielles, banques de QCM, plateformes de simulation, cours particuliers : ce que vaut chaque option, critère par critère, et pourquoi nous pensons que Passerelle coche le plus de cases.",
+    "hero": {
+      "src": "/blogue/ordinateur-etude.jpg",
+      "alt": "Ordinateur portable ouvert sur un bureau, à côté d'un carnet de notes",
+      "w": 960,
+      "h": 640,
+      "caption": "Le bon site n'est pas celui qui a le plus de questions. C'est celui qui reproduit le mieux les conditions de l'examen et qui vous dit précisément quoi corriger."
+    },
+    "words": 1860,
+    "read": "10 min"
+  },
+  {
     "id": 16,
     "slug": "expression-orale-tache-3-methode",
     "iso": "2026-10-15",
