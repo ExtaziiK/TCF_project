@@ -99,6 +99,21 @@ export const post = {
       ],
     }, caption: "Tarifs affichés le 27 octobre 2026. Passerelle et TCFCAD en dollars américains ; Réussir TCF Canada n'indique pas la devise. Chez Réussir TCF Canada, le simulateur d'expression est vendu à part (14 $ à 49 $ pour 5 à 30 utilisations)." },
     "Quatre constats ressortent. **Sur un mois**, Passerelle Pro coûte 5 $ de moins que l'offre équivalente de TCFCAD, et ses simulations écrites et orales sont illimitées là où TCFCAD les compte. **Sur la durée**, Passerelle Ultimate donne 90 jours pour 49,99 $, soit environ 16,66 $ par mois, contre 20 $ par mois pour la formule Or de TCFCAD, qui s'arrête à deux mois et 240 essais ; chez nous, toujours sans plafond. **Avec les outils d'entraînement**, enfin, chaque pass Passerelle inclut la dictée, la révision ciblée et le reste du cahier, sans supplément. **Chez Réussir TCF Canada**, les packs de tests n'incluent pas le simulateur d'expression, qui s'achète en plus.",
+    "Voici, formule par formule, ce que donne chaque accès Passerelle :",
+    { table: {
+      cols: ["Formule", "Basic", "Starter", "Pro", "Ultimate"],
+      rows: [
+        ["Prix", "0 $", "7,99 $", "19,99 $", "49,99 $"],
+        ["Durée", "Pour toujours", "15 jours", "30 jours", "90 jours"],
+        ["Simulations IA", "1 sujet EE + 1 EO", "6 EE + 6 EO par jour", "Illimitées", "Illimitées"],
+        ["TCF blancs notés sur 699", "1 complet", "3 par jour", "Illimités", "Illimités"],
+        ["Quiz CO et CE", "1 par épreuve", "Les 80", "Les 80", "Les 80"],
+        ["La dictée", "—", "3 par tâche et par jour", "Sans limite", "Sans limite"],
+        ["Conjugaison", "10 min d'exercices par jour", "Illimitée", "Illimitée", "Illimitée"],
+        ["Vocabulaire et grammaire", "Sans limite", "Sans limite", "Sans limite", "Sans limite"],
+        ["Appareils", "1", "1", "2", "4"],
+      ],
+    }, caption: "Les formules Passerelle au 27 octobre 2026, en dollars américains. Tous les accès payants incluent la correction IA détaillée et l'entretien oral avec un examinateur IA." },
     "Le détail de nos formules est sur la [page des tarifs](/tarifs) ; aucune ne se renouvelle automatiquement.",
 
     { h: "Ce que Passerelle ne fait pas" },
