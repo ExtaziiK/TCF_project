@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, X, AlertTriangle, CornerDownLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AccentKeys, insertAtCaret, NO_ASSIST_PROPS } from "@/components/common";
 import { checkAnswer, isCorrect, missingAccents, filledSentence } from "@/utils/conjugationCheck";
 import { recordConjugationMistake } from "@/services/mistakeNotebookService";
+import { shuffle } from "@/utils/shuffle";
 
 // One conjugation exercise, in either practice mode:
 //   mode="write"   an input the candidate types the form into
@@ -24,6 +25,10 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
   const [chosen, setChosen] = useState(null);
   const inputRef = useRef(null);
   const done = verdict !== null;
+  // The bank lists the right answer first in every `opts`, so the choices are
+  // shuffled — once per exercise (the parent keys it per question), so they
+  // don't jump around after a click or a switch from « Écrire ».
+  const opts = useMemo(() => shuffle(q.opts || []), [q]);
   // Focus the input without scrolling to it: `autoFocus` would scroll the
   // page down to the exercise when the tool opens (its marker in the cahier).
   useEffect(() => { if (autoFocus) inputRef.current?.focus({ preventScroll: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -122,7 +127,7 @@ export function ConjugationExercise({ q, mode = "write", onAnswer, autoFocus = f
         </div>
       ) : (
         <div className="mt-4 grid sm:grid-cols-2 gap-2">
-          {q.opts.map((o) => {
+          {opts.map((o) => {
             // Compared through checkAnswer, not ===, so an option that differs
             // from `a` only by an accepted variant still lights up green.
             const right = isCorrect(checkAnswer(q, o));

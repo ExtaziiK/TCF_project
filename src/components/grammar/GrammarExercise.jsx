@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { shuffle } from "@/utils/shuffle";
 
 export function GrammarExercise({ q }) {
   const { c, t } = useApp();
   const [sel, setSel] = useState(null);
+  // `a` is an index into `opts`, and the bank never puts the answer last: the
+  // options are shown in a shuffled order, once per question.
+  const order = useMemo(() => shuffle(q.opts.map((_, i) => i)), [q]);
   return (
     <div className={`p-5 rounded-2xl border ${c.border}`}>
       <p className={`font-medium text-sm ${c.text}`}>{q.q}</p>
       <div className="mt-3 flex gap-2 flex-wrap">
-        {q.opts.map((o, i) => {
+        {order.map((i) => {
+          const o = q.opts[i];
           const st = sel === null ? "idle" : i === q.a ? "right" : i === sel ? "wrong" : "dim";
           return (
             <button key={o} disabled={sel !== null} onClick={() => setSel(i)} className={`px-4 py-2 rounded-full border text-sm font-semibold transition-all

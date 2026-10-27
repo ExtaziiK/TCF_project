@@ -6,19 +6,11 @@ import { ConjugationExercise } from "@/components/conjugation/ConjugationExercis
 import { ConjugationQuotaWall } from "@/components/conjugation/ConjugationQuotaWall";
 import { ALL_CONJUGATION_QS, CONJ_SECTION, conjQuizKey } from "@/constants/conjugation";
 import { recordQuizResult } from "@/services/quizResultsService";
+import { shuffle } from "@/utils/shuffle";
 
 // How many exercises make one scored session. Short enough to finish in a
 // break, long enough for the percentage to mean something.
 const SESSION_LENGTH = 10;
-
-const shuffle = (arr) => {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-};
 
 // A scored run of SESSION_LENGTH exercises, drawn without repetition from one
 // tense (`tense` given) or from every tense at once (the global "Mode quiz").

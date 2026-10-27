@@ -3,6 +3,7 @@ import { ArrowRight, RotateCcw, Trophy } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { GRAMMAR_TOPICS } from "@/constants/grammar";
+import { shuffle } from "@/utils/shuffle";
 
 const rnd = (n) => Math.floor(Math.random() * n);
 // A random question from the pool, never the same one twice in a row.
@@ -27,6 +28,8 @@ export function GrammarQuiz({ topic }) {
   const [item, setItem] = useState(() => pick(pool));
   const [sel, setSel] = useState(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  // Options in a shuffled order (see GrammarExercise); `a` stays an index into `opts`.
+  const order = useMemo(() => shuffle(item.opts.map((_, i) => i)), [item]);
 
   const answer = (i) => {
     if (sel !== null) return;
@@ -50,7 +53,8 @@ export function GrammarQuiz({ topic }) {
 
       <p className={`mt-5 font-medium ${c.text}`}>{item.q}</p>
       <div className="mt-4 flex gap-2 flex-wrap">
-        {item.opts.map((o, i) => {
+        {order.map((i) => {
+          const o = item.opts[i];
           const st = sel === null ? "idle" : i === item.a ? "right" : i === sel ? "wrong" : "dim";
           return (
             <button key={o} disabled={sel !== null} onClick={() => answer(i)} className={`px-4 py-2 rounded-full border text-sm font-semibold transition-all
