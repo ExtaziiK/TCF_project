@@ -59,6 +59,7 @@ const NotFound = lazyPage(() => import("@/pages/NotFound"), "NotFound");
 const Terms = lazyPage(() => import("@/pages/Terms"), "Terms");
 const Privacy = lazyPage(() => import("@/pages/Privacy"), "Privacy");
 const Accessibility = lazyPage(() => import("@/pages/Accessibility"), "Accessibility");
+const LegalNotice = lazyPage(() => import("@/pages/LegalNotice"), "LegalNotice");
 
 function Login() {
   return <AuthPage mode="login" />;
@@ -119,5 +120,6 @@ export const PAGES = {
   terms: Terms,
   privacy: Privacy,
   accessibility: Accessibility,
+  legal: LegalNotice,
   notfound: NotFound,
 };
