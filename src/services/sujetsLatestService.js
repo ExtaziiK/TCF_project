@@ -26,14 +26,22 @@ const listeners = new Set();
 
 export async function refreshLatestSujets() {
   fetched = true;
+  // Only months that hold subjects count. « Ajouter un mois » in the admin
+  // saves the month empty before anything is imported into it, and the newest
+  // row alone then named the link after a month whose page shows nothing (an
+  // empty EO November turned it into « Sujets de novembre » while the newest
+  // subjects were October's). `data->0` is the month's first entry — null for
+  // an empty month — so the check costs one small value per row, not the
+  // payload; 12 rows is room for a few empty months at the top.
   const { data, error } = await (await getSupabase())
     .from("sujets_archive")
-    .select("year, month_num")
+    .select("year, month_num, first:data->0")
     .order("year", { ascending: false })
     .order("month_num", { ascending: false })
-    .limit(1);
+    .limit(12);
   // Table missing or offline: what we had (shipped, or remembered) stands.
-  const fromDb = !error && data?.[0] ? monthKey(data[0].year, data[0].month_num) : null;
+  const filled = !error && data ? data.find((r) => r.first != null) : null;
+  const fromDb = filled ? monthKey(filled.year, filled.month_num) : null;
   const next = error ? latest : [shipped, fromDb].filter(Boolean).sort().pop() || null;
   if (!error && next) { try { window.localStorage.setItem(CACHE, next); } catch { /* storage blocked */ } }
   if (next !== latest || !resolved) {

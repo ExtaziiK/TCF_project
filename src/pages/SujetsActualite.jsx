@@ -23,9 +23,15 @@ export function SujetsActualite() {
   const [tache, setTache] = useState(2);
   const { loading, years } = useSujetsArchive(section);
   const eo = section === "eo";
-  const year = years[0]?.year;
-  // The newest year's most recent month.
-  const latest = (years[0]?.months || []).reduce((best, m) => (!best || m.monthNum > best.monthNum ? m : best), null);
+  // The most recent month that has subjects. « Ajouter un mois » in the admin
+  // saves a month empty before anything is imported into it; opening on that
+  // month would show nothing, so empty months are skipped (as in the nav's
+  // « Sujets de … » label, sujetsLatestService).
+  const newest = years
+    .map((y) => ({ year: y.year, months: y.months.filter((m) => m.data?.length) }))
+    .find((y) => y.months.length);
+  const year = newest?.year;
+  const latest = (newest?.months || []).reduce((best, m) => (!best || m.monthNum > best.monthNum ? m : best), null);
   const taches = latest && eo ? eoTachesIn(latest) : [];
 
   const summary = latest && (
