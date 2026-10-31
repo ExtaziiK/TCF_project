@@ -203,6 +203,12 @@ export const ROUTE_META = {
   // binds nobody, and a visitor who needs to know whether the site works with
   // their screen reader should be able to find the answer from a search engine
   // rather than only from the footer.
+  legal: {
+    path: "/mentions-legales",
+    title: "Mentions légales",
+    description:
+      "Mentions légales de Passerelle : éditeur, contact, hébergement, indépendance vis-à-vis des organismes officiels et propriété des contenus.",
+  },
   accessibility: {
     path: "/accessibilite",
     title: "Déclaration d'accessibilité",

@@ -1203,6 +1203,48 @@ export const EN = {
   // French version is the contract and prevails; the English is a courtesy
   // translation (the document says so in section 2).
   "Mentions légales": "Legal",
+  "Qui édite Passerelle, qui l'héberge, et à qui appartiennent ses contenus.":
+    "Who publishes Passerelle, who hosts it, and who owns its content.",
+  "30 octobre 2026":
+    "October 30, 2026",
+  "1. Éditeur du site":
+    "1. Publisher",
+  "Le site www.tcfpasserelle.com et la plateforme Passerelle sont édités et exploités à titre individuel. Passerelle est un projet personnel et indépendant de préparation au TCF Canada.":
+    "The www.tcfpasserelle.com website and the Passerelle platform are published and operated by an individual. Passerelle is a personal, independent TCF Canada preparation project.",
+  "Contact : {courriel}. Cette adresse est le point de contact unique du site pour toute question, réclamation, demande relative à vos données ou notification légale.":
+    "Contact: {courriel}. This address is the site's single point of contact for any question, complaint, data request or legal notice.",
+  "2. Directeur de la publication":
+    "2. Publication director",
+  "Le directeur de la publication est l'éditeur du site, joignable à l'adresse {courriel}.":
+    "The publication director is the site's publisher, reachable at {courriel}.",
+  "3. Hébergement":
+    "3. Hosting",
+  "Le site est hébergé par Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis (vercel.com).":
+    "The website is hosted by Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, United States (vercel.com).",
+  "La base de données, les comptes et l'authentification sont hébergés par Supabase, Inc. (supabase.com). La liste complète des prestataires qui traitent des données pour le compte de Passerelle figure dans la politique de confidentialité.":
+    "The database, accounts and authentication are hosted by Supabase, Inc. (supabase.com). The full list of providers that process data on Passerelle's behalf is in the privacy policy.",
+  "4. Indépendance":
+    "4. Independence",
+  "Passerelle n'est ni affiliée, ni mandatée, ni agréée, ni approuvée par France Éducation international, par Immigration, Réfugiés et Citoyenneté Canada (IRCC), ni par aucun centre d'examen agréé. Elle ne fait pas passer l'examen officiel et ne délivre aucune attestation reconnue.":
+    "Passerelle is not affiliated with, mandated, accredited or endorsed by France Éducation international, Immigration, Refugees and Citizenship Canada (IRCC), or any accredited test centre. It does not administer the official exam and issues no recognised certificate.",
+  "« TCF » et « TCF Canada » sont des marques de France Éducation international. Elles sont citées à titre descriptif, pour indiquer à quel examen la plateforme prépare.":
+    "“TCF” and “TCF Canada” are trademarks of France Éducation international. They are used descriptively, to state which exam the platform prepares for.",
+  "5. Propriété intellectuelle":
+    "5. Intellectual property",
+  "Les contenus de Passerelle — questions et séries d'entraînement, textes, articles, corrigés, modèles de réponse, enregistrements, illustrations, logo et interface — sont protégés par le droit d'auteur. Sauf mention contraire, ils appartiennent à l'éditeur.":
+    "Passerelle's content — practice questions and series, texts, articles, answer keys, model answers, recordings, illustrations, logo and interface — is protected by copyright. Unless stated otherwise, it belongs to the publisher.",
+  "Toute reproduction, extraction ou diffusion de tout ou partie de ces contenus, notamment de la banque de questions, sans autorisation écrite préalable est interdite. Vous pouvez citer de courts extraits des articles du blogue, avec un lien vers la page d'origine.":
+    "Reproducing, extracting or distributing all or part of this content, in particular the question bank, without prior written permission is prohibited. You may quote short excerpts from blog articles, with a link to the original page.",
+  "Certaines photographies du blogue sont publiées sous licence libre : leur auteur et leur licence sont indiqués sous chaque image concernée.":
+    "Some blog photographs are published under a free licence: their author and licence are credited under each image concerned.",
+  "6. Données personnelles et cookies":
+    "6. Personal data and cookies",
+  "Les données collectées sur Passerelle, leur finalité, leur durée de conservation et la manière d'exercer vos droits sont décrites dans la politique de confidentialité. La mesure d'audience ne dépose pas de cookie.":
+    "The data collected on Passerelle, why, how long it is kept and how to exercise your rights are described in the privacy policy. Audience measurement sets no cookie.",
+  "7. Signaler un contenu":
+    "7. Reporting content",
+  "Si un contenu publié sur Passerelle vous paraît illicite, inexact ou porte atteinte à vos droits, écrivez à {courriel} en indiquant la page concernée et la raison de votre signalement. Nous l'examinons et vous répondons dans les meilleurs délais.":
+    "If content published on Passerelle seems unlawful or inaccurate to you, or infringes your rights, write to {courriel} stating the page concerned and the reason for your report. We will review it and reply as soon as possible.",
   "Conditions générales d'utilisation": "Terms and conditions",
   "conditions générales d'utilisation": "terms and conditions",
   "Les règles d'utilisation de Passerelle, à lire avant de créer un compte.":

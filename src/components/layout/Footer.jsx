@@ -79,13 +79,14 @@ export function Footer() {
       <div className={`border-t ${c.border}`}>
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs ${c.faint}`}>
           <p>{t("© 2026 Passerelle. Plateforme indépendante — le TCF est une marque de France Éducation international.")}</p>
-          {/* All three legal documents are real links — a visitor accepts the
+          {/* All four legal documents are real links — a visitor accepts the
               conditions when finishing their account and the policy is
               referenced from them, so both have to stay reachable afterwards. */}
-          <p className="flex items-center gap-4">
+          <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <RouteLink r="privacy" className="hover:text-blue-600 transition-colors">{t("Confidentialité")}</RouteLink>
             <RouteLink r="terms" className="hover:text-blue-600 transition-colors">{t("Conditions")}</RouteLink>
             <RouteLink r="accessibility" className="hover:text-blue-600 transition-colors">{t("Accessibilité")}</RouteLink>
+            <RouteLink r="legal" className="hover:text-blue-600 transition-colors">{t("Mentions légales")}</RouteLink>
           </p>
         </div>
       </div>

@@ -263,7 +263,7 @@ await fs.writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");
     section("Préparer le TCF Canada", ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "calculator"]),
     section("Passerelle", ["home", "pricing", "register", "avis", "faq", "about", "contact"]),
     section("Blogue", ["blog", ...articles]),
-    section("Optional", ["terms", "privacy", "accessibility"]),
+    section("Optional", ["terms", "privacy", "accessibility", "legal"]),
   ].join("\n");
   await fs.writeFile(path.join(dist, "llms.txt"), txt.trimEnd() + "\n", "utf8");
 }
