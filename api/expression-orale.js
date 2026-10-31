@@ -1,5 +1,5 @@
-import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey } from "./_lib/auth.js";
-import { enforceRateLimit } from "./_lib/ratelimit.js";
+import { requirePremiumOrFreeMock, claimAiUse, releaseAiUse, freeAiTaskKey, isPremiumUser } from "./_lib/auth.js";
+import { enforceRateLimit, bumpLimit } from "./_lib/ratelimit.js";
 import { groqChatJSON, groqTranscribe, groqTranscribeDetailed, normalizeFeedback, HttpError, CHAT_MODEL_NAME, TRANSCRIBE_MODEL_NAME } from "./_lib/groq.js";
 import { synthesizeFrench, TTS_MODEL_NAME, EXAMINER_VOICE } from "./_lib/tts.js";
 import { logAiUsage, logIncident } from "./_lib/usage.js";
@@ -170,6 +170,9 @@ Respond with ONLY a minified JSON object of this exact shape:
 // ("I didn't hear you, please answer") before the interview stops nagging.
 // These re-prompts are NOT exchanges and never enter the dialogue history.
 export const MAX_EMPTY_REPROMPTS = 2;
+
+// Daily cap on interview turns for a free account (see the handler).
+export const FREE_DIALOGUE_TURNS_PER_DAY = 80;
 
 const EMPTY_REPROMPTS = [
   "Je n'ai pas entendu votre réponse. Prenez votre temps, puis répondez à la question.",
@@ -480,6 +483,21 @@ export default async function handler(req, res) {
     if (isDialogue && req.body?.action === "opening") return await openingTurn(res, user, req.body);
     if (!isDialogue || dialogueWillGrade(req.body)) {
       claim = await claimAiUse(user, req.body?.attemptId, freeAiTaskKey("eo", req.body?.task));
+    }
+
+    // The interview's follow-up turns are not analyses, so the free quota above
+    // never sees them — yet each is a billable transcription + chat call. Cap
+    // them per day for free accounts. Since all three tâches became interviews,
+    // everything a free account is entitled to — 2 analyses per tâche in
+    // practice plus the free TCF blanc, i.e. up to 9 interviews of about 7
+    // (T1), 11 (T2) and 4 (T3) turns — comes to about 65 turns, empty
+    // re-prompts included; 80 leaves room and still ends unlimited talking.
+    if (isDialogue && !isPremiumUser(user)) {
+      const allowed = await bumpLimit({ key: `eo-dialogue-free|${user.id}`, limit: FREE_DIALOGUE_TURNS_PER_DAY, windowSeconds: 24 * 60 * 60 });
+      // The catch below hands back any analysis claimed above.
+      if (!allowed) {
+        throw new HttpError(429, "Vous avez atteint la limite quotidienne d'échanges de l'entretien gratuit. Revenez demain, ou passez à l'abonnement Premium pour un accès illimité.");
+      }
     }
 
     if (isDialogue) return await dialogueTurn(res, user, req.body, req, claim);

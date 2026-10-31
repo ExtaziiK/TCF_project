@@ -25,7 +25,10 @@ import composeEmail from "../_lib/admin/composeEmail.js";
 const handlers = { users, activity, stats, usage, promo, "gift-links": giftLinks, vercel, pricing, sujets, reply, "sujet-answers": sujetAnswers, moderation, "welcome-email": welcomeEmail, "email-offer": emailOffer, "compose-email": composeEmail };
 
 export default async function handler(req, res) {
-  const route = handlers[req.query.resource];
+  // Own keys only: a plain lookup would resolve "constructor" or "toString" to a
+  // built-in function that never answers, holding the function open until timeout.
+  const name = req.query.resource;
+  const route = Object.hasOwn(handlers, name) ? handlers[name] : null;
   if (!route) return res.status(404).json({ error: "Not found" });
   return route(req, res);
 }

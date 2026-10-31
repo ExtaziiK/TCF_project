@@ -48,8 +48,14 @@ const pickSujet = (pool, cached) => {
 };
 
 export default async function handler(req, res) {
+  // Fail closed: with CRON_SECRET unset this job (billable Groq + Azure calls)
+  // would run for anyone who calls the URL, so an unset secret refuses everyone.
   const secret = process.env.CRON_SECRET;
-  if (secret && req.headers.authorization !== `Bearer ${secret}`) {
+  if (!secret) {
+    console.error("cron/dictee-seed: CRON_SECRET is not set in the Vercel project; refusing to run.");
+    return res.status(503).json({ error: "Cron not configured" });
+  }
+  if (req.headers.authorization !== `Bearer ${secret}`) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 

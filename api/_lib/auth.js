@@ -79,6 +79,14 @@ export async function requirePremium(req) {
 //
 // Returns an empty array for everyone else, so the quiz-1 rule is unchanged
 // for anonymous visitors and for free users who are not sitting the exam.
+//
+// The tasks are written by the browser (exam_attempt_tasks is client-insertable
+// under RLS), so they are only trusted inside this allowlist: without it a free
+// account could add a task row naming any quiz to its free attempt and have the
+// whole premium media library signed for it. Keep in sync with
+// FREE_MOCK_QUIZ_NUMBER in src/services/examService.js.
+const FREE_MOCK_QUIZZES = new Set([15]);
+
 export async function freeMockQuizNumbers(user) {
   if (!user) return [];
   const { data: attempt } = await admin
@@ -99,7 +107,7 @@ export async function freeMockQuizNumbers(user) {
   const numbers = new Set();
   for (const t of tasks || []) {
     const m = String(t.quiz_id || "").match(/(\d+)/);
-    if (m) numbers.add(Number(m[1]));
+    if (m && FREE_MOCK_QUIZZES.has(Number(m[1]))) numbers.add(Number(m[1]));
   }
   return [...numbers];
 }

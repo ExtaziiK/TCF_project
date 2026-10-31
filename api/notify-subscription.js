@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { enforceRateLimit } from "./_lib/ratelimit.js";
 
 // Notifies the owner on Telegram when a new DZD subscription request lands.
 // Called by the app right after a request is saved (POST { id }); the row is
@@ -96,7 +97,20 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Telegram not configured", missing });
   }
 
-  const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  // Unauthenticated (the app fires it without a session header), so cap it per
+  // IP: each call is a service-role read and a Telegram send.
+  try {
+    await enforceRateLimit(req, { name: "notify-subscription", limit: 5, windowSeconds: 60 });
+  } catch (err) {
+    return res.status(err.status || 429).json({ error: err.message });
+  }
+
+  let body;
+  try {
+    body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  } catch {
+    return res.status(400).json({ error: "Invalid JSON" });
+  }
   const db = admin();
 
   // Resolve the request row. Two supported triggers:

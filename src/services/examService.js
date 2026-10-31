@@ -92,6 +92,7 @@ export function generateExamTasks(history = []) {
 // Compréhension orale and écrite come from quiz 15 of each; expression écrite
 // and orale are the built-in workshops, because that is where the AI
 // correction lives and offering it is the point of the free exam.
+// Also allowlisted server-side (FREE_MOCK_QUIZZES in api/_lib/auth.js) — change both.
 export const FREE_MOCK_QUIZ_NUMBER = 15;
 
 export function generateFreeExamTasks() {
