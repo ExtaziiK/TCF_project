@@ -91,13 +91,18 @@ export function EECombinaison({ s, i, year, month }) {
   );
 }
 
+// Units in numerical order, whatever order they are stored in: a combinaison
+// added by hand after an import is not necessarily saved at the end, and the
+// deck opened on « 22 » instead of « 01 ».
+const byNumber = (units) => units.sort((a, b) => Number(a.n) - Number(b.n));
+
 // A month's combinaisons as SujetsDeck units. `year` lets each card link to its
 // corrigé.
-export const eeUnits = (m, year) => (m.data || []).map((s, i) => ({
+export const eeUnits = (m, year) => byNumber((m.data || []).map((s, i) => ({
   key: `${m.key}-${s.n ?? i + 1}`,
   n: s.n ?? i + 1,
   node: <EECombinaison s={s} i={i} year={year} month={m} />,
-}));
+})));
 
 // --- Expression orale ------------------------------------------------------
 
@@ -150,11 +155,11 @@ export const eoTacheOf = (m, tache) => (m.data || []).find((tk) => tk.tache === 
 export const eoTachesIn = (m) => EO_TACHES.filter((x) => (m.data || []).some((tk) => tk.tache === x.id));
 export const eoUnits = (m, tache) => {
   const tk = eoTacheOf(m, tache);
-  return (tk?.parties || []).map((p) => ({
+  return byNumber((tk?.parties || []).map((p) => ({
     key: `${m.key}-${tk.tache}-${p.partie}`,
     n: p.partie,
     node: <EOPartieCard tache={tk} partie={p} />,
-  }));
+  })));
 };
 
 export function EOTacheBlock({ tache }) {
