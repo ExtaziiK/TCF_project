@@ -26,7 +26,11 @@
 //     breadcrumb on articles, a breadcrumb on guide chapters) — from the same
 //     builders the app uses at runtime (seo.js), under the same element ids;
 //   · a <noscript> with the page's own title, description and links to the
-//     public pages, for crawlers that do not run JavaScript;
+//     public pages, for crawlers that do not run JavaScript — and, on content
+//     pages (articles, guides, FAQ, calculator), the page's full text, built
+//     by scripts/content-text.mjs from the same constants the page renders.
+//     AI crawlers (GPTBot, ClaudeBot, PerplexityBot…) run no JavaScript: this
+//     is the only text of the page they ever read;
 // and the build writes dist/sitemap.xml from the same table: every indexable
 // route, articles dated by their publication day.
 //
@@ -36,6 +40,7 @@ import { build } from "esbuild";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadContent, contentDocs, blocksToHtml, blocksToMarkdown } from "./content-text.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -102,13 +107,15 @@ function pageHtml(shell, { title, description, url, noindex, image, jsonLds, nos
 }
 
 // What a crawler without JavaScript reads: the page's own heading and
-// description, then the public pages to follow.
-function noscriptFor({ title, description }, links) {
+// description, its text when it has some (`body`, already HTML), then the
+// public pages to follow.
+function noscriptFor({ title, description }, links, body = "") {
   const nav = links.map(({ href, label }) => `<li><a href="${escapeAttr(href)}">${escapeHtml(label)}</a></li>`).join("");
   return `
       <div style="font-family: system-ui, sans-serif; max-width: 40rem; margin: 4rem auto; padding: 0 1rem">
         <h1>${escapeHtml(title)}</h1>
         <p>${escapeHtml(description)}</p>
+        ${body ? `<article>${body}</article>` : ""}
         <p>Activez JavaScript pour utiliser l'application.</p>
         <ul>${nav}</ul>
       </div>
@@ -169,6 +176,9 @@ if (!origin) {
 
 const { ROUTE_META, SITE_NAME, DEFAULT_SHARE_IMAGE, routeJsonLd, siteJsonLd, ROUTE_JSONLD_ID, SITE_JSONLD_ID } = await loadRouteMeta();
 
+// Route -> the page's text as blocks, for the <noscript> and /llms-full.txt.
+const DOCS = contentDocs(await loadContent(root, dist), ROUTE_META);
+
 // The main public pages, for every page's <noscript>.
 const NOSCRIPT_LINKS = ["home", "guide", "calculator", "blog", "pricing", "faq"]
   .filter((r) => ROUTE_META[r]?.path)
@@ -190,7 +200,7 @@ for (const [route, meta] of Object.entries(ROUTE_META)) {
   if (route === "home") jsonLds.push({ id: SITE_JSONLD_ID, data: siteJsonLd(origin) });
   const routeData = routeJsonLd(route, origin);
   if (routeData) jsonLds.push({ id: ROUTE_JSONLD_ID, data: routeData });
-  const noscript = noscriptFor({ title: meta.title, description }, NOSCRIPT_LINKS);
+  const noscript = noscriptFor({ title: meta.title, description }, NOSCRIPT_LINKS, DOCS[route] ? blocksToHtml(DOCS[route], ROUTE_META) : "");
   let html = pageHtml(shell, { title, description, url, image, noindex: !!meta.noindex, jsonLds, noscript });
   for (const tag of preloadTags(route)) html = html.replace("</head>", `    ${tag}\n  </head>`);
   if (!meta.noindex) sitemap.push({ loc: url, lastmod: meta.post?.iso });
@@ -260,12 +270,38 @@ await fs.writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");
     "",
     "Passerelle est une plateforme indépendante, en français, pour les candidats au TCF Canada (Test de connaissance du français pour le Canada, utilisé pour l'immigration et la citoyenneté canadiennes). Le contenu public est consultable sans compte ; les quiz, TCF blancs et analyses IA demandent un compte gratuit ou un abonnement.",
     "",
+    `Le texte intégral des guides, de la FAQ et des articles du blogue est réuni dans [llms-full.txt](${origin}/llms-full.txt).`,
+    "",
     section("Préparer le TCF Canada", ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "calculator"]),
     section("Passerelle", ["home", "pricing", "register", "avis", "faq", "about", "contact"]),
     section("Blogue", ["blog", ...articles]),
     section("Optional", ["terms", "privacy", "accessibility", "legal"]),
   ].join("\n");
   await fs.writeFile(path.join(dist, "llms.txt"), txt.trimEnd() + "\n", "utf8");
+
+  // /llms-full.txt: the same pages' full text, in Markdown, in one file — what
+  // an agent reads to answer from the content rather than from its titles.
+  // Guides first, then the FAQ and the calculator, then articles newest first.
+  const fullRoutes = ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "faq", "calculator", ...articles]
+    .filter((r) => DOCS[r] && ROUTE_META[r]?.path && !ROUTE_META[r].noindex);
+  const full = [
+    `# ${SITE_NAME} — texte intégral`,
+    "",
+    `> ${ROUTE_META.home.description}`,
+    "",
+    `Texte des pages publiques de ${origin}, régénéré à chaque déploiement. Index des pages : ${origin}/llms.txt`,
+    ...fullRoutes.flatMap((r) => [
+      "",
+      "---",
+      "",
+      `# ${ROUTE_META[r].title}`,
+      "",
+      `Source : ${origin + ROUTE_META[r].path}`,
+      "",
+      blocksToMarkdown(DOCS[r], ROUTE_META, origin),
+    ]),
+  ].join("\n");
+  await fs.writeFile(path.join(dist, "llms-full.txt"), full.trimEnd() + "\n", "utf8");
 }
 
 console.log(`prerender: ${written} pages (${indexable} indexable) at ${origin} · sitemap.xml: ${sitemap.length} URLs`);
