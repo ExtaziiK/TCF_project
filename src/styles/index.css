@@ -31,6 +31,11 @@ html{scroll-behavior:smooth}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .eqbar{animation:eq 1s ease-in-out infinite;transform-origin:bottom}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
+/* "Nouveau" badge (NewQuizzesChip): a rose glow that swells a few pixels round
+   the badge and fades, then rests. Off under prefers-reduced-motion. */
+@keyframes new-glow{0%{box-shadow:0 0 0 0 rgba(225,29,72,.55)}70%,100%{box-shadow:0 0 0 7px rgba(225,29,72,0)}}
+.new-glow{animation:new-glow 2s ease-out infinite}
+@media (prefers-reduced-motion:reduce){.new-glow{animation:none}}
 /* Text-cursor blink for the confirmation-code boxes (CodeInput). A hard on/off
    like a real caret — animate-pulse only fades, which reads as a glow. */
 @keyframes caret-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
