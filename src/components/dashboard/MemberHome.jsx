@@ -15,6 +15,7 @@ import { formatDuration } from "@/utils/dashboardStats";
 import { ROLES, canUseNotebook } from "@/auth/rbac";
 import { requestOpenQuiz } from "@/utils/openQuizRequest";
 import { PlanStatus } from "@/components/dashboard/PlanStatus";
+import { NewQuizzesChip } from "@/components/bank/NewQuizzesChip";
 
 /* ------------------------------ small pieces ----------------------------- */
 
@@ -333,6 +334,7 @@ export function MemberHome() {
     <PageShell wide eyebrow={t("Tableau de bord")} title={`${t("Bonjour,")} ${user.name} 👋`} sub={t("Continuez votre préparation au TCF Canada — voici où vous en êtes.")}
       aside={<PlanStatus />}>
       <DzRequestStatus />
+      <NewQuizzesChip className="mb-6" />
       {loading ? <Skeleton /> : <DashboardView data={data} toReview={toReview} />}
     </PageShell>
   );

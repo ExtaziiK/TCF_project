@@ -2,6 +2,7 @@ import { ArrowRight, MousePointerClick } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { HomeLabel } from "@/components/home/HomeLabel";
+import { NewQuizzesChip } from "@/components/bank/NewQuizzesChip";
 import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
@@ -72,6 +73,8 @@ function Landing() {
               it (Brevo-style). Centered while it is alone (below lg). */}
           <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-10 xl:gap-14 items-center">
             <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
+              {/* The bank's latest quizzes (constants/quizNew.js); gone once that list is emptied. */}
+              <NewQuizzesChip className="mb-5 rise rise-1" />
               {/* Doodles from the reference design: sparks at the top-left
                   corner, a maple-leaf outline after "TCF Canada", and an arrow
                   curving toward the collage (lg+, where the collage is). */}

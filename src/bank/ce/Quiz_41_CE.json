@@ -1,0 +1,1772 @@
+{
+    "id": null,
+    "exam_id": 77,
+    "score": 699,
+    "score_percent": 100,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10+",
+    "completed_at": null,
+    "time_spent": 2100,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2614,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une visite touristique",
+            "user_selected_option_id": 36084,
+            "correct_answer": "Une garde d’animaux",
+            "correct_option_id": 36083,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce précise « je suis la personne idéale » pour « s'occuper de votre chien » pendant les vacances : elle propose une garde d'animaux.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_1.webp",
+            "all_options": [
+                {
+                    "id": 36081,
+                    "text": "Une aide aux devoirs",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36082,
+                    "text": "Une chambre à louer",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36083,
+                    "text": "Une garde d’animaux",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36084,
+                    "text": "Une visite touristique",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 32 – Q1"
+        },
+        {
+            "question_id": 2654,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Téléphoner à un collègue.",
+            "user_selected_option_id": 36244,
+            "correct_answer": "Acheter un billet d’avion.",
+            "correct_option_id": 36241,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise « appelez l'agence de voyage et prenez une place pour le directeur sur le vol Paris-Marseille » : Marie doit acheter un billet d'avion.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_2.webp",
+            "all_options": [
+                {
+                    "id": 36241,
+                    "text": "Acheter un billet d’avion.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36242,
+                    "text": "Aller à Marseille.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36243,
+                    "text": "Prendre un rendez-vous.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36244,
+                    "text": "Téléphoner à un collègue.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 33 – Q2"
+        },
+        {
+            "question_id": 1407,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Amicales",
+            "user_selected_option_id": 31255,
+            "correct_answer": "Amicales",
+            "correct_option_id": 31255,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Yvette parle des « copines », emploie un ton familier et signe « Bisous » : cela indique une relation amicale, et non professionnelle, familiale ou commerciale.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_3.webp",
+            "all_options": [
+                {
+                    "id": 31253,
+                    "text": "Professionnelles",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31254,
+                    "text": "Familiales",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31255,
+                    "text": "Amicales",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31256,
+                    "text": "Commerciales",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 1 – Q3"
+        },
+        {
+            "question_id": 2578,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Des repas livrés à domicile.",
+            "user_selected_option_id": 35940,
+            "correct_answer": "Des repas livrés à domicile.",
+            "correct_option_id": 35940,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'association Bon appétit « vient chez vous avec des bons petits plats tous les jours de la semaine » : elle propose des repas livrés à domicile.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35937,
+                    "text": "Des achats de produits frais.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35938,
+                    "text": "Des conseils pour maigrir.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35939,
+                    "text": "Des recettes de cuisine.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35940,
+                    "text": "Des repas livrés à domicile.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 31 – Q4"
+        },
+        {
+            "question_id": 2696,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Les voisins d’Adrien.",
+            "user_selected_option_id": 36412,
+            "correct_answer": "La famille d’Adrien.",
+            "correct_option_id": 36410,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise « Sophie et ses parents sont très heureux de vous annoncer la naissance d'Adrien » : c'est la famille d'Adrien qui écrit.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_5.webp",
+            "all_options": [
+                {
+                    "id": 36409,
+                    "text": "Les amis d’Adrien.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36410,
+                    "text": "La famille d’Adrien.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36411,
+                    "text": "Les médecins d’Adrien.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36412,
+                    "text": "Les voisins d’Adrien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 34 – Q5"
+        },
+        {
+            "question_id": 2619,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Visiter un monument",
+            "user_selected_option_id": 36104,
+            "correct_answer": "Organiser une fêter",
+            "correct_option_id": 36102,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce précise « location de salles... services personnalisés pour mariages, baptêmes et séminaires » : au Moulin du Lac on peut organiser une fête.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_6.webp",
+            "all_options": [
+                {
+                    "id": 36101,
+                    "text": "Louer des chambres",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36102,
+                    "text": "Organiser une fêter",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36103,
+                    "text": "Se promener en bateau",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36104,
+                    "text": "Visiter un monument",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 32 – Q6"
+        },
+        {
+            "question_id": 1411,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Un nouveau logement",
+            "user_selected_option_id": 31271,
+            "correct_answer": "Un nouveau logement",
+            "correct_option_id": 31271,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Lésa vient de s'installer « enfin chez nous » après six mois de travaux : elle fête son emménagement dans un nouveau logement.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_7.webp",
+            "all_options": [
+                {
+                    "id": 31269,
+                    "text": "La retraite de ses parents",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31270,
+                    "text": "Son anniversaire de mariage",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31271,
+                    "text": "Un nouveau logement",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31272,
+                    "text": "Une création d’entreprise",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 1 – Q7"
+        },
+        {
+            "question_id": 1451,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Dans une épicerie",
+            "user_selected_option_id": 31431,
+            "correct_answer": "Dans une épicerie",
+            "correct_option_id": 31431,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Pommes, salade et mouchoirs en papier sont des produits alimentaires et d'hygiène courants : on les trouve dans une épicerie.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_8.webp",
+            "all_options": [
+                {
+                    "id": 31429,
+                    "text": "Dans une boucherie",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31430,
+                    "text": "Dans une boulangerie",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31431,
+                    "text": "Dans une épicerie",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31432,
+                    "text": "Dans une poissonnerie",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 2 – Q8"
+        },
+        {
+            "question_id": 1530,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "De prévenir ses collègues",
+            "user_selected_option_id": 31748,
+            "correct_answer": "De prévenir ses collègues",
+            "correct_option_id": 31748,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Pierre demande à Ahmed « peux-tu en informer les personnes des services concernés » au sujet de la réunion : il lui demande de prévenir ses collègues.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_9.webp",
+            "all_options": [
+                {
+                    "id": 31745,
+                    "text": "D’apporter le déjeuner",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31746,
+                    "text": "D’avancer le rendez-vous",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31747,
+                    "text": "De consulter les documents",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31748,
+                    "text": "De prévenir ses collègues",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q9"
+        },
+        {
+            "question_id": 2740,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Une réponse à une réclamation",
+            "user_selected_option_id": 36588,
+            "correct_answer": "Un paiement en ligne",
+            "correct_option_id": 36585,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message invite à « consulter et régler votre facture » sur Internet : ce message propose un paiement en ligne.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_10.webp",
+            "all_options": [
+                {
+                    "id": 36585,
+                    "text": "Un paiement en ligne",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36586,
+                    "text": "Un remboursement immédiat",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36587,
+                    "text": "Une promotion spéciale",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36588,
+                    "text": "Une réponse à une réclamation",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 35 – Q10"
+        },
+        {
+            "question_id": 2507,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Le déménagement d’une locataire.",
+            "user_selected_option_id": 35656,
+            "correct_answer": "La transformation d’un logement.",
+            "correct_option_id": 35655,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le courrier annonce que « les travaux prévus dans le logement de Madame Bertran commenceront le 15 avril » : il s'agit de la transformation d'un logement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_11.webp",
+            "all_options": [
+                {
+                    "id": 35653,
+                    "text": "L’agrandissement d’un parking.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35654,
+                    "text": "La modernisation d’un bâtiment.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35655,
+                    "text": "La transformation d’un logement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35656,
+                    "text": "Le déménagement d’une locataire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 29 – Q11"
+        },
+        {
+            "question_id": 1533,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "S’aventurent dans les pays lointains",
+            "user_selected_option_id": 31760,
+            "correct_answer": "S’aventurent dans les pays lointains",
+            "correct_option_id": 31760,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que les touristes veulent « voir autre chose » que leurs voisins européens et se tournent vers un « tourisme de longue distance » : les Européens s'aventurent désormais dans des pays lointains.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_12.webp",
+            "all_options": [
+                {
+                    "id": 31757,
+                    "text": "Voyagent plutôt dans l’Union Européenne",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31758,
+                    "text": "Visitent de préférence leurs pays d’origine",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31759,
+                    "text": "Découvrent les pays e leurs voisins",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31760,
+                    "text": "S’aventurent dans les pays lointains",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q12"
+        },
+        {
+            "question_id": 2470,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Une colocation entre étudiants.",
+            "user_selected_option_id": 35508,
+            "correct_answer": "Une chambre chez l’habitant.",
+            "correct_option_id": 35507,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le couple souhaite « louer une chambre à un(e) étudiant(e) pour 150 par mois » : il s'agit d'une chambre chez l'habitant.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_13.webp",
+            "all_options": [
+                {
+                    "id": 35505,
+                    "text": "À un échange de maison.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35506,
+                    "text": "Un studio en centre-ville.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35507,
+                    "text": "Une chambre chez l’habitant.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35508,
+                    "text": "Une colocation entre étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 28 – Q13"
+        },
+        {
+            "question_id": 2510,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Animer la soirée.",
+            "user_selected_option_id": 35668,
+            "correct_answer": "Apporter à boire.",
+            "correct_option_id": 35665,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Romuald demande à Martine « est-ce que tu peux acheter les boissons » : elle doit apporter à boire.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_14.webp",
+            "all_options": [
+                {
+                    "id": 35665,
+                    "text": "Apporter à boire.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35666,
+                    "text": "Préparer un gâteau.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35667,
+                    "text": "Contacter un ami.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35668,
+                    "text": "Animer la soirée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 29 – Q14"
+        },
+        {
+            "question_id": 2628,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Raconter son histoire personnelle",
+            "user_selected_option_id": 36140,
+            "correct_answer": "Échanger avec d’autres passionnés de tennis",
+            "correct_option_id": 36137,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le blog invite les passionnés de tennis à « partager votre passion » en racontant « comment est-ce que vous avez commencé » : il propose d'échanger avec d'autres passionnés de tennis.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_15.webp",
+            "all_options": [
+                {
+                    "id": 36137,
+                    "text": "Échanger avec d’autres passionnés de tennis",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36138,
+                    "text": "Participer à la rédaction d’articles",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36139,
+                    "text": "Prendre rendez-vous pour des matchs",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36140,
+                    "text": "Raconter son histoire personnelle",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 32 – Q15"
+        },
+        {
+            "question_id": 2434,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "De s’inscrire dans une école.",
+            "user_selected_option_id": 35364,
+            "correct_answer": "De bien choisir une formation.",
+            "correct_option_id": 35362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« une information de qualité est gage d'une orientation pertinente » lors de ces forums : ils permettent de bien choisir une formation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_16.webp",
+            "all_options": [
+                {
+                    "id": 35361,
+                    "text": "D’avoir rapidement un emploi.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35362,
+                    "text": "De bien choisir une formation.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35363,
+                    "text": "De s’entretenir avec des élus.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35364,
+                    "text": "De s’inscrire dans une école.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 27 – Q16"
+        },
+        {
+            "question_id": 2591,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Elle visite le Royaume-Uni.",
+            "user_selected_option_id": 35992,
+            "correct_answer": "Elle est dans sa famille..",
+            "correct_option_id": 35990,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Hélène écrit « je t'écris de chez ma tante où je passe quelques jours » : elle est dans sa famille.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_17.webp",
+            "all_options": [
+                {
+                    "id": 35989,
+                    "text": "Elle apprend le français.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35990,
+                    "text": "Elle est dans sa famille..",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35991,
+                    "text": "Elle prépare un long voyage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35992,
+                    "text": "Elle visite le Royaume-Uni.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 31 – Q17"
+        },
+        {
+            "question_id": 2436,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Restreindre le nombre de familles concernées.",
+            "user_selected_option_id": 35372,
+            "correct_answer": "Faciliter le retour à l’emploi des mères.",
+            "correct_option_id": 35370,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte évoque l'idée de « garantir aux salariées une reprise d'activité dans des conditions fixées à l'avance » : l'objectif serait de faciliter le retour à l'emploi des mères.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_18.webp",
+            "all_options": [
+                {
+                    "id": 35369,
+                    "text": "Allonger la durée du congé parental.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35370,
+                    "text": "Faciliter le retour à l’emploi des mères.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35371,
+                    "text": "Augmenter la participation des entreprises.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35372,
+                    "text": "Restreindre le nombre de familles concernées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 27 – Q18"
+        },
+        {
+            "question_id": 2671,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Téléphoner à la direction.",
+            "user_selected_option_id": 36312,
+            "correct_answer": "Envoyer un courriel.",
+            "correct_option_id": 36309,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message précise que « les réservations se font uniquement par Internet » : Madame Baril doit envoyer un courriel.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_19.webp",
+            "all_options": [
+                {
+                    "id": 36309,
+                    "text": "Envoyer un courriel.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36310,
+                    "text": "Payer sa réservation.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36311,
+                    "text": "Refaire une demande.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36312,
+                    "text": "Téléphoner à la direction.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 33 – Q19"
+        },
+        {
+            "question_id": 2633,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Elle s’occupe de gérer des jardins collectifs.",
+            "user_selected_option_id": 36160,
+            "correct_answer": "Elle récolte les produits de terrains privés.",
+            "correct_option_id": 36159,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'association « intervient dans les vergers de particuliers » pour ramasser les fruits à leur place : elle récolte les produits de terrains privés.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36157,
+                    "text": "Elle cultive des espaces verts abandonnés",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36158,
+                    "text": "Elle réalise des petits services d’entretien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36159,
+                    "text": "Elle récolte les produits de terrains privés.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36160,
+                    "text": "Elle s’occupe de gérer des jardins collectifs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 32 – Q20"
+        },
+        {
+            "question_id": 2478,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "reporter pour la télévision française.",
+            "user_selected_option_id": 35540,
+            "correct_answer": "actrice à la télévision française.",
+            "correct_option_id": 35537,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que Corinne Touzet est « l'héroïne d'Une femme d'honneur », un feuilleton diffusé sur TF1 : elle est actrice à la télévision française.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_21.webp",
+            "all_options": [
+                {
+                    "id": 35537,
+                    "text": "actrice à la télévision française.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35538,
+                    "text": "gendarme sur les routes de France.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35539,
+                    "text": "championne française de conduite.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35540,
+                    "text": "reporter pour la télévision française.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 28 – Q21"
+        },
+        {
+            "question_id": 2518,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Ils sont décimés par la maladie.",
+            "user_selected_option_id": 35700,
+            "correct_answer": "Ils permettent de protéger la biodiversité.",
+            "correct_option_id": 35698,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la disparition du loup « a perturbé tout un écosystème » et qu'il cible « les proies les plus fragiles, favorisant ainsi la vigueur des espèces » : les loups permettent de protéger la biodiversité.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_22.webp",
+            "all_options": [
+                {
+                    "id": 35697,
+                    "text": "Ils ont de moins en moins d’espace naturel.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35698,
+                    "text": "Ils permettent de protéger la biodiversité.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35699,
+                    "text": "Ils représentent un danger exagéré.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35700,
+                    "text": "Ils sont décimés par la maladie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 29 – Q22"
+        },
+        {
+            "question_id": 2363,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Pouvoir travailler en totale autonomie.",
+            "user_selected_option_id": 35080,
+            "correct_answer": "Être titulaire d’une formation reconnue.",
+            "correct_option_id": 35079,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce précise « titulaire d'un diplôme d'enseignement de français langue étrangère » : il faut être titulaire d'une formation reconnue.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_23.webp",
+            "all_options": [
+                {
+                    "id": 35077,
+                    "text": "Avoir une expérience dans l’enseignement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35078,
+                    "text": "Être impérativement disponible le matin.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35079,
+                    "text": "Être titulaire d’une formation reconnue.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35080,
+                    "text": "Pouvoir travailler en totale autonomie.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 25 – Q23"
+        },
+        {
+            "question_id": 2403,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Ils restaurent à l’identique de vieux édifices.",
+            "user_selected_option_id": 35240,
+            "correct_answer": "Ils intègrent l’ancien à leurs constructions.",
+            "correct_option_id": 35239,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces architectes veulent « imaginer de nouveaux projets à partir de ce qui reste » dans d'anciens bâtiments : ils intègrent l'ancien à leurs constructions.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_24.webp",
+            "all_options": [
+                {
+                    "id": 35237,
+                    "text": "Ils élaborent de nouvelles techniques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35238,
+                    "text": "Ils emploient des procédés traditionnels.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35239,
+                    "text": "Ils intègrent l’ancien à leurs constructions.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35240,
+                    "text": "Ils restaurent à l’identique de vieux édifices.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 26 – Q24"
+        },
+        {
+            "question_id": 2365,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Leur multiplication réduit le stress des consommateurs.",
+            "user_selected_option_id": 35088,
+            "correct_answer": "L’optimisation de leur gestion est en cours d’étude.",
+            "correct_option_id": 35087,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« il existe plusieurs systèmes pour optimiser l'organisation des files d'attente » : leur gestion est en cours d'étude.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_25.webp",
+            "all_options": [
+                {
+                    "id": 35085,
+                    "text": "Chaque magasin met en place son propre système.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35086,
+                    "text": "Elles diminuent avec l’automatisation des caisses.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35087,
+                    "text": "L’optimisation de leur gestion est en cours d’étude.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35088,
+                    "text": "Leur multiplication réduit le stress des consommateurs.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 25 – Q25"
+        },
+        {
+            "question_id": 2561,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "On ignore comment elles ont été réalisées.",
+            "user_selected_option_id": 35872,
+            "correct_answer": "On ignore comment elles ont été réalisées.",
+            "correct_option_id": 35872,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « le mystère reste entier sur les sculptures et les outils utilisés » : on ignore comment elles ont été réalisées.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_26.webp",
+            "all_options": [
+                {
+                    "id": 35869,
+                    "text": "Ce sont des reproductions de qualité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35870,
+                    "text": "Elles sont parfaitement conservées.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35871,
+                    "text": "Leur transfert dans un musée est en cours.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35872,
+                    "text": "On ignore comment elles ont été réalisées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 30 – Q26"
+        },
+        {
+            "question_id": 2484,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "La promotion en ligne de la campagne.",
+            "user_selected_option_id": 35564,
+            "correct_answer": "La coopération de ses membres.",
+            "correct_option_id": 35562,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « des tampons... vont être remis aux 1500 médecins et professionnels de santé adhérents » qui « pourront les appliquer » : le succès de l'opération repose sur la coopération de ses membres.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_27.webp",
+            "all_options": [
+                {
+                    "id": 35561,
+                    "text": "L’efficacité d’un slogan choc.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35562,
+                    "text": "La coopération de ses membres.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35563,
+                    "text": "La distribution de brochures.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35564,
+                    "text": "La promotion en ligne de la campagne.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 28 – Q27"
+        },
+        {
+            "question_id": 2290,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Des outils de communication.",
+            "user_selected_option_id": 34785,
+            "correct_answer": "Des outils de communication.",
+            "correct_option_id": 34785,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'entreprise propose « audioconférence, visioconférence et messagerie » : ce sont des outils de communication.",
+            "time_spent": 70,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34785,
+                    "text": "Des outils de communication.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34786,
+                    "text": "Des voyages organisés.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34787,
+                    "text": "Une formation à l’écologie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34788,
+                    "text": "Un système d’information.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q28"
+        },
+        {
+            "question_id": 2330,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Que ses textes confortent l’image que l’on avait de lui.",
+            "user_selected_option_id": 34948,
+            "correct_answer": "Que ses écrits permettent de mieux cerner qu’il était.",
+            "correct_option_id": 34947,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'une étude de sa correspondance « donne une impression beaucoup plus nuancée » et montre qu'« il savait raconter... ce qui l'occupait » : ses écrits permettent de mieux cerner qui il était.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_29.webp",
+            "all_options": [
+                {
+                    "id": 34945,
+                    "text": "Que sa biographie aide à mieux comprendre ses tableaux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34946,
+                    "text": "Que sa correspondance avec ses proches a influencé sa peinture.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34947,
+                    "text": "Que ses écrits permettent de mieux cerner qu’il était.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34948,
+                    "text": "Que ses textes confortent l’image que l’on avait de lui.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 24 – Q29"
+        },
+        {
+            "question_id": 2760,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Ils sont capables de se reconnaître entre eux",
+            "user_selected_option_id": 36668,
+            "correct_answer": "Ils sont capables de se reconnaître entre eux",
+            "correct_option_id": 36668,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le chercheur estime que ce phénomène « pourrait aider les individus à s'identifier » entre eux dans l'obscurité des profondeurs : les requins-houle seraient capables de se reconnaître entre eux.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36665,
+                    "text": "Ils changent d’apparence en cas de danger",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36666,
+                    "text": "Ils produisent une substance chimique nocive",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36667,
+                    "text": "Ils se déplacent principalement en groupe",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36668,
+                    "text": "Ils sont capables de se reconnaître entre eux",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 35 – Q30"
+        },
+        {
+            "question_id": 2371,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "On veut les préserver durablement.",
+            "user_selected_option_id": 35112,
+            "correct_answer": "On veut les préserver durablement.",
+            "correct_option_id": 35112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « la conservation des œuvres d'art urbain... pose de sérieux défis » et qu'il faut « les protéger des agressions du temps » : on veut les préserver durablement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_31.webp",
+            "all_options": [
+                {
+                    "id": 35109,
+                    "text": "Des musées sont prêts à les accueillir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35110,
+                    "text": "Le marché voit leur cote grimper.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35111,
+                    "text": "Leurs auteurs sont devenus célèbres.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35112,
+                    "text": "On veut les préserver durablement.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 25 – Q31"
+        },
+        {
+            "question_id": 2684,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Elle s’abstrait un temps de ses soucis.",
+            "user_selected_option_id": 36364,
+            "correct_answer": "Elle s’abstrait un temps de ses soucis.",
+            "correct_option_id": 36364,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'auteure explique qu'elle « oubliait ses tourments en partageant ceux d'autrui » au cinéma : elle s'abstrait un temps de ses soucis.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_32.webp",
+            "all_options": [
+                {
+                    "id": 36361,
+                    "text": "Elle éprouve un sentiment d’invulnérabilité.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36362,
+                    "text": "Elle s’imagine vivre une vie meilleure.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36363,
+                    "text": "Elle savoure le bonheur d’avoir une famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36364,
+                    "text": "Elle s’abstrait un temps de ses soucis.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 33 – Q32"
+        },
+        {
+            "question_id": 2607,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Ils sont à l’origine de l’expansion économique du pays.",
+            "user_selected_option_id": 36056,
+            "correct_answer": "Ils entraînent la disparition de pratiques traditionnelles.",
+            "correct_option_id": 36054,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'utilisation du liquide perdure, notamment par les plus âgés » face au paiement mobile qui remplace les enveloppes rouges traditionnelles : ces nouveaux moyens entraînent la disparition de pratiques traditionnelles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_33.webp",
+            "all_options": [
+                {
+                    "id": 36053,
+                    "text": "Ils créent un climat de méfiance envers la technologie.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36054,
+                    "text": "Ils entraînent la disparition de pratiques traditionnelles.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36055,
+                    "text": "Ils facilitent la vie quotidienne des personnes âgées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36056,
+                    "text": "Ils sont à l’origine de l’expansion économique du pays.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 31 – Q33"
+        },
+        {
+            "question_id": 2569,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "Restaurer d’anciens bâtiments.",
+            "user_selected_option_id": 35904,
+            "correct_answer": "Former les spécialistes du secteur.",
+            "correct_option_id": 35902,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il s'agit d'« adapter l'offre du marché et d'élargir les domaines de compétences des professionnels » : le défi est de former les spécialistes du secteur.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_34.webp",
+            "all_options": [
+                {
+                    "id": 35901,
+                    "text": "Convaincre la clientèle ciblée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35902,
+                    "text": "Former les spécialistes du secteur.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35903,
+                    "text": "Rentabiliser les projets à venir.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35904,
+                    "text": "Restaurer d’anciens bâtiments.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 30 – Q34"
+        },
+        {
+            "question_id": 2297,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "C’est une source de connaissances sûre et fiable.",
+            "user_selected_option_id": 34814,
+            "correct_answer": "C’est un vecteur de diffusion des œuvres littéraires.",
+            "correct_option_id": 34813,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne que la télévision est « la plupart du temps un incomparable promoteur » de la lecture et que les ventes de livres évoqués « comblent toujours d'aise les éditeurs » : c'est un vecteur de diffusion des œuvres littéraires.",
+            "time_spent": 155,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_35.webp",
+            "all_options": [
+                {
+                    "id": 34813,
+                    "text": "C’est un vecteur de diffusion des œuvres littéraires.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34814,
+                    "text": "C’est une source de connaissances sûre et fiable.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34815,
+                    "text": "L’audience des émissions culturelles est en hausse.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34816,
+                    "text": "La concurrence qu’elle mène à la lecture est acharnée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q35"
+        },
+        {
+            "question_id": 2766,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Elle montre leur importance chez les adolescents",
+            "user_selected_option_id": 36692,
+            "correct_answer": "Elle en explique les origines historiques",
+            "correct_option_id": 36690,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le présentateur explique vouloir « autopsier un délire collectif » car « le complotisme n'est jamais innocent et son histoire explique beaucoup de notre époque » : le podcast en explique les origines historiques.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_36.webp",
+            "all_options": [
+                {
+                    "id": 36689,
+                    "text": "Elle cherche à les identifier sur Internet",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36690,
+                    "text": "Elle en explique les origines historiques",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36691,
+                    "text": "Elle interviewe les personnes qui les propagent",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36692,
+                    "text": "Elle montre leur importance chez les adolescents",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 35 – Q36"
+        },
+        {
+            "question_id": 2221,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Elle reflète les clivages de la société.",
+            "user_selected_option_id": 34512,
+            "correct_answer": "Elle favorise l’évolution des mentalités.",
+            "correct_option_id": 34509,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Éliane Viennot défend l'écriture inclusive car elle « vise à combattre les stéréotypes sexistes » et contribue « à forger des consciences égalitaristes » : elle estime qu'elle favorise l'évolution des mentalités.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_37.webp",
+            "all_options": [
+                {
+                    "id": 34509,
+                    "text": "Elle favorise l’évolution des mentalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34510,
+                    "text": "Elles incarnent une première historique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34511,
+                    "text": "Elle permet de moderniser le lexique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34512,
+                    "text": "Elle reflète les clivages de la société.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 21 – Q37"
+        },
+        {
+            "question_id": 2261,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Protéger des espaces marins menacés.",
+            "user_selected_option_id": 34672,
+            "correct_answer": "Concevoir des lieux de vie alternatifs.",
+            "correct_option_id": 34669,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que le projet vise à « exploiter le potentiel de l'océan profond et à assurer la pérennité de l'espèce humaine » avec appartements, hôtels et laboratoires : il s'agit de concevoir des lieux de vie alternatifs.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_38.webp",
+            "all_options": [
+                {
+                    "id": 34669,
+                    "text": "Concevoir des lieux de vie alternatifs.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34670,
+                    "text": "Étudier de nouvelles technologies.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34671,
+                    "text": "Proposer des activités futuristes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34672,
+                    "text": "Protéger des espaces marins menacés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 22 – Q38"
+        },
+        {
+            "question_id": 2184,
+            "question_text": "Compréhension écrite – Quiz 41 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "À s’enrichir au contact de nouvelles civilisations.",
+            "user_selected_option_id": 34364,
+            "correct_answer": "À échapper à la banalité du quotidien.",
+            "correct_option_id": 34362,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte évoque « une quête de sens désespérée de populations culturellement désorientées » qui voyagent pour se désennuyer : elles cherchent à échapper à la banalité du quotidien.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_41_question_39.webp",
+            "all_options": [
+                {
+                    "id": 34361,
+                    "text": "À diminuer leur empreinte écologique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34362,
+                    "text": "À échapper à la banalité du quotidien.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34363,
+                    "text": "À participer à l’essor économique des pays visités.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34364,
+                    "text": "À s’enrichir au contact de nouvelles civilisations.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 20 – Q39"
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture fluide de textes variés",
+        "Compréhension de l'implicite et des nuances"
+    ],
+    "improvements": [
+        "Maintenir la régularité de lecture",
+        "Varier les genres de textes lus",
+        "Approfondir le vocabulaire spécialisé",
+        "Continuer les lectures de niveau C1-C2"
+    ],
+    "recommendations": [
+        "Lire la presse francophone quotidiennement",
+        "Alterner articles courts et dossiers de fond",
+        "Noter le vocabulaire nouveau avec son contexte",
+        "Refaire les questions manquées après quelques jours",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 41",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

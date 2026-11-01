@@ -16,6 +16,7 @@ import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/ser
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
+import { isNewQuiz } from "@/constants/quizNew";
 import { takeOpenQuizRequest } from "@/utils/openQuizRequest";
 import { TOUR_STEPS } from "@/constants/tour";
 import { PALETTE, toolTone } from "@/components/home/toolsData";
@@ -63,7 +64,10 @@ const FREE_QUIZ_COUNT = 3;
 // `review` = the quiz is pulled for correction (constants/quizReview.js).
 // Members get a greyed card whose hover/focus says why it is closed; staff
 // keep the normal card, marked so they know members cannot see it.
-function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked, review, staff }) {
+//
+// `isNew` = recently added (constants/quizNew.js): a "Nouveau" badge beside
+// the title, and a rose border while the card has no state colour of its own.
+function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked, review, staff, isNew }) {
   const { c, t, dark } = useApp();
   const accent = epreuveColors(quiz.section, dark);
   const prompt = isPrompt(quiz);
@@ -100,11 +104,14 @@ function QuizCard({ quiz, number, onOpen, onReview, best, reviewAttempt, locked,
         aria-describedby={review ? `review-note-${quiz.id}` : undefined}
         className="text-left w-full h-full block cursor-pointer"
       >
-        <Card lift={!locked && !closed} className={`p-3.5 h-full flex gap-2.5 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked || closed ? "opacity-60" : ""} ${review && staff ? "!border-orange-500/50 border-dashed" : ""}`}>
+        <Card lift={!locked && !closed} className={`p-3.5 h-full flex gap-2.5 ${partial ? "!bg-orange-500/10 !border-orange-500/40" : done ? "!bg-emerald-500/10 !border-emerald-500/40" : ""} ${locked || closed ? "opacity-60" : ""} ${review && staff ? "!border-orange-500/50 border-dashed" : ""} ${isNew && !done && !review ? "!border-rose-600/50 ring-1 ring-rose-600/20" : ""}`}>
           <div className="flex-1 min-w-0 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <h3 className={`font-display font-bold text-sm leading-snug ${locked || closed ? c.sub : c.text}`}>
                 {prompt ? t(quiz.title) : `${t("Quizz")} ${number}`}
+                {isNew && (
+                  <span className="ml-1.5 inline-block align-[1px] rounded-full bg-rose-600 text-white px-1.5 py-px text-[10px] font-bold uppercase tracking-wide">{t("Nouveau")}</span>
+                )}
               </h3>
               {badge}
             </div>
@@ -538,7 +545,7 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             const best = bestScores[`bank-${qz.id}`];
             const reviewAttempt = reviewableAttempts[`bank-${qz.id}`];
             const cardProps = {
-              quiz: qz, number: idx + 1, locked, best, reviewAttempt, review, staff,
+              quiz: qz, number: idx + 1, locked, best, reviewAttempt, review, staff, isNew: isNewQuiz(qz),
               // Under review beats the Premium lock: sending a free member to
               // the pricing page for a quiz no one can open would be a lie.
               onOpen: () => (review && !staff

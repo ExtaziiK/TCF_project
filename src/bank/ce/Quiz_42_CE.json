@@ -1,0 +1,1772 @@
+{
+    "id": null,
+    "exam_id": 78,
+    "score": 699,
+    "score_percent": 100,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10+",
+    "completed_at": null,
+    "time_spent": 2100,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 1912,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "À pied.",
+            "user_selected_option_id": 33274,
+            "correct_answer": "À pied.",
+            "correct_option_id": 33274,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le panneau interdit la traversée du parc « aux voitures, aux vélomoteurs et aux bicyclettes » : on ne peut donc s'y promener qu'à pied.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_1.webp",
+            "all_options": [
+                {
+                    "id": 33273,
+                    "text": "À moto.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33274,
+                    "text": "À pied.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33275,
+                    "text": "À vélo.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33276,
+                    "text": "En taxi.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 14 – Q1"
+        },
+        {
+            "question_id": 1796,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Un travail.",
+            "user_selected_option_id": 32811,
+            "correct_answer": "Un travail.",
+            "correct_option_id": 32811,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'association recherche « des étudiants pour garder des enfants le soir et le week-end » : elle propose donc un travail.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_2.webp",
+            "all_options": [
+                {
+                    "id": 32809,
+                    "text": "Un cours.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32810,
+                    "text": "Un spectacle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32811,
+                    "text": "Un travail.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32812,
+                    "text": "Une visite.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q2"
+        },
+        {
+            "question_id": 2148,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Une maison de campagne.",
+            "user_selected_option_id": 34220,
+            "correct_answer": "Un appartement familial.",
+            "correct_option_id": 34217,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce propose un « logement très lumineux de trois pièces... parfait pour des parents avec enfants » : c'est un appartement familial qui est à louer.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34217,
+                    "text": "Un appartement familial.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34218,
+                    "text": "Un logement étudiant.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34219,
+                    "text": "Une chambre en colocation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34220,
+                    "text": "Une maison de campagne.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 20 – Q3"
+        },
+        {
+            "question_id": 1798,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "Ils font attention à l’argent.",
+            "user_selected_option_id": 32818,
+            "correct_answer": "Ils font attention à l’argent.",
+            "correct_option_id": 32818,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les parents « payent déjà cher pour la location » et « on ne peut plus dépenser beaucoup » : ils font donc attention à l'argent.",
+            "time_spent": 29,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_4.webp",
+            "all_options": [
+                {
+                    "id": 32817,
+                    "text": "Ils achètent souvent des sucreries.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32818,
+                    "text": "Ils font attention à l’argent.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32819,
+                    "text": "Ils aiment préparer des desserts.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32820,
+                    "text": "Ils ont une maison de vacances.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q4"
+        },
+        {
+            "question_id": 2267,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Une journée.",
+            "user_selected_option_id": 34693,
+            "correct_answer": "Une nuit.",
+            "correct_option_id": 34695,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le billet précise qu'il est « utilisable sans limite du 21 juin à 20 heures au 22 juin à 7 heures » : cela correspond à une nuit.",
+            "time_spent": 48,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_5.webp",
+            "all_options": [
+                {
+                    "id": 34693,
+                    "text": "Une journée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34694,
+                    "text": "Une semaine.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34695,
+                    "text": "Une nuit.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34696,
+                    "text": "Un mois.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q5"
+        },
+        {
+            "question_id": 1800,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il fait du sport.",
+            "user_selected_option_id": 32827,
+            "correct_answer": "Il fait du sport.",
+            "correct_option_id": 32827,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Marc écrit « viens me chercher au stade à 16 h car après mon match de foot... » : il fait donc du sport jusqu'à 16 h.",
+            "time_spent": 6,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_6.webp",
+            "all_options": [
+                {
+                    "id": 32825,
+                    "text": "Il achète un livre.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32826,
+                    "text": "Il apprend ses leçons.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32827,
+                    "text": "Il fait du sport.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32828,
+                    "text": "Il regarde un film.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q6"
+        },
+        {
+            "question_id": 1840,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour modifier l’horaire d’un cours.",
+            "user_selected_option_id": 32987,
+            "correct_answer": "Pour modifier l’horaire d’un cours.",
+            "correct_option_id": 32987,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "M. Valmont informe que « le cours de mathématiques aura exceptionnellement lieu à 15 heures » : il écrit donc pour modifier l'horaire d'un cours.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_7.webp",
+            "all_options": [
+                {
+                    "id": 32985,
+                    "text": "Pour annoncer un changement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32986,
+                    "text": "Pour inviter les élèves à une réunion.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32987,
+                    "text": "Pour modifier l’horaire d’un cours.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32988,
+                    "text": "Pour remercier les élèves de 5e B.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 12 – Q7"
+        },
+        {
+            "question_id": 1724,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "Un court séjour touristique",
+            "user_selected_option_id": 32521,
+            "correct_answer": "Un court séjour touristique",
+            "correct_option_id": 32521,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose « une nuit avec dîner et petit-déjeuner pour 70 » : il s'agit donc d'un court séjour touristique.",
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_8.webp",
+            "all_options": [
+                {
+                    "id": 32521,
+                    "text": "Un court séjour touristique",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32522,
+                    "text": "Une leçon de cuisine",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32523,
+                    "text": "Une participation à un concours",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32524,
+                    "text": "Une réduction pour le train",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 9 – Q8"
+        },
+        {
+            "question_id": 1803,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Il accepte de l’aider.",
+            "user_selected_option_id": 32837,
+            "correct_answer": "Il accepte de l’aider.",
+            "correct_option_id": 32837,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "René Duroc répond « pas de problème. On pourra vérifier ensemble le dossier » : il accepte donc d'aider Louise.",
+            "time_spent": 24,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_9.webp",
+            "all_options": [
+                {
+                    "id": 32837,
+                    "text": "Il accepte de l’aider.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32838,
+                    "text": "Il cherche une information.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32839,
+                    "text": "Il l’invite à déjeuner.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32840,
+                    "text": "Il organise un entretien.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q9"
+        },
+        {
+            "question_id": 2038,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Un billet d’avion.",
+            "user_selected_option_id": 33778,
+            "correct_answer": "Un billet d’avion.",
+            "correct_option_id": 33778,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La publicité annonce « 15 % de réduction sur nos vols Air France Paris-Londres » : elle propose donc un billet d'avion.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_10.webp",
+            "all_options": [
+                {
+                    "id": 33777,
+                    "text": "Une visite de Londres.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33778,
+                    "text": "Un billet d’avion.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33779,
+                    "text": "Un séjour à Paris.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33780,
+                    "text": "Un voyage en train.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 17 – Q10"
+        },
+        {
+            "question_id": 1805,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "À conseiller le promeneur.",
+            "user_selected_option_id": 32845,
+            "correct_answer": "À conseiller le promeneur.",
+            "correct_option_id": 32845,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le document conseille d'« étudier son itinéraire avec l'aide d'un professionnel » et de consulter le service des pistes : il sert donc à conseiller le promeneur.",
+            "time_spent": 25,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_11.webp",
+            "all_options": [
+                {
+                    "id": 32845,
+                    "text": "À conseiller le promeneur.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32846,
+                    "text": "À décrire les risques d’accident.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32847,
+                    "text": "À prévoir le temps qu’il fera.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32848,
+                    "text": "À signaler les accès interdits.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q11"
+        },
+        {
+            "question_id": 1767,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "Pour favoriser une autre pédagogie",
+            "user_selected_option_id": 32694,
+            "correct_answer": "Pour favoriser une autre pédagogie",
+            "correct_option_id": 32694,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que « le mouvement aide à la concentration » et que les psychologues pensent qu'il faut « laisser les écoliers bouger » : le mobilier a changé pour favoriser une autre pédagogie.",
+            "time_spent": 12,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_12.webp",
+            "all_options": [
+                {
+                    "id": 32693,
+                    "text": "Pour accueillir des élèves",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32694,
+                    "text": "Pour favoriser une autre pédagogie",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32695,
+                    "text": "Pour limiter les problèmes de santé",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32696,
+                    "text": "Pour rénover les salles de classe",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 10 – Q12"
+        },
+        {
+            "question_id": 1807,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "C’est un spécialiste du sujet.",
+            "user_selected_option_id": 32856,
+            "correct_answer": "C’est un spécialiste du sujet.",
+            "correct_option_id": 32856,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce précise que l'intervenant, professeur à Paris 5, « est l'auteur de plusieurs ouvrages sur la finance » : l'association l'a choisi car c'est un spécialiste du sujet.",
+            "time_spent": 28,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_13.webp",
+            "all_options": [
+                {
+                    "id": 32853,
+                    "text": "C’est un amoureux de la région.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32854,
+                    "text": "C’est un écrivain très célèbre.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32855,
+                    "text": "C’est un membre de l’association.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32856,
+                    "text": "C’est un spécialiste du sujet.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q13"
+        },
+        {
+            "question_id": 40014,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Demander de l'aide.",
+            "user_selected_option_id": 400141,
+            "correct_answer": "Demander de l'aide.",
+            "correct_option_id": 400141,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Les voisins demandent de l’aide pour préparer la soirée de départ du gardien (« décoration, cuisine... »).",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_14.webp",
+            "all_options": [
+                {
+                    "id": 400141,
+                    "text": "Demander de l'aide.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 400142,
+                    "text": "Informer le gardien.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 400143,
+                    "text": "Inviter à une soirée.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400144,
+                    "text": "Remercier les locataires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 40 – Q14"
+        },
+        {
+            "question_id": 2901,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "D’assister à une réunion.",
+            "user_selected_option_id": 37229,
+            "correct_answer": "De suivre une formation.",
+            "correct_option_id": 37231,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le message invite à « une rencontre sur le thème Organisation et conduite de conférences internationales » avec des « ateliers en petits groupes » : il s'agit de suivre une formation.",
+            "time_spent": 34,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_15.webp",
+            "all_options": [
+                {
+                    "id": 37229,
+                    "text": "D’assister à une réunion.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37230,
+                    "text": "De participer à un voyage.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37231,
+                    "text": "De suivre une formation.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37232,
+                    "text": "De travailler à l’étranger.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 39 – Q15"
+        },
+        {
+            "question_id": 40016,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Il est proche des lieux à visiter.",
+            "user_selected_option_id": 400162,
+            "correct_answer": "Il est proche des lieux à visiter.",
+            "correct_option_id": 400162,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L’hôtel est « situé à 5 minutes seulement du centre » et permet d’explorer les sites touristiques à pied ou à vélo. Sa proximité est son atout.",
+            "time_spent": 30,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_16.webp",
+            "all_options": [
+                {
+                    "id": 400161,
+                    "text": "Il dispose de chambres spacieuses.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 400162,
+                    "text": "Il est proche des lieux à visiter.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 400163,
+                    "text": "Il propose la location de bicyclettes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 400164,
+                    "text": "Il se trouve en plein centre-ville.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 40 – Q16"
+        },
+        {
+            "question_id": 1655,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Nuancée pour le restaurant",
+            "user_selected_option_id": 32246,
+            "correct_answer": "Enthousiaste pour le restaurant",
+            "correct_option_id": 32247,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le guide loue « la qualité et le raffinement des plats » et conseille même de réserver malgré l'éloignement : la critique est enthousiaste pour ce restaurant.",
+            "time_spent": 71,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_17.webp",
+            "all_options": [
+                {
+                    "id": 32245,
+                    "text": "Défavorable pour le restaurant",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32246,
+                    "text": "Nuancée pour le restaurant",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32247,
+                    "text": "Enthousiaste pour le restaurant",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32248,
+                    "text": "Objective pour le restaurant",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 7 – Q17"
+        },
+        {
+            "question_id": 1617,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Des spécialités locales",
+            "user_selected_option_id": 32094,
+            "correct_answer": "Des spécialités locales",
+            "correct_option_id": 32094,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le marché propose poulets rôtis, charcuteries, fromages, miel, confitures : ce sont des spécialités locales.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_18.webp",
+            "all_options": [
+                {
+                    "id": 32093,
+                    "text": "Des objets d’arts",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32094,
+                    "text": "Des spécialités locales",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32095,
+                    "text": "Des produits écologiques",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32096,
+                    "text": "Des marchandises exotiques",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 6 – Q18"
+        },
+        {
+            "question_id": 2905,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Rappeler que le train permet de rallier toutes les villes.",
+            "user_selected_option_id": 37248,
+            "correct_answer": "Promouvoir d’autres offres commerciales de la SNCF.",
+            "correct_option_id": 37247,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte révèle que « voyages SNCF » vend aussi « de l'avion et des séjours » : le but de la campagne était de promouvoir d'autres offres commerciales de la SNCF.",
+            "time_spent": 72,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_19.webp",
+            "all_options": [
+                {
+                    "id": 37245,
+                    "text": "Annoncer le lancement d’une nouvelle ligne ferroviaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 37246,
+                    "text": "Faire patienter les usagers de la SNCF pendant leur trajet.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 37247,
+                    "text": "Promouvoir d’autres offres commerciales de la SNCF.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 37248,
+                    "text": "Rappeler que le train permet de rallier toutes les villes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 39 – Q19"
+        },
+        {
+            "question_id": 1853,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Responsabiliser les acteurs concernés.",
+            "user_selected_option_id": 33040,
+            "correct_answer": "Responsabiliser les acteurs concernés.",
+            "correct_option_id": 33040,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique qu'il faut agir « en concertation avec les habitants » et « avec les entreprises... afin que chacun ait un objectif à atteindre » : il s'agit donc de responsabiliser les acteurs concernés.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_20.webp",
+            "all_options": [
+                {
+                    "id": 33037,
+                    "text": "Moderniser les installations anti-pollution.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33038,
+                    "text": "Modifier les circuits de production.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33039,
+                    "text": "Organiser des formations sur le sujet.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33040,
+                    "text": "Responsabiliser les acteurs concernés.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 12 – Q20"
+        },
+        {
+            "question_id": 2829,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Il modifie le moment du coucher.",
+            "user_selected_option_id": 36944,
+            "correct_answer": "Il modifie le moment du coucher.",
+            "correct_option_id": 36944,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que ce changement d'heure « amène logiquement à se coucher plus tard » : il modifie le moment du coucher.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_21.webp",
+            "all_options": [
+                {
+                    "id": 36941,
+                    "text": "Il convient aux enfants d’âge scolaire.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36942,
+                    "text": "Il dérègle l’organisation des élèves.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36943,
+                    "text": "Il est adapté au rythme biologique.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36944,
+                    "text": "Il modifie le moment du coucher.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 37 – Q21"
+        },
+        {
+            "question_id": 1621,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Montrer l’importance de la chimie dans les rapports humains",
+            "user_selected_option_id": 32112,
+            "correct_answer": "Montrer l’importance de la chimie dans les rapports humains",
+            "correct_option_id": 32112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'expérience montre qu'une odeur d'ocytocine « pousse les gens à confier leur argent » à un banquier : elle vise à montrer l'importance de la chimie (les hormones) dans les rapports humains.",
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_22.webp",
+            "all_options": [
+                {
+                    "id": 32109,
+                    "text": "Apprendre à gérer une entrevue importante avec un banquier",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32110,
+                    "text": "Déterminer le lien, positif ou non, que les gens ont avec l’argent",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32111,
+                    "text": "Identifier les conditions et facteurs d’addiction aux jeux de hasard",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32112,
+                    "text": "Montrer l’importance de la chimie dans les rapports humains",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 6 – Q22"
+        },
+        {
+            "question_id": 1544,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "Faire prendre conscience des excès lies à leur usage",
+            "user_selected_option_id": 31802,
+            "correct_answer": "Faire prendre conscience des excès lies à leur usage",
+            "correct_option_id": 31802,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'idée n'est pas d'encourager l'usage du portable mais « d'inciter chacun à réfléchir à la place qu'il lui donne » : l'objectif est de faire prendre conscience des excès liés à son usage.",
+            "time_spent": 33,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_23.webp",
+            "all_options": [
+                {
+                    "id": 31801,
+                    "text": "Faciliter leur utilisation dans l’ensemble de la commune",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31802,
+                    "text": "Faire prendre conscience des excès lies à leur usage",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31803,
+                    "text": "Instaurer de nouvelles règles de priorité de circulation",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31804,
+                    "text": "Multiplier les espaces publicitaires le long des avenues",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q23"
+        },
+        {
+            "question_id": 2832,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Aux vibrations transmises par des corps extra-terrestres.",
+            "user_selected_option_id": 36956,
+            "correct_answer": "Aux étincelles produites par des perturbations orageuses.",
+            "correct_option_id": 36954,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que ces lueurs « proviendraient d'orages grondant dans la haute atmosphère » : elles font référence aux étincelles produites par des perturbations orageuses.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_24.webp",
+            "all_options": [
+                {
+                    "id": 36953,
+                    "text": "Aux équipes d’universitaires qui travaillent sur la lumière.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36954,
+                    "text": "Aux étincelles produites par des perturbations orageuses.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36955,
+                    "text": "Aux scientifiques qui guettent des signaux dans l’espace.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36956,
+                    "text": "Aux vibrations transmises par des corps extra-terrestres.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 37 – Q24"
+        },
+        {
+            "question_id": 1546,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "Les professeurs avec les compétences nécessaires sont rares",
+            "user_selected_option_id": 31812,
+            "correct_answer": "Les professeurs avec les compétences nécessaires sont rares",
+            "correct_option_id": 31812,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que la réforme se fait « sans compter sur suffisamment de professeurs formés pour cela » : le problème est que les professeurs avec les compétences nécessaires sont rares.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_25.webp",
+            "all_options": [
+                {
+                    "id": 31809,
+                    "text": "Les enfants ont des difficultés de concentration dans ce domaine",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31810,
+                    "text": "Les équipements informatiques des écoles sont devenus obsolètes",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31811,
+                    "text": "Les établissements doivent se doter d’une connexion illimitée",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31812,
+                    "text": "Les professeurs avec les compétences nécessaires sont rares",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q25"
+        },
+        {
+            "question_id": 2795,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Il suscite un fort engouement.",
+            "user_selected_option_id": 36808,
+            "correct_answer": "Il se propage imperceptiblement.",
+            "correct_option_id": 36807,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « l'injonction est discrète et pénètre progressivement nos mentalités, s'insinue dans notre quotidien » : ce culte se propage imperceptiblement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_26.webp",
+            "all_options": [
+                {
+                    "id": 36805,
+                    "text": "la des effets encore inconnus.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36806,
+                    "text": "Il rallonge l’espérance de vie.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36807,
+                    "text": "Il se propage imperceptiblement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36808,
+                    "text": "Il suscite un fort engouement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 36 – Q26"
+        },
+        {
+            "question_id": 2757,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Un éditeur refuse de participer à cette tradition",
+            "user_selected_option_id": 36656,
+            "correct_answer": "Le nombre d’ouvrages à paraître a diminué",
+            "correct_option_id": 36655,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il s'agit de « la rentrée française la plus modeste en nombre de titres depuis vingt ans » : le nombre d'ouvrages à paraître a diminué.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_27.webp",
+            "all_options": [
+                {
+                    "id": 36653,
+                    "text": "Des librairies menacent de fermer boutique",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36654,
+                    "text": "La qualité des livres publiés est catastrophique",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36655,
+                    "text": "Le nombre d’ouvrages à paraître a diminué",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 36656,
+                    "text": "Un éditeur refuse de participer à cette tradition",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 35 – Q27"
+        },
+        {
+            "question_id": 2836,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Elles sont victimes d’accidents fréquents.",
+            "user_selected_option_id": 36972,
+            "correct_answer": "Elles gagnent en visibilité dans ce milieu.",
+            "correct_option_id": 36969,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« une génération de femmes alpinistes est en train de bouleverser la donne » et que « les femmes ont leur place dans l'élite de l'himalayisme » : elles gagnent en visibilité dans ce milieu.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_28.webp",
+            "all_options": [
+                {
+                    "id": 36969,
+                    "text": "Elles gagnent en visibilité dans ce milieu.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36970,
+                    "text": "Elles remportent des compétitions mixtes.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36971,
+                    "text": "Elles sont rabaissées par les hommes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36972,
+                    "text": "Elles sont victimes d’accidents fréquents.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 37 – Q28"
+        },
+        {
+            "question_id": 1511,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Aux idées débattues.",
+            "user_selected_option_id": 31670,
+            "correct_answer": "Aux idées débattues.",
+            "correct_option_id": 31670,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte évoque des invités aussi divers que des prix Nobel, des stars ou un grand maître des échecs, débattant de sujets tout aussi variés (guerres, relations entre pays, climat) : la diversité renvoie donc aux idées débattues autant qu'aux personnalités reçues.",
+            "time_spent": 2,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_29.webp",
+            "all_options": [
+                {
+                    "id": 31669,
+                    "text": "Aux hôtes du parlement.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31670,
+                    "text": "Aux idées débattues.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31671,
+                    "text": "Aux pays représentés.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31672,
+                    "text": "Aux projets de loi votés.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 3 – Q29"
+        },
+        {
+            "question_id": 2799,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Elles sont issues de techniques variées.",
+            "user_selected_option_id": 36824,
+            "correct_answer": "Elles sont issues de techniques variées.",
+            "correct_option_id": 36824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'exposition mêle « vieux journaux, pyjamas customisés, œufs de saumon, voitures miniatures » ainsi que « sculptures, dessins, tableaux, tissus brodés » : ces œuvres sont issues de techniques variées.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_30.webp",
+            "all_options": [
+                {
+                    "id": 36821,
+                    "text": "Elles peuvent être touchées par le public.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36822,
+                    "text": "Elles répondent à une thématique unique.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36823,
+                    "text": "Elles sont destinées à être recyclées.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36824,
+                    "text": "Elles sont issues de techniques variées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 36 – Q30"
+        },
+        {
+            "question_id": 1552,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "Permettre aux jeunes de découvrir un sport difficile",
+            "user_selected_option_id": 31835,
+            "correct_answer": "Permettre aux jeunes de découvrir un sport difficile",
+            "correct_option_id": 31835,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que les leçons progressives et les cahiers d'explications permettent de « développer un programme de prévention pour identifier et éviter les dangers » : l'opération veut permettre aux jeunes de découvrir un sport (la voile) qui peut sembler difficile, en toute sécurité.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_31.webp",
+            "all_options": [
+                {
+                    "id": 31833,
+                    "text": "Expérimenter une nouvelle technologie par le sport",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31834,
+                    "text": "Former les maitres à la pratique du sport sur l’eau",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31835,
+                    "text": "Permettre aux jeunes de découvrir un sport difficile",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31836,
+                    "text": "Réduire les risques en éducation physique et sportive",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q31"
+        },
+        {
+            "question_id": 1436,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Si on modifie la façon dont on les perçoit",
+            "user_selected_option_id": 31371,
+            "correct_answer": "Si on modifie la façon dont on les perçoit",
+            "correct_option_id": 31371,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Selon le psychologue, « la manière dont nous appréhendons les choses détermine davantage notre qualité de vie que les événements eux-mêmes » : c'est en modifiant la façon dont on perçoit les événements qu'on accède au bonheur.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_32.webp",
+            "all_options": [
+                {
+                    "id": 31369,
+                    "text": "Si on les prend en compte avec lucidité",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31370,
+                    "text": "Si on les remodèle à travers l’Imagination",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31371,
+                    "text": "Si on modifie la façon dont on les perçoit",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 31372,
+                    "text": "Si on recherche leur signification profonde",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 1 – Q32"
+        },
+        {
+            "question_id": 1554,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Diffuser l’art dans des endroits inattendus",
+            "user_selected_option_id": 31842,
+            "correct_answer": "Diffuser l’art dans des endroits inattendus",
+            "correct_option_id": 31842,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le collectif occupe l'hôpital pour prouver que « la culture est à sa place partout » en exposant l'art dans un lieu inattendu : il cherche à diffuser l'art dans des endroits inattendus.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_33.webp",
+            "all_options": [
+                {
+                    "id": 31841,
+                    "text": "Convertir les lieux en maison de culture",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31842,
+                    "text": "Diffuser l’art dans des endroits inattendus",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31843,
+                    "text": "Ouvrir un centre de formation artistique",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31844,
+                    "text": "Rénover les anciens locaux en les décorant",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q33"
+        },
+        {
+            "question_id": 1477,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L’extension d’un système de climatisation à tout un quartier",
+            "user_selected_option_id": 31533,
+            "correct_answer": "L’extension d’un système de climatisation à tout un quartier",
+            "correct_option_id": 31533,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Parmi les idées, le texte cite « une centrale hydrothermique pour chauffer et refroidir tout un quartier », projet réel d'une compagnie parisienne, présenté comme réaliste (contrairement aux voies rapides sur les toits, plus utopiques) : c'est l'extension d'un système de climatisation à tout un quartier.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_34.webp",
+            "all_options": [
+                {
+                    "id": 31533,
+                    "text": "L’extension d’un système de climatisation à tout un quartier",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31534,
+                    "text": "L’installation des parcs sur les toits des bâtiments parisiens",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31535,
+                    "text": "La construction de pistes cyclables au sommet des immeubles",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31536,
+                    "text": "La création de jardins communs pour planter des légumes",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 2 – Q34"
+        },
+        {
+            "question_id": 1790,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Le raisonnement du penseur représente une entrave à la création",
+            "user_selected_option_id": 32786,
+            "correct_answer": "Le raisonnement du penseur représente une entrave à la création",
+            "correct_option_id": 32786,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'auteur affirme que « le brassage d'idées et de concepts s'oppose à la liberté et à l'imprévisibilité du roman » : le raisonnement du penseur représente donc une entrave à la création.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_35.webp",
+            "all_options": [
+                {
+                    "id": 32785,
+                    "text": "L’écriture requiert les mêmes qualités pour une fiction ou un essai",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32786,
+                    "text": "Le raisonnement du penseur représente une entrave à la création",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 32787,
+                    "text": "Les grands romans sont issus des réflexions théoriques d’un auteur",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32788,
+                    "text": "Les modes d’écriture du romancier et de l’intellectuel sont identiques",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 10 – Q35"
+        },
+        {
+            "question_id": 1557,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "À s’affranchir d’une histoire ancienne",
+            "user_selected_option_id": 31854,
+            "correct_answer": "À s’affranchir d’une histoire ancienne",
+            "correct_option_id": 31854,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "En écrivant sur la mort cachée de sa sœur, Annie Ernaux part « à la recherche d'une vérité » : la collection l'amène à s'affranchir d'une histoire ancienne.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_36.webp",
+            "all_options": [
+                {
+                    "id": 31853,
+                    "text": "À s’acquitter d’un engagement moral",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31854,
+                    "text": "À s’affranchir d’une histoire ancienne",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31855,
+                    "text": "À se justifier d’une action peu culpabilité",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31856,
+                    "text": "À se justifier d’une action peu glorieuse",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 4 – Q36"
+        },
+        {
+            "question_id": 1441,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Parce qu’elle finance les programmes de développement des TIC",
+            "user_selected_option_id": 31389,
+            "correct_answer": "Parce qu’elle finance les programmes de développement des TIC",
+            "correct_option_id": 31389,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte indique que l'UNESCO « aide les États membres » à développer des politiques durables et soutient « les investissements positifs » dans les TI : elle finance les programmes de développement des TIC.",
+            "time_spent": 10,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_37.webp",
+            "all_options": [
+                {
+                    "id": 31389,
+                    "text": "Parce qu’elle finance les programmes de développement des TIC",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 31390,
+                    "text": "Parce qu’elle organise des débats entre États membres sur les TIC",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 31391,
+                    "text": "Parce qu’elle sensibilise les établissements d’enseignement aux TIC",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31392,
+                    "text": "Parce qu’elle habilite des formateurs à l’utilisation des TIC",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 1 – Q37"
+        },
+        {
+            "question_id": 2690,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "Les linguistes déplorent les mutations du lexique scandinave.",
+            "user_selected_option_id": 36388,
+            "correct_answer": "Il est facile d’attribuer une étymologie erronée à un mot.",
+            "correct_option_id": 36386,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« on devrait plutôt dire panquise » et que « c'est la proximité du mot français banc qui a prêté à confusion » : il est facile d'attribuer une étymologie erronée à un mot.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_38.webp",
+            "all_options": [
+                {
+                    "id": 36385,
+                    "text": "« Banquise » est un bon exemple d’une traduction fidèle.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36386,
+                    "text": "Il est facile d’attribuer une étymologie erronée à un mot.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36387,
+                    "text": "Il y a des différences subtiles entre les dialectes nordiques.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36388,
+                    "text": "Les linguistes déplorent les mutations du lexique scandinave.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 33 – Q38"
+        },
+        {
+            "question_id": 2613,
+            "question_text": "Compréhension écrite – Quiz 42 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "Ils participent à l’élimination des animaux nuisibles.",
+            "user_selected_option_id": 36080,
+            "correct_answer": "Ils augmentent les ressources des municipalités.",
+            "correct_option_id": 36077,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les producteurs éoliens recherchent « des terrains peu chers dans des communes qui ont besoin d'accroître leurs revenus » : les parcs éoliens augmentent les ressources des municipalités.",
+            "time_spent": 1,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_42_question_39.webp",
+            "all_options": [
+                {
+                    "id": 36077,
+                    "text": "Ils augmentent les ressources des municipalités.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 36078,
+                    "text": "Ils contribuent à la protection de l’environnement.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 36079,
+                    "text": "Ils garantissent la fourniture continue d’énergie.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36080,
+                    "text": "Ils participent à l’élimination des animaux nuisibles.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 31 – Q39"
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture fluide de textes variés",
+        "Compréhension de l'implicite et des nuances"
+    ],
+    "improvements": [
+        "Maintenir la régularité de lecture",
+        "Varier les genres de textes lus",
+        "Approfondir le vocabulaire spécialisé",
+        "Continuer les lectures de niveau C1-C2"
+    ],
+    "recommendations": [
+        "Lire la presse francophone quotidiennement",
+        "Alterner articles courts et dossiers de fond",
+        "Noter le vocabulaire nouveau avec son contexte",
+        "Refaire les questions manquées après quelques jours",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 42",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}

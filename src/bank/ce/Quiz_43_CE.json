@@ -1,0 +1,1772 @@
+{
+    "id": null,
+    "exam_id": 79,
+    "score": 699,
+    "score_percent": 100,
+    "cefr_level": "C2",
+    "clb_level": "CLB/NCLC 10+",
+    "completed_at": null,
+    "time_spent": 2100,
+    "section_breakdown": {
+        "Identification": {
+            "score": 25,
+            "weight": 0.25
+        },
+        "Compréhension": {
+            "score": 35,
+            "weight": 0.35
+        },
+        "Inférence": {
+            "score": 20,
+            "weight": 0.2
+        },
+        "Gestion du temps": {
+            "score": 20,
+            "weight": 0.2
+        }
+    },
+    "detailed_answers": [
+        {
+            "question_id": 2380,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 1",
+            "question_type": "mcq",
+            "order": 1,
+            "user_answer": "Une soupe.",
+            "user_selected_option_id": 35148,
+            "correct_answer": "Un dessert.",
+            "correct_option_id": 35145,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La liste propose « choux, Paris-Brest, éclairs au café, tartes aux pommes » : il s'agit d'un dessert.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_1.webp",
+            "all_options": [
+                {
+                    "id": 35145,
+                    "text": "Un dessert.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35146,
+                    "text": "Une entrée.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35147,
+                    "text": "Une salade.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35148,
+                    "text": "Une soupe.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 26 – Q1"
+        },
+        {
+            "question_id": 2264,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 2",
+            "question_type": "mcq",
+            "order": 2,
+            "user_answer": "Trouver un logement.",
+            "user_selected_option_id": 34683,
+            "correct_answer": "Trouver un logement.",
+            "correct_option_id": 34683,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce précise « cherche maison à louer pour vacances d'été » : Laetitia veut trouver un logement.",
+            "time_spent": 14,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_2.webp",
+            "all_options": [
+                {
+                    "id": 34681,
+                    "text": "Habiter à la compagne.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34682,
+                    "text": "Réserver un hôtel.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34683,
+                    "text": "Trouver un logement.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34684,
+                    "text": "Vendre un appartement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q2"
+        },
+        {
+            "question_id": 2343,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 3",
+            "question_type": "mcq",
+            "order": 3,
+            "user_answer": "Un livre.",
+            "user_selected_option_id": 35000,
+            "correct_answer": "Un film.",
+            "correct_option_id": 34999,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'affiche annonce « drôle très beau ! De acteur magnifique ! À voir absolument » : c'est la critique d'un film.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_3.webp",
+            "all_options": [
+                {
+                    "id": 34997,
+                    "text": "Un concert.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34998,
+                    "text": "Une exposition.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34999,
+                    "text": "Un film.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 35000,
+                    "text": "Un livre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 25 – Q3"
+        },
+        {
+            "question_id": 2422,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 4",
+            "question_type": "mcq",
+            "order": 4,
+            "user_answer": "S’inscrire sur Internet.",
+            "user_selected_option_id": 35316,
+            "correct_answer": "Compléter une fiche.",
+            "correct_option_id": 35313,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'affiche demande de « remplir un formulaire à l'accueil du magasin » pour participer au jeu : il faut compléter une fiche.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_4.webp",
+            "all_options": [
+                {
+                    "id": 35313,
+                    "text": "Compléter une fiche.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 35314,
+                    "text": "Proposer une recette.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35315,
+                    "text": "Répondre à une question.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35316,
+                    "text": "S’inscrire sur Internet.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 27 – Q4"
+        },
+        {
+            "question_id": 1682,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 5",
+            "question_type": "mcq",
+            "order": 5,
+            "user_answer": "Acheter un cadeau",
+            "user_selected_option_id": 32353,
+            "correct_answer": "Acheter un cadeau",
+            "correct_option_id": 32353,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Nadia et Sophie se retrouvent « pour choisir un bijou pour Marie » : elles vont acheter un cadeau.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_5.webp",
+            "all_options": [
+                {
+                    "id": 32353,
+                    "text": "Acheter un cadeau",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32354,
+                    "text": "Déjeuner ensemble",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32355,
+                    "text": "Regarder un film",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32356,
+                    "text": "Rencontrer une amie",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 8 – Q5"
+        },
+        {
+            "question_id": 2268,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 6",
+            "question_type": "mcq",
+            "order": 6,
+            "user_answer": "Il veut venir plus tôt.",
+            "user_selected_option_id": 34700,
+            "correct_answer": "Il est très occupé.",
+            "correct_option_id": 34697,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Paul écrit « j'ai beaucoup de travail en ce moment » pour expliquer qu'il ne peut pas venir : il est très occupé.",
+            "time_spent": 73,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_6.webp",
+            "all_options": [
+                {
+                    "id": 34697,
+                    "text": "Il est très occupé.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34698,
+                    "text": "Il part en vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34699,
+                    "text": "Il travaille avec Fred.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34700,
+                    "text": "Il veut venir plus tôt.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q6"
+        },
+        {
+            "question_id": 2308,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 7",
+            "question_type": "mcq",
+            "order": 7,
+            "user_answer": "Pour rappeler l’utilisation correcte des poubelles.",
+            "user_selected_option_id": 34860,
+            "correct_answer": "Pour rappeler l’utilisation correcte des poubelles.",
+            "correct_option_id": 34860,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise « il faut séparer le plastique et le carton et les mettre dans les poubelles jaunes » : le gardien écrit pour rappeler l'utilisation correcte des poubelles.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_7.webp",
+            "all_options": [
+                {
+                    "id": 34857,
+                    "text": "Pour annoncer un changement de couleur des poubelles.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34858,
+                    "text": "Pour informer de l’ouverture du nouveau local poubelle.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34859,
+                    "text": "Pour présenter l’entreprise de tri des poubelles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34860,
+                    "text": "Pour rappeler l’utilisation correcte des poubelles.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 24 – Q7"
+        },
+        {
+            "question_id": 2270,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 8",
+            "question_type": "mcq",
+            "order": 8,
+            "user_answer": "En début et en fin de soirée.",
+            "user_selected_option_id": 34706,
+            "correct_answer": "En début et en fin de soirée.",
+            "correct_option_id": 34706,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le programme indique le « journal télévisé » à 20h00 et le « journal de la nuit » à 0h40 : les informations sont diffusées en début et en fin de soirée.",
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_8.webp",
+            "all_options": [
+                {
+                    "id": 34705,
+                    "text": "En cours de soirée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34706,
+                    "text": "En début et en fin de soirée.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34707,
+                    "text": "Entre chaque émission.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34708,
+                    "text": "Quatre fois dans la soirée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q8"
+        },
+        {
+            "question_id": 1569,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 9",
+            "question_type": "mcq",
+            "order": 9,
+            "user_answer": "Les employés vont préparer une fête",
+            "user_selected_option_id": 31902,
+            "correct_answer": "Les employés vont préparer une fête",
+            "correct_option_id": 31902,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "La réunion du mercredi 12 doit aborder « l'organisation de la fête pour le départ à la retraite de Mme Fournival » : les employés vont donc préparer une fête.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_9.webp",
+            "all_options": [
+                {
+                    "id": 31901,
+                    "text": "Des collègues vont changer de service",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 31902,
+                    "text": "Les employés vont préparer une fête",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 31903,
+                    "text": "M. Frachon va quitter l’entreprise",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 31904,
+                    "text": "Mme Fournival va arriver dans la société",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 5 – Q9"
+        },
+        {
+            "question_id": 2272,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 10",
+            "question_type": "mcq",
+            "order": 10,
+            "user_answer": "Elle est interdite.",
+            "user_selected_option_id": 34715,
+            "correct_answer": "Elle est interdite.",
+            "correct_option_id": 34715,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise « vous ne pouvez plus les utiliser à l'intérieur du lycée » à cause des vols : leur utilisation est interdite.",
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_10.webp",
+            "all_options": [
+                {
+                    "id": 34713,
+                    "text": "Elle est autorisée.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34714,
+                    "text": "Elle est dangereuse.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34715,
+                    "text": "Elle est interdite.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34716,
+                    "text": "Elle est limitée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 23 – Q10"
+        },
+        {
+            "question_id": 2156,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 11",
+            "question_type": "mcq",
+            "order": 11,
+            "user_answer": "Une formation d’entraîneur.",
+            "user_selected_option_id": 34252,
+            "correct_answer": "Un travail avec des enfants.",
+            "correct_option_id": 34249,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "L'annonce cherche « un animateur ou une animatrice avec un bon niveau en tennis pour entraîner les enfants » : elle propose un travail avec des enfants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_11.webp",
+            "all_options": [
+                {
+                    "id": 34249,
+                    "text": "Un travail avec des enfants.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34250,
+                    "text": "Une colonie de vacances.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34251,
+                    "text": "Une compétition de sport.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34252,
+                    "text": "Une formation d’entraîneur.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 20 – Q11"
+        },
+        {
+            "question_id": 2196,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 12",
+            "question_type": "mcq",
+            "order": 12,
+            "user_answer": "La vendre.",
+            "user_selected_option_id": 34412,
+            "correct_answer": "L’échanger.",
+            "correct_option_id": 34410,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "La famille Beaulieu propose de venir chez elle « en juillet » pendant qu'ils iront « chez vous en France au même moment » : ils veulent échanger leur maison.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_12.webp",
+            "all_options": [
+                {
+                    "id": 34409,
+                    "text": "L’agrandir.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34410,
+                    "text": "L’échanger.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34411,
+                    "text": "La louer.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34412,
+                    "text": "La vendre.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 21 – Q12"
+        },
+        {
+            "question_id": 2119,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 13",
+            "question_type": "mcq",
+            "order": 13,
+            "user_answer": "Une chambre chez l’habitant.",
+            "user_selected_option_id": 34103,
+            "correct_answer": "Une chambre chez l’habitant.",
+            "correct_option_id": 34103,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'annonce propose de « louer une chambre à un(e) étudiant(e) » dans la maison familiale : c'est une chambre chez l'habitant qui est proposée.",
+            "time_spent": 20,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_13.webp",
+            "all_options": [
+                {
+                    "id": 34101,
+                    "text": "Un échange de maison.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34102,
+                    "text": "Un studio en centre-ville.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34103,
+                    "text": "Une chambre chez l’habitant.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34104,
+                    "text": "Une colocation entre étudiants.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 19 – Q13"
+        },
+        {
+            "question_id": 2159,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 14",
+            "question_type": "mcq",
+            "order": 14,
+            "user_answer": "Suivre des visites avec un guide.",
+            "user_selected_option_id": 34264,
+            "correct_answer": "Découvrir des monuments connus.",
+            "correct_option_id": 34262,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'on peut « passer de la Tour Eiffel au Mont Saint-Michel en quelques minutes » grâce à des bâtiments miniatures : on peut y découvrir des monuments connus.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_14.webp",
+            "all_options": [
+                {
+                    "id": 34261,
+                    "text": "Acheter des souvenirs bon marché.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34262,
+                    "text": "Découvrir des monuments connus.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34263,
+                    "text": "Se promener à vélo en famille.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34264,
+                    "text": "Suivre des visites avec un guide.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 20 – Q14"
+        },
+        {
+            "question_id": 2121,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 15",
+            "question_type": "mcq",
+            "order": 15,
+            "user_answer": "Des travaux sur la ligne.",
+            "user_selected_option_id": 34110,
+            "correct_answer": "Des travaux sur la ligne.",
+            "correct_option_id": 34110,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le message précise que « les bus de la ligne 25 ne circulent pas... à cause de réparations sur les routes » : ce sont des travaux sur la ligne qui sont annoncés.",
+            "time_spent": 21,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_15.webp",
+            "all_options": [
+                {
+                    "id": 34109,
+                    "text": "Des pannes d’autobus.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34110,
+                    "text": "Des travaux sur la ligne.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34111,
+                    "text": "Un accident de circulation.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34112,
+                    "text": "Une grève des transports.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 19 – Q15"
+        },
+        {
+            "question_id": 2083,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 16",
+            "question_type": "mcq",
+            "order": 16,
+            "user_answer": "Exercer un travail satisfaisant.",
+            "user_selected_option_id": 33958,
+            "correct_answer": "Exercer un travail satisfaisant.",
+            "correct_option_id": 33958,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les gens partiraient « s'ils pouvaient pratiquer une activité professionnelle qui leur plaît » : la condition est d'exercer un travail satisfaisant.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_16.webp",
+            "all_options": [
+                {
+                    "id": 33957,
+                    "text": "Avoir un logement spacieux.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33958,
+                    "text": "Exercer un travail satisfaisant.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33959,
+                    "text": "Modifier le rythme quotidien.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33960,
+                    "text": "Se rapprocher du monde agricole.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 18 – Q16"
+        },
+        {
+            "question_id": 2162,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 17",
+            "question_type": "mcq",
+            "order": 17,
+            "user_answer": "Sensibiliser leur entourage aux dangers de la pollution.",
+            "user_selected_option_id": 34276,
+            "correct_answer": "Apprendre des gestes pour protéger l’environnement.",
+            "correct_option_id": 34273,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les enfants vont « réaliser une exposition sur les économies d'eau... et faire une chasse au gaspillage d'eau » : ils vont apprendre des gestes pour protéger l'environnement.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_17.webp",
+            "all_options": [
+                {
+                    "id": 34273,
+                    "text": "Apprendre des gestes pour protéger l’environnement.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34274,
+                    "text": "Dessiner des affiches contre le gaspillage alimentaire.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34275,
+                    "text": "Participer à un concours sur le développement durable.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34276,
+                    "text": "Sensibiliser leur entourage aux dangers de la pollution.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 20 – Q17"
+        },
+        {
+            "question_id": 2124,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 18",
+            "question_type": "mcq",
+            "order": 18,
+            "user_answer": "Elle permet d’améliorer ses performances.",
+            "user_selected_option_id": 34122,
+            "correct_answer": "Elle permet d’améliorer ses performances.",
+            "correct_option_id": 34122,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte explique que la lecture permet de « renforcer vos capacités d'analyse, de mémorisation et de concentration » : elle permet d'améliorer ses performances.",
+            "time_spent": 88,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_18.webp",
+            "all_options": [
+                {
+                    "id": 34121,
+                    "text": "C’est une activité qui enrichit l’imagination.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34122,
+                    "text": "Elle permet d’améliorer ses performances.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34123,
+                    "text": "Il est difficile de s’y livrer si on est angoissé.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34124,
+                    "text": "Sa pratique exige des connaissances variées.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 19 – Q18"
+        },
+        {
+            "question_id": 2086,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 19",
+            "question_type": "mcq",
+            "order": 19,
+            "user_answer": "Ils modifient les aptitudes mentales.",
+            "user_selected_option_id": 33972,
+            "correct_answer": "Ils modifient les aptitudes mentales.",
+            "correct_option_id": 33972,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que « notre rapport à la mémoire a changé » et que la concentration et les apprentissages « s'en trouvent ralentis » : les outils numériques modifient les aptitudes mentales.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_19.webp",
+            "all_options": [
+                {
+                    "id": 33969,
+                    "text": "Ils améliorent l’efficacité au travail.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33970,
+                    "text": "Ils dérèglent les rythmes biologiques.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33971,
+                    "text": "Ils fluidifient les relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33972,
+                    "text": "Ils modifient les aptitudes mentales.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 18 – Q19"
+        },
+        {
+            "question_id": 2711,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 20",
+            "question_type": "mcq",
+            "order": 20,
+            "user_answer": "Une offre de restauration vannée.",
+            "user_selected_option_id": 36472,
+            "correct_answer": "Un espace de remise en forme.",
+            "correct_option_id": 36470,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que l'hôtel Coralia propose de « se détendre dans nos salles de musculation et de fitness » : il s'agit d'un espace de remise en forme.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_20.webp",
+            "all_options": [
+                {
+                    "id": 36469,
+                    "text": "Un club pour les jeunes enfants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 36470,
+                    "text": "Un espace de remise en forme.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 36471,
+                    "text": "Une formule en pension complète.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 36472,
+                    "text": "Une offre de restauration vannée.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 34 – Q20"
+        },
+        {
+            "question_id": 2049,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 21",
+            "question_type": "mcq",
+            "order": 21,
+            "user_answer": "Maintenir les performances de la mémoire.",
+            "user_selected_option_id": 33824,
+            "correct_answer": "Maintenir les performances de la mémoire.",
+            "correct_option_id": 33824,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte conseille, après la soixantaine, de « conserver une vie active physiquement... et aussi intellectuellement en sollicitant nos fonctions mentales » : l'objectif est de maintenir les performances de la mémoire.",
+            "time_spent": 5,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_21.webp",
+            "all_options": [
+                {
+                    "id": 33821,
+                    "text": "Améliorer des capacités physiques.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33822,
+                    "text": "Découvrir de nouveaux types de sports.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33823,
+                    "text": "Développer le cercle de ses relations sociales.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33824,
+                    "text": "Maintenir les performances de la mémoire.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 17 – Q21"
+        },
+        {
+            "question_id": 2245,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 22",
+            "question_type": "mcq",
+            "order": 22,
+            "user_answer": "Privilégier les aliments bio et avoir du mal à s’en procurer.",
+            "user_selected_option_id": 34608,
+            "correct_answer": "Être amateur de viande et militer pour le bien-être animal.",
+            "correct_option_id": 34607,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte souligne qu'on « ne veut pas savoir ce qu'on mange » (l'origine animale) « bien qu'en même temps on veuille être sûr de ce qu'on mange » : le paradoxe est d'être amateur de viande tout en refusant de penser au bien-être animal qu'implique cette consommation.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_22.webp",
+            "all_options": [
+                {
+                    "id": 34605,
+                    "text": "Acheter les meilleurs produits et dépenser le moins possible.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34606,
+                    "text": "Avoir la garantie de la qualité du produit.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34607,
+                    "text": "Être amateur de viande et militer pour le bien-être animal.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 34608,
+                    "text": "Privilégier les aliments bio et avoir du mal à s’en procurer.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 22 – Q22"
+        },
+        {
+            "question_id": 2051,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 23",
+            "question_type": "mcq",
+            "order": 23,
+            "user_answer": "C’est un carrefour culturel intercontinental.",
+            "user_selected_option_id": 33830,
+            "correct_answer": "C’est un carrefour culturel intercontinental.",
+            "correct_option_id": 33830,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit Vancouver comme « un lieu de croisement inédit des humanismes » avec des connexions entre Shanghai, Tokyo, la Californie et l'Europe : c'est un carrefour culturel intercontinental.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_23.webp",
+            "all_options": [
+                {
+                    "id": 33829,
+                    "text": "Elle concentre une intense activité diplomatique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33830,
+                    "text": "C’est un carrefour culturel intercontinental.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33831,
+                    "text": "C’est une plaque tournante du marché de l’art.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33832,
+                    "text": "Elle héberge de multiples lieux d’exposition.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 17 – Q23"
+        },
+        {
+            "question_id": 2013,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 24",
+            "question_type": "mcq",
+            "order": 24,
+            "user_answer": "Le personnel manque de chaleur et d’amabilité.",
+            "user_selected_option_id": 33678,
+            "correct_answer": "Le personnel manque de chaleur et d’amabilité.",
+            "correct_option_id": 33678,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte critique « un accueil si éloigné de la convivialité latino » malgré la popularité du lieu : le personnel manque de chaleur et d'amabilité.",
+            "time_spent": 4,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_24.webp",
+            "all_options": [
+                {
+                    "id": 33677,
+                    "text": "La salle a besoin d’une rénovation complète.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33678,
+                    "text": "Le personnel manque de chaleur et d’amabilité.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 33679,
+                    "text": "Les artistes jouent trop fort pour le lieu.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33680,
+                    "text": "Les tarifs sont élevés une cuisine ordinaire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 16 – Q24"
+        },
+        {
+            "question_id": 2092,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 25",
+            "question_type": "mcq",
+            "order": 25,
+            "user_answer": "S’ils appartiennent à une espèce adéquate.",
+            "user_selected_option_id": 33993,
+            "correct_answer": "S’ils appartiennent à une espèce adéquate.",
+            "correct_option_id": 33993,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que les espèces plantées il y a 50 ans ne conviennent pas alors que « les arbres aux feuilles poilues sont eux efficaces » : la condition est qu'ils appartiennent à une espèce adéquate.",
+            "time_spent": 11,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_25.webp",
+            "all_options": [
+                {
+                    "id": 33993,
+                    "text": "S’ils appartiennent à une espèce adéquate.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33994,
+                    "text": "S’ils ont des feuilles persistantes en hiver.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33995,
+                    "text": "S’ils ont été plantés il y a longtemps.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33996,
+                    "text": "S’ils se trouvent loin des zones de logement.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 18 – Q25"
+        },
+        {
+            "question_id": 2015,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 26",
+            "question_type": "mcq",
+            "order": 26,
+            "user_answer": "Du manque de familles d’accueil.",
+            "user_selected_option_id": 33688,
+            "correct_answer": "Du manque de familles d’accueil.",
+            "correct_option_id": 33688,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Christine Vaillant juge que malgré les bénévoles existants, « c'est toujours insuffisant » et qu'elle « recherche de nouveaux maîtres » : elle se plaint du manque de familles d'accueil.",
+            "time_spent": 3,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_26.webp",
+            "all_options": [
+                {
+                    "id": 33685,
+                    "text": "Du manque de salariés motivés.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33686,
+                    "text": "Du manque de moyens financiers.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33687,
+                    "text": "Du manque de chiens à former.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33688,
+                    "text": "Du manque de familles d’accueil.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 16 – Q26"
+        },
+        {
+            "question_id": 2133,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 27",
+            "question_type": "mcq",
+            "order": 27,
+            "user_answer": "Protéger les secrets d’élaboration des fromages.",
+            "user_selected_option_id": 34160,
+            "correct_answer": "Empêcher le trafic des fromages de contrebande.",
+            "correct_option_id": 34158,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que la brigade « traque les imitations alimentaires » du parmesan authentique AOP : son objectif est d'empêcher le trafic des fromages de contrebande.",
+            "time_spent": 53,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_27.webp",
+            "all_options": [
+                {
+                    "id": 34157,
+                    "text": "Contrôler la qualité sanitaire des fromages.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34158,
+                    "text": "Empêcher le trafic des fromages de contrebande.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34159,
+                    "text": "Enquêter sur les vols de fromages de luxe.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34160,
+                    "text": "Protéger les secrets d’élaboration des fromages.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 19 – Q27"
+        },
+        {
+            "question_id": 2212,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 28",
+            "question_type": "mcq",
+            "order": 28,
+            "user_answer": "Les nombreux échecs des projections proposées le weekend.",
+            "user_selected_option_id": 34476,
+            "correct_answer": "À quel problème sont confrontés les distributeurs indépendants.",
+            "correct_option_id": 34473,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que les distributeurs indépendants « s'inquiètent de voir les salles de cinéma offrir de plus en plus de séances au spectacle vivant » : l'article traite du problème auquel sont confrontés les distributeurs indépendants.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_28.webp",
+            "all_options": [
+                {
+                    "id": 34473,
+                    "text": "À quel problème sont confrontés les distributeurs indépendants.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 34474,
+                    "text": "La forte concurrence des vidéos à la demande à la télévision.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34475,
+                    "text": "Le désintérêt croissant du public pour les productions indépendantes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34476,
+                    "text": "Les nombreux échecs des projections proposées le weekend.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 21 – Q28"
+        },
+        {
+            "question_id": 2447,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 29",
+            "question_type": "mcq",
+            "order": 29,
+            "user_answer": "Elle est incompatible avec les objectifs politiques.",
+            "user_selected_option_id": 35416,
+            "correct_answer": "Elle demande trop d’entretien aux petites villes.",
+            "correct_option_id": 35414,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'il faut « des dizaines d'années, un accès à l'eau, de l'espace, des congénères, un environnement écologique » pour qu'un arbre rende ses services : cette exigence demande trop d'entretien aux petites villes.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_29.webp",
+            "all_options": [
+                {
+                    "id": 35413,
+                    "text": "Elle a peu d’action sur le dérèglement climatique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35414,
+                    "text": "Elle demande trop d’entretien aux petites villes.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 35415,
+                    "text": "Elle doit figurer dans les programmes électoraux.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35416,
+                    "text": "Elle est incompatible avec les objectifs politiques.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 27 – Q29"
+        },
+        {
+            "question_id": 2253,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 30",
+            "question_type": "mcq",
+            "order": 30,
+            "user_answer": "Les bateaux en détresse sont laissés à leur sort.",
+            "user_selected_option_id": 34640,
+            "correct_answer": "La technologie facilite le pillage des mers.",
+            "correct_option_id": 34638,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Le texte précise que « les progrès techniques... permettent aux chasseurs de trésors de sortir des objets protégés depuis des siècles par les eaux » : la technologie facilite le pillage des mers.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_30.webp",
+            "all_options": [
+                {
+                    "id": 34637,
+                    "text": "La faune aquatique est en danger.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34638,
+                    "text": "La technologie facilite le pillage des mers.",
+                    "is_correct": true,
+                    "order": 2
+                },
+                {
+                    "id": 34639,
+                    "text": "Le nombre de voleurs dépaves augmente.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34640,
+                    "text": "Les bateaux en détresse sont laissés à leur sort.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 22 – Q30"
+        },
+        {
+            "question_id": 1903,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 31",
+            "question_type": "mcq",
+            "order": 31,
+            "user_answer": "La difficulté à décrire les saveurs.",
+            "user_selected_option_id": 33239,
+            "correct_answer": "La difficulté à décrire les saveurs.",
+            "correct_option_id": 33239,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « quatre termes... c'est un peu court pour dépeindre toutes les nuances de la palette aromatique » : le problème soulevé est la difficulté à décrire les saveurs.",
+            "time_spent": 16,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_31.webp",
+            "all_options": [
+                {
+                    "id": 33237,
+                    "text": "L’addiction liée à certains aliments.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33238,
+                    "text": "L’inévitable uniformisation du goût.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33239,
+                    "text": "La difficulté à décrire les saveurs.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33240,
+                    "text": "La multiplication des termes culinaires.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 13 – Q31"
+        },
+        {
+            "question_id": 1943,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 32",
+            "question_type": "mcq",
+            "order": 32,
+            "user_answer": "Il a plus d’illustrations que d’écrit.",
+            "user_selected_option_id": 33397,
+            "correct_answer": "Il touche également les adultes.",
+            "correct_option_id": 33399,
+            "is_correct": false,
+            "is_answered": true,
+            "explanation": "Michèle Moreau affirme qu'« un livre ou un livre-disque doit savoir parler autant aux enfants qu'aux adultes » : un bon livre jeunesse touche également les adultes.",
+            "time_spent": 77,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_32.webp",
+            "all_options": [
+                {
+                    "id": 33397,
+                    "text": "Il a plus d’illustrations que d’écrit.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33398,
+                    "text": "Il préserve l’imaginaire des enfants.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33399,
+                    "text": "Il touche également les adultes.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 33400,
+                    "text": "Il valorise le patrimoine littéraire.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 14 – Q32"
+        },
+        {
+            "question_id": 2217,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 33",
+            "question_type": "mcq",
+            "order": 33,
+            "user_answer": "Il remet en question des traditions profondément ancrées.",
+            "user_selected_option_id": 34496,
+            "correct_answer": "Il remet en question des traditions profondément ancrées.",
+            "correct_option_id": 34496,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la suppression du mode traditionnel « suscite des réactions fortes » car les gens ont « le sentiment de ne plus comprendre les objectifs de l'école » : il remet en question des traditions profondément ancrées.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_33.webp",
+            "all_options": [
+                {
+                    "id": 34493,
+                    "text": "Il est imposé sans explications aux enseignants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34494,
+                    "text": "Il manque de finesse dans l’analyse des résultats.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34495,
+                    "text": "Il propose des questions inadaptées aux enfants.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34496,
+                    "text": "Il remet en question des traditions profondément ancrées.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 21 – Q33"
+        },
+        {
+            "question_id": 1867,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 34",
+            "question_type": "mcq",
+            "order": 34,
+            "user_answer": "L’extension d’un système de climatisation à tout un quartier.",
+            "user_selected_option_id": 33093,
+            "correct_answer": "L’extension d’un système de climatisation à tout un quartier.",
+            "correct_option_id": 33093,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte décrit un projet de « centrale hydrothermique » de la Compagnie Parisienne du Chauffage Urbain « pour chauffer et refroidir » tout un quartier : c'est donc l'extension d'un système de climatisation à tout un quartier qui est présentée comme réaliste.",
+            "time_spent": 7,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_34.webp",
+            "all_options": [
+                {
+                    "id": 33093,
+                    "text": "L’extension d’un système de climatisation à tout un quartier.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 33094,
+                    "text": "L’installation de parcs sur les toits des bâtiments parisiens.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33095,
+                    "text": "La construction de pistes cyclables au sommet des immeubles.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33096,
+                    "text": "La création de jardins communs pour planter des légumes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 12 – Q34"
+        },
+        {
+            "question_id": 2375,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 35",
+            "question_type": "mcq",
+            "order": 35,
+            "user_answer": "Simplifier le vocabulaire employé.",
+            "user_selected_option_id": 35128,
+            "correct_answer": "Simplifier le vocabulaire employé.",
+            "correct_option_id": 35128,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise qu'« il faudrait reformuler la problématique dans des mots ordinaires » pour sensibiliser les élèves : il faut simplifier le vocabulaire employé.",
+            "time_spent": 0,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_35.webp",
+            "all_options": [
+                {
+                    "id": 35125,
+                    "text": "Améliorer la formation des enseignants.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 35126,
+                    "text": "Instaurer des discussions en classe.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 35127,
+                    "text": "Programmer des sorties dans la nature.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 35128,
+                    "text": "Simplifier le vocabulaire employé.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 25 – Q35"
+        },
+        {
+            "question_id": 2103,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 36",
+            "question_type": "mcq",
+            "order": 36,
+            "user_answer": "Restreindre l’impact des écrans.",
+            "user_selected_option_id": 34040,
+            "correct_answer": "Restreindre l’impact des écrans.",
+            "correct_option_id": 34040,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte précise que la loi vise à « lutter contre l'exposition précoce des enfants aux écrans » jugée « nocive pour un cerveau en construction » : son objectif est de restreindre l'impact des écrans.",
+            "time_spent": 8,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_36.webp",
+            "all_options": [
+                {
+                    "id": 34037,
+                    "text": "Encadrer le marché du numérique.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 34038,
+                    "text": "Prévenir l’addiction aux jeux vidéo.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 34039,
+                    "text": "Protéger les enfants des ondes.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 34040,
+                    "text": "Restreindre l’impact des écrans.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 18 – Q36"
+        },
+        {
+            "question_id": 1831,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 37",
+            "question_type": "mcq",
+            "order": 37,
+            "user_answer": "Le discours sur la formation continue s’oppose à la réalité observée.",
+            "user_selected_option_id": 32951,
+            "correct_answer": "Le discours sur la formation continue s’oppose à la réalité observée.",
+            "correct_option_id": 32951,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne « un paradoxe entre la pratique d'une orientation précoce » et « les discours... sur la nécessité d'une éducation et d'une orientation tout au long de la vie » : le discours sur la formation continue s'oppose à la réalité observée.",
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_37.webp",
+            "all_options": [
+                {
+                    "id": 32949,
+                    "text": "La Commission européenne est en désaccord avec les autorités.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 32950,
+                    "text": "Le contenu des programmes universitaires est inadapté à la vie active.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32951,
+                    "text": "Le discours sur la formation continue s’oppose à la réalité observée.",
+                    "is_correct": true,
+                    "order": 3
+                },
+                {
+                    "id": 32952,
+                    "text": "L’obtention de diplômes cesse d’assurer l’avenir professionnel des jeunes.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q37"
+        },
+        {
+            "question_id": 1871,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 38",
+            "question_type": "mcq",
+            "order": 38,
+            "user_answer": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+            "user_selected_option_id": 33112,
+            "correct_answer": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+            "correct_option_id": 33112,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "L'article explore des tags « d'il y a deux mille ans » témoignant de « l'humeur, de l'écriture et du langage quotidien » à l'époque gallo-romaine : l'expression picturale populaire existait donc déjà à cette époque.",
+            "time_spent": 13,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_38.webp",
+            "all_options": [
+                {
+                    "id": 33109,
+                    "text": "La pratique de la peinture murale a pris naissance à l’ère gallo-romaine.",
+                    "is_correct": false,
+                    "order": 1
+                },
+                {
+                    "id": 33110,
+                    "text": "Les archéologues refusent de reconnaître la valeur des graffitis gallo-romains.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 33111,
+                    "text": "Les tagueurs d’aujourd’hui se sont inspirés des œuvres gallo-romaines.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 33112,
+                    "text": "L’expression picturale populaire existait durant l’époque gallo-romaine.",
+                    "is_correct": true,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 12 – Q38"
+        },
+        {
+            "question_id": 1833,
+            "question_text": "Compréhension écrite – Quiz 43 – Question 39",
+            "question_type": "mcq",
+            "order": 39,
+            "user_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "user_selected_option_id": 32957,
+            "correct_answer": "L’aisance de l’acteur qui tient le rôle principal.",
+            "correct_option_id": 32957,
+            "is_correct": true,
+            "is_answered": true,
+            "explanation": "Le texte souligne que « le comédien principal nous entraîne avec une étonnante facilité » : la qualité principale est l'aisance de l'acteur qui tient le rôle principal.",
+            "time_spent": 9,
+            "flagged": false,
+            "audio_url": null,
+            "image_url": "https://adilzino.com/media/questions/images/Comprehension_Ecrite_quiz_43_question_39.webp",
+            "all_options": [
+                {
+                    "id": 32957,
+                    "text": "L’aisance de l’acteur qui tient le rôle principal.",
+                    "is_correct": true,
+                    "order": 1
+                },
+                {
+                    "id": 32958,
+                    "text": "La finesse de l’humour présente dans la pièce.",
+                    "is_correct": false,
+                    "order": 2
+                },
+                {
+                    "id": 32959,
+                    "text": "Le mystère qui entoure le personnage.",
+                    "is_correct": false,
+                    "order": 3
+                },
+                {
+                    "id": 32960,
+                    "text": "Le talent de l’ensemble des musiciens.",
+                    "is_correct": false,
+                    "order": 4
+                }
+            ],
+            "source": "CE Quiz 11 – Q39"
+        }
+    ],
+    "locked": false,
+    "percentile": 99,
+    "strengths": [
+        "Identification rapide des idées principales",
+        "Bonne compréhension des détails explicites",
+        "Lecture fluide de textes variés",
+        "Compréhension de l'implicite et des nuances"
+    ],
+    "improvements": [
+        "Maintenir la régularité de lecture",
+        "Varier les genres de textes lus",
+        "Approfondir le vocabulaire spécialisé",
+        "Continuer les lectures de niveau C1-C2"
+    ],
+    "recommendations": [
+        "Lire la presse francophone quotidiennement",
+        "Alterner articles courts et dossiers de fond",
+        "Noter le vocabulaire nouveau avec son contexte",
+        "Refaire les questions manquées après quelques jours",
+        "Faire des exercices de compréhension ciblés 3-4x/semaine"
+    ],
+    "exam_title": "Compréhension écrite – Quiz 43",
+    "max_score": 699,
+    "writing_evaluation": null,
+    "section_slug": "comprehension_ecrite",
+    "related_attempt_ids": null
+}
