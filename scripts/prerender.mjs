@@ -40,7 +40,8 @@ import { build } from "esbuild";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadContent, contentDocs, blocksToHtml, blocksToMarkdown } from "./content-text.mjs";
+import { loadEnv } from "vite";
+import { loadContent, contentDocs, blocksToHtml, blocksToMarkdown, fetchApprovedReviews } from "./content-text.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -177,7 +178,14 @@ if (!origin) {
 const { ROUTE_META, SITE_NAME, DEFAULT_SHARE_IMAGE, routeJsonLd, siteJsonLd, ROUTE_JSONLD_ID, SITE_JSONLD_ID } = await loadRouteMeta();
 
 // Route -> the page's text as blocks, for the <noscript> and /llms-full.txt.
-const DOCS = contentDocs(await loadContent(root, dist), ROUTE_META);
+// The reviews are read from the database with the public key, the way the
+// announcement bar's build-time default is (scripts/announcementBarPlugin.mjs):
+// loadEnv gives the same VITE_ variables Vite saw, from .env files locally and
+// from the environment on Vercel.
+const env = loadEnv("production", root, "VITE_");
+const reviews = await fetchApprovedReviews(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY);
+if (!reviews) console.warn("prerender: approved reviews unreadable — /avis keeps its short <noscript>.");
+const DOCS = contentDocs(await loadContent(root, dist), ROUTE_META, reviews);
 
 // The main public pages, for every page's <noscript>.
 const NOSCRIPT_LINKS = ["home", "guide", "calculator", "blog", "pricing", "faq"]
@@ -281,8 +289,9 @@ await fs.writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");
 
   // /llms-full.txt: the same pages' full text, in Markdown, in one file — what
   // an agent reads to answer from the content rather than from its titles.
-  // Guides first, then the FAQ and the calculator, then articles newest first.
-  const fullRoutes = ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "faq", "calculator", ...articles]
+  // Guides first, then the FAQ, the calculator and the reviews, then articles
+  // newest first.
+  const fullRoutes = ["guide", "guide-co", "guide-ce", "guide-ee", "guide-eo", "faq", "calculator", "avis", ...articles]
     .filter((r) => DOCS[r] && ROUTE_META[r]?.path && !ROUTE_META[r].noindex);
   const full = [
     `# ${SITE_NAME} — texte intégral`,

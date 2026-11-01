@@ -17,7 +17,8 @@
 // src/components/blog/ArticleBody.jsx): a string is a paragraph, then
 // { h }, { h3 }, { ul }, { ol }, { table: { cols, rows }, caption },
 // { note, title }, { img } and { cta: { r, label, text } }. Inline text may
-// carry **bold** and [label](/path).
+// carry **bold** and [label](/path). { plain } is a paragraph whose text is
+// never interpreted — for what members wrote (the reviews).
 //
 // Guides and the FAQ are written here as blocks from their data. When a guide
 // page gains a section, add it below, or crawlers will not see it.
@@ -57,6 +58,48 @@ export async function loadContent(root, outDir) {
   } finally {
     await rm(outfile, { force: true });
   }
+}
+
+// The approved reviews of /avis, which live in the database rather than in
+// the code: read at build time with the public key, through the same RLS a
+// visitor's browser goes through (approved rows only), and only the columns
+// the page shows. A review approved after a deploy reaches this text at the
+// next one. Offline or failing, the build carries on: /avis then simply keeps
+// the short <noscript>.
+export async function fetchApprovedReviews(url, key) {
+  if (!url || !key) return null;
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/testimonials?select=name,origin,level,body,rating,created_at&status=eq.approved&order=created_at.desc&limit=60`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(8000) },
+    );
+    if (!res.ok) return null;
+    const rows = await res.json();
+    return Array.isArray(rows) ? rows : null;
+  } catch {
+    return null;
+  }
+}
+
+// Same threshold as MIN_RATINGS_FOR_AVERAGE (src/services/testimonialsService):
+// below it no average is shown on the page, so none is written here either.
+// The number of reviews is never written — it is not shown publicly.
+const MIN_RATINGS_FOR_AVERAGE = 3;
+
+function avisDoc(reviews) {
+  const out = [];
+  const ratings = reviews.map((r) => r.rating).filter((n) => n >= 1 && n <= 5);
+  if (ratings.length >= MIN_RATINGS_FOR_AVERAGE) {
+    const mean = Math.round((ratings.reduce((a, n) => a + n, 0) / ratings.length) * 10) / 10;
+    out.push(`Note moyenne des membres : **${mean.toLocaleString("fr-CA")} / 5**.`);
+  }
+  for (const r of reviews) {
+    const when = r.created_at ? new Date(r.created_at).toLocaleDateString("fr-CA", { month: "long", year: "numeric" }) : "";
+    const meta = [r.origin, r.level, when, r.rating ? `${r.rating}/5` : ""].filter(Boolean).join(" · ");
+    // Member-written text: { plain } so no markup in it is ever interpreted.
+    out.push({ plain: `${r.name}${meta ? ` — ${meta}` : ""}` }, { plain: `« ${String(r.body).trim()} »` });
+  }
+  return out;
 }
 
 /* ------------------------------- documents ------------------------------- */
@@ -172,8 +215,9 @@ function examGuide(g) {
 
 // Route key -> blocks, for every content page that has text worth reading.
 // The other routes (tools, account pages) keep the short <noscript>.
-export function contentDocs(content, ROUTE_META) {
+export function contentDocs(content, ROUTE_META, reviews = null) {
   const docs = {};
+  if (reviews?.length) docs.avis = avisDoc(reviews);
   const { POSTS, guide, comprehension, ee, eo, FAQS } = content;
 
   for (const post of POSTS) {
@@ -211,6 +255,7 @@ export function blocksToHtml(blocks, ROUTE_META) {
   const li = (items) => items.map((x) => `<li>${inlineHtml(x)}</li>`).join("");
   return blocks.map((b) => {
     if (typeof b === "string") return `<p>${inlineHtml(b)}</p>`;
+    if (b.plain != null) return `<p>${escapeHtml(b.plain)}</p>`;
     if (b.h) return `<h2>${inlineHtml(b.h)}</h2>`;
     if (b.h3) return `<h3>${inlineHtml(b.h3)}</h3>`;
     if (b.ul) return `<ul>${li(b.ul)}</ul>`;
@@ -232,6 +277,7 @@ export function blocksToMarkdown(blocks, ROUTE_META, origin) {
   const cell = (s) => abs(s).replace(/\|/g, "\\|");
   return blocks.map((b) => {
     if (typeof b === "string") return abs(b);
+    if (b.plain != null) return b.plain;
     if (b.h) return `## ${abs(b.h)}`;
     if (b.h3) return `### ${abs(b.h3)}`;
     if (b.ul) return b.ul.map((x) => `- ${abs(x)}`).join("\n");
