@@ -10,9 +10,9 @@ export function NewQuizzesChip({ className = "" }) {
   const { c, t, nav } = useApp();
   const ce = newQuizCount("ce");
   const co = newQuizCount("co");
-  const total = ce + co;
-  if (!total) return null;
-  const where = ce && co ? "en compréhension écrite et orale" : ce ? "en compréhension écrite" : "en compréhension orale";
+  if (!ce && !co) return null;
+  // Per épreuve, CO first like everywhere else on the site: « 3 quiz CO · 3 quiz CE ».
+  const parts = [co ? `${co} ${t("quiz CO")}` : null, ce ? `${ce} ${t("quiz CE")}` : null].filter(Boolean).join(" · ");
   return (
     <button
       type="button"
@@ -23,10 +23,7 @@ export function NewQuizzesChip({ className = "" }) {
       <span className="new-glow inline-flex items-center gap-1 shrink-0 rounded-full bg-rose-600 text-white px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide">
         <Sparkles size={11} aria-hidden="true" /> {t("Nouveau")}
       </span>
-      <span className={`min-w-0 ${c.text}`}>
-        <span className="font-bold text-rose-600">{total} {t("nouveaux quiz")}</span>
-        <span className={`hidden sm:inline ${c.sub}`}> {t(where)}</span>
-      </span>
+      <span className="min-w-0 font-bold text-rose-600 whitespace-nowrap">{parts}</span>
       <ArrowRight size={14} className="shrink-0 text-rose-600 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
     </button>
   );
