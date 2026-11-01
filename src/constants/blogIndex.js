@@ -4,7 +4,7 @@
 export const POST_INDEX = [
   {
     "id": 17,
-    "slug": "meilleurs-sites-tcf-canada",
+    "slug": "top-12-meilleurs-sites-preparer-tcf-canada",
     "iso": "2026-10-27",
     "date": "27 octobre 2026",
     "cat": "Méthode",
@@ -17,7 +17,7 @@ export const POST_INDEX = [
       "h": 640,
       "caption": "Aucun site ne fait tout seul. Le bon assortiment : une plateforme au format de l'examen, et quelques ressources gratuites pour s'exposer au français chaque jour."
     },
-    "words": 1940,
+    "words": 1910,
     "read": "11 min"
   },
   {

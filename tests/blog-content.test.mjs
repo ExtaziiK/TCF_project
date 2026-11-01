@@ -36,6 +36,7 @@ function words(post) {
       if (b.table) return [...b.table.cols, ...b.table.rows.flat()].join(" ");
       if (b.img) return b.img.caption || "";
       if (b.cta) return b.cta.text;
+      if (b.site) return [b.site.name, b.site.intro, ...(b.site.points || []), b.site.verdict].filter(Boolean).join(" ");
       return [b.h, b.note, b.title, b.caption].filter(Boolean).join(" ");
     })
     .join(" ")

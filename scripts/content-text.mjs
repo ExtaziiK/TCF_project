@@ -16,7 +16,7 @@
 // Blocks share the shape of the blog's article bodies (see
 // src/components/blog/ArticleBody.jsx): a string is a paragraph, then
 // { h }, { h3 }, { ul }, { ol }, { table: { cols, rows }, caption },
-// { note, title }, { img } and { cta: { r, label, text } }. Inline text may
+// { note, title }, { img }, { cta: { r, label, text } } and { site } (a ranking entry). Inline text may
 // carry **bold** and [label](/path). { plain } is a paragraph whose text is
 // never interpreted — for what members wrote (the reviews).
 //
@@ -267,6 +267,10 @@ export function blocksToHtml(blocks, ROUTE_META) {
     }
     if (b.note) return `<aside>${b.title ? `<strong>${inlineHtml(b.title)}</strong> ` : ""}${inlineHtml(b.note)}</aside>`;
     if (b.cta) return `<p>${inlineHtml(b.cta.text)} <a href="${escapeHtml(routePath(ROUTE_META, b.cta.r))}">${inlineHtml(b.cta.label)}</a></p>`;
+    if (b.site) {
+      const x = b.site;
+      return `<section><h3>${x.rank}. <a href="${escapeHtml(x.href)}">${escapeHtml(x.name)}</a></h3><p>Note : ${x.rating}/5 · ${escapeHtml(x.price)}</p><p>${inlineHtml(x.intro)}</p><ul>${li(x.points || [])}</ul>${x.verdict ? `<p>${inlineHtml(x.verdict)}</p>` : ""}</section>`;
+    }
     return ""; // images: decorative here
   }).join("\n");
 }
@@ -293,6 +297,16 @@ export function blocksToMarkdown(blocks, ROUTE_META, origin) {
     }
     if (b.note) return `> ${b.title ? `**${abs(b.title)}** ` : ""}${abs(b.note)}`;
     if (b.cta) return `${abs(b.cta.text)} → [${b.cta.label}](${origin}${routePath(ROUTE_META, b.cta.r)})`;
+    if (b.site) {
+      const x = b.site;
+      return [
+        `### ${x.rank}. [${x.name}](${x.href.startsWith("/") ? origin + x.href : x.href})`,
+        `Note : ${x.rating}/5 · ${x.price}`,
+        abs(x.intro),
+        (x.points || []).map((pt) => `- ${abs(pt)}`).join("\n"),
+        x.verdict ? abs(x.verdict) : "",
+      ].filter(Boolean).join("\n\n");
+    }
     return null;
   }).filter((x) => x != null && x !== "").join("\n\n");
 }

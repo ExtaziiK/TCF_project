@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/blogue/meilleurs-sites-tcf-canada", "destination": "/blogue/top-12-meilleurs-sites-preparer-tcf-canada", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/modele-de-reponse/:path*", "destination": "/index.html" }
   ],

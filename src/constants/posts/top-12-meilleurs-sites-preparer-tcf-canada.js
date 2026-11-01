@@ -1,6 +1,6 @@
 export const post = {
   id: 17,
-  slug: "meilleurs-sites-tcf-canada",
+  slug: "top-12-meilleurs-sites-preparer-tcf-canada",
   iso: "2026-10-27",
   date: "27 octobre 2026",
   cat: "Méthode",
@@ -22,118 +22,131 @@ export const post = {
     "Comment lire cet ordre : il reflète ce que chaque site couvre pour le TCF Canada, pas sa qualité dans l'absolu. Un excellent podcast arrive plus bas qu'une plateforme d'examen simplement parce qu'il ne travaille qu'une compétence.",
 
     { h: "Les 12 meilleurs sites pour préparer le TCF Canada" },
-
-    "**#1** · [Passerelle — tcfpasserelle.com](/) · ★★★★★ · Gratuit + pass à partir de 7,99 $",
-    "**La seule plateforme du classement qui couvre les quatre épreuves au format officiel**, avec une correction de l'écrit et de l'oral.",
-    { ul: [
-      "80 séries de quiz au format officiel : 40 en compréhension orale, 40 en compréhension écrite, de 39 questions chacune.",
-      "Des [TCF blancs](/tcf-blanc) complets et chronométrés, notés sur 699 et convertis en niveaux NCLC.",
-      "Correction de l'expression écrite par IA : niveau CECRL estimé, erreurs à corriger et version réécrite de votre texte.",
-      "Un entretien d'expression orale avec un examinateur IA qui vous parle et vous relance, à voix haute.",
-      "Un cahier d'entraînement : la dictée, 800 cartes de vocabulaire, la grammaire, la conjugaison des 9 temps, un carnet d'erreurs et la révision des questions difficiles.",
-      "Les [sujets du mois](/sujets-actualite), les anciens sujets d'expression et des modèles de réponse.",
-      "Un compte gratuit sans carte bancaire : les 3 premiers quiz de chaque épreuve, un TCF blanc complet et un sujet d'écrit et d'oral corrigés par l'IA.",
-      "Des pass à durée fixe, sans abonnement, payables par carte ou en dinars algériens.",
-    ] },
-    "Notre choix n°1 : la base de toute préparation sérieuse.",
-
-    "**#2** · [France Éducation international](https://www.france-education-international.fr/test/tcf-canada) · ★★★★☆ · Gratuit",
-    "**L'organisme qui conçoit le TCF Canada**, et donc la seule source dont on soit certain qu'elle reflète le vrai test.",
-    { ul: [
-      "La présentation officielle des quatre épreuves et de leurs durées.",
-      "Des exemples d'épreuves et le manuel du candidat.",
-      "La liste officielle des centres d'examen agréés, pays par pays.",
-    ] },
-    "La référence officielle : à lire avant tout le reste, mais trop peu d'exercices pour s'entraîner.",
-
-    "**#3** · [TV5Monde Apprendre le français](https://apprendre.tv5monde.com/) · ★★★★★ · Gratuit",
-    "**Des milliers d'exercices construits sur des vidéos authentiques**, classés du niveau A1 au niveau C2.",
-    { ul: [
-      "Des questions de compréhension sur des reportages, des journaux et des extraits d'émissions.",
-      "Des transcriptions pour vérifier ce que vous n'avez pas compris.",
-      "Une progression par niveau du CECRL, utile pour viser le palier suivant.",
-    ] },
-    "Le meilleur complément gratuit pour la compréhension orale.",
-
-    "**#4** · [Français facile avec RFI](https://francaisfacile.rfi.fr/) · ★★★★☆ · Gratuit",
-    "**Le site d'apprentissage de Radio France Internationale**, bâti sur l'actualité.",
-    { ul: [
-      "Des journaux d'information courts, adaptés au niveau des apprenants.",
-      "Des exercices de compréhension et de vocabulaire associés aux émissions.",
-      "Des transcriptions pour relire après l'écoute.",
-    ] },
-    "Idéal pour un quart d'heure d'écoute par jour.",
-
-    "**#5** · [InnerFrench](https://innerfrench.com/) · ★★★★★ · Gratuit",
-    "**Le podcast de Hugo Cotton**, en français clair et légèrement ralenti, sur des sujets de société.",
-    { ul: [
-      "Des épisodes longs sur des thèmes proches de ceux de l'expression orale (tâche 3).",
-      "Un niveau idéal entre B1 et C1.",
-      "Disponible sur les plateformes de podcasts habituelles.",
-    ] },
-    "Le meilleur podcast pour se mettre à l'oreille entre B1 et C1, et y puiser des idées pour argumenter.",
-
-    "**#6** · [Français avec Pierre](https://www.francaisavecpierre.com/) · ★★★★☆ · Gratuit",
-    "**Une chaîne YouTube et un site** centrés sur la grammaire et le français de tous les jours.",
-    { ul: [
-      "Des explications de grammaire claires, une notion à la fois.",
-      "La différence entre langue courante et langue soutenue, décisive à l'écrit.",
-      "Des vidéos sous-titrées.",
-    ] },
-    "Une excellente chaîne pour revoir la grammaire sans manuel.",
-
-    "**#7** · [Le Point du FLE](https://www.lepointdufle.net/) · ★★★★☆ · Gratuit",
-    "**Un immense répertoire d'exercices de français langue étrangère**, classés par compétence et par niveau.",
-    { ul: [
-      "Des exercices de grammaire, de vocabulaire et de compréhension écrite.",
-      "Des liens vers une foule d'autres ressources gratuites.",
-      "Une navigation par thème et par niveau.",
-    ] },
-    "L'encyclopédie du FLE : pratique pour cibler un point précis.",
-
-    "**#8** · [Bonjour de France](https://www.bonjourdefrance.com/) · ★★★☆☆ · Gratuit",
-    "**Un site d'exercices en ligne** de grammaire, de vocabulaire et de compréhension.",
-    { ul: [
-      "Des tests de niveau pour se situer.",
-      "Des exercices classés par niveau et par thème.",
-      "Des textes suivis de questions de compréhension.",
-    ] },
-    "Un bon complément, à utiliser pour varier les exercices.",
-
-    "**#9** · [Lumni](https://www.lumni.fr/) · ★★★★☆ · Gratuit",
-    "**La plateforme éducative de l'audiovisuel public français**, avec des milliers de vidéos.",
-    { ul: [
-      "Des contenus culturels et documentaires en français à débit naturel.",
-      "Des programmes sous-titrés pour la plupart.",
-      "Des sujets variés qui enrichissent le vocabulaire des tâches d'expression.",
-    ] },
-    "Pour s'immerger dans un français authentique, au rythme réel.",
-
-    "**#10** · [Reverso Context](https://context.reverso.net/) · ★★★★★ · Gratuit",
-    "**Un dictionnaire en contexte** qui montre comment une expression s'emploie dans de vrais textes.",
-    { ul: [
-      "Des exemples d'usage tirés de textes authentiques.",
-      "La traduction depuis et vers de nombreuses langues.",
-      "Un conjugueur intégré.",
-    ] },
-    "L'outil indispensable pour trouver la bonne formulation à l'écrit.",
-
-    "**#11** · [Le Conjugueur](https://leconjugueur.lefigaro.fr/) · ★★★★☆ · Gratuit",
-    "**La conjugaison de tous les verbes, à tous les temps**, avec des règles et des exercices.",
-    { ul: [
-      "Les tableaux de conjugaison complets, verbes irréguliers compris.",
-      "Les règles d'accord du participe passé, source fréquente d'erreurs à l'écrit.",
-      "Des exercices pour s'entraîner.",
-    ] },
-    "Le réflexe à avoir dès qu'un doute de conjugaison apparaît.",
-
-    "**#12** · [BonPatron](https://bonpatron.com/) · ★★★★☆ · Gratuit",
-    "**Un correcteur d'orthographe et de grammaire** pensé pour les personnes qui apprennent le français.",
-    { ul: [
-      "La détection des fautes d'accord et de conjugaison, avec une explication.",
-      "Utile pour relire un texte d'entraînement et repérer ses erreurs récurrentes.",
-    ] },
-    "Le correcteur à utiliser à l'entraînement — jamais pendant l'examen, évidemment.",
+    { site: {
+      rank: 1, name: "Passerelle — tcfpasserelle.com", href: "/", rating: 5, price: "Gratuit + pass à partir de 7,99 $",
+      featured: true,
+      intro: "**La seule plateforme du classement qui couvre les quatre épreuves au format officiel**, avec une correction de l'écrit et de l'oral.",
+      points: [
+        "80 séries de quiz au format officiel : 40 en compréhension orale, 40 en compréhension écrite, de 39 questions chacune.",
+        "Des [TCF blancs](/tcf-blanc) complets et chronométrés, notés sur 699 et convertis en niveaux NCLC.",
+        "Correction de l'expression écrite par IA : niveau CECRL estimé, erreurs à corriger et version réécrite de votre texte.",
+        "Un entretien d'expression orale avec un examinateur IA qui vous parle et vous relance, à voix haute.",
+        "Un cahier d'entraînement : la dictée, 800 cartes de vocabulaire, la grammaire, la conjugaison des 9 temps, un carnet d'erreurs et la révision des questions difficiles.",
+        "Les [sujets du mois](/sujets-actualite), les anciens sujets d'expression et des modèles de réponse.",
+        "Un compte gratuit sans carte bancaire : les 3 premiers quiz de chaque épreuve, un TCF blanc complet et un sujet d'écrit et d'oral corrigés par l'IA.",
+        "Des pass à durée fixe, sans abonnement, payables par carte ou en dinars algériens.",
+      ],
+      verdict: "Notre choix n°1 : la base de toute préparation sérieuse.",
+    } },
+    { site: {
+      rank: 2, name: "France Éducation international", href: "https://www.france-education-international.fr/test/tcf-canada", rating: 4, price: "Gratuit",
+      intro: "**L'organisme qui conçoit le TCF Canada**, et donc la seule source dont on soit certain qu'elle reflète le vrai test.",
+      points: [
+        "La présentation officielle des quatre épreuves et de leurs durées.",
+        "Des exemples d'épreuves et le manuel du candidat.",
+        "La liste officielle des centres d'examen agréés, pays par pays.",
+      ],
+      verdict: "La référence officielle : à lire avant tout le reste, mais trop peu d'exercices pour s'entraîner.",
+    } },
+    { site: {
+      rank: 3, name: "TV5Monde Apprendre le français", href: "https://apprendre.tv5monde.com/", rating: 4, price: "Gratuit",
+      intro: "**Des milliers d'exercices construits sur des vidéos authentiques**, classés du niveau A1 au niveau C2.",
+      points: [
+        "Des questions de compréhension sur des reportages, des journaux et des extraits d'émissions.",
+        "Des transcriptions pour vérifier ce que vous n'avez pas compris.",
+        "Une progression par niveau du CECRL, utile pour viser le palier suivant.",
+      ],
+      verdict: "Le meilleur complément gratuit pour la compréhension orale.",
+    } },
+    { site: {
+      rank: 4, name: "Français facile avec RFI", href: "https://francaisfacile.rfi.fr/", rating: 4, price: "Gratuit",
+      intro: "**Le site d'apprentissage de Radio France Internationale**, bâti sur l'actualité.",
+      points: [
+        "Des journaux d'information courts, adaptés au niveau des apprenants.",
+        "Des exercices de compréhension et de vocabulaire associés aux émissions.",
+        "Des transcriptions pour relire après l'écoute.",
+      ],
+      verdict: "Idéal pour un quart d'heure d'écoute par jour.",
+    } },
+    { site: {
+      rank: 5, name: "InnerFrench", href: "https://innerfrench.com/", rating: 4, price: "Gratuit",
+      intro: "**Le podcast de Hugo Cotton**, en français clair et légèrement ralenti, sur des sujets de société.",
+      points: [
+        "Des épisodes longs sur des thèmes proches de ceux de l'expression orale (tâche 3).",
+        "Un niveau idéal entre B1 et C1.",
+        "Disponible sur les plateformes de podcasts habituelles.",
+      ],
+      verdict: "Le meilleur podcast pour se mettre à l'oreille entre B1 et C1, et y puiser des idées pour argumenter.",
+    } },
+    { site: {
+      rank: 6, name: "Français avec Pierre", href: "https://www.francaisavecpierre.com/", rating: 4, price: "Gratuit",
+      intro: "**Une chaîne YouTube et un site** centrés sur la grammaire et le français de tous les jours.",
+      points: [
+        "Des explications de grammaire claires, une notion à la fois.",
+        "La différence entre langue courante et langue soutenue, décisive à l'écrit.",
+        "Des vidéos sous-titrées.",
+      ],
+      verdict: "Une excellente chaîne pour revoir la grammaire sans manuel.",
+    } },
+    { site: {
+      rank: 7, name: "Le Point du FLE", href: "https://www.lepointdufle.net/", rating: 4, price: "Gratuit",
+      intro: "**Un immense répertoire d'exercices de français langue étrangère**, classés par compétence et par niveau.",
+      points: [
+        "Des exercices de grammaire, de vocabulaire et de compréhension écrite.",
+        "Des liens vers une foule d'autres ressources gratuites.",
+        "Une navigation par thème et par niveau.",
+      ],
+      verdict: "L'encyclopédie du FLE : pratique pour cibler un point précis.",
+    } },
+    { site: {
+      rank: 8, name: "Bonjour de France", href: "https://www.bonjourdefrance.com/", rating: 3, price: "Gratuit",
+      intro: "**Un site d'exercices en ligne** de grammaire, de vocabulaire et de compréhension.",
+      points: [
+        "Des tests de niveau pour se situer.",
+        "Des exercices classés par niveau et par thème.",
+        "Des textes suivis de questions de compréhension.",
+      ],
+      verdict: "Un bon complément, à utiliser pour varier les exercices.",
+    } },
+    { site: {
+      rank: 9, name: "Lumni", href: "https://www.lumni.fr/", rating: 4, price: "Gratuit",
+      intro: "**La plateforme éducative de l'audiovisuel public français**, avec des milliers de vidéos.",
+      points: [
+        "Des contenus culturels et documentaires en français à débit naturel.",
+        "Des programmes sous-titrés pour la plupart.",
+        "Des sujets variés qui enrichissent le vocabulaire des tâches d'expression.",
+      ],
+      verdict: "Pour s'immerger dans un français authentique, au rythme réel.",
+    } },
+    { site: {
+      rank: 10, name: "Reverso Context", href: "https://context.reverso.net/", rating: 4, price: "Gratuit",
+      intro: "**Un dictionnaire en contexte** qui montre comment une expression s'emploie dans de vrais textes.",
+      points: [
+        "Des exemples d'usage tirés de textes authentiques.",
+        "La traduction depuis et vers de nombreuses langues.",
+        "Un conjugueur intégré.",
+      ],
+      verdict: "L'outil indispensable pour trouver la bonne formulation à l'écrit.",
+    } },
+    { site: {
+      rank: 11, name: "Le Conjugueur", href: "https://leconjugueur.lefigaro.fr/", rating: 4, price: "Gratuit",
+      intro: "**La conjugaison de tous les verbes, à tous les temps**, avec des règles et des exercices.",
+      points: [
+        "Les tableaux de conjugaison complets, verbes irréguliers compris.",
+        "Les règles d'accord du participe passé, source fréquente d'erreurs à l'écrit.",
+        "Des exercices pour s'entraîner.",
+      ],
+      verdict: "Le réflexe à avoir dès qu'un doute de conjugaison apparaît.",
+    } },
+    { site: {
+      rank: 12, name: "BonPatron", href: "https://bonpatron.com/", rating: 4, price: "Gratuit",
+      intro: "**Un correcteur d'orthographe et de grammaire** pensé pour les personnes qui apprennent le français.",
+      points: [
+        "La détection des fautes d'accord et de conjugaison, avec une explication.",
+        "Utile pour relire un texte d'entraînement et repérer ses erreurs récurrentes.",
+      ],
+      verdict: "Le correcteur à utiliser à l'entraînement — jamais pendant l'examen, évidemment.",
+    } },
 
     { h: "Les plateformes payantes dédiées au TCF Canada, comparées" },
     "Trois plateformes dédiées au TCF Canada reviennent le plus souvent chez les candidats. Elles se distinguent surtout par ce qu'elles corrigent, et par ce que vous payez pour chaque correction.",

@@ -1,5 +1,5 @@
 import { useApp } from "@/context/AppContext";
-import { Card, Btn } from "@/components/common";
+import { Card, Btn, Pill, StarRating } from "@/components/common";
 import { RouteLink } from "@/components/common/RouteLink";
 import { routeFromPath } from "@/constants/seo";
 
@@ -16,6 +16,9 @@ import { routeFromPath } from "@/constants/seo";
 //   { note, title }                      a highlighted aside
 //   { table: { cols, rows }, caption }   a small data table
 //   { cta: { r, label, text } }          an internal call to action
+//   { site: { rank, name, href, rating,  one entry of a ranking, as a card
+//       price, intro, points, verdict,
+//       featured } }
 //
 // Every text field goes through the inline parser below, so any of them can
 // carry links. Data stays in src/constants — this file only decides how it
@@ -166,6 +169,43 @@ function DataTable({ cols, rows, caption }) {
   );
 }
 
+// One entry of a ranking (« Top 12 des meilleurs sites… »): its own card, so
+// twelve entries read as twelve distinct items instead of a run of paragraphs.
+// The rank badge and the stars carry the order and the rating at a glance;
+// `featured` (our own entry) gets the brand border and a « Notre choix » pill.
+function SiteCard({ rank, name, href, rating, price, intro, points = [], verdict, featured }) {
+  const { c, t } = useApp();
+  const external = /^https?:/i.test(href);
+  const host = external ? new URL(href).hostname.replace(/^www\./, "") : "tcfpasserelle.com";
+  return (
+    <Card id={`site-${rank}`} className={`p-5 md:p-6 scroll-mt-28 ${featured ? "!border-blue-600/50 ring-1 ring-blue-600/20" : ""}`}>
+      <div className="flex items-start gap-4">
+        <span className="grad-brand text-white font-display font-extrabold rounded-2xl w-12 h-12 shrink-0 flex items-center justify-center text-lg" aria-hidden="true">
+          {rank}
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <h3 className={`font-display font-bold text-lg leading-snug ${c.text}`}>
+              <span className="sr-only">{`${rank}. `}</span><Link href={href}>{t(name)}</Link>
+            </h3>
+            {featured && <Pill tone="blue">{t("Notre choix")}</Pill>}
+          </div>
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <StarRating value={rating} size={14} />
+            <span className={`text-xs font-semibold ${c.faint}`}>{t(price)}</span>
+          </div>
+        </div>
+      </div>
+      <p className={`mt-4 leading-relaxed ${c.text}`}><Inline text={intro} /></p>
+      {points.length > 0 && <div className="mt-3"><Bullets items={points} /></div>}
+      <div className={`mt-5 pt-4 border-t ${c.border} flex flex-wrap items-center justify-between gap-x-4 gap-y-2`}>
+        {verdict && <p className={`text-sm font-medium ${c.sub}`}><Inline text={verdict} /></p>}
+        <span className="text-sm shrink-0"><Link href={href}>{`${t("Visiter")} ${host} →`}</Link></span>
+      </div>
+    </Card>
+  );
+}
+
 function Cta({ r, label, text }) {
   const { c, t, nav } = useApp();
   return (
@@ -188,6 +228,7 @@ function Block({ b }) {
   if (b.note) return <Note title={b.title} text={b.note} />;
   if (b.table) return <DataTable cols={b.table.cols} rows={b.table.rows} caption={b.caption} />;
   if (b.cta) return <Cta {...b.cta} />;
+  if (b.site) return <SiteCard {...b.site} />;
   return null;
 }
 
