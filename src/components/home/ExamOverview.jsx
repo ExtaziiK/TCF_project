@@ -1,8 +1,12 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { RouteLink } from "@/components/common";
 import { MOCK_SECTIONS } from "@/constants/mocks";
+import { newQuizCount } from "@/constants/quizNew";
 import { PALETTE } from "./toolsData";
+
+// MOCK_SECTIONS route -> bank section, for the "Nouveau" tag (constants/quizNew.js).
+const BANK_SECTION = { listening: "co", reading: "ce" };
 
 // The landing page's "L'épreuve en bref" section: the exam at a glance (four
 // key figures beside the title), the four épreuves as cards in the tools
@@ -61,10 +65,16 @@ export function EpreuveCards({ to, cta = "S'entraîner", className = "" }) {
         {MOCK_SECTIONS.map((s, i) => {
           const [, ink, soft] = PALETTE[TONES[i]][dark ? "dark" : "light"];
           const { count, unit, min } = split(s.d);
+          const fresh = newQuizCount(BANK_SECTION[s.route]);
           return (
             <RouteLink key={s.t} r={to || s.route}
-              className={`group flex flex-col rounded-3xl border-2 p-5 transition hover:-translate-y-1 ${c.card}`}
+              className={`group relative flex flex-col rounded-3xl border-2 p-5 transition hover:-translate-y-1 ${c.card}`}
               style={{ borderColor: ink }}>
+              {fresh > 0 && (
+                <span className="absolute -top-2.5 left-5 inline-flex items-center gap-1 rounded-full bg-rose-600 text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide shadow-md shadow-rose-600/30">
+                  <Sparkles size={10} aria-hidden="true" /> {t("Nouveau")} · {fresh} {t("quiz")}
+                </span>
+              )}
               <div className="flex items-center justify-between">
                 <span className="grid place-items-center w-11 h-11 rounded-2xl text-white" style={{ background: ink }}><s.icon size={20} /></span>
                 <span className="font-mono2 text-xs font-bold" style={{ color: ink }}>0{i + 1}</span>

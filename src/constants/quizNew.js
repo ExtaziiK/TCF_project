@@ -1,6 +1,7 @@
 // Quizzes recently added to the bank. Their card in the Épreuves grid carries
-// a "Nouveau" badge, and the landing page and the member dashboard show a chip
-// that points to them.
+// a "Nouveau" badge, so do their épreuve's tile and the « Épreuves » menu
+// link, and the landing page and the member dashboard show a chip that points
+// to them.
 //
 // Keyed by section, valued by quiz number (metadata.serie_number / the number
 // in the file name), like constants/quizReview.js.
@@ -15,3 +16,5 @@ export const isNewQuiz = (quiz) =>
   !!quiz && (NEW_QUIZZES[quiz.section] || []).includes(quiz.quizNumber);
 
 export const newQuizCount = (section) => (NEW_QUIZZES[section] || []).length;
+
+export const hasNewQuizzes = () => Object.values(NEW_QUIZZES).some((list) => list.length > 0);

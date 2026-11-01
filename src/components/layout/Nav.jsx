@@ -13,6 +13,7 @@ import { ROLES, isStaff } from "@/auth/rbac";
 import { currentPlanLabel } from "@/constants/pricing";
 import { TOUR_STEPS } from "@/constants/tour";
 import { useLatestSujetsMonth, sujetsMonthLabel } from "@/services/sujetsLatestService";
+import { hasNewQuizzes } from "@/constants/quizNew";
 
 // The navigation is a floating "island": a rounded bar set a little below the
 // top of the screen, translucent with a hairline border (and a soft shadow
@@ -304,6 +305,10 @@ export function Nav({ barOffset = false }) {
                   className={`nav-link ${n.tier === "primary" ? "nav-link-grad" : ""} ${base} flex items-center gap-1.5 ${linkClass(n, here)}`}>
                   {Icon && <Icon size={14} aria-hidden="true" {...iconProps(n, here)} />}
                   {tierLabel(n, labelOf(n), true, here)}
+                  {/* New quizzes in the bank (constants/quizNew.js): a tag on the link's top edge. */}
+                  {n.r === "exams" && hasNewQuizzes() && (
+                    <span className="absolute -top-2 -right-1 rounded-full bg-rose-600 text-white px-1.5 text-[9px] leading-[14px] font-bold uppercase tracking-wide shadow-sm pointer-events-none">{t("Nouveau")}</span>
+                  )}
                 </RouteLink>
               );
             })}
@@ -477,6 +482,9 @@ export function Nav({ barOffset = false }) {
                             {tierLabel(m, labelOf(m))}
                           </span>
                           {m.r === "moderation" && <CountBadge n={pendingValidations} className="!min-w-[20px] !h-5 !text-[11px]" />}
+                          {m.r === "exams" && hasNewQuizzes() && (
+                            <span className="rounded-full bg-rose-600 text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">{t("Nouveau")}</span>
+                          )}
                           <ChevronRight size={15} className={c.faint} />
                         </RouteLink>
                       );

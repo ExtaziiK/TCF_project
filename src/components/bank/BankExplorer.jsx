@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench, Headphones, PenLine, Mic } from "lucide-react";
+import { ChevronLeft, Play, FolderOpen, ArrowRight, Lock, Check, Eye, RotateCcw, BookOpen, X, Wrench, Headphones, PenLine, Mic, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, BankLoading } from "@/components/common";
 import { Quiz } from "@/components/quiz";
@@ -16,7 +16,7 @@ import { listQuizResults, bestScoresByKey, reviewableAttemptsByKey } from "@/ser
 import { useSignedQuestions } from "@/hooks/useSignedQuestions";
 import { ROLES, isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
-import { isNewQuiz } from "@/constants/quizNew";
+import { isNewQuiz, newQuizCount } from "@/constants/quizNew";
 import { takeOpenQuizRequest } from "@/utils/openQuizRequest";
 import { TOUR_STEPS } from "@/constants/tour";
 import { PALETTE, toolTone } from "@/components/home/toolsData";
@@ -478,11 +478,18 @@ export function BankExplorer({ sections = ["co", "ce", "ee", "eo"], eyebrow, tit
             const k = epreuveColors(s, dark);
             const on = section === s;
             const meta = e.tasks ? t(e.tasks) : `${t("39 questions")} · ${e.mins} min`;
+            const fresh = newQuizCount(s);
             return (
               <button key={s} data-tour={`bank-${s}`} aria-pressed={on}
                 onClick={() => { setSection(s); setGuideOpen(false); }}
                 className={`relative text-left rounded-3xl p-4 md:p-5 border-2 transition duration-300 ${c.card} ${on ? "-translate-y-1 shadow-xl" : "hover:-translate-y-0.5 hover:shadow-md"}`}
                 style={on ? { borderColor: k.fill, boxShadow: `0 18px 36px -14px ${k.fill}66` } : { borderColor: `${k.ink}33` }}>
+                {/* Sits on the tile's top edge while the épreuve has new quizzes (constants/quizNew.js). */}
+                {fresh > 0 && (
+                  <span className="absolute -top-2.5 left-4 inline-flex items-center gap-1 rounded-full bg-rose-600 text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide shadow-md shadow-rose-600/30">
+                    <Sparkles size={10} aria-hidden="true" /> {t("Nouveau")} · {fresh} {t("quiz")}
+                  </span>
+                )}
                 <span className="flex items-start justify-between gap-2">
                   <span className="grid place-items-center w-11 h-11 rounded-2xl" style={{ background: k.soft, color: k.ink }}>
                     <e.icon size={21} />
