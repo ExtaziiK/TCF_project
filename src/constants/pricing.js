@@ -30,7 +30,7 @@
 // draws on one tâche; that is an anti-churn pause and not an allowance, so it
 // is deliberately absent from these cards — see api/_lib/dictee-quota.js.
 // The quiz counts, by contrast, now describe what actually
-// happens: every paid pass unlocks the whole bank (40 CE + 40 CO), because
+// happens: every paid pass unlocks the whole bank (43 CE + 43 CO), because
 // BankExplorer only locks quizzes for ROLES.FREE_USER. Keep the counts in
 // sync with src/bank if the bank grows.
 // The DEVICE limits are likewise enforced, via the active-session
@@ -77,7 +77,7 @@
 // shared is worse than no shared block at all — it puts a difference in front
 // of the reader where there is none.
 const SHARED_PAID_FEATS = [
-  "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale",
+  "Les 86 quiz débloqués : 43 en compréhension écrite, 43 en orale",
   "Correction IA détaillée : niveau CECRL, points à corriger, texte réécrit",
   "Entretien oral simulé avec un examinateur IA qui vous répond",
   // The other side of the free card's "10 minutes d'exercices par jour". It

@@ -91,7 +91,7 @@ function UpgradeGate() {
       <Card className="max-w-xl mx-auto p-8 text-center border-2 border-blue-600/40">
         <span className="w-12 h-12 rounded-2xl grad-brand text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30"><Crown size={22} /></span>
         <p className={`font-display font-bold text-lg mt-4 ${c.text}`}>{t("Débloquez tout Passerelle")}</p>
-        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.")}</p>
+        <p className={`text-sm mt-1.5 ${c.sub}`}>{t("Les 86 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.")}</p>
         {cheapest && <p className={`text-sm mt-1 font-semibold ${c.text}`}>{t("À partir de")} {cheapest.price} · {t(cheapest.per)}</p>}
         <div className="mt-6 flex justify-center gap-3">
           <Btn variant="accent" onClick={() => nav("pricing")}>{t("Voir les tarifs")}</Btn>

@@ -103,7 +103,7 @@ export const EN = {
   "Changer de profil": "Switch profile",
   "2 simulations IA par jour en expression écrite, et 2 à l'oral": "2 AI simulations a day in written expression, and 2 in speaking",
   "6 simulations IA par jour en expression écrite, et 6 à l'oral": "6 AI simulations a day in written expression, and 6 in speaking",
-  "Les 80 quiz débloqués : 40 en compréhension écrite, 40 en orale": "All 80 quizzes unlocked: 40 reading, 40 listening",
+  "Les 86 quiz débloqués : 43 en compréhension écrite, 43 en orale": "All 86 quizzes unlocked: 43 reading, 43 listening",
   "1 TCF blanc chronométré par jour, noté sur 699": "1 timed mock exam a day, scored out of 699",
   "3 TCF blancs chronométrés par jour, notés sur 699": "3 timed mock exams a day, scored out of 699",
   "Simulations IA illimitées, à l'écrit comme à l'oral": "Unlimited AI simulations, written and spoken",
@@ -280,8 +280,8 @@ export const EN = {
     "Try the NCLC calculator",
   "Les quatre épreuves du TCF Canada, au format officiel":
     "The four TCF Canada tests, in the official format",
-  "40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts.":
-    "40 listening quizzes, 40 reading quizzes, and the writing and speaking tasks corrected by AI. The first three quizzes of each test are free.",
+  "43 quiz en compréhension orale, 43 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts.":
+    "43 listening quizzes, 43 reading quizzes, and the writing and speaking tasks corrected by AI. The first three quizzes of each test are free.",
   "Commencez par les trois premiers quiz de chaque épreuve":
     "Start with the first three quizzes of each test",
   "Trois quiz par épreuve":
@@ -344,8 +344,8 @@ export const EN = {
     "The details",
   "La dictée fait partie des accès payants":
     "Dictation is part of the paid passes",
-  "Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les quatre-vingts quiz et la correction IA.":
-    "It is included in every plan, along with the timed mock exams, the eighty quizzes and AI correction.",
+  "Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les 86 quiz et la correction IA.":
+    "It is included in every plan, along with the timed mock exams, the 86 quizzes and AI correction.",
   "Voir les tarifs":
     "See pricing",
   // Visitors' « Sujets du mois » page (components/auth/ProductPitch.jsx).
@@ -444,8 +444,8 @@ export const EN = {
     "This module is part of full access",
   "Un accès payant débloque tous les modules, les TCF blancs et l'analyse IA, pour la durée de votre choix. Paiement unique, sans abonnement.":
     "A paid pass unlocks every module, the mock exams and AI analysis, for the length of your choice. One-time payment, no subscription.",
-  "Les 80 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.":
-    "The 80 quizzes, dictation, review, the mock exams and AI correction of writing and speaking.",
+  "Les 86 quiz, la dictée, la révision, les TCF blancs et la correction IA de l'écrit et de l'oral.":
+    "The 86 quizzes, dictation, review, the mock exams and AI correction of writing and speaking.",
   "À partir de":
     "From",
   // Visitor navbar (constants/navigation.js VISITOR_MENUS).
@@ -739,10 +739,10 @@ export const EN = {
   "Ce qui change": "What changes",
   "Cartes de vocabulaire et leçons de grammaire, sans limite": "Unlimited vocabulary flashcards and grammar lessons",
   "Suivi de progression": "Progress tracking",
-  "40 quiz de compréhension écrite": "40 reading-comprehension quizzes",
-  "40 quiz de compréhension orale": "40 listening-comprehension quizzes",
-  "Tous les quiz de compréhension écrite (40)": "All reading-comprehension quizzes (40)",
-  "Tous les quiz de compréhension orale (40)": "All listening-comprehension quizzes (40)",
+  "43 quiz de compréhension écrite": "43 reading-comprehension quizzes",
+  "43 quiz de compréhension orale": "43 listening-comprehension quizzes",
+  "Tous les quiz de compréhension écrite (43)": "All reading-comprehension quizzes (43)",
+  "Tous les quiz de compréhension orale (43)": "All listening-comprehension quizzes (43)",
   "2 simulations IA par jour (écrit + oral)": "2 AI simulations per day (writing + speaking)",
   "6 simulations IA par jour (écrit + oral)": "6 AI simulations per day (writing + speaking)",
   "Simulations IA illimitées": "Unlimited AI simulations",
@@ -838,10 +838,10 @@ export const EN = {
     "Every night, a brand-new model answer is written and recorded for each of the three writing tasks. And nothing disappears: everything ever written stays in the library, for you and for everyone else. The more often you come back, the more there is.",
   "La dictée fait partie de l'abonnement": "Dictation is part of the subscription",
   "Débloquez la dictée": "Unlock dictation",
-  "Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.":
-    "It is included in every plan, along with AI simulations, timed mock exams and the eighty quizzes.",
+  "Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les 86 quiz.":
+    "It is included in every plan, along with AI simulations, timed mock exams and the 86 quizzes.",
   "La dictée : toute la bibliothèque, dès le premier forfait": "Dictation: the whole library, from the entry plan up",
-  "Les 80 quiz débloqués, compréhension écrite et orale": "All 80 quizzes unlocked, reading and listening",
+  "Les 86 quiz débloqués, compréhension écrite et orale": "All 86 quizzes unlocked, reading and listening",
   "TCF blancs chronométrés, notés sur 699": "Timed mock exams, scored out of 699",
   "Correction IA de vos expressions écrite et orale": "AI feedback on your writing and speaking",
   "Un corrigé de niveau C1 ou C2 lu à voix haute, que vous écrivez sans texte ni correcteur. Vous choisissez la longueur lue d'un coup, et le rapport final sépare ce que vous n'avez pas entendu de ce que vous avez mal orthographié.":

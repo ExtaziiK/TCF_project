@@ -164,7 +164,7 @@ export function MocksPitch() {
 export function ExamsPitch() {
   return (
     <PitchLayout eyebrow="Épreuves" title="Les quatre épreuves du TCF Canada, au format officiel" shot="epreuves"
-      sub="40 quiz en compréhension orale, 40 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts."
+      sub="43 quiz en compréhension orale, 43 en compréhension écrite, et les tâches d'expression écrite et orale corrigées par l'IA. Les trois premiers quiz de chaque épreuve sont offerts."
       closing="Commencez par les trois premiers quiz de chaque épreuve"
       perks={[
         { icon: GraduationCap, t: "Trois quiz par épreuve", d: "Les trois premiers quiz de chaque épreuve, au format officiel." },
@@ -319,7 +319,7 @@ export function DicteeVisitorPitch() {
       closing="La dictée fait partie des accès payants"
       closingNote={
         <>
-          {t("Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les quatre-vingts quiz et la correction IA.")}{" "}
+          {t("Elle est incluse dans tous les forfaits, avec les TCF blancs chronométrés, les 86 quiz et la correction IA.")}{" "}
           <RouteLink r="pricing" className="font-semibold text-blue-600 hover:underline">{t("Voir les tarifs")}</RouteLink>
         </>
       }>

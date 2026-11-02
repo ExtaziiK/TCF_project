@@ -27,7 +27,7 @@ export const post = {
       featured: true,
       intro: "**La seule plateforme du classement qui couvre les quatre épreuves au format officiel**, avec une correction de l'écrit et de l'oral.",
       points: [
-        "80 séries de quiz au format officiel : 40 en compréhension orale, 40 en compréhension écrite, de 39 questions chacune.",
+        "86 séries de quiz au format officiel : 43 en compréhension orale, 43 en compréhension écrite, de 39 questions chacune.",
         "Des [TCF blancs](/tcf-blanc) complets et chronométrés, notés sur 699 et convertis en niveaux NCLC.",
         "Correction de l'expression écrite par IA : niveau CECRL estimé, erreurs à corriger et version réécrite de votre texte.",
         "Un entretien d'expression orale avec un examinateur IA qui vous parle et vous relance, à voix haute.",

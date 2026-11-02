@@ -159,7 +159,7 @@ export function DicteePitch({ reason }) {
             {isVisitor ? t("La dictée fait partie des accès payants") : t("Débloquez la dictée")}
           </h3>
           <p className={`mt-2 text-sm max-w-lg mx-auto ${c.sub}`}>
-            {t("Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les quatre-vingts quiz.")}
+            {t("Elle est incluse dans tous les forfaits, avec les simulations IA, les TCF blancs chronométrés et les 86 quiz.")}
           </p>
           <ul className="mt-6 max-w-md mx-auto space-y-2.5 text-left">
             {/* "Toute la bibliothèque" and not "sans limite": every paid plan
@@ -167,7 +167,7 @@ export function DicteePitch({ reason }) {
                 dictations per tâche per day (api/_lib/auth.js → DAILY_DICTEES),
                 and this page is read by someone about to choose the cheapest
                 one. The cards say which plan lifts the cap. */}
-            {["La dictée : toute la bibliothèque, dès le premier forfait", "Les 80 quiz débloqués, compréhension écrite et orale", "TCF blancs chronométrés, notés sur 699", "Correction IA de vos expressions écrite et orale"].map((p) => (
+            {["La dictée : toute la bibliothèque, dès le premier forfait", "Les 86 quiz débloqués, compréhension écrite et orale", "TCF blancs chronométrés, notés sur 699", "Correction IA de vos expressions écrite et orale"].map((p) => (
               <li key={p} className={`flex items-start gap-3 text-sm ${c.sub}`}>
                 <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />{t(p)}
               </li>
