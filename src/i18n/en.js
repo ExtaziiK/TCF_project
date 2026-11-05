@@ -1205,6 +1205,24 @@ export const EN = {
   // French version is the contract and prevails; the English is a courtesy
   // translation (the document says so in section 2).
   "Mentions légales": "Legal",
+  "Vos préférences de cookies":
+    "Your cookie preferences",
+  "Tout accepter":
+    "Accept all",
+  "Accepter uniquement l'essentiel":
+    "Accept essentials only",
+  "Essentiels":
+    "Essential",
+  "Connexion, sécurité, langue et thème. Indispensables au fonctionnement du site, toujours actifs.":
+    "Sign-in, security, language and theme. Required for the site to work, always on.",
+  "Mesure d'audience":
+    "Audience measurement",
+  "Google Analytics : les pages consultées et le parcours sur le site, pour l'améliorer.":
+    "Google Analytics: the pages viewed and how visitors move through the site, to improve it.",
+  "Enregistrer mes choix":
+    "Save my choices",
+  "Toujours actifs":
+    "Always on",
   "Vous pouvez changer d'avis à tout moment grâce au lien « Cookies » en bas de chaque page. Votre choix est conservé dans votre navigateur.":
     "You can change your mind at any time with the “Cookies” link at the bottom of every page. Your choice is kept in your browser.",
   "Cookies de mesure d'audience":
