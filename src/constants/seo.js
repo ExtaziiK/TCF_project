@@ -155,6 +155,8 @@ export const ROUTE_META = {
   // with a one-time token in the query string, and has nothing to crawl.
   "reset-password": { path: "/nouveau-mot-de-passe", title: "Nouveau mot de passe", noindex: true },
   "checkout-dz": { path: "/paiement-dz", title: "Paiement en dinar algérien", noindex: true },
+  // Where Stripe sends the buyer back after paying (success_url).
+  merci: { path: "/merci", title: "Merci pour votre achat", noindex: true },
   practice: { path: "/pratique", title: "Pratique gratuite", noindex: true },
   exams: { path: "/mes-examens", title: "Épreuves", noindex: true },
   mocks: { path: "/tcf-blanc", title: "TCF blanc — examen complet chronométré", noindex: true },

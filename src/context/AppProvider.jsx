@@ -9,7 +9,7 @@ import { useCustomListening } from "@/hooks/useCustomListening";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending, requestAccountDeletion, cancelAccountDeletion } from "@/services/authService";
 import { hasStoredSession, hasAuthRedirect } from "@/services/supabaseClient";
-import { confirmCheckout } from "@/services/stripeService";
+import { confirmCheckout, trackPurchase } from "@/services/stripeService";
 import { stashPendingGiftCode } from "@/services/giftLinkService";
 import { useDzActivation } from "@/hooks/useDzActivation";
 import { useGiftRedemption } from "@/hooks/useGiftRedemption";
@@ -320,9 +320,18 @@ export function AppProvider({ children }) {
     window.scrollTo({ top: 0 });
   }, [route]);
 
-  // Stripe Checkout redirects back to "/?checkout=success|cancelled"; the flag
-  // is read once on load, then the URL is rewritten to the landing route's
-  // clean path.
+  // Where the thank-you page (/merci) stands after a Stripe payment:
+  // "activating" while the pass is being granted, then "active", "pending"
+  // (Stripe has not settled an asynchronous payment) or "delayed" (confirmation
+  // failed; the webhook will finish it). null when no payment came back on this
+  // load — the page then reads the account as it is.
+  const [checkoutStatus, setCheckoutStatus] = useState(null);
+
+  // Stripe Checkout redirects back to "/merci?session_id=…" on success and to
+  // "/?checkout=cancelled" on cancel. "/?checkout=success" is the older success
+  // URL, still honoured for sessions opened before the switch. The parameters
+  // are read once on load, then stripped so a refresh or a shared link never
+  // replays them.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const checkout = params.get("checkout");
@@ -330,15 +339,16 @@ export function AppProvider({ children }) {
     // success_url, and it is what lets the server confirm the purchase without
     // waiting for the webhook.
     const sessionId = params.get("session_id");
-    if (checkout) {
-      const target = checkout === "success" ? "dashboard" : "home";
-      window.history.replaceState({ route: target }, "", pathForRoute(target));
+    const returned = checkout === "success" || (routeFromPath(window.location.pathname) === "merci" && !!sessionId);
+    if (checkout === "cancelled") {
+      window.history.replaceState({ route: "home" }, "", pathForRoute("home"));
+      return notify("Paiement annulé.");
     }
-    if (checkout === "cancelled") return notify("Paiement annulé.");
-    if (checkout !== "success") return;
+    if (!returned) return;
 
-    notify("Paiement réussi ! Votre accès Premium est en cours d'activation.");
-    setRoute("dashboard");
+    window.history.replaceState({ route: "merci" }, "", pathForRoute("merci"));
+    setRoute("merci");
+    setCheckoutStatus("activating");
     // Survives this page: if the webhook is slow, or a refresh collides, the
     // next load finishes the activation instead of the user being told to sign
     // out and back in.
@@ -361,14 +371,13 @@ export function AppProvider({ children }) {
       const mapped = mapSupabaseUser(session);
       if (stop) return;
       if (mapped) setUser(mapped);
-      if (mapped?.plan === "Premium") { clearPremiumPending(); return; }
+      if (granted.ok) trackPurchase(sessionId, granted);
+      if (mapped?.plan === "Premium") { clearPremiumPending(); setCheckoutStatus("active"); return; }
 
       // Not granted yet. `pending` means Stripe has not settled an asynchronous
       // payment; anything else means confirmation failed and the webhook is now
       // the fallback. Either way the flag survives, so the next load retries.
-      notify(granted.pending
-        ? "Paiement en cours de validation. Votre accès s'ouvrira dès sa confirmation."
-        : "Paiement reçu. L'activation prend un instant — rafraîchissez la page si l'accès n'apparaît pas.");
+      setCheckoutStatus(granted.pending ? "pending" : "delayed");
     })();
     return () => { stop = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -540,6 +549,7 @@ export function AppProvider({ children }) {
     dark, setDark,
     lang, setLang, t,
     route, nav, back,
+    checkoutStatus,
     user, setUser, authReady, signOut, deactivateAccount, role,
     ...profileState,
     visitorPreview: previewing, canPreviewAsVisitor, startVisitorPreview, exitVisitorPreview,

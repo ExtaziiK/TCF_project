@@ -54,6 +54,7 @@ const ResetPassword = lazyPage(() => import("@/pages/ResetPassword"), "ResetPass
 const Admin = lazyPage(() => import("@/pages/Admin"), "Admin");
 const Moderation = lazyPage(() => import("@/pages/Moderation"), "Moderation");
 const CodePromo = lazyPage(() => import("@/pages/CodePromo"), "CodePromo");
+const Merci = lazyPage(() => import("@/pages/Merci"), "Merci");
 const QuestionBank = lazyPage(() => import("@/pages/QuestionBank"), "QuestionBank");
 const NotFound = lazyPage(() => import("@/pages/NotFound"), "NotFound");
 const Terms = lazyPage(() => import("@/pages/Terms"), "Terms");
@@ -76,6 +77,7 @@ export const PAGES = {
   about: About,
   pricing: Pricing,
   "checkout-dz": CheckoutDz,
+  merci: Merci,
   // The old free-practice and per-épreuve pages open the Épreuves hub (on the
   // matching tab), which has the free plan's locks built in.
   practice: Exams,

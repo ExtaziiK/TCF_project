@@ -136,6 +136,8 @@ export const PAGE_ACCESS = {
   carnet: NOTEBOOK_PUBLIC ? AUTHENTICATED : ADMIN_ONLY,
   // DZD manual checkout: needs a signed-in account to attach the request to.
   "checkout-dz": AUTHENTICATED,
+  // Thank-you page after a Stripe payment: the buyer's own pass is shown there.
+  merci: AUTHENTICATED,
   dashboard: AUTHENTICATED,
   profile: AUTHENTICATED,
   admin: ADMIN_ONLY,

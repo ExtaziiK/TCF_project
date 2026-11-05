@@ -66,7 +66,12 @@ export default async function handler(req, res) {
         app_metadata: { ...currentMeta, ...patch },
       });
       if (writeError) throw new Error(`updateUserById: ${writeError.message}`);
-      return res.status(200).json({ ok: true, plan: patch.plan, planLabel: patch.plan_label, premiumUntil: patch.premium_until });
+      return res.status(200).json({
+        ok: true, plan: patch.plan, planLabel: patch.plan_label, premiumUntil: patch.premium_until,
+        // For the thank-you page's purchase event (GTM); major units.
+        amountTotal: typeof session.amount_total === "number" ? session.amount_total / 100 : null,
+        currency: session.currency || null,
+      });
     } catch (err) {
       console.error("confirm-checkout:", err.message);
       return res.status(500).json({ error: "confirm-failed" });
@@ -130,7 +135,8 @@ export default async function handler(req, res) {
       ...(meta.stripe_customer_id ? { customer: meta.stripe_customer_id } : { customer_email: user.email }),
       ...(discounts ? { discounts } : { allow_promotion_codes: true }),
       metadata: { supabase_user_id: user.id, plan, price_id: priceId },
-      success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+      // The thank-you page; AppProvider confirms the session from it.
+      success_url: `${origin}/merci?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
     });
     res.status(200).json({ url: session.url });

@@ -47,6 +47,30 @@ export async function confirmCheckout(sessionId) {
   }
 }
 
+// Reports a confirmed purchase to Google Tag Manager as a GA4-style
+// "purchase" event, so a conversion can be attached to it there. Only the
+// dataLayer is touched: whether anything is sent on is GTM's call under the
+// Consent Mode settings from /consent.js. Once per session id, so a second
+// confirm (refresh, retry) never counts the sale twice.
+export function trackPurchase(sessionId, { amountTotal, currency, plan, planLabel } = {}) {
+  try {
+    const key = `purchase-tracked:${sessionId}`;
+    if (!sessionId || localStorage.getItem(key)) return;
+    localStorage.setItem(key, "1");
+  } catch { /* storage blocked: track anyway, a duplicate beats a miss */ }
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ ecommerce: null });
+  window.dataLayer.push({
+    event: "purchase",
+    ecommerce: {
+      transaction_id: sessionId,
+      value: typeof amountTotal === "number" ? amountTotal : undefined,
+      currency: currency ? String(currency).toUpperCase() : undefined,
+      items: [{ item_id: plan || undefined, item_name: planLabel || plan || "Pass Premium", quantity: 1 }],
+    },
+  });
+}
+
 // Checks a promo code against Stripe (api/public/promo-validate) so the Pricing page
 // can show the real discount before checkout. Fails closed: network errors or
 // the local-dev 404 read as "not valid" (with `unavailable` set for the 404
