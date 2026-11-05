@@ -1205,6 +1205,10 @@ export const EN = {
   // French version is the contract and prevails; the English is a courtesy
   // translation (the document says so in section 2).
   "Mentions légales": "Legal",
+  "Connexion, sécurité, langue et thème.":
+    "Sign-in, security, language and theme.",
+  "Google Analytics, pour améliorer le site.":
+    "Google Analytics, to improve the site.",
   "Vos préférences de cookies":
     "Your cookie preferences",
   "Tout accepter":
