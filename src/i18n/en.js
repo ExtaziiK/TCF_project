@@ -1229,10 +1229,14 @@ export const EN = {
     "Always on",
   "Vous pouvez changer d'avis à tout moment grâce au lien « Cookies » en bas de chaque page. Votre choix est conservé dans votre navigateur.":
     "You can change your mind at any time with the “Cookies” link at the bottom of every page. Your choice is kept in your browser.",
-  "Cookies de mesure d'audience":
-    "Audience-measurement cookies",
-  "Avec votre accord, nous utilisons Google Analytics pour savoir quelles pages sont lues et améliorer le site. Aucune publicité, aucune revente de données.":
-    "With your consent, we use Google Analytics to see which pages are read and improve the site. No ads, no data resold.",
+  "Cookies de mesure":
+    "Measurement cookies",
+  "Mesure publicitaire":
+    "Ad measurement",
+  "Google Ads, pour mesurer l'efficacité de nos annonces.":
+    "Google Ads, to measure how well our ads work.",
+  "Avec votre accord, nous utilisons Google Analytics pour savoir quelles pages sont lues, et Google Ads pour savoir si nos annonces mènent à une inscription ou à un achat. Aucune publicité sur le site, aucune revente de données.":
+    "With your consent, we use Google Analytics to see which pages are read, and Google Ads to see whether our ads lead to a sign-up or a purchase. No ads on the site, no data resold.",
   "En savoir plus":
     "Learn more",
   "Refuser":
@@ -1499,8 +1503,8 @@ export const EN = {
   "4. Prestataires qui traitent des données pour nous": "4. Providers that process data for us",
   "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :":
     "We do not sell, rent or trade any personal data. We use technical providers who act on our instructions, each for a specific purpose:",
-  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, et mesure d'audience par Google Analytics, uniquement si vous l'acceptez.":
-    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option, and audience measurement with Google Analytics, only if you accept it.",
+  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.":
+    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option, audience measurement with Google Analytics and measurement of how our ads perform with Google Ads, the latter two only if you accept them.",
   "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.":
     "We may also disclose data where a legal obligation requires it, or to establish, exercise or defend a legal claim.",
 
@@ -1537,12 +1541,12 @@ export const EN = {
     "We limit the number of simultaneous sessions per account, count failed sign-in attempts and log administrative actions. As no system is infallible, we encourage you to use a unique password and to report any suspicious activity to us without delay.",
 
   "9. Cookies et stockage local": "9. Cookies and local storage",
-  "Passerelle n'utilise ni cookie publicitaire, ni traceur à des fins de profilage, et n'affiche aucune publicité.":
-    "Passerelle uses no advertising cookies and no profiling trackers, and shows no ads.",
+  "Passerelle n'affiche aucune publicité et n'utilise aucun traceur à des fins de profilage ou de reciblage publicitaire. Avec votre accord seulement, un cookie Google Ads permet de savoir si une visite venue de l'une de nos annonces s'est conclue par une inscription ou un achat ; il ne sert pas à vous montrer des publicités.":
+    "Passerelle shows no ads and uses no trackers for profiling or ad retargeting. Only with your consent, a Google Ads cookie tells us whether a visit that came from one of our ads ended in a sign-up or a purchase; it is not used to show you ads.",
   "Le site conserve dans votre navigateur les seules informations nécessaires à son fonctionnement : votre session de connexion, l'identifiant technique de l'appareil, votre préférence de thème et de langue, et quelques repères d'affichage. Les effacer vous déconnecte, sans autre conséquence.":
     "The site stores in your browser only what it needs to work: your sign-in session, the device's technical identifier, your theme and language preference, and a few display markers. Clearing them signs you out, with no other consequence.",
-  "La mesure d'audience repose sur deux outils. Vercel Web Analytics ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier. Google Analytics, via Google Tag Manager, mesure plus finement les pages consultées et le parcours sur le site ; il ne dépose ses cookies que si vous l'acceptez dans le bandeau affiché à votre première visite. Tant que vous n'avez pas accepté, et si vous refusez, Google ne reçoit que des signaux sans cookie ni identifiant.":
-    "Audience measurement relies on two tools. Vercel Web Analytics sets no cookie and only produces aggregate statistics (page views, referrer, device type) that cannot identify you. Google Analytics, through Google Tag Manager, measures more precisely which pages are read and how visitors move through the site; it sets its cookies only if you accept them in the banner shown on your first visit. Until you accept, and if you refuse, Google only receives cookieless signals with no identifier.",
+  "La mesure d'audience repose sur deux outils. Vercel Web Analytics ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier. Google Analytics, via Google Tag Manager, mesure plus finement les pages consultées et le parcours sur le site ; il ne dépose ses cookies que si vous l'acceptez dans le bandeau affiché à votre première visite. La mesure publicitaire Google Ads suit la même règle. Tant que vous n'avez pas accepté, et si vous refusez, Google ne reçoit que des signaux sans cookie ni identifiant.":
+    "Audience measurement relies on two tools. Vercel Web Analytics sets no cookie and only produces aggregate statistics (page views, referrer, device type) that cannot identify you. Google Analytics, through Google Tag Manager, measures more precisely which pages are read and how visitors move through the site; it sets its cookies only if you accept them in the banner shown on your first visit. Google Ads ad measurement follows the same rule. Until you accept, and if you refuse, Google only receives cookieless signals with no identifier.",
 
   "10. Mineurs": "10. Minors",
   "Le Service n'est pas destiné aux personnes de moins de 16 ans, et l'achat d'un pass est réservé aux personnes majeures ou autorisées par le titulaire de l'autorité parentale. Si nous apprenons qu'un compte a été créé par un enfant en deçà de cet âge, nous le supprimons.":

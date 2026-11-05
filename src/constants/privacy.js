@@ -52,7 +52,7 @@ export const PRIVACY_SECTIONS = [
     t: "4. Prestataires qui traitent des données pour nous",
     p: [
       "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :",
-      "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, et mesure d'audience par Google Analytics, uniquement si vous l'acceptez.",
+      "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.",
       "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.",
     ],
   },
@@ -91,9 +91,9 @@ export const PRIVACY_SECTIONS = [
   {
     t: "9. Cookies et stockage local",
     p: [
-      "Passerelle n'utilise ni cookie publicitaire, ni traceur à des fins de profilage, et n'affiche aucune publicité.",
+      "Passerelle n'affiche aucune publicité et n'utilise aucun traceur à des fins de profilage ou de reciblage publicitaire. Avec votre accord seulement, un cookie Google Ads permet de savoir si une visite venue de l'une de nos annonces s'est conclue par une inscription ou un achat ; il ne sert pas à vous montrer des publicités.",
       "Le site conserve dans votre navigateur les seules informations nécessaires à son fonctionnement : votre session de connexion, l'identifiant technique de l'appareil, votre préférence de thème et de langue, et quelques repères d'affichage. Les effacer vous déconnecte, sans autre conséquence.",
-      "La mesure d'audience repose sur deux outils. Vercel Web Analytics ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier. Google Analytics, via Google Tag Manager, mesure plus finement les pages consultées et le parcours sur le site ; il ne dépose ses cookies que si vous l'acceptez dans le bandeau affiché à votre première visite. Tant que vous n'avez pas accepté, et si vous refusez, Google ne reçoit que des signaux sans cookie ni identifiant.",
+      "La mesure d'audience repose sur deux outils. Vercel Web Analytics ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier. Google Analytics, via Google Tag Manager, mesure plus finement les pages consultées et le parcours sur le site ; il ne dépose ses cookies que si vous l'acceptez dans le bandeau affiché à votre première visite. La mesure publicitaire Google Ads suit la même règle. Tant que vous n'avez pas accepté, et si vous refusez, Google ne reçoit que des signaux sans cookie ni identifiant.",
       "Vous pouvez changer d'avis à tout moment grâce au lien « Cookies » en bas de chaque page. Votre choix est conservé dans votre navigateur.",
     ],
   },

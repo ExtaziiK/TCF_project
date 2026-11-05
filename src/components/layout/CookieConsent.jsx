@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Cookie, Lock, ShieldCheck, BarChart3, ArrowLeft } from "lucide-react";
+import { Cookie, Lock, ShieldCheck, BarChart3, Megaphone, ArrowLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn } from "@/components/common";
 import { RouteLink } from "@/components/common/RouteLink";
-import { getConsent, setConsent, onConsentOpen } from "@/services/consentService";
+import { getConsent, setConsent, onConsentOpen, consentFlags, consentValue } from "@/services/consentService";
 
-// Cookie consent for Google Analytics (Consent Mode, public/consent.js starts
-// it « denied »). A compact card at the bottom centre of the screen, shown
+// Cookie consent for Google Analytics and Google Ads conversion measurement
+// (Consent Mode, public/consent.js starts both « denied »). A compact card at the bottom centre of the screen, shown
 // until the visitor answers and again whenever the footer's « Cookies » link
 // asks for it. Drawn in the site's own vocabulary: brand-gradient strip and
 // icon tile, display-font title, the gradient « accent » button.
@@ -26,10 +26,13 @@ export function CookieConsent() {
   const { c, t } = useApp();
   const [open, setOpen] = useState(() => getConsent() === null);
   const [details, setDetails] = useState(false);
-  const [analytics, setAnalytics] = useState(() => getConsent() === "granted");
+  const [analytics, setAnalytics] = useState(() => consentFlags(getConsent()).analytics);
+  const [ads, setAds] = useState(() => consentFlags(getConsent()).ads);
 
   useEffect(() => onConsentOpen(() => {
-    setAnalytics(getConsent() === "granted");
+    const flags = consentFlags(getConsent());
+    setAnalytics(flags.analytics);
+    setAds(flags.ads);
     setDetails(false);
     setOpen(true);
   }), []);
@@ -48,24 +51,26 @@ export function CookieConsent() {
                 <Cookie size={16} aria-hidden="true" />
               </span>
               <p className={`text-xs sm:text-[13px] leading-snug ${c.sub}`}>
-                <span id="cookie-consent-title" className={`font-display font-bold ${c.text}`}>{t("Cookies de mesure d'audience")}</span>
+                <span id="cookie-consent-title" className={`font-display font-bold ${c.text}`}>{t("Cookies de mesure")}</span>
                 {" · "}
-                {t("Avec votre accord, nous utilisons Google Analytics pour savoir quelles pages sont lues et améliorer le site. Aucune publicité, aucune revente de données.")}{" "}
+                {t("Avec votre accord, nous utilisons Google Analytics pour savoir quelles pages sont lues, et Google Ads pour savoir si nos annonces mènent à une inscription ou à un achat. Aucune publicité sur le site, aucune revente de données.")}{" "}
                 <RouteLink r="privacy" className="font-semibold text-blue-600 hover:underline">{t("En savoir plus")}</RouteLink>
               </p>
             </div>
             <div className="flex gap-2 shrink-0">
               <Btn small variant="ghost" className="flex-1 md:flex-none !px-3.5" onClick={() => setDetails(true)}>{t("Accepter uniquement l'essentiel")}</Btn>
-              <Btn small variant="accent" className="flex-1 md:flex-none" onClick={() => answer("granted")}>{t("Tout accepter")}</Btn>
+              <Btn small variant="accent" className="flex-1 md:flex-none" onClick={() => answer("all")}>{t("Tout accepter")}</Btn>
             </div>
           </div>
         ) : (
           <div className="px-4 py-3 sm:px-5">
             <p id="cookie-consent-title" className={`font-display font-bold text-sm ${c.text}`}>{t("Vos préférences de cookies")}</p>
-            <div className="mt-2 grid sm:grid-cols-2 gap-2">
+            <div className="mt-2 grid sm:grid-cols-3 gap-2">
               <CategoryRow icon={ShieldCheck} title={t("Essentiels")} text={t("Connexion, sécurité, langue et thème.")} locked />
               <CategoryRow icon={BarChart3} title={t("Mesure d'audience")} text={t("Google Analytics, pour améliorer le site.")}
                 checked={analytics} onChange={setAnalytics} />
+              <CategoryRow icon={Megaphone} title={t("Mesure publicitaire")} text={t("Google Ads, pour mesurer l'efficacité de nos annonces.")}
+                checked={ads} onChange={setAds} />
             </div>
             <div className="mt-2.5 flex items-center gap-2">
               <button type="button" onClick={() => setDetails(false)}
@@ -73,7 +78,7 @@ export function CookieConsent() {
                 <ArrowLeft size={14} aria-hidden="true" /> {t("Retour")}
               </button>
               <Btn small variant="ghost" onClick={() => answer("denied")}>{t("Refuser")}</Btn>
-              <Btn small variant="accent" onClick={() => answer(analytics ? "granted" : "denied")}>{t("Enregistrer mes choix")}</Btn>
+              <Btn small variant="accent" onClick={() => answer(consentValue({ analytics, ads }))}>{t("Enregistrer mes choix")}</Btn>
             </div>
           </div>
         )}
