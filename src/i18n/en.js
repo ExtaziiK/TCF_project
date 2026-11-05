@@ -1205,6 +1205,22 @@ export const EN = {
   // French version is the contract and prevails; the English is a courtesy
   // translation (the document says so in section 2).
   "Mentions légales": "Legal",
+  "Vous pouvez changer d'avis à tout moment grâce au lien « Cookies » en bas de chaque page. Votre choix est conservé dans votre navigateur.":
+    "You can change your mind at any time with the “Cookies” link at the bottom of every page. Your choice is kept in your browser.",
+  "Cookies de mesure d'audience":
+    "Audience-measurement cookies",
+  "Avec votre accord, nous utilisons Google Analytics pour savoir quelles pages sont lues et améliorer le site. Aucune publicité, aucune revente de données.":
+    "With your consent, we use Google Analytics to see which pages are read and improve the site. No ads, no data resold.",
+  "En savoir plus":
+    "Learn more",
+  "Refuser":
+    "Decline",
+  "Accepter":
+    "Accept",
+  "Cookies":
+    "Cookies",
+  "5 novembre 2026":
+    "November 5, 2026",
   "Qui édite Passerelle, qui l'héberge, et à qui appartiennent ses contenus.":
     "Who publishes Passerelle, who hosts it, and who owns its content.",
   "30 octobre 2026":
@@ -1241,8 +1257,8 @@ export const EN = {
     "Some blog photographs are published under a free licence: their author and licence are credited under each image concerned.",
   "6. Données personnelles et cookies":
     "6. Personal data and cookies",
-  "Les données collectées sur Passerelle, leur finalité, leur durée de conservation et la manière d'exercer vos droits sont décrites dans la politique de confidentialité. La mesure d'audience ne dépose pas de cookie.":
-    "The data collected on Passerelle, why, how long it is kept and how to exercise your rights are described in the privacy policy. Audience measurement sets no cookie.",
+  "Les données collectées sur Passerelle, leur finalité, leur durée de conservation et la manière d'exercer vos droits sont décrites dans la politique de confidentialité. Les cookies de mesure d'audience de Google Analytics ne sont déposés qu'avec votre accord, modifiable à tout moment par le lien « Cookies » en bas de page.":
+    "The data collected on Passerelle, why, how long it is kept and how to exercise your rights are described in the privacy policy. Google Analytics audience-measurement cookies are only set with your consent, which you can change at any time with the “Cookies” link at the bottom of the page.",
   "7. Signaler un contenu":
     "7. Reporting content",
   "Si un contenu publié sur Passerelle vous paraît illicite, inexact ou porte atteinte à vos droits, écrivez à {courriel} en indiquant la page concernée et la raison de votre signalement. Nous l'examinons et vous répondons dans les meilleurs délais.":
@@ -1461,8 +1477,8 @@ export const EN = {
   "4. Prestataires qui traitent des données pour nous": "4. Providers that process data for us",
   "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :":
     "We do not sell, rent or trade any personal data. We use technical providers who act on our instructions, each for a specific purpose:",
-  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option.":
-    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option.",
+  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, et mesure d'audience par Google Analytics, uniquement si vous l'acceptez.":
+    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option, and audience measurement with Google Analytics, only if you accept it.",
   "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.":
     "We may also disclose data where a legal obligation requires it, or to establish, exercise or defend a legal claim.",
 
@@ -1499,12 +1515,12 @@ export const EN = {
     "We limit the number of simultaneous sessions per account, count failed sign-in attempts and log administrative actions. As no system is infallible, we encourage you to use a unique password and to report any suspicious activity to us without delay.",
 
   "9. Cookies et stockage local": "9. Cookies and local storage",
-  "Passerelle n'utilise ni cookie publicitaire, ni cookie de suivi comportemental, ni traceur tiers à des fins de profilage.":
-    "Passerelle uses no advertising cookie, no behavioural tracking cookie and no third-party tracker for profiling purposes.",
+  "Passerelle n'utilise ni cookie publicitaire, ni traceur à des fins de profilage, et n'affiche aucune publicité.":
+    "Passerelle uses no advertising cookies and no profiling trackers, and shows no ads.",
   "Le site conserve dans votre navigateur les seules informations nécessaires à son fonctionnement : votre session de connexion, l'identifiant technique de l'appareil, votre préférence de thème et de langue, et quelques repères d'affichage. Les effacer vous déconnecte, sans autre conséquence.":
     "The site stores in your browser only what it needs to work: your sign-in session, the device's technical identifier, your theme and language preference, and a few display markers. Clearing them signs you out, with no other consequence.",
-  "La mesure d'audience est assurée par Vercel Web Analytics, qui ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier.":
-    "Audience measurement is provided by Vercel Web Analytics, which sets no cookie and produces only aggregate statistics (page views, referrer, device type) that cannot identify you.",
+  "La mesure d'audience repose sur deux outils. Vercel Web Analytics ne dépose pas de cookie et ne produit que des statistiques agrégées (pages vues, provenance, type d'appareil) sans permettre de vous identifier. Google Analytics, via Google Tag Manager, mesure plus finement les pages consultées et le parcours sur le site ; il ne dépose ses cookies que si vous l'acceptez dans le bandeau affiché à votre première visite. Tant que vous n'avez pas accepté, et si vous refusez, Google ne reçoit que des signaux sans cookie ni identifiant.":
+    "Audience measurement relies on two tools. Vercel Web Analytics sets no cookie and only produces aggregate statistics (page views, referrer, device type) that cannot identify you. Google Analytics, through Google Tag Manager, measures more precisely which pages are read and how visitors move through the site; it sets its cookies only if you accept them in the banner shown on your first visit. Until you accept, and if you refuse, Google only receives cookieless signals with no identifier.",
 
   "10. Mineurs": "10. Minors",
   "Le Service n'est pas destiné aux personnes de moins de 16 ans, et l'achat d'un pass est réservé aux personnes majeures ou autorisées par le titulaire de l'autorité parentale. Si nous apprenons qu'un compte a été créé par un enfant en deçà de cet âge, nous le supprimons.":

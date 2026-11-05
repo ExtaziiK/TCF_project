@@ -4,6 +4,7 @@ import { RouteLink, SocialLinks } from "@/components/common";
 import { CONTACT_EMAIL } from "@/constants/social";
 import { Logo } from "@/components/layout/Logo";
 import { canAccess, ROLES } from "@/auth/rbac";
+import { openConsent } from "@/services/consentService";
 
 // The site footer. Its columns follow the navigation as it now stands — the
 // Épreuves hub, the Exercices notebook, the resources, then the company — and
@@ -87,6 +88,8 @@ export function Footer() {
             <RouteLink r="terms" className="hover:text-blue-600 transition-colors">{t("Conditions")}</RouteLink>
             <RouteLink r="accessibility" className="hover:text-blue-600 transition-colors">{t("Accessibilité")}</RouteLink>
             <RouteLink r="legal" className="hover:text-blue-600 transition-colors">{t("Mentions légales")}</RouteLink>
+            {/* Reopens the cookie banner, so a choice can be changed at any time. */}
+            <button type="button" onClick={openConsent} className="hover:text-blue-600 transition-colors">{t("Cookies")}</button>
           </p>
         </div>
       </div>

@@ -15,7 +15,7 @@
 // of the privacy policy — all four together.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const NOTICE_UPDATED = "30 octobre 2026";
+export const NOTICE_UPDATED = "5 novembre 2026";
 
 export const NOTICE_SECTIONS = [
   {
@@ -56,7 +56,7 @@ export const NOTICE_SECTIONS = [
   {
     t: "6. Données personnelles et cookies",
     p: [
-      "Les données collectées sur Passerelle, leur finalité, leur durée de conservation et la manière d'exercer vos droits sont décrites dans la politique de confidentialité. La mesure d'audience ne dépose pas de cookie.",
+      "Les données collectées sur Passerelle, leur finalité, leur durée de conservation et la manière d'exercer vos droits sont décrites dans la politique de confidentialité. Les cookies de mesure d'audience de Google Analytics ne sont déposés qu'avec votre accord, modifiable à tout moment par le lien « Cookies » en bas de page.",
     ],
   },
   {

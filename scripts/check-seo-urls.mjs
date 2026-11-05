@@ -34,6 +34,9 @@ for (const file of FILES) {
   for (const [url] of text.matchAll(/https?:\/\/[^\s"'<>)]+/g)) {
     // Ignore XML namespaces and other schema references — not site URLs.
     if (url.startsWith("http://www.sitemaps.org") || url.startsWith("http://www.w3.org") || url.startsWith("https://schema.org")) continue;
+    // The Google tag's script (index.html): a third-party script, not a link
+    // to one of our own pages.
+    if (url.startsWith("https://www.googletagmanager.com/")) continue;
     if (!url.startsWith(ORIGIN)) fail(`${file}: ${url}\n    does not use the canonical origin ${ORIGIN}`);
   }
 }

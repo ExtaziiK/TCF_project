@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AppProvider } from "@/context/AppProvider";
 import { useApp } from "@/context/AppContext";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
@@ -106,6 +107,8 @@ function AppShell() {
       {/* Vercel Web Analytics — auto-tracks route changes via the History API;
           the numbers surface in the admin dashboard's "Trafic" tab. */}
       <Analytics />
+      {/* Consent for Google Analytics (Consent Mode, public/consent.js). */}
+      <CookieConsent />
     </div>
   );
 }
