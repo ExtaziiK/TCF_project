@@ -15,9 +15,9 @@ import { parseDzd } from "@/utils/currency";
 // admin RLS policies (20260725_dz_payments.sql, 20260807_revenue.sql) — no
 // serverless hop, so the tab works in local `vite` too.
 //
-// Stripe (USD) revenue is not counted here on purpose: Stripe's own dashboard
-// is the ledger for it, and summing two currencies in one column is how books
-// go wrong.
+// Stripe (USD) revenue is not counted here on purpose: summing two currencies
+// in one column is how books go wrong. It has its own view in the same tab,
+// read live from Stripe (api/_lib/admin/stripeRevenue.js).
 
 export const MANUAL_METHODS = [
   ["cash", "Espèces"],

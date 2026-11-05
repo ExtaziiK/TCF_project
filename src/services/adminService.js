@@ -345,3 +345,10 @@ export async function listAuditLog(limit = 100) {
   if (error) return { ok: false, unavailable: true, entries: [] };
   return { ok: true, entries: data };
 }
+
+/* ------------------------------ stripe revenue ---------------------------- */
+
+// Succeeded Stripe charges, read live from Stripe (api/_lib/admin/stripeRevenue.js).
+export function fetchStripeRevenue() {
+  return adminFetch("/api/admin/stripe-revenue");
+}

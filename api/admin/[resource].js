@@ -13,6 +13,7 @@ import moderation from "../_lib/admin/moderation.js";
 import welcomeEmail from "../_lib/admin/welcomeEmail.js";
 import emailOffer from "../_lib/admin/emailOffer.js";
 import composeEmail from "../_lib/admin/composeEmail.js";
+import stripeRevenue from "../_lib/admin/stripeRevenue.js";
 
 // Single serverless function for the whole admin API. Vercel counts every
 // file under api/ as one function, and the Hobby plan caps a deployment at
@@ -22,7 +23,7 @@ import composeEmail from "../_lib/admin/composeEmail.js";
 // route belongs here rather than in a new file. The real handlers live in
 // api/_lib/admin/ (underscore-prefixed paths are not deployed as functions);
 // each still does its own requireAdmin check (moderation: requireModerator).
-const handlers = { users, activity, stats, usage, promo, "gift-links": giftLinks, vercel, pricing, sujets, reply, "sujet-answers": sujetAnswers, moderation, "welcome-email": welcomeEmail, "email-offer": emailOffer, "compose-email": composeEmail };
+const handlers = { users, activity, stats, usage, promo, "gift-links": giftLinks, vercel, pricing, sujets, reply, "sujet-answers": sujetAnswers, moderation, "welcome-email": welcomeEmail, "email-offer": emailOffer, "compose-email": composeEmail, "stripe-revenue": stripeRevenue };
 
 export default async function handler(req, res) {
   // Own keys only: a plain lookup would resolve "constructor" or "toString" to a

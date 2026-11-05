@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Wallet, Receipt, TrendingUp, CalendarDays, Plus, Save, Trash2, Download,
-  CloudOff, Check, X, Coins, HandCoins,
+  CloudOff, Check, X, Coins, HandCoins, CreditCard, ExternalLink, RotateCcw, Banknote,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Card, Pill, Btn } from "@/components/common";
 import { MoneyBars } from "@/components/dashboard/charts";
 import { PLANS } from "@/constants/pricing";
 import { formatDzdTotal } from "@/utils/currency";
+import { fetchStripeRevenue } from "@/services/adminService";
 import {
   listRevenue, setRequestAmount, addRevenueEntry, deleteRevenueEntry, MANUAL_METHODS,
 } from "@/services/revenueService";
@@ -129,7 +130,7 @@ function StatCard({ icon: Icon, value, label, hint }) {
 // Horizontal share bars for the plan / method splits. Same single-hue idiom as
 // the dashboard's SectionBars, but the magnitude is money, so the figure shown
 // is the amount and the bar is a share of the biggest line.
-function ShareBars({ rows, empty }) {
+function ShareBars({ rows, empty, format = formatDzdTotal }) {
   const { c } = useApp();
   if (rows.length === 0) return <p className={`text-sm py-4 text-center ${c.faint}`}>{empty}</p>;
   const max = Math.max(1, ...rows.map((r) => r.total));
@@ -139,7 +140,7 @@ function ShareBars({ rows, empty }) {
         <div key={r.label}>
           <div className="flex justify-between items-baseline gap-3 text-xs mb-1">
             <span className={`font-medium truncate ${c.sub}`}>{r.label} <span className={c.faint}>· {r.count}</span></span>
-            <span className={`font-mono2 font-semibold shrink-0 ${c.text}`}>{formatDzdTotal(r.total)}</span>
+            <span className={`font-mono2 font-semibold shrink-0 ${c.text}`}>{format(r.total)}</span>
           </div>
           <div className={`h-2 rounded-full overflow-hidden ${c.track}`}>
             <div className="h-full rounded-full bg-blue-600" style={{ width: `${(r.total / max) * 100}%` }} />
@@ -306,12 +307,272 @@ function SaleRow({ sale, onSaved, onDeleted }) {
   );
 }
 
+/* ------------------------------ shared pieces ----------------------------- */
+
+function PeriodChips({ period, setPeriod, children }) {
+  const { c } = useApp();
+  return (
+    <div className="flex gap-2 flex-wrap items-center">
+      {PERIODS.map((p) => (
+        <button key={p.id} onClick={() => setPeriod(p.id)}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${period === p.id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
+          {p.label}
+        </button>
+      ))}
+      <span className="flex-1" />
+      {children}
+    </div>
+  );
+}
+
+// Rows → semicolon CSV download. Amounts stay raw numbers ("1 080 DA" is
+// unusable in a sum); the BOM makes Excel read the accents as UTF-8.
+function downloadCsv(filename, rows) {
+  const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const text = rows.map((r) => r.map(cell).join(";")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([String.fromCharCode(0xfeff) + text], { type: "text/csv;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ------------------------------ stripe ledger ----------------------------- */
+
+// Card payments, read live from Stripe (api/_lib/admin/stripeRevenue.js). Kept
+// apart from the dinar ledger on purpose: another currency, another channel,
+// and Stripe stays the source of truth for refunds and fees. "Encaissé" is
+// what the customer was charged minus refunds; "net" is what lands in the
+// bank once Stripe has taken its fee.
+
+const planName = (slug) => (slug ? PLANS.find((p) => p.slug === slug)?.name || slug : null);
+
+const money = (value, currency) => {
+  try {
+    return new Intl.NumberFormat("fr-CA", { style: "currency", currency: String(currency || "usd").toUpperCase() }).format(value || 0);
+  } catch {
+    return `${(value || 0).toFixed(2)} ${String(currency || "").toUpperCase()}`;
+  }
+};
+
+// Sums a field per currency. One currency → one figure; in the rare case a
+// buyer paid in another, the totals are listed side by side, never added.
+function sumByCurrency(sales, field, currencyField = "currency") {
+  const m = new Map();
+  for (const s of sales) {
+    if (s[field] == null) continue;
+    const cur = s[currencyField] || "usd";
+    m.set(cur, (m.get(cur) || 0) + s[field]);
+  }
+  if (m.size === 0) return { text: money(0, "usd"), currency: "usd" };
+  const entries = [...m.entries()].sort((a, b) => b[1] - a[1]);
+  return { text: entries.map(([cur, v]) => money(v, cur)).join(" · "), currency: entries[0][0] };
+}
+
+function StripeSaleRow({ sale, livemode }) {
+  const { c } = useApp();
+  const fullyRefunded = sale.refunded > 0 && sale.refunded >= sale.amount;
+  const href = sale.paymentIntent
+    ? `https://dashboard.stripe.com/${livemode ? "" : "test/"}payments/${sale.paymentIntent}`
+    : null;
+  return (
+    <div className={`p-4 rounded-2xl border ${c.border}`}>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Pill tone="green">Carte</Pill>
+            {sale.plan && <Pill tone="blue">{planName(sale.plan)}</Pill>}
+            {sale.refunded > 0 && <Pill tone="amber">{fullyRefunded ? "Remboursé" : `Remboursé ${money(sale.refunded, sale.currency)}`}</Pill>}
+            {sale.disputed && <Pill tone="amber">Litige</Pill>}
+            <span className={`text-xs ${c.faint}`}>{when(sale.date)}</span>
+          </div>
+          <p className={`text-sm mt-1.5 ${c.text}`}>{sale.customer || "—"} <span className={c.faint}>· {sale.email || "adresse email inconnue"}</span></p>
+          {sale.promo ? <p className={`text-xs mt-1 ${c.sub}`}>Réduction appliquée : {money(sale.promo, sale.currency)}</p> : null}
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="text-right">
+            <p className={`font-display font-bold ${fullyRefunded ? `line-through ${c.faint}` : c.text}`}>{money(sale.amount, sale.currency)}</p>
+            {sale.fee != null && <p className={`text-[11px] ${c.faint}`}>frais {money(sale.fee, sale.settlementCurrency)} · net {money(sale.net, sale.settlementCurrency)}</p>}
+          </div>
+          {href && (
+            <a href={href} target="_blank" rel="noopener noreferrer" className={`p-2 rounded-xl ${c.hoverSoft} ${c.sub}`} aria-label="Ouvrir dans Stripe" title="Ouvrir dans Stripe"><ExternalLink size={15} /></a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StripeLedger({ period, setPeriod }) {
+  const { c, notify } = useApp();
+  const [state, setState] = useState(null); // adminFetch result: { ok, data?, error?, unavailable? }
+
+  const load = () => fetchStripeRevenue().then(setState);
+  const reload = () => { setState(null); load(); };
+  useEffect(() => { load(); }, []);
+
+  const sales = state?.data?.sales || [];
+  const livemode = state?.data?.livemode;
+  const { from, mode } = rangeFor(period);
+
+  const view = useMemo(() => {
+    const scoped = from ? sales.filter((s) => new Date(s.date) >= from) : sales;
+    const today = startOfDay(new Date());
+    const kept = sumByCurrency(scoped, "kept");
+    // The chart and the plan split use the main currency only, so a bar never
+    // adds dollars to euros. buildBars/groupBy read `amount`, hence the remap.
+    const main = scoped
+      .filter((s) => s.currency === kept.currency)
+      .map((s) => ({ ...s, amount: s.kept, plan: planName(s.plan) }));
+    return {
+      scoped,
+      kept,
+      net: sumByCurrency(scoped, "net", "settlementCurrency"),
+      refunded: sumByCurrency(scoped, "refunded"),
+      refundCount: scoped.filter((s) => s.refunded > 0).length,
+      today: sumByCurrency(sales.filter((s) => new Date(s.date) >= today), "kept"),
+      allTime: sumByCurrency(sales, "kept"),
+      mainCurrency: kept.currency,
+      bars: buildBars(main, from, mode),
+      byPlan: groupBy(main, "plan", "Hors checkout"),
+    };
+  }, [sales, period]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const exportCsv = () => {
+    if (view.scoped.length === 0) return notify("Rien à exporter sur cette période.");
+    downloadCsv(`stripe-${period}-${dayKey(new Date())}.csv`, [
+      ["Date", "Client", "Email", "Forfait", "Devise", "Montant", "Rembourse", "Encaisse", "Frais", "Net", "Devise net", "Paiement Stripe"],
+      ...view.scoped.map((s) => [
+        s.date, s.customer, s.email, planName(s.plan), String(s.currency).toUpperCase(),
+        s.amount, s.refunded, s.kept, s.fee ?? "", s.net ?? "", String(s.settlementCurrency || "").toUpperCase(), s.paymentIntent || s.id,
+      ]),
+    ]);
+  };
+
+  if (!state) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-10" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28" />)}</div>
+        <Skeleton className="h-56" />
+      </div>
+    );
+  }
+
+  if (!state.ok) {
+    return (
+      <Card className="p-5 flex items-start gap-3 border-amber-500/40 flex-wrap">
+        <CloudOff size={18} className="text-amber-500 shrink-0 mt-0.5" />
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-semibold ${c.text}`}>Paiements Stripe illisibles</p>
+          <p className={`text-sm mt-1 ${c.sub}`}>{state.unavailable ? "La route /api/admin/stripe-revenue n'existe qu'une fois déployée." : state.error}</p>
+        </div>
+        <Btn small variant="ghost" icon={RotateCcw} onClick={reload}>Réessayer</Btn>
+      </Card>
+    );
+  }
+
+  const periodLabel = PERIODS.find((p) => p.id === period)?.label || "";
+  const fmtMain = (v) => money(v, view.mainCurrency);
+
+  return (
+    <div className="space-y-4">
+      {livemode === false && (
+        <Card className="p-4 flex items-center gap-3 border-amber-500/40">
+          <CreditCard size={18} className="text-amber-500 shrink-0" />
+          <p className={`text-sm ${c.sub}`}>Clé Stripe en <b>mode test</b> : ces paiements ne sont pas réels.</p>
+        </Card>
+      )}
+      {state.data.truncated && (
+        <p className={`text-xs ${c.faint}`}>Seuls les 1 000 derniers paiements sont chargés : le total cumulé peut être incomplet.</p>
+      )}
+
+      <PeriodChips period={period} setPeriod={setPeriod}>
+        <Btn small variant="ghost" icon={RotateCcw} onClick={reload}>Actualiser</Btn>
+        <Btn small variant="ghost" icon={Download} onClick={exportCsv}>Exporter</Btn>
+      </PeriodChips>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard icon={Wallet} value={view.kept.text} label={`Encaissé · ${periodLabel.toLowerCase()}`} hint={`${view.scoped.length} paiement${view.scoped.length > 1 ? "s" : ""}, remboursements déduits`} />
+        <StatCard icon={Banknote} value={view.net.text} label="Net après frais Stripe" hint="Ce qui arrive sur le compte bancaire" />
+        <StatCard icon={CalendarDays} value={view.today.text} label="Aujourd'hui" hint="Encaissé depuis minuit" />
+        <StatCard icon={TrendingUp} value={view.allTime.text} label="Total cumulé" hint={`${sales.length} paiement${sales.length > 1 ? "s" : ""} depuis le début`} />
+      </div>
+
+      {view.refundCount > 0 && (
+        <p className={`text-xs ${c.faint}`}>{view.refundCount} paiement{view.refundCount > 1 ? "s" : ""} remboursé{view.refundCount > 1 ? "s" : ""} sur la période · {view.refunded.text} rendus</p>
+      )}
+
+      <Card className="p-6">
+        <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
+          <h3 className={`font-display font-bold ${c.text}`}>Encaissé {mode === "day" ? "par jour" : "par mois"}</h3>
+          <span className={`text-xs ${c.faint}`}>{periodLabel} · {String(view.mainCurrency).toUpperCase()}</span>
+        </div>
+        {view.bars.length === 0
+          ? <p className={`text-sm py-6 text-center ${c.faint}`}>Aucun paiement Stripe pour l'instant.</p>
+          : <MoneyBars bars={view.bars} label={`Paiements Stripe ${mode === "day" ? "par jour" : "par mois"}`} format={fmtMain} />}
+      </Card>
+
+      <Card className="p-6">
+        <h3 className={`font-display font-bold mb-4 ${c.text}`}>Par forfait</h3>
+        <ShareBars rows={view.byPlan} empty="Aucun paiement sur cette période." format={fmtMain} />
+      </Card>
+
+      <Card className="p-6">
+        <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
+          <h3 className={`font-display font-bold ${c.text}`}>Détail des paiements</h3>
+          <span className={`text-xs ${c.faint}`}>{view.scoped.length} ligne{view.scoped.length > 1 ? "s" : ""} · {view.kept.text}</span>
+        </div>
+        {view.scoped.length === 0 ? (
+          <div className="py-10 text-center">
+            <span className="w-12 h-12 rounded-2xl mx-auto flex items-center justify-center bg-blue-600/10 text-blue-600"><CreditCard size={20} /></span>
+            <p className={`mt-3 font-display font-bold text-sm ${c.text}`}>Aucun paiement par carte sur cette période.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {view.scoped.map((s) => <StripeSaleRow key={s.key} sale={s} livemode={livemode} />)}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* ----------------------------------- tab ---------------------------------- */
 
+const LEDGERS = [
+  { id: "dzd", label: "Dinars", hint: "CCP · BaridiMob · espèces", icon: Coins },
+  { id: "stripe", label: "Stripe", hint: "carte bancaire", icon: CreditCard },
+];
+
+// Two ledgers, one per currency, never summed together. The period is shared
+// so switching between them keeps the window the owner was looking at.
 export function RevenueTab() {
+  const { c } = useApp();
+  const [ledger, setLedger] = useState("dzd");
+  const [period, setPeriod] = useState("month");
+  return (
+    <div className="space-y-4">
+      <div role="tablist" aria-label="Source des recettes" className={`inline-flex p-1 rounded-2xl border ${c.border}`}>
+        {LEDGERS.map((l) => (
+          <button key={l.id} role="tab" aria-selected={ledger === l.id} onClick={() => setLedger(l.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${ledger === l.id ? "bg-blue-600 text-white" : `${c.sub} ${c.hoverSoft}`}`}>
+            <l.icon size={15} /> {l.label}
+            <span className={`hidden sm:inline text-xs font-medium ${ledger === l.id ? "text-white/80" : c.faint}`}>· {l.hint}</span>
+          </button>
+        ))}
+      </div>
+      {ledger === "stripe"
+        ? <StripeLedger period={period} setPeriod={setPeriod} />
+        : <DzdLedger period={period} setPeriod={setPeriod} />}
+    </div>
+  );
+}
+
+function DzdLedger({ period, setPeriod }) {
   const { c, notify } = useApp();
   const [data, setData] = useState(null);
-  const [period, setPeriod] = useState("month");
   const [adding, setAdding] = useState(false);
 
   const load = () => listRevenue().then(setData);
@@ -339,21 +600,13 @@ export function RevenueTab() {
   // "1 080 DA" is unusable in a sum.
   const exportCsv = () => {
     if (view.scoped.length === 0) return notify("Rien à exporter sur cette période.");
-    const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-    const rows = [
+    downloadCsv(`revenus-${period}-${dayKey(new Date())}.csv`, [
       ["Date", "Source", "Client", "Email", "Forfait", "Methode", "Montant DZD", "Notes"],
       ...view.scoped.map((s) => [
         new Date(s.date).toISOString(), s.source === "manual" ? "saisi" : "demande",
         s.customer, s.email, s.plan, METHOD_LABELS[s.method] || s.method, s.amount ?? "", s.notes,
       ]),
-    ].map((r) => r.map(cell).join(";")).join("\r\n");
-    // BOM so Excel opens the accented headers as UTF-8.
-    const url = URL.createObjectURL(new Blob([`\uFEFF${rows}`], { type: "text/csv;charset=utf-8" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `revenus-${period}-${dayKey(new Date())}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    ]);
   };
 
   if (!data) {
@@ -387,17 +640,10 @@ export function RevenueTab() {
         </Card>
       )}
 
-      <div className="flex gap-2 flex-wrap items-center">
-        {PERIODS.map((p) => (
-          <button key={p.id} onClick={() => setPeriod(p.id)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${period === p.id ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>
-            {p.label}
-          </button>
-        ))}
-        <span className="flex-1" />
+      <PeriodChips period={period} setPeriod={setPeriod}>
         <Btn small variant="ghost" icon={Download} onClick={exportCsv}>Exporter</Btn>
         {!adding && <Btn small icon={Plus} onClick={() => setAdding(true)}>Paiement</Btn>}
-      </div>
+      </PeriodChips>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <StatCard icon={Wallet} value={formatDzdTotal(view.total)} label={`Recettes · ${periodLabel.toLowerCase()}`} hint={`${view.scoped.length} vente${view.scoped.length > 1 ? "s" : ""}`} />
