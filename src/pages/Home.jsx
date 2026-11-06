@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { Pill, Btn, SectionHead, StarRating, RouteLink } from "@/components/common";
 import { HomeLabel } from "@/components/home/HomeLabel";
 import { NewQuizzesChip } from "@/components/bank/NewQuizzesChip";
+import { VideoTutorial } from "@/components/home/VideoTutorial";
 import { CountUp } from "@/components/home/CountUp";
 import { ToolsShowcase } from "@/components/home/ToolsShowcase";
 import { HeroCollage } from "@/components/home/HeroCollage";
@@ -43,11 +44,11 @@ function Landing() {
   // After the tinted hero (which now holds the tools showcase), sections
   // alternate plain (opening with a wave, shape and direction varied) and
   // tinted (straight edge), starting plain. Counted over the blocks actually
-  // shown, so hiding testimonials never puts two tints together. Order:
-  // testimonials 0, overview 1, calculator 2, pricing 3, CTA 4.
+  // shown, so hiding testimonials never puts two tints together. Order: video
+  // 0, testimonials 1, overview 2, calculator 3, pricing 4, CTA 5.
   const showTestimonials = !!testimonials?.enabled;
   const look = (n) => {
-    const i = (n <= 0 || showTestimonials ? n : n - 1) + 1;
+    const i = (n <= 1 || showTestimonials ? n : n - 1) + 1;
     return i % 2 === 0 ? { tinted: true } : { wave: i % 4 === 1 ? 1 : 0, flip: i % 4 === 1 };
   };
   return (
@@ -130,13 +131,19 @@ function Landing() {
           plain and tinted sections. A single wide wave opens a plain section
           after a tinted one, only a few times down the page; the other
           boundaries stay straight. */}
+      {/* TUTORIAL VIDEO — its own tinted block, so it reads as separate from
+          the module cards above (VideoTutorial only pads its bottom). */}
+      <WaveSection {...look(0)} decor="video">
+        <div className="pt-14 md:pt-20"><VideoTutorial /></div>
+      </WaveSection>
+
       {/* TESTIMONIALS / SUCCESS STORIES — written by members, published only
           once an admin approves them (Admin › Avis). Falls back to the
           three seed stories until the table has approved content, and the whole
           block can be switched off from Admin › Accueil › Avis — heading
           and invitation included, so hiding it leaves nothing dangling. */}
       {testimonials?.enabled && (
-        <WaveSection {...look(0)} decor="testimonials">
+        <WaveSection {...look(1)} decor="testimonials">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Histoires de réussite")} title={t("Ils ont obtenu leur niveau. À vous maintenant.")} />
           {/* The site-wide score, over every approved review rather than the
@@ -164,12 +171,12 @@ function Landing() {
       )}
 
       {/* EXAM OVERVIEW */}
-      <WaveSection {...look(1)} decor="overview">
+      <WaveSection {...look(2)} decor="overview">
         <ExamOverview />
       </WaveSection>
 
       {/* NCLC CALCULATOR */}
-      <WaveSection id="calculateur" {...look(2)} decor="calculator">
+      <WaveSection id="calculateur" {...look(3)} decor="calculator">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Calculateur")} title={t("Convertissez vos scores en niveaux NCLC")} sub={t("Entrez vos scores TCF Canada et vérifiez si vous atteignez les seuils de votre projet d'immigration.")} />
           <div className="max-w-5xl mx-auto"><ScoreCalculator /></div>
@@ -177,7 +184,7 @@ function Landing() {
       </WaveSection>
 
       {/* PRICING PREVIEW */}
-      <WaveSection {...look(3)} decor="pricing">
+      <WaveSection {...look(4)} decor="pricing">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
           <SectionHead center eyebrow={t("Tarifs")} title={t("Commencez gratuitement, progressez en Premium")} sub={t("Choisissez votre devise, appliquez votre code promo, et payez par carte ou en dinars — sans créer de compte pour regarder.")} />
           {/* Same block as the Tarifs page: currency switch, plans, promo field.
@@ -205,7 +212,7 @@ function Landing() {
       </WaveSection>
 
       {/* FINAL CTA */}
-      <WaveSection {...look(4)} decor="cta">
+      <WaveSection {...look(5)} decor="cta">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
         <h2 className={`font-display font-extrabold text-3xl md:text-5xl ${c.text}`}>{t("Votre passerelle vers le Canada")}<br /><span className="grad-text">{t("commence aujourd'hui.")}</span></h2>
         <p className={`mt-5 text-lg ${c.sub}`}>{t("Un quiz complet gratuit dans chaque épreuve. Aucune carte bancaire requise.")}</p>
