@@ -62,9 +62,13 @@ export function VideoTutorial() {
     return () => io.disconnect();
   }, []);
 
+  // cc_load_policy=1 turns subtitles on from the start — the video autoplays
+  // muted, so without them the first seconds say nothing. cc_lang_pref picks
+  // the French track (uploaded or auto-generated) when there is more than one.
   const src =
     `${ORIGIN}/embed/${VIDEO_ID}` +
     "?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1" +
+    "&cc_load_policy=1&cc_lang_pref=fr" +
     `&origin=${encodeURIComponent(window.location.origin)}`;
 
   return (
