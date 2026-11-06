@@ -1108,6 +1108,7 @@ function UsersTab() {
               <tr className={`text-left text-xs uppercase tracking-wider ${c.faint}`}>
                 <th className="pb-3 pr-4 font-semibold">Utilisateur</th>
                 <th className="pb-3 pr-4 font-semibold">Forfait</th>
+                <th className="pb-3 pr-4 font-semibold">Pays</th>
                 <th className="pb-3 pr-4 font-semibold">Rôle</th>
                 <th className="pb-3 pr-4 font-semibold">Inscrit le</th>
                 <th className="pb-3 pr-4 font-semibold">Dernière connexion</th>
@@ -1153,6 +1154,86 @@ function UsersTab() {
   );
 }
 
+/* ------------------------- countries & payments --------------------------- */
+
+// Country names in French from the ISO code ("DZ" → "Algérie"). No flag emoji:
+// Windows renders them as two bare letters.
+const REGION_NAMES = (() => { try { return new Intl.DisplayNames(["fr"], { type: "region" }); } catch { return null; } })();
+const countryName = (code) => { try { return REGION_NAMES?.of(code) || code; } catch { return code; } };
+
+const PAY_SOURCE = { stripe: "Carte · Stripe", dzd: "Demande DZD", manual: "Saisi à la main" };
+const PAY_METHOD = { card: "", ccp: "CCP", baridimob: "BaridiMob", cash: "Espèces", other: "Autre" };
+
+const payAmount = (p) => {
+  if (p.amount == null) return "montant inconnu";
+  if (p.currency === "dzd") return `${Math.round(p.amount).toLocaleString("fr-FR")} DA`;
+  try { return new Intl.NumberFormat("fr-CA", { style: "currency", currency: String(p.currency).toUpperCase() }).format(p.amount); }
+  catch { return `${p.amount} ${String(p.currency).toUpperCase()}`; }
+};
+// Stripe records the plan slug ("visa"), the DZD side its display name.
+const payPlan = (p) => (p.plan ? PLANS.find((x) => x.slug === p.plan)?.name || currentPlanLabel(p.plan) || p.plan : null);
+
+// The table cell: latest connection country, plus how many others.
+function CountryCell({ u }) {
+  const { c } = useApp();
+  const [latest, ...others] = u.countries || [];
+  if (!latest) return <span className={`text-xs ${c.faint}`} title={u.signupCountry ? `Déclaré à l'inscription : ${u.signupCountry}` : "Aucune connexion enregistrée"}>—</span>;
+  const tip = (u.countries || []).map((x) => `${countryName(x.country)} — ${x.visits} visite${x.visits > 1 ? "s" : ""}, dernière le ${dateOnly(x.lastSeenAt)}`).join("\n");
+  return (
+    <span className="inline-flex items-center gap-1.5" title={tip}>
+      <span className="font-mono2 text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-blue-600/10 text-blue-600">{latest.country}</span>
+      <span className={`text-xs truncate max-w-[110px] ${c.sub}`}>{countryName(latest.country)}</span>
+      {others.length > 0 && <span className={`text-[11px] font-semibold ${c.faint}`}>+{others.length}</span>}
+    </span>
+  );
+}
+
+// Detail shown when a row is opened (⚙): every connection country and every
+// payment on record for the account.
+function UserInsights({ u }) {
+  const { c } = useApp();
+  const countries = u.countries || [];
+  const payments = u.payments || [];
+  return (
+    <div className="grid md:grid-cols-2 gap-3 mb-3">
+      <div className={`rounded-2xl border p-3 ${c.border}`}>
+        <p className={`text-[11px] font-bold uppercase tracking-wide mb-2 ${c.faint}`}>Pays de connexion</p>
+        {countries.length === 0
+          ? <p className={`text-xs ${c.faint}`}>Aucune connexion enregistrée depuis le suivi des pays.</p>
+          : (
+            <ul className="space-y-1.5">
+              {countries.map((x) => (
+                <li key={x.country} className="flex items-center gap-2 text-xs">
+                  <span className="font-mono2 text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-blue-600/10 text-blue-600">{x.country}</span>
+                  <span className={`font-medium ${c.text}`}>{countryName(x.country)}</span>
+                  <span className={c.faint}>· {x.visits} visite{x.visits > 1 ? "s" : ""} · du {dateOnly(x.firstSeenAt)} au {dateOnly(x.lastSeenAt)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        {u.signupCountry && <p className={`text-[11px] mt-2 ${c.faint}`}>Déclaré à l'inscription : {u.signupCountry}</p>}
+      </div>
+      <div className={`rounded-2xl border p-3 ${c.border}`}>
+        <p className={`text-[11px] font-bold uppercase tracking-wide mb-2 ${c.faint}`}>Paiements{u.paymentCount > payments.length ? ` (${payments.length} derniers sur ${u.paymentCount})` : ""}</p>
+        {payments.length === 0
+          ? <p className={`text-xs ${c.faint}`}>Aucun paiement enregistré{u.premiumActive ? " — accès accordé à la main ou par un code cadeau" : ""}.</p>
+          : (
+            <ul className="space-y-1.5">
+              {payments.map((p, i) => (
+                <li key={i} className="flex items-center gap-2 text-xs flex-wrap">
+                  <span className={`font-semibold ${c.text}`}>{when(p.date)}</span>
+                  <span className={`font-mono2 font-semibold ${c.text}`}>{payAmount(p)}</span>
+                  {payPlan(p) && <Pill tone="blue">{payPlan(p)}</Pill>}
+                  <span className={c.faint}>{PAY_SOURCE[p.source] || p.source}{PAY_METHOD[p.method] ? ` · ${PAY_METHOD[p.method]}` : ""}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+      </div>
+    </div>
+  );
+}
+
 function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle, onConfirmDelete, onCancelDelete, onOpenActivity, act, planButton }) {
   const { c } = useApp();
   // Mirrors the server rule in api/_lib/admin/users.js: never yourself, never
@@ -1186,7 +1267,9 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
         <td className="py-3.5 pr-4">
           <Pill tone={u.premiumActive ? "gold" : "slate"}>{u.premiumActive ? <><Crown size={11} /> {currentPlanLabel(u.planLabel) || "Premium"}</> : "Basic"}</Pill>
           {u.premiumActive && <p className={`text-[11px] mt-1 ${c.faint}`}>{u.premiumUntil ? `jusqu'au ${dateOnly(u.premiumUntil)}` : "sans expiration"}</p>}
+          {u.lastPaidAt && <p className="text-[11px] mt-0.5 font-semibold text-emerald-600" title={`${u.paymentCount} paiement${u.paymentCount > 1 ? "s" : ""} — détail dans ⚙`}>payé le {dateOnly(u.lastPaidAt)}</p>}
         </td>
+        <td className="py-3.5 pr-4"><CountryCell u={u} /></td>
         <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : u.moderator ? <Pill tone="green"><BadgeCheck size={11} /> Validateur</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
@@ -1196,7 +1279,8 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
       </tr>
       {open && (
         <tr className={`border-t ${c.border}`}>
-          <td colSpan={6} className="py-3">
+          <td colSpan={7} className="py-3">
+            <UserInsights u={u} />
             <div className="flex items-center gap-2 flex-wrap">
               {PAID_PLANS.map((p) => planButton(u, p))}
               {/* Prolonger ADDS to what is left; the plan buttons above restart

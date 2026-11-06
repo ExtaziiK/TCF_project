@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { removeUserRecordings } from "../eoRecordings.js";
+import { loadCountries, loadPayments } from "./userInsights.js";
 
 // Admin user management. Runs server-side because listing accounts (emails)
 // and editing app_metadata (plan, role) require the service-role key — the
@@ -104,9 +105,11 @@ const premiumActive = (meta) =>
 
 const isOnline = (lastSeenAt) => !!lastSeenAt && Date.now() - Date.parse(lastSeenAt) < ONLINE_WINDOW_MS;
 
-function toRow(u, profiles) {
+// `insights` = { countries, payments } maps from userInsights.js, keyed by id.
+function toRow(u, profiles, insights = {}) {
   const meta = u.app_metadata || {};
   const p = profiles[u.id] || {};
+  const payments = insights.payments?.[u.id] || [];
   return {
     id: u.id,
     email: u.email,
@@ -125,6 +128,14 @@ function toRow(u, profiles) {
     online: isOnline(p.last_seen_at),
     // "mobile" | "desktop" | null — the device of the latest presence ping.
     lastSeenDevice: p.last_seen_device || null,
+    // Typed at sign-up (where they say they live) — not the connection country.
+    signupCountry: u.user_metadata?.country || null,
+    // Connection countries, latest first: [{ country, firstSeenAt, lastSeenAt, visits }].
+    countries: insights.countries?.[u.id] || [],
+    // Newest first, capped: [{ date, source, amount, currency, plan, method }].
+    payments: payments.slice(0, 20),
+    paymentCount: payments.length,
+    lastPaidAt: payments[0]?.date || null,
   };
 }
 
@@ -170,6 +181,9 @@ async function handleGet(req, res) {
   if (profileQuery.error) profileQuery = await admin.from("profiles").select("id, username, last_seen_at").in("id", ids);
   const profileRows = profileQuery.data;
   const profiles = Object.fromEntries((profileRows || []).map((p) => [p.id, p]));
+  // Connection countries + payment history, for every account in one go.
+  const [countries, payments] = await Promise.all([loadCountries(admin, ids), loadPayments(admin, users)]);
+  const insights = { countries, payments };
 
   // Live connections + most recent logins are reported over ALL accounts,
   // independent of the active search/type filter, so the header stays stable.
@@ -177,12 +191,12 @@ async function handleGet(req, res) {
     .filter((u) => isOnline(profiles[u.id]?.last_seen_at))
     .sort((a, b) => Date.parse(profiles[b.id]?.last_seen_at) - Date.parse(profiles[a.id]?.last_seen_at));
   const onlineCount = onlineRows.length;
-  const onlineUsers = onlineRows.slice(0, 12).map((u) => toRow(u, profiles));
+  const onlineUsers = onlineRows.slice(0, 12).map((u) => toRow(u, profiles, insights));
   const recentLogins = [...users]
     .filter((u) => u.last_sign_in_at)
     .sort((a, b) => new Date(b.last_sign_in_at) - new Date(a.last_sign_in_at))
     .slice(0, RECENT_LOGINS)
-    .map((u) => toRow(u, profiles));
+    .map((u) => toRow(u, profiles, insights));
 
   // Search FIRST, then count per type, then narrow to the chosen type. Both
   // filters are conjunctive so the order cannot change the final list, but this
@@ -212,7 +226,7 @@ async function handleGet(req, res) {
   const total = users.length;
   const slice = users.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   res.status(200).json({
-    users: slice.map((u) => toRow(u, profiles)),
+    users: slice.map((u) => toRow(u, profiles, insights)),
     total, page, perPage: PER_PAGE,
     filter: filterKey,
     counts,

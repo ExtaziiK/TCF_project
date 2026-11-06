@@ -10,6 +10,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { getSession, mapSupabaseUser, onAuthStateChange, refreshSession, signOut as authSignOut, claimDeviceSession, checkDeviceSession, consumeOAuthPending, peekOAuthPending, isNewlyCreatedUser, touchLastSeen, markPremiumPending, clearPremiumPending, isPremiumPending, requestAccountDeletion, cancelAccountDeletion } from "@/services/authService";
 import { hasStoredSession, hasAuthRedirect } from "@/services/supabaseClient";
 import { confirmCheckout, trackPurchase } from "@/services/stripeService";
+import { reportConnectionCountry } from "@/utils/geo";
 import { stashPendingGiftCode } from "@/services/giftLinkService";
 import { useDzActivation } from "@/hooks/useDzActivation";
 import { useGiftRedemption } from "@/hooks/useGiftRedemption";
@@ -187,6 +188,8 @@ export function AppProvider({ children }) {
     // show live connections. Immediately, then on every heartbeat tick while the
     // tab is visible (a hidden/closed tab stops pinging and drops off "online").
     touchLastSeen();
+    // Connection country, once per tab (Administration › Utilisateurs).
+    reportConnectionCountry(uid);
     const check = async () => {
       if (document.hidden) return;
       touchLastSeen();

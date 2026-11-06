@@ -59,3 +59,24 @@ export async function detectCountry() {
     return null; // offline, blocked, or no functions deployed
   }
 }
+
+// Records the country this signed-in account is connecting from (POST
+// /api/public/geo, read server-side from the request IP), for Administration ›
+// Utilisateurs. Once per tab and account: a session is one "visit". Silent and
+// best-effort — nothing on the page depends on it.
+export async function reportConnectionCountry(userId) {
+  const key = `passerelle.country-reported:${userId}`;
+  try {
+    if (!userId || sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch { /* storage blocked: report anyway */ }
+  try {
+    // Imported here, not at the top: this module is loaded by the pricing
+    // block for anonymous visitors too, and the Supabase client stays lazy.
+    const { getSupabase } = await import("@/services/supabaseClient");
+    const { data } = await (await getSupabase()).auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) return;
+    await fetch("/api/public/geo", { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+  } catch { /* offline, blocked, or no functions deployed */ }
+}
