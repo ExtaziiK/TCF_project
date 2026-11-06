@@ -50,13 +50,28 @@ const digits = (text) => {
 
 export async function loadCountries(admin, ids) {
   if (!ids.length) return {};
-  const { data, error } = await admin
-    .from("user_countries")
-    .select("user_id, country, first_seen_at, last_seen_at, visits")
-    .in("user_id", ids);
-  if (error) return {}; // migration not applied yet
+  // Read whole, NOT `.in("user_id", ids)`: with every account's id in the
+  // request URL (~37 chars each) the query outgrows the URL limit once there
+  // are a few hundred accounts, fails, and every row showed « — ». The table
+  // only holds accounts that have connected (a few rows each), so reading it
+  // all and keeping the listed ids is cheap.
+  // Paged by 1000: Supabase caps a single read at 1000 rows.
+  const wanted = new Set(ids);
+  const data = [];
+  for (let from = 0; from < 50000; from += 1000) {
+    const { data: page, error } = await admin
+      .from("user_countries")
+      .select("user_id, country, first_seen_at, last_seen_at, visits")
+      .order("user_id")
+      .order("country")
+      .range(from, from + 999);
+    if (error) { console.error("userInsights countries:", error.message); return {}; }
+    data.push(...(page || []));
+    if (!page || page.length < 1000) break;
+  }
   const out = {};
   for (const r of data || []) {
+    if (!wanted.has(r.user_id)) continue;
     (out[r.user_id] ||= []).push({ country: r.country, firstSeenAt: r.first_seen_at, lastSeenAt: r.last_seen_at, visits: r.visits });
   }
   for (const list of Object.values(out)) list.sort((a, b) => Date.parse(b.lastSeenAt) - Date.parse(a.lastSeenAt));

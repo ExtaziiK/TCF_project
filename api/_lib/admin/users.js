@@ -177,8 +177,20 @@ async function handleGet(req, res) {
   // the column is missing and the query fails, so it is retried without it —
   // the list then simply shows no device icons.
   const ids = users.map((u) => u.id);
-  let profileQuery = await admin.from("profiles").select("id, username, last_seen_at, last_seen_device").in("id", ids);
-  if (profileQuery.error) profileQuery = await admin.from("profiles").select("id, username, last_seen_at").in("id", ids);
+  // Fetched in batches of ids: all of them in one `.in()` puts ~37 chars per
+  // account into the request URL, which outgrows the URL limit at a few
+  // hundred accounts and makes the query fail.
+  const profileBatch = async (cols) => {
+    const rows = [];
+    for (let i = 0; i < ids.length; i += 200) {
+      const { data, error } = await admin.from("profiles").select(cols).in("id", ids.slice(i, i + 200));
+      if (error) return { error };
+      rows.push(...(data || []));
+    }
+    return { data: rows };
+  };
+  let profileQuery = await profileBatch("id, username, last_seen_at, last_seen_device");
+  if (profileQuery.error) profileQuery = await profileBatch("id, username, last_seen_at");
   const profileRows = profileQuery.data;
   const profiles = Object.fromEntries((profileRows || []).map((p) => [p.id, p]));
   // Connection countries + payment history, for every account in one go.
