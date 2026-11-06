@@ -57,3 +57,19 @@ export const setPendingPromo = (code) => {
 export const getPendingPromo = () => {
   try { return sessionStorage.getItem(PENDING_PROMO_KEY) || ""; } catch { return ""; }
 };
+
+// A DZD request just sent: what the thank-you page (/merci) shows to its
+// buyer — the plan, the amount and the WhatsApp link — since, unlike Stripe,
+// nothing comes back in the URL. Per tab, so a refresh of /merci still shows it.
+const THANKS_KEY = "passerelle.dzThanks";
+
+export const setDzThanks = (info) => {
+  try { sessionStorage.setItem(THANKS_KEY, JSON.stringify(info)); } catch { /* private mode */ }
+};
+
+export const getDzThanks = () => {
+  try {
+    const p = JSON.parse(sessionStorage.getItem(THANKS_KEY) || "null");
+    return p?.plan ? p : null;
+  } catch { return null; }
+};

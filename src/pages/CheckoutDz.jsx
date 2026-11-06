@@ -8,10 +8,10 @@ import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
 import { PLANS } from "@/constants/pricing";
 import { ACCENTS } from "@/components/pricing/PlanCard";
-import { planDzdAmount, applyPercentOff } from "@/utils/currency";
-import { getDzCheckoutPlan, getDzCheckoutPromo, setDzCheckoutPromo } from "@/utils/dzCheckout";
+import { planDzdAmount, applyPercentOff, parseDzd } from "@/utils/currency";
+import { getDzCheckoutPlan, getDzCheckoutPromo, setDzCheckoutPromo, setDzThanks } from "@/utils/dzCheckout";
 import { getPaymentDz } from "@/services/settingsService";
-import { validatePromoCode, promoLabel } from "@/services/stripeService";
+import { validatePromoCode, promoLabel, trackPurchase } from "@/services/stripeService";
 import { saleActive, salePromo } from "../../api/_lib/sale.js";
 import { submitSubscriptionRequest, notifyNewRequest, MAX_RECEIPT_BYTES, ACCEPTED_RECEIPT_TYPES } from "@/services/subscriptionService";
 
@@ -60,7 +60,6 @@ export function CheckoutDz() {
   const [notes, setNotes] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [sent, setSent] = useState(false);
   const fileRef = useRef(null);
 
   // Resolve the plan the user picked on the Tarifs page. Missing/invalid (e.g.
@@ -149,8 +148,13 @@ export function CheckoutDz() {
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));
     notifyNewRequest(r.id, phone); // ping the owner on Telegram with the phone (best-effort; phone isn't stored)
-    setSent(true);
-    window.scrollTo({ top: 0 });
+    // Same thank-you page and the same GTM "purchase" event as a card payment,
+    // so the Google Ads conversion counts dinar buyers too. Sent on SUBMISSION:
+    // the transfer is only confirmed when the request is approved, so a
+    // rejected request will already have been counted.
+    trackPurchase(`dz-${r.id}`, { amountTotal: parseDzd(amount), currency: "DZD", plan: plan.slug, planLabel: plan.name });
+    setDzThanks({ plan: plan.name, amount, method, waUrl, at: Date.now() });
+    nav("merci");
   };
 
   const accent = ACCENTS[plan.accent] || ACCENTS.blue;
@@ -176,30 +180,6 @@ export function CheckoutDz() {
       </div>
     );
   };
-
-  if (sent) {
-    return (
-      <PageShell back eyebrow={t("Abonnement")} title={t("Demande envoyée !")} sub={t("Nous vérifions votre paiement et activons votre accès au plus vite.")}>
-        <Card className="p-8 max-w-xl mx-auto text-center">
-          <span className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/30"><CheckCircle2 size={30} /></span>
-          <h3 className={`mt-4 font-display font-bold text-xl ${c.text}`}>{t("Votre demande a bien été reçue")}</h3>
-          <div className={`mt-4 mx-auto max-w-sm flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border ${c.border}`}>
-            <span className="text-sm font-bold" style={{ color: accent.solid }}>{t("Forfait")} {t(plan.name)}</span>
-            <span className={`font-display font-extrabold ${c.text}`}>{amount}</span>
-          </div>
-          <p className={`mt-4 text-sm ${c.sub}`}>{t("Vous recevrez une confirmation dès l'activation (activation en moins de 15 minutes après vérification du reçu).")}</p>
-          {waUrl && (
-            <a href={waUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 px-5 py-3 rounded-full font-semibold text-white shadow-lg" style={{ background: "#25D366" }}>
-              <MessageCircle size={18} /> {t("Envoyer aussi le reçu sur WhatsApp")}
-            </a>
-          )}
-          <div className="mt-6">
-            <Btn variant="ghost" small onClick={() => nav("dashboard")}>{t("Aller au tableau de bord")}</Btn>
-          </div>
-        </Card>
-      </PageShell>
-    );
-  }
 
   return (
     <PageShell back wide eyebrow={t("Paiement en dinar algérien")} title={t("Finaliser votre abonnement")} sub={t("Payez par CCP ou BaridiMob, puis téléversez votre reçu. Votre accès est activé après vérification.")}>

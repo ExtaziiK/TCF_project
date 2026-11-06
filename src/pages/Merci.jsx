@@ -1,14 +1,24 @@
-import { CheckCircle2, Clock, Loader2, Timer, BookOpenCheck, LayoutDashboard, RotateCcw, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock, Loader2, Timer, BookOpenCheck, LayoutDashboard, RotateCcw, Sparkles, MessageCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Btn } from "@/components/common";
+import { getDzThanks } from "@/utils/dzCheckout";
 
 // Thank-you page — Stripe's success_url (/merci?session_id=…). AppProvider
 // reads the session id on load, strips it from the URL, grants the pass and
 // reports progress through `checkoutStatus`; this page only shows it.
 //
+// The DZD checkout (CCP / BaridiMob) lands here too, after « Envoyer » — its
+// request is stashed per tab by CheckoutDz (setDzThanks) and shown as "dz":
+// received, waiting for the receipt to be checked.
+//
 // Opened without a payment behind it (a refresh, a bookmark), the status is
 // null and the page falls back to the account itself: a Premium account gets
 // its pass summary, anyone else a way to the pricing page.
+
+const DZ_METHODS = { ccp: "CCP", baridimob: "BaridiMob" };
+// A dinar request stays the page's subject for a few hours in the tab, then
+// the page goes back to describing the account.
+const DZ_FRESH_MS = 6 * 3600 * 1000;
 
 const fmtDate = (iso) => new Date(iso).toLocaleDateString("fr-CA", { day: "numeric", month: "long", year: "numeric" });
 
@@ -35,9 +45,22 @@ export function Merci() {
   const { c, nav, user, checkoutStatus } = useApp();
   const firstName = (user?.name || "").split(/\s+/)[0];
   const premium = user?.plan === "Premium";
-  const state = checkoutStatus || (premium ? "active" : "none");
+  const dzStash = getDzThanks();
+  const dz = dzStash && Date.now() - (dzStash.at || 0) < DZ_FRESH_MS ? dzStash : null;
+  const state = checkoutStatus || (dz ? "dz" : premium ? "active" : "none");
 
   const head = {
+    dz: {
+      badge: <StatusBadge icon={CheckCircle2} tone="green" />,
+      title: firstName ? `Merci, ${firstName} ! Demande envoyée` : "Merci, votre demande est envoyée !",
+      text: (
+        <>
+          Nous vérifions votre reçu{DZ_METHODS[dz?.method] ? ` ${DZ_METHODS[dz.method]}` : ""}{dz?.amount ? <> de <strong>{dz.amount}</strong></> : null} pour
+          le pass <strong>{dz?.plan}</strong>. Votre accès Premium est activé en moins de 15 minutes après vérification,
+          et vous recevez une confirmation.
+        </>
+      ),
+    },
     activating: {
       badge: <StatusBadge icon={Loader2} tone="blue" spin />,
       title: "Paiement reçu, merci !",
@@ -86,6 +109,12 @@ export function Merci() {
             {state === "active" && <Btn variant="ghost" onClick={() => nav("dashboard")}>Mon tableau de bord</Btn>}
             {(state === "pending" || state === "activating") && <Btn variant="ghost" onClick={() => nav("dashboard")}>Aller au tableau de bord</Btn>}
             {state === "delayed" && <Btn icon={RotateCcw} onClick={() => window.location.reload()}>Rafraîchir la page</Btn>}
+            {state === "dz" && dz?.waUrl && (
+              <a href={dz.waUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-semibold text-white shadow-lg" style={{ background: "#25D366" }}>
+                <MessageCircle size={18} /> Envoyer aussi le reçu sur WhatsApp
+              </a>
+            )}
+            {state === "dz" && <Btn variant="ghost" onClick={() => nav("dashboard")}>Aller au tableau de bord</Btn>}
             {state === "none" && <Btn onClick={() => nav("pricing")}>Voir les tarifs</Btn>}
           </div>
         </Card>
