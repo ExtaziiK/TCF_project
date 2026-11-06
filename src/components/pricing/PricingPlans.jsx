@@ -39,7 +39,7 @@ export function PricingPlans({ s, compact = false }) {
       )}
 
       {/* Currency switch — indicative conversion only; Stripe still charges USD. */}
-      <div className={`flex justify-center ${s.isDzd ? "" : "mb-8"}`}>
+      <div className={`flex justify-center ${s.isDzd ? "" : "mb-12 lg:mb-16"}`}>
         <div className={`inline-flex items-center gap-1 p-1.5 rounded-full border shadow-sm ${c.border} ${c.card}`} role="group" aria-label={t("Afficher les prix dans une autre devise")}>
           {currencies.map((cur) => {
             const active = cur.code === s.currency.code;
