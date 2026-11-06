@@ -2,7 +2,8 @@
 //
 // A separate file rather than the inline snippet Google hands out: the CSP is
 // `script-src 'self' https://www.googletagmanager.com`, which blocks inline
-// scripts. Same three statements as Google's snippet, plus Consent Mode v2:
+// scripts. Does what Google Tag Manager's snippet does (the dataLayer and its
+// « gtm.js » start event, at the end of this file), plus Consent Mode v2:
 //
 //   · analytics cookies start DENIED and are granted only once the visitor
 //     clicks « Accepter » in the cookie banner (src/components/layout/
@@ -36,5 +37,10 @@
     ad_personalization: "denied",
     wait_for_update: 500,
   });
-  gtag("js", new Date());
+  // The GTM container snippet's own push: it is what starts the container —
+  // the « Container Loaded » / All Pages event, and what Tag Assistant
+  // (Prévisualiser) waits for. It used to be gtag("js", …), the Google-tag
+  // (gtag.js) snippet's line, which GTM does not treat as its start event.
+  // Pushed AFTER the consent defaults so every tag sees them.
+  window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
 })();
