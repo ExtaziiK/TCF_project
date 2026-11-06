@@ -34,14 +34,6 @@ const LAYOUTS = {
     [Flight, { color: violet, width: 150, flip: true }, "top-[60%] right-[1%]", "", 14],
     [Tile, { ch: "È", pts: 2, color: amber, tilt: 9 }, "bottom-[16%] right-[6%]", "decor-sway", 26],
   ],
-  video: [
-    [Bubble, { text: "Regardez !", color: red, tilt: -6 }, "top-24 left-[4%]", "decor-float", 18],
-    [Maple, { color: blue, size: 44, tilt: 12 }, "top-[50%] left-[2%]", "decor-sway", 26],
-    [Tile, { ch: "Ù", pts: 3, color: violet, tilt: -8 }, "bottom-24 left-[8%]", "decor-sway", 24],
-    [Maple, { color: red, size: 54, tilt: -10 }, "top-20 right-[6%]", "decor-sway", 20],
-    [Tag, { text: "5 min", color: amber, tilt: 6 }, "top-[52%] right-[2%]", "decor-float-slow", 26],
-    [Tile, { ch: "Ê", pts: 2, color: blue, tilt: 8 }, "bottom-28 right-[5%]", "decor-sway", 22],
-  ],
   overview: [
     [Tag, { text: "699 pts", color: violet, tilt: -6 }, "top-20 left-[3%]", "decor-float", 16],
     [Bubble, { text: "Bonne chance !", color: blue, tilt: 5 }, "top-[45%] left-[1.5%]", "decor-float-slow", 22],
