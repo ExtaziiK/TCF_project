@@ -1272,7 +1272,12 @@ function UserRow({ u, isSelf, canManageAdmins, open, confirming, busy, onToggle,
         <td className="py-3.5 pr-4"><CountryCell u={u} /></td>
         <td className="py-3.5 pr-4">{u.owner ? <Pill tone="amber"><Shield size={11} /> Owner</Pill> : u.admin ? <Pill tone="red"><Shield size={11} /> Admin</Pill> : u.moderator ? <Pill tone="green"><BadgeCheck size={11} /> Validateur</Pill> : <span className={`text-xs ${c.faint}`}>—</span>}</td>
         <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{dateOnly(u.createdAt)}</td>
-        <td className={`py-3.5 pr-4 text-xs ${c.sub}`}>{when(u.lastSignInAt)}</td>
+        {/* Latest of the last visit (presence ping) and the last sign-in:
+            sessions persist, so a returning candidate rarely signs in again
+            and last_sign_in_at alone stays stuck at the sign-up time. */}
+        <td className={`py-3.5 pr-4 text-xs ${c.sub}`} title={u.lastSignInAt ? `Dernière authentification : ${when(u.lastSignInAt)}` : undefined}>
+          {when([u.lastSeenAt, u.lastSignInAt].filter(Boolean).sort((a, b) => Date.parse(b) - Date.parse(a))[0] || null)}
+        </td>
         <td className="py-3.5">
           <button onClick={onToggle} aria-expanded={open} aria-label={`Gérer ${u.email}`} className={`p-2 rounded-xl ${open ? "bg-blue-600/10 text-blue-600" : `${c.hoverSoft} ${c.sub}`}`}><Settings2 size={15} /></button>
         </td>
