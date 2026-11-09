@@ -133,31 +133,34 @@ const shell = await fs.readFile(path.join(dist, "index.html"), "utf8");
 //
 // The route → chunk table is read from the source rather than repeated here:
 // the lazyPage() declarations give each component's module, PAGES gives each
-// route's component, and Vite's manifest gives each module's built files.
+// route's component, and moduleChunksPlugin (vite.config.js) gives each
+// module's chunk file and each chunk's static imports.
 async function loadPagePreloads() {
-  const manifestPath = path.join(dist, ".vite", "manifest.json");
-  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  const { modules, chunks } = JSON.parse(await fs.readFile(path.join(dist, ".vite", "module-chunks.json"), "utf8"));
   await fs.rm(path.join(dist, ".vite"), { recursive: true, force: true }); // build-time only
   const source = await fs.readFile(path.join(root, "src/pages/index.jsx"), "utf8");
 
   const moduleOf = {};
   for (const [, name, spec] of source.matchAll(/const (\w+) = lazyPage\(\(\) => import\("@\/([^"]+)"\)/g)) {
-    const key = ["jsx", "js"].map((ext) => `src/${spec}.${ext}`).find((k) => manifest[k]);
+    const key = ["jsx", "js"].map((ext) => `src/${spec}.${ext}`).find((k) => modules[k]);
     if (key) moduleOf[name] = key;
-    // A chunking option that folds small pages into shared chunks drops them
-    // from the manifest, and their routes would silently lose the preload.
-    else console.warn(`prerender: no manifest entry for lazy page ${name} (${spec}) — its route gets no modulepreload.`);
+    else console.warn(`prerender: no chunk found for lazy page ${name} (${spec}) — its route gets no modulepreload.`);
   }
   const pagesBlock = source.slice(source.indexOf("export const PAGES"));
-  const files = (key, seen = new Set()) => {
-    const entry = manifest[key];
-    if (!entry || entry.isEntry || seen.has(key)) return [];
-    seen.add(key);
-    return [entry.file, ...(entry.imports || []).flatMap((k) => files(k, seen))];
+  // The chunk holding the page module, plus its static imports. The entry
+  // chunk is skipped: the shell already loads it. experimentalMinChunkSize can
+  // fold a small page into a shared chunk (or the entry), so the lookup goes
+  // through the module → chunk map rather than Vite's manifest, which drops
+  // such pages.
+  const files = (file, seen = new Set()) => {
+    const chunk = chunks[file];
+    if (!chunk || chunk.isEntry || seen.has(file)) return [];
+    seen.add(file);
+    return [file, ...chunk.imports.flatMap((f) => files(f, seen))];
   };
   const preloads = {};
   for (const [, route, name] of pagesBlock.matchAll(/^\s*"?([\w-]+)"?: (\w+),/gm)) {
-    if (moduleOf[name]) preloads[route] = [...new Set(files(moduleOf[name]))];
+    if (moduleOf[name]) preloads[route] = [...new Set(files(modules[moduleOf[name]]))];
   }
   return preloads;
 }

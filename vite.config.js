@@ -20,8 +20,31 @@ const apiProxy = () => ({
   },
 });
 
+// experimentalMinChunkSize (below) folds small lazy pages into shared chunks,
+// which drops them from Vite's manifest. This records, for every source
+// module, the chunk that ended up holding it, so scripts/prerender.mjs can
+// still preload those pages' code from their HTML (it deletes the file after,
+// so it is never deployed).
+const moduleChunksPlugin = () => ({
+  name: "module-chunks",
+  apply: "build",
+  generateBundle(_, bundle) {
+    const modules = {};
+    const chunks = {};
+    for (const chunk of Object.values(bundle)) {
+      if (chunk.type !== "chunk") continue;
+      chunks[chunk.fileName] = { isEntry: chunk.isEntry, imports: chunk.imports };
+      for (const id of chunk.moduleIds) {
+        const rel = path.relative(dirname, id).replace(/\\/g, "/");
+        if (rel.startsWith("src/")) modules[rel] = chunk.fileName;
+      }
+    }
+    this.emitFile({ type: "asset", fileName: ".vite/module-chunks.json", source: JSON.stringify({ modules, chunks }) });
+  },
+});
+
 export default defineConfig({
-  plugins: [react(), bankManifestPlugin({ root: dirname }), sujetsLatestPlugin({ root: dirname }), announcementBarPlugin()],
+  plugins: [react(), bankManifestPlugin({ root: dirname }), sujetsLatestPlugin({ root: dirname }), announcementBarPlugin(), moduleChunksPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(dirname, "src"),
@@ -38,8 +61,21 @@ export default defineConfig({
   // status 200 — which surfaces to the user as a JSON parse error on a page
   // that otherwise looks perfectly healthy.
   server: { proxy: apiProxy() },
-  // scripts/prerender.mjs reads the manifest to preload each route's page
-  // chunk from its own HTML, then deletes it so it is never deployed.
-  build: { manifest: true },
+  // Chunking is tuned for request count: every file a page loads is one
+  // Vercel CDN request, and the Hobby plan caps those at 1M / 30 days. Left
+  // alone, Rollup gave each lucide icon shared by two lazy pages its own
+  // ~1 KB chunk (check.js, star.js, clock.js…), so a single page view cost
+  // ~60 requests. All icons now ship as one "icons" chunk, and any other
+  // shared chunk under the minimum size is merged into its importer.
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/lucide-react")) return "icons";
+        },
+        experimentalMinChunkSize: 5_000,
+      },
+    },
+  },
   preview: { proxy: apiProxy() },
 });
