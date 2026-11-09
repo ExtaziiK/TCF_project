@@ -2103,6 +2103,7 @@ export const EN = {
   "Pas tout à fait.": "Not quite.",
   "Mode leçons": "Lesson mode",
   "Recommencer": "Restart",
+  "Vous n'avez pas encore fait ce quiz : la bonne réponse s'affiche après votre choix.": "You haven't taken this quiz yet: the correct answer appears after you choose.",
   "Toutes les leçons, un exercice à la fois. Chaque réponse est expliquée.":
     "Every lesson, one exercise at a time. Each answer is explained.",
   "Les articles": "Articles",

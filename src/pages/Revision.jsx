@@ -8,6 +8,7 @@ import { useBank } from "@/hooks/useBank";
 import { SECTION_LABELS } from "@/utils/bankAdapter";
 import { isStaff } from "@/auth/rbac";
 import { isUnderReview } from "@/constants/quizReview";
+import { listQuizResults } from "@/services/quizResultsService";
 
 // Révision — the hard half of every bank quiz, read or rehearsed, as a deck.
 //
@@ -19,7 +20,10 @@ import { isUnderReview } from "@/constants/quizReview";
 // Two modes over one bank. "Lire les corrigés" is a revision sheet: the correct
 // option is already green and the explanation already open, because the page is
 // there to be READ. "S'entraîner" withholds both until a choice is made, then
-// corrects on the spot.
+// corrects on the spot. A quiz the member has never sat (no quiz_results row
+// for its `bank-<id>` key) opens in "S'entraîner", so its answers are not given
+// away before they try it; a quiz already sat opens on the corrigés. The toggle
+// still switches either way, until another quiz is picked.
 //
 // Neither records anything. That is the point rather than an omission: these
 // are the questions 20-39 of quizzes a candidate can also sit properly, with
@@ -62,7 +66,7 @@ function sliceQuiz(quiz) {
 }
 
 export function Revision() {
-  const { c, t, role } = useApp();
+  const { c, t, role, user } = useApp();
   const staff = isStaff(role);
   const [section, setSection] = useState("co");
   const [query, setQuery] = useState("");
@@ -74,6 +78,15 @@ export function Revision() {
   // "read": the revision sheet, everything already showing.
   // "practice": the same bank, answers withheld until you choose.
   const [mode, setMode] = useState("read");
+  // Quiz keys (`bank-<id>`) the member has at least one result for; null until loaded.
+  const [sat, setSat] = useState(null);
+  useEffect(() => {
+    let on = true;
+    listQuizResults(user?.id)
+      .then(({ results }) => { if (on) setSat(new Set(results.map((r) => r.quizKey))); })
+      .catch(() => { if (on) setSat(new Set()); });
+    return () => { on = false; };
+  }, [user?.id]);
 
   // The épreuve's quizzes download when it is picked (null meanwhile).
   const { bank, error, retry } = useBank(section);
@@ -88,6 +101,12 @@ export function Revision() {
     [bank, section, staff],
   );
   const current = quizzes.find((q) => q.id === quizId) || quizzes[0] || null;
+  // Never sat → practice mode (answers hidden until a choice). Re-applied only
+  // when the quiz changes or the results arrive, so the toggle keeps working.
+  const unsat = !!current && !!sat && !sat.has(`bank-${current.id}`);
+  useEffect(() => {
+    if (current && sat) setMode(unsat ? "practice" : "read");
+  }, [current?.id, sat]); // eslint-disable-line react-hooks/exhaustive-deps
   const allQuestions = useMemo(() => quizzes.flatMap((q) => q.questions), [quizzes]);
 
   // The difficulty filter is built from the data rather than from fixed
@@ -219,6 +238,7 @@ export function Revision() {
           questions={deck}
           section={section}
           mode={mode}
+          note={!searching && unsat && mode === "practice" ? t("Vous n'avez pas encore fait ce quiz : la bonne réponse s'affiche après votre choix.") : null}
           heading={searching
             ? `${results.length} ${t(results.length > 1 ? "questions trouvées" : "question trouvée")}${results.length > SEARCH_LIMIT ? ` · ${t("les")} ${SEARCH_LIMIT} ${t("premières")}` : ""}`
             : `${t("Quiz")} ${current?.number ?? "?"}`}
@@ -232,7 +252,7 @@ export function Revision() {
 // One deck: the questions dealt one at a time. Signing happens here for the
 // whole deck (one batched request); the practice answers live here too, so
 // they vanish with the deck — nothing in Révision is a record.
-function Deck({ questions, section, mode, heading, onClear }) {
+function Deck({ questions, section, mode, heading, note, onClear }) {
   const { c, t } = useApp();
   const signed = useSignedQuestions(questions);
   const [index, setIndex] = useState(0);
@@ -282,6 +302,12 @@ function Deck({ questions, section, mode, heading, onClear }) {
           </span>
         )}
       </div>
+
+      {note && (
+        <p className={`mb-3 flex items-start gap-2 text-sm ${c.sub}`}>
+          <PenLine size={14} className="text-blue-600 shrink-0 mt-0.5" aria-hidden="true" /> {note}
+        </p>
+      )}
 
       {/* Progress strip: one segment per question, clickable. */}
       <div className="flex gap-1 mb-4" role="group" aria-label={t("Questions")}>
