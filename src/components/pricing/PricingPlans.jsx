@@ -19,10 +19,10 @@ import { CURRENCIES } from "@/utils/currency";
 // someone. The code they entered survives that signup (see setPendingPromo).
 export function PricingPlans({ s, compact = false }) {
   const { c, t, dark } = useApp();
-  // DZD is a manual transfer meant for buyers actually in Algeria — the tab
-  // itself is hidden from anyone the geo/account signals don't place there.
-  // See usePricingSelection's dzEligible for the two signals that unlock it.
-  const currencies = CURRENCIES.filter((cur) => cur.code !== "DZD" || s.dzEligible);
+  // Every currency tab, DZD included, is offered to every visitor: the dinar
+  // transfer (CCP / BaridiMob) is open to anyone, not only buyers in Algeria.
+  // Algerian visitors simply land on it by default (usePricingSelection).
+  const currencies = CURRENCIES;
 
   return (
     <>
