@@ -6,7 +6,7 @@ import { PRIVACY_DRAFT } from "@/constants/legalMeta";
 //
 // The content describes what the code ACTUALLY does — every processor named
 // below appears in this repository (Supabase, Vercel, Stripe, Groq, Azure
-// Speech, Hostinger mail, Google sign-in), and nothing is claimed that isn't
+// Speech, Hostinger mail, Trustpilot, Google sign-in), and nothing is claimed that isn't
 // implemented. If you add a service that touches user data, add it to section 4
 // in the same commit; that is the whole point of this document.
 //
@@ -14,7 +14,7 @@ import { PRIVACY_DRAFT } from "@/constants/legalMeta";
 // policy that names no controller is worth as little as terms that name no
 // publisher.
 export { PRIVACY_DRAFT };
-export const PRIVACY_UPDATED = "5 novembre 2026";
+export const PRIVACY_UPDATED = "11 novembre 2026";
 
 export const PRIVACY_DRAFT_NOTICE =
   "Ce document est rédigé mais n'est pas encore en vigueur. La version applicable sera publiée en même temps que les conditions générales d'utilisation.";
@@ -52,7 +52,7 @@ export const PRIVACY_SECTIONS = [
     t: "4. Prestataires qui traitent des données pour nous",
     p: [
       "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :",
-      "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.",
+      "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Trustpilot — après un achat, envoi d'une invitation à donner votre avis sur notre service, à partir de votre adresse email, de votre prénom et d'une référence de commande. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.",
       "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.",
     ],
   },

@@ -1247,6 +1247,8 @@ export const EN = {
     "Cookies",
   "5 novembre 2026":
     "November 5, 2026",
+  "11 novembre 2026":
+    "November 11, 2026",
   "Qui édite Passerelle, qui l'héberge, et à qui appartiennent ses contenus.":
     "Who publishes Passerelle, who hosts it, and who owns its content.",
   "30 octobre 2026":
@@ -1503,8 +1505,8 @@ export const EN = {
   "4. Prestataires qui traitent des données pour nous": "4. Providers that process data for us",
   "Nous ne vendons, ne louons et n'échangeons aucune donnée personnelle. Nous faisons appel à des prestataires techniques qui agissent sur nos instructions, chacun pour une finalité précise :":
     "We do not sell, rent or trade any personal data. We use technical providers who act on our instructions, each for a specific purpose:",
-  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.":
-    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Google — sign-in with a Google account, if you choose that option, audience measurement with Google Analytics and measurement of how our ads perform with Google Ads, the latter two only if you accept them.",
+  "Supabase — hébergement de la base de données et gestion des comptes et de l'authentification. Vercel — hébergement du site et mesure d'audience agrégée. Stripe — traitement des paiements par carte. Groq — transcription des enregistrements et correction automatique des productions écrites et orales. Microsoft Azure — synthèse vocale de l'examinateur virtuel. Hostinger — envoi des courriels du service. Trustpilot — après un achat, envoi d'une invitation à donner votre avis sur notre service, à partir de votre adresse email, de votre prénom et d'une référence de commande. Google — connexion par compte Google, si vous choisissez cette option, mesure d'audience par Google Analytics et mesure de l'efficacité de nos annonces par Google Ads, ces deux dernières uniquement si vous les acceptez.":
+    "Supabase — database hosting and management of accounts and authentication. Vercel — site hosting and aggregate audience measurement. Stripe — card payment processing. Groq — transcription of recordings and automatic correction of written and spoken work. Microsoft Azure — speech synthesis for the virtual examiner. Hostinger — sending the service's emails. Trustpilot — after a purchase, sending an invitation to review our service, using your email address, your first name and an order reference. Google — sign-in with a Google account, if you choose that option, audience measurement with Google Analytics and measurement of how our ads perform with Google Ads, the latter two only if you accept them.",
   "Nous pouvons également communiquer des données lorsqu'une obligation légale nous l'impose, ou pour constater, exercer ou défendre un droit en justice.":
     "We may also disclose data where a legal obligation requires it, or to establish, exercise or defend a legal claim.",
 

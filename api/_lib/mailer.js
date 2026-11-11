@@ -34,11 +34,13 @@ function transport() {
 
 // `replyTo`: where "Reply" goes — the candidate, on an email the site sends
 // to the team on their behalf (the support request).
-export async function sendMail({ to, cc, replyTo, subject, html, text }) {
+// `bcc`: a hidden copy — used for Trustpilot's review invitations (planEmails.js).
+export async function sendMail({ to, cc, bcc, replyTo, subject, html, text }) {
   return transport().sendMail({
     from: `"${FROM_NAME}" <${FROM_ADDR}>`,
     to,
     ...(cc && cc.length ? { cc } : {}),
+    ...(bcc && bcc.length ? { bcc } : {}),
     ...(replyTo ? { replyTo } : {}),
     subject,
     html,

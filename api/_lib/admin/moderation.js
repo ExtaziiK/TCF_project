@@ -122,7 +122,7 @@ async function approve(req, res, actor) {
   });
   // "Votre forfait est activé" — the buyer paid by transfer and is waiting;
   // the site updates on its own, but only if they have it open. Never throws.
-  const emailed = await sendDzActivated(admin, row.user_id, row.method);
+  const emailed = await sendDzActivated(admin, row.user_id, row.method, row.id);
   return res.status(200).json({ ok: true, emailed });
 }
 
