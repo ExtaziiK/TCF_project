@@ -46,6 +46,7 @@ const SujetsExpressionOrale = lazyPage(() => import("@/pages/SujetsExpressionOra
 const SujetsActualite = lazyPage(() => import("@/pages/SujetsActualite"), "SujetsActualite");
 const SujetModeleReponse = lazyPage(() => import("@/pages/SujetModeleReponse"), "SujetModeleReponse");
 const Contact = lazyPage(() => import("@/pages/Contact"), "Contact");
+const Partenaires = lazyPage(() => import("@/pages/Partenaires"), "Partenaires");
 const FAQ = lazyPage(() => import("@/pages/FAQ"), "FAQ");
 const Blog = lazyPage(() => import("@/pages/Blog"), "Blog");
 const Dashboard = lazyPage(() => import("@/pages/Dashboard"), "Dashboard");
@@ -109,6 +110,7 @@ export const PAGES = {
   "sujets-actualite": SujetsActualite,
   "sujet-reponse": SujetModeleReponse,
   contact: Contact,
+  partenaires: Partenaires,
   faq: FAQ,
   blog: Blog,
   dashboard: Dashboard,

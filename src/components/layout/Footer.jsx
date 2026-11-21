@@ -20,7 +20,7 @@ const COLS = [
   { h: "Épreuves", links: [["Compréhension orale", "listening"], ["Compréhension écrite", "reading"], ["Expression écrite", "writing"], ["Expression orale", "speaking"], ["TCF blanc", "mocks"]] },
   { h: "Exercices", links: [["La dictée", "dictee"], ["Vocabulaire", "vocabulary"], ["Grammaire", "grammar"], ["Conjugaison", "conjugation"], ["Carnet d'erreurs", "carnet", true], ["Révision", "revision", true]] },
   { h: "Ressources", links: [["Guide de l'examen", "guide"], ["Calculateur TCF → NCLC", "calculator"], ["Sujets du mois", "sujets-actualite"], ["Blog", "blog"], ["FAQ", "faq"]] },
-  { h: "Passerelle", links: [["À propos", "about"], ["Avis", "avis"], ["Tarifs", "pricing"], ["Contact", "contact"]] },
+  { h: "Passerelle", links: [["À propos", "about"], ["Avis", "avis"], ["Tarifs", "pricing"], ["Devenir partenaire", "partenaires"], ["Contact", "contact"]] },
 ];
 
 // A flat Canadian flag, as in the landing page's collage.

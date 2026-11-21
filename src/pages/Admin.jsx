@@ -5,8 +5,9 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck, Laptop,
+  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck, Laptop, Handshake, School, Video,
 } from "lucide-react";
+import { listPartnerApplications, updatePartnerApplication, deletePartnerApplication, PARTNER_STATUSES } from "@/services/partnerService";
 import { useApp } from "@/context/AppContext";
 import { PageShell, Card, Pill, Btn, ProgressBar } from "@/components/common";
 import { getHomeLabel, setHomeLabel, LABEL_POSITIONS, getAnnouncementBar, setAnnouncementBar, getHomeStats, setHomeStats, getLiveStats } from "@/services/settingsService";
@@ -2642,6 +2643,150 @@ function MessagesTab({ onCount }) {
   );
 }
 
+/* -------------------------------- partners -------------------------------- */
+
+// « Devenir partenaire » applications (src/pages/Partenaires.jsx). Worked
+// through as a small pipeline: Nouveau → Rendez-vous → Accepté | Refusé, with
+// private notes per application. WhatsApp and email are one tap away, since
+// the next step is always to book the meeting.
+const PARTNER_KINDS = {
+  school: { label: "École / centre", icon: School },
+  creator: { label: "Créateur", icon: Video },
+  other: { label: "Autre", icon: Handshake },
+};
+const PARTNER_TONES = { new: "amber", meeting: "blue", accepted: "green", declined: "slate" };
+const partnerStatusLabel = (id) => PARTNER_STATUSES.find((s) => s.id === id)?.label || id;
+
+function PartnersTab({ onCount }) {
+  const { c, notify } = useApp();
+  const [items, setItems] = useState(null);
+  const [unavailable, setUnavailable] = useState(false);
+  const [filter, setFilter] = useState("new");
+  const [kind, setKind] = useState("all");
+  const [notes, setNotes] = useState({}); // id -> draft text
+
+  const load = () => listPartnerApplications().then((r) => {
+    setItems(r.items);
+    setUnavailable(!!r.unavailable);
+    onCount?.(r.items.filter((x) => x.status === "new").length);
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, []);
+
+  const setStatus = async (id, status) => {
+    const r = await updatePartnerApplication(id, { status });
+    notify(r.ok ? `Statut : ${partnerStatusLabel(status)}.` : "Action refusée.");
+    load();
+  };
+  const saveNote = async (id) => {
+    const r = await updatePartnerApplication(id, { admin_notes: (notes[id] ?? "").slice(0, 4000) || null });
+    notify(r.ok ? "Note enregistrée." : "Enregistrement refusé.");
+    if (r.ok) setNotes((n) => { const next = { ...n }; delete next[id]; return next; });
+    load();
+  };
+  const remove = async (id) => {
+    if (!window.confirm("Supprimer définitivement cette demande ?")) return;
+    const r = await deletePartnerApplication(id);
+    notify(r.ok ? "Demande supprimée." : "Suppression refusée.");
+    load();
+  };
+
+  if (unavailable) {
+    return <UnavailableCard>Les demandes de partenariat nécessitent la table <span className="font-mono2">partner_applications</span> — appliquez la migration <span className="font-mono2">20261121_partner_applications.sql</span> dans Supabase (SQL Editor).</UnavailableCard>;
+  }
+  const count = (s) => (items || []).filter((x) => (s === "all" || x.status === s) && (kind === "all" || x.kind === kind)).length;
+  const list = (items || []).filter((x) => (filter === "all" || x.status === filter) && (kind === "all" || x.kind === kind));
+  const chip = (on) => `px-4 py-2 rounded-full text-sm font-semibold transition-colors ${on ? "bg-blue-600 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`;
+  const field = (k, v) => (v ? <p className={`text-sm ${c.sub}`}><span className={c.faint}>{k} : </span><span className="whitespace-pre-wrap">{v}</span></p> : null);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 flex-wrap">
+        {[...PARTNER_STATUSES, { id: "all", label: "Toutes" }].map((s) => (
+          <button key={s.id} onClick={() => setFilter(s.id)} className={chip(filter === s.id)}>
+            {s.label}{items ? ` · ${count(s.id)}` : ""}
+          </button>
+        ))}
+      </div>
+      <div className="flex gap-2 flex-wrap">
+        {[["all", "Tous les types"], ...Object.entries(PARTNER_KINDS).map(([id, k]) => [id, k.label])].map(([id, l]) => (
+          <button key={id} onClick={() => setKind(id)} className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${kind === id ? "bg-slate-900 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
+        ))}
+      </div>
+      <Card className="p-6">
+        {items === null ? (
+          <SkeletonRows n={4} className="h-24" />
+        ) : list.length === 0 ? (
+          <EmptyState icon={Handshake} title={filter === "new" ? "Aucune nouvelle demande." : "Aucune demande dans cette catégorie."} sub={filter === "new" ? "Les demandes du formulaire « Devenir partenaire » apparaîtront ici." : null} />
+        ) : (
+          <div className="space-y-3">
+            {list.map((x) => {
+              const K = PARTNER_KINDS[x.kind] || PARTNER_KINDS.other;
+              const digits = String(x.phone || "").replace(/\D/g, "");
+              const wa = String(x.phone || "").startsWith("+") && digits.length >= 8 ? `https://wa.me/${digits}` : null;
+              const links = Object.entries(x.links || {});
+              const draft = notes[x.id];
+              return (
+                <div key={x.id} className={`p-4 rounded-2xl border ${x.status === "new" ? "border-amber-500/40 bg-amber-500/5" : c.border}`}>
+                  <div className="flex items-center gap-2 flex-wrap mb-2">
+                    <Pill tone={PARTNER_TONES[x.status]}>{partnerStatusLabel(x.status)}</Pill>
+                    <span className={`inline-flex items-center gap-1 text-xs font-semibold ${c.sub}`}><K.icon size={13} /> {K.label}</span>
+                    <span className={`text-sm font-semibold ${c.text}`}>{x.organisation || x.name}</span>
+                    <span className={`text-xs ${c.faint}`}>{x.organisation ? `${x.name} · ` : ""}{x.email} · {when(x.created_at)}</span>
+                  </div>
+                  <div className="space-y-1">
+                    {field("Fonction", x.role)}
+                    {field("WhatsApp", x.phone)}
+                    {field("Lieu", [x.city, x.country].filter(Boolean).join(", "))}
+                    {field("Élèves par an", x.students_per_year)}
+                    {field("Examens", (x.tests || []).join(", "))}
+                    {field("Préparation actuelle", x.current_prep)}
+                    {field("Audience", [x.audience_size, x.audience_country].filter(Boolean).join(" · "))}
+                    {field("Sujets", x.topics)}
+                    {links.length > 0 && (
+                      <p className={`text-sm ${c.sub}`}><span className={c.faint}>Liens : </span>
+                        {links.map(([k, v], i) => (
+                          <span key={k}>{i ? " · " : ""}<a href={/^https?:\/\//.test(v) ? v : `https://${v}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{k}</a></span>
+                        ))}
+                      </p>
+                    )}
+                    {x.message && <p className={`text-sm mt-2 whitespace-pre-wrap border-l-2 border-blue-600/40 pl-3 ${c.text}`}>{x.message}</p>}
+                  </div>
+
+                  <div className="mt-3">
+                    <textarea
+                      value={draft ?? x.admin_notes ?? ""}
+                      onChange={(e) => setNotes((n) => ({ ...n, [x.id]: e.target.value }))}
+                      placeholder="Notes privées (rendez-vous, conditions discutées…)"
+                      rows={2} maxLength={4000}
+                      className={`w-full px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`}
+                    />
+                    {draft != null && draft !== (x.admin_notes ?? "") && (
+                      <div className="mt-1.5"><Btn small icon={Save} onClick={() => saveNote(x.id)}>Enregistrer la note</Btn></div>
+                    )}
+                  </div>
+
+                  <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+                    {PARTNER_STATUSES.filter((s) => s.id !== x.status).map((s) => (
+                      <button key={s.id} onClick={() => setStatus(x.id, s.id)} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>
+                        {s.label}
+                      </button>
+                    ))}
+                    <span className="flex-1" />
+                    {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-600`} aria-label="Écrire sur WhatsApp" title="Écrire sur WhatsApp"><MessageCircle size={15} /></a>}
+                    <a href={`mailto:${x.email}?subject=${encodeURIComponent("Votre demande de partenariat — TCF Passerelle")}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre par email" title="Répondre par email"><Mail size={15} /></a>
+                    <button onClick={() => remove(x.id)} className={`p-2 rounded-xl ${c.hoverSoft} text-rose-600`} aria-label="Supprimer" title="Supprimer"><Trash2 size={15} /></button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 /* --------------------------------- audit log ------------------------------ */
 
 const AUDIT_LABELS = {
@@ -2873,6 +3018,7 @@ export function Admin() {
   const [newMessages, setNewMessages] = useState(0);
   const [newRequests, setNewRequests] = useState(0);
   const [newTestimonials, setNewTestimonials] = useState(0);
+  const [newPartners, setNewPartners] = useState(0);
 
   // Sidebar badges: loaded once here (client-direct through the admin RLS
   // policies, so they work even without the serverless routes), then kept in
@@ -2881,6 +3027,7 @@ export function Admin() {
     listContactMessages().then((r) => setNewMessages((r.messages || []).filter((m) => m.status === "new").length));
     listSubscriptionRequests().then((r) => setNewRequests((r.requests || []).filter((x) => x.status === "new").length));
     listAllTestimonials().then((r) => setNewTestimonials(r.items.filter((x) => x.status === "pending").length));
+    listPartnerApplications().then((r) => setNewPartners(r.items.filter((x) => x.status === "new").length));
   }, []);
 
   // The console's sections, grouped by purpose in the sidebar. `d` is the
@@ -2906,6 +3053,7 @@ export function Admin() {
       { id: "users", l: "Utilisateurs", icon: Users, d: "Comptes, forfaits et accès." },
       { id: "requests", l: "Demandes", icon: Inbox, d: "Paiements en dinars à valider." },
       { id: "messages", l: "Messages", icon: MessageCircle, d: "Messages reçus par le formulaire de contact." },
+      { id: "partners", l: "Partenaires", icon: Handshake, d: "Demandes des écoles, créateurs et autres partenaires." },
       { id: "emails", l: "Emails", icon: Mail, d: "Modèles des emails envoyés aux membres." },
     ] },
     { l: "Sécurité", items: [
@@ -2915,7 +3063,7 @@ export function Admin() {
   const all = groups.flatMap((g) => g.items);
   const current = all.find((x) => x.id === tab) || all[0];
   // Accueil carries the testimonial queue, which lives in one of its sub-tabs.
-  const badgeFor = (id) => (id === "messages" ? newMessages : id === "requests" ? newRequests : id === "home" ? newTestimonials : 0);
+  const badgeFor = (id) => (id === "messages" ? newMessages : id === "requests" ? newRequests : id === "home" ? newTestimonials : id === "partners" ? newPartners : 0);
   const Badge = ({ n, on }) => (n > 0 ? (
     <span className={`min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none flex items-center justify-center ${on ? "bg-blue-600 text-white" : "bg-rose-600 text-white"}`}>
       {n > 9 ? "9+" : n}
@@ -2982,6 +3130,7 @@ export function Admin() {
       {tab === "pricing" && <TarifsSection />}
       {tab === "questions" && <SujetsManager />}
       {tab === "messages" && <MessagesTab onCount={setNewMessages} />}
+      {tab === "partners" && <PartnersTab onCount={setNewPartners} />}
       {tab === "emails" && <EmailTemplatesTab />}
       {tab === "requests" && <SubscriptionRequestsTab onCount={setNewRequests} />}
       {tab === "revenue" && <RevenueTab />}

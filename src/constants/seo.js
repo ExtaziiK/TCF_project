@@ -106,6 +106,12 @@ export const ROUTE_META = {
     description:
       "Une question sur le TCF Canada ou sur votre abonnement Passerelle ? Écrivez-nous, l'équipe répond rapidement.",
   },
+  partenaires: {
+    path: "/partenaires",
+    title: "Devenir partenaire",
+    description:
+      "Écoles de langues, centres de formation et créateurs de contenu : devenez partenaire de TCF Passerelle et préparez vos élèves ou votre audience au TCF Canada.",
+  },
   // Route-guarded (AUTHENTICATED in rbac.js), so a crawler only ever reaches
   // the visitors' pitch here — noindex, per the policy at the top of this file.
   // Same for the archives below (sujets-ee / sujets-eo): signed-in only now.

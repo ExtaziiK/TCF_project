@@ -7,6 +7,7 @@ import countdown from "../_lib/public/countdown.js";
 import support from "../_lib/public/support.js";
 import sujets from "../_lib/public/sujets.js";
 import stats from "../_lib/public/stats.js";
+import partner from "../_lib/public/partner.js";
 
 // Single serverless function for the small unauthenticated endpoints, exactly
 // as api/admin/[resource].js does for the back office.
@@ -36,6 +37,7 @@ const handlers = {
   support, // "Problème technique — besoin d'assistance": inbox row + email to the team
   sujets, // the subjects archive — signed-in only, despite the folder's name
   stats, // the home page's live figures (counts only), cached at the edge
+  partner, // « Devenir partenaire »: partner_applications row + email to the team
 };
 
 export default async function handler(req, res) {
