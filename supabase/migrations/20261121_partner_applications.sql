@@ -75,3 +75,28 @@ $$;
 drop trigger if exists partner_applications_touch on public.partner_applications;
 create trigger partner_applications_touch before update on public.partner_applications
   for each row execute function public.partner_applications_touch();
+
+-- Second pass (same day): French teachers as their own kind, the partner's
+-- chosen promo code, course format and payout preference. Written as ALTERs so
+-- the file also upgrades a table created by the first pass above.
+alter table public.partner_applications drop constraint if exists partner_applications_kind_check;
+alter table public.partner_applications add constraint partner_applications_kind_check
+  check (kind in ('school', 'teacher', 'creator', 'other'));
+
+alter table public.partner_applications add column if not exists desired_code text
+  check (desired_code is null or desired_code ~ '^[A-Z0-9]{4,15}$');
+alter table public.partner_applications add column if not exists course_format text
+  check (course_format is null or course_format in ('online', 'onsite', 'both'));
+alter table public.partner_applications add column if not exists payout_method text
+  check (payout_method is null or payout_method in ('wise', 'bank', 'baridimob'));
+-- Wise email, IBAN/RIB or CCP number. Optional at application time; kept out of
+-- the notification email and visible only through the admin policies.
+alter table public.partner_applications add column if not exists payout_details text
+  check (payout_details is null or char_length(payout_details) <= 300);
+-- Set when the admin creates the Stripe promotion code from the application.
+alter table public.partner_applications add column if not exists code_created_at timestamptz;
+
+-- One live application per code: a declined application frees its code.
+create unique index if not exists partner_applications_code_uidx
+  on public.partner_applications (desired_code)
+  where desired_code is not null and status <> 'declined';

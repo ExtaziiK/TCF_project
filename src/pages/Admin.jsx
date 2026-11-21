@@ -5,7 +5,7 @@ import {
   Mail, Archive, RotateCcw, CloudOff, ExternalLink, Settings2, Gauge,
   Ticket, Plus, Inbox, ListChecks, Trophy, BarChart3, Megaphone, Save, Bold, Italic, Underline, ChevronUp, ChevronDown, ChevronRight,
   Radio, Clock, Globe, Eye, EyeOff, Link2, MapPin, Monitor, RefreshCw, Smartphone, Coins, LogOut, Quote,
-  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck, Laptop, Handshake, School, Video,
+  Wallet, Reply, Send, CornerDownRight, Gift, Copy, BadgeCheck, Laptop, Handshake, School, Video, GraduationCap,
 } from "lucide-react";
 import { listPartnerApplications, updatePartnerApplication, deletePartnerApplication, PARTNER_STATUSES } from "@/services/partnerService";
 import { useApp } from "@/context/AppContext";
@@ -2648,12 +2648,17 @@ function MessagesTab({ onCount }) {
 // « Devenir partenaire » applications (src/pages/Partenaires.jsx). Worked
 // through as a small pipeline: Nouveau → Rendez-vous → Accepté | Refusé, with
 // private notes per application. WhatsApp and email are one tap away, since
-// the next step is always to book the meeting.
+// the next step is always to book the meeting. A teacher's or creator's chosen
+// code is turned into a real Stripe promotion code from here (the Promos tab's
+// own route, api/_lib/admin/promo.js), at the percentage agreed in the meeting.
 const PARTNER_KINDS = {
   school: { label: "École / centre", icon: School },
+  teacher: { label: "Professeur", icon: GraduationCap },
   creator: { label: "Créateur", icon: Video },
   other: { label: "Autre", icon: Handshake },
 };
+const COURSE_FORMAT_LABELS = { online: "En ligne", onsite: "En présentiel", both: "En ligne et en présentiel" };
+const PAYOUT_LABELS = { wise: "Wise", bank: "Virement bancaire", baridimob: "BaridiMob / CCP" };
 const PARTNER_TONES = { new: "amber", meeting: "blue", accepted: "green", declined: "slate" };
 const partnerStatusLabel = (id) => PARTNER_STATUSES.find((s) => s.id === id)?.label || id;
 
@@ -2664,6 +2669,8 @@ function PartnersTab({ onCount }) {
   const [filter, setFilter] = useState("new");
   const [kind, setKind] = useState("all");
   const [notes, setNotes] = useState({}); // id -> draft text
+  const [percents, setPercents] = useState({}); // id -> discount % typed for the code
+  const [creating, setCreating] = useState(null); // id whose code is being created
 
   const load = () => listPartnerApplications().then((r) => {
     setItems(r.items);
@@ -2682,6 +2689,18 @@ function PartnersTab({ onCount }) {
     const r = await updatePartnerApplication(id, { admin_notes: (notes[id] ?? "").slice(0, 4000) || null });
     notify(r.ok ? "Note enregistrée." : "Enregistrement refusé.");
     if (r.ok) setNotes((n) => { const next = { ...n }; delete next[id]; return next; });
+    load();
+  };
+  // The partner's code becomes a live Stripe promotion code at the agreed %.
+  const createCode = async (x) => {
+    const pct = Number(percents[x.id] ?? 10);
+    if (!(pct >= 1 && pct <= 100)) return notify("Indiquez un pourcentage entre 1 et 100.");
+    if (!window.confirm(`Créer le code ${x.desired_code} à -${pct} % ? Il sera utilisable tout de suite au paiement.`)) return;
+    setCreating(x.id);
+    const r = await createPromoCode({ code: x.desired_code, percentOff: pct, duration: "once" });
+    if (r.ok) await updatePartnerApplication(x.id, { code_created_at: new Date().toISOString() });
+    setCreating(null);
+    notify(r.ok ? `Code ${x.desired_code} créé (-${pct} %).` : r.error || "Création refusée.");
     load();
   };
   const remove = async (id) => {
@@ -2738,7 +2757,8 @@ function PartnersTab({ onCount }) {
                     {field("Fonction", x.role)}
                     {field("WhatsApp", x.phone)}
                     {field("Lieu", [x.city, x.country].filter(Boolean).join(", "))}
-                    {field("Élèves par an", x.students_per_year)}
+                    {field("Élèves", x.students_per_year)}
+                    {field("Format des cours", COURSE_FORMAT_LABELS[x.course_format])}
                     {field("Examens", (x.tests || []).join(", "))}
                     {field("Préparation actuelle", x.current_prep)}
                     {field("Audience", [x.audience_size, x.audience_country].filter(Boolean).join(" · "))}
@@ -2750,8 +2770,30 @@ function PartnersTab({ onCount }) {
                         ))}
                       </p>
                     )}
+                    {field("Paiement", [PAYOUT_LABELS[x.payout_method], x.payout_details].filter(Boolean).join(" · "))}
                     {x.message && <p className={`text-sm mt-2 whitespace-pre-wrap border-l-2 border-blue-600/40 pl-3 ${c.text}`}>{x.message}</p>}
                   </div>
+
+                  {x.desired_code && (
+                    <div className={`mt-3 flex items-center gap-2 flex-wrap p-3 rounded-xl ${c.tint}`}>
+                      <Ticket size={15} className="text-blue-600" />
+                      <span className="font-mono2 font-bold text-sm tracking-wider">{x.desired_code}</span>
+                      {x.code_created_at ? (
+                        <Pill tone="green">Code créé · {when(x.code_created_at)}</Pill>
+                      ) : (
+                        <>
+                          <span className={`text-xs ${c.faint}`}>réservé, pas encore créé</span>
+                          <span className="flex-1" />
+                          <label className={`flex items-center gap-1 text-xs ${c.sub}`}>
+                            -<input type="number" min={1} max={100} value={percents[x.id] ?? 10}
+                              onChange={(e) => setPercents((p) => ({ ...p, [x.id]: e.target.value }))}
+                              className={`w-14 px-2 py-1 rounded-lg border text-sm ${c.inputCls}`} aria-label="Pourcentage de remise" /> %
+                          </label>
+                          <Btn small icon={Plus} disabled={creating === x.id} onClick={() => createCode(x)}>{creating === x.id ? "Création…" : "Créer le code"}</Btn>
+                        </>
+                      )}
+                    </div>
+                  )}
 
                   <div className="mt-3">
                     <textarea
