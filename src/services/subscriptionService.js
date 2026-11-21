@@ -14,7 +14,7 @@ export const ACCEPTED_RECEIPT_TYPES = ["image/jpeg", "image/png", "image/webp", 
 // Uploads the receipt (into the caller's own uid folder, per storage RLS) then
 // inserts the request row. Returns { ok, error? }. Receipt is optional — a user
 // may instead send it via the WhatsApp group and submit the request as a record.
-export async function submitSubscriptionRequest({ plan, planDays, method, amountDzd, reference, notes, receiptFile }) {
+export async function submitSubscriptionRequest({ plan, planDays, method, amountDzd, reference, notes, receiptFile, promoCode }) {
   const { data: auth } = await (await getSupabase()).auth.getUser();
   const u = auth?.user;
   if (!u) return { ok: false, error: "not-authenticated" };
@@ -32,7 +32,7 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     receiptPath = path;
   }
 
-  const { data, error } = await (await getSupabase()).from("subscription_requests").insert({
+  const row = {
     user_id: u.id,
     email: u.email || null,
     name: u.user_metadata?.display_name || u.user_metadata?.name || u.user_metadata?.full_name || null,
@@ -43,7 +43,16 @@ export async function submitSubscriptionRequest({ plan, planDays, method, amount
     reference: reference ? String(reference).trim().slice(0, 200) : null,
     notes: notes ? String(notes).trim().slice(0, 2000) : null,
     receipt_path: receiptPath,
-  }).select("id").single();
+    ...(promoCode ? { promo_code: String(promoCode).trim().toUpperCase().slice(0, 30) } : {}),
+  };
+  const insert = async (r) => (await getSupabase()).from("subscription_requests").insert(r).select("id").single();
+  let { data, error } = await insert(row);
+  // promo_code arrives with 20261122_partners.sql; until then, send without it.
+  if (error && row.promo_code && /promo_code/.test(error.message || "")) {
+    const { promo_code: _drop, ...rest } = row; // eslint-disable-line no-unused-vars
+    ({ data, error } = await insert(rest));
+  }
+
   return { ok: !error, error: error?.message, id: data?.id };
 }
 

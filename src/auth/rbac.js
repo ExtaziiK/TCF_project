@@ -140,6 +140,9 @@ export const PAGE_ACCESS = {
   merci: AUTHENTICATED,
   dashboard: AUTHENTICATED,
   profile: AUTHENTICATED,
+  // Any signed-in account may open it: the page links a partner on first visit
+  // (verified email) and tells everyone else how to become one.
+  "partner-space": AUTHENTICATED,
   admin: ADMIN_ONLY,
   // Model answers for the Expression écrite subjects. The subjects themselves
   // stay public (and indexed); the corrigés are the paid product. The teaser on

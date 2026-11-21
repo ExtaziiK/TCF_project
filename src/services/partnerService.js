@@ -30,6 +30,31 @@ export async function submitPartnerApplication(form) {
   }
 }
 
+// The signed-in partner's space (api/public/partner, GET): { partner, summary,
+// sales, payouts }, or { partner: null } for an account that is not a partner
+// (yet). The first call with a matching verified email links the account and
+// flags it; the session is then refreshed so the menu shows the space.
+export async function getPartnerSpace() {
+  const sb = await getSupabase();
+  const { data } = await sb.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) return { ok: false, error: "not-authenticated" };
+  const headers = { Authorization: `Bearer ${token}` };
+  const { getDeviceSessionId } = await import("@/services/authService");
+  const device = getDeviceSessionId();
+  if (device) headers["x-device-session"] = device;
+  try {
+    const res = await fetch("/api/public/partner", { headers });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) return { ok: false, error: json.error };
+    // Just linked: the partner flag is in app_metadata, sealed in the token.
+    if (json.partner && !data.session.user?.app_metadata?.partner_id) await sb.auth.refreshSession().catch(() => {});
+    return { ok: true, ...json };
+  } catch {
+    return { ok: false, error: null };
+  }
+}
+
 // A missing table (migration not applied) reads as "unavailable", not as an error.
 const missing = (error) => !!error && (error.code === "42P01" || /partner_applications/.test(error.message || ""));
 

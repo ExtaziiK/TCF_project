@@ -3,6 +3,7 @@ import { requireModerator } from "../auth.js";
 import { HttpError } from "../groq.js";
 import { patchMetadata, audit, PLAN_LABELS } from "./users.js";
 import { sendDzActivated } from "../planEmails.js";
+import { recordPartnerSale } from "../partners.js";
 
 // The DZD payment-request queue, for the moderator role (and admins, whose
 // "Demandes" tab approves through here too, so there is one approval path).
@@ -120,6 +121,14 @@ async function approve(req, res, actor) {
   await audit(actor, "approve-request", row.email || row.user_id, {
     requestId: row.id, plan: row.plan, days: days || null, premium_until: premiumUntil, by: actor.app_metadata?.role,
   });
+  // A partner's code on the transfer earns them the sale, on the amount actually
+  // received (api/_lib/partners.js). Idempotent on the request id; never throws.
+  if (row.promo_code) {
+    await recordPartnerSale(admin, {
+      code: row.promo_code, source: "dzd", externalId: `dzd:${row.id}`,
+      amount: stamp.amount_received_dzd ?? 0, currency: "DZD", plan: row.plan, buyerUserId: row.user_id,
+    });
+  }
   // "Votre forfait est activé" — the buyer paid by transfer and is waiting;
   // the site updates on its own, but only if they have it open. Never throws.
   const emailed = await sendDzActivated(admin, row.user_id, row.method, row.id);

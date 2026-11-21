@@ -352,3 +352,32 @@ export async function listAuditLog(limit = 100) {
 export function fetchStripeRevenue() {
   return adminFetch("/api/admin/stripe-revenue");
 }
+
+/* --------------------------------- partners -------------------------------- */
+// The partner programme's admin actions (api/_lib/admin/partners.js): turning
+// an accepted application into a partner space, declining one, and recording
+// commission payouts. Applications themselves are read in partnerService.
+
+export function listPartners() {
+  return adminFetch("/api/admin/partners");
+}
+
+// { applicationId, discountPct?, commissionPct?, seats?, accessUntil?, message, sendEmail }
+export function activatePartner(payload) {
+  return adminFetch("/api/admin/partners", { method: "POST", body: JSON.stringify({ action: "activate", ...payload }) });
+}
+
+// { applicationId, message, sendEmail }
+export function declinePartner(payload) {
+  return adminFetch("/api/admin/partners", { method: "POST", body: JSON.stringify({ action: "decline", ...payload }) });
+}
+
+// { partnerId, amount, currency, method?, note? }
+export function recordPartnerPayout(payload) {
+  return adminFetch("/api/admin/partners", { method: "POST", body: JSON.stringify({ action: "payout", ...payload }) });
+}
+
+// { partnerId, commissionPct?, seats?, accessUntil?, status? }
+export function updatePartner(payload) {
+  return adminFetch("/api/admin/partners", { method: "POST", body: JSON.stringify({ action: "update", ...payload }) });
+}

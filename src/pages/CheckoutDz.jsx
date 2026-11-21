@@ -141,9 +141,11 @@ export function CheckoutDz() {
     const r = await submitSubscriptionRequest({
       plan: plan.name, planDays: plan.days, method, amountDzd: amount,
       reference, receiptFile: file,
-      // The code goes in the notes so the reviewer can see why the transfer is
-      // smaller than the list price, without a schema change.
+      // The code stays in the notes too, so the reviewer sees why the transfer
+      // is smaller than the list price; promo_code is what credits a partner
+      // when the request is approved (api/_lib/admin/moderation.js).
       notes: applied ? `[Code promo ${applied.code} · −${applied.percentOff} %] ${notes || ""}`.trim() : notes,
+      promoCode: applied?.code || null,
     });
     setBusy(false);
     if (!r.ok) return notify(t(r.error || "Envoi impossible. Réessayez."));

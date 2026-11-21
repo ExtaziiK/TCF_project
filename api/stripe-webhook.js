@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { passPatchForSession, GRANTABLE_PAYMENT_STATUSES } from "./_lib/passes.js";
 import { sendPremiumWelcome } from "./_lib/planEmails.js";
+import { recordPartnerSale, sessionPromoCodes } from "./_lib/partners.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -74,6 +75,15 @@ async function grantPass(session, userId) {
   // "Bienvenue dans Premium": what the pass unlocks, once per session
   // (a redelivered webhook does not send it twice). Never throws.
   await sendPremiumWelcome(supabaseAdmin, userId, session.id);
+  // A partner's code on this checkout earns them the sale (api/_lib/partners.js).
+  // Idempotent on the session id; never throws.
+  for (const code of await sessionPromoCodes(stripe, session)) {
+    await recordPartnerSale(supabaseAdmin, {
+      code, source: "stripe", externalId: `stripe:${session.id}`,
+      amount: (session.amount_total || 0) / 100, currency: session.currency,
+      plan: patch.plan_label || session.metadata?.plan || null, buyerUserId: userId,
+    });
+  }
 }
 
 export default async function handler(req, res) {

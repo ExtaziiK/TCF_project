@@ -6,7 +6,7 @@ import { AUTHENTICATED, ADMIN_ONLY, ROLES, canUseNotebook } from "@/auth/rbac";
 import {
   Home, GraduationCap, ClipboardCheck, Sparkles, BookOpen, SpellCheck,
   Languages, PenLine, CreditCard, Calculator, LayoutDashboard, User, Shield, Mail,
-  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper,
+  ListChecks, BadgeCheck, NotebookPen, Dumbbell, Compass, Newspaper, Handshake,
 } from "lucide-react";
 
 // Single source of truth for the navigation. Each entry may carry a `roles`
@@ -132,6 +132,8 @@ export const ACCOUNT_LINKS = [
   // Demandes. `can` gates on the account rather than the role (see
   // canModerate in rbac.js for why moderation is not a role).
   { l: "Validation", r: "moderation", can: (user) => !!user?.moderator, icon: BadgeCheck, group: "start", order: 2 },
+  // Partners only (app_metadata.partner_id, set when they first open their space).
+  { l: "Espace partenaire", r: "partner-space", can: (user) => !!user?.partnerId, icon: Handshake, group: "start", order: 3 },
 ];
 
 // Reachable from the footer on every screen, so it only needs adding here.

@@ -76,29 +76,18 @@ const toRow = (pc) => {
   };
 };
 
-async function handleCreate(req, res, actor) {
-  const { percentOff, amountOff, duration = "once", durationInMonths, maxRedemptions, expiresAt } = req.body;
-  const code = String(req.body.code || "").trim().toUpperCase();
-
-  if (!CODE_RE.test(code)) throw new HttpError(400, "Code invalide : 3 à 30 caractères (A-Z, 0-9, tirets).");
-  const pct = Number(percentOff) || 0;
-  const amt = Number(amountOff) || 0;
-  if ((pct <= 0) === (amt <= 0)) throw new HttpError(400, "Indiquez un pourcentage OU un montant de rabais.");
-  if (pct && (pct < 1 || pct > 100)) throw new HttpError(400, "Le pourcentage doit être entre 1 et 100.");
-  if (!["once", "repeating", "forever"].includes(duration)) throw new HttpError(400, "Durée inconnue.");
-  const months = Number(durationInMonths) || 0;
-  if (duration === "repeating" && (months < 1 || months > 36)) throw new HttpError(400, "Durée en mois requise (1 à 36).");
-
+// The Stripe side of a new code: a coupon, then the promotion code customers
+// type. Inputs already validated by the caller. Shared with partner activation
+// (./partners.js), which creates a partner's percentage code the same way.
+export async function createStripePromo({ code, pct = 0, amt = 0, duration = "once", months = 0, maxRedemptions, expiresAt }) {
   const coupon = await stripe().coupons.create({
     name: code,
     duration,
     ...(duration === "repeating" ? { duration_in_months: months } : {}),
     ...(pct ? { percent_off: pct } : { amount_off: Math.round(amt * 100), currency: COUPON_CURRENCY }),
   });
-
-  let promo;
   try {
-    promo = await stripe().promotionCodes.create({
+    return await stripe().promotionCodes.create({
       // Since API 2025+, the coupon is nested under `promotion` (a top-level
       // `coupon` now errors with "Received unknown parameter: coupon").
       promotion: { type: "coupon", coupon: coupon.id },
@@ -112,6 +101,22 @@ async function handleCreate(req, res, actor) {
     await stripe().coupons.del(coupon.id).catch(() => {});
     throw new HttpError(400, err.message || "Création du code refusée par Stripe.");
   }
+}
+
+async function handleCreate(req, res, actor) {
+  const { percentOff, amountOff, duration = "once", durationInMonths, maxRedemptions, expiresAt } = req.body;
+  const code = String(req.body.code || "").trim().toUpperCase();
+
+  if (!CODE_RE.test(code)) throw new HttpError(400, "Code invalide : 3 à 30 caractères (A-Z, 0-9, tirets).");
+  const pct = Number(percentOff) || 0;
+  const amt = Number(amountOff) || 0;
+  if ((pct <= 0) === (amt <= 0)) throw new HttpError(400, "Indiquez un pourcentage OU un montant de rabais.");
+  if (pct && (pct < 1 || pct > 100)) throw new HttpError(400, "Le pourcentage doit être entre 1 et 100.");
+  if (!["once", "repeating", "forever"].includes(duration)) throw new HttpError(400, "Durée inconnue.");
+  const months = Number(durationInMonths) || 0;
+  if (duration === "repeating" && (months < 1 || months > 36)) throw new HttpError(400, "Durée en mois requise (1 à 36).");
+
+  const promo = await createStripePromo({ code, pct, amt, duration, months, maxRedemptions, expiresAt });
 
   await audit(actor, "create-promo", code, {
     percent_off: pct || null,

@@ -281,6 +281,8 @@ export function mapSupabaseUser(session) {
     admin: authUser.app_metadata?.role === "admin",
     owner: authUser.app_metadata?.role === "owner",
     moderator: authUser.app_metadata?.role === "moderator",
+    // Set once a partner opens their space (api/_lib/public/partner.js); shows « Espace partenaire ».
+    partnerId: authUser.app_metadata?.partner_id || null,
     createdAt: authUser.created_at || null,
     // Set while a self-service deletion is pending (api/_lib/public/account.js).
     // A session carrying it means the user just signed back in — see

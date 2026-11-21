@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users, BadgeCheck, User } from "lucide-react";
+import { Menu, X, Sun, Moon, Bell, BellOff, Search, ChevronDown, ChevronRight, LogOut, Shield, Users, BadgeCheck, User, Handshake } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Btn, RouteLink } from "@/components/common";
 import { Logo } from "@/components/layout/Logo";
@@ -399,6 +399,7 @@ export function Nav({ barOffset = false }) {
                       { icon: User, l: t("Mon profil"), on: () => go("profile"), here: route === "profile" },
                       isStaff(role) && { icon: Shield, l: t("Administration"), on: () => go("admin"), here: route === "admin" },
                       user.moderator && { icon: BadgeCheck, l: t("Validation"), on: () => go("moderation"), here: route === "moderation", badge: pendingValidations },
+                      user.partnerId && { icon: Handshake, l: t("Espace partenaire"), on: () => go("partner-space"), here: route === "partner-space" },
                       canSwitch && { icon: Users, l: t("Changer de profil"), on: () => { closeAll(); switchProfile(); } },
                     ].filter(Boolean).map((it) => (
                       <button key={it.l} onClick={it.on} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-left ${it.here ? "text-blue-600 bg-blue-600/10" : `${c.text} ${c.hoverSoft}`}`}>

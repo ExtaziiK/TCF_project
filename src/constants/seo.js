@@ -180,6 +180,7 @@ export const ROUTE_META = {
   profile: { path: "/profil", title: "Mon profil", noindex: true },
   admin: { path: "/administration", title: "Administration", noindex: true },
   moderation: { path: "/validation", title: "Validation des paiements", noindex: true },
+  "partner-space": { path: "/espace-partenaire", title: "Espace partenaire", noindex: true },
   // Linked from the welcome email's promo box; not worth indexing on its own.
   "code-promo": { path: "/code-promo", title: "Comment utiliser votre code promo", noindex: true },
   bank: { path: "/banque-de-questions", title: "Banque de questions", noindex: true },

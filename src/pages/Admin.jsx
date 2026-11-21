@@ -31,6 +31,7 @@ import {
   listPromoCodes, createPromoCode, togglePromoCode, deletePromoCode,
   listGiftLinks, createGiftLink, toggleGiftLink, deleteGiftLink,
   listPassPrices, setPassPrice,
+  listPartners, activatePartner, declinePartner, recordPartnerPayout, updatePartner,
 } from "@/services/adminService";
 import { getLaunchDiscount, setLaunchDiscount, getHomeTestimonials, setHomeTestimonials, getWelcomeOffer, setWelcomeOffer, getSiteTheme, setSiteTheme } from "@/services/settingsService";
 import { SITE_THEMES } from "@/constants/siteThemes";
@@ -2645,12 +2646,16 @@ function MessagesTab({ onCount }) {
 
 /* -------------------------------- partners -------------------------------- */
 
-// « Devenir partenaire » applications (src/pages/Partenaires.jsx). Worked
-// through as a small pipeline: Nouveau → Rendez-vous → Accepté | Refusé, with
-// private notes per application. WhatsApp and email are one tap away, since
-// the next step is always to book the meeting. A teacher's or creator's chosen
-// code is turned into a real Stripe promotion code from here (the Promos tab's
-// own route, api/_lib/admin/promo.js), at the percentage agreed in the meeting.
+// The partner programme (src/pages/Partenaires.jsx → api/_lib/admin/partners.js).
+// Two views:
+//   - « Demandes »: applications, worked through as Nouveau → Rendez-vous →
+//     Accepté | Refusé, with private notes. Accepting is « Activer l'espace
+//     partenaire »: the code goes live in Stripe at the agreed discount (teachers
+//     and creators), the partner is created with its commission or its seats,
+//     and the welcome email — editable here — gives the code and the link to
+//     /espace-partenaire. Declining can send a short, editable email.
+//   - « Partenaires actifs »: each partner's sales and commission per currency,
+//     the payouts made, and a form to record a new one.
 const PARTNER_KINDS = {
   school: { label: "École / centre", icon: School },
   teacher: { label: "Professeur", icon: GraduationCap },
@@ -2658,24 +2663,54 @@ const PARTNER_KINDS = {
   other: { label: "Autre", icon: Handshake },
 };
 const COURSE_FORMAT_LABELS = { online: "En ligne", onsite: "En présentiel", both: "En ligne et en présentiel" };
-const PAYOUT_LABELS = { wise: "Wise", bank: "Virement bancaire", baridimob: "BaridiMob / CCP" };
+const PAYOUT_LABELS = { wise: "Wise", bank: "Virement bancaire", baridimob: "BaridiMob / CCP", cash: "Espèces", other: "Autre" };
 const PARTNER_TONES = { new: "amber", meeting: "blue", accepted: "green", declined: "slate" };
 const partnerStatusLabel = (id) => PARTNER_STATUSES.find((s) => s.id === id)?.label || id;
+// Same defaults as DEFAULT_MESSAGES in api/_lib/partners.js; edited before sending.
+const PARTNER_MESSAGES = {
+  fr: {
+    accepted: "Merci pour notre échange. Nous sommes ravis de vous compter parmi les partenaires de TCF Passerelle.",
+    declined: "Merci pour votre demande et pour l'intérêt que vous portez à TCF Passerelle.\n\nAprès étude, nous ne pouvons pas donner suite pour le moment. Nous gardons vos coordonnées et n'hésiterons pas à revenir vers vous si l'occasion se présente.\n\nNous vous souhaitons une belle continuation.",
+  },
+  en: {
+    accepted: "Thank you for our conversation. We are delighted to welcome you as a TCF Passerelle partner.",
+    declined: "Thank you for your application and for your interest in TCF Passerelle.\n\nAfter review, we are unable to move forward at this time. We will keep your details and will not hesitate to get back to you if an opportunity arises.\n\nWe wish you all the best.",
+  },
+};
+const partnerMoney = (n, cur) => {
+  try { return new Intl.NumberFormat("fr-FR", { style: "currency", currency: cur, maximumFractionDigits: cur === "DZD" ? 0 : 2 }).format(n); } catch { return `${n} ${cur}`; }
+};
 
 function PartnersTab({ onCount }) {
+  const { c } = useApp();
+  const [view, setView] = useState("applications");
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 flex-wrap">
+        {[["applications", "Demandes"], ["partners", "Partenaires actifs"]].map(([id, l]) => (
+          <button key={id} onClick={() => setView(id)} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${view === id ? "bg-slate-900 text-white" : `border ${c.border} ${c.sub} ${c.hoverSoft}`}`}>{l}</button>
+        ))}
+      </div>
+      {view === "applications" ? <PartnerApplications onCount={onCount} /> : <ActivePartners />}
+    </div>
+  );
+}
+
+function PartnerApplications({ onCount }) {
   const { c, notify } = useApp();
   const [items, setItems] = useState(null);
+  const [partnerOf, setPartnerOf] = useState({}); // application id -> partner
   const [unavailable, setUnavailable] = useState(false);
   const [filter, setFilter] = useState("new");
   const [kind, setKind] = useState("all");
   const [notes, setNotes] = useState({}); // id -> draft text
-  const [percents, setPercents] = useState({}); // id -> discount % typed for the code
-  const [creating, setCreating] = useState(null); // id whose code is being created
+  const [panel, setPanel] = useState(null); // { id, type: "activate" | "decline" }
 
-  const load = () => listPartnerApplications().then((r) => {
+  const load = () => Promise.all([listPartnerApplications(), listPartners()]).then(([r, p]) => {
     setItems(r.items);
     setUnavailable(!!r.unavailable);
     onCount?.(r.items.filter((x) => x.status === "new").length);
+    setPartnerOf(Object.fromEntries((p.ok ? p.data.partners : []).filter((x) => x.application_id).map((x) => [x.application_id, x])));
   });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
@@ -2689,18 +2724,6 @@ function PartnersTab({ onCount }) {
     const r = await updatePartnerApplication(id, { admin_notes: (notes[id] ?? "").slice(0, 4000) || null });
     notify(r.ok ? "Note enregistrée." : "Enregistrement refusé.");
     if (r.ok) setNotes((n) => { const next = { ...n }; delete next[id]; return next; });
-    load();
-  };
-  // The partner's code becomes a live Stripe promotion code at the agreed %.
-  const createCode = async (x) => {
-    const pct = Number(percents[x.id] ?? 10);
-    if (!(pct >= 1 && pct <= 100)) return notify("Indiquez un pourcentage entre 1 et 100.");
-    if (!window.confirm(`Créer le code ${x.desired_code} à -${pct} % ? Il sera utilisable tout de suite au paiement.`)) return;
-    setCreating(x.id);
-    const r = await createPromoCode({ code: x.desired_code, percentOff: pct, duration: "once" });
-    if (r.ok) await updatePartnerApplication(x.id, { code_created_at: new Date().toISOString() });
-    setCreating(null);
-    notify(r.ok ? `Code ${x.desired_code} créé (-${pct} %).` : r.error || "Création refusée.");
     load();
   };
   const remove = async (id) => {
@@ -2745,6 +2768,7 @@ function PartnersTab({ onCount }) {
               const wa = String(x.phone || "").startsWith("+") && digits.length >= 8 ? `https://wa.me/${digits}` : null;
               const links = Object.entries(x.links || {});
               const draft = notes[x.id];
+              const partner = partnerOf[x.id];
               return (
                 <div key={x.id} className={`p-4 rounded-2xl border ${x.status === "new" ? "border-amber-500/40 bg-amber-500/5" : c.border}`}>
                   <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -2770,28 +2794,17 @@ function PartnersTab({ onCount }) {
                         ))}
                       </p>
                     )}
+                    {field("Code souhaité", x.desired_code)}
                     {field("Paiement", [PAYOUT_LABELS[x.payout_method], x.payout_details].filter(Boolean).join(" · "))}
                     {x.message && <p className={`text-sm mt-2 whitespace-pre-wrap border-l-2 border-blue-600/40 pl-3 ${c.text}`}>{x.message}</p>}
                   </div>
 
-                  {x.desired_code && (
+                  {partner && (
                     <div className={`mt-3 flex items-center gap-2 flex-wrap p-3 rounded-xl ${c.tint}`}>
-                      <Ticket size={15} className="text-blue-600" />
-                      <span className="font-mono2 font-bold text-sm tracking-wider">{x.desired_code}</span>
-                      {x.code_created_at ? (
-                        <Pill tone="green">Code créé · {when(x.code_created_at)}</Pill>
-                      ) : (
-                        <>
-                          <span className={`text-xs ${c.faint}`}>réservé, pas encore créé</span>
-                          <span className="flex-1" />
-                          <label className={`flex items-center gap-1 text-xs ${c.sub}`}>
-                            -<input type="number" min={1} max={100} value={percents[x.id] ?? 10}
-                              onChange={(e) => setPercents((p) => ({ ...p, [x.id]: e.target.value }))}
-                              className={`w-14 px-2 py-1 rounded-lg border text-sm ${c.inputCls}`} aria-label="Pourcentage de remise" /> %
-                          </label>
-                          <Btn small icon={Plus} disabled={creating === x.id} onClick={() => createCode(x)}>{creating === x.id ? "Création…" : "Créer le code"}</Btn>
-                        </>
-                      )}
+                      <BadgeCheck size={15} className="text-emerald-600" />
+                      <span className={`text-sm font-semibold ${c.text}`}>Espace partenaire actif</span>
+                      {partner.code && <span className="font-mono2 font-bold text-sm tracking-wider">{partner.code}</span>}
+                      <span className={`text-xs ${c.faint}`}>{partner.linked ? "compte relié" : "en attente de sa première connexion"}</span>
                     </div>
                   )}
 
@@ -2808,12 +2821,16 @@ function PartnersTab({ onCount }) {
                     )}
                   </div>
 
+                  {panel?.id === x.id && panel.type === "activate" && <ActivatePanel app={x} onDone={() => { setPanel(null); load(); }} onCancel={() => setPanel(null)} />}
+                  {panel?.id === x.id && panel.type === "decline" && <DeclinePanel app={x} onDone={() => { setPanel(null); load(); }} onCancel={() => setPanel(null)} />}
+
                   <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                    {PARTNER_STATUSES.filter((s) => s.id !== x.status).map((s) => (
-                      <button key={s.id} onClick={() => setStatus(x.id, s.id)} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>
-                        {s.label}
-                      </button>
-                    ))}
+                    {!partner && x.status !== "declined" && panel?.id !== x.id && (
+                      <Btn small icon={BadgeCheck} onClick={() => setPanel({ id: x.id, type: "activate" })}>Activer l'espace partenaire</Btn>
+                    )}
+                    {x.status !== "meeting" && !partner && <button onClick={() => setStatus(x.id, "meeting")} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>Rendez-vous</button>}
+                    {x.status !== "new" && !partner && <button onClick={() => setStatus(x.id, "new")} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>Nouveau</button>}
+                    {x.status !== "declined" && !partner && panel?.id !== x.id && <button onClick={() => setPanel({ id: x.id, type: "decline" })} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>Refuser…</button>}
                     <span className="flex-1" />
                     {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className={`p-2 rounded-xl ${c.hoverSoft} text-emerald-600`} aria-label="Écrire sur WhatsApp" title="Écrire sur WhatsApp"><MessageCircle size={15} /></a>}
                     <a href={`mailto:${x.email}?subject=${encodeURIComponent("Votre demande de partenariat — TCF Passerelle")}`} className={`p-2 rounded-xl ${c.hoverSoft} text-blue-600`} aria-label="Répondre par email" title="Répondre par email"><Mail size={15} /></a>
@@ -2826,6 +2843,213 @@ function PartnersTab({ onCount }) {
         )}
       </Card>
     </div>
+  );
+}
+
+// « Activer l'espace partenaire »: the agreed terms, then the welcome email.
+function ActivatePanel({ app, onDone, onCancel }) {
+  const { c, notify } = useApp();
+  const withCode = ["teacher", "creator"].includes(app.kind) && !!app.desired_code;
+  const school = app.kind === "school";
+  const [discount, setDiscount] = useState("10");
+  const [commission, setCommission] = useState("");
+  const [seats, setSeats] = useState("");
+  const [until, setUntil] = useState("");
+  const [message, setMessage] = useState(PARTNER_MESSAGES[app.lang === "en" ? "en" : "fr"].accepted);
+  const [sendEmail, setSendEmail] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const inp = `w-full px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  const go = async () => {
+    if (withCode && !(Number(discount) >= 1 && Number(discount) <= 100)) return setError("Indiquez la remise du code, entre 1 et 100 %.");
+    if (withCode && commission === "") return setError("Indiquez la commission convenue (0 si aucune).");
+    setBusy(true);
+    const r = await activatePartner({
+      applicationId: app.id,
+      ...(withCode ? { discountPct: Number(discount), commissionPct: Number(commission) } : {}),
+      ...(school ? { seats: seats === "" ? null : Number(seats), accessUntil: until || null } : {}),
+      message, sendEmail,
+    });
+    setBusy(false);
+    if (!r.ok) return setError(r.error || "Activation refusée.");
+    notify(r.data.emailed ? "Espace activé, email de bienvenue envoyé." : sendEmail ? "Espace activé, mais l'email n'a pas pu partir." : "Espace activé.");
+    onDone();
+  };
+
+  return (
+    <div className={`mt-3 p-4 rounded-2xl border-2 border-blue-600/40 space-y-3`}>
+      <p className={`text-sm font-semibold ${c.text}`}>Activer l'espace partenaire</p>
+      {withCode && (
+        <div className="grid sm:grid-cols-3 gap-3">
+          <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Code</span><span className="block px-3 py-2 font-mono2 font-bold tracking-wider">{app.desired_code}{app.code_created_at ? " (déjà créé)" : ""}</span></label>
+          <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Remise pour les élèves (%)</span><input type="number" min={1} max={100} value={discount} onChange={(e) => setDiscount(e.target.value)} className={inp} disabled={!!app.code_created_at} /></label>
+          <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Commission du partenaire (%)</span><input type="number" min={0} max={100} value={commission} onChange={(e) => setCommission(e.target.value)} placeholder="ex. 20" className={inp} /></label>
+        </div>
+      )}
+      {withCode && app.code_created_at && <p className={`text-xs ${c.faint}`}>Le code existe déjà dans Stripe : sa remise ne change pas ici (Tarifs → Promos).</p>}
+      {school && (
+        <div className="grid sm:grid-cols-2 gap-3">
+          <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Places élèves</span><input type="number" min={0} value={seats} onChange={(e) => setSeats(e.target.value)} placeholder="ex. 40" className={inp} /></label>
+          <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Accès jusqu'au</span><input type="date" value={until} onChange={(e) => setUntil(e.target.value)} className={inp} /></label>
+        </div>
+      )}
+      <label className={`flex items-center gap-2 text-sm ${c.sub}`}>
+        <input type="checkbox" checked={sendEmail} onChange={(e) => setSendEmail(e.target.checked)} className="accent-blue-600" />
+        Envoyer l'email de bienvenue à {app.email}
+      </label>
+      {sendEmail && (
+        <>
+          <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3} maxLength={4000} className={inp} />
+          <p className={`text-xs ${c.faint}`}>L'email ajoute ensuite {withCode ? "le code et sa remise, " : ""}la marche à suivre pour se connecter avec {app.email}, et le bouton « Ouvrir mon espace partenaire ».</p>
+        </>
+      )}
+      {error && <p className="text-sm text-rose-600">{error}</p>}
+      <div className="flex gap-2">
+        <Btn small icon={BadgeCheck} disabled={busy} onClick={go}>{busy ? "Activation…" : withCode && !app.code_created_at ? "Créer le code et activer" : "Activer"}</Btn>
+        <Btn small variant="ghost" onClick={onCancel}>Annuler</Btn>
+      </div>
+    </div>
+  );
+}
+
+function DeclinePanel({ app, onDone, onCancel }) {
+  const { c, notify } = useApp();
+  const [message, setMessage] = useState(PARTNER_MESSAGES[app.lang === "en" ? "en" : "fr"].declined);
+  const [sendEmail, setSendEmail] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const go = async () => {
+    setBusy(true);
+    const r = await declinePartner({ applicationId: app.id, message, sendEmail });
+    setBusy(false);
+    notify(!r.ok ? r.error || "Action refusée." : r.data.emailed ? "Demande refusée, email envoyé." : "Demande refusée.");
+    if (r.ok) onDone();
+  };
+  return (
+    <div className={`mt-3 p-4 rounded-2xl border ${c.border} space-y-3`}>
+      <label className={`flex items-center gap-2 text-sm ${c.sub}`}>
+        <input type="checkbox" checked={sendEmail} onChange={(e) => setSendEmail(e.target.checked)} className="accent-blue-600" />
+        Prévenir {app.email} par email
+      </label>
+      {sendEmail && <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={5} maxLength={4000} className={`w-full px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`} />}
+      <div className="flex gap-2">
+        <Btn small disabled={busy} onClick={go}>{busy ? "…" : "Refuser la demande"}</Btn>
+        <Btn small variant="ghost" onClick={onCancel}>Annuler</Btn>
+      </div>
+    </div>
+  );
+}
+
+function ActivePartners() {
+  const { c, notify } = useApp();
+  const [partners, setPartners] = useState(null);
+  const [error, setError] = useState(null);
+  const [pay, setPay] = useState(null); // { id, amount, currency, method, note }
+
+  const load = () => listPartners().then((r) => {
+    if (r.ok) { setPartners(r.data.partners); setError(null); }
+    else { setPartners([]); setError(r.error === "missing-table" ? "missing" : r.error || "Chargement impossible."); }
+  });
+  useEffect(() => { load(); }, []);
+
+  const savePayout = async () => {
+    const r = await recordPartnerPayout({ partnerId: pay.id, amount: Number(pay.amount), currency: pay.currency, method: pay.method || null, note: pay.note || null });
+    notify(r.ok ? "Versement enregistré." : r.error || "Enregistrement refusé.");
+    if (r.ok) { setPay(null); load(); }
+  };
+  const patch = async (partnerId, body, msg) => {
+    const r = await updatePartner({ partnerId, ...body });
+    notify(r.ok ? msg : r.error || "Modification refusée.");
+    load();
+  };
+
+  if (error === "missing") {
+    return <UnavailableCard>L'espace partenaire nécessite les tables <span className="font-mono2">partners</span>, <span className="font-mono2">partner_sales</span> et <span className="font-mono2">partner_payouts</span> — appliquez la migration <span className="font-mono2">20261122_partners.sql</span> dans Supabase (SQL Editor).</UnavailableCard>;
+  }
+  const inp = `px-3 py-2 rounded-xl border text-sm outline-none focus:border-blue-600 ${c.inputCls}`;
+
+  return (
+    <Card className="p-6">
+      {partners === null ? (
+        <SkeletonRows n={3} className="h-24" />
+      ) : error ? (
+        <p className="text-sm text-rose-600">{error}</p>
+      ) : partners.length === 0 ? (
+        <EmptyState icon={Handshake} title="Aucun partenaire actif." sub="Activez un espace depuis une demande, dans « Demandes »." />
+      ) : (
+        <div className="space-y-3">
+          {partners.map((p) => {
+            const K = PARTNER_KINDS[p.kind] || PARTNER_KINDS.other;
+            const totals = p.summary?.totals || [];
+            return (
+              <div key={p.id} className={`p-4 rounded-2xl border ${c.border}`}>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Pill tone={p.status === "active" ? "green" : "amber"}>{p.status === "active" ? "Actif" : "En pause"}</Pill>
+                  <span className={`inline-flex items-center gap-1 text-xs font-semibold ${c.sub}`}><K.icon size={13} /> {K.label}</span>
+                  <span className={`text-sm font-semibold ${c.text}`}>{p.name}</span>
+                  <span className={`text-xs ${c.faint}`}>{p.email} · {p.linked ? "compte relié" : "pas encore connecté"}</span>
+                  {p.code && <span className="ml-auto font-mono2 font-bold text-sm tracking-wider">{p.code}{p.discount_pct ? ` · -${Number(p.discount_pct)} %` : ""}</span>}
+                </div>
+                <div className={`mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm ${c.sub}`}>
+                  {p.commission_pct != null && <span>Commission : <strong className={c.text}>{Number(p.commission_pct)} %</strong></span>}
+                  {p.seats != null && <span>Places : <strong className={c.text}>{p.seats}</strong></span>}
+                  {p.access_until && <span>Accès jusqu'au <strong className={c.text}>{new Date(`${p.access_until}T12:00:00`).toLocaleDateString("fr-FR")}</strong></span>}
+                </div>
+                {totals.length > 0 ? (
+                  <div className="mt-3 space-y-1.5">
+                    {totals.map((b) => (
+                      <p key={b.currency} className={`text-sm ${c.sub}`}>
+                        <strong className={c.text}>{b.sales}</strong> vente{b.sales > 1 ? "s" : ""} · {partnerMoney(b.revenue, b.currency)} encaissés · commission {partnerMoney(b.commission, b.currency)} · versé {partnerMoney(b.paid, b.currency)} · <strong className={b.due > 0 ? "text-amber-600" : c.text}>reste {partnerMoney(b.due, b.currency)}</strong>
+                      </p>
+                    ))}
+                  </div>
+                ) : p.code ? <p className={`mt-3 text-sm ${c.faint}`}>Aucune vente avec ce code pour l'instant.</p> : null}
+
+                {pay?.id === p.id && (
+                  <div className="mt-3 flex items-end gap-2 flex-wrap">
+                    <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Montant</span><input type="number" min={0} step="0.01" value={pay.amount} onChange={(e) => setPay({ ...pay, amount: e.target.value })} className={`${inp} w-28`} /></label>
+                    <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Devise</span>
+                      <select value={pay.currency} onChange={(e) => setPay({ ...pay, currency: e.target.value })} className={inp}>
+                        {[...new Set([...totals.map((b) => b.currency), "DZD", "USD", "CAD", "EUR"])].map((x) => <option key={x}>{x}</option>)}
+                      </select>
+                    </label>
+                    <label className="text-xs"><span className={`block mb-1 font-semibold ${c.sub}`}>Moyen</span>
+                      <select value={pay.method} onChange={(e) => setPay({ ...pay, method: e.target.value })} className={inp}>
+                        <option value="">—</option>
+                        {Object.entries(PAYOUT_LABELS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+                      </select>
+                    </label>
+                    <label className="text-xs flex-1 min-w-[140px]"><span className={`block mb-1 font-semibold ${c.sub}`}>Note</span><input value={pay.note} onChange={(e) => setPay({ ...pay, note: e.target.value })} placeholder="ex. commission d'octobre" className={`${inp} w-full`} /></label>
+                    <Btn small icon={Save} disabled={!(Number(pay.amount) > 0)} onClick={savePayout}>Enregistrer</Btn>
+                    <Btn small variant="ghost" onClick={() => setPay(null)}>Annuler</Btn>
+                  </div>
+                )}
+
+                <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+                  {p.code && pay?.id !== p.id && (
+                    <Btn small variant="ghost" icon={Wallet} onClick={() => {
+                      const owed = totals.find((b) => b.due > 0) || totals[0];
+                      setPay({ id: p.id, amount: owed ? String(Math.max(0, owed.due)) : "", currency: owed?.currency || "DZD", method: "", note: "" });
+                    }}>Enregistrer un versement</Btn>
+                  )}
+                  {p.commission_pct != null && (
+                    <button onClick={() => {
+                      const v = window.prompt("Nouvelle commission (%), pour les prochaines ventes :", String(Number(p.commission_pct)));
+                      if (v != null && v !== "") patch(p.id, { commissionPct: Number(v) }, "Commission modifiée (ventes futures).");
+                    }} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>Modifier la commission</button>
+                  )}
+                  <button onClick={() => patch(p.id, { status: p.status === "active" ? "paused" : "active" }, p.status === "active" ? "Partenaire mis en pause." : "Partenaire réactivé.")}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.border} ${c.sub} ${c.hoverSoft}`}>{p.status === "active" ? "Mettre en pause" : "Réactiver"}</button>
+                </div>
+                {p.payouts?.length > 0 && (
+                  <p className={`mt-2 text-xs ${c.faint}`}>Derniers versements : {p.payouts.slice(0, 3).map((x) => `${partnerMoney(x.amount, x.currency)} le ${new Date(x.paid_at).toLocaleDateString("fr-FR")}`).join(" · ")}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </Card>
   );
 }
 

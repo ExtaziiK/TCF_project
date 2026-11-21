@@ -5,6 +5,7 @@ import { enforceRateLimit } from "../ratelimit.js";
 import { sendMail, mailConfigured, TEAM_ADDRESS } from "../mailer.js";
 import { escapeHtml } from "../emailLayout.js";
 import { normalizeWhatsApp } from "../phone.js";
+import { receivedEmail, salesSummary } from "../partners.js";
 
 // POST /api/public/partner — the « Devenir partenaire » form (src/pages/
 // Partenaires.jsx): a school or training centre, a French teacher, a content
@@ -157,7 +158,58 @@ async function codeTaken(code) {
   }
 }
 
+// GET /api/public/partner — the signed-in partner's space (src/pages/
+// EspacePartenaire.jsx). The account is found by user_id, or — the first time —
+// by its VERIFIED email matching the address the partner applied with; it is
+// then linked for good and flagged in app_metadata (partner_id), which is what
+// shows « Espace partenaire » in the menu. Buyers stay anonymous: a sale is a
+// date, a pass and an amount, never a name or an account.
+async function space(req, res) {
+  const user = await requireUser(req);
+  let { data: p } = await admin.from("partners").select("*").eq("user_id", user.id).maybeSingle();
+  if (!p && user.email && user.email_confirmed_at) {
+    // Exact match on the lowercased address (partners.email is stored lowercased
+    // by api/_lib/admin/partners.js) — ilike would read "_" in an address as a wildcard.
+    const { data: candidates } = await admin.from("partners").select("*").is("user_id", null).eq("email", user.email.trim().toLowerCase());
+    if (candidates?.length === 1) {
+      const { data: linked } = await admin.from("partners").update({ user_id: user.id }).eq("id", candidates[0].id).is("user_id", null).select().maybeSingle();
+      if (linked) {
+        p = linked;
+        await admin.auth.admin.updateUserById(user.id, { app_metadata: { ...user.app_metadata, partner_id: p.id } }).catch(() => {});
+      }
+    }
+  }
+  if (!p) return res.status(200).json({ partner: null });
+  // The flag can go missing (an admin edited the account by hand): put it back.
+  if (user.app_metadata?.partner_id !== p.id) {
+    await admin.auth.admin.updateUserById(user.id, { app_metadata: { ...user.app_metadata, partner_id: p.id } }).catch(() => {});
+  }
+
+  const [{ data: sales }, { data: payouts }] = await Promise.all([
+    admin.from("partner_sales").select("occurred_at, source, amount, currency, plan, commission_pct, commission").eq("partner_id", p.id).order("occurred_at", { ascending: false }).limit(500),
+    admin.from("partner_payouts").select("paid_at, amount, currency, method, note").eq("partner_id", p.id).order("paid_at", { ascending: false }),
+  ]);
+  return res.status(200).json({
+    partner: {
+      kind: p.kind, name: p.name, email: p.email, code: p.code, status: p.status,
+      discountPct: p.discount_pct != null ? Number(p.discount_pct) : null,
+      commissionPct: p.commission_pct != null ? Number(p.commission_pct) : null,
+      seats: p.seats, accessUntil: p.access_until, since: p.created_at,
+    },
+    summary: salesSummary(sales || [], payouts || []),
+    sales: (sales || []).slice(0, 100),
+    payouts: payouts || [],
+  });
+}
+
 export default async function partner(req, res) {
+  if (req.method === "GET") {
+    try {
+      return await space(req, res);
+    } catch (err) {
+      return res.status(err.status || 500).json({ error: err.message || "Espace indisponible." });
+    }
+  }
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
     let user = null;
@@ -202,6 +254,17 @@ ${wa}
     }
 
     if (rowError && !emailed) return res.status(503).json({ error: "L'envoi a échoué. Réessayez dans un instant." });
+
+    // « Nous avons bien reçu votre demande » to the applicant. Best effort: the
+    // page already told them it worked.
+    if (mailConfigured()) {
+      try {
+        const { subject, html } = receivedEmail(row);
+        await sendMail({ to: row.email, subject, html });
+      } catch (err) {
+        console.warn("partner: confirmation email:", err.message);
+      }
+    }
     return res.status(200).json({ ok: true });
   } catch (err) {
     return res.status(err.status || 500).json({ error: err.message || "L'envoi a échoué." });
