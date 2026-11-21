@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CheckCircle2, ArrowRight, XCircle, School, Video, Handshake, Check, GraduationCap, ChevronDown } from "lucide-react";
 import { useApp } from "@/context/AppContext";
-import { PageShell, Card, Btn, Segmented } from "@/components/common";
+import { PageShell, Card, Btn } from "@/components/common";
 import { COUNTRIES } from "@/constants/exam";
 import { submitPartnerApplication } from "@/services/partnerService";
 
@@ -150,8 +150,11 @@ export function Partenaires() {
             </div>
           ) : (
             <div className="space-y-4">
-              <Segmented items={KINDS.map(({ id, label, Icon }) => ({ id, label, Icon }))} value={kind}
-                onChange={pickKind} label={t("Type de partenariat")} />
+              {/* The type is picked with the cards above; this line says which form is showing. */}
+              <p className={`flex items-center gap-2 text-sm font-semibold ${c.text}`}>
+                <span className="grid place-items-center w-8 h-8 rounded-xl bg-blue-600 text-white shrink-0"><current.Icon size={16} /></span>
+                {t("Votre demande")} : {t(current.title)}
+              </p>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <label><span className={lbl}>{t("Votre nom")} *</span><input value={form.name} onChange={set("name")} className={inp} autoComplete="name" /></label>
